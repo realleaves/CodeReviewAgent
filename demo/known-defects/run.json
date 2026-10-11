@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local",
+    "name": "examples",
+    "ref": "working-tree",
+    "commit": "local-unversioned",
+    "indexed_snapshot_sha256": "69b0dff04247b33332923a4bb8c5797b63284d81bc0666d6aca7d6cf280d56e7"
+  },
+  "run": {
+    "started_at": "2026-10-11T10:27:49.611852+00:00",
+    "status": "completed",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "options": {
+      "mode": "full",
+      "max_files": 12,
+      "max_file_bytes": 200000,
+      "max_calls": 10,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 21.197,
+    "api_calls": 3,
+    "usage": {
+      "prompt_tokens": 4321,
+      "completion_tokens": 949
+    },
+    "indexed_python_files": 2,
+    "selected_files": 2,
+    "fully_reviewed_files": 2,
+    "semantic_coverage_percent": 100.0,
+    "active_findings": 3,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "high": 3
+    },
+    "status_counts": {
+      "supported": 3
+    },
+    "postprocessed_at": "2026-10-11T10:32:28.875502+00:00",
+    "postprocessing": "同位置、同类别、同复核状态的已知静态规则与语义发现合并，原始调用及复核轨迹保留。"
+  },
+  "coverage": [
+    {
+      "path": "buggy_code.py",
+      "lines": 17,
+      "reviewed_chunks": 1,
+      "total_chunks": 1,
+      "semantic_status": "completed",
+      "static_status": "completed"
+    },
+    {
+      "path": "clean_code.py",
+      "lines": 19,
+      "reviewed_chunks": 1,
+      "total_chunks": 1,
+      "semantic_status": "completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 2
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 2,
+      "diagnostics": 1
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 2,
+      "diagnostics": 1
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 3114,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 580,
+        "prompt_tokens": 1100,
+        "total_tokens": 1680,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 716
+      },
+      "elapsed_seconds": 18.041
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 6118,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 363,
+        "prompt_tokens": 2197,
+        "total_tokens": 2560,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 2069
+      },
+      "elapsed_seconds": 2.28
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 2846,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 1024,
+        "total_tokens": 1030,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 512
+      },
+      "elapsed_seconds": 0.733
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "buggy_code.py",
+      "start": 1,
+      "end": 17
+    }
+  ],
+  "limitations": [
+    "仅支持 Python；外部依赖和业务约定可能缺失。",
+    "审查基于静态诊断与模型代码推断，未执行待审代码或复现测试。",
+    "supported 表示模型复核认为有代码依据，不代表运行证明或无误报保证。",
+    "覆盖率以所选 scope 内已索引 Python 文件为分母；索引限制及未支持文件另列。",
+    "按预算分块；import 关联和只读查询提供有限跨文件上下文。"
+  ]
+}

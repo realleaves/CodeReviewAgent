@@ -1,0 +1,262 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CodeReview · psf-requests</title>
+<style>
+:root{--bg:#f4f6fa;--ink:#182635;--muted:#526376;--line:#dbe3ed;--accent:#126b65}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 system-ui,sans-serif}
+header{background:#112e38;color:#fff;padding:38px max(24px,calc((100vw - 1100px)/2))}
+.eyebrow{letter-spacing:2px;font-size:12px;color:#94d9cc}h1{font-size:32px;margin:10px 0}header p{margin:6px 0;color:#c7d8df;overflow-wrap:anywhere}
+main{max-width:1150px;margin:auto;padding:28px 24px 60px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat,.panel,.finding{background:white;border:1px solid var(--line);border-radius:12px;padding:22px}
+.stat strong{display:block;font-size:30px;color:var(--accent)}.stat span{color:var(--muted)}
+.panel{margin:22px 0}h2{font-size:20px;margin:0 0 14px}.filters{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}
+select,input{font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:7px;background:white}input{min-width:220px;flex:1}
+.finding{margin:14px 0}.finding[hidden]{display:none}h3{font-size:19px;margin:12px 0 5px}.tags{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{border-radius:5px;padding:3px 9px;background:#edf2f7;font-size:12px}.badge.high{color:#a12f37;background:#ffebed}
+.badge.medium{color:#96590c;background:#fff1dc}.badge.low{color:#176467;background:#e7f5f3}.origin,.location{color:var(--muted);font-size:13px}
+a{color:var(--accent)}dl{margin:18px 0}.detail{display:grid;grid-template-columns:90px 1fr;gap:12px;margin:9px 0}dt{font-weight:600}dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+pre{background:#122b37;color:#e0edf2;padding:17px;border-radius:8px;overflow:auto;font:13px/1.7 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line)}td{overflow-wrap:anywhere}
+.note{color:var(--muted)}summary{cursor:pointer;font-weight:600}footer{color:var(--muted);margin-top:25px}#empty{padding:30px;text-align:center;color:var(--muted)}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}header{padding:25px 20px}main{padding:20px 14px}.detail{grid-template-columns:1fr;gap:2px}h1{font-size:25px}}
+</style></head><body><header><div class="eyebrow">CODE REVIEW AGENT / REPOSITORY REPORT</div>
+<h1>psf-requests</h1><p>https://github.com/psf/requests · main</p>
+<p>Commit 611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60 · 运行状态 partial</p></header><main>
+<div class="stats"><div class="stat"><strong>5</strong><span>保留的候选问题</span></div>
+<div class="stat"><strong>15.8%</strong><span>已索引 Python 文件语义覆盖</span></div>
+<div class="stat"><strong>12</strong><span>模型调用</span></div>
+<div class="stat"><strong>35.833s</strong><span>运行耗时</span></div></div>
+<section class="panel"><h2>审查范围与证据</h2><p>模式 full · 模型 deepseek-flash · 完整语义审查 3/19 个文件</p>
+<ul class="note"><li>仅支持 Python；外部依赖和业务约定可能缺失。</li><li>审查基于静态诊断与模型代码推断，未执行待审代码或复现测试。</li><li>supported 表示模型复核认为有代码依据，不代表运行证明或无误报保证。</li><li>覆盖率以所选 scope 内已索引 Python 文件为分母；索引限制及未支持文件另列。</li><li>按预算分块；import 关联和只读查询提供有限跨文件上下文。</li></ul></section>
+<h2>审查发现</h2><div class="filters"><input id="search" aria-label="搜索问题或文件" placeholder="搜索问题、文件路径或依据…">
+<select id="severity" aria-label="风险程度"><option value="">全部风险</option><option value="high">高</option><option value="medium">中</option><option value="low">低</option></select>
+<select id="status" aria-label="复核状态"><option value="active">保留的问题</option><option value="all">全部含驳回</option><option value="supported">有代码依据</option><option value="needs_context">待确认</option><option value="unverified">未复核</option><option value="rejected">已驳回</option></select></div>
+<div id="findings"><article class="finding" data-severity="medium" data-status="supported">
+          <div class="tags"><span class="badge medium">中风险</span>
+          <span class="badge">有代码依据</span><span class="origin">llm</span></div>
+          <h3>使用 assert 做依赖版本校验，在 -O 优化模式下会被移除</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L66" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:66</a></div><dl><div class="detail"><dt>问题说明</dt><dd>check_compatibility 使用 assert 来校验 urllib3 版本（第66、76、78行）。当 Python 以 -O / -OO 运行或设置 PYTHONOPTIMIZE 时，assert 语句会被完全剥离，导致版本兼容性检查静默失效，不兼容的 urllib3 版本不会被检测到，可能引发难以排查的运行时错误。第118行虽然捕获 AssertionError，但在优化模式下根本不会抛出。</dd></div><div class="detail"><dt>触发条件</dt><dd>以 python -O 或 PYTHONOPTIMIZE=1 运行，且安装了不兼容的 urllib3 版本（如 major&lt;1 或 1.x 且 minor&lt;21）。</dd></div><div class="detail"><dt>代码依据</dt><dd>第66行 `assert urllib3_version_list != [&quot;dev&quot;]`；第76行 `assert major &gt;= 1`；第78行 `assert minor &gt;= 21`；第118行 `except (AssertionError, ValueError)` 依赖 assert 抛异常。</dd></div><div class="detail"><dt>修复建议</dt><dd>改用显式条件判断并 raise 自定义异常（或直接 warnings.warn），例如 `if major &lt; 1 or (major == 1 and minor &lt; 21): raise ValueError(...)`，避免依赖 assert。</dd></div><div class="detail"><dt>复核理由</dt><dd>第66、76、78行均用 assert 做 urllib3 版本校验，第118行 except 依赖 AssertionError。以 -O 运行时 assert 被剥离，兼容性检查静默失效。代码依据充分，未运行验证。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>64: ) -&gt; None:
+65:     urllib3_version_list = urllib3_version.split(&quot;.&quot;)[:3]
+66:     assert urllib3_version_list != [&quot;dev&quot;]  # Verify urllib3 isn&#x27;t installed from git.
+67: 
+68:     # Sometimes, urllib3 only reports its version as 16.1.
+69:     if len(urllib3_version_list) == 2:
+70:         urllib3_version_list.append(&quot;0&quot;)
+71: 
+72:     # Check urllib3 for compatibility.
+73:     major, minor, patch = urllib3_version_list  # noqa: F811
+74:     major, minor, patch = int(major), int(minor), int(patch)
+75:     # urllib3 &gt;= 1.21.1
+76:     assert major &gt;= 1
+77:     if major == 1:
+78:         assert minor &gt;= 21
+79: 
+80:     # Check charset_normalizer for compatibility.</code></pre></article><article class="finding" data-severity="medium" data-status="needs_context">
+          <div class="tags"><span class="badge medium">中风险</span>
+          <span class="badge">待确认</span><span class="origin">llm</span></div>
+          <h3>chardet/charset_normalizer 版本解析对非三段版本号会抛 ValueError 被静默吞掉</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L85" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:85</a></div><dl><div class="detail"><dt>问题说明</dt><dd>第82-83行和第87-88行将版本号 split(&#x27;.&#x27;)[:3] 后直接 int() 转换。若版本字符串包含非数字段（如 &#x27;5.0.0.dev0&#x27;、&#x27;4.0.0rc1&#x27; 或 &#x27;3.0&#x27; 只有两段），int() 会抛 ValueError。该异常在第118行被捕获并降级为一条笼统的警告，导致真实的版本不兼容信息被掩盖，且对两段版本号（如 &#x27;3.0&#x27;）解包为三个变量会抛 ValueError。</dd></div><div class="detail"><dt>触发条件</dt><dd>安装的 chardet 或 charset_normalizer 版本号形如 &#x27;5.0.0.dev0&#x27;、&#x27;4.0.0rc1&#x27; 或仅两段 &#x27;3.0&#x27;。</dd></div><div class="detail"><dt>代码依据</dt><dd>第82行 `major, minor, patch = chardet_version.split(&quot;.&quot;)[:3]`；第83行 `int(major), int(minor), int(patch)`；第87-88行对 charset_normalizer 同样处理；第118行捕获 ValueError。</dd></div><div class="detail"><dt>修复建议</dt><dd>使用健壮的版本解析（如 packaging.version.parse 或正则提取数字段），并对解析失败单独给出明确警告，而非与 urllib3 检查混在同一 except 中。</dd></div><div class="detail"><dt>复核理由</dt><dd>第82-83、87-88行对 split(&#x27;.&#x27;)[:3] 后 int() 转换，非数字段或两段版本确会抛 ValueError 并被第118行吞掉。但 chardet/charset_normalizer 实际发布版本号格式需结合具体依赖版本确认，是否真会触发取决于安装的版本字符串，属依赖上下文。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>83:         major, minor, patch = int(major), int(minor), int(patch)
+84:         # chardet_version &gt;= 3.0.2, &lt; 8.0.0
+85:         assert (3, 0, 2) &lt;= (major, minor, patch) &lt; (8, 0, 0)
+86:     elif charset_normalizer_version:
+87:         major, minor, patch = charset_normalizer_version.split(&quot;.&quot;)[:3]
+88:         major, minor, patch = int(major), int(minor), int(patch)
+89:         # charset_normalizer &gt;= 2.0.0 &lt; 4.0.0
+90:         assert (2, 0, 0) &lt;= (major, minor, patch) &lt; (4, 0, 0)
+91:     else:
+92:         warnings.warn(</code></pre></article><article class="finding" data-severity="low" data-status="supported">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">有代码依据</span><span class="origin">llm</span></div>
+          <h3>warnings.warn 缺少 stacklevel，警告定位到库内部而非调用方</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L92" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:92</a></div><dl><div class="detail"><dt>问题说明</dt><dd>第92、108、119行的 warnings.warn 均未指定 stacklevel，默认 stacklevel=1，警告会指向 requests/__init__.py 内部而非触发导入的用户代码，用户难以定位来源。ruff B028 已标记此问题。</dd></div><div class="detail"><dt>触发条件</dt><dd>导入 requests 时触发任一依赖警告。</dd></div><div class="detail"><dt>代码依据</dt><dd>第92-96行、第108行、第119-124行的 warnings.warn 调用均无 stacklevel 参数；诊断中 B028 规则命中第92、108、119行。</dd></div><div class="detail"><dt>修复建议</dt><dd>为这些 warnings.warn 添加 stacklevel=2（或适当值），使警告指向调用方。</dd></div><div class="detail"><dt>复核理由</dt><dd>第92、108、119行的 warnings.warn 均未传 stacklevel，默认指向库内部而非调用方。代码依据充分，属可改进的质量问题。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>90:         assert (2, 0, 0) &lt;= (major, minor, patch) &lt; (4, 0, 0)
+91:     else:
+92:         warnings.warn(
+93:             &quot;Unable to find acceptable character detection dependency &quot;
+94:             &quot;(chardet or charset_normalizer).&quot;,
+95:             RequestsDependencyWarning,
+96:         )
+97: 
+98: </code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">llm</span></div>
+          <h3>_check_cryptography 版本比较对非数字段直接返回，可能漏报旧版本</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L102" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:102</a></div><dl><div class="detail"><dt>问题说明</dt><dd>第102行将 cryptography 版本按 &#x27;.&#x27; 全部 int 转换，遇到任何非数字段（如 &#x27;1.3.4.dev0&#x27;、&#x27;2.0.0rc1&#x27;）会抛 ValueError 并在第103-104行直接 return，从而跳过旧版本检查。虽然对预发布版本跳过检查影响有限，但若版本号含非数字后缀且实际为旧版本，将不会发出 slowdown 警告。</dd></div><div class="detail"><dt>触发条件</dt><dd>cryptography 版本字符串包含非数字段（如 &#x27;1.3.4.dev0&#x27;）。</dd></div><div class="detail"><dt>代码依据</dt><dd>第102行 `list(map(int, cryptography_version.split(&quot;.&quot;)))`；第103-104行 `except ValueError: return`。</dd></div><div class="detail"><dt>修复建议</dt><dd>使用 packaging.version 解析版本，或在解析失败时仍尝试提取前导数字段进行比较，避免直接跳过检查。</dd></div><div class="detail"><dt>复核理由</dt><dd>第102-104行对非数字段版本直接 return 跳过检查，但该函数仅用于对 cryptography&lt;1.3.4 发出 slowdown 警告，属非关键提示。含非数字后缀的版本（如 dev/rc）通常为新版本，跳过旧版本警告不构成实际漏报，属有意容错设计。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>100:     # cryptography &lt; 1.3.4
+101:     try:
+102:         cryptography_version_list = list(map(int, cryptography_version.split(&quot;.&quot;)))
+103:     except ValueError:
+104:         return
+105: 
+106:     if cryptography_version_list &lt; [1, 3, 4]:
+107:         warning = f&quot;Old version of cryptography ({cryptography_version_list}) may cause slowdown.&quot;
+108:         warnings.warn(warning, RequestsDependencyWarning)
+109: </code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">llm</span></div>
+          <h3>使用 assert 做类型校验，优化模式下会被移除</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/_internal_utils.py#L46" target="_blank" rel="noopener noreferrer">src/requests/_internal_utils.py:46</a></div><dl><div class="detail"><dt>问题说明</dt><dd>unicode_is_ascii 用 assert isinstance(u_string, str) 做参数校验。当 Python 以 -O 或 -OO 运行时，assert 语句会被完全剥离，函数将不再校验输入类型。此时若传入 bytes，u_string.encode(&quot;ascii&quot;) 会抛出 AttributeError 而非预期的断言错误，错误信息与调用方预期不一致，且校验行为随运行模式变化。</dd></div><div class="detail"><dt>触发条件</dt><dd>以 python -O 运行，并向 unicode_is_ascii 传入非 str 对象（如 bytes）。</dd></div><div class="detail"><dt>代码依据</dt><dd>第 46 行：assert isinstance(u_string, str)；第 48 行随后调用 u_string.encode(&quot;ascii&quot;)，依赖该断言保证类型。</dd></div><div class="detail"><dt>修复建议</dt><dd>若需强制类型校验，改为显式抛出 TypeError，例如 if not isinstance(u_string, str): raise TypeError(...)；若仅用于调试，可保留但需明确其在校验上不可靠。</dd></div><div class="detail"><dt>复核理由</dt><dd>该 assert 是内部辅助函数 unicode_is_ascii 的类型前置条件，函数签名已声明 u_string: str，调用方为 requests 内部代码，不面向不可信外部输入。在 -O 模式下断言被剥离后，若传入 bytes，u_string.encode(&#x27;ascii&#x27;) 仍会正常执行（bytes 也有 encode 方法），并非如候选所述抛 AttributeError；且该函数仅用于判断 ASCII，不承担安全校验职责。因此不构成实际缺陷，属误报。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>44:     :rtype: bool
+45:     &quot;&quot;&quot;
+46:     assert isinstance(u_string, str)
+47:     try:
+48:         u_string.encode(&quot;ascii&quot;)</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">bandit B101</span></div>
+          <h3>B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L66" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:66</a></div><dl><div class="detail"><dt>问题说明</dt><dd>Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>该 assert 位于 check_compatibility 中，用于校验 urllib3 版本；调用处（第112-124行）已用 try/except (AssertionError, ValueError) 捕获并转为 RequestsDependencyWarning。这是有意的依赖兼容性检查设计，非安全缺陷。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>64: ) -&gt; None:
+65:     urllib3_version_list = urllib3_version.split(&quot;.&quot;)[:3]
+66:     assert urllib3_version_list != [&quot;dev&quot;]  # Verify urllib3 isn&#x27;t installed from git.
+67: 
+68:     # Sometimes, urllib3 only reports its version as 16.1.</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">bandit B101</span></div>
+          <h3>B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L76" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:76</a></div><dl><div class="detail"><dt>问题说明</dt><dd>Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>assert major &gt;= 1 是依赖版本兼容性检查的一部分，异常被上层 try/except 捕获并降级为警告，属有意设计，非安全漏洞。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>74:     major, minor, patch = int(major), int(minor), int(patch)
+75:     # urllib3 &gt;= 1.21.1
+76:     assert major &gt;= 1
+77:     if major == 1:
+78:         assert minor &gt;= 21</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">bandit B101</span></div>
+          <h3>B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L78" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:78</a></div><dl><div class="detail"><dt>问题说明</dt><dd>Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>assert minor &gt;= 21 同为 urllib3 版本兼容性检查，异常被上层捕获转为 RequestsDependencyWarning，属有意设计，非安全漏洞。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>76:     assert major &gt;= 1
+77:     if major == 1:
+78:         assert minor &gt;= 21
+79: 
+80:     # Check charset_normalizer for compatibility.</code></pre></article><article class="finding" data-severity="low" data-status="supported">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">有代码依据</span><span class="origin">bandit B101</span></div>
+          <h3>B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L85" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:85</a></div><dl><div class="detail"><dt>问题说明</dt><dd>Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>第85行确实使用 assert 校验 chardet 版本范围。在 -O/PYTHONOPTIMIZE 下 assert 被剥离，版本检查静默失效。代码依据充分，属有意设计但存在优化模式失效风险。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>83:         major, minor, patch = int(major), int(minor), int(patch)
+84:         # chardet_version &gt;= 3.0.2, &lt; 8.0.0
+85:         assert (3, 0, 2) &lt;= (major, minor, patch) &lt; (8, 0, 0)
+86:     elif charset_normalizer_version:
+87:         major, minor, patch = charset_normalizer_version.split(&quot;.&quot;)[:3]</code></pre></article><article class="finding" data-severity="low" data-status="supported">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">有代码依据</span><span class="origin">bandit B101</span></div>
+          <h3>B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L90" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:90</a></div><dl><div class="detail"><dt>问题说明</dt><dd>Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>第90行同样使用 assert 校验 charset_normalizer 版本范围，优化模式下会被移除，检查失效。代码依据充分。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>88:         major, minor, patch = int(major), int(minor), int(patch)
+89:         # charset_normalizer &gt;= 2.0.0 &lt; 4.0.0
+90:         assert (2, 0, 0) &lt;= (major, minor, patch) &lt; (4, 0, 0)
+91:     else:
+92:         warnings.warn(</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">ruff B028</span></div>
+          <h3>B028: No explicit `stacklevel` keyword argument found</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L92" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:92</a></div><dl><div class="detail"><dt>问题说明</dt><dd>No explicit `stacklevel` keyword argument found</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>ruff B028: No explicit `stacklevel` keyword argument found</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>B028 建议 warnings.warn 加 stacklevel，但此处是 requests 包导入时对依赖缺失的告警，指向调用者无意义；且这是库的既有设计，非缺陷。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>90:         assert (2, 0, 0) &lt;= (major, minor, patch) &lt; (4, 0, 0)
+91:     else:
+92:         warnings.warn(
+93:             &quot;Unable to find acceptable character detection dependency &quot;
+94:             &quot;(chardet or charset_normalizer).&quot;,</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">ruff B028</span></div>
+          <h3>B028: No explicit `stacklevel` keyword argument found</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L108" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:108</a></div><dl><div class="detail"><dt>问题说明</dt><dd>No explicit `stacklevel` keyword argument found</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>ruff B028: No explicit `stacklevel` keyword argument found</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>同上：_check_cryptography 在包导入期发出依赖版本告警，stacklevel 对导入期告警无实际价值，属误报。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>106:     if cryptography_version_list &lt; [1, 3, 4]:
+107:         warning = f&quot;Old version of cryptography ({cryptography_version_list}) may cause slowdown.&quot;
+108:         warnings.warn(warning, RequestsDependencyWarning)
+109: 
+110: </code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">ruff B028</span></div>
+          <h3>B028: No explicit `stacklevel` keyword argument found</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L119" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:119</a></div><dl><div class="detail"><dt>问题说明</dt><dd>No explicit `stacklevel` keyword argument found</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>ruff B028: No explicit `stacklevel` keyword argument found</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>依赖版本不匹配告警在模块导入时触发，无有意义的调用栈层级可指向，B028 不适用。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>117:     )
+118: except (AssertionError, ValueError):
+119:     warnings.warn(
+120:         f&quot;urllib3 ({urllib3.__version__}) or chardet &quot;
+121:         f&quot;({chardet_version})/charset_normalizer ({charset_normalizer_version}) &quot;</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">ruff F401</span></div>
+          <h3>F401: `.__version__.__author__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L160" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:160</a></div><dl><div class="detail"><dt>问题说明</dt><dd>`.__version__.__author__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>ruff F401: `.__version__.__author__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>requests/__init__.py 有意重导出 __version__ 元数据（__author__ 等）作为公共 API，F401 属误报。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>158: from . import packages, utils
+159: from .__version__ import (
+160:     __author__,
+161:     __author_email__,
+162:     __build__,</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">ruff F401</span></div>
+          <h3>F401: `.__version__.__author_email__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L161" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:161</a></div><dl><div class="detail"><dt>问题说明</dt><dd>`.__version__.__author_email__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>ruff F401: `.__version__.__author_email__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>同上，__author_email__ 是包公共元数据重导出，非未使用导入。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>159: from .__version__ import (
+160:     __author__,
+161:     __author_email__,
+162:     __build__,
+163:     __cake__,</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">ruff F401</span></div>
+          <h3>F401: `.__version__.__build__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L162" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:162</a></div><dl><div class="detail"><dt>问题说明</dt><dd>`.__version__.__build__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>ruff F401: `.__version__.__build__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>同上，__build__ 为包公共元数据重导出，F401 误报。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>160:     __author__,
+161:     __author_email__,
+162:     __build__,
+163:     __cake__,
+164:     __copyright__,</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">ruff F401</span></div>
+          <h3>F401: `.__version__.__cake__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L163" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:163</a></div><dl><div class="detail"><dt>问题说明</dt><dd>`.__version__.__cake__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>ruff F401: `.__version__.__cake__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>同上，__cake__ 为包公共元数据重导出，F401 误报。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>161:     __author_email__,
+162:     __build__,
+163:     __cake__,
+164:     __copyright__,
+165:     __description__,</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">ruff F401</span></div>
+          <h3>F401: `.__version__.__copyright__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L164" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:164</a></div><dl><div class="detail"><dt>问题说明</dt><dd>`.__version__.__copyright__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>ruff F401: `.__version__.__copyright__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>同上，__copyright__ 为包公共元数据重导出，F401 误报。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>162:     __build__,
+163:     __cake__,
+164:     __copyright__,
+165:     __description__,
+166:     __license__,</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">ruff F401</span></div>
+          <h3>F401: `.__version__.__description__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L165" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:165</a></div><dl><div class="detail"><dt>问题说明</dt><dd>`.__version__.__description__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>ruff F401: `.__version__.__description__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>该导入位于 src/requests/__init__.py 的 from .__version__ import (...) 块中，是 requests 包对外暴露的公共元数据（__description__ 等），属于有意的 API 设计，并非未使用导入。ruff F401 在此为误报。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>163:     __cake__,
+164:     __copyright__,
+165:     __description__,
+166:     __license__,
+167:     __title__,</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">ruff F401</span></div>
+          <h3>F401: `.__version__.__license__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L166" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:166</a></div><dl><div class="detail"><dt>问题说明</dt><dd>`.__version__.__license__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>ruff F401: `.__version__.__license__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>同上，__license__ 是 requests 包有意重导出的公共元数据，供用户通过 requests.__license__ 访问，属于设计行为而非未使用导入。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>164:     __copyright__,
+165:     __description__,
+166:     __license__,
+167:     __title__,
+168:     __url__,</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">ruff F401</span></div>
+          <h3>F401: `.__version__.__title__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L167" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:167</a></div><dl><div class="detail"><dt>问题说明</dt><dd>`.__version__.__title__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>ruff F401: `.__version__.__title__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>同上，__title__ 为包公共元数据的有意重导出，非未使用导入。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>165:     __description__,
+166:     __license__,
+167:     __title__,
+168:     __url__,
+169:     __version__,</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">ruff F401</span></div>
+          <h3>F401: `.__version__.__url__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L168" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:168</a></div><dl><div class="detail"><dt>问题说明</dt><dd>`.__version__.__url__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>ruff F401: `.__version__.__url__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>同上，__url__ 为包公共元数据的有意重导出，非未使用导入。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>166:     __license__,
+167:     __title__,
+168:     __url__,
+169:     __version__,
+170: )</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">ruff F401</span></div>
+          <h3>F401: `.__version__.__version__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/__init__.py#L169" target="_blank" rel="noopener noreferrer">src/requests/__init__.py:169</a></div><dl><div class="detail"><dt>问题说明</dt><dd>`.__version__.__version__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>ruff F401: `.__version__.__version__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>同上，__version__ 是 requests 包最核心的公共属性，被广泛使用，属有意重导出，F401 为误报。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>167:     __title__,
+168:     __url__,
+169:     __version__,
+170: )
+171: from .api import delete, get, head, options, patch, post, put, request</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">bandit B101</span></div>
+          <h3>B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</h3><div class="location"><a href="https://github.com/psf/requests/blob/611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60/src/requests/_internal_utils.py#L46" target="_blank" rel="noopener noreferrer">src/requests/_internal_utils.py:46</a></div><dl><div class="detail"><dt>问题说明</dt><dd>Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>Bandit B101 仅报告 assert 的存在，属通用风格告警。此处 assert 是内部工具函数的类型前置条件，函数签名已标注 u_string: str，且该函数为 requests 内部使用，不构成安全漏洞。无证据表明可被外部输入触发导致安全影响，属误报/低价值告警。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>44:     :rtype: bool
+45:     &quot;&quot;&quot;
+46:     assert isinstance(u_string, str)
+47:     try:
+48:         u_string.encode(&quot;ascii&quot;)</code></pre></article></div><p id="empty" hidden>当前筛选没有候选问题；请结合覆盖范围和失败记录解读。</p>
+<section class="panel"><h2>文件覆盖</h2><div class="table-wrap"><table><thead><tr><th>文件</th><th>静态检查</th><th>语义审查</th><th>完成分块</th></tr></thead><tbody><tr><td>src/requests/__init__.py</td><td>completed</td><td>completed</td><td>2/2</td></tr><tr><td>src/requests/__version__.py</td><td>completed</td><td>completed</td><td>1/1</td></tr><tr><td>src/requests/_internal_utils.py</td><td>completed</td><td>completed</td><td>1/1</td></tr></tbody></table></div></section>
+<section class="panel"><h2>失败记录</h2><p>没有执行失败记录。</p></section>
+<section class="panel"><details><summary>跳过文件（125）</summary><div class="table-wrap"><table><thead><tr><th>文件</th><th>原因</th></tr></thead><tbody><tr><td>.coveragerc</td><td>outside_scope</td></tr><tr><td>.git-blame-ignore-revs</td><td>outside_scope</td></tr><tr><td>.gitignore</td><td>outside_scope</td></tr><tr><td>.pre-commit-config.yaml</td><td>outside_scope</td></tr><tr><td>.readthedocs.yaml</td><td>outside_scope</td></tr><tr><td>AUTHORS.rst</td><td>outside_scope</td></tr><tr><td>HISTORY.md</td><td>outside_scope</td></tr><tr><td>LICENSE</td><td>outside_scope</td></tr><tr><td>MANIFEST.in</td><td>outside_scope</td></tr><tr><td>Makefile</td><td>outside_scope</td></tr><tr><td>NOTICE</td><td>outside_scope</td></tr><tr><td>README.md</td><td>outside_scope</td></tr><tr><td>pyproject.toml</td><td>outside_scope</td></tr><tr><td>requirements-dev.txt</td><td>outside_scope</td></tr><tr><td>setup.py</td><td>outside_scope</td></tr><tr><td>tox.ini</td><td>outside_scope</td></tr><tr><td>.github/AI_POLICY.md</td><td>outside_scope</td></tr><tr><td>.github/CODEOWNERS</td><td>outside_scope</td></tr><tr><td>.github/CODE_OF_CONDUCT.md</td><td>outside_scope</td></tr><tr><td>.github/CONTRIBUTING.md</td><td>outside_scope</td></tr><tr><td>.github/FUNDING.yml</td><td>outside_scope</td></tr><tr><td>.github/ISSUE_TEMPLATE.md</td><td>outside_scope</td></tr><tr><td>.github/SECURITY.md</td><td>outside_scope</td></tr><tr><td>.github/dependabot.yml</td><td>outside_scope</td></tr><tr><td>.github/ISSUE_TEMPLATE/Bug_report.md</td><td>outside_scope</td></tr><tr><td>.github/ISSUE_TEMPLATE/Custom.md</td><td>outside_scope</td></tr><tr><td>.github/ISSUE_TEMPLATE/Feature_request.md</td><td>outside_scope</td></tr><tr><td>.github/workflows/close-issues.yml</td><td>outside_scope</td></tr><tr><td>.github/workflows/codeql-analysis.yml</td><td>outside_scope</td></tr><tr><td>.github/workflows/lint.yml</td><td>outside_scope</td></tr><tr><td>.github/workflows/lock-issues.yml</td><td>outside_scope</td></tr><tr><td>.github/workflows/publish.yml</td><td>outside_scope</td></tr><tr><td>.github/workflows/run-tests.yml</td><td>outside_scope</td></tr><tr><td>.github/workflows/typecheck.yml</td><td>outside_scope</td></tr><tr><td>.github/workflows/zizmor.yml</td><td>outside_scope</td></tr><tr><td>docs/.nojekyll</td><td>outside_scope</td></tr><tr><td>docs/Makefile</td><td>outside_scope</td></tr><tr><td>docs/api.rst</td><td>outside_scope</td></tr><tr><td>docs/conf.py</td><td>outside_scope</td></tr><tr><td>docs/index.rst</td><td>outside_scope</td></tr><tr><td>docs/make.bat</td><td>outside_scope</td></tr><tr><td>docs/requirements.txt</td><td>outside_scope</td></tr><tr><td>docs/_static/custom.css</td><td>outside_scope</td></tr><tr><td>docs/_static/requests-sidebar.png</td><td>outside_scope</td></tr><tr><td>docs/_templates/sidebar.html</td><td>outside_scope</td></tr><tr><td>docs/_themes/.gitignore</td><td>outside_scope</td></tr><tr><td>docs/_themes/LICENSE</td><td>outside_scope</td></tr><tr><td>docs/_themes/flask_theme_support.py</td><td>outside_scope</td></tr><tr><td>docs/community/faq.rst</td><td>outside_scope</td></tr><tr><td>docs/community/out-there.rst</td><td>outside_scope</td></tr><tr><td>docs/community/recommended.rst</td><td>outside_scope</td></tr><tr><td>docs/community/release-process.rst</td><td>outside_scope</td></tr><tr><td>docs/community/support.rst</td><td>outside_scope</td></tr><tr><td>docs/community/updates.rst</td><td>outside_scope</td></tr><tr><td>docs/community/vulnerabilities.rst</td><td>outside_scope</td></tr><tr><td>docs/dev/authors.rst</td><td>outside_scope</td></tr><tr><td>docs/dev/contributing.rst</td><td>outside_scope</td></tr><tr><td>docs/user/advanced.rst</td><td>outside_scope</td></tr><tr><td>docs/user/authentication.rst</td><td>outside_scope</td></tr><tr><td>docs/user/install.rst</td><td>outside_scope</td></tr><tr><td>docs/user/quickstart.rst</td><td>outside_scope</td></tr><tr><td>ext/LICENSE</td><td>outside_scope</td></tr><tr><td>ext/kr.png</td><td>outside_scope</td></tr><tr><td>ext/psf.png</td><td>outside_scope</td></tr><tr><td>ext/requests-logo-compressed.png</td><td>outside_scope</td></tr><tr><td>ext/requests-logo.ai</td><td>outside_scope</td></tr><tr><td>ext/requests-logo.png</td><td>outside_scope</td></tr><tr><td>ext/requests-logo.svg</td><td>outside_scope</td></tr><tr><td>src/requests/py.typed</td><td>unsupported_language_or_resource</td></tr><tr><td>tests/__init__.py</td><td>outside_scope</td></tr><tr><td>tests/compat.py</td><td>outside_scope</td></tr><tr><td>tests/conftest.py</td><td>outside_scope</td></tr><tr><td>tests/test_adapters.py</td><td>outside_scope</td></tr><tr><td>tests/test_help.py</td><td>outside_scope</td></tr><tr><td>tests/test_hooks.py</td><td>outside_scope</td></tr><tr><td>tests/test_lowlevel.py</td><td>outside_scope</td></tr><tr><td>tests/test_packages.py</td><td>outside_scope</td></tr><tr><td>tests/test_requests.py</td><td>outside_scope</td></tr><tr><td>tests/test_structures.py</td><td>outside_scope</td></tr><tr><td>tests/test_testserver.py</td><td>outside_scope</td></tr><tr><td>tests/test_utils.py</td><td>outside_scope</td></tr><tr><td>tests/utils.py</td><td>outside_scope</td></tr><tr><td>tests/certs/README.md</td><td>outside_scope</td></tr><tr><td>tests/certs/expired/Makefile</td><td>outside_scope</td></tr><tr><td>tests/certs/expired/README.md</td><td>outside_scope</td></tr><tr><td>tests/certs/expired/ca/Makefile</td><td>outside_scope</td></tr><tr><td>tests/certs/expired/ca/ca-private.key</td><td>sensitive_file</td></tr><tr><td>tests/certs/expired/ca/ca.cnf</td><td>outside_scope</td></tr><tr><td>tests/certs/expired/ca/ca.crt</td><td>outside_scope</td></tr><tr><td>tests/certs/expired/ca/ca.srl</td><td>outside_scope</td></tr><tr><td>tests/certs/expired/server/Makefile</td><td>outside_scope</td></tr><tr><td>tests/certs/expired/server/cert.cnf</td><td>outside_scope</td></tr><tr><td>tests/certs/expired/server/server.csr</td><td>outside_scope</td></tr><tr><td>tests/certs/expired/server/server.key</td><td>sensitive_file</td></tr><tr><td>tests/certs/expired/server/server.pem</td><td>sensitive_file</td></tr><tr><td>tests/certs/mtls/Makefile</td><td>outside_scope</td></tr><tr><td>tests/certs/mtls/README.md</td><td>outside_scope</td></tr><tr><td>tests/certs/mtls/client/Makefile</td><td>outside_scope</td></tr><tr><td>tests/certs/mtls/client/cert.cnf</td><td>outside_scope</td></tr><tr><td>tests/certs/mtls/client/client.csr</td><td>outside_scope</td></tr><tr><td>tests/certs/mtls/client/client.key</td><td>sensitive_file</td></tr><tr><td>tests/certs/mtls/client/client.pem</td><td>sensitive_file</td></tr><tr><td>tests/certs/valid/server/Makefile</td><td>outside_scope</td></tr><tr><td>tests/certs/valid/server/cert.cnf</td><td>outside_scope</td></tr><tr><td>tests/certs/valid/server/server.csr</td><td>outside_scope</td></tr><tr><td>tests/certs/valid/server/server.key</td><td>sensitive_file</td></tr><tr><td>tests/certs/valid/server/server.pem</td><td>sensitive_file</td></tr><tr><td>tests/testserver/__init__.py</td><td>outside_scope</td></tr><tr><td>tests/testserver/server.py</td><td>outside_scope</td></tr><tr><td>src/requests/_types.py</td><td>file_count_limit</td></tr><tr><td>src/requests/adapters.py</td><td>file_count_limit</td></tr><tr><td>src/requests/api.py</td><td>file_count_limit</td></tr><tr><td>src/requests/auth.py</td><td>file_count_limit</td></tr><tr><td>src/requests/certs.py</td><td>file_count_limit</td></tr><tr><td>src/requests/compat.py</td><td>file_count_limit</td></tr><tr><td>src/requests/cookies.py</td><td>file_count_limit</td></tr><tr><td>src/requests/exceptions.py</td><td>file_count_limit</td></tr><tr><td>src/requests/help.py</td><td>file_count_limit</td></tr><tr><td>src/requests/hooks.py</td><td>file_count_limit</td></tr><tr><td>src/requests/models.py</td><td>file_count_limit</td></tr><tr><td>src/requests/packages.py</td><td>file_count_limit</td></tr><tr><td>src/requests/sessions.py</td><td>file_count_limit</td></tr><tr><td>src/requests/status_codes.py</td><td>file_count_limit</td></tr><tr><td>src/requests/structures.py</td><td>file_count_limit</td></tr><tr><td>src/requests/utils.py</td><td>file_count_limit</td></tr></tbody></table></div></details></section>
+<footer>Token 用量：输入 58253 / 输出 3279。完整结构化结果及复核轨迹见 report.json。</footer>
+</main><script>
+const search=document.getElementById('search'),severity=document.getElementById('severity'),status=document.getElementById('status');
+function filter(){let count=0;for(const card of document.querySelectorAll('.finding')){const s=status.value;
+const show=(!severity.value||card.dataset.severity===severity.value)&&(s==='all'||(s==='active'?card.dataset.status!=='rejected':card.dataset.status===s))&&card.textContent.toLowerCase().includes(search.value.toLowerCase());
+card.hidden=!show;if(show)count++;}document.getElementById('empty').hidden=count!==0;}
+for(const control of [search,severity,status])control.addEventListener('input',filter);filter();
+</script></body></html>

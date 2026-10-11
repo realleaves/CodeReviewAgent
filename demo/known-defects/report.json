@@ -1,0 +1,368 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local",
+    "name": "examples",
+    "ref": "working-tree",
+    "commit": "local-unversioned",
+    "indexed_snapshot_sha256": "69b0dff04247b33332923a4bb8c5797b63284d81bc0666d6aca7d6cf280d56e7"
+  },
+  "run": {
+    "started_at": "2026-10-11T10:27:49.611852+00:00",
+    "status": "completed",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "options": {
+      "mode": "full",
+      "max_files": 12,
+      "max_file_bytes": 200000,
+      "max_calls": 10,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 21.197,
+    "api_calls": 3,
+    "usage": {
+      "prompt_tokens": 4321,
+      "completion_tokens": 949
+    },
+    "indexed_python_files": 2,
+    "selected_files": 2,
+    "fully_reviewed_files": 2,
+    "semantic_coverage_percent": 100.0,
+    "active_findings": 3,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "high": 3
+    },
+    "status_counts": {
+      "supported": 3
+    },
+    "postprocessed_at": "2026-10-11T10:32:28.875502+00:00",
+    "postprocessing": "同位置、同类别、同复核状态的已知静态规则与语义发现合并，原始调用及复核轨迹保留。"
+  },
+  "coverage": [
+    {
+      "path": "buggy_code.py",
+      "lines": 17,
+      "reviewed_chunks": 1,
+      "total_chunks": 1,
+      "semantic_status": "completed",
+      "static_status": "completed"
+    },
+    {
+      "path": "clean_code.py",
+      "lines": 19,
+      "reviewed_chunks": 1,
+      "total_chunks": 1,
+      "semantic_status": "completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 2
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 2,
+      "diagnostics": 1
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 2,
+      "diagnostics": 1
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 3114,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 580,
+        "prompt_tokens": 1100,
+        "total_tokens": 1680,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 716
+      },
+      "elapsed_seconds": 18.041
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 6118,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 363,
+        "prompt_tokens": 2197,
+        "total_tokens": 2560,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 2069
+      },
+      "elapsed_seconds": 2.28
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 2846,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 1024,
+        "total_tokens": 1030,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 512
+      },
+      "elapsed_seconds": 0.733
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "buggy_code.py",
+      "start": 1,
+      "end": 17
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "buggy_code.py",
+      "start": 1,
+      "end": 17,
+      "findings": [
+        {
+          "path": "buggy_code.py",
+          "line": 6,
+          "end_line": 6,
+          "severity": "high",
+          "category": "bug",
+          "title": "average 对空列表触发 ZeroDivisionError",
+          "explanation": "文档字符串明确说明空输入应返回 0，但实现直接执行 sum(values)/len(values)。当 values 为空时 len(values) 为 0，会抛出 ZeroDivisionError，与声明的契约不符。",
+          "trigger": "调用 average([]) 或传入任何空可迭代对象（如 average(())）。",
+          "evidence": "第 5 行文档：\"empty input should return zero\"；第 6 行：return sum(values) / len(values)，未对空输入做判断。",
+          "suggestion": "在除法前判断空输入，例如：if not values: return 0，然后再返回 sum(values)/len(values)。",
+          "id": "5b18d6692dd1",
+          "source": "llm",
+          "rule": "",
+          "snippet": "4: def average(values):\n5:     \"\"\"Accept a possibly empty numeric list; empty input should return zero.\"\"\"\n6:     return sum(values) / len(values)\n7: \n8: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。"
+        },
+        {
+          "path": "buggy_code.py",
+          "line": 9,
+          "end_line": 12,
+          "severity": "high",
+          "category": "bug",
+          "title": "collect 使用可变默认参数导致跨调用状态泄漏",
+          "explanation": "items=[] 作为默认参数在函数定义时只创建一次，所有未显式传入 items 的调用共享同一个列表。文档字符串要求每次调用获得独立的新列表，但实际会不断累积之前的值，造成隐蔽的状态污染。",
+          "trigger": "连续调用 collect(1) 后再调用 collect(2)，第二次返回 [1, 2] 而非 [2]。",
+          "evidence": "第 9 行 def collect(value, items=[]): 使用可变默认值；第 11 行 items.append(value) 直接修改该共享对象。",
+          "suggestion": "将默认值改为 None 并在函数体内创建新列表：def collect(value, items=None): if items is None: items = []。",
+          "id": "60a02c1bd40d",
+          "source": "llm",
+          "rule": "",
+          "snippet": "7: \n8: \n9: def collect(value, items=[]):\n10:     \"\"\"Each call without items should get its own fresh list.\"\"\"\n11:     items.append(value)\n12:     return items\n13: \n14: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。"
+        },
+        {
+          "path": "buggy_code.py",
+          "line": 17,
+          "end_line": 17,
+          "severity": "high",
+          "category": "security",
+          "title": "lookup 通过 f-string 拼接 SQL 造成注入",
+          "explanation": "username 来自不可信 HTTP 客户端，却被直接插入 SQL 字符串。攻击者可构造如 ' OR '1'='1 的输入改变查询语义，或利用引号闭合执行任意 SQL，导致数据泄露或篡改。",
+          "trigger": "调用 lookup(conn, \"' OR '1'='1\") 或传入包含单引号与 SQL 片段的用户名。",
+          "evidence": "第 16 行注释：\"username is supplied by an untrusted HTTP client\"；第 17 行使用 f\"SELECT * FROM users WHERE name = '{username}'\" 直接拼接。",
+          "suggestion": "使用参数化查询，例如 connection.execute(\"SELECT * FROM users WHERE name = ?\", (username,))，避免字符串拼接。",
+          "id": "3cae54ac12ce",
+          "source": "llm",
+          "rule": "",
+          "snippet": "15: def lookup(connection, username):\n16:     \"\"\"username is supplied by an untrusted HTTP client.\"\"\"\n17:     return connection.execute(f\"SELECT * FROM users WHERE name = '{username}'\").fetchall()",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。"
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "ca2651192c76",
+          "status": "supported",
+          "reason": "第9行 def collect(value, items=[]) 确实使用可变列表作为默认参数，且第11行 items.append(value) 会修改该共享对象，与文档字符串“每次调用应获得独立新列表”的契约冲突。ruff B006 诊断成立。"
+        },
+        {
+          "id": "dd89d1f1527f",
+          "status": "supported",
+          "reason": "第17行用 f-string 将 username 直接拼入 SQL 字符串，第16行注释明确 username 来自不可信 HTTP 客户端，构成 SQL 注入向量。bandit B608 诊断成立。"
+        },
+        {
+          "id": "5b18d6692dd1",
+          "status": "supported",
+          "reason": "第5行文档声明空输入应返回 0，第6行直接 sum(values)/len(values)，空列表时 len 为 0 会抛 ZeroDivisionError，与声明契约不符，且无空值保护。"
+        },
+        {
+          "id": "60a02c1bd40d",
+          "status": "supported",
+          "reason": "第9行 items=[] 在函数定义时仅创建一次，第11行 append 修改共享列表，未传 items 的多次调用会累积状态，与第10行文档“每次调用获得独立新列表”矛盾。"
+        },
+        {
+          "id": "3cae54ac12ce",
+          "status": "supported",
+          "reason": "第16行注释说明 username 来自不可信 HTTP 客户端，第17行用 f-string 拼接进 SQL，攻击者可通过引号闭合改变查询语义，构成 SQL 注入。"
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "clean_code.py",
+      "start": 1,
+      "end": 19,
+      "findings": []
+    }
+  ],
+  "findings": [
+    {
+      "path": "buggy_code.py",
+      "line": 6,
+      "end_line": 6,
+      "severity": "high",
+      "category": "bug",
+      "title": "average 对空列表触发 ZeroDivisionError",
+      "explanation": "文档字符串明确说明空输入应返回 0，但实现直接执行 sum(values)/len(values)。当 values 为空时 len(values) 为 0，会抛出 ZeroDivisionError，与声明的契约不符。",
+      "trigger": "调用 average([]) 或传入任何空可迭代对象（如 average(())）。",
+      "evidence": "第 5 行文档：\"empty input should return zero\"；第 6 行：return sum(values) / len(values)，未对空输入做判断。",
+      "suggestion": "在除法前判断空输入，例如：if not values: return 0，然后再返回 sum(values)/len(values)。",
+      "id": "5b18d6692dd1",
+      "source": "llm",
+      "rule": "",
+      "snippet": "4: def average(values):\n5:     \"\"\"Accept a possibly empty numeric list; empty input should return zero.\"\"\"\n6:     return sum(values) / len(values)\n7: \n8: ",
+      "status": "supported",
+      "verification": "第5行文档声明空输入应返回 0，第6行直接 sum(values)/len(values)，空列表时 len 为 0 会抛 ZeroDivisionError，与声明契约不符，且无空值保护。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "buggy_code.py",
+      "line": 9,
+      "end_line": 12,
+      "severity": "high",
+      "category": "bug",
+      "title": "collect 使用可变默认参数导致跨调用状态泄漏",
+      "explanation": "items=[] 作为默认参数在函数定义时只创建一次，所有未显式传入 items 的调用共享同一个列表。文档字符串要求每次调用获得独立的新列表，但实际会不断累积之前的值，造成隐蔽的状态污染。",
+      "trigger": "连续调用 collect(1) 后再调用 collect(2)，第二次返回 [1, 2] 而非 [2]。",
+      "evidence": "第 9 行 def collect(value, items=[]): 使用可变默认值；第 11 行 items.append(value) 直接修改该共享对象。",
+      "suggestion": "将默认值改为 None 并在函数体内创建新列表：def collect(value, items=None): if items is None: items = []。",
+      "id": "60a02c1bd40d",
+      "source": "llm",
+      "rule": "",
+      "snippet": "7: \n8: \n9: def collect(value, items=[]):\n10:     \"\"\"Each call without items should get its own fresh list.\"\"\"\n11:     items.append(value)\n12:     return items\n13: \n14: ",
+      "status": "supported",
+      "verification": "第9行 items=[] 在函数定义时仅创建一次，第11行 append 修改共享列表，未传 items 的多次调用会累积状态，与第10行文档“每次调用获得独立新列表”矛盾。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [
+        {
+          "path": "buggy_code.py",
+          "line": 9,
+          "end_line": 9,
+          "severity": "medium",
+          "category": "bug",
+          "title": "B006: Do not use mutable data structures for argument defaults",
+          "explanation": "Do not use mutable data structures for argument defaults",
+          "trigger": "触发条件需结合业务调用确认。",
+          "evidence": "ruff B006: Do not use mutable data structures for argument defaults",
+          "suggestion": "根据诊断检查对应代码。",
+          "id": "ca2651192c76",
+          "source": "ruff",
+          "rule": "B006",
+          "snippet": "7: \n8: \n9: def collect(value, items=[]):\n10:     \"\"\"Each call without items should get its own fresh list.\"\"\"\n11:     items.append(value)",
+          "status": "supported",
+          "verification": "第9行 def collect(value, items=[]) 确实使用可变列表作为默认参数，且第11行 items.append(value) 会修改该共享对象，与文档字符串“每次调用应获得独立新列表”的契约冲突。ruff B006 诊断成立。",
+          "validation": "静态诊断或代码推断；未执行复现测试。"
+        }
+      ]
+    },
+    {
+      "path": "buggy_code.py",
+      "line": 17,
+      "end_line": 17,
+      "severity": "high",
+      "category": "security",
+      "title": "lookup 通过 f-string 拼接 SQL 造成注入",
+      "explanation": "username 来自不可信 HTTP 客户端，却被直接插入 SQL 字符串。攻击者可构造如 ' OR '1'='1 的输入改变查询语义，或利用引号闭合执行任意 SQL，导致数据泄露或篡改。",
+      "trigger": "调用 lookup(conn, \"' OR '1'='1\") 或传入包含单引号与 SQL 片段的用户名。",
+      "evidence": "第 16 行注释：\"username is supplied by an untrusted HTTP client\"；第 17 行使用 f\"SELECT * FROM users WHERE name = '{username}'\" 直接拼接。",
+      "suggestion": "使用参数化查询，例如 connection.execute(\"SELECT * FROM users WHERE name = ?\", (username,))，避免字符串拼接。",
+      "id": "3cae54ac12ce",
+      "source": "llm",
+      "rule": "",
+      "snippet": "15: def lookup(connection, username):\n16:     \"\"\"username is supplied by an untrusted HTTP client.\"\"\"\n17:     return connection.execute(f\"SELECT * FROM users WHERE name = '{username}'\").fetchall()",
+      "status": "supported",
+      "verification": "第16行注释说明 username 来自不可信 HTTP 客户端，第17行用 f-string 拼接进 SQL，攻击者可通过引号闭合改变查询语义，构成 SQL 注入。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [
+        {
+          "path": "buggy_code.py",
+          "line": 17,
+          "end_line": 17,
+          "severity": "medium",
+          "category": "security",
+          "title": "B608: Possible SQL injection vector through string-based query construction.",
+          "explanation": "Possible SQL injection vector through string-based query construction.",
+          "trigger": "触发条件需结合业务调用确认。",
+          "evidence": "bandit B608: Possible SQL injection vector through string-based query construction.",
+          "suggestion": "根据诊断检查对应代码。",
+          "id": "dd89d1f1527f",
+          "source": "bandit",
+          "rule": "B608",
+          "snippet": "15: def lookup(connection, username):\n16:     \"\"\"username is supplied by an untrusted HTTP client.\"\"\"\n17:     return connection.execute(f\"SELECT * FROM users WHERE name = '{username}'\").fetchall()",
+          "status": "supported",
+          "verification": "第17行用 f-string 将 username 直接拼入 SQL 字符串，第16行注释明确 username 来自不可信 HTTP 客户端，构成 SQL 注入向量。bandit B608 诊断成立。",
+          "validation": "静态诊断或代码推断；未执行复现测试。"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "仅支持 Python；外部依赖和业务约定可能缺失。",
+    "审查基于静态诊断与模型代码推断，未执行待审代码或复现测试。",
+    "supported 表示模型复核认为有代码依据，不代表运行证明或无误报保证。",
+    "覆盖率以所选 scope 内已索引 Python 文件为分母；索引限制及未支持文件另列。",
+    "按预算分块；import 关联和只读查询提供有限跨文件上下文。"
+  ]
+}

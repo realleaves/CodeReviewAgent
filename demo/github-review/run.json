@@ -1,0 +1,888 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "https://github.com/psf/requests",
+    "name": "psf-requests",
+    "ref": "main",
+    "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60",
+    "indexed_snapshot_sha256": "7afc7414bd4d8160b5432a453b13704604105503cd97f66fbc20c35d767d5ae5"
+  },
+  "run": {
+    "started_at": "2026-10-11T10:27:49.608482+00:00",
+    "status": "partial",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "options": {
+      "mode": "full",
+      "max_files": 3,
+      "max_file_bytes": 200000,
+      "max_calls": 20,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": "src/requests"
+    },
+    "elapsed_seconds": 35.833,
+    "api_calls": 12,
+    "usage": {
+      "prompt_tokens": 58253,
+      "completion_tokens": 3279
+    },
+    "indexed_python_files": 19,
+    "selected_files": 3,
+    "fully_reviewed_files": 3,
+    "semantic_coverage_percent": 15.8,
+    "active_findings": 5,
+    "rejected_findings": 19,
+    "severity_counts": {
+      "medium": 2,
+      "low": 3
+    },
+    "status_counts": {
+      "supported": 4,
+      "needs_context": 1
+    },
+    "postprocessed_at": "2026-10-11T10:32:28.876574+00:00",
+    "postprocessing": "同位置、同类别、同复核状态的已知静态规则与语义发现合并，原始调用及复核轨迹保留。"
+  },
+  "coverage": [
+    {
+      "path": "src/requests/__init__.py",
+      "lines": 219,
+      "reviewed_chunks": 2,
+      "total_chunks": 2,
+      "semantic_status": "completed",
+      "static_status": "completed"
+    },
+    {
+      "path": "src/requests/__version__.py",
+      "lines": 14,
+      "reviewed_chunks": 1,
+      "total_chunks": 1,
+      "semantic_status": "completed",
+      "static_status": "completed"
+    },
+    {
+      "path": "src/requests/_internal_utils.py",
+      "lines": 51,
+      "reviewed_chunks": 1,
+      "total_chunks": 1,
+      "semantic_status": "completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".coveragerc",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".git-blame-ignore-revs",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".gitignore",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".pre-commit-config.yaml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".readthedocs.yaml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "AUTHORS.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "HISTORY.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "NOTICE",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "README.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "pyproject.toml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "requirements-dev.txt",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "setup.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/AI_POLICY.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/CODEOWNERS",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/CODE_OF_CONDUCT.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/CONTRIBUTING.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/FUNDING.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/SECURITY.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/Bug_report.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/Custom.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/Feature_request.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/close-issues.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/codeql-analysis.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/lint.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/lock-issues.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/publish.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/run-tests.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/typecheck.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/zizmor.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/.nojekyll",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/api.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/make.bat",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/requirements.txt",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/_static/custom.css",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/_static/requests-sidebar.png",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/_templates/sidebar.html",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/_themes/.gitignore",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/_themes/LICENSE",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/_themes/flask_theme_support.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/community/faq.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/community/out-there.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/community/recommended.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/community/release-process.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/community/support.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/community/updates.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/community/vulnerabilities.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/dev/authors.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/dev/contributing.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/user/advanced.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/user/authentication.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/user/install.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/user/quickstart.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "ext/LICENSE",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "ext/kr.png",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "ext/psf.png",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "ext/requests-logo-compressed.png",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "ext/requests-logo.ai",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "ext/requests-logo.png",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "ext/requests-logo.svg",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "src/requests/py.typed",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tests/__init__.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/compat.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/conftest.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_adapters.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_help.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_hooks.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_lowlevel.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_packages.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_requests.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_structures.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_testserver.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_utils.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/utils.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/README.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/README.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/ca/Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/ca/ca-private.key",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tests/certs/expired/ca/ca.cnf",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/ca/ca.crt",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/ca/ca.srl",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/server/Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/server/cert.cnf",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/server/server.csr",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/server/server.key",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tests/certs/expired/server/server.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tests/certs/mtls/Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/mtls/README.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/mtls/client/Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/mtls/client/cert.cnf",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/mtls/client/client.csr",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/mtls/client/client.key",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tests/certs/mtls/client/client.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tests/certs/valid/server/Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/valid/server/cert.cnf",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/valid/server/server.csr",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/valid/server/server.key",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tests/certs/valid/server/server.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tests/testserver/__init__.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/testserver/server.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "src/requests/_types.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/adapters.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/api.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/auth.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/certs.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/compat.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/cookies.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/exceptions.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/help.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/hooks.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/models.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/packages.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/sessions.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/status_codes.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/structures.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/utils.py",
+      "reason": "file_count_limit"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 3
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 3,
+      "diagnostics": 13
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 3,
+      "diagnostics": 6
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 17616,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1211,
+        "prompt_tokens": 5728,
+        "total_tokens": 6939,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 5344
+      },
+      "elapsed_seconds": 20.482
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 18662,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 413,
+        "prompt_tokens": 6131,
+        "total_tokens": 6544,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5875
+      },
+      "elapsed_seconds": 2.547
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 18998,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 42,
+        "prompt_tokens": 6206,
+        "total_tokens": 6248,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5950
+      },
+      "elapsed_seconds": 0.925
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 20490,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 42,
+        "prompt_tokens": 6699,
+        "total_tokens": 6741,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 6144
+        },
+        "prompt_cache_hit_tokens": 6144,
+        "prompt_cache_miss_tokens": 555
+      },
+      "elapsed_seconds": 0.812
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 21149,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 500,
+        "prompt_tokens": 6964,
+        "total_tokens": 7464,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 6836
+      },
+      "elapsed_seconds": 2.183
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 18357,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 58,
+        "prompt_tokens": 6410,
+        "total_tokens": 6468,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6154
+      },
+      "elapsed_seconds": 0.896
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 22945,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 469,
+        "prompt_tokens": 7936,
+        "total_tokens": 8405,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 6400
+        },
+        "prompt_cache_hit_tokens": 6400,
+        "prompt_cache_miss_tokens": 1536
+      },
+      "elapsed_seconds": 2.17
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 9796,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 3311,
+        "total_tokens": 3317,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 2799
+      },
+      "elapsed_seconds": 0.585
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 2526,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 973,
+        "total_tokens": 979,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 461
+      },
+      "elapsed_seconds": 0.613
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 6839,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 252,
+        "prompt_tokens": 2380,
+        "total_tokens": 2632,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 1868
+      },
+      "elapsed_seconds": 1.582
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 6802,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 44,
+        "prompt_tokens": 2366,
+        "total_tokens": 2410,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 2110
+      },
+      "elapsed_seconds": 0.883
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 9002,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 236,
+        "prompt_tokens": 3149,
+        "total_tokens": 3385,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 2304
+        },
+        "prompt_cache_hit_tokens": 2304,
+        "prompt_cache_miss_tokens": 845
+      },
+      "elapsed_seconds": 1.978
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "src/requests/__init__.py",
+      "start": 67,
+      "end": 186
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "start": 41,
+      "end": 160
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "start": 155,
+      "end": 200
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "start": 200,
+      "end": 219
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "start": 41,
+      "end": 132
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "start": 1,
+      "end": 120
+    },
+    {
+      "path": "src/requests/_internal_utils.py",
+      "start": 21,
+      "end": 51
+    },
+    {
+      "path": "src/requests/_internal_utils.py",
+      "start": 1,
+      "end": 51
+    }
+  ],
+  "limitations": [
+    "仅支持 Python；外部依赖和业务约定可能缺失。",
+    "审查基于静态诊断与模型代码推断，未执行待审代码或复现测试。",
+    "supported 表示模型复核认为有代码依据，不代表运行证明或无误报保证。",
+    "覆盖率以所选 scope 内已索引 Python 文件为分母；索引限制及未支持文件另列。",
+    "按预算分块；import 关联和只读查询提供有限跨文件上下文。"
+  ]
+}

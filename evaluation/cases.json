@@ -1,0 +1,10 @@
+[
+  {"id":"average-bug","code":"def average(values):\n    \"\"\"Empty input is allowed and must return zero.\"\"\"\n    return sum(values) / len(values)\n","expected":[{"category":"bug","start":3,"end":3,"trigger":"values=[]"}]},
+  {"id":"average-clean","code":"def average(values):\n    \"\"\"Empty input is allowed and returns zero.\"\"\"\n    return sum(values) / len(values) if values else 0\n","expected":[]},
+  {"id":"mutable-bug","code":"def collect(value, items=[]):\n    \"\"\"Each omitted items argument must create an independent list.\"\"\"\n    items.append(value)\n    return items\n","expected":[{"category":"bug","start":1,"end":3,"trigger":"collect(1); collect(2)"}]},
+  {"id":"mutable-clean","code":"def collect(value, items=None):\n    \"\"\"Each omitted items argument creates an independent list.\"\"\"\n    if items is None:\n        items = []\n    items.append(value)\n    return items\n","expected":[]},
+  {"id":"sql-bug","code":"def lookup(connection, name):\n    \"\"\"connection is sqlite3; name comes from an untrusted web request.\"\"\"\n    return connection.execute(f\"SELECT * FROM users WHERE name = '{name}'\").fetchall()\n","expected":[{"category":"security","start":3,"end":3,"trigger":"name contains SQL quotation and operator"}]},
+  {"id":"sql-clean","code":"def lookup(connection, name):\n    \"\"\"connection is sqlite3; name comes from an untrusted web request.\"\"\"\n    return connection.execute(\"SELECT * FROM users WHERE name = ?\", (name,)).fetchall()\n","expected":[]},
+  {"id":"index-bug","code":"def copy_all(items):\n    \"\"\"Return a copy for every list, including empty input.\"\"\"\n    result = []\n    for i in range(len(items) + 1):\n        result.append(items[i])\n    return result\n","expected":[{"category":"bug","start":4,"end":5,"trigger":"any list, including empty list"}]},
+  {"id":"index-clean","code":"def copy_all(items):\n    \"\"\"Return a copy for every list, including empty input.\"\"\"\n    result = []\n    for item in items:\n        result.append(item)\n    return result\n","expected":[]}
+]

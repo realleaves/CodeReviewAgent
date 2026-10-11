@@ -1,0 +1,13 @@
+.venv/
+.env*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.qa-firefox/
+outputs/
+*.pyc

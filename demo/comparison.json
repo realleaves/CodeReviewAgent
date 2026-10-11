@@ -1,0 +1,258 @@
+{
+  "created_at": "2026-10-11T10:32:13.433992+00:00",
+  "total_calls": 14,
+  "note": "小样本冒烟对比，位置与类别自动匹配；尚未经人工语义判定，不能作为泛化准确率。",
+  "aggregates": [
+    {
+      "mode": "direct",
+      "completed_cases": 4,
+      "attempted_cases": 4,
+      "planned_cases": 4,
+      "tp": 2,
+      "fp": 1,
+      "fn": 0,
+      "precision": 0.6666666666666666,
+      "recall": 1.0,
+      "calls": 4,
+      "seconds": 5.772
+    },
+    {
+      "mode": "assisted",
+      "completed_cases": 4,
+      "attempted_cases": 4,
+      "planned_cases": 4,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "calls": 4,
+      "seconds": 5.713
+    },
+    {
+      "mode": "full",
+      "completed_cases": 4,
+      "attempted_cases": 4,
+      "planned_cases": 4,
+      "tp": 2,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "calls": 6,
+      "seconds": 7.484
+    }
+  ],
+  "records": [
+    {
+      "mode": "direct",
+      "case": "average-bug",
+      "expected": [
+        {
+          "category": "bug",
+          "start": 3,
+          "end": 3,
+          "trigger": "values=[]"
+        }
+      ],
+      "status": "completed",
+      "calls": 1,
+      "seconds": 1.454,
+      "score": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "matching": "位置与类别自动粗匹配；触发条件和问题语义需人工核对。"
+      }
+    },
+    {
+      "mode": "direct",
+      "case": "average-clean",
+      "expected": [],
+      "status": "completed",
+      "calls": 1,
+      "seconds": 1.761,
+      "score": {
+        "tp": 0,
+        "fp": 1,
+        "fn": 0,
+        "matching": "位置与类别自动粗匹配；触发条件和问题语义需人工核对。"
+      }
+    },
+    {
+      "mode": "direct",
+      "case": "mutable-bug",
+      "expected": [
+        {
+          "category": "bug",
+          "start": 1,
+          "end": 3,
+          "trigger": "collect(1); collect(2)"
+        }
+      ],
+      "status": "completed",
+      "calls": 1,
+      "seconds": 2.081,
+      "score": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "matching": "位置与类别自动粗匹配；触发条件和问题语义需人工核对。"
+      }
+    },
+    {
+      "mode": "direct",
+      "case": "mutable-clean",
+      "expected": [],
+      "status": "completed",
+      "calls": 1,
+      "seconds": 0.476,
+      "score": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "matching": "位置与类别自动粗匹配；触发条件和问题语义需人工核对。"
+      }
+    },
+    {
+      "mode": "assisted",
+      "case": "average-bug",
+      "expected": [
+        {
+          "category": "bug",
+          "start": 3,
+          "end": 3,
+          "trigger": "values=[]"
+        }
+      ],
+      "status": "completed",
+      "calls": 1,
+      "seconds": 1.581,
+      "score": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "matching": "位置与类别自动粗匹配；触发条件和问题语义需人工核对。"
+      }
+    },
+    {
+      "mode": "assisted",
+      "case": "average-clean",
+      "expected": [],
+      "status": "completed",
+      "calls": 1,
+      "seconds": 1.275,
+      "score": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "matching": "位置与类别自动粗匹配；触发条件和问题语义需人工核对。"
+      }
+    },
+    {
+      "mode": "assisted",
+      "case": "mutable-bug",
+      "expected": [
+        {
+          "category": "bug",
+          "start": 1,
+          "end": 3,
+          "trigger": "collect(1); collect(2)"
+        }
+      ],
+      "status": "completed",
+      "calls": 1,
+      "seconds": 2.055,
+      "score": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "matching": "位置与类别自动粗匹配；触发条件和问题语义需人工核对。"
+      }
+    },
+    {
+      "mode": "assisted",
+      "case": "mutable-clean",
+      "expected": [],
+      "status": "completed",
+      "calls": 1,
+      "seconds": 0.802,
+      "score": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "matching": "位置与类别自动粗匹配；触发条件和问题语义需人工核对。"
+      }
+    },
+    {
+      "mode": "full",
+      "case": "average-bug",
+      "expected": [
+        {
+          "category": "bug",
+          "start": 3,
+          "end": 3,
+          "trigger": "values=[]"
+        }
+      ],
+      "status": "completed",
+      "calls": 2,
+      "seconds": 2.428,
+      "score": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "matching": "位置与类别自动粗匹配；触发条件和问题语义需人工核对。"
+      }
+    },
+    {
+      "mode": "full",
+      "case": "average-clean",
+      "expected": [],
+      "status": "completed",
+      "calls": 1,
+      "seconds": 0.757,
+      "score": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "matching": "位置与类别自动粗匹配；触发条件和问题语义需人工核对。"
+      }
+    },
+    {
+      "mode": "full",
+      "case": "mutable-bug",
+      "expected": [
+        {
+          "category": "bug",
+          "start": 1,
+          "end": 3,
+          "trigger": "collect(1); collect(2)"
+        }
+      ],
+      "status": "completed",
+      "calls": 2,
+      "seconds": 3.481,
+      "score": {
+        "tp": 1,
+        "fp": 0,
+        "fn": 0,
+        "matching": "位置与类别自动粗匹配；触发条件和问题语义需人工核对。"
+      }
+    },
+    {
+      "mode": "full",
+      "case": "mutable-clean",
+      "expected": [],
+      "status": "completed",
+      "calls": 1,
+      "seconds": 0.818,
+      "score": {
+        "tp": 0,
+        "fp": 0,
+        "fn": 0,
+        "matching": "位置与类别自动粗匹配；触发条件和问题语义需人工核对。"
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "width": 1440,
+  "checks": [
+    {
+      "name": "all findings",
+      "expected": 3,
+      "actual": 3,
+      "passed": true
+    },
+    {
+      "name": "active findings",
+      "expected": 3,
+      "actual": 3,
+      "passed": true
+    },
+    {
+      "name": "high risk filter",
+      "expected": 3,
+      "actual": 3,
+      "passed": true
+    },
+    {
+      "name": "supported filter",
+      "expected": 3,
+      "actual": 3,
+      "passed": true
+    },
+    {
+      "name": "search empty result",
+      "expected": 0,
+      "actual": 0,
+      "passed": true
+    },
+    {
+      "name": "empty result message",
+      "passed": true
+    },
+    {
+      "name": "search file",
+      "expected": 3,
+      "actual": 3,
+      "passed": true
+    },
+    {
+      "name": "viewport overflow",
+      "passed": true
+    }
+  ],
+  "passed": true
+}

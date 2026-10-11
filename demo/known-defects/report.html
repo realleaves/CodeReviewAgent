@@ -1,0 +1,69 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CodeReview · examples</title>
+<style>
+:root{--bg:#f4f6fa;--ink:#182635;--muted:#526376;--line:#dbe3ed;--accent:#126b65}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 system-ui,sans-serif}
+header{background:#112e38;color:#fff;padding:38px max(24px,calc((100vw - 1100px)/2))}
+.eyebrow{letter-spacing:2px;font-size:12px;color:#94d9cc}h1{font-size:32px;margin:10px 0}header p{margin:6px 0;color:#c7d8df;overflow-wrap:anywhere}
+main{max-width:1150px;margin:auto;padding:28px 24px 60px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat,.panel,.finding{background:white;border:1px solid var(--line);border-radius:12px;padding:22px}
+.stat strong{display:block;font-size:30px;color:var(--accent)}.stat span{color:var(--muted)}
+.panel{margin:22px 0}h2{font-size:20px;margin:0 0 14px}.filters{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}
+select,input{font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:7px;background:white}input{min-width:220px;flex:1}
+.finding{margin:14px 0}.finding[hidden]{display:none}h3{font-size:19px;margin:12px 0 5px}.tags{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{border-radius:5px;padding:3px 9px;background:#edf2f7;font-size:12px}.badge.high{color:#a12f37;background:#ffebed}
+.badge.medium{color:#96590c;background:#fff1dc}.badge.low{color:#176467;background:#e7f5f3}.origin,.location{color:var(--muted);font-size:13px}
+a{color:var(--accent)}dl{margin:18px 0}.detail{display:grid;grid-template-columns:90px 1fr;gap:12px;margin:9px 0}dt{font-weight:600}dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+pre{background:#122b37;color:#e0edf2;padding:17px;border-radius:8px;overflow:auto;font:13px/1.7 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line)}td{overflow-wrap:anywhere}
+.note{color:var(--muted)}summary{cursor:pointer;font-weight:600}footer{color:var(--muted);margin-top:25px}#empty{padding:30px;text-align:center;color:var(--muted)}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}header{padding:25px 20px}main{padding:20px 14px}.detail{grid-template-columns:1fr;gap:2px}h1{font-size:25px}}
+</style></head><body><header><div class="eyebrow">CODE REVIEW AGENT / REPOSITORY REPORT</div>
+<h1>examples</h1><p>local · working-tree</p>
+<p>Commit local-unversioned · 运行状态 completed</p></header><main>
+<div class="stats"><div class="stat"><strong>3</strong><span>保留的候选问题</span></div>
+<div class="stat"><strong>100.0%</strong><span>已索引 Python 文件语义覆盖</span></div>
+<div class="stat"><strong>3</strong><span>模型调用</span></div>
+<div class="stat"><strong>21.197s</strong><span>运行耗时</span></div></div>
+<section class="panel"><h2>审查范围与证据</h2><p>模式 full · 模型 deepseek-flash · 完整语义审查 2/2 个文件</p>
+<ul class="note"><li>仅支持 Python；外部依赖和业务约定可能缺失。</li><li>审查基于静态诊断与模型代码推断，未执行待审代码或复现测试。</li><li>supported 表示模型复核认为有代码依据，不代表运行证明或无误报保证。</li><li>覆盖率以所选 scope 内已索引 Python 文件为分母；索引限制及未支持文件另列。</li><li>按预算分块；import 关联和只读查询提供有限跨文件上下文。</li></ul></section>
+<h2>审查发现</h2><div class="filters"><input id="search" aria-label="搜索问题或文件" placeholder="搜索问题、文件路径或依据…">
+<select id="severity" aria-label="风险程度"><option value="">全部风险</option><option value="high">高</option><option value="medium">中</option><option value="low">低</option></select>
+<select id="status" aria-label="复核状态"><option value="active">保留的问题</option><option value="all">全部含驳回</option><option value="supported">有代码依据</option><option value="needs_context">待确认</option><option value="unverified">未复核</option><option value="rejected">已驳回</option></select></div>
+<div id="findings"><article class="finding" data-severity="high" data-status="supported">
+          <div class="tags"><span class="badge high">高风险</span>
+          <span class="badge">有代码依据</span><span class="origin">llm</span></div>
+          <h3>average 对空列表触发 ZeroDivisionError</h3><div class="location">buggy_code.py:6</div><dl><div class="detail"><dt>问题说明</dt><dd>文档字符串明确说明空输入应返回 0，但实现直接执行 sum(values)/len(values)。当 values 为空时 len(values) 为 0，会抛出 ZeroDivisionError，与声明的契约不符。</dd></div><div class="detail"><dt>触发条件</dt><dd>调用 average([]) 或传入任何空可迭代对象（如 average(())）。</dd></div><div class="detail"><dt>代码依据</dt><dd>第 5 行文档：&quot;empty input should return zero&quot;；第 6 行：return sum(values) / len(values)，未对空输入做判断。</dd></div><div class="detail"><dt>修复建议</dt><dd>在除法前判断空输入，例如：if not values: return 0，然后再返回 sum(values)/len(values)。</dd></div><div class="detail"><dt>复核理由</dt><dd>第5行文档声明空输入应返回 0，第6行直接 sum(values)/len(values)，空列表时 len 为 0 会抛 ZeroDivisionError，与声明契约不符，且无空值保护。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>4: def average(values):
+5:     &quot;&quot;&quot;Accept a possibly empty numeric list; empty input should return zero.&quot;&quot;&quot;
+6:     return sum(values) / len(values)
+7: 
+8: </code></pre></article><article class="finding" data-severity="high" data-status="supported">
+          <div class="tags"><span class="badge high">高风险</span>
+          <span class="badge">有代码依据</span><span class="origin">llm + ruff B006</span></div>
+          <h3>collect 使用可变默认参数导致跨调用状态泄漏</h3><div class="location">buggy_code.py:9</div><dl><div class="detail"><dt>问题说明</dt><dd>items=[] 作为默认参数在函数定义时只创建一次，所有未显式传入 items 的调用共享同一个列表。文档字符串要求每次调用获得独立的新列表，但实际会不断累积之前的值，造成隐蔽的状态污染。</dd></div><div class="detail"><dt>触发条件</dt><dd>连续调用 collect(1) 后再调用 collect(2)，第二次返回 [1, 2] 而非 [2]。</dd></div><div class="detail"><dt>代码依据</dt><dd>第 9 行 def collect(value, items=[]): 使用可变默认值；第 11 行 items.append(value) 直接修改该共享对象。</dd></div><div class="detail"><dt>修复建议</dt><dd>将默认值改为 None 并在函数体内创建新列表：def collect(value, items=None): if items is None: items = []。</dd></div><div class="detail"><dt>复核理由</dt><dd>第9行 items=[] 在函数定义时仅创建一次，第11行 append 修改共享列表，未传 items 的多次调用会累积状态，与第10行文档“每次调用获得独立新列表”矛盾。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>7: 
+8: 
+9: def collect(value, items=[]):
+10:     &quot;&quot;&quot;Each call without items should get its own fresh list.&quot;&quot;&quot;
+11:     items.append(value)
+12:     return items
+13: 
+14: </code></pre></article><article class="finding" data-severity="high" data-status="supported">
+          <div class="tags"><span class="badge high">高风险</span>
+          <span class="badge">有代码依据</span><span class="origin">llm + bandit B608</span></div>
+          <h3>lookup 通过 f-string 拼接 SQL 造成注入</h3><div class="location">buggy_code.py:17</div><dl><div class="detail"><dt>问题说明</dt><dd>username 来自不可信 HTTP 客户端，却被直接插入 SQL 字符串。攻击者可构造如 &#x27; OR &#x27;1&#x27;=&#x27;1 的输入改变查询语义，或利用引号闭合执行任意 SQL，导致数据泄露或篡改。</dd></div><div class="detail"><dt>触发条件</dt><dd>调用 lookup(conn, &quot;&#x27; OR &#x27;1&#x27;=&#x27;1&quot;) 或传入包含单引号与 SQL 片段的用户名。</dd></div><div class="detail"><dt>代码依据</dt><dd>第 16 行注释：&quot;username is supplied by an untrusted HTTP client&quot;；第 17 行使用 f&quot;SELECT * FROM users WHERE name = &#x27;{username}&#x27;&quot; 直接拼接。</dd></div><div class="detail"><dt>修复建议</dt><dd>使用参数化查询，例如 connection.execute(&quot;SELECT * FROM users WHERE name = ?&quot;, (username,))，避免字符串拼接。</dd></div><div class="detail"><dt>复核理由</dt><dd>第16行注释说明 username 来自不可信 HTTP 客户端，第17行用 f-string 拼接进 SQL，攻击者可通过引号闭合改变查询语义，构成 SQL 注入。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>15: def lookup(connection, username):
+16:     &quot;&quot;&quot;username is supplied by an untrusted HTTP client.&quot;&quot;&quot;
+17:     return connection.execute(f&quot;SELECT * FROM users WHERE name = &#x27;{username}&#x27;&quot;).fetchall()</code></pre></article></div><p id="empty" hidden>当前筛选没有候选问题；请结合覆盖范围和失败记录解读。</p>
+<section class="panel"><h2>文件覆盖</h2><div class="table-wrap"><table><thead><tr><th>文件</th><th>静态检查</th><th>语义审查</th><th>完成分块</th></tr></thead><tbody><tr><td>buggy_code.py</td><td>completed</td><td>completed</td><td>1/1</td></tr><tr><td>clean_code.py</td><td>completed</td><td>completed</td><td>1/1</td></tr></tbody></table></div></section>
+<section class="panel"><h2>失败记录</h2><p>没有执行失败记录。</p></section>
+<section class="panel"><details><summary>跳过文件（0）</summary><div class="table-wrap"><table><thead><tr><th>文件</th><th>原因</th></tr></thead><tbody></tbody></table></div></details></section>
+<footer>Token 用量：输入 4321 / 输出 949。完整结构化结果及复核轨迹见 report.json。</footer>
+</main><script>
+const search=document.getElementById('search'),severity=document.getElementById('severity'),status=document.getElementById('status');
+function filter(){let count=0;for(const card of document.querySelectorAll('.finding')){const s=status.value;
+const show=(!severity.value||card.dataset.severity===severity.value)&&(s==='all'||(s==='active'?card.dataset.status!=='rejected':card.dataset.status===s))&&card.textContent.toLowerCase().includes(search.value.toLowerCase());
+card.hidden=!show;if(show)count++;}document.getElementById('empty').hidden=count!==0;}
+for(const control of [search,severity,status])control.addEventListener('input',filter);filter();
+</script></body></html>

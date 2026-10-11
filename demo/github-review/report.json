@@ -1,0 +1,1637 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "https://github.com/psf/requests",
+    "name": "psf-requests",
+    "ref": "main",
+    "commit": "611c6162cbc4ac2020a2f91c7cfa4f3abf9bbb60",
+    "indexed_snapshot_sha256": "7afc7414bd4d8160b5432a453b13704604105503cd97f66fbc20c35d767d5ae5"
+  },
+  "run": {
+    "started_at": "2026-10-11T10:27:49.608482+00:00",
+    "status": "partial",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "options": {
+      "mode": "full",
+      "max_files": 3,
+      "max_file_bytes": 200000,
+      "max_calls": 20,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": "src/requests"
+    },
+    "elapsed_seconds": 35.833,
+    "api_calls": 12,
+    "usage": {
+      "prompt_tokens": 58253,
+      "completion_tokens": 3279
+    },
+    "indexed_python_files": 19,
+    "selected_files": 3,
+    "fully_reviewed_files": 3,
+    "semantic_coverage_percent": 15.8,
+    "active_findings": 5,
+    "rejected_findings": 19,
+    "severity_counts": {
+      "medium": 2,
+      "low": 3
+    },
+    "status_counts": {
+      "supported": 4,
+      "needs_context": 1
+    },
+    "postprocessed_at": "2026-10-11T10:32:28.876574+00:00",
+    "postprocessing": "同位置、同类别、同复核状态的已知静态规则与语义发现合并，原始调用及复核轨迹保留。"
+  },
+  "coverage": [
+    {
+      "path": "src/requests/__init__.py",
+      "lines": 219,
+      "reviewed_chunks": 2,
+      "total_chunks": 2,
+      "semantic_status": "completed",
+      "static_status": "completed"
+    },
+    {
+      "path": "src/requests/__version__.py",
+      "lines": 14,
+      "reviewed_chunks": 1,
+      "total_chunks": 1,
+      "semantic_status": "completed",
+      "static_status": "completed"
+    },
+    {
+      "path": "src/requests/_internal_utils.py",
+      "lines": 51,
+      "reviewed_chunks": 1,
+      "total_chunks": 1,
+      "semantic_status": "completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".coveragerc",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".git-blame-ignore-revs",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".gitignore",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".pre-commit-config.yaml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".readthedocs.yaml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "AUTHORS.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "HISTORY.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "NOTICE",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "README.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "pyproject.toml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "requirements-dev.txt",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "setup.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/AI_POLICY.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/CODEOWNERS",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/CODE_OF_CONDUCT.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/CONTRIBUTING.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/FUNDING.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/SECURITY.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/dependabot.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/Bug_report.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/Custom.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/Feature_request.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/close-issues.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/codeql-analysis.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/lint.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/lock-issues.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/publish.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/run-tests.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/typecheck.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": ".github/workflows/zizmor.yml",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/.nojekyll",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/api.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/make.bat",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/requirements.txt",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/_static/custom.css",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/_static/requests-sidebar.png",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/_templates/sidebar.html",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/_themes/.gitignore",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/_themes/LICENSE",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/_themes/flask_theme_support.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/community/faq.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/community/out-there.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/community/recommended.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/community/release-process.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/community/support.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/community/updates.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/community/vulnerabilities.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/dev/authors.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/dev/contributing.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/user/advanced.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/user/authentication.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/user/install.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "docs/user/quickstart.rst",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "ext/LICENSE",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "ext/kr.png",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "ext/psf.png",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "ext/requests-logo-compressed.png",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "ext/requests-logo.ai",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "ext/requests-logo.png",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "ext/requests-logo.svg",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "src/requests/py.typed",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tests/__init__.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/compat.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/conftest.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_adapters.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_help.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_hooks.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_lowlevel.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_packages.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_requests.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_structures.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_testserver.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/test_utils.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/utils.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/README.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/README.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/ca/Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/ca/ca-private.key",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tests/certs/expired/ca/ca.cnf",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/ca/ca.crt",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/ca/ca.srl",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/server/Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/server/cert.cnf",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/server/server.csr",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/expired/server/server.key",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tests/certs/expired/server/server.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tests/certs/mtls/Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/mtls/README.md",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/mtls/client/Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/mtls/client/cert.cnf",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/mtls/client/client.csr",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/mtls/client/client.key",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tests/certs/mtls/client/client.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tests/certs/valid/server/Makefile",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/valid/server/cert.cnf",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/valid/server/server.csr",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/certs/valid/server/server.key",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tests/certs/valid/server/server.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tests/testserver/__init__.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "tests/testserver/server.py",
+      "reason": "outside_scope"
+    },
+    {
+      "path": "src/requests/_types.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/adapters.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/api.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/auth.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/certs.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/compat.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/cookies.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/exceptions.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/help.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/hooks.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/models.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/packages.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/sessions.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/status_codes.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/structures.py",
+      "reason": "file_count_limit"
+    },
+    {
+      "path": "src/requests/utils.py",
+      "reason": "file_count_limit"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 3
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 3,
+      "diagnostics": 13
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 3,
+      "diagnostics": 6
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 17616,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1211,
+        "prompt_tokens": 5728,
+        "total_tokens": 6939,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 384
+        },
+        "prompt_cache_hit_tokens": 384,
+        "prompt_cache_miss_tokens": 5344
+      },
+      "elapsed_seconds": 20.482
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 18662,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 413,
+        "prompt_tokens": 6131,
+        "total_tokens": 6544,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5875
+      },
+      "elapsed_seconds": 2.547
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 18998,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 42,
+        "prompt_tokens": 6206,
+        "total_tokens": 6248,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5950
+      },
+      "elapsed_seconds": 0.925
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 20490,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 42,
+        "prompt_tokens": 6699,
+        "total_tokens": 6741,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 6144
+        },
+        "prompt_cache_hit_tokens": 6144,
+        "prompt_cache_miss_tokens": 555
+      },
+      "elapsed_seconds": 0.812
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 21149,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 500,
+        "prompt_tokens": 6964,
+        "total_tokens": 7464,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 6836
+      },
+      "elapsed_seconds": 2.183
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 18357,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 58,
+        "prompt_tokens": 6410,
+        "total_tokens": 6468,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6154
+      },
+      "elapsed_seconds": 0.896
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 22945,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 469,
+        "prompt_tokens": 7936,
+        "total_tokens": 8405,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 6400
+        },
+        "prompt_cache_hit_tokens": 6400,
+        "prompt_cache_miss_tokens": 1536
+      },
+      "elapsed_seconds": 2.17
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 9796,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 3311,
+        "total_tokens": 3317,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 2799
+      },
+      "elapsed_seconds": 0.585
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 2526,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 973,
+        "total_tokens": 979,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 461
+      },
+      "elapsed_seconds": 0.613
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 6839,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 252,
+        "prompt_tokens": 2380,
+        "total_tokens": 2632,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 1868
+      },
+      "elapsed_seconds": 1.582
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 6802,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 44,
+        "prompt_tokens": 2366,
+        "total_tokens": 2410,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 2110
+      },
+      "elapsed_seconds": 0.883
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 9002,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 236,
+        "prompt_tokens": 3149,
+        "total_tokens": 3385,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 2304
+        },
+        "prompt_cache_hit_tokens": 2304,
+        "prompt_cache_miss_tokens": 845
+      },
+      "elapsed_seconds": 1.978
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "src/requests/__init__.py",
+      "start": 67,
+      "end": 186
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "start": 41,
+      "end": 160
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "start": 155,
+      "end": 200
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "start": 200,
+      "end": 219
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "start": 41,
+      "end": 132
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "start": 1,
+      "end": 120
+    },
+    {
+      "path": "src/requests/_internal_utils.py",
+      "start": 21,
+      "end": 51
+    },
+    {
+      "path": "src/requests/_internal_utils.py",
+      "start": 1,
+      "end": 51
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "src/requests/__init__.py",
+      "start": 1,
+      "end": 180,
+      "findings": [
+        {
+          "path": "src/requests/__init__.py",
+          "line": 66,
+          "end_line": 78,
+          "severity": "medium",
+          "category": "bug",
+          "title": "使用 assert 做依赖版本校验，在 -O 优化模式下会被移除",
+          "explanation": "check_compatibility 使用 assert 来校验 urllib3 版本（第66、76、78行）。当 Python 以 -O / -OO 运行或设置 PYTHONOPTIMIZE 时，assert 语句会被完全剥离，导致版本兼容性检查静默失效，不兼容的 urllib3 版本不会被检测到，可能引发难以排查的运行时错误。第118行虽然捕获 AssertionError，但在优化模式下根本不会抛出。",
+          "trigger": "以 python -O 或 PYTHONOPTIMIZE=1 运行，且安装了不兼容的 urllib3 版本（如 major<1 或 1.x 且 minor<21）。",
+          "evidence": "第66行 `assert urllib3_version_list != [\"dev\"]`；第76行 `assert major >= 1`；第78行 `assert minor >= 21`；第118行 `except (AssertionError, ValueError)` 依赖 assert 抛异常。",
+          "suggestion": "改用显式条件判断并 raise 自定义异常（或直接 warnings.warn），例如 `if major < 1 or (major == 1 and minor < 21): raise ValueError(...)`，避免依赖 assert。",
+          "id": "84830f06f960",
+          "source": "llm",
+          "rule": "",
+          "snippet": "64: ) -> None:\n65:     urllib3_version_list = urllib3_version.split(\".\")[:3]\n66:     assert urllib3_version_list != [\"dev\"]  # Verify urllib3 isn't installed from git.\n67: \n68:     # Sometimes, urllib3 only reports its version as 16.1.\n69:     if len(urllib3_version_list) == 2:\n70:         urllib3_version_list.append(\"0\")\n71: \n72:     # Check urllib3 for compatibility.\n73:     major, minor, patch = urllib3_version_list  # noqa: F811\n74:     major, minor, patch = int(major), int(minor), int(patch)\n75:     # urllib3 >= 1.21.1\n76:     assert major >= 1\n77:     if major == 1:\n78:         assert minor >= 21\n79: \n80:     # Check charset_normalizer for compatibility.",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。"
+        },
+        {
+          "path": "src/requests/__init__.py",
+          "line": 85,
+          "end_line": 90,
+          "severity": "medium",
+          "category": "bug",
+          "title": "chardet/charset_normalizer 版本解析对非三段版本号会抛 ValueError 被静默吞掉",
+          "explanation": "第82-83行和第87-88行将版本号 split('.')[:3] 后直接 int() 转换。若版本字符串包含非数字段（如 '5.0.0.dev0'、'4.0.0rc1' 或 '3.0' 只有两段），int() 会抛 ValueError。该异常在第118行被捕获并降级为一条笼统的警告，导致真实的版本不兼容信息被掩盖，且对两段版本号（如 '3.0'）解包为三个变量会抛 ValueError。",
+          "trigger": "安装的 chardet 或 charset_normalizer 版本号形如 '5.0.0.dev0'、'4.0.0rc1' 或仅两段 '3.0'。",
+          "evidence": "第82行 `major, minor, patch = chardet_version.split(\".\")[:3]`；第83行 `int(major), int(minor), int(patch)`；第87-88行对 charset_normalizer 同样处理；第118行捕获 ValueError。",
+          "suggestion": "使用健壮的版本解析（如 packaging.version.parse 或正则提取数字段），并对解析失败单独给出明确警告，而非与 urllib3 检查混在同一 except 中。",
+          "id": "4a67cf6f2b6d",
+          "source": "llm",
+          "rule": "",
+          "snippet": "83:         major, minor, patch = int(major), int(minor), int(patch)\n84:         # chardet_version >= 3.0.2, < 8.0.0\n85:         assert (3, 0, 2) <= (major, minor, patch) < (8, 0, 0)\n86:     elif charset_normalizer_version:\n87:         major, minor, patch = charset_normalizer_version.split(\".\")[:3]\n88:         major, minor, patch = int(major), int(minor), int(patch)\n89:         # charset_normalizer >= 2.0.0 < 4.0.0\n90:         assert (2, 0, 0) <= (major, minor, patch) < (4, 0, 0)\n91:     else:\n92:         warnings.warn(",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。"
+        },
+        {
+          "path": "src/requests/__init__.py",
+          "line": 92,
+          "end_line": 96,
+          "severity": "low",
+          "category": "quality",
+          "title": "warnings.warn 缺少 stacklevel，警告定位到库内部而非调用方",
+          "explanation": "第92、108、119行的 warnings.warn 均未指定 stacklevel，默认 stacklevel=1，警告会指向 requests/__init__.py 内部而非触发导入的用户代码，用户难以定位来源。ruff B028 已标记此问题。",
+          "trigger": "导入 requests 时触发任一依赖警告。",
+          "evidence": "第92-96行、第108行、第119-124行的 warnings.warn 调用均无 stacklevel 参数；诊断中 B028 规则命中第92、108、119行。",
+          "suggestion": "为这些 warnings.warn 添加 stacklevel=2（或适当值），使警告指向调用方。",
+          "id": "3c59d00b4ed8",
+          "source": "llm",
+          "rule": "",
+          "snippet": "90:         assert (2, 0, 0) <= (major, minor, patch) < (4, 0, 0)\n91:     else:\n92:         warnings.warn(\n93:             \"Unable to find acceptable character detection dependency \"\n94:             \"(chardet or charset_normalizer).\",\n95:             RequestsDependencyWarning,\n96:         )\n97: \n98: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。"
+        },
+        {
+          "path": "src/requests/__init__.py",
+          "line": 102,
+          "end_line": 107,
+          "severity": "low",
+          "category": "bug",
+          "title": "_check_cryptography 版本比较对非数字段直接返回，可能漏报旧版本",
+          "explanation": "第102行将 cryptography 版本按 '.' 全部 int 转换，遇到任何非数字段（如 '1.3.4.dev0'、'2.0.0rc1'）会抛 ValueError 并在第103-104行直接 return，从而跳过旧版本检查。虽然对预发布版本跳过检查影响有限，但若版本号含非数字后缀且实际为旧版本，将不会发出 slowdown 警告。",
+          "trigger": "cryptography 版本字符串包含非数字段（如 '1.3.4.dev0'）。",
+          "evidence": "第102行 `list(map(int, cryptography_version.split(\".\")))`；第103-104行 `except ValueError: return`。",
+          "suggestion": "使用 packaging.version 解析版本，或在解析失败时仍尝试提取前导数字段进行比较，避免直接跳过检查。",
+          "id": "fea694874fb0",
+          "source": "llm",
+          "rule": "",
+          "snippet": "100:     # cryptography < 1.3.4\n101:     try:\n102:         cryptography_version_list = list(map(int, cryptography_version.split(\".\")))\n103:     except ValueError:\n104:         return\n105: \n106:     if cryptography_version_list < [1, 3, 4]:\n107:         warning = f\"Old version of cryptography ({cryptography_version_list}) may cause slowdown.\"\n108:         warnings.warn(warning, RequestsDependencyWarning)\n109: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。"
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "808f74e29a23",
+          "status": "rejected",
+          "reason": "B028 建议 warnings.warn 加 stacklevel，但此处是 requests 包导入时对依赖缺失的告警，指向调用者无意义；且这是库的既有设计，非缺陷。"
+        },
+        {
+          "id": "a785559f951a",
+          "status": "rejected",
+          "reason": "同上：_check_cryptography 在包导入期发出依赖版本告警，stacklevel 对导入期告警无实际价值，属误报。"
+        },
+        {
+          "id": "598644e43eb7",
+          "status": "rejected",
+          "reason": "依赖版本不匹配告警在模块导入时触发，无有意义的调用栈层级可指向，B028 不适用。"
+        },
+        {
+          "id": "c639460e7662",
+          "status": "rejected",
+          "reason": "requests/__init__.py 有意重导出 __version__ 元数据（__author__ 等）作为公共 API，F401 属误报。"
+        },
+        {
+          "id": "61f069c36df2",
+          "status": "rejected",
+          "reason": "同上，__author_email__ 是包公共元数据重导出，非未使用导入。"
+        },
+        {
+          "id": "8cd81d520b26",
+          "status": "rejected",
+          "reason": "同上，__build__ 为包公共元数据重导出，F401 误报。"
+        },
+        {
+          "id": "07d0a13cd829",
+          "status": "rejected",
+          "reason": "同上，__cake__ 为包公共元数据重导出，F401 误报。"
+        },
+        {
+          "id": "b2501e79d341",
+          "status": "rejected",
+          "reason": "同上，__copyright__ 为包公共元数据重导出，F401 误报。"
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "566795ec1f9a",
+          "status": "rejected",
+          "reason": "该导入位于 src/requests/__init__.py 的 from .__version__ import (...) 块中，是 requests 包对外暴露的公共元数据（__description__ 等），属于有意的 API 设计，并非未使用导入。ruff F401 在此为误报。"
+        },
+        {
+          "id": "25a3f22cee21",
+          "status": "rejected",
+          "reason": "同上，__license__ 是 requests 包有意重导出的公共元数据，供用户通过 requests.__license__ 访问，属于设计行为而非未使用导入。"
+        },
+        {
+          "id": "9a14b3ea3ecf",
+          "status": "rejected",
+          "reason": "同上，__title__ 为包公共元数据的有意重导出，非未使用导入。"
+        },
+        {
+          "id": "86148656f044",
+          "status": "rejected",
+          "reason": "同上，__url__ 为包公共元数据的有意重导出，非未使用导入。"
+        },
+        {
+          "id": "56b7a95196bc",
+          "status": "rejected",
+          "reason": "同上，__version__ 是 requests 包最核心的公共属性，被广泛使用，属有意重导出，F401 为误报。"
+        },
+        {
+          "id": "ff689a65526f",
+          "status": "rejected",
+          "reason": "该 assert 位于 check_compatibility 中，用于校验 urllib3 版本；调用处（第112-124行）已用 try/except (AssertionError, ValueError) 捕获并转为 RequestsDependencyWarning。这是有意的依赖兼容性检查设计，非安全缺陷。"
+        },
+        {
+          "id": "31c81c201c59",
+          "status": "rejected",
+          "reason": "assert major >= 1 是依赖版本兼容性检查的一部分，异常被上层 try/except 捕获并降级为警告，属有意设计，非安全漏洞。"
+        },
+        {
+          "id": "9ee2094ffe57",
+          "status": "rejected",
+          "reason": "assert minor >= 21 同为 urllib3 版本兼容性检查，异常被上层捕获转为 RequestsDependencyWarning，属有意设计，非安全漏洞。"
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "d39c11fa67f0",
+          "status": "supported",
+          "reason": "第85行确实使用 assert 校验 chardet 版本范围。在 -O/PYTHONOPTIMIZE 下 assert 被剥离，版本检查静默失效。代码依据充分，属有意设计但存在优化模式失效风险。"
+        },
+        {
+          "id": "115836fdcb8f",
+          "status": "supported",
+          "reason": "第90行同样使用 assert 校验 charset_normalizer 版本范围，优化模式下会被移除，检查失效。代码依据充分。"
+        },
+        {
+          "id": "84830f06f960",
+          "status": "supported",
+          "reason": "第66、76、78行均用 assert 做 urllib3 版本校验，第118行 except 依赖 AssertionError。以 -O 运行时 assert 被剥离，兼容性检查静默失效。代码依据充分，未运行验证。"
+        },
+        {
+          "id": "4a67cf6f2b6d",
+          "status": "needs_context",
+          "reason": "第82-83、87-88行对 split('.')[:3] 后 int() 转换，非数字段或两段版本确会抛 ValueError 并被第118行吞掉。但 chardet/charset_normalizer 实际发布版本号格式需结合具体依赖版本确认，是否真会触发取决于安装的版本字符串，属依赖上下文。"
+        },
+        {
+          "id": "3c59d00b4ed8",
+          "status": "supported",
+          "reason": "第92、108、119行的 warnings.warn 均未传 stacklevel，默认指向库内部而非调用方。代码依据充分，属可改进的质量问题。"
+        },
+        {
+          "id": "fea694874fb0",
+          "status": "rejected",
+          "reason": "第102-104行对非数字段版本直接 return 跳过检查，但该函数仅用于对 cryptography<1.3.4 发出 slowdown 警告，属非关键提示。含非数字后缀的版本（如 dev/rc）通常为新版本，跳过旧版本警告不构成实际漏报，属有意容错设计。"
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "src/requests/__init__.py",
+      "start": 181,
+      "end": 219,
+      "findings": []
+    },
+    {
+      "stage": "review",
+      "path": "src/requests/__version__.py",
+      "start": 1,
+      "end": 14,
+      "findings": []
+    },
+    {
+      "stage": "review",
+      "path": "src/requests/_internal_utils.py",
+      "start": 1,
+      "end": 51,
+      "findings": [
+        {
+          "path": "src/requests/_internal_utils.py",
+          "line": 46,
+          "end_line": 46,
+          "severity": "low",
+          "category": "quality",
+          "title": "使用 assert 做类型校验，优化模式下会被移除",
+          "explanation": "unicode_is_ascii 用 assert isinstance(u_string, str) 做参数校验。当 Python 以 -O 或 -OO 运行时，assert 语句会被完全剥离，函数将不再校验输入类型。此时若传入 bytes，u_string.encode(\"ascii\") 会抛出 AttributeError 而非预期的断言错误，错误信息与调用方预期不一致，且校验行为随运行模式变化。",
+          "trigger": "以 python -O 运行，并向 unicode_is_ascii 传入非 str 对象（如 bytes）。",
+          "evidence": "第 46 行：assert isinstance(u_string, str)；第 48 行随后调用 u_string.encode(\"ascii\")，依赖该断言保证类型。",
+          "suggestion": "若需强制类型校验，改为显式抛出 TypeError，例如 if not isinstance(u_string, str): raise TypeError(...)；若仅用于调试，可保留但需明确其在校验上不可靠。",
+          "id": "47b6473eaaae",
+          "source": "llm",
+          "rule": "",
+          "snippet": "44:     :rtype: bool\n45:     \"\"\"\n46:     assert isinstance(u_string, str)\n47:     try:\n48:         u_string.encode(\"ascii\")",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。"
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "a81bdb08f6a7",
+          "status": "rejected",
+          "reason": "Bandit B101 仅报告 assert 的存在，属通用风格告警。此处 assert 是内部工具函数的类型前置条件，函数签名已标注 u_string: str，且该函数为 requests 内部使用，不构成安全漏洞。无证据表明可被外部输入触发导致安全影响，属误报/低价值告警。"
+        },
+        {
+          "id": "47b6473eaaae",
+          "status": "rejected",
+          "reason": "该 assert 是内部辅助函数 unicode_is_ascii 的类型前置条件，函数签名已声明 u_string: str，调用方为 requests 内部代码，不面向不可信外部输入。在 -O 模式下断言被剥离后，若传入 bytes，u_string.encode('ascii') 仍会正常执行（bytes 也有 encode 方法），并非如候选所述抛 AttributeError；且该函数仅用于判断 ASCII，不承担安全校验职责。因此不构成实际缺陷，属误报。"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "src/requests/__init__.py",
+      "line": 66,
+      "end_line": 78,
+      "severity": "medium",
+      "category": "bug",
+      "title": "使用 assert 做依赖版本校验，在 -O 优化模式下会被移除",
+      "explanation": "check_compatibility 使用 assert 来校验 urllib3 版本（第66、76、78行）。当 Python 以 -O / -OO 运行或设置 PYTHONOPTIMIZE 时，assert 语句会被完全剥离，导致版本兼容性检查静默失效，不兼容的 urllib3 版本不会被检测到，可能引发难以排查的运行时错误。第118行虽然捕获 AssertionError，但在优化模式下根本不会抛出。",
+      "trigger": "以 python -O 或 PYTHONOPTIMIZE=1 运行，且安装了不兼容的 urllib3 版本（如 major<1 或 1.x 且 minor<21）。",
+      "evidence": "第66行 `assert urllib3_version_list != [\"dev\"]`；第76行 `assert major >= 1`；第78行 `assert minor >= 21`；第118行 `except (AssertionError, ValueError)` 依赖 assert 抛异常。",
+      "suggestion": "改用显式条件判断并 raise 自定义异常（或直接 warnings.warn），例如 `if major < 1 or (major == 1 and minor < 21): raise ValueError(...)`，避免依赖 assert。",
+      "id": "84830f06f960",
+      "source": "llm",
+      "rule": "",
+      "snippet": "64: ) -> None:\n65:     urllib3_version_list = urllib3_version.split(\".\")[:3]\n66:     assert urllib3_version_list != [\"dev\"]  # Verify urllib3 isn't installed from git.\n67: \n68:     # Sometimes, urllib3 only reports its version as 16.1.\n69:     if len(urllib3_version_list) == 2:\n70:         urllib3_version_list.append(\"0\")\n71: \n72:     # Check urllib3 for compatibility.\n73:     major, minor, patch = urllib3_version_list  # noqa: F811\n74:     major, minor, patch = int(major), int(minor), int(patch)\n75:     # urllib3 >= 1.21.1\n76:     assert major >= 1\n77:     if major == 1:\n78:         assert minor >= 21\n79: \n80:     # Check charset_normalizer for compatibility.",
+      "status": "supported",
+      "verification": "第66、76、78行均用 assert 做 urllib3 版本校验，第118行 except 依赖 AssertionError。以 -O 运行时 assert 被剥离，兼容性检查静默失效。代码依据充分，未运行验证。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 85,
+      "end_line": 90,
+      "severity": "medium",
+      "category": "bug",
+      "title": "chardet/charset_normalizer 版本解析对非三段版本号会抛 ValueError 被静默吞掉",
+      "explanation": "第82-83行和第87-88行将版本号 split('.')[:3] 后直接 int() 转换。若版本字符串包含非数字段（如 '5.0.0.dev0'、'4.0.0rc1' 或 '3.0' 只有两段），int() 会抛 ValueError。该异常在第118行被捕获并降级为一条笼统的警告，导致真实的版本不兼容信息被掩盖，且对两段版本号（如 '3.0'）解包为三个变量会抛 ValueError。",
+      "trigger": "安装的 chardet 或 charset_normalizer 版本号形如 '5.0.0.dev0'、'4.0.0rc1' 或仅两段 '3.0'。",
+      "evidence": "第82行 `major, minor, patch = chardet_version.split(\".\")[:3]`；第83行 `int(major), int(minor), int(patch)`；第87-88行对 charset_normalizer 同样处理；第118行捕获 ValueError。",
+      "suggestion": "使用健壮的版本解析（如 packaging.version.parse 或正则提取数字段），并对解析失败单独给出明确警告，而非与 urllib3 检查混在同一 except 中。",
+      "id": "4a67cf6f2b6d",
+      "source": "llm",
+      "rule": "",
+      "snippet": "83:         major, minor, patch = int(major), int(minor), int(patch)\n84:         # chardet_version >= 3.0.2, < 8.0.0\n85:         assert (3, 0, 2) <= (major, minor, patch) < (8, 0, 0)\n86:     elif charset_normalizer_version:\n87:         major, minor, patch = charset_normalizer_version.split(\".\")[:3]\n88:         major, minor, patch = int(major), int(minor), int(patch)\n89:         # charset_normalizer >= 2.0.0 < 4.0.0\n90:         assert (2, 0, 0) <= (major, minor, patch) < (4, 0, 0)\n91:     else:\n92:         warnings.warn(",
+      "status": "needs_context",
+      "verification": "第82-83、87-88行对 split('.')[:3] 后 int() 转换，非数字段或两段版本确会抛 ValueError 并被第118行吞掉。但 chardet/charset_normalizer 实际发布版本号格式需结合具体依赖版本确认，是否真会触发取决于安装的版本字符串，属依赖上下文。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 92,
+      "end_line": 96,
+      "severity": "low",
+      "category": "quality",
+      "title": "warnings.warn 缺少 stacklevel，警告定位到库内部而非调用方",
+      "explanation": "第92、108、119行的 warnings.warn 均未指定 stacklevel，默认 stacklevel=1，警告会指向 requests/__init__.py 内部而非触发导入的用户代码，用户难以定位来源。ruff B028 已标记此问题。",
+      "trigger": "导入 requests 时触发任一依赖警告。",
+      "evidence": "第92-96行、第108行、第119-124行的 warnings.warn 调用均无 stacklevel 参数；诊断中 B028 规则命中第92、108、119行。",
+      "suggestion": "为这些 warnings.warn 添加 stacklevel=2（或适当值），使警告指向调用方。",
+      "id": "3c59d00b4ed8",
+      "source": "llm",
+      "rule": "",
+      "snippet": "90:         assert (2, 0, 0) <= (major, minor, patch) < (4, 0, 0)\n91:     else:\n92:         warnings.warn(\n93:             \"Unable to find acceptable character detection dependency \"\n94:             \"(chardet or charset_normalizer).\",\n95:             RequestsDependencyWarning,\n96:         )\n97: \n98: ",
+      "status": "supported",
+      "verification": "第92、108、119行的 warnings.warn 均未传 stacklevel，默认指向库内部而非调用方。代码依据充分，属可改进的质量问题。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 102,
+      "end_line": 107,
+      "severity": "low",
+      "category": "bug",
+      "title": "_check_cryptography 版本比较对非数字段直接返回，可能漏报旧版本",
+      "explanation": "第102行将 cryptography 版本按 '.' 全部 int 转换，遇到任何非数字段（如 '1.3.4.dev0'、'2.0.0rc1'）会抛 ValueError 并在第103-104行直接 return，从而跳过旧版本检查。虽然对预发布版本跳过检查影响有限，但若版本号含非数字后缀且实际为旧版本，将不会发出 slowdown 警告。",
+      "trigger": "cryptography 版本字符串包含非数字段（如 '1.3.4.dev0'）。",
+      "evidence": "第102行 `list(map(int, cryptography_version.split(\".\")))`；第103-104行 `except ValueError: return`。",
+      "suggestion": "使用 packaging.version 解析版本，或在解析失败时仍尝试提取前导数字段进行比较，避免直接跳过检查。",
+      "id": "fea694874fb0",
+      "source": "llm",
+      "rule": "",
+      "snippet": "100:     # cryptography < 1.3.4\n101:     try:\n102:         cryptography_version_list = list(map(int, cryptography_version.split(\".\")))\n103:     except ValueError:\n104:         return\n105: \n106:     if cryptography_version_list < [1, 3, 4]:\n107:         warning = f\"Old version of cryptography ({cryptography_version_list}) may cause slowdown.\"\n108:         warnings.warn(warning, RequestsDependencyWarning)\n109: ",
+      "status": "rejected",
+      "verification": "第102-104行对非数字段版本直接 return 跳过检查，但该函数仅用于对 cryptography<1.3.4 发出 slowdown 警告，属非关键提示。含非数字后缀的版本（如 dev/rc）通常为新版本，跳过旧版本警告不构成实际漏报，属有意容错设计。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/_internal_utils.py",
+      "line": 46,
+      "end_line": 46,
+      "severity": "low",
+      "category": "quality",
+      "title": "使用 assert 做类型校验，优化模式下会被移除",
+      "explanation": "unicode_is_ascii 用 assert isinstance(u_string, str) 做参数校验。当 Python 以 -O 或 -OO 运行时，assert 语句会被完全剥离，函数将不再校验输入类型。此时若传入 bytes，u_string.encode(\"ascii\") 会抛出 AttributeError 而非预期的断言错误，错误信息与调用方预期不一致，且校验行为随运行模式变化。",
+      "trigger": "以 python -O 运行，并向 unicode_is_ascii 传入非 str 对象（如 bytes）。",
+      "evidence": "第 46 行：assert isinstance(u_string, str)；第 48 行随后调用 u_string.encode(\"ascii\")，依赖该断言保证类型。",
+      "suggestion": "若需强制类型校验，改为显式抛出 TypeError，例如 if not isinstance(u_string, str): raise TypeError(...)；若仅用于调试，可保留但需明确其在校验上不可靠。",
+      "id": "47b6473eaaae",
+      "source": "llm",
+      "rule": "",
+      "snippet": "44:     :rtype: bool\n45:     \"\"\"\n46:     assert isinstance(u_string, str)\n47:     try:\n48:         u_string.encode(\"ascii\")",
+      "status": "rejected",
+      "verification": "该 assert 是内部辅助函数 unicode_is_ascii 的类型前置条件，函数签名已声明 u_string: str，调用方为 requests 内部代码，不面向不可信外部输入。在 -O 模式下断言被剥离后，若传入 bytes，u_string.encode('ascii') 仍会正常执行（bytes 也有 encode 方法），并非如候选所述抛 AttributeError；且该函数仅用于判断 ASCII，不承担安全校验职责。因此不构成实际缺陷，属误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 66,
+      "end_line": 66,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "ff689a65526f",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "64: ) -> None:\n65:     urllib3_version_list = urllib3_version.split(\".\")[:3]\n66:     assert urllib3_version_list != [\"dev\"]  # Verify urllib3 isn't installed from git.\n67: \n68:     # Sometimes, urllib3 only reports its version as 16.1.",
+      "status": "rejected",
+      "verification": "该 assert 位于 check_compatibility 中，用于校验 urllib3 版本；调用处（第112-124行）已用 try/except (AssertionError, ValueError) 捕获并转为 RequestsDependencyWarning。这是有意的依赖兼容性检查设计，非安全缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 76,
+      "end_line": 76,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "31c81c201c59",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "74:     major, minor, patch = int(major), int(minor), int(patch)\n75:     # urllib3 >= 1.21.1\n76:     assert major >= 1\n77:     if major == 1:\n78:         assert minor >= 21",
+      "status": "rejected",
+      "verification": "assert major >= 1 是依赖版本兼容性检查的一部分，异常被上层 try/except 捕获并降级为警告，属有意设计，非安全漏洞。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 78,
+      "end_line": 78,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "9ee2094ffe57",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "76:     assert major >= 1\n77:     if major == 1:\n78:         assert minor >= 21\n79: \n80:     # Check charset_normalizer for compatibility.",
+      "status": "rejected",
+      "verification": "assert minor >= 21 同为 urllib3 版本兼容性检查，异常被上层捕获转为 RequestsDependencyWarning，属有意设计，非安全漏洞。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 85,
+      "end_line": 85,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "d39c11fa67f0",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "83:         major, minor, patch = int(major), int(minor), int(patch)\n84:         # chardet_version >= 3.0.2, < 8.0.0\n85:         assert (3, 0, 2) <= (major, minor, patch) < (8, 0, 0)\n86:     elif charset_normalizer_version:\n87:         major, minor, patch = charset_normalizer_version.split(\".\")[:3]",
+      "status": "supported",
+      "verification": "第85行确实使用 assert 校验 chardet 版本范围。在 -O/PYTHONOPTIMIZE 下 assert 被剥离，版本检查静默失效。代码依据充分，属有意设计但存在优化模式失效风险。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 90,
+      "end_line": 90,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "115836fdcb8f",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "88:         major, minor, patch = int(major), int(minor), int(patch)\n89:         # charset_normalizer >= 2.0.0 < 4.0.0\n90:         assert (2, 0, 0) <= (major, minor, patch) < (4, 0, 0)\n91:     else:\n92:         warnings.warn(",
+      "status": "supported",
+      "verification": "第90行同样使用 assert 校验 charset_normalizer 版本范围，优化模式下会被移除，检查失效。代码依据充分。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 92,
+      "end_line": 92,
+      "severity": "low",
+      "category": "quality",
+      "title": "B028: No explicit `stacklevel` keyword argument found",
+      "explanation": "No explicit `stacklevel` keyword argument found",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff B028: No explicit `stacklevel` keyword argument found",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "808f74e29a23",
+      "source": "ruff",
+      "rule": "B028",
+      "snippet": "90:         assert (2, 0, 0) <= (major, minor, patch) < (4, 0, 0)\n91:     else:\n92:         warnings.warn(\n93:             \"Unable to find acceptable character detection dependency \"\n94:             \"(chardet or charset_normalizer).\",",
+      "status": "rejected",
+      "verification": "B028 建议 warnings.warn 加 stacklevel，但此处是 requests 包导入时对依赖缺失的告警，指向调用者无意义；且这是库的既有设计，非缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 108,
+      "end_line": 108,
+      "severity": "low",
+      "category": "quality",
+      "title": "B028: No explicit `stacklevel` keyword argument found",
+      "explanation": "No explicit `stacklevel` keyword argument found",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff B028: No explicit `stacklevel` keyword argument found",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "a785559f951a",
+      "source": "ruff",
+      "rule": "B028",
+      "snippet": "106:     if cryptography_version_list < [1, 3, 4]:\n107:         warning = f\"Old version of cryptography ({cryptography_version_list}) may cause slowdown.\"\n108:         warnings.warn(warning, RequestsDependencyWarning)\n109: \n110: ",
+      "status": "rejected",
+      "verification": "同上：_check_cryptography 在包导入期发出依赖版本告警，stacklevel 对导入期告警无实际价值，属误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 119,
+      "end_line": 119,
+      "severity": "low",
+      "category": "quality",
+      "title": "B028: No explicit `stacklevel` keyword argument found",
+      "explanation": "No explicit `stacklevel` keyword argument found",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff B028: No explicit `stacklevel` keyword argument found",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "598644e43eb7",
+      "source": "ruff",
+      "rule": "B028",
+      "snippet": "117:     )\n118: except (AssertionError, ValueError):\n119:     warnings.warn(\n120:         f\"urllib3 ({urllib3.__version__}) or chardet \"\n121:         f\"({chardet_version})/charset_normalizer ({charset_normalizer_version}) \"",
+      "status": "rejected",
+      "verification": "依赖版本不匹配告警在模块导入时触发，无有意义的调用栈层级可指向，B028 不适用。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 160,
+      "end_line": 160,
+      "severity": "low",
+      "category": "quality",
+      "title": "F401: `.__version__.__author__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "explanation": "`.__version__.__author__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff F401: `.__version__.__author__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "c639460e7662",
+      "source": "ruff",
+      "rule": "F401",
+      "snippet": "158: from . import packages, utils\n159: from .__version__ import (\n160:     __author__,\n161:     __author_email__,\n162:     __build__,",
+      "status": "rejected",
+      "verification": "requests/__init__.py 有意重导出 __version__ 元数据（__author__ 等）作为公共 API，F401 属误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 161,
+      "end_line": 161,
+      "severity": "low",
+      "category": "quality",
+      "title": "F401: `.__version__.__author_email__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "explanation": "`.__version__.__author_email__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff F401: `.__version__.__author_email__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "61f069c36df2",
+      "source": "ruff",
+      "rule": "F401",
+      "snippet": "159: from .__version__ import (\n160:     __author__,\n161:     __author_email__,\n162:     __build__,\n163:     __cake__,",
+      "status": "rejected",
+      "verification": "同上，__author_email__ 是包公共元数据重导出，非未使用导入。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 162,
+      "end_line": 162,
+      "severity": "low",
+      "category": "quality",
+      "title": "F401: `.__version__.__build__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "explanation": "`.__version__.__build__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff F401: `.__version__.__build__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "8cd81d520b26",
+      "source": "ruff",
+      "rule": "F401",
+      "snippet": "160:     __author__,\n161:     __author_email__,\n162:     __build__,\n163:     __cake__,\n164:     __copyright__,",
+      "status": "rejected",
+      "verification": "同上，__build__ 为包公共元数据重导出，F401 误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 163,
+      "end_line": 163,
+      "severity": "low",
+      "category": "quality",
+      "title": "F401: `.__version__.__cake__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "explanation": "`.__version__.__cake__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff F401: `.__version__.__cake__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "07d0a13cd829",
+      "source": "ruff",
+      "rule": "F401",
+      "snippet": "161:     __author_email__,\n162:     __build__,\n163:     __cake__,\n164:     __copyright__,\n165:     __description__,",
+      "status": "rejected",
+      "verification": "同上，__cake__ 为包公共元数据重导出，F401 误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 164,
+      "end_line": 164,
+      "severity": "low",
+      "category": "quality",
+      "title": "F401: `.__version__.__copyright__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "explanation": "`.__version__.__copyright__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff F401: `.__version__.__copyright__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "b2501e79d341",
+      "source": "ruff",
+      "rule": "F401",
+      "snippet": "162:     __build__,\n163:     __cake__,\n164:     __copyright__,\n165:     __description__,\n166:     __license__,",
+      "status": "rejected",
+      "verification": "同上，__copyright__ 为包公共元数据重导出，F401 误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 165,
+      "end_line": 165,
+      "severity": "low",
+      "category": "quality",
+      "title": "F401: `.__version__.__description__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "explanation": "`.__version__.__description__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff F401: `.__version__.__description__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "566795ec1f9a",
+      "source": "ruff",
+      "rule": "F401",
+      "snippet": "163:     __cake__,\n164:     __copyright__,\n165:     __description__,\n166:     __license__,\n167:     __title__,",
+      "status": "rejected",
+      "verification": "该导入位于 src/requests/__init__.py 的 from .__version__ import (...) 块中，是 requests 包对外暴露的公共元数据（__description__ 等），属于有意的 API 设计，并非未使用导入。ruff F401 在此为误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 166,
+      "end_line": 166,
+      "severity": "low",
+      "category": "quality",
+      "title": "F401: `.__version__.__license__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "explanation": "`.__version__.__license__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff F401: `.__version__.__license__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "25a3f22cee21",
+      "source": "ruff",
+      "rule": "F401",
+      "snippet": "164:     __copyright__,\n165:     __description__,\n166:     __license__,\n167:     __title__,\n168:     __url__,",
+      "status": "rejected",
+      "verification": "同上，__license__ 是 requests 包有意重导出的公共元数据，供用户通过 requests.__license__ 访问，属于设计行为而非未使用导入。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 167,
+      "end_line": 167,
+      "severity": "low",
+      "category": "quality",
+      "title": "F401: `.__version__.__title__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "explanation": "`.__version__.__title__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff F401: `.__version__.__title__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "9a14b3ea3ecf",
+      "source": "ruff",
+      "rule": "F401",
+      "snippet": "165:     __description__,\n166:     __license__,\n167:     __title__,\n168:     __url__,\n169:     __version__,",
+      "status": "rejected",
+      "verification": "同上，__title__ 为包公共元数据的有意重导出，非未使用导入。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 168,
+      "end_line": 168,
+      "severity": "low",
+      "category": "quality",
+      "title": "F401: `.__version__.__url__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "explanation": "`.__version__.__url__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff F401: `.__version__.__url__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "86148656f044",
+      "source": "ruff",
+      "rule": "F401",
+      "snippet": "166:     __license__,\n167:     __title__,\n168:     __url__,\n169:     __version__,\n170: )",
+      "status": "rejected",
+      "verification": "同上，__url__ 为包公共元数据的有意重导出，非未使用导入。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/__init__.py",
+      "line": 169,
+      "end_line": 169,
+      "severity": "low",
+      "category": "quality",
+      "title": "F401: `.__version__.__version__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "explanation": "`.__version__.__version__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff F401: `.__version__.__version__` imported but unused; consider removing, adding to `__all__`, or using a redundant alias",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "56b7a95196bc",
+      "source": "ruff",
+      "rule": "F401",
+      "snippet": "167:     __title__,\n168:     __url__,\n169:     __version__,\n170: )\n171: from .api import delete, get, head, options, patch, post, put, request",
+      "status": "rejected",
+      "verification": "同上，__version__ 是 requests 包最核心的公共属性，被广泛使用，属有意重导出，F401 为误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "src/requests/_internal_utils.py",
+      "line": 46,
+      "end_line": 46,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "a81bdb08f6a7",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "44:     :rtype: bool\n45:     \"\"\"\n46:     assert isinstance(u_string, str)\n47:     try:\n48:         u_string.encode(\"ascii\")",
+      "status": "rejected",
+      "verification": "Bandit B101 仅报告 assert 的存在，属通用风格告警。此处 assert 是内部工具函数的类型前置条件，函数签名已标注 u_string: str，且该函数为 requests 内部使用，不构成安全漏洞。无证据表明可被外部输入触发导致安全影响，属误报/低价值告警。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "仅支持 Python；外部依赖和业务约定可能缺失。",
+    "审查基于静态诊断与模型代码推断，未执行待审代码或复现测试。",
+    "supported 表示模型复核认为有代码依据，不代表运行证明或无误报保证。",
+    "覆盖率以所选 scope 内已索引 Python 文件为分母；索引限制及未支持文件另列。",
+    "按预算分块；import 关联和只读查询提供有限跨文件上下文。"
+  ]
+}
