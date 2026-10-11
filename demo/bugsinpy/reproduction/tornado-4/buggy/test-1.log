@@ -1,0 +1,30 @@
+ERROR:tornado.application:Uncaught exception GET /static/robots.txt (127.0.0.1)
+HTTPServerRequest(protocol='http', host='127.0.0.1:34493', method='GET', uri='/static/robots.txt', version='HTTP/1.1', remote_ip='127.0.0.1')
+Traceback (most recent call last):
+  File "/work/tornado/web.py", line 1706, in _execute
+    result = await result
+  File "/work/tornado/web.py", line 2643, in get
+    for chunk in content:
+  File "/work/tornado/web.py", line 2801, in get_content
+    file.seek(start)
+OSError: [Errno 22] Invalid argument
+ERROR:tornado.access:500 GET /static/robots.txt (127.0.0.1) 0.54ms
+======================================================================
+FAIL: test_static_with_range_neg_past_start (tornado.test.web_test.StaticFileTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/tornado/testing.py", line 93, in __call__
+    result = self.orig_method(*args, **kwargs)
+  File "/work/tornado/test/web_test.py", line 1285, in test_static_with_range_neg_past_start
+    "/static/robots.txt", headers={"Range": "bytes=-1000000"}
+  File "/work/tornado/test/web_test.py", line 1154, in get_and_head
+    % (h, head_response.headers.get(h), get_response.headers.get(h)),
+AssertionError: 'text/plain' != 'text/html; charset=UTF-8'
+- text/plain
++ text/html; charset=UTF-8
+ : Content-Type differs between GET (text/plain) and HEAD (text/html; charset=UTF-8)
+
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+
+FAILED (failures=1)

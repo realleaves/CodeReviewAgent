@@ -1,0 +1,708 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "https://github.com/ytdl-org/youtube-dl",
+    "name": "youtube-dl",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "84f085d4bdb66ee025fb337bcd571eab7469da97",
+    "indexed_snapshot_sha256": "de101f03962a0ec970eeecb6df177e6f3570d405f0d18f974ec595b5ff9bde2f"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:41:20.462805+00:00",
+    "status": "completed",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "full",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 9.415,
+    "api_calls": 3,
+    "usage": {
+      "prompt_tokens": 22152,
+      "completion_tokens": 1327
+    },
+    "indexed_python_files": 801,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 3,
+    "rejected_findings": 1,
+    "severity_counts": {
+      "medium": 1,
+      "low": 2
+    },
+    "status_counts": {
+      "supported": 2,
+      "needs_context": 1
+    }
+  },
+  "coverage": [
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "lines": 2624,
+      "windows": [
+        [
+          1962,
+          2067
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "ChangeLog",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "youtube-dl.plugin.zsh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "bin/youtube-dl",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage_w.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/bash-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/fish-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/posix-locale.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/run_tests.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/wine-py2exe.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/zsh-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/module_guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/supportedsites.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/parameters.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testcert.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "test/versions.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassConstruction.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstantInt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/DictCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/EqualsOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/LocalVars.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/MemberAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/NeOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateVoidCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticRetrieval.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringBasics.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringCharCodeAt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringConversion.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/f4m/custom_base_url.f4m",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/pluzz_francetv_11507.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/teamcoco_11995.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/toggle_mobile_12211.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/twitch_vod.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/vidio.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/mpd/float_duration.mpd",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/mpd/urls_only.mpd",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_InfoExtractor.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDL.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_aes.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_age_restriction.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_all_urls.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_cache.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_compat.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_download.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_execution.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_iqiyi_sdk_interpreter.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_jsinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_netrc.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_options.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_postprocessors.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_socks.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_subtitles.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_swfinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_unicode_literals.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_update.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_verbose_output.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_write_annotations.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_chapters.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_lists.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_signature.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 37
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 9
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 21639,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 738,
+        "prompt_tokens": 6964,
+        "total_tokens": 7702,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 6452
+      },
+      "elapsed_seconds": 4.498
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 21172,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 73,
+        "prompt_tokens": 6481,
+        "total_tokens": 6554,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6225
+      },
+      "elapsed_seconds": 1.039
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 30644,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 516,
+        "prompt_tokens": 8707,
+        "total_tokens": 9223,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 6528
+        },
+        "prompt_cache_hit_tokens": 6528,
+        "prompt_cache_miss_tokens": 2179
+      },
+      "elapsed_seconds": 2.995
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1947,
+      "end": 2066
+    },
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1900,
+      "end": 1965
+    },
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "start": 2066,
+      "end": 2130
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2067,
+      "findings": [
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 1972,
+          "end_line": 1978,
+          "severity": "medium",
+          "category": "bug",
+          "title": "segment_urls 索引可能越界导致 IndexError",
+          "explanation": "在 'segment_urls' 与 's' 同时存在的分支中，代码按 SegmentTimeline 的 s 元素及其 r 重复次数展开片段，并用递增的 segment_index 去索引 representation_ms_info['segment_urls']。当清单中 SegmentTimeline 声明的片段总数（sum(r+1)）大于实际提供的 segment_urls 数量时，segment_index 会超出列表长度，抛出 IndexError，导致整个 DASH 解析失败而不是跳过或告警。",
+          "trigger": "DASH MPD 中 SegmentTimeline 的 s 元素重复计数总和大于 SegmentTemplate/SegmentList 提供的 segment_urls 数量（清单不一致或恶意构造）。",
+          "evidence": "1973: segment_uri = representation_ms_info['segment_urls'][segment_index] 在 1972 的 for r in range(s.get('r', 0) + 1) 内无条件按 segment_index 取值，1978 递增，无边界检查。",
+          "suggestion": "在索引前检查 segment_index < len(representation_ms_info['segment_urls'])，越界时 break 或 report_warning 并停止展开，避免解析崩溃。",
+          "id": "a7e3eee82eaf",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1970:                             for s in representation_ms_info['s']:\n1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({\n1975:                                         location_key(segment_uri): segment_uri,\n1976:                                         'duration': duration,\n1977:                                     })\n1978:                                     segment_index += 1\n1979:                             representation_ms_info['fragments'] = fragments\n1980:                         elif 'segment_urls' in representation_ms_info:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 1985,
+          "end_line": 1987,
+          "severity": "low",
+          "category": "bug",
+          "title": "segment_duration 为 0 时被当作缺失",
+          "explanation": "计算 segment_duration 后，在 1992 行用 `if segment_duration:` 判断是否写入 fragment['duration']。当清单中 segment_duration 显式为 0（或 timescale 导致结果为 0.0）时，该真值判断为假，duration 不会被设置，与“存在但为 0”的语义不符。",
+          "trigger": "representation_ms_info 含 segment_duration 且其值为 0（或 float_or_none 结果为 0.0）。",
+          "evidence": "1985-1987 计算 segment_duration；1992: if segment_duration: 使用真值判断而非 `is not None`。",
+          "suggestion": "改为 `if segment_duration is not None:` 以区分缺失与零值。",
+          "id": "9a1eadebcee5",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1983:                             # https://github.com/rg3/youtube-dl/pull/14844\n1984:                             fragments = []\n1985:                             segment_duration = float_or_none(\n1986:                                 representation_ms_info['segment_duration'],\n1987:                                 representation_ms_info['timescale']) if 'segment_duration' in representation_ms_info else None\n1988:                             for segment_url in representation_ms_info['segment_urls']:\n1989:                                 fragment = {",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 2044,
+          "end_line": 2045,
+          "severity": "low",
+          "category": "quality",
+          "title": "ISM 清单 Protection 检测过于宽泛",
+          "explanation": "_parse_ism_formats 在 ism_doc.find('Protection') is not None 时直接返回空列表。find 只匹配直接子元素且不区分命名空间/具体 Protection 类型，任何 Protection 元素（包括非 DRM 的元数据）都会导致整个清单被判定为不可用，可能漏掉可播放的流。",
+          "trigger": "ISM 清单根下存在任意名为 Protection 的子元素（即使并非加密保护）。",
+          "evidence": "2044: if ism_doc.get('IsLive') == 'TRUE' or ism_doc.find('Protection') is not None: return []",
+          "suggestion": "仅在检测到实际加密保护（如 ProtectionHeader/SystemID 表明 DRM）时返回空，或对 Protection 做更精确的判定并给出告警。",
+          "id": "6b8b6f7017d1",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2042:             https://msdn.microsoft.com/en-us/library/ff469518.aspx\n2043:         \"\"\"\n2044:         if ism_doc.get('IsLive') == 'TRUE' or ism_doc.find('Protection') is not None:\n2045:             return []\n2046: \n2047:         duration = int(ism_doc.attrib['Duration'])",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "766edb102530",
+          "status": "rejected",
+          "reason": "误报。第1972行 `for r in range(s.get('r', 0) + 1)` 的循环变量 r 确实未在循环体内被引用，但该循环的用途是重复执行循环体 r+1 次（按 SegmentTimeline 的 r 重复计数展开片段），循环次数本身即语义，r 的值无需使用。这是有意的计数循环，非缺陷。"
+        },
+        {
+          "id": "a7e3eee82eaf",
+          "status": "supported",
+          "reason": "代码依据成立。1963-1979 分支中，segment_index 从 0 起在 1978 行递增，1973 行无条件用 representation_ms_info['segment_urls'][segment_index] 取值，无任何边界检查。当 SegmentTimeline 的 s 元素 r+1 总和大于 segment_urls 长度时（清单不一致或恶意构造），会抛出 IndexError 导致整个 DASH 解析失败。触发条件依赖清单内容，但代码路径明确存在越界可能。"
+        },
+        {
+          "id": "9a1eadebcee5",
+          "status": "supported",
+          "reason": "代码依据成立。1985-1987 计算 segment_duration（缺失时为 None），1992 行使用 `if segment_duration:` 真值判断。当 segment_duration 显式为 0 或 float_or_none 结果为 0.0 时，判断为假，duration 不会被写入 fragment，与“存在但为 0”的语义不符。应使用 `is not None`。属真实语义偏差，严重度低。"
+        },
+        {
+          "id": "6b8b6f7017d1",
+          "status": "needs_context",
+          "reason": "代码事实成立：2044 行 `ism_doc.find('Protection') is not None` 只匹配直接子元素且不区分 Protection 类型，任何名为 Protection 的子元素都会使整个 ISM 清单返回空列表。但这是否为误判取决于 ISM/Smooth Streaming 规范中 Protection 元素的实际语义——若规范中 Protection 仅用于表示内容保护（DRM），则该判断是有意的安全默认值，不构成缺陷。缺少规范约定与真实清单样本，无法判定，需业务/规范上下文。"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "line": 1972,
+      "end_line": 1978,
+      "severity": "medium",
+      "category": "bug",
+      "title": "segment_urls 索引可能越界导致 IndexError",
+      "explanation": "在 'segment_urls' 与 's' 同时存在的分支中，代码按 SegmentTimeline 的 s 元素及其 r 重复次数展开片段，并用递增的 segment_index 去索引 representation_ms_info['segment_urls']。当清单中 SegmentTimeline 声明的片段总数（sum(r+1)）大于实际提供的 segment_urls 数量时，segment_index 会超出列表长度，抛出 IndexError，导致整个 DASH 解析失败而不是跳过或告警。",
+      "trigger": "DASH MPD 中 SegmentTimeline 的 s 元素重复计数总和大于 SegmentTemplate/SegmentList 提供的 segment_urls 数量（清单不一致或恶意构造）。",
+      "evidence": "1973: segment_uri = representation_ms_info['segment_urls'][segment_index] 在 1972 的 for r in range(s.get('r', 0) + 1) 内无条件按 segment_index 取值，1978 递增，无边界检查。",
+      "suggestion": "在索引前检查 segment_index < len(representation_ms_info['segment_urls'])，越界时 break 或 report_warning 并停止展开，避免解析崩溃。",
+      "id": "a7e3eee82eaf",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1970:                             for s in representation_ms_info['s']:\n1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({\n1975:                                         location_key(segment_uri): segment_uri,\n1976:                                         'duration': duration,\n1977:                                     })\n1978:                                     segment_index += 1\n1979:                             representation_ms_info['fragments'] = fragments\n1980:                         elif 'segment_urls' in representation_ms_info:",
+      "status": "supported",
+      "verification": "代码依据成立。1963-1979 分支中，segment_index 从 0 起在 1978 行递增，1973 行无条件用 representation_ms_info['segment_urls'][segment_index] 取值，无任何边界检查。当 SegmentTimeline 的 s 元素 r+1 总和大于 segment_urls 长度时（清单不一致或恶意构造），会抛出 IndexError 导致整个 DASH 解析失败。触发条件依赖清单内容，但代码路径明确存在越界可能。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "line": 1985,
+      "end_line": 1987,
+      "severity": "low",
+      "category": "bug",
+      "title": "segment_duration 为 0 时被当作缺失",
+      "explanation": "计算 segment_duration 后，在 1992 行用 `if segment_duration:` 判断是否写入 fragment['duration']。当清单中 segment_duration 显式为 0（或 timescale 导致结果为 0.0）时，该真值判断为假，duration 不会被设置，与“存在但为 0”的语义不符。",
+      "trigger": "representation_ms_info 含 segment_duration 且其值为 0（或 float_or_none 结果为 0.0）。",
+      "evidence": "1985-1987 计算 segment_duration；1992: if segment_duration: 使用真值判断而非 `is not None`。",
+      "suggestion": "改为 `if segment_duration is not None:` 以区分缺失与零值。",
+      "id": "9a1eadebcee5",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1983:                             # https://github.com/rg3/youtube-dl/pull/14844\n1984:                             fragments = []\n1985:                             segment_duration = float_or_none(\n1986:                                 representation_ms_info['segment_duration'],\n1987:                                 representation_ms_info['timescale']) if 'segment_duration' in representation_ms_info else None\n1988:                             for segment_url in representation_ms_info['segment_urls']:\n1989:                                 fragment = {",
+      "status": "supported",
+      "verification": "代码依据成立。1985-1987 计算 segment_duration（缺失时为 None），1992 行使用 `if segment_duration:` 真值判断。当 segment_duration 显式为 0 或 float_or_none 结果为 0.0 时，判断为假，duration 不会被写入 fragment，与“存在但为 0”的语义不符。应使用 `is not None`。属真实语义偏差，严重度低。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "line": 2044,
+      "end_line": 2045,
+      "severity": "low",
+      "category": "quality",
+      "title": "ISM 清单 Protection 检测过于宽泛",
+      "explanation": "_parse_ism_formats 在 ism_doc.find('Protection') is not None 时直接返回空列表。find 只匹配直接子元素且不区分命名空间/具体 Protection 类型，任何 Protection 元素（包括非 DRM 的元数据）都会导致整个清单被判定为不可用，可能漏掉可播放的流。",
+      "trigger": "ISM 清单根下存在任意名为 Protection 的子元素（即使并非加密保护）。",
+      "evidence": "2044: if ism_doc.get('IsLive') == 'TRUE' or ism_doc.find('Protection') is not None: return []",
+      "suggestion": "仅在检测到实际加密保护（如 ProtectionHeader/SystemID 表明 DRM）时返回空，或对 Protection 做更精确的判定并给出告警。",
+      "id": "6b8b6f7017d1",
+      "source": "llm",
+      "rule": "",
+      "snippet": "2042:             https://msdn.microsoft.com/en-us/library/ff469518.aspx\n2043:         \"\"\"\n2044:         if ism_doc.get('IsLive') == 'TRUE' or ism_doc.find('Protection') is not None:\n2045:             return []\n2046: \n2047:         duration = int(ism_doc.attrib['Duration'])",
+      "status": "needs_context",
+      "verification": "代码事实成立：2044 行 `ism_doc.find('Protection') is not None` 只匹配直接子元素且不区分 Protection 类型，任何名为 Protection 的子元素都会使整个 ISM 清单返回空列表。但这是否为误判取决于 ISM/Smooth Streaming 规范中 Protection 元素的实际语义——若规范中 Protection 仅用于表示内容保护（DRM），则该判断是有意的安全默认值，不构成缺陷。缺少规范约定与真实清单样本，无法判定，需业务/规范上下文。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "line": 1972,
+      "end_line": 1972,
+      "severity": "low",
+      "category": "quality",
+      "title": "B007: Loop control variable `r` not used within loop body",
+      "explanation": "Loop control variable `r` not used within loop body",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff B007: Loop control variable `r` not used within loop body",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "766edb102530",
+      "source": "ruff",
+      "rule": "B007",
+      "snippet": "1970:                             for s in representation_ms_info['s']:\n1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({",
+      "status": "rejected",
+      "verification": "误报。第1972行 `for r in range(s.get('r', 0) + 1)` 的循环变量 r 确实未在循环体内被引用，但该循环的用途是重复执行循环体 r+1 次（按 SegmentTimeline 的 r 重复计数展开片段），循环次数本身即语义，r 的值无需使用。这是有意的计数循环，非缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "youtube-dl-2",
+    "variant": "buggy",
+    "fixed_commit": "9d6ac71c27b1dfb662c795ef598dbfd0286682da",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

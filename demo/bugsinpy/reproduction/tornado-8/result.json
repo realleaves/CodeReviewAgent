@@ -1,0 +1,70 @@
+{
+  "case": "tornado-8",
+  "python_declared": "3.7.0",
+  "variants": {
+    "buggy": {
+      "image": "python:3.7-slim@sha256:b53f496ca43e5af6994f8e316cf03af31050bf7944e0e4a308ad86c001cf028b",
+      "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+      "python_actual": "Python 3.7.17",
+      "environment": {
+        "LC_ALL": "C.UTF-8",
+        "PYTHONCOERCECLOCALE": "0",
+        "PYTHONUTF8": "0"
+      },
+      "valid_test_execution": true,
+      "all_passed": false,
+      "has_failure": true,
+      "tests": [
+        {
+          "command": [
+            "python",
+            "-m",
+            "unittest",
+            "-q",
+            "tornado.test.websocket_test.WebSocketTest.test_missing_websocket_key"
+          ],
+          "exit_code": 1,
+          "timeout": false,
+          "test_executed": true,
+          "environment_error": false,
+          "elapsed_seconds": 0.785,
+          "log": "test-1.log",
+          "log_sha256": "9a1061d609098a64bbce06683a7947da922ae8e57b938bf746777a580e53b940"
+        }
+      ]
+    },
+    "fixed": {
+      "image": "python:3.7-slim@sha256:b53f496ca43e5af6994f8e316cf03af31050bf7944e0e4a308ad86c001cf028b",
+      "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+      "python_actual": "Python 3.7.17",
+      "environment": {
+        "LC_ALL": "C.UTF-8",
+        "PYTHONCOERCECLOCALE": "0",
+        "PYTHONUTF8": "0"
+      },
+      "valid_test_execution": true,
+      "all_passed": true,
+      "has_failure": false,
+      "tests": [
+        {
+          "command": [
+            "python",
+            "-m",
+            "unittest",
+            "-q",
+            "tornado.test.websocket_test.WebSocketTest.test_missing_websocket_key"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "test_executed": true,
+          "environment_error": false,
+          "elapsed_seconds": 0.522,
+          "log": "test-1.log",
+          "log_sha256": "8c4ce79144fce542626c7219610589cf03567b2c26e03baf371d919e7ba62353"
+        }
+      ]
+    }
+  },
+  "status": "reproduced",
+  "environment_note": "Same Python major/minor as dataset; actual micro-version and image ID recorded. Minimal test dependencies, not the original complete pip freeze."
+}

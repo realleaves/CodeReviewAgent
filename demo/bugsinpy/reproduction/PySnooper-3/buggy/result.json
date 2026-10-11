@@ -1,0 +1,32 @@
+{
+  "image": "code-review-bugsinpy:py38",
+  "image_id": "sha256:76154eb449f277816cd43012d3920b2c33978b52ad4b66cead9f4b9e70dc2116",
+  "python_actual": "Python 3.8.20",
+  "environment": {
+    "LC_ALL": "C.UTF-8",
+    "PYTHONCOERCECLOCALE": "0",
+    "PYTHONUTF8": "0"
+  },
+  "valid_test_execution": false,
+  "all_passed": false,
+  "has_failure": false,
+  "tests": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "-s",
+        "tests/test_pysnooper.py::test_file_output"
+      ],
+      "exit_code": 4,
+      "timeout": false,
+      "test_executed": false,
+      "environment_error": true,
+      "elapsed_seconds": 0.43,
+      "log": "test-1.log",
+      "log_sha256": "73e55d95d04e1fe36c8bed97a027f384141fe9a7055e0c5ea17d78d2559f7783"
+    }
+  ]
+}

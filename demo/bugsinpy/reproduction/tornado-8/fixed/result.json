@@ -1,0 +1,31 @@
+{
+  "image": "python:3.7-slim@sha256:b53f496ca43e5af6994f8e316cf03af31050bf7944e0e4a308ad86c001cf028b",
+  "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+  "python_actual": "Python 3.7.17",
+  "environment": {
+    "LC_ALL": "C.UTF-8",
+    "PYTHONCOERCECLOCALE": "0",
+    "PYTHONUTF8": "0"
+  },
+  "valid_test_execution": true,
+  "all_passed": true,
+  "has_failure": false,
+  "tests": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "-q",
+        "tornado.test.websocket_test.WebSocketTest.test_missing_websocket_key"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "test_executed": true,
+      "environment_error": false,
+      "elapsed_seconds": 0.522,
+      "log": "test-1.log",
+      "log_sha256": "8c4ce79144fce542626c7219610589cf03567b2c26e03baf371d919e7ba62353"
+    }
+  ]
+}

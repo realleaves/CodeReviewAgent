@@ -1,0 +1,45 @@
+F
+=================================== FAILURES ===================================
+_______________________________ test_file_output _______________________________
+
+    def test_file_output():
+    
+        with temp_file_tools.create_temp_folder(prefix='pysnooper') as folder:
+            path = folder / 'foo.log'
+            @pysnooper.snoop(str(path))
+            def my_function(foo):
+                x = 7
+                y = 8
+                return y + x
+>           result = my_function('baba')
+
+tests/test_pysnooper.py:183: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<decorator-gen-2>:2: in my_function
+    ???
+pysnooper/pysnooper.py:72: in decorate
+    return function(*args, **kwargs)
+tests/test_pysnooper.py:178: in my_function
+    @pysnooper.snoop(str(path))
+pysnooper/tracer.py:173: in trace
+    self.write('{indent}{newish_string}{name} = {value_repr}'.format(
+pysnooper/tracer.py:114: in write
+    self._write(s)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+s = "Starting var:.. foo = 'baba'\n"
+
+    def write(s):
+>       with open(output_path, 'a') as output_file:
+E       NameError: name 'output_path' is not defined
+
+pysnooper/pysnooper.py:26: NameError
+=============================== warnings summary ===============================
+/usr/local/lib/python3.8/site-packages/future/standard_library/__init__.py:65
+  /usr/local/lib/python3.8/site-packages/future/standard_library/__init__.py:65: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    import imp
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_pysnooper.py::test_file_output - NameError: name 'output_pa...
+1 failed, 1 warning in 0.04s

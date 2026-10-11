@@ -1,0 +1,23 @@
+
+==================================== ERRORS ====================================
+___________________ ERROR collecting tests/test_pysnooper.py ___________________
+tests/test_pysnooper.py:11: in <module>
+    from pysnooper.utils import truncate
+pysnooper/__init__.py:20: in <module>
+    from .tracer import Tracer as snoop
+pysnooper/tracer.py:18: in <module>
+    if pycompat.PY2:
+E   AttributeError: module 'pysnooper.pycompat' has no attribute 'PY2'
+=============================== warnings summary ===============================
+pysnooper/variables.py:3
+pysnooper/variables.py:3
+  /work/pysnooper/variables.py:3: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
+    from collections import Mapping, Sequence
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+=========================== short test summary info ============================
+ERROR tests/test_pysnooper.py - AttributeError: module 'pysnooper.pycompat' h...
+2 warnings, 1 error in 0.05s
+ERROR: not found: /work/tests/test_pysnooper.py::test_custom_repr_single
+(no name '/work/tests/test_pysnooper.py::test_custom_repr_single' in any of [<Module test_pysnooper.py>])
+

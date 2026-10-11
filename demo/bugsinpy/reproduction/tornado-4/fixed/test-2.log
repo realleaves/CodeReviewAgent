@@ -1,0 +1,6 @@
+WARNING:tornado.access:416 HEAD /static/robots.txt (127.0.0.1) 0.43ms
+WARNING:tornado.access:416 GET /static/robots.txt (127.0.0.1) 0.20ms
+----------------------------------------------------------------------
+Ran 1 test in 0.004s
+
+OK

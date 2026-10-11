@@ -1,0 +1,1188 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "https://github.com/tornadoweb/tornado",
+    "name": "tornado",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "2ca8821d006f6693f920a4b183a3a7c985a5c8ad",
+    "indexed_snapshot_sha256": "51f9eee822f61a32a8ae808312b15047c3ce8dbffe2463777b28397762016dbe"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:40:42.180151+00:00",
+    "status": "completed",
+    "mode": "direct",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "direct",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 5.25,
+    "api_calls": 1,
+    "usage": {
+      "prompt_tokens": 2076,
+      "completion_tokens": 880
+    },
+    "indexed_python_files": 62,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 3,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "medium": 2,
+      "low": 1
+    },
+    "status_counts": {
+      "unverified": 3
+    }
+  },
+  "coverage": [
+    {
+      "path": "tornado/http1connection.py",
+      "lines": 833,
+      "windows": [
+        [
+          368,
+          470
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "not_requested"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".coveragerc",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".flake8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "appveyor.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "codecov.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "readthedocs.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "runtests.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/Dockerfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/docker-compose.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/schema.sql",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/static/blog.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/archive.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/base.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/compose.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/create_author.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/feed.xml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/login.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/modules/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/static/chat.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/static/chat.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/templates/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/templates/message.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/static/facebook.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/static/facebook.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/templates/stream.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/templates/modules/post.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/tcpecho/README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/twitter/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/static/chat.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/static/chat.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/templates/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/templates/message.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/asyncio.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/auth.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/autoreload.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/caresresolver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/concurrent.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conda.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/coroutine.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/escape.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/faq.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/favicon.ico",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/gen.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/http.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/http1connection.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httpclient.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httpserver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httputil.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/integration.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/ioloop.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/iostream.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/locale.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/locks.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/log.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/netutil.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/networking.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/options.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/process.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/queues.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/routing.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tcpclient.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tcpserver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/template.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/testing.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tornado.png",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/twisted.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/util.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/utilities.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/web.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/webframework.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/websocket.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/wsgi.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/async.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/coroutines.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/intro.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/queues.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/running.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/security.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/structure.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/templates.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.3.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.4.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.4.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.3.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.3.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.5.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.5.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.5.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.5.3.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v5.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v5.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v5.0.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v5.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v5.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/requirements.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/scripts/run_autopep8.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/cythonapp.pyx",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/mypy/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/mypy/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/redbot/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/redbot/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/fuzzingclient.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/fuzzingserver.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/run-client.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/run-server.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/shared-setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/windows/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/py.typed",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/speedups.c",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/speedups.pyi",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/platform/auto.pyi",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/options_test.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/options_test_types.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/options_test_types_str.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static_foo.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/test.crt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/test.key",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tornado/test/csv_translations/fr_FR.csv",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/gettext_translations/fr_FR/LC_MESSAGES/tornado_test.mo",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/gettext_translations/fr_FR/LC_MESSAGES/tornado_test.po",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/robots.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/sample.xml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/sample.xml.bz2",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/sample.xml.gz",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/dir/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/templates/utf8.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/scripts/test_resolvers.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/cython/cythonapp_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/cython/pythonmodule.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/cython/setup.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/mypy/bad.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/mypy/good.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/mypy/setup.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/redbot/red_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/websocket/client.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/websocket/server.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/__main__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/asyncio_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/auth_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/autoreload_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/concurrent_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/curl_httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/escape_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/gen_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/http1connection_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httpserver_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httputil_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/import_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/ioloop_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/iostream_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/locale_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/locks_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/log_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/netutil_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/options_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/process_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/queues_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/resolve_test_helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/routing_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/runtests.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/simple_httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/tcpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/tcpserver_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/template_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/testing_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/twisted_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/util.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/util_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/web_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/websocket_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/windows_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/wsgi_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/gettext_translations/extract_me.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 7184,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 880,
+        "prompt_tokens": 2076,
+        "total_tokens": 2956,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 1564
+      },
+      "elapsed_seconds": 5.129
+    }
+  ],
+  "tool_reads": [],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "tornado/http1connection.py",
+      "start": 368,
+      "end": 470,
+      "findings": [
+        {
+          "path": "tornado/http1connection.py",
+          "line": 437,
+          "end_line": 437,
+          "severity": "medium",
+          "category": "bug",
+          "title": "Content-Length 头部解析未做异常处理，非法值导致未捕获异常",
+          "explanation": "第437行直接使用 int(headers[\"Content-Length\"]) 解析头部值。若应用传入非数字的 Content-Length（例如空字符串、'abc'、带逗号的重复值 '1, 2'），int() 会抛出 ValueError，而该异常不会被转换为 HTTPOutputError 或 HTTPInputError，会以未预期的异常形式向上传播，可能中断连接处理流程并产生难以诊断的错误。",
+          "trigger": "应用调用 write_headers 时传入 headers 包含非整数形式的 Content-Length（如 'abc' 或空字符串），且响应不是 HEAD/304。",
+          "evidence": "第436-437行：elif \"Content-Length\" in headers: self._expected_content_remaining = int(headers[\"Content-Length\"])，无 try/except 包裹。",
+          "suggestion": "用 try/except ValueError 包裹 int() 转换，转换为 httputil.HTTPOutputError 或记录并拒绝该头部，避免裸 ValueError 泄漏。",
+          "id": "62391ef8eb67",
+          "source": "llm",
+          "rule": "",
+          "snippet": "435:             self._expected_content_remaining = 0\n436:         elif \"Content-Length\" in headers:\n437:             self._expected_content_remaining = int(headers[\"Content-Length\"])\n438:         else:\n439:             self._expected_content_remaining = None",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "tornado/http1connection.py",
+          "line": 448,
+          "end_line": 449,
+          "severity": "medium",
+          "category": "security",
+          "title": "仅检查换行符，未过滤回车符，存在响应头注入风险",
+          "explanation": "第447-449行只检查 header 行中是否包含 b\"\\n\"，未检查 b\"\\r\"。虽然第457行用 b\"\\r\\n\" 拼接，但若头部值中包含单独的 '\\r'（例如通过 latin1 编码的字节），仍可能被下游解析器或中间代理解释为行终止，从而造成 HTTP 响应头注入（CRLF 注入的变体）。",
+          "trigger": "应用将包含 '\\r' 字符（不含 '\\n'）的值写入响应头，例如 headers['X-Foo'] = 'a\\rb'。",
+          "evidence": "第447-449行：for line in lines: if b\"\\n\" in line: raise ValueError(...)，仅检测 \\n，未检测 \\r。",
+          "suggestion": "同时检查 b\"\\r\"，即 if b\"\\n\" in line or b\"\\r\" in line: raise ValueError(...)，或对头部值进行严格校验/清洗。",
+          "id": "6c537f8545ed",
+          "source": "llm",
+          "rule": "",
+          "snippet": "446:         lines.extend(l.encode(\"latin1\") for l in header_lines)\n447:         for line in lines:\n448:             if b\"\\n\" in line:\n449:                 raise ValueError(\"Newline in header: \" + repr(line))\n450:         future = None\n451:         if self.stream.closed():",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "tornado/http1connection.py",
+          "line": 431,
+          "end_line": 439,
+          "severity": "low",
+          "category": "bug",
+          "title": "HEAD/304 分支未校验 Content-Length 与实际内容一致性",
+          "explanation": "第431-435行对 HEAD 请求或 304 响应直接将 _expected_content_remaining 置为 0，忽略可能存在的 Content-Length 头部。若应用在 HEAD 响应中设置了非零 Content-Length（这是合法且常见的，用于告知资源大小），后续 _format_chunk 会因 _expected_content_remaining 为 0 而在写入任何 body 时立即报错。虽然 HEAD 不应有 body，但该逻辑与 Content-Length 语义存在潜在冲突，且未对 304 的 Content-Length 做一致性处理。",
+          "trigger": "对 HEAD 请求返回带非零 Content-Length 的响应，且应用随后尝试写入 body（或框架内部写入）。",
+          "evidence": "第431-435行：if not self.is_client and (method == 'HEAD' or code == 304): self._expected_content_remaining = 0，未参考 Content-Length。",
+          "suggestion": "明确文档化该行为；若需支持 HEAD 的 Content-Length 语义，应区分“期望写入的 body 长度”与“声明的资源长度”，避免误报 HTTPOutputError。",
+          "id": "754c4a4f0edf",
+          "source": "llm",
+          "rule": "",
+          "snippet": "429:         if self._chunking_output:\n430:             headers[\"Transfer-Encoding\"] = \"chunked\"\n431:         if not self.is_client and (\n432:             self._request_start_line.method == \"HEAD\"\n433:             or cast(httputil.ResponseStartLine, start_line).code == 304\n434:         ):\n435:             self._expected_content_remaining = 0\n436:         elif \"Content-Length\" in headers:\n437:             self._expected_content_remaining = int(headers[\"Content-Length\"])\n438:         else:\n439:             self._expected_content_remaining = None\n440:         # TODO: headers are supposed to be of type str, but we still have some\n441:         # cases that let bytes slip through. Remove these native_str calls when those",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "tornado/http1connection.py",
+      "line": 437,
+      "end_line": 437,
+      "severity": "medium",
+      "category": "bug",
+      "title": "Content-Length 头部解析未做异常处理，非法值导致未捕获异常",
+      "explanation": "第437行直接使用 int(headers[\"Content-Length\"]) 解析头部值。若应用传入非数字的 Content-Length（例如空字符串、'abc'、带逗号的重复值 '1, 2'），int() 会抛出 ValueError，而该异常不会被转换为 HTTPOutputError 或 HTTPInputError，会以未预期的异常形式向上传播，可能中断连接处理流程并产生难以诊断的错误。",
+      "trigger": "应用调用 write_headers 时传入 headers 包含非整数形式的 Content-Length（如 'abc' 或空字符串），且响应不是 HEAD/304。",
+      "evidence": "第436-437行：elif \"Content-Length\" in headers: self._expected_content_remaining = int(headers[\"Content-Length\"])，无 try/except 包裹。",
+      "suggestion": "用 try/except ValueError 包裹 int() 转换，转换为 httputil.HTTPOutputError 或记录并拒绝该头部，避免裸 ValueError 泄漏。",
+      "id": "62391ef8eb67",
+      "source": "llm",
+      "rule": "",
+      "snippet": "435:             self._expected_content_remaining = 0\n436:         elif \"Content-Length\" in headers:\n437:             self._expected_content_remaining = int(headers[\"Content-Length\"])\n438:         else:\n439:             self._expected_content_remaining = None",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/http1connection.py",
+      "line": 448,
+      "end_line": 449,
+      "severity": "medium",
+      "category": "security",
+      "title": "仅检查换行符，未过滤回车符，存在响应头注入风险",
+      "explanation": "第447-449行只检查 header 行中是否包含 b\"\\n\"，未检查 b\"\\r\"。虽然第457行用 b\"\\r\\n\" 拼接，但若头部值中包含单独的 '\\r'（例如通过 latin1 编码的字节），仍可能被下游解析器或中间代理解释为行终止，从而造成 HTTP 响应头注入（CRLF 注入的变体）。",
+      "trigger": "应用将包含 '\\r' 字符（不含 '\\n'）的值写入响应头，例如 headers['X-Foo'] = 'a\\rb'。",
+      "evidence": "第447-449行：for line in lines: if b\"\\n\" in line: raise ValueError(...)，仅检测 \\n，未检测 \\r。",
+      "suggestion": "同时检查 b\"\\r\"，即 if b\"\\n\" in line or b\"\\r\" in line: raise ValueError(...)，或对头部值进行严格校验/清洗。",
+      "id": "6c537f8545ed",
+      "source": "llm",
+      "rule": "",
+      "snippet": "446:         lines.extend(l.encode(\"latin1\") for l in header_lines)\n447:         for line in lines:\n448:             if b\"\\n\" in line:\n449:                 raise ValueError(\"Newline in header: \" + repr(line))\n450:         future = None\n451:         if self.stream.closed():",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/http1connection.py",
+      "line": 431,
+      "end_line": 439,
+      "severity": "low",
+      "category": "bug",
+      "title": "HEAD/304 分支未校验 Content-Length 与实际内容一致性",
+      "explanation": "第431-435行对 HEAD 请求或 304 响应直接将 _expected_content_remaining 置为 0，忽略可能存在的 Content-Length 头部。若应用在 HEAD 响应中设置了非零 Content-Length（这是合法且常见的，用于告知资源大小），后续 _format_chunk 会因 _expected_content_remaining 为 0 而在写入任何 body 时立即报错。虽然 HEAD 不应有 body，但该逻辑与 Content-Length 语义存在潜在冲突，且未对 304 的 Content-Length 做一致性处理。",
+      "trigger": "对 HEAD 请求返回带非零 Content-Length 的响应，且应用随后尝试写入 body（或框架内部写入）。",
+      "evidence": "第431-435行：if not self.is_client and (method == 'HEAD' or code == 304): self._expected_content_remaining = 0，未参考 Content-Length。",
+      "suggestion": "明确文档化该行为；若需支持 HEAD 的 Content-Length 语义，应区分“期望写入的 body 长度”与“声明的资源长度”，避免误报 HTTPOutputError。",
+      "id": "754c4a4f0edf",
+      "source": "llm",
+      "rule": "",
+      "snippet": "429:         if self._chunking_output:\n430:             headers[\"Transfer-Encoding\"] = \"chunked\"\n431:         if not self.is_client and (\n432:             self._request_start_line.method == \"HEAD\"\n433:             or cast(httputil.ResponseStartLine, start_line).code == 304\n434:         ):\n435:             self._expected_content_remaining = 0\n436:         elif \"Content-Length\" in headers:\n437:             self._expected_content_remaining = int(headers[\"Content-Length\"])\n438:         else:\n439:             self._expected_content_remaining = None\n440:         # TODO: headers are supposed to be of type str, but we still have some\n441:         # cases that let bytes slip through. Remove these native_str calls when those",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "tornado-2",
+    "variant": "buggy",
+    "fixed_commit": "4f486a4aec746e9d66441600ee3b0743228b061c",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

@@ -1,0 +1,48 @@
+F
+=================================== FAILURES ===================================
+_________________________________ test_chinese _________________________________
+
+    def test_chinese():
+        with temp_file_tools.create_temp_folder(prefix='pysnooper') as folder:
+            path = folder / 'foo.log'
+            @pysnooper.snoop(path)
+            def foo():
+                a = 1
+                x = '\u5931\u8d25'
+                return 7
+    
+>           foo()
+
+tests/test_chinese.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+pysnooper/tracer.py:215: in simple_wrapper
+    return function(*args, **kwargs)
+tests/test_chinese.py:30: in foo
+    x = '\u5931\u8d25'
+tests/test_chinese.py:30: in foo
+    x = '\u5931\u8d25'
+pysnooper/tracer.py:375: in trace
+    self.write(u'{indent}{now_string} {thread_info}{event:9} '
+pysnooper/tracer.py:242: in write
+    self._write(s)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <pysnooper.tracer.FileWriter object at 0x7123cfb71b50>
+s = "13:50:10.988567 line        30             x = '\u5931\u8d25'\\n"
+
+    def write(self, s):
+        with open(self.path, 'w' if self.overwrite else 'a') as output_file:
+>           output_file.write(s)
+E           UnicodeEncodeError: 'ascii' codec can't encode characters in position 48-49: ordinal not in range(128)
+
+pysnooper/tracer.py:134: UnicodeEncodeError
+=============================== warnings summary ===============================
+pysnooper/variables.py:3
+pysnooper/variables.py:3
+  /work/pysnooper/variables.py:3: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
+    from collections import Mapping, Sequence
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_chinese.py::test_chinese - UnicodeEncodeError: 'ascii' code...
+1 failed, 2 warnings in 0.04s

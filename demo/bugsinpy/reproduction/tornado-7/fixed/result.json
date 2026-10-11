@@ -1,0 +1,31 @@
+{
+  "image": "python:3.7-slim@sha256:b53f496ca43e5af6994f8e316cf03af31050bf7944e0e4a308ad86c001cf028b",
+  "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+  "python_actual": "Python 3.7.17",
+  "environment": {
+    "LC_ALL": "C.UTF-8",
+    "PYTHONCOERCECLOCALE": "0",
+    "PYTHONUTF8": "0"
+  },
+  "valid_test_execution": true,
+  "all_passed": true,
+  "has_failure": false,
+  "tests": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "-q",
+        "tornado.test.ioloop_test.TestIOLoopFutures.test_run_in_executor_native"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "test_executed": true,
+      "environment_error": false,
+      "elapsed_seconds": 0.524,
+      "log": "test-1.log",
+      "log_sha256": "5f4da3a10467ed523d52edf10edfcd360269e31f5319fbb2e3c0632fb4663431"
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "case": "youtube-dl-3",
+  "python_declared": "3.7.0",
+  "variants": {
+    "buggy": {
+      "image": "python:3.7-slim@sha256:b53f496ca43e5af6994f8e316cf03af31050bf7944e0e4a308ad86c001cf028b",
+      "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+      "python_actual": "Python 3.7.17",
+      "environment": {
+        "LC_ALL": "C.UTF-8",
+        "PYTHONCOERCECLOCALE": "0",
+        "PYTHONUTF8": "0"
+      },
+      "valid_test_execution": true,
+      "all_passed": false,
+      "has_failure": true,
+      "tests": [
+        {
+          "command": [
+            "python",
+            "-m",
+            "unittest",
+            "-q",
+            "test.test_utils.TestUtil.test_unescape_html"
+          ],
+          "exit_code": 1,
+          "timeout": false,
+          "test_executed": true,
+          "environment_error": false,
+          "elapsed_seconds": 0.919,
+          "log": "test-1.log",
+          "log_sha256": "3ea991717d559cc9262e83c332445a7f48669994d67cac0a53851d2414477e7d"
+        }
+      ]
+    },
+    "fixed": {
+      "image": "python:3.7-slim@sha256:b53f496ca43e5af6994f8e316cf03af31050bf7944e0e4a308ad86c001cf028b",
+      "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+      "python_actual": "Python 3.7.17",
+      "environment": {
+        "LC_ALL": "C.UTF-8",
+        "PYTHONCOERCECLOCALE": "0",
+        "PYTHONUTF8": "0"
+      },
+      "valid_test_execution": true,
+      "all_passed": true,
+      "has_failure": false,
+      "tests": [
+        {
+          "command": [
+            "python",
+            "-m",
+            "unittest",
+            "-q",
+            "test.test_utils.TestUtil.test_unescape_html"
+          ],
+          "exit_code": 0,
+          "timeout": false,
+          "test_executed": true,
+          "environment_error": false,
+          "elapsed_seconds": 0.917,
+          "log": "test-1.log",
+          "log_sha256": "445221b98f22d14309aaea4fee1a9f41c9659ced4c922d71fbc0dcbbde571045"
+        }
+      ]
+    }
+  },
+  "status": "reproduced",
+  "environment_note": "Same Python major/minor as dataset; actual micro-version and image ID recorded. Minimal test dependencies, not the original complete pip freeze."
+}

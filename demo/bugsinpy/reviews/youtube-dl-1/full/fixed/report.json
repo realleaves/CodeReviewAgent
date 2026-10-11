@@ -1,0 +1,808 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "youtube-dl",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "99036a1298089068dcf80c0985bfcc3f8c24f281",
+    "indexed_snapshot_sha256": "cb2b11a73a4fbcdb56661f512d9dbabf828c2a14c58087c06dd23e7d3b8dc961"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:38:04.365257+00:00",
+    "status": "completed",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "full",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 13.585,
+    "api_calls": 4,
+    "usage": {
+      "prompt_tokens": 35060,
+      "completion_tokens": 2219
+    },
+    "indexed_python_files": 809,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 1,
+    "rejected_findings": 5,
+    "severity_counts": {
+      "low": 1
+    },
+    "status_counts": {
+      "needs_context": 1
+    }
+  },
+  "coverage": [
+    {
+      "path": "youtube_dl/utils.py",
+      "lines": 3887,
+      "windows": [
+        [
+          2515,
+          2598
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "ChangeLog",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "youtube-dl.plugin.zsh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "bin/youtube-dl",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage_w.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/bash-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/fish-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/install_jython.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/posix-locale.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/run_tests.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/wine-py2exe.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/zsh-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/module_guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/supportedsites.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/parameters.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testcert.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "test/versions.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassConstruction.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstantInt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/DictCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/EqualsOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/LocalVars.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/MemberAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/NeOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateVoidCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticRetrieval.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringBasics.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringCharCodeAt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringConversion.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/f4m/custom_base_url.f4m",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/pluzz_francetv_11507.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/teamcoco_11995.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/toggle_mobile_12211.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/twitch_vod.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/vidio.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/mpd/float_duration.mpd",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/mpd/urls_only.mpd",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/xspf/foo_xspf.xspf",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_InfoExtractor.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDL.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_aes.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_age_restriction.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_all_urls.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_cache.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_compat.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_download.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_downloader_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_execution.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_iqiyi_sdk_interpreter.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_jsinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_netrc.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_options.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_postprocessors.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_socks.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_subtitles.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_swfinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_unicode_literals.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_update.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_verbose_output.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_write_annotations.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_chapters.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_lists.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_signature.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 15
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 31
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 19457,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1463,
+        "prompt_tokens": 6990,
+        "total_tokens": 8453,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 6784
+        },
+        "prompt_cache_hit_tokens": 6784,
+        "prompt_cache_miss_tokens": 206
+      },
+      "elapsed_seconds": 6.98
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 21528,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 55,
+        "prompt_tokens": 7817,
+        "total_tokens": 7872,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 896
+        },
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 6921
+      },
+      "elapsed_seconds": 0.748
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 26744,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 40,
+        "prompt_tokens": 9567,
+        "total_tokens": 9607,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 7808
+        },
+        "prompt_cache_hit_tokens": 7808,
+        "prompt_cache_miss_tokens": 1759
+      },
+      "elapsed_seconds": 1.061
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 29211,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 661,
+        "prompt_tokens": 10686,
+        "total_tokens": 11347,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 896
+        },
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 9790
+      },
+      "elapsed_seconds": 3.815
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "youtube_dl/utils.py",
+      "start": 2493,
+      "end": 2596
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "start": 2493,
+      "end": 2596
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "start": 1605,
+      "end": 1673
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "youtube_dl/utils.py",
+      "start": 2515,
+      "end": 2597,
+      "findings": [
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 2563,
+          "end_line": 2571,
+          "severity": "medium",
+          "category": "bug",
+          "title": "int() 对含单位后缀的数值抛 ValueError 后回退逻辑可能掩盖真实错误",
+          "explanation": "当 intval 形如 '1.5' 或 '10M' 时，int() 会抛出 ValueError，代码进入 except 分支用 parse_filesize 解析。但若 intval 是纯数字字符串却因其他原因（如超长数字在 Python 2 下）失败，或 parse_filesize 返回 None 且加 'B' 后仍为 None，会抛出新的 ValueError，丢失原始异常上下文（ruff B904 也提示）。此外 int('1.5') 失败后 parse_filesize('1.5') 可能返回 None，再 parse_filesize('1.5B') 仍为 None，最终报 'Invalid integer value'，但错误信息中的 intval 是原始值，用户难以判断是格式问题还是单位问题。",
+          "trigger": "过滤表达式使用带小数或带单位的值，例如 'filesize>1.5' 或 'filesize>10M'，且 parse_filesize 无法解析该形式。",
+          "evidence": "2563: comparison_value = int(m.group('intval'))\n2564: except ValueError:\n2565:     comparison_value = parse_filesize(m.group('intval'))\n2566:     if comparison_value is None:\n2567:         comparison_value = parse_filesize(m.group('intval') + 'B')\n2568:     if comparison_value is None:\n2569:         raise ValueError(...)",
+          "suggestion": "在 except 分支中保留原始异常（raise ... from err 或 from None），并考虑先判断 intval 是否含单位/小数点再选择解析路径，避免对纯整数走异常路径。",
+          "id": "364b4f3ed848",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2561:         else:\n2562:             try:\n2563:                 comparison_value = int(m.group('intval'))\n2564:             except ValueError:\n2565:                 comparison_value = parse_filesize(m.group('intval'))\n2566:                 if comparison_value is None:\n2567:                     comparison_value = parse_filesize(m.group('intval') + 'B')\n2568:                 if comparison_value is None:\n2569:                     raise ValueError(\n2570:                         'Invalid integer value %r in filter part %r' % (\n2571:                             m.group('intval'), filter_part))\n2572:         if actual_value is None:\n2573:             return m.group('none_inclusive')",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 2518,
+          "end_line": 2519,
+          "severity": "low",
+          "category": "bug",
+          "title": "render_table 对空数据或列数不一致的行会崩溃或错位",
+          "explanation": "max_lens 通过 zip(*table) 计算，若 data 为空则 table 只有 header_row，zip 仍可工作；但若某行列数与 header_row 不一致，zip 会按最短列截断，导致 max_lens 长度与行长度不匹配，format_str 的占位符数量与 row 元素数量不符，'%' 格式化会抛 TypeError。另外当 max_lens 为空（header_row 为空列表）时，max_lens[:-1] 为空，format_str 仅为 '%s'，但 row 可能有多列，同样会格式化失败。",
+          "trigger": "调用 render_table 时传入的 data 中某行长度与 header_row 不同，或 header_row 为空列表。",
+          "evidence": "2517: table = [header_row] + data\n2518: max_lens = [max(len(compat_str(v)) for v in col) for col in zip(*table)]\n2519: format_str = ' '.join('%-' + compat_str(ml + 1) + 's' for ml in max_lens[:-1]) + '%s'\n2520: return '\\n'.join(format_str % tuple(row) for row in table)",
+          "suggestion": "在函数入口校验所有行长度一致，或使用 str.format/join 按列宽动态拼接，避免依赖 zip 截断后的长度与行长度一致。",
+          "id": "fc6c0ac116f4",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2516:     \"\"\" Render a list of rows, each as a list of values \"\"\"\n2517:     table = [header_row] + data\n2518:     max_lens = [max(len(compat_str(v)) for v in col) for col in zip(*table)]\n2519:     format_str = ' '.join('%-' + compat_str(ml + 1) + 's' for ml in max_lens[:-1]) + '%s'\n2520:     return '\\n'.join(format_str % tuple(row) for row in table)\n2521: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 2536,
+          "end_line": 2538,
+          "severity": "low",
+          "category": "bug",
+          "title": "intval 正则允许前导点号，导致 int() 失败并进入 filesize 解析",
+          "explanation": "intval 模式为 [0-9.]+，允许形如 '.5' 或 '1.2.3' 的字符串。int('.5') 抛 ValueError，随后 parse_filesize('.5') 可能返回 None，再 parse_filesize('.5B') 也可能为 None，最终报错。虽然最终会报错，但错误路径依赖异常而非显式校验，且 '1.2.3' 这类明显非法输入也会走到 filesize 解析，错误信息不够明确。",
+          "trigger": "过滤表达式使用 '.5' 或 '1.2.3' 等非法数值形式，例如 'duration>.5'。",
+          "evidence": "2536: (?P<intval>[0-9.]+(?:[kKmMgGtTpPeEzZyY]i?[Bb]?)?)|",
+          "suggestion": "收紧 intval 正则以排除前导/多个小数点，或在解析前显式校验数值格式并给出明确错误信息。",
+          "id": "98b35e341d71",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2534:         \\s*(?P<op>%s)(?P<none_inclusive>\\s*\\?)?\\s*\n2535:         (?:\n2536:             (?P<intval>[0-9.]+(?:[kKmMgGtTpPeEzZyY]i?[Bb]?)?)|\n2537:             (?P<quote>[\"\\'])(?P<quotedstrval>(?:\\\\.|(?!(?P=quote)|\\\\).)+?)(?P=quote)|\n2538:             (?P<strval>(?![0-9.])[a-z0-9A-Z]*)\n2539:         )\n2540:         \\s*$",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 2557,
+          "end_line": 2560,
+          "severity": "low",
+          "category": "bug",
+          "title": "引号字符串反转义仅处理引号本身，未处理其他转义序列",
+          "explanation": "quotedstrval 正则允许 \\\\. 形式的任意转义，但后续只做 comparison_value.replace(r'\\%s' % quote, quote)，即仅把 \\\" 或 \\' 还原为引号。其他转义如 \\\\ 或 \\n 不会被还原，导致比较值与用户预期不符。例如过滤 'title=\"a\\\\b\"' 时，比较值会保留反斜杠。",
+          "trigger": "过滤表达式中引号字符串包含除引号外的转义序列，例如 'title=\"a\\\\b\"'。",
+          "evidence": "2537: (?P<quote>[\"\\'])(?P<quotedstrval>(?:\\\\.|(?!(?P=quote)|\\\\).)+?)(?P=quote)|\n2559: if quote is not None:\n2560:     comparison_value = comparison_value.replace(r'\\%s' % quote, quote)",
+          "suggestion": "使用更完整的反转义逻辑（如 codecs.decode 或自定义 unescape）处理所有 \\\\. 序列，或在文档中明确仅支持引号转义。",
+          "id": "cbb7a9b2909d",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2555:                 raise ValueError(\n2556:                     'Operator %s does not support string values!' % m.group('op'))\n2557:             comparison_value = m.group('quotedstrval') or m.group('strval') or m.group('intval')\n2558:             quote = m.group('quote')\n2559:             if quote is not None:\n2560:                 comparison_value = comparison_value.replace(r'\\%s' % quote, quote)\n2561:         else:\n2562:             try:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "0f9aeafb8ff5",
+          "status": "rejected",
+          "reason": "B905 要求 zip() 显式 strict= 参数，但该参数仅 Python 3.10+ 支持，而本项目明确兼容 Python 2（compat.py 中大量 try/except ImportError 的 Python 2 回退）。此处 zip(*table) 用于转置等长行列表，行为正确，添加 strict= 会破坏兼容性。属于误报。"
+        },
+        {
+          "id": "8136af4a3560",
+          "status": "rejected",
+          "reason": "B904 建议 raise ... from err/from None，但该语法仅 Python 3 支持，本项目需兼容 Python 2（见 compat.py 的 Python 2 分支）。在 except 中直接 raise ValueError 是刻意的兼容写法，非缺陷。误报。"
+        },
+        {
+          "id": "364b4f3ed848",
+          "status": "rejected",
+          "reason": "该逻辑是刻意的多级回退：先 int()，失败则 parse_filesize（支持 '10M' 等），再尝试加 'B'。parse_filesize 对纯数字加单位后缀的解析是设计意图（见 _UNIT_TABLE 与 lookup_unit_table）。'1.5' 这类小数本就不被支持，最终抛出带原始 intval 与 filter_part 的明确 ValueError 是预期行为，错误信息已包含足够上下文。未发现掩盖真实错误的具体证据，属误报。"
+        },
+        {
+          "id": "fc6c0ac116f4",
+          "status": "needs_context",
+          "reason": "render_table 依赖调用方保证所有行（含 header_row）列数一致。若调用方传入列数不一致的行，zip(*table) 会按最短列截断，导致 format_str 占位符数与 row 长度不符而抛 TypeError。是否成立取决于未提供的调用上下文（各调用点是否保证等长）。缺少调用方证据，无法判定为实际缺陷。"
+        },
+        {
+          "id": "98b35e341d71",
+          "status": "rejected",
+          "reason": "intval 正则 [0-9.]+ 允许 '.5'、'1.2.3' 等，但这类输入最终会经 int() 失败→parse_filesize 失败→抛出带原始值与 filter_part 的 ValueError，属于对非法输入的合理拒绝路径，并非静默错误。正则宽松是刻意的（同时支持整数与带单位值），未构成实际缺陷。误报。"
+        },
+        {
+          "id": "cbb7a9b2909d",
+          "status": "rejected",
+          "reason": "引号字符串仅反转义引号本身（replace(r'\\%s' % quote, quote)）是刻意的简化设计：过滤表达式语法只承诺支持引号转义，正则中 \\\\. 允许任意转义字符但仅引号被还原。这是有意的行为约定，非缺陷；将其视为 bug 缺乏依据。误报。"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 2563,
+      "end_line": 2571,
+      "severity": "medium",
+      "category": "bug",
+      "title": "int() 对含单位后缀的数值抛 ValueError 后回退逻辑可能掩盖真实错误",
+      "explanation": "当 intval 形如 '1.5' 或 '10M' 时，int() 会抛出 ValueError，代码进入 except 分支用 parse_filesize 解析。但若 intval 是纯数字字符串却因其他原因（如超长数字在 Python 2 下）失败，或 parse_filesize 返回 None 且加 'B' 后仍为 None，会抛出新的 ValueError，丢失原始异常上下文（ruff B904 也提示）。此外 int('1.5') 失败后 parse_filesize('1.5') 可能返回 None，再 parse_filesize('1.5B') 仍为 None，最终报 'Invalid integer value'，但错误信息中的 intval 是原始值，用户难以判断是格式问题还是单位问题。",
+      "trigger": "过滤表达式使用带小数或带单位的值，例如 'filesize>1.5' 或 'filesize>10M'，且 parse_filesize 无法解析该形式。",
+      "evidence": "2563: comparison_value = int(m.group('intval'))\n2564: except ValueError:\n2565:     comparison_value = parse_filesize(m.group('intval'))\n2566:     if comparison_value is None:\n2567:         comparison_value = parse_filesize(m.group('intval') + 'B')\n2568:     if comparison_value is None:\n2569:         raise ValueError(...)",
+      "suggestion": "在 except 分支中保留原始异常（raise ... from err 或 from None），并考虑先判断 intval 是否含单位/小数点再选择解析路径，避免对纯整数走异常路径。",
+      "id": "364b4f3ed848",
+      "source": "llm",
+      "rule": "",
+      "snippet": "2561:         else:\n2562:             try:\n2563:                 comparison_value = int(m.group('intval'))\n2564:             except ValueError:\n2565:                 comparison_value = parse_filesize(m.group('intval'))\n2566:                 if comparison_value is None:\n2567:                     comparison_value = parse_filesize(m.group('intval') + 'B')\n2568:                 if comparison_value is None:\n2569:                     raise ValueError(\n2570:                         'Invalid integer value %r in filter part %r' % (\n2571:                             m.group('intval'), filter_part))\n2572:         if actual_value is None:\n2573:             return m.group('none_inclusive')",
+      "status": "rejected",
+      "verification": "该逻辑是刻意的多级回退：先 int()，失败则 parse_filesize（支持 '10M' 等），再尝试加 'B'。parse_filesize 对纯数字加单位后缀的解析是设计意图（见 _UNIT_TABLE 与 lookup_unit_table）。'1.5' 这类小数本就不被支持，最终抛出带原始 intval 与 filter_part 的明确 ValueError 是预期行为，错误信息已包含足够上下文。未发现掩盖真实错误的具体证据，属误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 2518,
+      "end_line": 2519,
+      "severity": "low",
+      "category": "bug",
+      "title": "render_table 对空数据或列数不一致的行会崩溃或错位",
+      "explanation": "max_lens 通过 zip(*table) 计算，若 data 为空则 table 只有 header_row，zip 仍可工作；但若某行列数与 header_row 不一致，zip 会按最短列截断，导致 max_lens 长度与行长度不匹配，format_str 的占位符数量与 row 元素数量不符，'%' 格式化会抛 TypeError。另外当 max_lens 为空（header_row 为空列表）时，max_lens[:-1] 为空，format_str 仅为 '%s'，但 row 可能有多列，同样会格式化失败。",
+      "trigger": "调用 render_table 时传入的 data 中某行长度与 header_row 不同，或 header_row 为空列表。",
+      "evidence": "2517: table = [header_row] + data\n2518: max_lens = [max(len(compat_str(v)) for v in col) for col in zip(*table)]\n2519: format_str = ' '.join('%-' + compat_str(ml + 1) + 's' for ml in max_lens[:-1]) + '%s'\n2520: return '\\n'.join(format_str % tuple(row) for row in table)",
+      "suggestion": "在函数入口校验所有行长度一致，或使用 str.format/join 按列宽动态拼接，避免依赖 zip 截断后的长度与行长度一致。",
+      "id": "fc6c0ac116f4",
+      "source": "llm",
+      "rule": "",
+      "snippet": "2516:     \"\"\" Render a list of rows, each as a list of values \"\"\"\n2517:     table = [header_row] + data\n2518:     max_lens = [max(len(compat_str(v)) for v in col) for col in zip(*table)]\n2519:     format_str = ' '.join('%-' + compat_str(ml + 1) + 's' for ml in max_lens[:-1]) + '%s'\n2520:     return '\\n'.join(format_str % tuple(row) for row in table)\n2521: ",
+      "status": "needs_context",
+      "verification": "render_table 依赖调用方保证所有行（含 header_row）列数一致。若调用方传入列数不一致的行，zip(*table) 会按最短列截断，导致 format_str 占位符数与 row 长度不符而抛 TypeError。是否成立取决于未提供的调用上下文（各调用点是否保证等长）。缺少调用方证据，无法判定为实际缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 2536,
+      "end_line": 2538,
+      "severity": "low",
+      "category": "bug",
+      "title": "intval 正则允许前导点号，导致 int() 失败并进入 filesize 解析",
+      "explanation": "intval 模式为 [0-9.]+，允许形如 '.5' 或 '1.2.3' 的字符串。int('.5') 抛 ValueError，随后 parse_filesize('.5') 可能返回 None，再 parse_filesize('.5B') 也可能为 None，最终报错。虽然最终会报错，但错误路径依赖异常而非显式校验，且 '1.2.3' 这类明显非法输入也会走到 filesize 解析，错误信息不够明确。",
+      "trigger": "过滤表达式使用 '.5' 或 '1.2.3' 等非法数值形式，例如 'duration>.5'。",
+      "evidence": "2536: (?P<intval>[0-9.]+(?:[kKmMgGtTpPeEzZyY]i?[Bb]?)?)|",
+      "suggestion": "收紧 intval 正则以排除前导/多个小数点，或在解析前显式校验数值格式并给出明确错误信息。",
+      "id": "98b35e341d71",
+      "source": "llm",
+      "rule": "",
+      "snippet": "2534:         \\s*(?P<op>%s)(?P<none_inclusive>\\s*\\?)?\\s*\n2535:         (?:\n2536:             (?P<intval>[0-9.]+(?:[kKmMgGtTpPeEzZyY]i?[Bb]?)?)|\n2537:             (?P<quote>[\"\\'])(?P<quotedstrval>(?:\\\\.|(?!(?P=quote)|\\\\).)+?)(?P=quote)|\n2538:             (?P<strval>(?![0-9.])[a-z0-9A-Z]*)\n2539:         )\n2540:         \\s*$",
+      "status": "rejected",
+      "verification": "intval 正则 [0-9.]+ 允许 '.5'、'1.2.3' 等，但这类输入最终会经 int() 失败→parse_filesize 失败→抛出带原始值与 filter_part 的 ValueError，属于对非法输入的合理拒绝路径，并非静默错误。正则宽松是刻意的（同时支持整数与带单位值），未构成实际缺陷。误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 2557,
+      "end_line": 2560,
+      "severity": "low",
+      "category": "bug",
+      "title": "引号字符串反转义仅处理引号本身，未处理其他转义序列",
+      "explanation": "quotedstrval 正则允许 \\\\. 形式的任意转义，但后续只做 comparison_value.replace(r'\\%s' % quote, quote)，即仅把 \\\" 或 \\' 还原为引号。其他转义如 \\\\ 或 \\n 不会被还原，导致比较值与用户预期不符。例如过滤 'title=\"a\\\\b\"' 时，比较值会保留反斜杠。",
+      "trigger": "过滤表达式中引号字符串包含除引号外的转义序列，例如 'title=\"a\\\\b\"'。",
+      "evidence": "2537: (?P<quote>[\"\\'])(?P<quotedstrval>(?:\\\\.|(?!(?P=quote)|\\\\).)+?)(?P=quote)|\n2559: if quote is not None:\n2560:     comparison_value = comparison_value.replace(r'\\%s' % quote, quote)",
+      "suggestion": "使用更完整的反转义逻辑（如 codecs.decode 或自定义 unescape）处理所有 \\\\. 序列，或在文档中明确仅支持引号转义。",
+      "id": "cbb7a9b2909d",
+      "source": "llm",
+      "rule": "",
+      "snippet": "2555:                 raise ValueError(\n2556:                     'Operator %s does not support string values!' % m.group('op'))\n2557:             comparison_value = m.group('quotedstrval') or m.group('strval') or m.group('intval')\n2558:             quote = m.group('quote')\n2559:             if quote is not None:\n2560:                 comparison_value = comparison_value.replace(r'\\%s' % quote, quote)\n2561:         else:\n2562:             try:",
+      "status": "rejected",
+      "verification": "引号字符串仅反转义引号本身（replace(r'\\%s' % quote, quote)）是刻意的简化设计：过滤表达式语法只承诺支持引号转义，正则中 \\\\. 允许任意转义字符但仅引号被还原。这是有意的行为约定，非缺陷；将其视为 bug 缺乏依据。误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 2518,
+      "end_line": 2518,
+      "severity": "low",
+      "category": "quality",
+      "title": "B905: `zip()` without an explicit `strict=` parameter",
+      "explanation": "`zip()` without an explicit `strict=` parameter",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff B905: `zip()` without an explicit `strict=` parameter",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "0f9aeafb8ff5",
+      "source": "ruff",
+      "rule": "B905",
+      "snippet": "2516:     \"\"\" Render a list of rows, each as a list of values \"\"\"\n2517:     table = [header_row] + data\n2518:     max_lens = [max(len(compat_str(v)) for v in col) for col in zip(*table)]\n2519:     format_str = ' '.join('%-' + compat_str(ml + 1) + 's' for ml in max_lens[:-1]) + '%s'\n2520:     return '\\n'.join(format_str % tuple(row) for row in table)",
+      "status": "rejected",
+      "verification": "B905 要求 zip() 显式 strict= 参数，但该参数仅 Python 3.10+ 支持，而本项目明确兼容 Python 2（compat.py 中大量 try/except ImportError 的 Python 2 回退）。此处 zip(*table) 用于转置等长行列表，行为正确，添加 strict= 会破坏兼容性。属于误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 2569,
+      "end_line": 2569,
+      "severity": "low",
+      "category": "quality",
+      "title": "B904: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+      "explanation": "Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff B904: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "8136af4a3560",
+      "source": "ruff",
+      "rule": "B904",
+      "snippet": "2567:                     comparison_value = parse_filesize(m.group('intval') + 'B')\n2568:                 if comparison_value is None:\n2569:                     raise ValueError(\n2570:                         'Invalid integer value %r in filter part %r' % (\n2571:                             m.group('intval'), filter_part))",
+      "status": "rejected",
+      "verification": "B904 建议 raise ... from err/from None，但该语法仅 Python 3 支持，本项目需兼容 Python 2（见 compat.py 的 Python 2 分支）。在 except 中直接 raise ValueError 是刻意的兼容写法，非缺陷。误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "youtube-dl-1",
+    "variant": "fixed",
+    "fixed_commit": "1cc47c667419e0eadc0a6989256ab7b276852adf",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

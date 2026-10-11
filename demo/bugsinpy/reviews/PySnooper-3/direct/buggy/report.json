@@ -1,0 +1,239 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "https://github.com/cool-RR/PySnooper",
+    "name": "PySnooper",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "6e3d797be3fa0a746fb5b1b7c7fea78eb926c208",
+    "indexed_snapshot_sha256": "9ae6f4f828588525cd059d0cf5ea5ff88f1221b85e4fea9cd9d78ae55c12ab91"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:41:40.726151+00:00",
+    "status": "completed",
+    "mode": "direct",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "direct",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 3.522,
+    "api_calls": 1,
+    "usage": {
+      "prompt_tokens": 915,
+      "completion_tokens": 471
+    },
+    "indexed_python_files": 6,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 2,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "high": 2
+    },
+    "status_counts": {
+      "unverified": 2
+    }
+  },
+  "coverage": [
+    {
+      "path": "pysnooper/pysnooper.py",
+      "lines": 76,
+      "windows": [
+        [
+          11,
+          41
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "not_requested"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "make_release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test_requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "misc/IDE files/PySnooper.wpr",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tests/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/test_pysnooper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/utils.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 2539,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 471,
+        "prompt_tokens": 915,
+        "total_tokens": 1386,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 403
+      },
+      "elapsed_seconds": 3.501
+    }
+  ],
+  "tool_reads": [],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "pysnooper/pysnooper.py",
+      "start": 11,
+      "end": 41,
+      "findings": [
+        {
+          "path": "pysnooper/pysnooper.py",
+          "line": 22,
+          "end_line": 23,
+          "severity": "high",
+          "category": "bug",
+          "title": "get_write_function 中未导入 sys 导致 NameError",
+          "explanation": "在 output 为 None 的分支中，write 函数引用了 sys.stderr，但本文件顶部（第 11-16 行）只导入了 decorator、utils、pycompat、Tracer，没有 import sys。当调用 snoop() 使用默认 output=None 时，write 被调用会抛出 NameError: name 'sys' is not defined，导致默认输出到 stderr 的功能完全不可用。",
+          "trigger": "调用 snoop() 且不传 output 参数（output 默认为 None），随后被装饰函数执行并触发 write(s)，即访问 sys.stderr。",
+          "evidence": "第 22 行 `stderr = sys.stderr` 使用 sys，但第 11-16 行的导入区没有 `import sys`。",
+          "suggestion": "在文件顶部添加 `import sys`，或改为 `from sys import stderr` 并在 write 中使用 stderr。",
+          "id": "2319bdcf261c",
+          "source": "llm",
+          "rule": "",
+          "snippet": "20:     if output is None:\n21:         def write(s):\n22:             stderr = sys.stderr\n23:             stderr.write(s)\n24:     elif isinstance(output, (pycompat.PathLike, str)):\n25:         def write(s):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/pysnooper.py",
+          "line": 26,
+          "end_line": 27,
+          "severity": "high",
+          "category": "bug",
+          "title": "output 为字符串/PathLike 时引用未定义的 output_path",
+          "explanation": "当 output 是 str 或 PathLike 时，write 函数打开的是 output_path，但该名称在 get_write_function 作用域内从未定义。output_path 既不是参数也不是局部变量，调用 write 会抛出 NameError。正确做法应使用传入的 output 参数。",
+          "trigger": "调用 snoop(output='somefile.log') 或传入任意 PathLike 路径，随后 write(s) 被调用。",
+          "evidence": "第 24 行判断 `isinstance(output, (pycompat.PathLike, str))`，但第 26 行 `with open(output_path, 'a') as output_file:` 使用的是未定义的 output_path，而非 output。",
+          "suggestion": "将第 26 行改为 `with open(output, 'a') as output_file:`。",
+          "id": "228f4dfba835",
+          "source": "llm",
+          "rule": "",
+          "snippet": "24:     elif isinstance(output, (pycompat.PathLike, str)):\n25:         def write(s):\n26:             with open(output_path, 'a') as output_file:\n27:                 output_file.write(s)\n28:     else:\n29:         assert isinstance(output, utils.WritableStream)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "pysnooper/pysnooper.py",
+      "line": 22,
+      "end_line": 23,
+      "severity": "high",
+      "category": "bug",
+      "title": "get_write_function 中未导入 sys 导致 NameError",
+      "explanation": "在 output 为 None 的分支中，write 函数引用了 sys.stderr，但本文件顶部（第 11-16 行）只导入了 decorator、utils、pycompat、Tracer，没有 import sys。当调用 snoop() 使用默认 output=None 时，write 被调用会抛出 NameError: name 'sys' is not defined，导致默认输出到 stderr 的功能完全不可用。",
+      "trigger": "调用 snoop() 且不传 output 参数（output 默认为 None），随后被装饰函数执行并触发 write(s)，即访问 sys.stderr。",
+      "evidence": "第 22 行 `stderr = sys.stderr` 使用 sys，但第 11-16 行的导入区没有 `import sys`。",
+      "suggestion": "在文件顶部添加 `import sys`，或改为 `from sys import stderr` 并在 write 中使用 stderr。",
+      "id": "2319bdcf261c",
+      "source": "llm",
+      "rule": "",
+      "snippet": "20:     if output is None:\n21:         def write(s):\n22:             stderr = sys.stderr\n23:             stderr.write(s)\n24:     elif isinstance(output, (pycompat.PathLike, str)):\n25:         def write(s):",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/pysnooper.py",
+      "line": 26,
+      "end_line": 27,
+      "severity": "high",
+      "category": "bug",
+      "title": "output 为字符串/PathLike 时引用未定义的 output_path",
+      "explanation": "当 output 是 str 或 PathLike 时，write 函数打开的是 output_path，但该名称在 get_write_function 作用域内从未定义。output_path 既不是参数也不是局部变量，调用 write 会抛出 NameError。正确做法应使用传入的 output 参数。",
+      "trigger": "调用 snoop(output='somefile.log') 或传入任意 PathLike 路径，随后 write(s) 被调用。",
+      "evidence": "第 24 行判断 `isinstance(output, (pycompat.PathLike, str))`，但第 26 行 `with open(output_path, 'a') as output_file:` 使用的是未定义的 output_path，而非 output。",
+      "suggestion": "将第 26 行改为 `with open(output, 'a') as output_file:`。",
+      "id": "228f4dfba835",
+      "source": "llm",
+      "rule": "",
+      "snippet": "24:     elif isinstance(output, (pycompat.PathLike, str)):\n25:         def write(s):\n26:             with open(output_path, 'a') as output_file:\n27:                 output_file.write(s)\n28:     else:\n29:         assert isinstance(output, utils.WritableStream)",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "PySnooper-3",
+    "variant": "buggy",
+    "fixed_commit": "15555ed760000b049aff8fecc79d29339c1224c3",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

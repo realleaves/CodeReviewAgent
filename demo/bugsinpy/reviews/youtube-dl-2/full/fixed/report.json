@@ -1,0 +1,799 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "youtube-dl",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "84f085d4bdb66ee025fb337bcd571eab7469da97",
+    "indexed_snapshot_sha256": "6d8afdad248fb88963e4aa4bd2df4727379e39d788c26caef25356d6968b0b1d"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:41:29.881359+00:00",
+    "status": "completed",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "full",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 9.385,
+    "api_calls": 3,
+    "usage": {
+      "prompt_tokens": 23232,
+      "completion_tokens": 1541
+    },
+    "indexed_python_files": 801,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 6,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "high": 1,
+      "low": 2,
+      "medium": 3
+    },
+    "status_counts": {
+      "needs_context": 1,
+      "supported": 5
+    }
+  },
+  "coverage": [
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "lines": 2622,
+      "windows": [
+        [
+          1962,
+          2065
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "ChangeLog",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "youtube-dl.plugin.zsh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "bin/youtube-dl",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage_w.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/bash-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/fish-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/posix-locale.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/run_tests.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/wine-py2exe.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/zsh-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/module_guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/supportedsites.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/parameters.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testcert.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "test/versions.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassConstruction.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstantInt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/DictCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/EqualsOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/LocalVars.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/MemberAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/NeOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateVoidCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticRetrieval.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringBasics.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringCharCodeAt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringConversion.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/f4m/custom_base_url.f4m",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/pluzz_francetv_11507.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/teamcoco_11995.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/toggle_mobile_12211.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/twitch_vod.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/vidio.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/mpd/float_duration.mpd",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/mpd/urls_only.mpd",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_InfoExtractor.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDL.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_aes.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_age_restriction.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_all_urls.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_cache.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_compat.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_download.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_execution.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_iqiyi_sdk_interpreter.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_jsinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_netrc.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_options.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_postprocessors.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_socks.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_subtitles.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_swfinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_unicode_literals.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_update.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_verbose_output.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_write_annotations.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_chapters.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_lists.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_signature.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 37
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 9
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 21720,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 995,
+        "prompt_tokens": 7012,
+        "total_tokens": 8007,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 6500
+      },
+      "elapsed_seconds": 5.115
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 22557,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 89,
+        "prompt_tokens": 7047,
+        "total_tokens": 7136,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 6535
+      },
+      "elapsed_seconds": 0.713
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 31533,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 457,
+        "prompt_tokens": 9173,
+        "total_tokens": 9630,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 7040
+        },
+        "prompt_cache_hit_tokens": 7040,
+        "prompt_cache_miss_tokens": 2133
+      },
+      "elapsed_seconds": 2.695
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1947,
+      "end": 2066
+    },
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1900,
+      "end": 1980
+    },
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "start": 2035,
+      "end": 2075
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2065,
+      "findings": [
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 1973,
+          "end_line": 1973,
+          "severity": "high",
+          "category": "bug",
+          "title": "segment_urls 索引越界导致 IndexError",
+          "explanation": "在 'segment_urls' 与 's' 同时存在的分支中，代码按 SegmentTimeline 的 s 元素及其 r 重复次数展开片段，并用递增的 segment_index 去索引 representation_ms_info['segment_urls']。但 SegmentTimeline 声明的片段总数（sum(r+1)）与 segment_urls 列表长度并不保证一致：当 manifest 中 s 的重复次数多于实际提供的 segment URL 数量时，segment_index 会超出列表长度，抛出未捕获的 IndexError，使整个 DASH 格式解析失败。",
+          "trigger": "DASH MPD 中 Representation 同时含 SegmentTimeline（s 元素，含 r 重复）和 SegmentList/SegmentTemplate 生成的 segment_urls，且时间线声明的片段数大于 segment_urls 实际数量。",
+          "evidence": "1972: for r in range(s.get('r', 0) + 1):\n1973:     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1978:     segment_index += 1",
+          "suggestion": "在索引前校验 segment_index < len(representation_ms_info['segment_urls'])，越界时 break 或 report_warning 并跳过；或改用 zip/迭代器按实际 URL 数量对齐时间线。",
+          "id": "280c7ba3c948",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({\n1975:                                         location_key(segment_uri): segment_uri,",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 1972,
+          "end_line": 1972,
+          "severity": "low",
+          "category": "quality",
+          "title": "循环变量 r 未使用",
+          "explanation": "for r in range(...) 中 r 从未在循环体内被引用，仅用于控制重复次数，属于可读性/静态检查问题（ruff B007）。",
+          "trigger": "静态检查或代码审查时触发。",
+          "evidence": "1972: for r in range(s.get('r', 0) + 1):",
+          "suggestion": "改用 for _ in range(s.get('r', 0) + 1): 以表明该变量仅作计数用途。",
+          "id": "a15e209a1f73",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1970:                             for s in representation_ms_info['s']:\n1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 2045,
+          "end_line": 2045,
+          "severity": "medium",
+          "category": "bug",
+          "title": "ISM Duration 属性缺失或非数字时崩溃",
+          "explanation": "_parse_ism_formats 直接以 ism_doc.attrib['Duration'] 取值并 int() 转换。若 manifest 缺少 Duration 属性会抛 KeyError，若值非纯整数（如带小数或空串）会抛 ValueError，均未被捕获，导致解析中断而非返回空列表或警告。",
+          "trigger": "ISM/Smooth Streaming manifest 的根节点缺少 Duration 属性，或 Duration 值不是可被 int() 解析的字符串。",
+          "evidence": "2045: duration = int(ism_doc.attrib['Duration'])",
+          "suggestion": "使用 ism_doc.get('Duration') 并配合 int_or_none，缺失或非法时 report_warning 并返回 [] 或跳过。",
+          "id": "72b2e45df929",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2043:             return []\n2044: \n2045:         duration = int(ism_doc.attrib['Duration'])\n2046:         timescale = int_or_none(ism_doc.get('TimeScale')) or 10000000\n2047: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 2062,
+          "end_line": 2062,
+          "severity": "medium",
+          "category": "bug",
+          "title": "Bitrate 属性缺失或非数字时崩溃",
+          "explanation": "对每个 QualityLevel 直接访问 track.attrib['Bitrate'] 并做整除。若某 QualityLevel 缺少 Bitrate 属性会抛 KeyError；若值非数字会抛 ValueError，导致整个 ISM 解析失败。",
+          "trigger": "ISM manifest 中某个 QualityLevel 节点缺少 Bitrate 属性或其值无法转换为整数。",
+          "evidence": "2062: tbr = int(track.attrib['Bitrate']) // 1000",
+          "suggestion": "改用 int_or_none(track.get('Bitrate'))，为 None 时跳过该 track 或 report_warning。",
+          "id": "cf541039c04b",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2060:                     self.report_warning('%s is not a supported codec' % fourcc)\n2061:                     continue\n2062:                 tbr = int(track.attrib['Bitrate']) // 1000\n2063:                 # [1] does not mention Width and Height attributes. However,\n2064:                 # they're often present while MaxWidth and MaxHeight are",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 2053,
+          "end_line": 2053,
+          "severity": "medium",
+          "category": "bug",
+          "title": "StreamIndex 缺少 Url 属性时崩溃",
+          "explanation": "url_pattern = stream.attrib['Url'] 直接索引必需属性。若 StreamIndex 节点未提供 Url 属性，会抛 KeyError 中断解析。",
+          "trigger": "ISM manifest 的 StreamIndex 节点缺少 Url 属性。",
+          "evidence": "2053: url_pattern = stream.attrib['Url']",
+          "suggestion": "使用 stream.get('Url')，为 None 时 report_warning 并 continue 跳过该 stream。",
+          "id": "ddbc59b06cc1",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2051:             if stream_type not in ('video', 'audio'):\n2052:                 continue\n2053:             url_pattern = stream.attrib['Url']\n2054:             stream_timescale = int_or_none(stream.get('TimeScale')) or timescale\n2055:             stream_name = stream.get('Name')",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "766edb102530",
+          "status": "supported",
+          "reason": "第1972行 for r in range(s.get('r', 0) + 1) 中 r 确实未在循环体内被引用，仅用于控制重复次数，ruff B007 诊断成立。属代码质量/可读性问题，非功能缺陷。"
+        },
+        {
+          "id": "280c7ba3c948",
+          "status": "needs_context",
+          "reason": "第1963-1978行确实用递增 segment_index 索引 segment_urls，且未做边界检查。但该分支的注释示例为 YouTube dashsegments，其 segment_urls 与 SegmentTimeline 的 s/r 展开数量是否保证一致取决于具体 manifest 生成逻辑，未提供调用上下文与真实 manifest，无法确认越界是否实际可达。代码层面缺少防护属实，但触发条件依赖外部数据约定。"
+        },
+        {
+          "id": "a15e209a1f73",
+          "status": "supported",
+          "reason": "与 766edb102530 相同：第1972行循环变量 r 未使用，建议改为 for _ in range(...)。静态检查问题成立。"
+        },
+        {
+          "id": "72b2e45df929",
+          "status": "supported",
+          "reason": "第2045行 int(ism_doc.attrib['Duration']) 直接索引必需属性并 int() 转换，缺少 Duration 会抛 KeyError，非整数会抛 ValueError，均未捕获。代码依据明确。"
+        },
+        {
+          "id": "cf541039c04b",
+          "status": "supported",
+          "reason": "第2062行 int(track.attrib['Bitrate']) // 1000 直接索引必需属性，缺少 Bitrate 抛 KeyError，非数字抛 ValueError，未捕获。代码依据明确。"
+        },
+        {
+          "id": "ddbc59b06cc1",
+          "status": "supported",
+          "reason": "第2053行 url_pattern = stream.attrib['Url'] 直接索引必需属性，StreamIndex 缺少 Url 会抛 KeyError，未捕获。代码依据明确。"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "line": 1973,
+      "end_line": 1973,
+      "severity": "high",
+      "category": "bug",
+      "title": "segment_urls 索引越界导致 IndexError",
+      "explanation": "在 'segment_urls' 与 's' 同时存在的分支中，代码按 SegmentTimeline 的 s 元素及其 r 重复次数展开片段，并用递增的 segment_index 去索引 representation_ms_info['segment_urls']。但 SegmentTimeline 声明的片段总数（sum(r+1)）与 segment_urls 列表长度并不保证一致：当 manifest 中 s 的重复次数多于实际提供的 segment URL 数量时，segment_index 会超出列表长度，抛出未捕获的 IndexError，使整个 DASH 格式解析失败。",
+      "trigger": "DASH MPD 中 Representation 同时含 SegmentTimeline（s 元素，含 r 重复）和 SegmentList/SegmentTemplate 生成的 segment_urls，且时间线声明的片段数大于 segment_urls 实际数量。",
+      "evidence": "1972: for r in range(s.get('r', 0) + 1):\n1973:     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1978:     segment_index += 1",
+      "suggestion": "在索引前校验 segment_index < len(representation_ms_info['segment_urls'])，越界时 break 或 report_warning 并跳过；或改用 zip/迭代器按实际 URL 数量对齐时间线。",
+      "id": "280c7ba3c948",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({\n1975:                                         location_key(segment_uri): segment_uri,",
+      "status": "needs_context",
+      "verification": "第1963-1978行确实用递增 segment_index 索引 segment_urls，且未做边界检查。但该分支的注释示例为 YouTube dashsegments，其 segment_urls 与 SegmentTimeline 的 s/r 展开数量是否保证一致取决于具体 manifest 生成逻辑，未提供调用上下文与真实 manifest，无法确认越界是否实际可达。代码层面缺少防护属实，但触发条件依赖外部数据约定。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "line": 1972,
+      "end_line": 1972,
+      "severity": "low",
+      "category": "quality",
+      "title": "循环变量 r 未使用",
+      "explanation": "for r in range(...) 中 r 从未在循环体内被引用，仅用于控制重复次数，属于可读性/静态检查问题（ruff B007）。",
+      "trigger": "静态检查或代码审查时触发。",
+      "evidence": "1972: for r in range(s.get('r', 0) + 1):",
+      "suggestion": "改用 for _ in range(s.get('r', 0) + 1): 以表明该变量仅作计数用途。",
+      "id": "a15e209a1f73",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1970:                             for s in representation_ms_info['s']:\n1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({",
+      "status": "supported",
+      "verification": "与 766edb102530 相同：第1972行循环变量 r 未使用，建议改为 for _ in range(...)。静态检查问题成立。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "line": 2045,
+      "end_line": 2045,
+      "severity": "medium",
+      "category": "bug",
+      "title": "ISM Duration 属性缺失或非数字时崩溃",
+      "explanation": "_parse_ism_formats 直接以 ism_doc.attrib['Duration'] 取值并 int() 转换。若 manifest 缺少 Duration 属性会抛 KeyError，若值非纯整数（如带小数或空串）会抛 ValueError，均未被捕获，导致解析中断而非返回空列表或警告。",
+      "trigger": "ISM/Smooth Streaming manifest 的根节点缺少 Duration 属性，或 Duration 值不是可被 int() 解析的字符串。",
+      "evidence": "2045: duration = int(ism_doc.attrib['Duration'])",
+      "suggestion": "使用 ism_doc.get('Duration') 并配合 int_or_none，缺失或非法时 report_warning 并返回 [] 或跳过。",
+      "id": "72b2e45df929",
+      "source": "llm",
+      "rule": "",
+      "snippet": "2043:             return []\n2044: \n2045:         duration = int(ism_doc.attrib['Duration'])\n2046:         timescale = int_or_none(ism_doc.get('TimeScale')) or 10000000\n2047: ",
+      "status": "supported",
+      "verification": "第2045行 int(ism_doc.attrib['Duration']) 直接索引必需属性并 int() 转换，缺少 Duration 会抛 KeyError，非整数会抛 ValueError，均未捕获。代码依据明确。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "line": 2062,
+      "end_line": 2062,
+      "severity": "medium",
+      "category": "bug",
+      "title": "Bitrate 属性缺失或非数字时崩溃",
+      "explanation": "对每个 QualityLevel 直接访问 track.attrib['Bitrate'] 并做整除。若某 QualityLevel 缺少 Bitrate 属性会抛 KeyError；若值非数字会抛 ValueError，导致整个 ISM 解析失败。",
+      "trigger": "ISM manifest 中某个 QualityLevel 节点缺少 Bitrate 属性或其值无法转换为整数。",
+      "evidence": "2062: tbr = int(track.attrib['Bitrate']) // 1000",
+      "suggestion": "改用 int_or_none(track.get('Bitrate'))，为 None 时跳过该 track 或 report_warning。",
+      "id": "cf541039c04b",
+      "source": "llm",
+      "rule": "",
+      "snippet": "2060:                     self.report_warning('%s is not a supported codec' % fourcc)\n2061:                     continue\n2062:                 tbr = int(track.attrib['Bitrate']) // 1000\n2063:                 # [1] does not mention Width and Height attributes. However,\n2064:                 # they're often present while MaxWidth and MaxHeight are",
+      "status": "supported",
+      "verification": "第2062行 int(track.attrib['Bitrate']) // 1000 直接索引必需属性，缺少 Bitrate 抛 KeyError，非数字抛 ValueError，未捕获。代码依据明确。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "line": 2053,
+      "end_line": 2053,
+      "severity": "medium",
+      "category": "bug",
+      "title": "StreamIndex 缺少 Url 属性时崩溃",
+      "explanation": "url_pattern = stream.attrib['Url'] 直接索引必需属性。若 StreamIndex 节点未提供 Url 属性，会抛 KeyError 中断解析。",
+      "trigger": "ISM manifest 的 StreamIndex 节点缺少 Url 属性。",
+      "evidence": "2053: url_pattern = stream.attrib['Url']",
+      "suggestion": "使用 stream.get('Url')，为 None 时 report_warning 并 continue 跳过该 stream。",
+      "id": "ddbc59b06cc1",
+      "source": "llm",
+      "rule": "",
+      "snippet": "2051:             if stream_type not in ('video', 'audio'):\n2052:                 continue\n2053:             url_pattern = stream.attrib['Url']\n2054:             stream_timescale = int_or_none(stream.get('TimeScale')) or timescale\n2055:             stream_name = stream.get('Name')",
+      "status": "supported",
+      "verification": "第2053行 url_pattern = stream.attrib['Url'] 直接索引必需属性，StreamIndex 缺少 Url 会抛 KeyError，未捕获。代码依据明确。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/extractor/common.py",
+      "line": 1972,
+      "end_line": 1972,
+      "severity": "low",
+      "category": "quality",
+      "title": "B007: Loop control variable `r` not used within loop body",
+      "explanation": "Loop control variable `r` not used within loop body",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff B007: Loop control variable `r` not used within loop body",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "766edb102530",
+      "source": "ruff",
+      "rule": "B007",
+      "snippet": "1970:                             for s in representation_ms_info['s']:\n1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({",
+      "status": "supported",
+      "verification": "第1972行 for r in range(s.get('r', 0) + 1) 中 r 确实未在循环体内被引用，仅用于控制重复次数，ruff B007 诊断成立。属代码质量/可读性问题，非功能缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "youtube-dl-2",
+    "variant": "fixed",
+    "fixed_commit": "9d6ac71c27b1dfb662c795ef598dbfd0286682da",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

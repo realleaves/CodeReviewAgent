@@ -1,0 +1,743 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "youtube-dl",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "cf2ac6df6896dac4d23918867bb86fac1e1088d9",
+    "indexed_snapshot_sha256": "a4b7bd8352dc7d103a8c9b23dae9cb6fdede352fcdb8e5fa364b89f8add84705"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:48:26.092302+00:00",
+    "status": "completed",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "full",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 12.206,
+    "api_calls": 4,
+    "usage": {
+      "prompt_tokens": 29747,
+      "completion_tokens": 1920
+    },
+    "indexed_python_files": 563,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 6,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "low": 3,
+      "medium": 3
+    },
+    "status_counts": {
+      "supported": 2,
+      "needs_context": 4
+    }
+  },
+  "coverage": [
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "lines": 1999,
+      "windows": [
+        [
+          926,
+          990
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "youtube-dl.plugin.zsh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "bin/youtube-dl",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage_w.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/bash-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/fish-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/posix-locale.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/wine-py2exe.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/zsh-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/module_guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/supportedsites.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/parameters.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testcert.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "test/swftests/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassConstruction.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstantInt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/DictCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/EqualsOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/LocalVars.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/MemberAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/NeOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateVoidCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticRetrieval.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringBasics.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringCharCodeAt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringConversion.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_InfoExtractor.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDL.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_aes.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_age_restriction.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_all_urls.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_cache.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_compat.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_download.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_execution.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_jsinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_netrc.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_postprocessors.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_subtitles.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_swfinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_unicode_literals.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_write_annotations.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_lists.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_signature.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 8
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 15
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 17860,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1311,
+        "prompt_tokens": 5941,
+        "total_tokens": 7252,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 5429
+      },
+      "elapsed_seconds": 6.872
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 21835,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 44,
+        "prompt_tokens": 6720,
+        "total_tokens": 6764,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 6080
+      },
+      "elapsed_seconds": 0.782
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 26941,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 54,
+        "prompt_tokens": 7994,
+        "total_tokens": 8048,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 6656
+        },
+        "prompt_cache_hit_tokens": 6656,
+        "prompt_cache_miss_tokens": 1338
+      },
+      "elapsed_seconds": 0.855
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 30711,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 511,
+        "prompt_tokens": 9092,
+        "total_tokens": 9603,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 8580
+      },
+      "elapsed_seconds": 3.123
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 903,
+      "end": 1007
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 1007,
+      "end": 1080
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 1080,
+      "end": 1130
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 880,
+      "end": 905
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 990,
+      "findings": [
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 928,
+          "end_line": 932,
+          "severity": "low",
+          "category": "quality",
+          "title": "_parse_filter 中未使用的循环变量 start",
+          "explanation": "在 _parse_filter 的 for 循环中解包了 token 的 start 字段但从未使用，属于冗余代码。ruff 的 B007 也报告了该问题。这本身不影响功能，但会降低可读性，并可能在后续重构中造成误解。",
+          "trigger": "静态检查或代码审查时触发，不影响运行时行为。",
+          "evidence": "第928行 `for type, string, start, _, _ in tokens:`，循环体内（929-932行）仅使用 type 和 string，未引用 start。",
+          "suggestion": "将未使用的变量改为下划线占位，例如 `for type, string, _, _, _ in tokens:`，或使用 `for token in tokens:` 后按需索引。",
+          "id": "bf78822b8629",
+          "source": "llm",
+          "rule": "",
+          "snippet": "926:         def _parse_filter(tokens):\n927:             filter_parts = []\n928:             for type, string, start, _, _ in tokens:\n929:                 if type == tokenize.OP and string == ']':\n930:                     return ''.join(filter_parts)\n931:                 else:\n932:                     filter_parts.append(string)\n933: \n934:         def _parse_format_selection(tokens, inside_merge=False, inside_choice=False, inside_group=False):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 934,
+          "end_line": 982,
+          "severity": "medium",
+          "category": "bug",
+          "title": "_parse_format_selection 中 current_selector 可能为 None 被追加到 selectors",
+          "explanation": "当遇到逗号 ',' 时（第955-957行），代码无条件执行 `selectors.append(current_selector)` 然后重置 current_selector。如果输入中出现连续逗号（如 'best,,worst'）或前导逗号（如 ',best'），此时 current_selector 为 None，会被追加进 selectors 列表。后续 _build_selector_function 递归处理该列表时，None 元素会导致对 None 调用 _build_selector_function 或属性访问，从而抛出异常或产生非预期行为。",
+          "trigger": "用户传入包含连续逗号或前导逗号的格式选择字符串，例如 `-f 'best,,worst'` 或 `-f ',best'`。",
+          "evidence": "第955-957行：`elif string == ',': selectors.append(current_selector); current_selector = None`，未检查 current_selector 是否为 None。第980-981行仅在循环结束后检查 current_selector 非空才追加。",
+          "suggestion": "在追加前校验 current_selector 是否为 None，若为 None 则抛出 syntax_error（如 'Unexpected \",\"'），避免将 None 传入后续构建逻辑。",
+          "id": "7215200b3c35",
+          "source": "llm",
+          "rule": "",
+          "snippet": "932:                     filter_parts.append(string)\n933: \n934:         def _parse_format_selection(tokens, inside_merge=False, inside_choice=False, inside_group=False):\n935:             selectors = []\n936:             current_selector = None\n937:             for type, string, start, _, _ in tokens:\n938:                 # ENCODING is only defined in python 3.x\n939:                 if type == getattr(tokenize, 'ENCODING', None):\n940:                     continue\n941:                 elif type in [tokenize.NAME, tokenize.NUMBER]:\n942:                     current_selector = FormatSelector(SINGLE, string, [])\n943:                 elif type == tokenize.OP:\n944:                     if string == ')':\n945:                         if not inside_group:\n946:                             # ')' will be handled by the parentheses group\n947:                             tokens.restore_last_token()\n948:                         break\n949:                     elif inside_merge and string in ['/', ',']:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 958,
+          "end_line": 961,
+          "severity": "medium",
+          "category": "bug",
+          "title": "'/' 选择器在 current_selector 为 None 时构造 PICKFIRST 含 None 分支",
+          "explanation": "当遇到 '/' 时（第958-961行），代码将 current_selector 作为 first_choice，并递归解析 second_choice，然后构造 FormatSelector(PICKFIRST, (first_choice, second_choice), [])。若 '/' 出现在选择器开头（如 '/best'），first_choice 为 None，会被放入 PICKFIRST 的元组中。后续 _build_selector_function 处理 PICKFIRST 时对 None 分支调用构建函数会失败。",
+          "trigger": "用户传入以 '/' 开头的格式选择字符串，例如 `-f '/best'`。",
+          "evidence": "第959-961行：`first_choice = current_selector`（可能为 None），随后 `current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])`，未校验 first_choice。",
+          "suggestion": "在构造 PICKFIRST 前检查 first_choice 是否为 None，若为 None 则抛出 syntax_error，提示 '/' 前缺少选择器。",
+          "id": "4b9c54bb9be7",
+          "source": "llm",
+          "rule": "",
+          "snippet": "956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector\n960:                         second_choice = _parse_format_selection(tokens, inside_choice=True)\n961:                         current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])\n962:                     elif string == '[':\n963:                         if not current_selector:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 972,
+          "end_line": 975,
+          "severity": "medium",
+          "category": "bug",
+          "title": "'+' 合并选择器在 current_selector 为 None 时构造 MERGE 含 None 视频分支",
+          "explanation": "当遇到 '+' 时（第972-975行），代码将 current_selector 作为 video_selector，递归解析 audio_selector，然后构造 FormatSelector(MERGE, (video_selector, audio_selector), [])。若 '+' 出现在选择器开头（如 '+bestaudio'），video_selector 为 None，会被放入 MERGE 元组。后续构建合并逻辑时对 None 视频分支处理会失败。",
+          "trigger": "用户传入以 '+' 开头的格式选择字符串，例如 `-f '+bestaudio'`。",
+          "evidence": "第973-975行：`video_selector = current_selector`（可能为 None），随后 `current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])`，未校验 video_selector。",
+          "suggestion": "在构造 MERGE 前检查 video_selector 是否为 None，若为 None 则抛出 syntax_error，提示 '+' 前缺少视频选择器。",
+          "id": "812ca8acc884",
+          "source": "llm",
+          "rule": "",
+          "snippet": "970:                         group = _parse_format_selection(tokens, inside_group=True)\n971:                         current_selector = FormatSelector(GROUP, group, [])\n972:                     elif string == '+':\n973:                         video_selector = current_selector\n974:                         audio_selector = _parse_format_selection(tokens, inside_merge=True)\n975:                         current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\n976:                     else:\n977:                         raise syntax_error('Operator not recognized: \"{0}\"'.format(string), start)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 962,
+          "end_line": 966,
+          "severity": "low",
+          "category": "bug",
+          "title": "_parse_filter 遇到未闭合的 '[' 时静默返回空过滤器",
+          "explanation": "_parse_filter（第926-932行）在遍历 token 时，只有遇到 ']' 才返回拼接结果；若 token 流结束（ENDMARKER）仍未遇到 ']'，循环自然结束，函数隐式返回 None。调用处第965-966行 `format_filter = _parse_filter(tokens); current_selector.filters.append(format_filter)` 会把 None 追加到 filters。后续使用该过滤器时可能因 None 导致异常或过滤行为异常，而非给出明确的语法错误。",
+          "trigger": "用户传入未闭合方括号的格式选择字符串，例如 `-f 'best[height>720'`。",
+          "evidence": "第926-932行 _parse_filter 无显式 return 兜底；第965-966行直接 append 返回值，未校验 None。",
+          "suggestion": "在 _parse_filter 末尾对未闭合情况抛出 syntax_error，或在调用处校验返回值非 None。",
+          "id": "b5757b03c6dd",
+          "source": "llm",
+          "rule": "",
+          "snippet": "960:                         second_choice = _parse_format_selection(tokens, inside_choice=True)\n961:                         current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])\n962:                     elif string == '[':\n963:                         if not current_selector:\n964:                             current_selector = FormatSelector(SINGLE, 'best', [])\n965:                         format_filter = _parse_filter(tokens)\n966:                         current_selector.filters.append(format_filter)\n967:                     elif string == '(':\n968:                         if current_selector:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "ae4afde4b262",
+          "status": "supported",
+          "reason": "第928行 `for type, string, start, _, _ in tokens:` 中 start 在循环体（929-932行）内确实未被引用，ruff B007 诊断成立。属于代码质量问题，不影响功能。"
+        },
+        {
+          "id": "bf78822b8629",
+          "status": "supported",
+          "reason": "与 ae4afde4b262 同一处：第928行解包 token 的 start 字段但循环体仅使用 type 和 string，确为冗余变量，可读性建议成立。"
+        },
+        {
+          "id": "7215200b3c35",
+          "status": "needs_context",
+          "reason": "第955-957行在 ',' 时无条件 append current_selector 且未校验 None。但 tokenize 对 'best,,worst' 或 ',best' 是否会产生连续 OP 逗号 token、以及 _build_selector_function 对 None 元素的实际行为，需运行验证；静态推断不足以确认会抛异常，故标记 needs_context。"
+        },
+        {
+          "id": "4b9c54bb9be7",
+          "status": "needs_context",
+          "reason": "第958-961行 first_choice = current_selector 可能为 None 并放入 PICKFIRST 元组。但以 '/' 开头的输入是否被 tokenize 解析为 OP '/' 并进入该分支、以及后续 _build_selector_function 对 None 的处理，需运行确认，静态推断不足。"
+        },
+        {
+          "id": "812ca8acc884",
+          "status": "needs_context",
+          "reason": "第972-975行 video_selector 可能为 None 并放入 MERGE 元组。以 '+' 开头的输入是否进入该分支及后续 None 处理行为需运行验证，静态推断不足以确认会失败。"
+        },
+        {
+          "id": "b5757b03c6dd",
+          "status": "needs_context",
+          "reason": "_parse_filter（926-932行）在无 ']' 时隐式返回 None，第965-966行直接 append。但未闭合 '[' 是否会被第1104行 tokenize.TokenError 提前捕获并抛出 syntax_error，取决于 tokenize 对未闭合括号的行为，需运行确认，故标记 needs_context。"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 928,
+      "end_line": 932,
+      "severity": "low",
+      "category": "quality",
+      "title": "_parse_filter 中未使用的循环变量 start",
+      "explanation": "在 _parse_filter 的 for 循环中解包了 token 的 start 字段但从未使用，属于冗余代码。ruff 的 B007 也报告了该问题。这本身不影响功能，但会降低可读性，并可能在后续重构中造成误解。",
+      "trigger": "静态检查或代码审查时触发，不影响运行时行为。",
+      "evidence": "第928行 `for type, string, start, _, _ in tokens:`，循环体内（929-932行）仅使用 type 和 string，未引用 start。",
+      "suggestion": "将未使用的变量改为下划线占位，例如 `for type, string, _, _, _ in tokens:`，或使用 `for token in tokens:` 后按需索引。",
+      "id": "bf78822b8629",
+      "source": "llm",
+      "rule": "",
+      "snippet": "926:         def _parse_filter(tokens):\n927:             filter_parts = []\n928:             for type, string, start, _, _ in tokens:\n929:                 if type == tokenize.OP and string == ']':\n930:                     return ''.join(filter_parts)\n931:                 else:\n932:                     filter_parts.append(string)\n933: \n934:         def _parse_format_selection(tokens, inside_merge=False, inside_choice=False, inside_group=False):",
+      "status": "supported",
+      "verification": "与 ae4afde4b262 同一处：第928行解包 token 的 start 字段但循环体仅使用 type 和 string，确为冗余变量，可读性建议成立。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 934,
+      "end_line": 982,
+      "severity": "medium",
+      "category": "bug",
+      "title": "_parse_format_selection 中 current_selector 可能为 None 被追加到 selectors",
+      "explanation": "当遇到逗号 ',' 时（第955-957行），代码无条件执行 `selectors.append(current_selector)` 然后重置 current_selector。如果输入中出现连续逗号（如 'best,,worst'）或前导逗号（如 ',best'），此时 current_selector 为 None，会被追加进 selectors 列表。后续 _build_selector_function 递归处理该列表时，None 元素会导致对 None 调用 _build_selector_function 或属性访问，从而抛出异常或产生非预期行为。",
+      "trigger": "用户传入包含连续逗号或前导逗号的格式选择字符串，例如 `-f 'best,,worst'` 或 `-f ',best'`。",
+      "evidence": "第955-957行：`elif string == ',': selectors.append(current_selector); current_selector = None`，未检查 current_selector 是否为 None。第980-981行仅在循环结束后检查 current_selector 非空才追加。",
+      "suggestion": "在追加前校验 current_selector 是否为 None，若为 None 则抛出 syntax_error（如 'Unexpected \",\"'），避免将 None 传入后续构建逻辑。",
+      "id": "7215200b3c35",
+      "source": "llm",
+      "rule": "",
+      "snippet": "932:                     filter_parts.append(string)\n933: \n934:         def _parse_format_selection(tokens, inside_merge=False, inside_choice=False, inside_group=False):\n935:             selectors = []\n936:             current_selector = None\n937:             for type, string, start, _, _ in tokens:\n938:                 # ENCODING is only defined in python 3.x\n939:                 if type == getattr(tokenize, 'ENCODING', None):\n940:                     continue\n941:                 elif type in [tokenize.NAME, tokenize.NUMBER]:\n942:                     current_selector = FormatSelector(SINGLE, string, [])\n943:                 elif type == tokenize.OP:\n944:                     if string == ')':\n945:                         if not inside_group:\n946:                             # ')' will be handled by the parentheses group\n947:                             tokens.restore_last_token()\n948:                         break\n949:                     elif inside_merge and string in ['/', ',']:",
+      "status": "needs_context",
+      "verification": "第955-957行在 ',' 时无条件 append current_selector 且未校验 None。但 tokenize 对 'best,,worst' 或 ',best' 是否会产生连续 OP 逗号 token、以及 _build_selector_function 对 None 元素的实际行为，需运行验证；静态推断不足以确认会抛异常，故标记 needs_context。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 958,
+      "end_line": 961,
+      "severity": "medium",
+      "category": "bug",
+      "title": "'/' 选择器在 current_selector 为 None 时构造 PICKFIRST 含 None 分支",
+      "explanation": "当遇到 '/' 时（第958-961行），代码将 current_selector 作为 first_choice，并递归解析 second_choice，然后构造 FormatSelector(PICKFIRST, (first_choice, second_choice), [])。若 '/' 出现在选择器开头（如 '/best'），first_choice 为 None，会被放入 PICKFIRST 的元组中。后续 _build_selector_function 处理 PICKFIRST 时对 None 分支调用构建函数会失败。",
+      "trigger": "用户传入以 '/' 开头的格式选择字符串，例如 `-f '/best'`。",
+      "evidence": "第959-961行：`first_choice = current_selector`（可能为 None），随后 `current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])`，未校验 first_choice。",
+      "suggestion": "在构造 PICKFIRST 前检查 first_choice 是否为 None，若为 None 则抛出 syntax_error，提示 '/' 前缺少选择器。",
+      "id": "4b9c54bb9be7",
+      "source": "llm",
+      "rule": "",
+      "snippet": "956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector\n960:                         second_choice = _parse_format_selection(tokens, inside_choice=True)\n961:                         current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])\n962:                     elif string == '[':\n963:                         if not current_selector:",
+      "status": "needs_context",
+      "verification": "第958-961行 first_choice = current_selector 可能为 None 并放入 PICKFIRST 元组。但以 '/' 开头的输入是否被 tokenize 解析为 OP '/' 并进入该分支、以及后续 _build_selector_function 对 None 的处理，需运行确认，静态推断不足。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 972,
+      "end_line": 975,
+      "severity": "medium",
+      "category": "bug",
+      "title": "'+' 合并选择器在 current_selector 为 None 时构造 MERGE 含 None 视频分支",
+      "explanation": "当遇到 '+' 时（第972-975行），代码将 current_selector 作为 video_selector，递归解析 audio_selector，然后构造 FormatSelector(MERGE, (video_selector, audio_selector), [])。若 '+' 出现在选择器开头（如 '+bestaudio'），video_selector 为 None，会被放入 MERGE 元组。后续构建合并逻辑时对 None 视频分支处理会失败。",
+      "trigger": "用户传入以 '+' 开头的格式选择字符串，例如 `-f '+bestaudio'`。",
+      "evidence": "第973-975行：`video_selector = current_selector`（可能为 None），随后 `current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])`，未校验 video_selector。",
+      "suggestion": "在构造 MERGE 前检查 video_selector 是否为 None，若为 None 则抛出 syntax_error，提示 '+' 前缺少视频选择器。",
+      "id": "812ca8acc884",
+      "source": "llm",
+      "rule": "",
+      "snippet": "970:                         group = _parse_format_selection(tokens, inside_group=True)\n971:                         current_selector = FormatSelector(GROUP, group, [])\n972:                     elif string == '+':\n973:                         video_selector = current_selector\n974:                         audio_selector = _parse_format_selection(tokens, inside_merge=True)\n975:                         current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\n976:                     else:\n977:                         raise syntax_error('Operator not recognized: \"{0}\"'.format(string), start)",
+      "status": "needs_context",
+      "verification": "第972-975行 video_selector 可能为 None 并放入 MERGE 元组。以 '+' 开头的输入是否进入该分支及后续 None 处理行为需运行验证，静态推断不足以确认会失败。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 962,
+      "end_line": 966,
+      "severity": "low",
+      "category": "bug",
+      "title": "_parse_filter 遇到未闭合的 '[' 时静默返回空过滤器",
+      "explanation": "_parse_filter（第926-932行）在遍历 token 时，只有遇到 ']' 才返回拼接结果；若 token 流结束（ENDMARKER）仍未遇到 ']'，循环自然结束，函数隐式返回 None。调用处第965-966行 `format_filter = _parse_filter(tokens); current_selector.filters.append(format_filter)` 会把 None 追加到 filters。后续使用该过滤器时可能因 None 导致异常或过滤行为异常，而非给出明确的语法错误。",
+      "trigger": "用户传入未闭合方括号的格式选择字符串，例如 `-f 'best[height>720'`。",
+      "evidence": "第926-932行 _parse_filter 无显式 return 兜底；第965-966行直接 append 返回值，未校验 None。",
+      "suggestion": "在 _parse_filter 末尾对未闭合情况抛出 syntax_error，或在调用处校验返回值非 None。",
+      "id": "b5757b03c6dd",
+      "source": "llm",
+      "rule": "",
+      "snippet": "960:                         second_choice = _parse_format_selection(tokens, inside_choice=True)\n961:                         current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])\n962:                     elif string == '[':\n963:                         if not current_selector:\n964:                             current_selector = FormatSelector(SINGLE, 'best', [])\n965:                         format_filter = _parse_filter(tokens)\n966:                         current_selector.filters.append(format_filter)\n967:                     elif string == '(':\n968:                         if current_selector:",
+      "status": "needs_context",
+      "verification": "_parse_filter（926-932行）在无 ']' 时隐式返回 None，第965-966行直接 append。但未闭合 '[' 是否会被第1104行 tokenize.TokenError 提前捕获并抛出 syntax_error，取决于 tokenize 对未闭合括号的行为，需运行确认，故标记 needs_context。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 928,
+      "end_line": 928,
+      "severity": "low",
+      "category": "quality",
+      "title": "B007: Loop control variable `start` not used within loop body",
+      "explanation": "Loop control variable `start` not used within loop body",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff B007: Loop control variable `start` not used within loop body",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "ae4afde4b262",
+      "source": "ruff",
+      "rule": "B007",
+      "snippet": "926:         def _parse_filter(tokens):\n927:             filter_parts = []\n928:             for type, string, start, _, _ in tokens:\n929:                 if type == tokenize.OP and string == ']':\n930:                     return ''.join(filter_parts)",
+      "status": "supported",
+      "verification": "第928行 `for type, string, start, _, _ in tokens:` 中 start 在循环体（929-932行）内确实未被引用，ruff B007 诊断成立。属于代码质量问题，不影响功能。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "youtube-dl-8",
+    "variant": "fixed",
+    "fixed_commit": "f5f4a27a964b41646303921104f4d6d6fd2098e4",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

@@ -1,0 +1,1407 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "tornado",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "fa3409179588536f2f743d16e537f6f9827fa92f",
+    "indexed_snapshot_sha256": "16950d597deb81563b924a4115ea06206c551b113d04fb8a56d3a4b6cb58c25b"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:47:10.749630+00:00",
+    "status": "completed",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "full",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 11.396,
+    "api_calls": 5,
+    "usage": {
+      "prompt_tokens": 32481,
+      "completion_tokens": 1976
+    },
+    "indexed_python_files": 69,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 2,
+    "total_window_chunks": 2,
+    "active_findings": 1,
+    "rejected_findings": 4,
+    "severity_counts": {
+      "medium": 1
+    },
+    "status_counts": {
+      "needs_context": 1
+    }
+  },
+  "coverage": [
+    {
+      "path": "tornado/ioloop.py",
+      "lines": 1132,
+      "windows": [
+        [
+          1,
+          95
+        ],
+        [
+          610,
+          711
+        ]
+      ],
+      "total_chunks": 2,
+      "reviewed_chunks": 2,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".coveragerc",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "appveyor.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "codecov.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "runtests.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/app.yaml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/static/blog.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/archive.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/base.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/compose.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/feed.xml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/modules/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/Dockerfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/docker-compose.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/schema.sql",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/static/blog.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/archive.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/base.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/compose.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/create_author.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/feed.xml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/login.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/modules/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/static/chat.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/static/chat.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/templates/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/templates/message.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/static/facebook.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/static/facebook.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/templates/stream.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/templates/modules/post.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/tcpecho/README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/twitter/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/static/chat.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/static/chat.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/templates/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/templates/message.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/asyncio.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/auth.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/autoreload.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/caresresolver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/concurrent.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/coroutine.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/escape.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/faq.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/favicon.ico",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/gen.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/http.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/http1connection.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httpclient.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httpserver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httputil.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/integration.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/ioloop.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/iostream.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/locale.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/locks.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/log.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/netutil.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/networking.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/options.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/process.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/queues.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/routing.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/stack_context.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tcpclient.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tcpserver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/template.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/testing.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tornado.png",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/twisted.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/util.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/utilities.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/web.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/webframework.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/websocket.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/wsgi.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/async.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/coroutines.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/intro.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/queues.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/running.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/security.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/structure.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/templates.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.3.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.4.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.4.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.3.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.3.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.5.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.5.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/requirements.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/scripts/run_autopep8.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/appengine/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/appengine/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/appengine/py27/app.yaml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/cythonapp.pyx",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/pyuv/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/redbot/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/redbot/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/fuzzingclient.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/fuzzingserver.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/run-client.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/run-server.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/shared-setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/windows/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/speedups.c",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/speedups.pyi",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/platform/auto.pyi",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/options_test.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static_foo.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/test.crt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/test.key",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tornado/test/csv_translations/fr_FR.csv",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/gettext_translations/fr_FR/LC_MESSAGES/tornado_test.mo",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/gettext_translations/fr_FR/LC_MESSAGES/tornado_test.po",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/robots.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/sample.xml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/sample.xml.bz2",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/sample.xml.gz",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/dir/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/templates/utf8.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/scripts/test_resolvers.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/appengine/setup.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/appengine/common/cgi_runtests.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/appengine/common/runtests.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/cython/cythonapp_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/cython/pythonmodule.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/cython/setup.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/redbot/red_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/websocket/client.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/websocket/server.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/__main__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/asyncio_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/auth_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/autoreload_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/concurrent_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/curl_httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/escape_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/gen_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/http1connection_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httpserver_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httputil_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/import_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/ioloop_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/iostream_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/locale_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/locks_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/log_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/netutil_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/options_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/process_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/queues_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/resolve_test_helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/routing_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/runtests.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/simple_httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/stack_context_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/tcpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/tcpserver_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/template_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/testing_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/twisted_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/util.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/util_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/web_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/websocket_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/windows_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/wsgi_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/gettext_translations/extract_me.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 2
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 1
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 15643,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 5422,
+        "total_tokens": 5428,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 1024
+        },
+        "prompt_cache_hit_tokens": 1024,
+        "prompt_cache_miss_tokens": 4398
+      },
+      "elapsed_seconds": 0.632
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 17514,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 853,
+        "prompt_tokens": 5816,
+        "total_tokens": 6669,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 5304
+      },
+      "elapsed_seconds": 4.408
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 17470,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 72,
+        "prompt_tokens": 5428,
+        "total_tokens": 5500,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 4916
+      },
+      "elapsed_seconds": 0.757
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 22237,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 547,
+        "prompt_tokens": 6894,
+        "total_tokens": 7441,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 5376
+        },
+        "prompt_cache_hit_tokens": 5376,
+        "prompt_cache_miss_tokens": 1518
+      },
+      "elapsed_seconds": 3.146
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 28334,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 498,
+        "prompt_tokens": 8921,
+        "total_tokens": 9419,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 8409
+      },
+      "elapsed_seconds": 2.144
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "tornado/ioloop.py",
+      "start": 612,
+      "end": 721
+    },
+    {
+      "path": "tornado/ioloop.py",
+      "start": 1,
+      "end": 120
+    },
+    {
+      "path": "tornado/concurrent.py",
+      "start": 340,
+      "end": 380
+    },
+    {
+      "path": "tornado/ioloop.py",
+      "start": 120,
+      "end": 200
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "tornado/ioloop.py",
+      "start": 1,
+      "end": 95,
+      "findings": []
+    },
+    {
+      "stage": "review",
+      "path": "tornado/ioloop.py",
+      "start": 610,
+      "end": 711,
+      "findings": [
+        {
+          "path": "tornado/ioloop.py",
+          "line": 637,
+          "end_line": 637,
+          "severity": "low",
+          "category": "quality",
+          "title": "使用 assert 做参数校验，优化模式下会被移除",
+          "explanation": "add_future 用 assert is_future(future) 校验参数。Python 以 -O 运行时 assert 语句会被整体移除，校验失效，后续 future.add_done_callback 会在非 Future 对象上抛出 AttributeError 而非清晰的断言错误。",
+          "trigger": "以 python -O 运行程序，并向 add_future 传入非 Future 对象。",
+          "evidence": "637:         assert is_future(future)",
+          "suggestion": "改为显式判断并抛出 TypeError，例如 if not is_future(future): raise TypeError(...)，避免依赖 assert。",
+          "id": "876668504bff",
+          "source": "llm",
+          "rule": "",
+          "snippet": "635:         `.Future`.\n636:         \"\"\"\n637:         assert is_future(future)\n638:         callback = stack_context.wrap(callback)\n639:         future.add_done_callback(",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "line": 654,
+          "end_line": 657,
+          "severity": "medium",
+          "category": "bug",
+          "title": "默认 executor 惰性创建存在竞态，可能创建多个线程池",
+          "explanation": "run_in_executor 在 executor 为 None 时先检查 hasattr(self, '_executor') 再赋值。若多个线程并发首次调用 run_in_executor，可能同时通过检查并各自创建 ThreadPoolExecutor，导致线程池泄漏且 self._executor 被覆盖，先前创建的池无法回收。",
+          "trigger": "多线程环境下首次并发调用 run_in_executor(None, ...)。",
+          "evidence": "653:         if executor is None:\n654:             if not hasattr(self, '_executor'):\n655:                 from tornado.process import cpu_count\n656:                 self._executor = ThreadPoolExecutor(max_workers=(cpu_count() * 5))\n657:             executor = self._executor",
+          "suggestion": "在实例初始化时创建默认 executor，或使用锁保护惰性初始化，确保只创建一个线程池。",
+          "id": "90adce93c215",
+          "source": "llm",
+          "rule": "",
+          "snippet": "652: \n653:         if executor is None:\n654:             if not hasattr(self, '_executor'):\n655:                 from tornado.process import cpu_count\n656:                 self._executor = ThreadPoolExecutor(max_workers=(cpu_count() * 5))\n657:             executor = self._executor\n658:         c_future = executor.submit(func, *args)\n659:         # Concurrent Futures are not usable with await. Wrap this in a",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "line": 690,
+          "end_line": 690,
+          "severity": "low",
+          "category": "bug",
+          "title": "_run_callback 中 add_future 的异常未被捕获",
+          "explanation": "_run_callback 的 try 块覆盖了 callback() 调用与 convert_yielded，但 else 分支中的 self.add_future(ret, ...) 位于 try 之外。若 add_future 内部（如 future.add_done_callback）抛出异常，将不会被 handle_callback_exception 捕获，而是直接向上传播，破坏 IOLoop 的错误处理约定。",
+          "trigger": "回调返回一个 Future，且该 Future 的 add_done_callback 抛出异常时。",
+          "evidence": "689:                 else:\n690:                     self.add_future(ret, self._discard_future_result)\n691:         except Exception:\n692:             self.handle_callback_exception(callback)",
+          "suggestion": "将 add_future 调用纳入 try 块，或在 else 分支内单独捕获异常并交给 handle_callback_exception。",
+          "id": "4ae6077b2685",
+          "source": "llm",
+          "rule": "",
+          "snippet": "688:                     pass\n689:                 else:\n690:                     self.add_future(ret, self._discard_future_result)\n691:         except Exception:\n692:             self.handle_callback_exception(callback)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "line": 696,
+          "end_line": 696,
+          "severity": "low",
+          "category": "quality",
+          "title": "_discard_future_result 调用 future.result() 可能抛出未处理异常",
+          "explanation": "_discard_future_result 通过 future.result() 触发异常以记录日志，但若该 Future 处于 cancelled 状态，result() 会抛出 CancelledError；若 Future 尚未完成（理论上 add_future 保证已完成），也会阻塞。注释声称用于避免未处理异常警告，但自身可能抛出异常。",
+          "trigger": "被丢弃的 Future 被取消时，_discard_future_result 调用 result() 抛出 CancelledError。",
+          "evidence": "694:     def _discard_future_result(self, future):\n695:         \"\"\"Avoid unhandled-exception warnings from spawned coroutines.\"\"\"\n696:         future.result()",
+          "suggestion": "捕获 CancelledError 或使用 future.exception() 来消费异常而不重新抛出。",
+          "id": "b590d7c637d5",
+          "source": "llm",
+          "rule": "",
+          "snippet": "694:     def _discard_future_result(self, future):\n695:         \"\"\"Avoid unhandled-exception warnings from spawned coroutines.\"\"\"\n696:         future.result()\n697: \n698:     def handle_callback_exception(self, callback):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "e257c39e2bc4",
+          "status": "rejected",
+          "reason": "bandit B101 仅指出 assert 在 -O 下被移除。此处 assert is_future(future) 是内部 API 的前置条件断言，非安全边界；Tornado 自身多处使用 assert 做内部契约检查，属有意设计。作为安全漏洞不成立。"
+        },
+        {
+          "id": "876668504bff",
+          "status": "rejected",
+          "reason": "与 e257c39e2bc4 同源。add_future 是内部/受保护 API，assert 用于开发者契约校验而非用户输入校验；-O 下移除后 future.add_done_callback 仍会因属性缺失报错，属可接受的失败模式。Tornado 有意用 assert 表达内部不变量，非缺陷。"
+        },
+        {
+          "id": "90adce93c215",
+          "status": "needs_context",
+          "reason": "run_in_executor 的惰性初始化确实无锁，理论上多线程首次并发调用可能创建多个 ThreadPoolExecutor。但 IOLoop 通常单线程使用，且 set_default_executor 提供显式设置路径；是否构成实际竞态取决于调用方是否跨线程共享同一 IOLoop 实例，需业务调用上下文确认。"
+        },
+        {
+          "id": "4ae6077b2685",
+          "status": "rejected",
+          "reason": "add_future 内部仅做 stack_context.wrap 与 future.add_done_callback，对合法 Future 不会抛异常；且 _run_callback 的 try 覆盖 callback() 与 convert_yielded，add_future 在 else 分支。若 add_future 抛异常，其本身即表示内部错误，向上传播可接受。未发现实际可触发路径，属误报。"
+        },
+        {
+          "id": "b590d7c637d5",
+          "status": "rejected",
+          "reason": "_discard_future_result 由 add_future 在 Future 完成时回调，此时 future 已完成。若被取消，result() 抛 CancelledError 会被 IOLoop 的 _run_callback 异常处理捕获并记录，符合设计意图（消费异常避免未处理警告）。注释与实现一致，非缺陷。"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "tornado/ioloop.py",
+      "line": 637,
+      "end_line": 637,
+      "severity": "low",
+      "category": "quality",
+      "title": "使用 assert 做参数校验，优化模式下会被移除",
+      "explanation": "add_future 用 assert is_future(future) 校验参数。Python 以 -O 运行时 assert 语句会被整体移除，校验失效，后续 future.add_done_callback 会在非 Future 对象上抛出 AttributeError 而非清晰的断言错误。",
+      "trigger": "以 python -O 运行程序，并向 add_future 传入非 Future 对象。",
+      "evidence": "637:         assert is_future(future)",
+      "suggestion": "改为显式判断并抛出 TypeError，例如 if not is_future(future): raise TypeError(...)，避免依赖 assert。",
+      "id": "876668504bff",
+      "source": "llm",
+      "rule": "",
+      "snippet": "635:         `.Future`.\n636:         \"\"\"\n637:         assert is_future(future)\n638:         callback = stack_context.wrap(callback)\n639:         future.add_done_callback(",
+      "status": "rejected",
+      "verification": "与 e257c39e2bc4 同源。add_future 是内部/受保护 API，assert 用于开发者契约校验而非用户输入校验；-O 下移除后 future.add_done_callback 仍会因属性缺失报错，属可接受的失败模式。Tornado 有意用 assert 表达内部不变量，非缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/ioloop.py",
+      "line": 654,
+      "end_line": 657,
+      "severity": "medium",
+      "category": "bug",
+      "title": "默认 executor 惰性创建存在竞态，可能创建多个线程池",
+      "explanation": "run_in_executor 在 executor 为 None 时先检查 hasattr(self, '_executor') 再赋值。若多个线程并发首次调用 run_in_executor，可能同时通过检查并各自创建 ThreadPoolExecutor，导致线程池泄漏且 self._executor 被覆盖，先前创建的池无法回收。",
+      "trigger": "多线程环境下首次并发调用 run_in_executor(None, ...)。",
+      "evidence": "653:         if executor is None:\n654:             if not hasattr(self, '_executor'):\n655:                 from tornado.process import cpu_count\n656:                 self._executor = ThreadPoolExecutor(max_workers=(cpu_count() * 5))\n657:             executor = self._executor",
+      "suggestion": "在实例初始化时创建默认 executor，或使用锁保护惰性初始化，确保只创建一个线程池。",
+      "id": "90adce93c215",
+      "source": "llm",
+      "rule": "",
+      "snippet": "652: \n653:         if executor is None:\n654:             if not hasattr(self, '_executor'):\n655:                 from tornado.process import cpu_count\n656:                 self._executor = ThreadPoolExecutor(max_workers=(cpu_count() * 5))\n657:             executor = self._executor\n658:         c_future = executor.submit(func, *args)\n659:         # Concurrent Futures are not usable with await. Wrap this in a",
+      "status": "needs_context",
+      "verification": "run_in_executor 的惰性初始化确实无锁，理论上多线程首次并发调用可能创建多个 ThreadPoolExecutor。但 IOLoop 通常单线程使用，且 set_default_executor 提供显式设置路径；是否构成实际竞态取决于调用方是否跨线程共享同一 IOLoop 实例，需业务调用上下文确认。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/ioloop.py",
+      "line": 690,
+      "end_line": 690,
+      "severity": "low",
+      "category": "bug",
+      "title": "_run_callback 中 add_future 的异常未被捕获",
+      "explanation": "_run_callback 的 try 块覆盖了 callback() 调用与 convert_yielded，但 else 分支中的 self.add_future(ret, ...) 位于 try 之外。若 add_future 内部（如 future.add_done_callback）抛出异常，将不会被 handle_callback_exception 捕获，而是直接向上传播，破坏 IOLoop 的错误处理约定。",
+      "trigger": "回调返回一个 Future，且该 Future 的 add_done_callback 抛出异常时。",
+      "evidence": "689:                 else:\n690:                     self.add_future(ret, self._discard_future_result)\n691:         except Exception:\n692:             self.handle_callback_exception(callback)",
+      "suggestion": "将 add_future 调用纳入 try 块，或在 else 分支内单独捕获异常并交给 handle_callback_exception。",
+      "id": "4ae6077b2685",
+      "source": "llm",
+      "rule": "",
+      "snippet": "688:                     pass\n689:                 else:\n690:                     self.add_future(ret, self._discard_future_result)\n691:         except Exception:\n692:             self.handle_callback_exception(callback)",
+      "status": "rejected",
+      "verification": "add_future 内部仅做 stack_context.wrap 与 future.add_done_callback，对合法 Future 不会抛异常；且 _run_callback 的 try 覆盖 callback() 与 convert_yielded，add_future 在 else 分支。若 add_future 抛异常，其本身即表示内部错误，向上传播可接受。未发现实际可触发路径，属误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/ioloop.py",
+      "line": 696,
+      "end_line": 696,
+      "severity": "low",
+      "category": "quality",
+      "title": "_discard_future_result 调用 future.result() 可能抛出未处理异常",
+      "explanation": "_discard_future_result 通过 future.result() 触发异常以记录日志，但若该 Future 处于 cancelled 状态，result() 会抛出 CancelledError；若 Future 尚未完成（理论上 add_future 保证已完成），也会阻塞。注释声称用于避免未处理异常警告，但自身可能抛出异常。",
+      "trigger": "被丢弃的 Future 被取消时，_discard_future_result 调用 result() 抛出 CancelledError。",
+      "evidence": "694:     def _discard_future_result(self, future):\n695:         \"\"\"Avoid unhandled-exception warnings from spawned coroutines.\"\"\"\n696:         future.result()",
+      "suggestion": "捕获 CancelledError 或使用 future.exception() 来消费异常而不重新抛出。",
+      "id": "b590d7c637d5",
+      "source": "llm",
+      "rule": "",
+      "snippet": "694:     def _discard_future_result(self, future):\n695:         \"\"\"Avoid unhandled-exception warnings from spawned coroutines.\"\"\"\n696:         future.result()\n697: \n698:     def handle_callback_exception(self, callback):",
+      "status": "rejected",
+      "verification": "_discard_future_result 由 add_future 在 Future 完成时回调，此时 future 已完成。若被取消，result() 抛 CancelledError 会被 IOLoop 的 _run_callback 异常处理捕获并记录，符合设计意图（消费异常避免未处理警告）。注释与实现一致，非缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/ioloop.py",
+      "line": 637,
+      "end_line": 637,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "e257c39e2bc4",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "635:         `.Future`.\n636:         \"\"\"\n637:         assert is_future(future)\n638:         callback = stack_context.wrap(callback)\n639:         future.add_done_callback(",
+      "status": "rejected",
+      "verification": "bandit B101 仅指出 assert 在 -O 下被移除。此处 assert is_future(future) 是内部 API 的前置条件断言，非安全边界；Tornado 自身多处使用 assert 做内部契约检查，属有意设计。作为安全漏洞不成立。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "tornado-7",
+    "variant": "fixed",
+    "fixed_commit": "a3b44cd701e0e82693363701bc0346b0125d2362",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

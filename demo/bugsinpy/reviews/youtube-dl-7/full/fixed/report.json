@@ -1,0 +1,643 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "youtube-dl",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "63a64948342ebfe46db8c258765e698a04a61904",
+    "indexed_snapshot_sha256": "3f807fe04a2dc0ad84a02779966b1393609f1af198dbe4f312b2e62d30852747"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:47:45.094047+00:00",
+    "status": "completed",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "full",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 9.75,
+    "api_calls": 3,
+    "usage": {
+      "prompt_tokens": 15735,
+      "completion_tokens": 1733
+    },
+    "indexed_python_files": 582,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 4,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "medium": 2,
+      "low": 2
+    },
+    "status_counts": {
+      "supported": 3,
+      "needs_context": 1
+    }
+  },
+  "coverage": [
+    {
+      "path": "youtube_dl/utils.py",
+      "lines": 2504,
+      "windows": [
+        [
+          1691,
+          1720
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "youtube-dl.plugin.zsh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "bin/youtube-dl",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage_w.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/bash-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/fish-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/posix-locale.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/wine-py2exe.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/zsh-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/module_guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/supportedsites.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/parameters.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testcert.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "test/swftests/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassConstruction.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstantInt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/DictCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/EqualsOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/LocalVars.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/MemberAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/NeOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateVoidCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticRetrieval.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringBasics.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringCharCodeAt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringConversion.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_InfoExtractor.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDL.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_aes.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_age_restriction.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_all_urls.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_cache.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_compat.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_download.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_execution.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_jsinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_netrc.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_postprocessors.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_subtitles.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_swfinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_unicode_literals.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_write_annotations.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_lists.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_signature.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 6
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 22
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 13534,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1190,
+        "prompt_tokens": 4939,
+        "total_tokens": 6129,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 4299
+      },
+      "elapsed_seconds": 5.882
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 12989,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 56,
+        "prompt_tokens": 5116,
+        "total_tokens": 5172,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4860
+      },
+      "elapsed_seconds": 0.983
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 14416,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 487,
+        "prompt_tokens": 5680,
+        "total_tokens": 6167,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 5120
+        },
+        "prompt_cache_hit_tokens": 5120,
+        "prompt_cache_miss_tokens": 560
+      },
+      "elapsed_seconds": 2.241
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "youtube_dl/utils.py",
+      "start": 1679,
+      "end": 1744
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "start": 1698,
+      "end": 1720
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "youtube_dl/utils.py",
+      "start": 1691,
+      "end": 1720,
+      "findings": [
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 1704,
+          "end_line": 1704,
+          "severity": "medium",
+          "category": "bug",
+          "title": "js_to_json 对双引号字符串错误地反转义 \\' 导致内容被破坏",
+          "explanation": "fix_kv 处理以双引号开头的字符串时，用 re.sub(r\"\\\\'\", \"'\", v[1:-1]) 把 \\' 替换为 '。但 JSON 双引号字符串中 \\' 是非法转义，而 JS 中双引号字符串里的 \\' 实际表示反斜杠加单引号（即字面量 \\'）。这里把反斜杠删除，改变了字符串内容，例如 JS 值 \"a\\'b\" 会被转成 \"a'b\"，与原始语义不符，可能破坏 URL、正则或文本数据。",
+          "trigger": "输入 JS 对象中包含双引号字符串且字符串内含有反斜杠加单引号的序列，例如 {\"k\": \"a\\\\'b\"}。",
+          "evidence": "1703: if v.startswith('\"'):\n1704:     v = re.sub(r\"\\\\'\", \"'\", v[1:-1])",
+          "suggestion": "删除该行，或仅在确有必要时把 \\' 规范化为 ' 之前先确认 JS 语义；更稳妥的做法是保留反斜杠，仅对单引号字符串做转义处理。",
+          "id": "39a891b8b3cd",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1702:             return v\n1703:         if v.startswith('\"'):\n1704:             v = re.sub(r\"\\\\'\", \"'\", v[1:-1])\n1705:         elif v.startswith(\"'\"):\n1706:             v = v[1:-1]",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 1707,
+          "end_line": 1711,
+          "severity": "medium",
+          "category": "bug",
+          "title": "单引号字符串转义映射表键值相同，反斜杠未被正确转义",
+          "explanation": "映射 {'\\\\\\\\': '\\\\\\\\', ...} 中键和值都是两个反斜杠字符，即把 \\\\ 映射为 \\\\，没有做任何转换。在 JS 单引号字符串中，\\\\ 表示一个反斜杠，而输出到 JSON 双引号字符串中一个反斜杠必须写成 \\\\。由于映射未改变内容，当原字符串含 \\\\ 时，生成的 JSON 中反斜杠数量不足，导致 json.loads 解析失败或得到错误值。",
+          "trigger": "JS 单引号字符串中包含转义反斜杠，例如 {'k': 'a\\\\b'}（源码中为两个反斜杠）。",
+          "evidence": "1707: v = re.sub(r\"\\\\\\\\|\\\\'|\\\"\", lambda m: {\n1708:     '\\\\\\\\': '\\\\\\\\',\n1709:     \"\\\\'\": \"'\",\n1710:     '\"': '\\\\\"',\n1711: }[m.group(0)], v)",
+          "suggestion": "将反斜杠映射改为 '\\\\\\\\': '\\\\\\\\\\\\\\\\'（即把两个反斜杠字符映射为四个反斜杠字符），确保输出 JSON 中反斜杠被正确转义。",
+          "id": "7e48ace073da",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1705:         elif v.startswith(\"'\"):\n1706:             v = v[1:-1]\n1707:             v = re.sub(r\"\\\\\\\\|\\\\'|\\\"\", lambda m: {\n1708:                 '\\\\\\\\': '\\\\\\\\',\n1709:                 \"\\\\'\": \"'\",\n1710:                 '\"': '\\\\\"',\n1711:             }[m.group(0)], v)\n1712:         return '\"%s\"' % v\n1713: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 1714,
+          "end_line": 1718,
+          "severity": "low",
+          "category": "bug",
+          "title": "js_to_json 正则未处理字符串中的转义引号边界，可能提前结束匹配",
+          "explanation": "用于匹配字符串的正则 \"(?:[^\"\\\\]*(?:\\\\\\\\|\\\\['\"nu]))*[^\"\\\\]*\" 只把 \\\\、\\'、\\\"、\\n、\\u 视为可跳过的转义序列。对于其他转义（如 \\t、\\r、\\/、\\b、\\f 或 \\x 等），反斜杠会被 [^\"\\\\]* 排除，导致匹配在反斜杠处停止，字符串被截断，后续内容被当作标识符处理，产生错误的 JSON。",
+          "trigger": "JS 字符串中包含 \\t、\\r、\\/、\\b、\\f 等未被正则列出的转义序列。",
+          "evidence": "1715: \"(?:[^\"\\\\]*(?:\\\\\\\\|\\\\['\"nu]))*[^\"\\\\]*\"|\n1716: '(?:[^'\\\\]*(?:\\\\\\\\|\\\\['\"nu]))*[^'\\\\]*'|",
+          "suggestion": "将转义集合扩展为所有合法 JS 转义字符，例如使用 (?:\\\\\\\\.|\\\\\\\\u[0-9a-fA-F]{4}) 之类的通用转义匹配，而不是仅列举 \\\\、\\'、\\\"、\\n、\\u。",
+          "id": "9218adc9d89d",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1712:         return '\"%s\"' % v\n1713: \n1714:     res = re.sub(r'''(?x)\n1715:         \"(?:[^\"\\\\]*(?:\\\\\\\\|\\\\['\"nu]))*[^\"\\\\]*\"|\n1716:         '(?:[^'\\\\]*(?:\\\\\\\\|\\\\['\"nu]))*[^'\\\\]*'|\n1717:         [a-zA-Z_][.a-zA-Z_0-9]*\n1718:         ''', fix_kv, code)\n1719:     res = re.sub(r',(\\s*[\\]}])', lambda m: m.group(1), res)\n1720:     return res",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 1719,
+          "end_line": 1719,
+          "severity": "low",
+          "category": "bug",
+          "title": "去除尾随逗号的正则可能误删字符串内的逗号加括号序列",
+          "explanation": "res = re.sub(r',(\\s*[\\]}])', lambda m: m.group(1), res) 在整个结果字符串上运行，不区分字符串内外。如果某个字符串值本身以逗号结尾且后面紧跟 } 或 ]（例如 \"a,\" 后接 }），该逗号会被删除，破坏字符串内容。",
+          "trigger": "JS 对象/数组中的字符串值以逗号结尾且紧邻闭合括号，例如 {\"k\": \"a,\"}。",
+          "evidence": "1719: res = re.sub(r',(\\s*[\\]}])', lambda m: m.group(1), res)",
+          "suggestion": "在去除尾随逗号时避免匹配字符串内部，例如先分词或使用能识别字符串边界的解析方式，而不是对整体结果做简单正则替换。",
+          "id": "aedbd28f221a",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1717:         [a-zA-Z_][.a-zA-Z_0-9]*\n1718:         ''', fix_kv, code)\n1719:     res = re.sub(r',(\\s*[\\]}])', lambda m: m.group(1), res)\n1720:     return res\n1721: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "39a891b8b3cd",
+          "status": "supported",
+          "reason": "第1704行对双引号字符串执行 re.sub(r\"\\\\'\", \"'\", v[1:-1])，把 \\' 替换为 '。在 JS 双引号字符串中 \\' 是反斜杠加单引号（\\' 非法转义但保留反斜杠），删除反斜杠会改变字符串内容，例如 \"a\\'b\" 变成 \"a'b\"，与原始语义不符。代码依据充分。"
+        },
+        {
+          "id": "7e48ace073da",
+          "status": "supported",
+          "reason": "第1707-1711行映射中键 '\\\\\\\\' 与值 '\\\\\\\\' 相同（均为两个反斜杠字符），即 \\\\ 映射为 \\\\，未做任何转换。JS 单引号字符串中 \\\\ 表示一个反斜杠，输出到 JSON 双引号字符串需写成 \\\\，此处未增加反斜杠数量，会导致 JSON 解析错误或值错误。代码依据充分。"
+        },
+        {
+          "id": "9218adc9d89d",
+          "status": "supported",
+          "reason": "第1715-1716行正则的转义集合仅列出 \\\\、\\'、\\\"、\\n、\\u，未包含 \\t、\\r、\\/、\\b、\\f 等合法 JS 转义。遇到这些转义时 [^\"\\\\]* 在反斜杠处停止，字符串匹配被截断，后续内容被当作标识符处理，产生错误 JSON。代码依据充分。"
+        },
+        {
+          "id": "aedbd28f221a",
+          "status": "needs_context",
+          "reason": "第1719行对整个结果字符串做 re.sub(r',(\\s*[\\]}])', ...)，确实不区分字符串内外。但触发需字符串值以逗号结尾且紧邻 } 或 ]，如 {\"k\": \"a,\"}。该场景是否在实际调用中出现取决于上游数据，且 fix_kv 已把字符串统一为双引号，需确认实际输入是否包含此类值。缺少调用上下文，无法仅凭代码断定必然触发。"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 1704,
+      "end_line": 1704,
+      "severity": "medium",
+      "category": "bug",
+      "title": "js_to_json 对双引号字符串错误地反转义 \\' 导致内容被破坏",
+      "explanation": "fix_kv 处理以双引号开头的字符串时，用 re.sub(r\"\\\\'\", \"'\", v[1:-1]) 把 \\' 替换为 '。但 JSON 双引号字符串中 \\' 是非法转义，而 JS 中双引号字符串里的 \\' 实际表示反斜杠加单引号（即字面量 \\'）。这里把反斜杠删除，改变了字符串内容，例如 JS 值 \"a\\'b\" 会被转成 \"a'b\"，与原始语义不符，可能破坏 URL、正则或文本数据。",
+      "trigger": "输入 JS 对象中包含双引号字符串且字符串内含有反斜杠加单引号的序列，例如 {\"k\": \"a\\\\'b\"}。",
+      "evidence": "1703: if v.startswith('\"'):\n1704:     v = re.sub(r\"\\\\'\", \"'\", v[1:-1])",
+      "suggestion": "删除该行，或仅在确有必要时把 \\' 规范化为 ' 之前先确认 JS 语义；更稳妥的做法是保留反斜杠，仅对单引号字符串做转义处理。",
+      "id": "39a891b8b3cd",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1702:             return v\n1703:         if v.startswith('\"'):\n1704:             v = re.sub(r\"\\\\'\", \"'\", v[1:-1])\n1705:         elif v.startswith(\"'\"):\n1706:             v = v[1:-1]",
+      "status": "supported",
+      "verification": "第1704行对双引号字符串执行 re.sub(r\"\\\\'\", \"'\", v[1:-1])，把 \\' 替换为 '。在 JS 双引号字符串中 \\' 是反斜杠加单引号（\\' 非法转义但保留反斜杠），删除反斜杠会改变字符串内容，例如 \"a\\'b\" 变成 \"a'b\"，与原始语义不符。代码依据充分。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 1707,
+      "end_line": 1711,
+      "severity": "medium",
+      "category": "bug",
+      "title": "单引号字符串转义映射表键值相同，反斜杠未被正确转义",
+      "explanation": "映射 {'\\\\\\\\': '\\\\\\\\', ...} 中键和值都是两个反斜杠字符，即把 \\\\ 映射为 \\\\，没有做任何转换。在 JS 单引号字符串中，\\\\ 表示一个反斜杠，而输出到 JSON 双引号字符串中一个反斜杠必须写成 \\\\。由于映射未改变内容，当原字符串含 \\\\ 时，生成的 JSON 中反斜杠数量不足，导致 json.loads 解析失败或得到错误值。",
+      "trigger": "JS 单引号字符串中包含转义反斜杠，例如 {'k': 'a\\\\b'}（源码中为两个反斜杠）。",
+      "evidence": "1707: v = re.sub(r\"\\\\\\\\|\\\\'|\\\"\", lambda m: {\n1708:     '\\\\\\\\': '\\\\\\\\',\n1709:     \"\\\\'\": \"'\",\n1710:     '\"': '\\\\\"',\n1711: }[m.group(0)], v)",
+      "suggestion": "将反斜杠映射改为 '\\\\\\\\': '\\\\\\\\\\\\\\\\'（即把两个反斜杠字符映射为四个反斜杠字符），确保输出 JSON 中反斜杠被正确转义。",
+      "id": "7e48ace073da",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1705:         elif v.startswith(\"'\"):\n1706:             v = v[1:-1]\n1707:             v = re.sub(r\"\\\\\\\\|\\\\'|\\\"\", lambda m: {\n1708:                 '\\\\\\\\': '\\\\\\\\',\n1709:                 \"\\\\'\": \"'\",\n1710:                 '\"': '\\\\\"',\n1711:             }[m.group(0)], v)\n1712:         return '\"%s\"' % v\n1713: ",
+      "status": "supported",
+      "verification": "第1707-1711行映射中键 '\\\\\\\\' 与值 '\\\\\\\\' 相同（均为两个反斜杠字符），即 \\\\ 映射为 \\\\，未做任何转换。JS 单引号字符串中 \\\\ 表示一个反斜杠，输出到 JSON 双引号字符串需写成 \\\\，此处未增加反斜杠数量，会导致 JSON 解析错误或值错误。代码依据充分。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 1714,
+      "end_line": 1718,
+      "severity": "low",
+      "category": "bug",
+      "title": "js_to_json 正则未处理字符串中的转义引号边界，可能提前结束匹配",
+      "explanation": "用于匹配字符串的正则 \"(?:[^\"\\\\]*(?:\\\\\\\\|\\\\['\"nu]))*[^\"\\\\]*\" 只把 \\\\、\\'、\\\"、\\n、\\u 视为可跳过的转义序列。对于其他转义（如 \\t、\\r、\\/、\\b、\\f 或 \\x 等），反斜杠会被 [^\"\\\\]* 排除，导致匹配在反斜杠处停止，字符串被截断，后续内容被当作标识符处理，产生错误的 JSON。",
+      "trigger": "JS 字符串中包含 \\t、\\r、\\/、\\b、\\f 等未被正则列出的转义序列。",
+      "evidence": "1715: \"(?:[^\"\\\\]*(?:\\\\\\\\|\\\\['\"nu]))*[^\"\\\\]*\"|\n1716: '(?:[^'\\\\]*(?:\\\\\\\\|\\\\['\"nu]))*[^'\\\\]*'|",
+      "suggestion": "将转义集合扩展为所有合法 JS 转义字符，例如使用 (?:\\\\\\\\.|\\\\\\\\u[0-9a-fA-F]{4}) 之类的通用转义匹配，而不是仅列举 \\\\、\\'、\\\"、\\n、\\u。",
+      "id": "9218adc9d89d",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1712:         return '\"%s\"' % v\n1713: \n1714:     res = re.sub(r'''(?x)\n1715:         \"(?:[^\"\\\\]*(?:\\\\\\\\|\\\\['\"nu]))*[^\"\\\\]*\"|\n1716:         '(?:[^'\\\\]*(?:\\\\\\\\|\\\\['\"nu]))*[^'\\\\]*'|\n1717:         [a-zA-Z_][.a-zA-Z_0-9]*\n1718:         ''', fix_kv, code)\n1719:     res = re.sub(r',(\\s*[\\]}])', lambda m: m.group(1), res)\n1720:     return res",
+      "status": "supported",
+      "verification": "第1715-1716行正则的转义集合仅列出 \\\\、\\'、\\\"、\\n、\\u，未包含 \\t、\\r、\\/、\\b、\\f 等合法 JS 转义。遇到这些转义时 [^\"\\\\]* 在反斜杠处停止，字符串匹配被截断，后续内容被当作标识符处理，产生错误 JSON。代码依据充分。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 1719,
+      "end_line": 1719,
+      "severity": "low",
+      "category": "bug",
+      "title": "去除尾随逗号的正则可能误删字符串内的逗号加括号序列",
+      "explanation": "res = re.sub(r',(\\s*[\\]}])', lambda m: m.group(1), res) 在整个结果字符串上运行，不区分字符串内外。如果某个字符串值本身以逗号结尾且后面紧跟 } 或 ]（例如 \"a,\" 后接 }），该逗号会被删除，破坏字符串内容。",
+      "trigger": "JS 对象/数组中的字符串值以逗号结尾且紧邻闭合括号，例如 {\"k\": \"a,\"}。",
+      "evidence": "1719: res = re.sub(r',(\\s*[\\]}])', lambda m: m.group(1), res)",
+      "suggestion": "在去除尾随逗号时避免匹配字符串内部，例如先分词或使用能识别字符串边界的解析方式，而不是对整体结果做简单正则替换。",
+      "id": "aedbd28f221a",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1717:         [a-zA-Z_][.a-zA-Z_0-9]*\n1718:         ''', fix_kv, code)\n1719:     res = re.sub(r',(\\s*[\\]}])', lambda m: m.group(1), res)\n1720:     return res\n1721: ",
+      "status": "needs_context",
+      "verification": "第1719行对整个结果字符串做 re.sub(r',(\\s*[\\]}])', ...)，确实不区分字符串内外。但触发需字符串值以逗号结尾且紧邻 } 或 ]，如 {\"k\": \"a,\"}。该场景是否在实际调用中出现取决于上游数据，且 fix_kv 已把字符串统一为双引号，需确认实际输入是否包含此类值。缺少调用上下文，无法仅凭代码断定必然触发。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "youtube-dl-7",
+    "variant": "fixed",
+    "fixed_commit": "d01949dc89feb2441f251e42e8a6bfa4711b9715",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

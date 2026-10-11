@@ -1,0 +1,32 @@
+{
+  "image": "code-review-bugsinpy:py38-complete",
+  "image_id": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+  "python_actual": "Python 3.8.20",
+  "environment": {
+    "LC_ALL": "C",
+    "PYTHONCOERCECLOCALE": "0",
+    "PYTHONUTF8": "0"
+  },
+  "valid_test_execution": true,
+  "all_passed": true,
+  "has_failure": false,
+  "tests": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-q",
+        "-s",
+        "tests/test_chinese.py::test_chinese"
+      ],
+      "exit_code": 0,
+      "timeout": false,
+      "test_executed": true,
+      "environment_error": false,
+      "elapsed_seconds": 0.359,
+      "log": "test-1.log",
+      "log_sha256": "7d2d8f45d79c43223ed2eff23a2b00541eb33af1237f63608f6fd913db8816f0"
+    }
+  ]
+}

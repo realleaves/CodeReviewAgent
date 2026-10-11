@@ -1,0 +1,1296 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "tornado",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "2d4053daa56c609d642b214399e046671d4a593e",
+    "indexed_snapshot_sha256": "8e06585be416733917a99be29fb76bb8f23b36452d82c41c9f184e86edd5df7d"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:44:44.745867+00:00",
+    "status": "completed",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "full",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 14.961,
+    "api_calls": 3,
+    "usage": {
+      "prompt_tokens": 16907,
+      "completion_tokens": 1371
+    },
+    "indexed_python_files": 69,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 1,
+    "rejected_findings": 2,
+    "severity_counts": {
+      "medium": 1
+    },
+    "status_counts": {
+      "needs_context": 1
+    }
+  },
+  "coverage": [
+    {
+      "path": "tornado/ioloop.py",
+      "lines": 1243,
+      "windows": [
+        [
+          1172,
+          1243
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".coveragerc",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".flake8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "appveyor.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "codecov.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "runtests.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/app.yaml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/static/blog.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/archive.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/base.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/compose.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/feed.xml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/modules/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/Dockerfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/docker-compose.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/schema.sql",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/static/blog.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/archive.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/base.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/compose.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/create_author.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/feed.xml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/login.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/modules/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/static/chat.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/static/chat.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/templates/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/templates/message.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/static/facebook.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/static/facebook.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/templates/stream.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/templates/modules/post.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/tcpecho/README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/twitter/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/static/chat.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/static/chat.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/templates/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/templates/message.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/asyncio.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/auth.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/autoreload.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/caresresolver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/concurrent.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/coroutine.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/escape.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/faq.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/favicon.ico",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/gen.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/http.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/http1connection.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httpclient.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httpserver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httputil.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/integration.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/ioloop.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/iostream.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/locale.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/locks.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/log.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/netutil.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/networking.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/options.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/process.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/queues.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/routing.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/stack_context.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tcpclient.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tcpserver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/template.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/testing.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tornado.png",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/twisted.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/util.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/utilities.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/web.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/webframework.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/websocket.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/wsgi.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/async.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/coroutines.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/intro.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/queues.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/running.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/security.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/structure.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/templates.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.3.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.4.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.4.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.3.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.3.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.5.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.5.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.5.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.5.3.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v5.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v5.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/requirements.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/scripts/run_autopep8.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/appengine/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/appengine/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/appengine/py27/app.yaml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/cythonapp.pyx",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/pyuv/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/redbot/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/redbot/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/fuzzingclient.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/fuzzingserver.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/run-client.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/run-server.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/shared-setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/windows/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/speedups.c",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/speedups.pyi",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/platform/auto.pyi",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/options_test.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static_foo.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/test.crt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/test.key",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tornado/test/csv_translations/fr_FR.csv",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/gettext_translations/fr_FR/LC_MESSAGES/tornado_test.mo",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/gettext_translations/fr_FR/LC_MESSAGES/tornado_test.po",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/robots.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/sample.xml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/sample.xml.bz2",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/sample.xml.gz",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/dir/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/templates/utf8.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/scripts/test_resolvers.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/appengine/setup.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/appengine/common/cgi_runtests.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/appengine/common/runtests.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/cython/cythonapp_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/cython/pythonmodule.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/cython/setup.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/redbot/red_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/websocket/client.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/websocket/server.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/__main__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/asyncio_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/auth_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/autoreload_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/concurrent_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/curl_httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/escape_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/gen_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/http1connection_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httpserver_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httputil_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/import_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/ioloop_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/iostream_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/locale_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/locks_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/log_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/netutil_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/options_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/process_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/queues_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/resolve_test_helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/routing_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/runtests.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/simple_httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/stack_context_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/tcpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/tcpserver_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/template_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/testing_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/twisted_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/util.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/util_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/web_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/websocket_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/windows_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/wsgi_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/gettext_translations/extract_me.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 2
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 2
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 15991,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 871,
+        "prompt_tokens": 5452,
+        "total_tokens": 6323,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 4940
+      },
+      "elapsed_seconds": 10.48
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 15133,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 57,
+        "prompt_tokens": 4968,
+        "total_tokens": 5025,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4712
+      },
+      "elapsed_seconds": 1.43
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 20215,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 443,
+        "prompt_tokens": 6487,
+        "total_tokens": 6930,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 4992
+        },
+        "prompt_cache_hit_tokens": 4992,
+        "prompt_cache_miss_tokens": 1495
+      },
+      "elapsed_seconds": 2.762
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "tornado/ioloop.py",
+      "start": 1165,
+      "end": 1243
+    },
+    {
+      "path": "tornado/ioloop.py",
+      "start": 1160,
+      "end": 1243
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "tornado/ioloop.py",
+      "start": 1172,
+      "end": 1243,
+      "findings": [
+        {
+          "path": "tornado/ioloop.py",
+          "line": 1204,
+          "end_line": 1212,
+          "severity": "medium",
+          "category": "bug",
+          "title": "_run 中 finally 在 stop() 后仍会重新调度回调",
+          "explanation": "_run 的 finally 块无条件调用 _schedule_next()。_schedule_next 内部检查 self._running，因此若回调执行期间调用了 stop()，_running 已为 False，不会重新调度，这一点是正确的。但存在另一条路径：回调内部调用 start() 会重置 _next_timeout 并再次 _schedule_next，随后 finally 又调用一次 _schedule_next，导致同一 PeriodicCallback 被注册两个 timeout，回调将以双倍频率触发，且 stop() 只能移除其中一个（self._timeout 被覆盖），造成定时器泄漏与重复执行。",
+          "trigger": "在 PeriodicCallback 的回调函数内部调用 self.start()（或再次 start 同一实例），回调返回后 finally 再次调度。",
+          "evidence": "1204-1212 行：_run 的 finally 无条件执行 self._schedule_next()；1214-1217 行 _schedule_next 在 _running 为真时调用 add_timeout 并覆盖 self._timeout，旧 timeout 句柄丢失。",
+          "suggestion": "在 _schedule_next 中先移除已存在的 self._timeout，或在 _run 中记录本次调度对应的 timeout 并在 finally 中仅当未被重新调度时才调度；也可在 start() 中检测 _running 已为真时先 stop()。",
+          "id": "0d4ed97d539a",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1202:         return self._running\n1203: \n1204:     def _run(self):\n1205:         if not self._running:\n1206:             return\n1207:         try:\n1208:             return self.callback()\n1209:         except Exception:\n1210:             self.io_loop.handle_callback_exception(self.callback)\n1211:         finally:\n1212:             self._schedule_next()\n1213: \n1214:     def _schedule_next(self):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "line": 1190,
+          "end_line": 1195,
+          "severity": "medium",
+          "category": "bug",
+          "title": "stop() 在未 start() 时访问未初始化的 io_loop",
+          "explanation": "io_loop 属性仅在 start() 中赋值（1185 行）。若在 start() 之前调用 stop()，_timeout 为 None，因此不会进入 1194 行访问 self.io_loop，这一点是安全的。但若 start() 之后 io_loop 被外部置空或对象被跨线程使用，stop() 会抛出 AttributeError。更实际的问题是：stop() 未将 _next_timeout 或状态复位，且未处理 io_loop 已被 close 的情况，remove_timeout 可能对已关闭的 IOLoop 操作。",
+          "trigger": "在 IOLoop 已 close 之后调用 PeriodicCallback.stop()，或在 start() 之前访问 io_loop 属性的其他代码路径。",
+          "evidence": "1185 行仅在 start() 中设置 self.io_loop；1193-1195 行 stop() 直接使用 self.io_loop.remove_timeout。",
+          "suggestion": "在 __init__ 中将 self.io_loop 初始化为 None，并在 stop() 中检查 self.io_loop is not None 后再调用 remove_timeout。",
+          "id": "f7cca2d8b933",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1188:         self._schedule_next()\n1189: \n1190:     def stop(self):\n1191:         \"\"\"Stops the timer.\"\"\"\n1192:         self._running = False\n1193:         if self._timeout is not None:\n1194:             self.io_loop.remove_timeout(self._timeout)\n1195:             self._timeout = None\n1196: \n1197:     def is_running(self):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "line": 1219,
+          "end_line": 1243,
+          "severity": "low",
+          "category": "quality",
+          "title": "_update_next 在时钟大幅回退时产生长时间空档",
+          "explanation": "当 current_time 小于 _next_timeout（时钟回退）时，代码仅将 _next_timeout 增加一个周期，注释也承认可能产生长间隔。若系统时钟回退数小时，回调将停止数小时，这对依赖周期性任务的场景是实质影响。注释说明这是有意权衡，但未提供上限或告警。",
+          "trigger": "系统时钟（time.time）发生大幅向后跳变（如 NTP 大调整或手动改时间），且 IOLoop.time 基于 time.time。",
+          "evidence": "1228-1243 行注释与实现：else 分支仅 self._next_timeout += callback_time_sec，注释明确承认 'long gaps between callbacks'。",
+          "suggestion": "考虑在检测到大幅回退时重置 _next_timeout 为 current_time + callback_time_sec，或记录警告日志，避免长时间静默停摆。",
+          "id": "c218d1ffcb49",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1217:             self._timeout = self.io_loop.add_timeout(self._next_timeout, self._run)\n1218: \n1219:     def _update_next(self, current_time):\n1220:         callback_time_sec = self.callback_time / 1000.0\n1221:         if self._next_timeout <= current_time:\n1222:             # The period should be measured from the start of one call\n1223:             # to the start of the next. If one call takes too long,\n1224:             # skip cycles to get back to a multiple of the original\n1225:             # schedule.\n1226:             self._next_timeout += (math.floor((current_time - self._next_timeout) /\n1227:                                               callback_time_sec) + 1) * callback_time_sec\n1228:         else:\n1229:             # If the clock moved backwards, ensure we advance the next\n1230:             # timeout instead of recomputing the same value again.\n1231:             # This may result in long gaps between callbacks if the\n1232:             # clock jumps backwards by a lot, but the far more common\n1233:             # scenario is a small NTP adjustment that should just be\n1234:             # ignored.",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "0d4ed97d539a",
+          "status": "needs_context",
+          "reason": "候选描述的触发路径（回调内部再次调用 start()）在代码上确实会导致 _schedule_next 被调用两次：start() 在 1188 行调用一次，_run 的 finally 在 1212 行再调用一次，且 1217 行覆盖 self._timeout 使旧句柄丢失。但这是否构成实际缺陷取决于业务约定：在回调内部重新 start() 同一实例属于非常规用法，文档（1167 行）只要求创建后调用一次 start，未定义重复 start 的语义。代码本身未提供防止重复 start 的保护，也无测试上下文可确认预期行为，故需业务约定判断，而非可确证的 bug。"
+        },
+        {
+          "id": "f7cca2d8b933",
+          "status": "rejected",
+          "reason": "候选自身已承认 start() 之前调用 stop() 是安全的：__init__ 在 1178 行将 _timeout 初始化为 None，1193 行的 if 判断会跳过对 self.io_loop 的访问。所提的“io_loop 被外部置空”“跨线程使用”“IOLoop 已 close”等场景均属外部误用或未提供的调用上下文，代码中无依据表明这是受支持路径。remove_timeout 对已关闭 IOLoop 的行为也未在给定代码中体现，属推测。故不成立。"
+        },
+        {
+          "id": "c218d1ffcb49",
+          "status": "rejected",
+          "reason": "1228-1243 行的注释明确说明这是有意设计：时钟小幅回退（常见 NTP 调整）应被忽略，仅将 _next_timeout 前进一个周期；并明确承认大幅回退会产生长间隔。这是有意的权衡而非缺陷，且候选将其归类为 quality 而非 bug。缺少业务约定要求对大幅回退设上限或告警，故不构成需报告的问题。"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "tornado/ioloop.py",
+      "line": 1204,
+      "end_line": 1212,
+      "severity": "medium",
+      "category": "bug",
+      "title": "_run 中 finally 在 stop() 后仍会重新调度回调",
+      "explanation": "_run 的 finally 块无条件调用 _schedule_next()。_schedule_next 内部检查 self._running，因此若回调执行期间调用了 stop()，_running 已为 False，不会重新调度，这一点是正确的。但存在另一条路径：回调内部调用 start() 会重置 _next_timeout 并再次 _schedule_next，随后 finally 又调用一次 _schedule_next，导致同一 PeriodicCallback 被注册两个 timeout，回调将以双倍频率触发，且 stop() 只能移除其中一个（self._timeout 被覆盖），造成定时器泄漏与重复执行。",
+      "trigger": "在 PeriodicCallback 的回调函数内部调用 self.start()（或再次 start 同一实例），回调返回后 finally 再次调度。",
+      "evidence": "1204-1212 行：_run 的 finally 无条件执行 self._schedule_next()；1214-1217 行 _schedule_next 在 _running 为真时调用 add_timeout 并覆盖 self._timeout，旧 timeout 句柄丢失。",
+      "suggestion": "在 _schedule_next 中先移除已存在的 self._timeout，或在 _run 中记录本次调度对应的 timeout 并在 finally 中仅当未被重新调度时才调度；也可在 start() 中检测 _running 已为真时先 stop()。",
+      "id": "0d4ed97d539a",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1202:         return self._running\n1203: \n1204:     def _run(self):\n1205:         if not self._running:\n1206:             return\n1207:         try:\n1208:             return self.callback()\n1209:         except Exception:\n1210:             self.io_loop.handle_callback_exception(self.callback)\n1211:         finally:\n1212:             self._schedule_next()\n1213: \n1214:     def _schedule_next(self):",
+      "status": "needs_context",
+      "verification": "候选描述的触发路径（回调内部再次调用 start()）在代码上确实会导致 _schedule_next 被调用两次：start() 在 1188 行调用一次，_run 的 finally 在 1212 行再调用一次，且 1217 行覆盖 self._timeout 使旧句柄丢失。但这是否构成实际缺陷取决于业务约定：在回调内部重新 start() 同一实例属于非常规用法，文档（1167 行）只要求创建后调用一次 start，未定义重复 start 的语义。代码本身未提供防止重复 start 的保护，也无测试上下文可确认预期行为，故需业务约定判断，而非可确证的 bug。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/ioloop.py",
+      "line": 1190,
+      "end_line": 1195,
+      "severity": "medium",
+      "category": "bug",
+      "title": "stop() 在未 start() 时访问未初始化的 io_loop",
+      "explanation": "io_loop 属性仅在 start() 中赋值（1185 行）。若在 start() 之前调用 stop()，_timeout 为 None，因此不会进入 1194 行访问 self.io_loop，这一点是安全的。但若 start() 之后 io_loop 被外部置空或对象被跨线程使用，stop() 会抛出 AttributeError。更实际的问题是：stop() 未将 _next_timeout 或状态复位，且未处理 io_loop 已被 close 的情况，remove_timeout 可能对已关闭的 IOLoop 操作。",
+      "trigger": "在 IOLoop 已 close 之后调用 PeriodicCallback.stop()，或在 start() 之前访问 io_loop 属性的其他代码路径。",
+      "evidence": "1185 行仅在 start() 中设置 self.io_loop；1193-1195 行 stop() 直接使用 self.io_loop.remove_timeout。",
+      "suggestion": "在 __init__ 中将 self.io_loop 初始化为 None，并在 stop() 中检查 self.io_loop is not None 后再调用 remove_timeout。",
+      "id": "f7cca2d8b933",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1188:         self._schedule_next()\n1189: \n1190:     def stop(self):\n1191:         \"\"\"Stops the timer.\"\"\"\n1192:         self._running = False\n1193:         if self._timeout is not None:\n1194:             self.io_loop.remove_timeout(self._timeout)\n1195:             self._timeout = None\n1196: \n1197:     def is_running(self):",
+      "status": "rejected",
+      "verification": "候选自身已承认 start() 之前调用 stop() 是安全的：__init__ 在 1178 行将 _timeout 初始化为 None，1193 行的 if 判断会跳过对 self.io_loop 的访问。所提的“io_loop 被外部置空”“跨线程使用”“IOLoop 已 close”等场景均属外部误用或未提供的调用上下文，代码中无依据表明这是受支持路径。remove_timeout 对已关闭 IOLoop 的行为也未在给定代码中体现，属推测。故不成立。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/ioloop.py",
+      "line": 1219,
+      "end_line": 1243,
+      "severity": "low",
+      "category": "quality",
+      "title": "_update_next 在时钟大幅回退时产生长时间空档",
+      "explanation": "当 current_time 小于 _next_timeout（时钟回退）时，代码仅将 _next_timeout 增加一个周期，注释也承认可能产生长间隔。若系统时钟回退数小时，回调将停止数小时，这对依赖周期性任务的场景是实质影响。注释说明这是有意权衡，但未提供上限或告警。",
+      "trigger": "系统时钟（time.time）发生大幅向后跳变（如 NTP 大调整或手动改时间），且 IOLoop.time 基于 time.time。",
+      "evidence": "1228-1243 行注释与实现：else 分支仅 self._next_timeout += callback_time_sec，注释明确承认 'long gaps between callbacks'。",
+      "suggestion": "考虑在检测到大幅回退时重置 _next_timeout 为 current_time + callback_time_sec，或记录警告日志，避免长时间静默停摆。",
+      "id": "c218d1ffcb49",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1217:             self._timeout = self.io_loop.add_timeout(self._next_timeout, self._run)\n1218: \n1219:     def _update_next(self, current_time):\n1220:         callback_time_sec = self.callback_time / 1000.0\n1221:         if self._next_timeout <= current_time:\n1222:             # The period should be measured from the start of one call\n1223:             # to the start of the next. If one call takes too long,\n1224:             # skip cycles to get back to a multiple of the original\n1225:             # schedule.\n1226:             self._next_timeout += (math.floor((current_time - self._next_timeout) /\n1227:                                               callback_time_sec) + 1) * callback_time_sec\n1228:         else:\n1229:             # If the clock moved backwards, ensure we advance the next\n1230:             # timeout instead of recomputing the same value again.\n1231:             # This may result in long gaps between callbacks if the\n1232:             # clock jumps backwards by a lot, but the far more common\n1233:             # scenario is a small NTP adjustment that should just be\n1234:             # ignored.",
+      "status": "rejected",
+      "verification": "1228-1243 行的注释明确说明这是有意设计：时钟小幅回退（常见 NTP 调整）应被忽略，仅将 _next_timeout 前进一个周期；并明确承认大幅回退会产生长间隔。这是有意的权衡而非缺陷，且候选将其归类为 quality 而非 bug。缺少业务约定要求对大幅回退设上限或告警，故不构成需报告的问题。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "tornado-5",
+    "variant": "fixed",
+    "fixed_commit": "886643965b5cb782503d8d7b374b7a794ec2077b",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

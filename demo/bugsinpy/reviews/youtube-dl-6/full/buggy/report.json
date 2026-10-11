@@ -1,0 +1,713 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "https://github.com/ytdl-org/youtube-dl",
+    "name": "youtube-dl",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "4f29fa99069760dc47ef9ca5dbf607a567d2982f",
+    "indexed_snapshot_sha256": "2235936d7983b842bb09b32cd463d67a8e3088feb30640421255d7dbb4eb275a"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:46:32.216807+00:00",
+    "status": "completed",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "full",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 12.063,
+    "api_calls": 3,
+    "usage": {
+      "prompt_tokens": 22128,
+      "completion_tokens": 2253
+    },
+    "indexed_python_files": 588,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 4,
+    "rejected_findings": 2,
+    "severity_counts": {
+      "medium": 2,
+      "low": 2
+    },
+    "status_counts": {
+      "supported": 3,
+      "needs_context": 1
+    }
+  },
+  "coverage": [
+    {
+      "path": "youtube_dl/utils.py",
+      "lines": 2542,
+      "windows": [
+        [
+          1931,
+          2041
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "youtube-dl.plugin.zsh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "bin/youtube-dl",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage_w.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/bash-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/fish-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/posix-locale.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/wine-py2exe.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/zsh-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/module_guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/supportedsites.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/parameters.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testcert.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "test/swftests/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassConstruction.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstantInt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/DictCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/EqualsOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/LocalVars.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/MemberAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/NeOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateVoidCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticRetrieval.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringBasics.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringCharCodeAt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringConversion.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_InfoExtractor.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDL.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_aes.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_age_restriction.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_all_urls.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_cache.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_compat.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_download.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_execution.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_jsinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_netrc.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_postprocessors.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_subtitles.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_swfinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_unicode_literals.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_write_annotations.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_lists.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_signature.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 6
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 20
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 17731,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1563,
+        "prompt_tokens": 6296,
+        "total_tokens": 7859,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 5784
+      },
+      "elapsed_seconds": 7.283
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 18956,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 79,
+        "prompt_tokens": 6903,
+        "total_tokens": 6982,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6647
+      },
+      "elapsed_seconds": 0.856
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 24650,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 611,
+        "prompt_tokens": 8929,
+        "total_tokens": 9540,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 6912
+        },
+        "prompt_cache_hit_tokens": 6912,
+        "prompt_cache_miss_tokens": 2017
+      },
+      "elapsed_seconds": 3.294
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "youtube_dl/utils.py",
+      "start": 1910,
+      "end": 2029
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "start": 1900,
+      "end": 2019
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "youtube_dl/utils.py",
+      "start": 1931,
+      "end": 2041,
+      "findings": [
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 1990,
+          "end_line": 1991,
+          "severity": "medium",
+          "category": "bug",
+          "title": "srt_subtitles_timecode 使用浮点除法导致时间码格式错误",
+          "explanation": "该函数用 '%02d:%02d:%02d,%03d' 格式化时间码，但传入的 seconds 是浮点数（parse_dfxp_time_expr 返回 float）。在 Python 3 中 seconds / 3600 和 (seconds % 3600) / 60 都是浮点除法，%d 会截断为整数，看似可用；但 (seconds % 1) * 1000 是浮点数，%03d 会截断小数部分，导致毫秒精度丢失（例如 0.9995 秒会得到 999 而非 1000，且不会进位）。更严重的是当 seconds 为负或浮点误差导致 (seconds % 1)*1000 达到 1000 时，会产生非法时间码。此外 Python 2 中整数除法行为不同，跨版本结果不一致。",
+          "trigger": "解析包含小数秒的 DFXP/TTML 字幕，例如 begin=\"1.5s\"，毫秒部分被截断；或浮点误差使毫秒计算为 1000。",
+          "evidence": "1991: return '%02d:%02d:%02d,%03d' % (seconds / 3600, (seconds % 3600) / 60, seconds % 60, (seconds % 1) * 1000)",
+          "suggestion": "先将秒数转换为整数毫秒再格式化，例如 total_ms = int(round(seconds * 1000))，然后分别计算时、分、秒、毫秒，避免浮点截断和跨版本差异。",
+          "id": "137ca91017a9",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1988: \n1989: \n1990: def srt_subtitles_timecode(seconds):\n1991:     return '%02d:%02d:%02d,%03d' % (seconds / 3600, (seconds % 3600) / 60, seconds % 60, (seconds % 1) * 1000)\n1992: \n1993: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 2023,
+          "end_line": 2026,
+          "severity": "medium",
+          "category": "bug",
+          "title": "dfxp2srt 对缺失 begin/dur 属性直接抛 KeyError",
+          "explanation": "第 2023 行用 para.attrib['begin'] 直接索引，第 2026 行用 para.attrib['dur'] 直接索引。若字幕段落缺少 begin 或既无 end 又无 dur 属性，会抛出未捕获的 KeyError，而不是给出有意义的错误信息。虽然第 2019-2020 行对无段落情况做了处理，但对属性缺失未做防御。",
+          "trigger": "输入 DFXP/TTML 文件中某个 <p> 元素缺少 begin 属性，或缺少 end 且缺少 dur 属性。",
+          "evidence": "2023: begin_time = parse_dfxp_time_expr(para.attrib['begin'])\n2026: end_time = begin_time + parse_dfxp_time_expr(para.attrib['dur'])",
+          "suggestion": "使用 para.attrib.get('begin') 并对 None 做校验，缺失时抛出带上下文的 ValueError；dur 同理，缺失时给出明确错误或跳过该段落。",
+          "id": "6040e7214949",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2021: \n2022:     for para, index in zip(paras, itertools.count(1)):\n2023:         begin_time = parse_dfxp_time_expr(para.attrib['begin'])\n2024:         end_time = parse_dfxp_time_expr(para.attrib.get('end'))\n2025:         if not end_time:\n2026:             end_time = begin_time + parse_dfxp_time_expr(para.attrib['dur'])\n2027:         out.append('%d\\n%s --> %s\\n%s\\n\\n' % (\n2028:             index,",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 1985,
+          "end_line": 1987,
+          "severity": "low",
+          "category": "bug",
+          "title": "parse_dfxp_time_expr 对无法解析的表达式返回 None",
+          "explanation": "函数在 time_expr 非空但既不匹配纯秒数格式也不匹配 HH:MM:SS 格式时，会隐式返回 None。调用方 dfxp2srt 在第 2023-2026 行将返回值直接用于算术运算，None 会导致 TypeError。此外第 2024 行 end_time 为 None 时，第 2025 行 'if not end_time' 会误判为需要回退到 dur，掩盖了格式错误。",
+          "trigger": "DFXP 时间表达式格式不符合两种正则之一，例如 '00:00' 或 '1m30s'。",
+          "evidence": "1985: mobj = re.match(r'^(\\d+):(\\d\\d):(\\d\\d(?:\\.\\d+)?)$', time_expr)\n1987: return 3600 * int(mobj.group(1)) + 60 * int(mobj.group(2)) + float(mobj.group(3))",
+          "suggestion": "在函数末尾对无法解析的表达式抛出 ValueError，或在调用方检查返回值是否为 None 并给出明确错误。",
+          "id": "8840d1f68240",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1983:         return float(mobj.group('time_offset'))\n1984: \n1985:     mobj = re.match(r'^(\\d+):(\\d\\d):(\\d\\d(?:\\.\\d+)?)$', time_expr)\n1986:     if mobj:\n1987:         return 3600 * int(mobj.group(1)) + 60 * int(mobj.group(2)) + float(mobj.group(3))\n1988: \n1989: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 2011,
+          "end_line": 2011,
+          "severity": "low",
+          "category": "quality",
+          "title": "parse_node 对未知子元素使用 tostring 产生原始 XML 文本",
+          "explanation": "当子元素既不是 br 也不是 span 时，代码用 xml.etree.ElementTree.tostring(child) 将其序列化为原始 XML 字符串并拼接到字幕文本中。这会把标签（如 <metadata>、<style> 等）原样输出到 SRT 字幕内容里，产生包含 XML 标记的脏文本。",
+          "trigger": "DFXP/TTML 段落内包含 br/span 之外的子元素。",
+          "evidence": "2011: out += str_or_empty(xml.etree.ElementTree.tostring(child))",
+          "suggestion": "对未知子元素递归提取其文本内容（如 parse_node(child)）而非序列化整个元素，或明确忽略这些元素。",
+          "id": "0ec49083109e",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2009:                 out += str_or_empty(parse_node(child))\n2010:             else:\n2011:                 out += str_or_empty(xml.etree.ElementTree.tostring(child))\n2012: \n2013:         return out",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 1938,
+          "end_line": 1941,
+          "severity": "low",
+          "category": "bug",
+          "title": "_match_one 中 actual_value 为 None 时返回 none_inclusive 而非布尔值",
+          "explanation": "第 1938-1940 行在 actual_value 为 None 时返回 m.group('none_inclusive')，这是正则捕获组的字符串（可能为空字符串 ''），而非布尔值。空字符串在布尔上下文中为 False，但若该组捕获到非空内容则可能为真值。match_str 使用 all() 判断，依赖真值语义，返回字符串而非布尔值可能导致语义不清晰或意外通过过滤。",
+          "trigger": "过滤条件中键对应的值为 None，且 none_inclusive 捕获组匹配到非空字符串。",
+          "evidence": "1938: actual_value = dct.get(m.group('key'))\n1939: if actual_value is None:\n1940:     return m.group('none_inclusive')",
+          "suggestion": "显式返回布尔值，例如 return bool(m.group('none_inclusive'))，使语义明确。",
+          "id": "bec426f4737e",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1936:                         'Invalid integer value %r in filter part %r' % (\n1937:                             m.group('intval'), filter_part))\n1938:         actual_value = dct.get(m.group('key'))\n1939:         if actual_value is None:\n1940:             return m.group('none_inclusive')\n1941:         return op(actual_value, comparison_value)\n1942: \n1943:     UNARY_OPERATORS = {",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "7288a1e979fd",
+          "status": "rejected",
+          "reason": "该 raise 位于 except ValueError 块内，但抛出的是全新的 ValueError，与捕获的异常无因果关系，属于对输入值的独立校验失败。ruff B904 是风格建议而非缺陷；此处加 from None 或 from err 均不改变行为，不构成实际问题。"
+        },
+        {
+          "id": "137ca91017a9",
+          "status": "supported",
+          "reason": "srt_subtitles_timecode 用 '%02d:%02d:%02d,%03d' 格式化，传入的 seconds 来自 parse_dfxp_time_expr 的 float。%d 对浮点做截断而非四舍五入，毫秒部分 (seconds % 1) * 1000 会丢失精度且不进位（如 1.9999 秒得 999 而非 1000），浮点误差还可能产生 1000 的非法毫秒值。代码依据充分，未运行验证。"
+        },
+        {
+          "id": "6040e7214949",
+          "status": "supported",
+          "reason": "第 2023 行 para.attrib['begin'] 与第 2026 行 para.attrib['dur'] 均为直接索引，缺少对应属性时抛 KeyError。第 2019-2020 行只处理无段落情况，未对属性缺失做防御，触发条件成立。"
+        },
+        {
+          "id": "8840d1f68240",
+          "status": "supported",
+          "reason": "parse_dfxp_time_expr 在 time_expr 非空且两个正则均不匹配时无 return，隐式返回 None。调用方第 2023-2026 行将其用于算术运算会触发 TypeError；且第 2025 行 'if not end_time' 会把 None 误判为需回退到 dur，掩盖格式错误。代码依据成立。"
+        },
+        {
+          "id": "0ec49083109e",
+          "status": "needs_context",
+          "reason": "第 2011 行对非 br/span 子元素用 tostring 序列化，确实会把 XML 标签写入字幕文本。但 DFXP/TTML 段落内是否会出现此类子元素、以及是否属于有意保留，取决于实际输入格式约定，缺少上下文无法判定为缺陷。"
+        },
+        {
+          "id": "bec426f4737e",
+          "status": "rejected",
+          "reason": "none_inclusive 捕获组为 (\\s*\\?)?，匹配时值为 '?' 或 None，不匹配时为 None。返回 '?' 在 all() 中为真值，语义正确（表示该键缺失时视为通过）；返回 None 为假值。不存在捕获到非空任意字符串的情况，返回字符串与布尔语义一致，非缺陷。"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 1990,
+      "end_line": 1991,
+      "severity": "medium",
+      "category": "bug",
+      "title": "srt_subtitles_timecode 使用浮点除法导致时间码格式错误",
+      "explanation": "该函数用 '%02d:%02d:%02d,%03d' 格式化时间码，但传入的 seconds 是浮点数（parse_dfxp_time_expr 返回 float）。在 Python 3 中 seconds / 3600 和 (seconds % 3600) / 60 都是浮点除法，%d 会截断为整数，看似可用；但 (seconds % 1) * 1000 是浮点数，%03d 会截断小数部分，导致毫秒精度丢失（例如 0.9995 秒会得到 999 而非 1000，且不会进位）。更严重的是当 seconds 为负或浮点误差导致 (seconds % 1)*1000 达到 1000 时，会产生非法时间码。此外 Python 2 中整数除法行为不同，跨版本结果不一致。",
+      "trigger": "解析包含小数秒的 DFXP/TTML 字幕，例如 begin=\"1.5s\"，毫秒部分被截断；或浮点误差使毫秒计算为 1000。",
+      "evidence": "1991: return '%02d:%02d:%02d,%03d' % (seconds / 3600, (seconds % 3600) / 60, seconds % 60, (seconds % 1) * 1000)",
+      "suggestion": "先将秒数转换为整数毫秒再格式化，例如 total_ms = int(round(seconds * 1000))，然后分别计算时、分、秒、毫秒，避免浮点截断和跨版本差异。",
+      "id": "137ca91017a9",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1988: \n1989: \n1990: def srt_subtitles_timecode(seconds):\n1991:     return '%02d:%02d:%02d,%03d' % (seconds / 3600, (seconds % 3600) / 60, seconds % 60, (seconds % 1) * 1000)\n1992: \n1993: ",
+      "status": "supported",
+      "verification": "srt_subtitles_timecode 用 '%02d:%02d:%02d,%03d' 格式化，传入的 seconds 来自 parse_dfxp_time_expr 的 float。%d 对浮点做截断而非四舍五入，毫秒部分 (seconds % 1) * 1000 会丢失精度且不进位（如 1.9999 秒得 999 而非 1000），浮点误差还可能产生 1000 的非法毫秒值。代码依据充分，未运行验证。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 2023,
+      "end_line": 2026,
+      "severity": "medium",
+      "category": "bug",
+      "title": "dfxp2srt 对缺失 begin/dur 属性直接抛 KeyError",
+      "explanation": "第 2023 行用 para.attrib['begin'] 直接索引，第 2026 行用 para.attrib['dur'] 直接索引。若字幕段落缺少 begin 或既无 end 又无 dur 属性，会抛出未捕获的 KeyError，而不是给出有意义的错误信息。虽然第 2019-2020 行对无段落情况做了处理，但对属性缺失未做防御。",
+      "trigger": "输入 DFXP/TTML 文件中某个 <p> 元素缺少 begin 属性，或缺少 end 且缺少 dur 属性。",
+      "evidence": "2023: begin_time = parse_dfxp_time_expr(para.attrib['begin'])\n2026: end_time = begin_time + parse_dfxp_time_expr(para.attrib['dur'])",
+      "suggestion": "使用 para.attrib.get('begin') 并对 None 做校验，缺失时抛出带上下文的 ValueError；dur 同理，缺失时给出明确错误或跳过该段落。",
+      "id": "6040e7214949",
+      "source": "llm",
+      "rule": "",
+      "snippet": "2021: \n2022:     for para, index in zip(paras, itertools.count(1)):\n2023:         begin_time = parse_dfxp_time_expr(para.attrib['begin'])\n2024:         end_time = parse_dfxp_time_expr(para.attrib.get('end'))\n2025:         if not end_time:\n2026:             end_time = begin_time + parse_dfxp_time_expr(para.attrib['dur'])\n2027:         out.append('%d\\n%s --> %s\\n%s\\n\\n' % (\n2028:             index,",
+      "status": "supported",
+      "verification": "第 2023 行 para.attrib['begin'] 与第 2026 行 para.attrib['dur'] 均为直接索引，缺少对应属性时抛 KeyError。第 2019-2020 行只处理无段落情况，未对属性缺失做防御，触发条件成立。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 1985,
+      "end_line": 1987,
+      "severity": "low",
+      "category": "bug",
+      "title": "parse_dfxp_time_expr 对无法解析的表达式返回 None",
+      "explanation": "函数在 time_expr 非空但既不匹配纯秒数格式也不匹配 HH:MM:SS 格式时，会隐式返回 None。调用方 dfxp2srt 在第 2023-2026 行将返回值直接用于算术运算，None 会导致 TypeError。此外第 2024 行 end_time 为 None 时，第 2025 行 'if not end_time' 会误判为需要回退到 dur，掩盖了格式错误。",
+      "trigger": "DFXP 时间表达式格式不符合两种正则之一，例如 '00:00' 或 '1m30s'。",
+      "evidence": "1985: mobj = re.match(r'^(\\d+):(\\d\\d):(\\d\\d(?:\\.\\d+)?)$', time_expr)\n1987: return 3600 * int(mobj.group(1)) + 60 * int(mobj.group(2)) + float(mobj.group(3))",
+      "suggestion": "在函数末尾对无法解析的表达式抛出 ValueError，或在调用方检查返回值是否为 None 并给出明确错误。",
+      "id": "8840d1f68240",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1983:         return float(mobj.group('time_offset'))\n1984: \n1985:     mobj = re.match(r'^(\\d+):(\\d\\d):(\\d\\d(?:\\.\\d+)?)$', time_expr)\n1986:     if mobj:\n1987:         return 3600 * int(mobj.group(1)) + 60 * int(mobj.group(2)) + float(mobj.group(3))\n1988: \n1989: ",
+      "status": "supported",
+      "verification": "parse_dfxp_time_expr 在 time_expr 非空且两个正则均不匹配时无 return，隐式返回 None。调用方第 2023-2026 行将其用于算术运算会触发 TypeError；且第 2025 行 'if not end_time' 会把 None 误判为需回退到 dur，掩盖格式错误。代码依据成立。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 2011,
+      "end_line": 2011,
+      "severity": "low",
+      "category": "quality",
+      "title": "parse_node 对未知子元素使用 tostring 产生原始 XML 文本",
+      "explanation": "当子元素既不是 br 也不是 span 时，代码用 xml.etree.ElementTree.tostring(child) 将其序列化为原始 XML 字符串并拼接到字幕文本中。这会把标签（如 <metadata>、<style> 等）原样输出到 SRT 字幕内容里，产生包含 XML 标记的脏文本。",
+      "trigger": "DFXP/TTML 段落内包含 br/span 之外的子元素。",
+      "evidence": "2011: out += str_or_empty(xml.etree.ElementTree.tostring(child))",
+      "suggestion": "对未知子元素递归提取其文本内容（如 parse_node(child)）而非序列化整个元素，或明确忽略这些元素。",
+      "id": "0ec49083109e",
+      "source": "llm",
+      "rule": "",
+      "snippet": "2009:                 out += str_or_empty(parse_node(child))\n2010:             else:\n2011:                 out += str_or_empty(xml.etree.ElementTree.tostring(child))\n2012: \n2013:         return out",
+      "status": "needs_context",
+      "verification": "第 2011 行对非 br/span 子元素用 tostring 序列化，确实会把 XML 标签写入字幕文本。但 DFXP/TTML 段落内是否会出现此类子元素、以及是否属于有意保留，取决于实际输入格式约定，缺少上下文无法判定为缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 1938,
+      "end_line": 1941,
+      "severity": "low",
+      "category": "bug",
+      "title": "_match_one 中 actual_value 为 None 时返回 none_inclusive 而非布尔值",
+      "explanation": "第 1938-1940 行在 actual_value 为 None 时返回 m.group('none_inclusive')，这是正则捕获组的字符串（可能为空字符串 ''），而非布尔值。空字符串在布尔上下文中为 False，但若该组捕获到非空内容则可能为真值。match_str 使用 all() 判断，依赖真值语义，返回字符串而非布尔值可能导致语义不清晰或意外通过过滤。",
+      "trigger": "过滤条件中键对应的值为 None，且 none_inclusive 捕获组匹配到非空字符串。",
+      "evidence": "1938: actual_value = dct.get(m.group('key'))\n1939: if actual_value is None:\n1940:     return m.group('none_inclusive')",
+      "suggestion": "显式返回布尔值，例如 return bool(m.group('none_inclusive'))，使语义明确。",
+      "id": "bec426f4737e",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1936:                         'Invalid integer value %r in filter part %r' % (\n1937:                             m.group('intval'), filter_part))\n1938:         actual_value = dct.get(m.group('key'))\n1939:         if actual_value is None:\n1940:             return m.group('none_inclusive')\n1941:         return op(actual_value, comparison_value)\n1942: \n1943:     UNARY_OPERATORS = {",
+      "status": "rejected",
+      "verification": "none_inclusive 捕获组为 (\\s*\\?)?，匹配时值为 '?' 或 None，不匹配时为 None。返回 '?' 在 all() 中为真值，语义正确（表示该键缺失时视为通过）；返回 None 为假值。不存在捕获到非空任意字符串的情况，返回字符串与布尔语义一致，非缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 1935,
+      "end_line": 1935,
+      "severity": "low",
+      "category": "quality",
+      "title": "B904: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+      "explanation": "Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff B904: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "7288a1e979fd",
+      "source": "ruff",
+      "rule": "B904",
+      "snippet": "1933:                     comparison_value = parse_filesize(m.group('intval') + 'B')\n1934:                 if comparison_value is None:\n1935:                     raise ValueError(\n1936:                         'Invalid integer value %r in filter part %r' % (\n1937:                             m.group('intval'), filter_part))",
+      "status": "rejected",
+      "verification": "该 raise 位于 except ValueError 块内，但抛出的是全新的 ValueError，与捕获的异常无因果关系，属于对输入值的独立校验失败。ruff B904 是风格建议而非缺陷；此处加 from None 或 from err 均不改变行为，不构成实际问题。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "youtube-dl-6",
+    "variant": "buggy",
+    "fixed_commit": "d631d5f9f27f93767226192e4288990413fa9dbd",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

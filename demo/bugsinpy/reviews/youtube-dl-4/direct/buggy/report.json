@@ -1,0 +1,663 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "https://github.com/ytdl-org/youtube-dl",
+    "name": "youtube-dl",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "bc40b3a5ba44006c23daf7fe0ed872af5e33bdc5",
+    "indexed_snapshot_sha256": "814db4e472b1fe8493603662631acff46e1c6053677d4fc2aeda3bdd7ccfa093"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:43:36.586541+00:00",
+    "status": "completed",
+    "mode": "direct",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "direct",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 7.145,
+    "api_calls": 1,
+    "usage": {
+      "prompt_tokens": 2664,
+      "completion_tokens": 1145
+    },
+    "indexed_python_files": 726,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 6,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "medium": 6
+    },
+    "status_counts": {
+      "unverified": 6
+    }
+  },
+  "coverage": [
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "lines": 258,
+      "windows": [
+        [
+          50,
+          219
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "not_requested"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "ChangeLog",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "youtube-dl.plugin.zsh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "bin/youtube-dl",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage_w.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/bash-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/fish-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/posix-locale.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/wine-py2exe.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/zsh-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/module_guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/supportedsites.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/parameters.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testcert.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "test/versions.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassConstruction.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstantInt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/DictCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/EqualsOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/LocalVars.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/MemberAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/NeOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateVoidCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticRetrieval.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringBasics.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringCharCodeAt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringConversion.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_InfoExtractor.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDL.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_aes.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_age_restriction.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_all_urls.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_cache.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_compat.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_download.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_execution.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_iqiyi_sdk_interpreter.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_jsinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_netrc.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_postprocessors.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_socks.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_subtitles.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_swfinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_unicode_literals.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_update.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_verbose_output.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_write_annotations.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_lists.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_signature.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 8844,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1145,
+        "prompt_tokens": 2664,
+        "total_tokens": 3809,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 2152
+      },
+      "elapsed_seconds": 6.545
+    }
+  ],
+  "tool_reads": [],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "findings": [
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 98,
+          "end_line": 98,
+          "severity": "medium",
+          "category": "bug",
+          "title": "索引赋值中 assert 校验 idx 为 int 可被 -O 禁用",
+          "explanation": "第98行使用 assert isinstance(idx, int) 来保证数组下标是整数。当 Python 以 -O 优化模式运行时 assert 会被完全移除，此时若 idx 不是 int（例如字符串或 None），第99行 lvar[idx] 会抛出 TypeError 或产生非预期行为，而不是给出清晰的错误。",
+          "trigger": "解释形如 a[expr] = value 的赋值语句，且 expr 求值结果不是整数（例如字符串变量），同时 Python 以 -O 运行。",
+          "evidence": "98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]",
+          "suggestion": "将 assert 替换为显式的类型检查并抛出 ExtractorError，例如 if not isinstance(idx, int): raise ExtractorError(...)，避免依赖 assert 做运行时校验。",
+          "id": "044c133263d3",
+          "source": "llm",
+          "rule": "",
+          "snippet": "96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]\n100:                 val = opfunc(cur, right_val)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 144,
+          "end_line": 144,
+          "severity": "medium",
+          "category": "bug",
+          "title": "函数调用分支用 assert 校验表达式以 ')' 结尾",
+          "explanation": "第144行 assert expr.endswith(')') 用于确认函数调用表达式以右括号结束。在 -O 模式下该断言被移除，若正则匹配到 member 但表达式实际不以 ')' 结尾，后续 arg_str 解析和 obj[member](argvals) 调用可能产生难以理解的错误。",
+          "trigger": "表达式匹配第123-125行的成员/函数调用正则但结尾不是 ')'，且 Python 以 -O 运行。",
+          "evidence": "144:             assert expr.endswith(')')",
+          "suggestion": "改为显式条件判断并抛出 ExtractorError，或在正则中强制要求结尾为 ')'。",
+          "id": "ac62842c8fc3",
+          "source": "llm",
+          "rule": "",
+          "snippet": "142:                 return obj[member]\n143: \n144:             assert expr.endswith(')')\n145:             # Function call\n146:             if arg_str == '':",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 154,
+          "end_line": 154,
+          "severity": "medium",
+          "category": "bug",
+          "title": "split 调用用 assert 校验参数为 ('',)",
+          "explanation": "第154行 assert argvals == ('',) 假定 split 只接受空字符串参数。在 -O 模式下断言被移除，若传入其他参数（如 split(',')），会静默执行 list(obj) 而忽略分隔符，产生错误的解析结果而非报错。",
+          "trigger": "JS 代码中出现 obj.split(',') 等带非空参数的 split 调用，且 Python 以 -O 运行。",
+          "evidence": "153:             if member == 'split':\n154:                 assert argvals == ('',)\n155:                 return list(obj)",
+          "suggestion": "显式检查参数并抛出 ExtractorError，或实现对分隔符参数的正确处理。",
+          "id": "22615848875c",
+          "source": "llm",
+          "rule": "",
+          "snippet": "152: \n153:             if member == 'split':\n154:                 assert argvals == ('',)\n155:                 return list(obj)\n156:             if member == 'join':",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 157,
+          "end_line": 158,
+          "severity": "medium",
+          "category": "bug",
+          "title": "join 调用用 assert 校验参数个数",
+          "explanation": "第157行 assert len(argvals) == 1 用于保证 join 只有一个参数。在 -O 模式下断言被移除，若参数个数不为 1，第158行 argvals[0] 会抛出 IndexError 或使用错误的分隔符，导致解析失败或结果错误。",
+          "trigger": "JS 代码中出现参数个数不为 1 的 join 调用，且 Python 以 -O 运行。",
+          "evidence": "156:             if member == 'join':\n157:                 assert len(argvals) == 1\n158:                 return argvals[0].join(obj)",
+          "suggestion": "显式检查参数个数并抛出 ExtractorError。",
+          "id": "695ddc53f17c",
+          "source": "llm",
+          "rule": "",
+          "snippet": "155:                 return list(obj)\n156:             if member == 'join':\n157:                 assert len(argvals) == 1\n158:                 return argvals[0].join(obj)\n159:             if member == 'reverse':\n160:                 assert len(argvals) == 0",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 160,
+          "end_line": 160,
+          "severity": "medium",
+          "category": "bug",
+          "title": "reverse 调用用 assert 校验无参数",
+          "explanation": "第160行 assert len(argvals) == 0 假定 reverse 不接受参数。在 -O 模式下断言被移除，带参数的 reverse 调用会被静默接受并执行 obj.reverse()，忽略传入参数，可能掩盖 JS 语义错误。",
+          "trigger": "JS 代码中出现带参数的 reverse 调用，且 Python 以 -O 运行。",
+          "evidence": "159:             if member == 'reverse':\n160:                 assert len(argvals) == 0\n161:                 obj.reverse()",
+          "suggestion": "显式检查参数个数并抛出 ExtractorError。",
+          "id": "647d448549c2",
+          "source": "llm",
+          "rule": "",
+          "snippet": "158:                 return argvals[0].join(obj)\n159:             if member == 'reverse':\n160:                 assert len(argvals) == 0\n161:                 obj.reverse()\n162:                 return obj",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 164,
+          "end_line": 164,
+          "severity": "medium",
+          "category": "bug",
+          "title": "slice 调用用 assert 校验参数个数",
+          "explanation": "第164行 assert len(argvals) == 1 假定 slice 只接受一个参数。在 -O 模式下断言被移除，若参数个数不为 1，第165行 obj[argvals[0]:] 会抛出 IndexError 或产生错误的切片结果。",
+          "trigger": "JS 代码中出现参数个数不为 1 的 slice 调用，且 Python 以 -O 运行。",
+          "evidence": "163:             if member == 'slice':\n164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]",
+          "suggestion": "显式检查参数个数并抛出 ExtractorError。",
+          "id": "43a29f59584d",
+          "source": "llm",
+          "rule": "",
+          "snippet": "162:                 return obj\n163:             if member == 'slice':\n164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 98,
+      "end_line": 98,
+      "severity": "medium",
+      "category": "bug",
+      "title": "索引赋值中 assert 校验 idx 为 int 可被 -O 禁用",
+      "explanation": "第98行使用 assert isinstance(idx, int) 来保证数组下标是整数。当 Python 以 -O 优化模式运行时 assert 会被完全移除，此时若 idx 不是 int（例如字符串或 None），第99行 lvar[idx] 会抛出 TypeError 或产生非预期行为，而不是给出清晰的错误。",
+      "trigger": "解释形如 a[expr] = value 的赋值语句，且 expr 求值结果不是整数（例如字符串变量），同时 Python 以 -O 运行。",
+      "evidence": "98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]",
+      "suggestion": "将 assert 替换为显式的类型检查并抛出 ExtractorError，例如 if not isinstance(idx, int): raise ExtractorError(...)，避免依赖 assert 做运行时校验。",
+      "id": "044c133263d3",
+      "source": "llm",
+      "rule": "",
+      "snippet": "96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]\n100:                 val = opfunc(cur, right_val)",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 144,
+      "end_line": 144,
+      "severity": "medium",
+      "category": "bug",
+      "title": "函数调用分支用 assert 校验表达式以 ')' 结尾",
+      "explanation": "第144行 assert expr.endswith(')') 用于确认函数调用表达式以右括号结束。在 -O 模式下该断言被移除，若正则匹配到 member 但表达式实际不以 ')' 结尾，后续 arg_str 解析和 obj[member](argvals) 调用可能产生难以理解的错误。",
+      "trigger": "表达式匹配第123-125行的成员/函数调用正则但结尾不是 ')'，且 Python 以 -O 运行。",
+      "evidence": "144:             assert expr.endswith(')')",
+      "suggestion": "改为显式条件判断并抛出 ExtractorError，或在正则中强制要求结尾为 ')'。",
+      "id": "ac62842c8fc3",
+      "source": "llm",
+      "rule": "",
+      "snippet": "142:                 return obj[member]\n143: \n144:             assert expr.endswith(')')\n145:             # Function call\n146:             if arg_str == '':",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 154,
+      "end_line": 154,
+      "severity": "medium",
+      "category": "bug",
+      "title": "split 调用用 assert 校验参数为 ('',)",
+      "explanation": "第154行 assert argvals == ('',) 假定 split 只接受空字符串参数。在 -O 模式下断言被移除，若传入其他参数（如 split(',')），会静默执行 list(obj) 而忽略分隔符，产生错误的解析结果而非报错。",
+      "trigger": "JS 代码中出现 obj.split(',') 等带非空参数的 split 调用，且 Python 以 -O 运行。",
+      "evidence": "153:             if member == 'split':\n154:                 assert argvals == ('',)\n155:                 return list(obj)",
+      "suggestion": "显式检查参数并抛出 ExtractorError，或实现对分隔符参数的正确处理。",
+      "id": "22615848875c",
+      "source": "llm",
+      "rule": "",
+      "snippet": "152: \n153:             if member == 'split':\n154:                 assert argvals == ('',)\n155:                 return list(obj)\n156:             if member == 'join':",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 157,
+      "end_line": 158,
+      "severity": "medium",
+      "category": "bug",
+      "title": "join 调用用 assert 校验参数个数",
+      "explanation": "第157行 assert len(argvals) == 1 用于保证 join 只有一个参数。在 -O 模式下断言被移除，若参数个数不为 1，第158行 argvals[0] 会抛出 IndexError 或使用错误的分隔符，导致解析失败或结果错误。",
+      "trigger": "JS 代码中出现参数个数不为 1 的 join 调用，且 Python 以 -O 运行。",
+      "evidence": "156:             if member == 'join':\n157:                 assert len(argvals) == 1\n158:                 return argvals[0].join(obj)",
+      "suggestion": "显式检查参数个数并抛出 ExtractorError。",
+      "id": "695ddc53f17c",
+      "source": "llm",
+      "rule": "",
+      "snippet": "155:                 return list(obj)\n156:             if member == 'join':\n157:                 assert len(argvals) == 1\n158:                 return argvals[0].join(obj)\n159:             if member == 'reverse':\n160:                 assert len(argvals) == 0",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 160,
+      "end_line": 160,
+      "severity": "medium",
+      "category": "bug",
+      "title": "reverse 调用用 assert 校验无参数",
+      "explanation": "第160行 assert len(argvals) == 0 假定 reverse 不接受参数。在 -O 模式下断言被移除，带参数的 reverse 调用会被静默接受并执行 obj.reverse()，忽略传入参数，可能掩盖 JS 语义错误。",
+      "trigger": "JS 代码中出现带参数的 reverse 调用，且 Python 以 -O 运行。",
+      "evidence": "159:             if member == 'reverse':\n160:                 assert len(argvals) == 0\n161:                 obj.reverse()",
+      "suggestion": "显式检查参数个数并抛出 ExtractorError。",
+      "id": "647d448549c2",
+      "source": "llm",
+      "rule": "",
+      "snippet": "158:                 return argvals[0].join(obj)\n159:             if member == 'reverse':\n160:                 assert len(argvals) == 0\n161:                 obj.reverse()\n162:                 return obj",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 164,
+      "end_line": 164,
+      "severity": "medium",
+      "category": "bug",
+      "title": "slice 调用用 assert 校验参数个数",
+      "explanation": "第164行 assert len(argvals) == 1 假定 slice 只接受一个参数。在 -O 模式下断言被移除，若参数个数不为 1，第165行 obj[argvals[0]:] 会抛出 IndexError 或产生错误的切片结果。",
+      "trigger": "JS 代码中出现参数个数不为 1 的 slice 调用，且 Python 以 -O 运行。",
+      "evidence": "163:             if member == 'slice':\n164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]",
+      "suggestion": "显式检查参数个数并抛出 ExtractorError。",
+      "id": "43a29f59584d",
+      "source": "llm",
+      "rule": "",
+      "snippet": "162:                 return obj\n163:             if member == 'slice':\n164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "youtube-dl-4",
+    "variant": "buggy",
+    "fixed_commit": "189935f15960300d316e8b07108b076ac6c2186a",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

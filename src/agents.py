@@ -222,7 +222,16 @@ class BoundedAgent(SimpleAgent):
             response = self.llm.invoke(messages, **kwargs)
             calls = self._parse_tool_calls(response)
             if not calls:
-                return response
+                try:
+                    parse_json(response)
+                    return response
+                except (ValueError, TypeError):
+                    # Ask for one bounded correction; never silently reinterpret
+                    # an array or prose as a valid candidate/decision object.
+                    messages.append({"role": "assistant", "content": response})
+                    if self.llm.calls:
+                        self.llm.calls[-1]["format_repair_requested"] = True
+                    break
             messages.append({"role": "assistant", "content": response})
             results = [
                 self._execute_tool_call(c["tool_name"], c["parameters"])
@@ -294,7 +303,10 @@ class ReviewAgents:
                 system_prompt=REVIEW_PROMPT,
                 enable_tool_calling=False,
             )
-            raw = agent.run(json.dumps(payload, ensure_ascii=False))
+            raw = agent.run(
+                json.dumps(payload, ensure_ascii=False),
+                response_format={"type": "json_object"},
+            )
         else:
             raw = self._run("review", REVIEW_PROMPT, payload)
         parsed = Candidates.model_validate(parse_json(raw))

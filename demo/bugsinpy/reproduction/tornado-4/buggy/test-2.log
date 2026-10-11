@@ -1,0 +1,30 @@
+ERROR:tornado.application:Uncaught exception GET /static/robots.txt (127.0.0.1)
+HTTPServerRequest(protocol='http', host='127.0.0.1:36277', method='GET', uri='/static/robots.txt', version='HTTP/1.1', remote_ip='127.0.0.1')
+Traceback (most recent call last):
+  File "/work/tornado/web.py", line 1706, in _execute
+    result = await result
+  File "/work/tornado/web.py", line 2643, in get
+    for chunk in content:
+  File "/work/tornado/web.py", line 2810, in get_content
+    chunk = file.read(chunk_size)
+ValueError: read length must be non-negative or -1
+ERROR:tornado.access:500 GET /static/robots.txt (127.0.0.1) 0.95ms
+======================================================================
+FAIL: test_static_unsatisfiable_range_end_less_than_start (tornado.test.web_test.StaticFileTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/tornado/testing.py", line 93, in __call__
+    result = self.orig_method(*args, **kwargs)
+  File "/work/tornado/test/web_test.py", line 1314, in test_static_unsatisfiable_range_end_less_than_start
+    "/static/robots.txt", headers={"Range": "bytes=10-3"}
+  File "/work/tornado/test/web_test.py", line 1154, in get_and_head
+    % (h, head_response.headers.get(h), get_response.headers.get(h)),
+AssertionError: '-6' != '93'
+- -6
++ 93
+ : Content-Length differs between GET (-6) and HEAD (93)
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+FAILED (failures=1)

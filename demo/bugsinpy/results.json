@@ -1,0 +1,1232 @@
+{
+  "created_at": "2026-10-11T13:50:14.901525+00:00",
+  "protocol": "BugsInPy known-location windows; no official leaderboard score",
+  "records": [
+    {
+      "case": "PySnooper-1",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 11.929,
+      "usage": {
+        "prompt_tokens": 4361,
+        "completion_tokens": 2289
+      },
+      "active_findings": 9,
+      "report": "reviews/PySnooper-1/direct/buggy/report.json",
+      "initial_reproduction": "reproduced",
+      "reproduction_evidence": "reproduction-attempts/20261011T135010607355Z/PySnooper-1/result.json"
+    },
+    {
+      "case": "PySnooper-1",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "partial",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 12.653,
+      "usage": {
+        "prompt_tokens": 4401,
+        "completion_tokens": 2454
+      },
+      "active_findings": 5,
+      "report": "reviews/PySnooper-1/direct/fixed/report.json",
+      "initial_reproduction": "reproduced",
+      "reproduction_evidence": "reproduction-attempts/20261011T135010607355Z/PySnooper-1/result.json"
+    },
+    {
+      "case": "PySnooper-1",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 8,
+      "seconds": 32.527,
+      "usage": {
+        "prompt_tokens": 33264,
+        "completion_tokens": 2861
+      },
+      "active_findings": 4,
+      "report": "reviews/PySnooper-1/full/buggy/report.json",
+      "initial_reproduction": "reproduced",
+      "reproduction_evidence": "reproduction-attempts/20261011T135010607355Z/PySnooper-1/result.json"
+    },
+    {
+      "case": "PySnooper-1",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 9,
+      "seconds": 31.013,
+      "usage": {
+        "prompt_tokens": 43166,
+        "completion_tokens": 4492
+      },
+      "active_findings": 7,
+      "report": "reviews/PySnooper-1/full/fixed/report.json",
+      "initial_reproduction": "reproduced",
+      "reproduction_evidence": "reproduction-attempts/20261011T135010607355Z/PySnooper-1/result.json"
+    },
+    {
+      "case": "tornado-1",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 15.364,
+      "usage": {
+        "prompt_tokens": 5458,
+        "completion_tokens": 2239
+      },
+      "active_findings": 8,
+      "report": "reviews/tornado-1/direct/buggy/report.json"
+    },
+    {
+      "case": "tornado-1",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 15.807,
+      "usage": {
+        "prompt_tokens": 5541,
+        "completion_tokens": 1979
+      },
+      "active_findings": 7,
+      "report": "reviews/tornado-1/direct/fixed/report.json"
+    },
+    {
+      "case": "tornado-1",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 11,
+      "seconds": 31.61,
+      "usage": {
+        "prompt_tokens": 75261,
+        "completion_tokens": 4293
+      },
+      "active_findings": 3,
+      "report": "reviews/tornado-1/full/buggy/report.json"
+    },
+    {
+      "case": "tornado-1",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 10,
+      "seconds": 29.878,
+      "usage": {
+        "prompt_tokens": 65900,
+        "completion_tokens": 4224
+      },
+      "active_findings": 2,
+      "report": "reviews/tornado-1/full/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-1",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 12.827,
+      "usage": {
+        "prompt_tokens": 1959,
+        "completion_tokens": 1495
+      },
+      "active_findings": 6,
+      "report": "reviews/youtube-dl-1/direct/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-1",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 8.641,
+      "usage": {
+        "prompt_tokens": 1985,
+        "completion_tokens": 1730
+      },
+      "active_findings": 6,
+      "report": "reviews/youtube-dl-1/direct/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-1",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 4,
+      "seconds": 14.878,
+      "usage": {
+        "prompt_tokens": 36370,
+        "completion_tokens": 2289
+      },
+      "active_findings": 1,
+      "report": "reviews/youtube-dl-1/full/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-1",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 4,
+      "seconds": 13.585,
+      "usage": {
+        "prompt_tokens": 35060,
+        "completion_tokens": 2219
+      },
+      "active_findings": 1,
+      "report": "reviews/youtube-dl-1/full/fixed/report.json"
+    },
+    {
+      "case": "PySnooper-2",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "not_reproduced",
+      "calls": 5,
+      "seconds": 23.54,
+      "usage": {
+        "prompt_tokens": 8955,
+        "completion_tokens": 4528
+      },
+      "active_findings": 16,
+      "report": "reviews/PySnooper-2/direct/buggy/report.json",
+      "initial_reproduction": "not_reproduced",
+      "reproduction_evidence": "reproduction-attempts/20261011T135010607355Z/PySnooper-2/result.json"
+    },
+    {
+      "case": "PySnooper-2",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "not_reproduced",
+      "calls": 5,
+      "seconds": 22.963,
+      "usage": {
+        "prompt_tokens": 9306,
+        "completion_tokens": 4605
+      },
+      "active_findings": 15,
+      "report": "reviews/PySnooper-2/direct/fixed/report.json",
+      "initial_reproduction": "not_reproduced",
+      "reproduction_evidence": "reproduction-attempts/20261011T135010607355Z/PySnooper-2/result.json"
+    },
+    {
+      "case": "PySnooper-2",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "not_reproduced",
+      "calls": 15,
+      "seconds": 39.736,
+      "usage": {
+        "prompt_tokens": 79203,
+        "completion_tokens": 6969
+      },
+      "active_findings": 5,
+      "report": "reviews/PySnooper-2/full/buggy/report.json",
+      "initial_reproduction": "not_reproduced",
+      "reproduction_evidence": "reproduction-attempts/20261011T135010607355Z/PySnooper-2/result.json"
+    },
+    {
+      "case": "PySnooper-2",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "not_reproduced",
+      "calls": 17,
+      "seconds": 49.154,
+      "usage": {
+        "prompt_tokens": 103297,
+        "completion_tokens": 8782
+      },
+      "active_findings": 9,
+      "report": "reviews/PySnooper-2/full/fixed/report.json",
+      "initial_reproduction": "not_reproduced",
+      "reproduction_evidence": "reproduction-attempts/20261011T135010607355Z/PySnooper-2/result.json"
+    },
+    {
+      "case": "tornado-2",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 5.25,
+      "usage": {
+        "prompt_tokens": 2076,
+        "completion_tokens": 880
+      },
+      "active_findings": 3,
+      "report": "reviews/tornado-2/direct/buggy/report.json"
+    },
+    {
+      "case": "tornado-2",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 1.106,
+      "usage": {
+        "prompt_tokens": 2107,
+        "completion_tokens": 6
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-2/direct/fixed/report.json"
+    },
+    {
+      "case": "tornado-2",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 4,
+      "seconds": 14.507,
+      "usage": {
+        "prompt_tokens": 32215,
+        "completion_tokens": 2463
+      },
+      "active_findings": 1,
+      "report": "reviews/tornado-2/full/buggy/report.json"
+    },
+    {
+      "case": "tornado-2",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 11.993,
+      "usage": {
+        "prompt_tokens": 22685,
+        "completion_tokens": 1868
+      },
+      "active_findings": 1,
+      "report": "reviews/tornado-2/full/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-2",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 1.356,
+      "usage": {
+        "prompt_tokens": 2221,
+        "completion_tokens": 6
+      },
+      "active_findings": 0,
+      "report": "reviews/youtube-dl-2/direct/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-2",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 1.494,
+      "usage": {
+        "prompt_tokens": 2269,
+        "completion_tokens": 6
+      },
+      "active_findings": 0,
+      "report": "reviews/youtube-dl-2/direct/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-2",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 9.415,
+      "usage": {
+        "prompt_tokens": 22152,
+        "completion_tokens": 1327
+      },
+      "active_findings": 3,
+      "report": "reviews/youtube-dl-2/full/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-2",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 9.385,
+      "usage": {
+        "prompt_tokens": 23232,
+        "completion_tokens": 1541
+      },
+      "active_findings": 6,
+      "report": "reviews/youtube-dl-2/full/fixed/report.json"
+    },
+    {
+      "case": "PySnooper-3",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 3.522,
+      "usage": {
+        "prompt_tokens": 915,
+        "completion_tokens": 471
+      },
+      "active_findings": 2,
+      "report": "reviews/PySnooper-3/direct/buggy/report.json",
+      "initial_reproduction": "not_reproduced",
+      "reproduction_evidence": "reproduction-attempts/20261011T135010607355Z/PySnooper-3/result.json"
+    },
+    {
+      "case": "PySnooper-3",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 3.613,
+      "usage": {
+        "prompt_tokens": 914,
+        "completion_tokens": 624
+      },
+      "active_findings": 3,
+      "report": "reviews/PySnooper-3/direct/fixed/report.json",
+      "initial_reproduction": "not_reproduced",
+      "reproduction_evidence": "reproduction-attempts/20261011T135010607355Z/PySnooper-3/result.json"
+    },
+    {
+      "case": "PySnooper-3",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 4,
+      "seconds": 7.398,
+      "usage": {
+        "prompt_tokens": 13380,
+        "completion_tokens": 944
+      },
+      "active_findings": 2,
+      "report": "reviews/PySnooper-3/full/buggy/report.json",
+      "initial_reproduction": "not_reproduced",
+      "reproduction_evidence": "reproduction-attempts/20261011T135010607355Z/PySnooper-3/result.json"
+    },
+    {
+      "case": "PySnooper-3",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 4,
+      "seconds": 9.157,
+      "usage": {
+        "prompt_tokens": 13890,
+        "completion_tokens": 1080
+      },
+      "active_findings": 2,
+      "report": "reviews/PySnooper-3/full/fixed/report.json",
+      "initial_reproduction": "not_reproduced",
+      "reproduction_evidence": "reproduction-attempts/20261011T135010607355Z/PySnooper-3/result.json"
+    },
+    {
+      "case": "tornado-3",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 1.512,
+      "usage": {
+        "prompt_tokens": 1934,
+        "completion_tokens": 6
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-3/direct/buggy/report.json"
+    },
+    {
+      "case": "tornado-3",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 0.905,
+      "usage": {
+        "prompt_tokens": 2021,
+        "completion_tokens": 6
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-3/direct/fixed/report.json"
+    },
+    {
+      "case": "tornado-3",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 8.128,
+      "usage": {
+        "prompt_tokens": 16798,
+        "completion_tokens": 1264
+      },
+      "active_findings": 1,
+      "report": "reviews/tornado-3/full/buggy/report.json"
+    },
+    {
+      "case": "tornado-3",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 4,
+      "seconds": 8.677,
+      "usage": {
+        "prompt_tokens": 24471,
+        "completion_tokens": 1376
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-3/full/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-3",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 5.991,
+      "usage": {
+        "prompt_tokens": 1693,
+        "completion_tokens": 1124
+      },
+      "active_findings": 5,
+      "report": "reviews/youtube-dl-3/direct/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-3",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 7.739,
+      "usage": {
+        "prompt_tokens": 1694,
+        "completion_tokens": 1261
+      },
+      "active_findings": 6,
+      "report": "reviews/youtube-dl-3/direct/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-3",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 4,
+      "seconds": 11.053,
+      "usage": {
+        "prompt_tokens": 29661,
+        "completion_tokens": 1632
+      },
+      "active_findings": 4,
+      "report": "reviews/youtube-dl-3/full/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-3",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 4,
+      "seconds": 11.801,
+      "usage": {
+        "prompt_tokens": 28063,
+        "completion_tokens": 1564
+      },
+      "active_findings": 1,
+      "report": "reviews/youtube-dl-3/full/fixed/report.json"
+    },
+    {
+      "case": "tornado-4",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 6.369,
+      "usage": {
+        "prompt_tokens": 1819,
+        "completion_tokens": 1425
+      },
+      "active_findings": 4,
+      "report": "reviews/tornado-4/direct/buggy/report.json"
+    },
+    {
+      "case": "tornado-4",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 5.281,
+      "usage": {
+        "prompt_tokens": 1930,
+        "completion_tokens": 1011
+      },
+      "active_findings": 3,
+      "report": "reviews/tornado-4/direct/fixed/report.json"
+    },
+    {
+      "case": "tornado-4",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 5.389,
+      "usage": {
+        "prompt_tokens": 14162,
+        "completion_tokens": 552
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-4/full/buggy/report.json"
+    },
+    {
+      "case": "tornado-4",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 4,
+      "seconds": 8.863,
+      "usage": {
+        "prompt_tokens": 22907,
+        "completion_tokens": 1169
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-4/full/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-4",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 7.145,
+      "usage": {
+        "prompt_tokens": 2664,
+        "completion_tokens": 1145
+      },
+      "active_findings": 6,
+      "report": "reviews/youtube-dl-4/direct/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-4",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 6.481,
+      "usage": {
+        "prompt_tokens": 2677,
+        "completion_tokens": 1208
+      },
+      "active_findings": 6,
+      "report": "reviews/youtube-dl-4/direct/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-4",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 5,
+      "seconds": 18.077,
+      "usage": {
+        "prompt_tokens": 37984,
+        "completion_tokens": 3044
+      },
+      "active_findings": 1,
+      "report": "reviews/youtube-dl-4/full/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-4",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 5,
+      "seconds": 16.856,
+      "usage": {
+        "prompt_tokens": 37565,
+        "completion_tokens": 2963
+      },
+      "active_findings": 0,
+      "report": "reviews/youtube-dl-4/full/fixed/report.json"
+    },
+    {
+      "case": "tornado-5",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 6.284,
+      "usage": {
+        "prompt_tokens": 1302,
+        "completion_tokens": 1307
+      },
+      "active_findings": 4,
+      "report": "reviews/tornado-5/direct/buggy/report.json"
+    },
+    {
+      "case": "tornado-5",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 1.459,
+      "usage": {
+        "prompt_tokens": 1601,
+        "completion_tokens": 6
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-5/direct/fixed/report.json"
+    },
+    {
+      "case": "tornado-5",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 10.075,
+      "usage": {
+        "prompt_tokens": 15328,
+        "completion_tokens": 1383
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-5/full/buggy/report.json"
+    },
+    {
+      "case": "tornado-5",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 14.961,
+      "usage": {
+        "prompt_tokens": 16907,
+        "completion_tokens": 1371
+      },
+      "active_findings": 1,
+      "report": "reviews/tornado-5/full/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-5",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 13.07,
+      "usage": {
+        "prompt_tokens": 1990,
+        "completion_tokens": 1511
+      },
+      "active_findings": 6,
+      "report": "reviews/youtube-dl-5/direct/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-5",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 12.132,
+      "usage": {
+        "prompt_tokens": 1995,
+        "completion_tokens": 1402
+      },
+      "active_findings": 6,
+      "report": "reviews/youtube-dl-5/direct/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-5",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 4,
+      "seconds": 17.28,
+      "usage": {
+        "prompt_tokens": 30387,
+        "completion_tokens": 1972
+      },
+      "active_findings": 5,
+      "report": "reviews/youtube-dl-5/full/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-5",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 4,
+      "seconds": 12.769,
+      "usage": {
+        "prompt_tokens": 30224,
+        "completion_tokens": 2124
+      },
+      "active_findings": 4,
+      "report": "reviews/youtube-dl-5/full/fixed/report.json"
+    },
+    {
+      "case": "tornado-6",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 6.823,
+      "usage": {
+        "prompt_tokens": 5384,
+        "completion_tokens": 1026
+      },
+      "active_findings": 4,
+      "report": "reviews/tornado-6/direct/buggy/report.json"
+    },
+    {
+      "case": "tornado-6",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 2.537,
+      "usage": {
+        "prompt_tokens": 5621,
+        "completion_tokens": 18
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-6/direct/fixed/report.json"
+    },
+    {
+      "case": "tornado-6",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 2.692,
+      "usage": {
+        "prompt_tokens": 16894,
+        "completion_tokens": 18
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-6/full/buggy/report.json"
+    },
+    {
+      "case": "tornado-6",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 3.725,
+      "usage": {
+        "prompt_tokens": 17143,
+        "completion_tokens": 18
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-6/full/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-6",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 5.424,
+      "usage": {
+        "prompt_tokens": 2252,
+        "completion_tokens": 1126
+      },
+      "active_findings": 4,
+      "report": "reviews/youtube-dl-6/direct/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-6",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 8.309,
+      "usage": {
+        "prompt_tokens": 2290,
+        "completion_tokens": 1739
+      },
+      "active_findings": 5,
+      "report": "reviews/youtube-dl-6/direct/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-6",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 12.063,
+      "usage": {
+        "prompt_tokens": 22128,
+        "completion_tokens": 2253
+      },
+      "active_findings": 4,
+      "report": "reviews/youtube-dl-6/full/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-6",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 11.492,
+      "usage": {
+        "prompt_tokens": 20049,
+        "completion_tokens": 1845
+      },
+      "active_findings": 4,
+      "report": "reviews/youtube-dl-6/full/fixed/report.json"
+    },
+    {
+      "case": "tornado-7",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 2,
+      "seconds": 2.468,
+      "usage": {
+        "prompt_tokens": 3364,
+        "completion_tokens": 12
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-7/direct/buggy/report.json"
+    },
+    {
+      "case": "tornado-7",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 2,
+      "seconds": 1.781,
+      "usage": {
+        "prompt_tokens": 3449,
+        "completion_tokens": 12
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-7/direct/fixed/report.json"
+    },
+    {
+      "case": "tornado-7",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 4,
+      "seconds": 8.988,
+      "usage": {
+        "prompt_tokens": 21627,
+        "completion_tokens": 1695
+      },
+      "active_findings": 3,
+      "report": "reviews/tornado-7/full/buggy/report.json"
+    },
+    {
+      "case": "tornado-7",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 5,
+      "seconds": 11.396,
+      "usage": {
+        "prompt_tokens": 32481,
+        "completion_tokens": 1976
+      },
+      "active_findings": 1,
+      "report": "reviews/tornado-7/full/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-7",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 4.328,
+      "usage": {
+        "prompt_tokens": 1086,
+        "completion_tokens": 649
+      },
+      "active_findings": 2,
+      "report": "reviews/youtube-dl-7/direct/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-7",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 6.837,
+      "usage": {
+        "prompt_tokens": 1103,
+        "completion_tokens": 1206
+      },
+      "active_findings": 4,
+      "report": "reviews/youtube-dl-7/direct/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-7",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 9.331,
+      "usage": {
+        "prompt_tokens": 14074,
+        "completion_tokens": 1415
+      },
+      "active_findings": 0,
+      "report": "reviews/youtube-dl-7/full/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-7",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 3,
+      "seconds": 9.75,
+      "usage": {
+        "prompt_tokens": 15735,
+        "completion_tokens": 1733
+      },
+      "active_findings": 4,
+      "report": "reviews/youtube-dl-7/full/fixed/report.json"
+    },
+    {
+      "case": "tornado-8",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 0.857,
+      "usage": {
+        "prompt_tokens": 926,
+        "completion_tokens": 6
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-8/direct/buggy/report.json"
+    },
+    {
+      "case": "tornado-8",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 1.183,
+      "usage": {
+        "prompt_tokens": 999,
+        "completion_tokens": 6
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-8/direct/fixed/report.json"
+    },
+    {
+      "case": "tornado-8",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 0.963,
+      "usage": {
+        "prompt_tokens": 4658,
+        "completion_tokens": 6
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-8/full/buggy/report.json"
+    },
+    {
+      "case": "tornado-8",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 2.285,
+      "usage": {
+        "prompt_tokens": 4731,
+        "completion_tokens": 6
+      },
+      "active_findings": 0,
+      "report": "reviews/tornado-8/full/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-8",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 1.321,
+      "usage": {
+        "prompt_tokens": 1465,
+        "completion_tokens": 6
+      },
+      "active_findings": 0,
+      "report": "reviews/youtube-dl-8/direct/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-8",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 1,
+      "seconds": 6.572,
+      "usage": {
+        "prompt_tokens": 1456,
+        "completion_tokens": 1321
+      },
+      "active_findings": 5,
+      "report": "reviews/youtube-dl-8/direct/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-8",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 4,
+      "seconds": 12.509,
+      "usage": {
+        "prompt_tokens": 27940,
+        "completion_tokens": 2086
+      },
+      "active_findings": 4,
+      "report": "reviews/youtube-dl-8/full/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-8",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 4,
+      "seconds": 12.206,
+      "usage": {
+        "prompt_tokens": 29747,
+        "completion_tokens": 1920
+      },
+      "active_findings": 6,
+      "report": "reviews/youtube-dl-8/full/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-9",
+      "mode": "direct",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 2,
+      "seconds": 7.944,
+      "usage": {
+        "prompt_tokens": 4260,
+        "completion_tokens": 1546
+      },
+      "active_findings": 6,
+      "report": "reviews/youtube-dl-9/direct/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-9",
+      "mode": "direct",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 2,
+      "seconds": 6.985,
+      "usage": {
+        "prompt_tokens": 4331,
+        "completion_tokens": 1394
+      },
+      "active_findings": 5,
+      "report": "reviews/youtube-dl-9/direct/fixed/report.json"
+    },
+    {
+      "case": "youtube-dl-9",
+      "mode": "full",
+      "variant": "buggy",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 5,
+      "seconds": 13.777,
+      "usage": {
+        "prompt_tokens": 32240,
+        "completion_tokens": 2222
+      },
+      "active_findings": 5,
+      "report": "reviews/youtube-dl-9/full/buggy/report.json"
+    },
+    {
+      "case": "youtube-dl-9",
+      "mode": "full",
+      "variant": "fixed",
+      "status": "completed",
+      "reproduction": "reproduced",
+      "calls": 6,
+      "seconds": 15.232,
+      "usage": {
+        "prompt_tokens": 42837,
+        "completion_tokens": 2532
+      },
+      "active_findings": 5,
+      "report": "reviews/youtube-dl-9/full/fixed/report.json"
+    }
+  ],
+  "calls": 257,
+  "semantic_scoring": "Explicit semantic adjudications supplied; see scores.json for eligible pairs and exclusions, and the named adjudicators for review status."
+}

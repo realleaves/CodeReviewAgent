@@ -1,0 +1,17 @@
+{
+  "reason": "补齐 PySnooper-3 声明的 future 和 decorator 依赖；三个 PySnooper 样本使用同一补齐镜像复跑，保留初次结果，不改代码、测试或模型回答",
+  "outcomes": {
+    "PySnooper-1": {
+      "status": "reproduced",
+      "evidence": "reproduction-attempts/20261011T135010607355Z/PySnooper-1/result.json"
+    },
+    "PySnooper-2": {
+      "status": "not_reproduced",
+      "evidence": "reproduction-attempts/20261011T135010607355Z/PySnooper-2/result.json"
+    },
+    "PySnooper-3": {
+      "status": "reproduced",
+      "evidence": "reproduction-attempts/20261011T135010607355Z/PySnooper-3/result.json"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+======================================================================
+FAIL: test_unescape_html (test.test_utils.TestUtil)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/test/test_utils.py", line 282, in test_unescape_html
+    self.assertEqual(unescapeHTML('&a&quot;'), '&a"')
+AssertionError: '&a&quot;' != '&a"'
+- &a&quot;
++ &a"
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

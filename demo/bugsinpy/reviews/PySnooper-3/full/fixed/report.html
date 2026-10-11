@@ -1,0 +1,78 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CodeReview · PySnooper</title>
+<style>
+:root{--bg:#f4f6fa;--ink:#182635;--muted:#526376;--line:#dbe3ed;--accent:#126b65}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 system-ui,sans-serif}
+header{background:#112e38;color:#fff;padding:38px max(24px,calc((100vw - 1100px)/2))}
+.eyebrow{letter-spacing:2px;font-size:12px;color:#94d9cc}h1{font-size:32px;margin:10px 0}header p{margin:6px 0;color:#c7d8df;overflow-wrap:anywhere}
+main{max-width:1150px;margin:auto;padding:28px 24px 60px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat,.panel,.finding{background:white;border:1px solid var(--line);border-radius:12px;padding:22px}
+.stat strong{display:block;font-size:30px;color:var(--accent)}.stat span{color:var(--muted)}
+.panel{margin:22px 0}h2{font-size:20px;margin:0 0 14px}.filters{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}
+select,input{font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:7px;background:white}input{min-width:220px;flex:1}
+.finding{margin:14px 0}.finding[hidden]{display:none}h3{font-size:19px;margin:12px 0 5px}.tags{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{border-radius:5px;padding:3px 9px;background:#edf2f7;font-size:12px}.badge.high{color:#a12f37;background:#ffebed}
+.badge.medium{color:#96590c;background:#fff1dc}.badge.low{color:#176467;background:#e7f5f3}.origin,.location{color:var(--muted);font-size:13px}
+a{color:var(--accent)}dl{margin:18px 0}.detail{display:grid;grid-template-columns:90px 1fr;gap:12px;margin:9px 0}dt{font-weight:600}dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+pre{background:#122b37;color:#e0edf2;padding:17px;border-radius:8px;overflow:auto;font:13px/1.7 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line)}td{overflow-wrap:anywhere}
+.note{color:var(--muted)}summary{cursor:pointer;font-weight:600}footer{color:var(--muted);margin-top:25px}#empty{padding:30px;text-align:center;color:var(--muted)}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}header{padding:25px 20px}main{padding:20px 14px}.detail{grid-template-columns:1fr;gap:2px}h1{font-size:25px}}
+</style></head><body><header><div class="eyebrow">CODE REVIEW AGENT / REPOSITORY REPORT</div>
+<h1>PySnooper</h1><p>local-benchmark · BugsInPy reconstructed snapshot</p>
+<p>Commit 6e3d797be3fa0a746fb5b1b7c7fea78eb926c208 · 运行状态 completed</p></header><main>
+<div class="stats"><div class="stat"><strong>2</strong><span>保留的候选问题</span></div>
+<div class="stat"><strong>0%</strong><span>已索引 Python 文件语义覆盖</span></div>
+<div class="stat"><strong>4</strong><span>模型调用</span></div>
+<div class="stat"><strong>9.157s</strong><span>运行耗时</span></div></div>
+<section class="panel"><h2>审查范围与证据</h2><p>模式 full · 模型 deepseek-flash · 完整语义审查 0/6 个文件</p>
+<ul class="note"><li>BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。</li><li>completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。</li><li>修复版本可能含其他缺陷；额外发现不自动计为误报。</li><li>本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。</li></ul></section>
+<h2>审查发现</h2><div class="filters"><input id="search" aria-label="搜索问题或文件" placeholder="搜索问题、文件路径或依据…">
+<select id="severity" aria-label="风险程度"><option value="">全部风险</option><option value="high">高</option><option value="medium">中</option><option value="low">低</option></select>
+<select id="status" aria-label="复核状态"><option value="active">保留的问题</option><option value="all">全部含驳回</option><option value="supported">有代码依据</option><option value="needs_context">待确认</option><option value="unverified">未复核</option><option value="rejected">已驳回</option></select></div>
+<div id="findings"><article class="finding" data-severity="medium" data-status="supported">
+          <div class="tags"><span class="badge medium">中风险</span>
+          <span class="badge">有代码依据</span><span class="origin">llm</span></div>
+          <h3>assert 校验输出流在优化模式下被移除</h3><div class="location">pysnooper/pysnooper.py:29</div><dl><div class="detail"><dt>问题说明</dt><dd>get_write_function 用 assert isinstance(output, utils.WritableStream) 来校验非 None/非路径的 output 参数。当 Python 以 -O 或 -OO 运行时，assert 语句会被完全移除，此时传入任意不支持 write 的对象不会被拦截，错误会延迟到实际写入时才以 AttributeError 形式暴露，且错误位置远离调用点，难以定位。</dd></div><div class="detail"><dt>触发条件</dt><dd>使用 python -O 运行，并调用 @pysnooper.snoop(output=&lt;非 WritableStream 对象&gt;) 或传入不支持 write 的对象。</dd></div><div class="detail"><dt>代码依据</dt><dd>第29行：assert isinstance(output, utils.WritableStream)；第30-31行闭包直接调用 output.write(s)。assert 在优化字节码中被剥离。</dd></div><div class="detail"><dt>修复建议</dt><dd>改为显式校验并抛出明确异常，例如 if not isinstance(output, utils.WritableStream): raise TypeError(...)，避免依赖 assert 做参数校验。</dd></div><div class="detail"><dt>复核理由</dt><dd>第29行确实用 assert isinstance(output, utils.WritableStream) 校验非 None/非路径的 output，第30-31行闭包直接调用 output.write(s)。在 python -O/-OO 下 assert 被剥离，非法对象不会被拦截，错误延迟到写入时以 AttributeError 暴露。代码依据充分，属依赖 assert 做参数校验的缺陷。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>27:                 output_file.write(s)
+28:     else:
+29:         assert isinstance(output, utils.WritableStream)
+30:         def write(s):
+31:             output.write(s)</code></pre></article><article class="finding" data-severity="low" data-status="supported">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">有代码依据</span><span class="origin">llm</span></div>
+          <h3>每次写入都重新打开文件</h3><div class="location">pysnooper/pysnooper.py:26</div><dl><div class="detail"><dt>问题说明</dt><dd>当 output 为路径或字符串时，write 闭包在每次被调用时都执行 open(output, &#x27;a&#x27;) 并写入后关闭。Tracer 会对每一行执行写入，导致频繁的文件打开/关闭系统调用，在高频追踪场景下产生明显开销。</dd></div><div class="detail"><dt>触发条件</dt><dd>使用 @pysnooper.snoop(&#x27;/path/to/log&#x27;) 追踪包含大量执行行的函数。</dd></div><div class="detail"><dt>代码依据</dt><dd>第25-27行：def write(s): with open(output, &#x27;a&#x27;) as output_file: output_file.write(s)。每次 write 调用都重新 open。</dd></div><div class="detail"><dt>修复建议</dt><dd>在 get_write_function 中一次性打开文件并保持句柄，或使用缓冲写入，在装饰器生命周期结束时关闭。</dd></div><div class="detail"><dt>复核理由</dt><dd>第25-27行 write 闭包每次调用都执行 open(output,&#x27;a&#x27;) 并关闭。Tracer 对每行输出调用 write，故每次写入都重新打开文件，确为重复 open 的性能开销。代码依据充分。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>24:     elif isinstance(output, (pycompat.PathLike, str)):
+25:         def write(s):
+26:             with open(output, &#x27;a&#x27;) as output_file:
+27:                 output_file.write(s)
+28:     else:
+29:         assert isinstance(output, utils.WritableStream)</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">llm</span></div>
+          <h3>stderr 局部变量赋值冗余</h3><div class="location">pysnooper/pysnooper.py:22</div><dl><div class="detail"><dt>问题说明</dt><dd>write 闭包中先取 stderr = sys.stderr 再调用 stderr.write(s)，该中间变量没有实际作用，属于冗余代码，降低可读性。</dd></div><div class="detail"><dt>触发条件</dt><dd>静态阅读代码即可发现，无运行时触发条件。</dd></div><div class="detail"><dt>代码依据</dt><dd>第22-23行：stderr = sys.stderr; stderr.write(s)。</dd></div><div class="detail"><dt>修复建议</dt><dd>直接写 sys.stderr.write(s)，或保留中间变量但说明意图（如为便于测试替换）。</dd></div><div class="detail"><dt>复核理由</dt><dd>第22-23行 stderr = sys.stderr 后调用 stderr.write(s)。该中间变量虽可省略，但属风格问题而非缺陷；且保留局部引用可避免在写入时重新解析 sys.stderr，不构成实质质量问题，作为问题报告不成立。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>20:     if output is None:
+21:         def write(s):
+22:             stderr = sys.stderr
+23:             stderr.write(s)
+24:     elif isinstance(output, (pycompat.PathLike, str)):
+25:         def write(s):</code></pre></article><article class="finding" data-severity="low" data-status="rejected">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">已驳回</span><span class="origin">bandit B101</span></div>
+          <h3>B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</h3><div class="location">pysnooper/pysnooper.py:29</div><dl><div class="detail"><dt>问题说明</dt><dd>Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</dd></div><div class="detail"><dt>触发条件</dt><dd>触发条件需结合业务调用确认。</dd></div><div class="detail"><dt>代码依据</dt><dd>bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.</dd></div><div class="detail"><dt>修复建议</dt><dd>根据诊断检查对应代码。</dd></div><div class="detail"><dt>复核理由</dt><dd>Bandit B101 仅报告 assert 的存在。此处 assert 是参数校验，且 WritableStream 通过 __subclasshook__ 做鸭子类型检查。在 -O 下 assert 被移除属于 Python 语言既定行为，并非本代码引入的安全缺陷；无证据表明存在安全影响。作为安全告警不成立。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>27:                 output_file.write(s)
+28:     else:
+29:         assert isinstance(output, utils.WritableStream)
+30:         def write(s):
+31:             output.write(s)</code></pre></article></div><p id="empty" hidden>当前筛选没有候选问题；请结合覆盖范围和失败记录解读。</p>
+<section class="panel"><h2>文件覆盖</h2><div class="table-wrap"><table><thead><tr><th>文件</th><th>静态检查</th><th>语义审查</th><th>完成分块</th></tr></thead><tbody><tr><td>pysnooper/pysnooper.py</td><td>completed</td><td>window_completed</td><td>1/1</td></tr></tbody></table></div></section>
+<section class="panel"><h2>失败记录</h2><p>没有执行失败记录。</p></section>
+<section class="panel"><details><summary>跳过文件（11）</summary><div class="table-wrap"><table><thead><tr><th>文件</th><th>原因</th></tr></thead><tbody><tr><td>.gitignore</td><td>unsupported_language_or_resource</td></tr><tr><td>.travis.yml</td><td>unsupported_language_or_resource</td></tr><tr><td>LICENSE</td><td>unsupported_language_or_resource</td></tr><tr><td>README.md</td><td>unsupported_language_or_resource</td></tr><tr><td>make_release.sh</td><td>unsupported_language_or_resource</td></tr><tr><td>requirements.txt</td><td>unsupported_language_or_resource</td></tr><tr><td>test_requirements.txt</td><td>unsupported_language_or_resource</td></tr><tr><td>misc/IDE files/PySnooper.wpr</td><td>unsupported_language_or_resource</td></tr><tr><td>tests/__init__.py</td><td>benchmark_tests_hidden</td></tr><tr><td>tests/test_pysnooper.py</td><td>benchmark_tests_hidden</td></tr><tr><td>tests/utils.py</td><td>benchmark_tests_hidden</td></tr></tbody></table></div></details></section>
+<footer>Token 用量：输入 13890 / 输出 1080。完整结构化结果及复核轨迹见 report.json。</footer>
+</main><script>
+const search=document.getElementById('search'),severity=document.getElementById('severity'),status=document.getElementById('status');
+function filter(){let count=0;for(const card of document.querySelectorAll('.finding')){const s=status.value;
+const show=(!severity.value||card.dataset.severity===severity.value)&&(s==='all'||(s==='active'?card.dataset.status!=='rejected':card.dataset.status===s))&&card.textContent.toLowerCase().includes(search.value.toLowerCase());
+card.hidden=!show;if(show)count++;}document.getElementById('empty').hidden=count!==0;}
+for(const control of [search,severity,status])control.addEventListener('input',filter);filter();
+</script></body></html>

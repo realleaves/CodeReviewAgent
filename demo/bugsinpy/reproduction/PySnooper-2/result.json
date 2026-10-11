@@ -1,0 +1,72 @@
+{
+  "case": "PySnooper-2",
+  "python_declared": "3.8.1",
+  "variants": {
+    "buggy": {
+      "image": "code-review-bugsinpy:py38",
+      "image_id": "sha256:76154eb449f277816cd43012d3920b2c33978b52ad4b66cead9f4b9e70dc2116",
+      "python_actual": "Python 3.8.20",
+      "environment": {
+        "LC_ALL": "C.UTF-8",
+        "PYTHONCOERCECLOCALE": "0",
+        "PYTHONUTF8": "0"
+      },
+      "valid_test_execution": false,
+      "all_passed": false,
+      "has_failure": false,
+      "tests": [
+        {
+          "command": [
+            "python",
+            "-m",
+            "pytest",
+            "-q",
+            "-s",
+            "tests/test_pysnooper.py::test_custom_repr_single"
+          ],
+          "exit_code": 4,
+          "timeout": false,
+          "test_executed": false,
+          "environment_error": true,
+          "elapsed_seconds": 0.613,
+          "log": "test-1.log",
+          "log_sha256": "6e709c945e24507b4aa343783c781535b5a28b6493a33b8bf32f82429784bd73"
+        }
+      ]
+    },
+    "fixed": {
+      "image": "code-review-bugsinpy:py38",
+      "image_id": "sha256:76154eb449f277816cd43012d3920b2c33978b52ad4b66cead9f4b9e70dc2116",
+      "python_actual": "Python 3.8.20",
+      "environment": {
+        "LC_ALL": "C.UTF-8",
+        "PYTHONCOERCECLOCALE": "0",
+        "PYTHONUTF8": "0"
+      },
+      "valid_test_execution": false,
+      "all_passed": false,
+      "has_failure": false,
+      "tests": [
+        {
+          "command": [
+            "python",
+            "-m",
+            "pytest",
+            "-q",
+            "-s",
+            "tests/test_pysnooper.py::test_custom_repr_single"
+          ],
+          "exit_code": 4,
+          "timeout": false,
+          "test_executed": false,
+          "environment_error": true,
+          "elapsed_seconds": 0.41,
+          "log": "test-1.log",
+          "log_sha256": "7c8260958d8b04cfc963ed05b9b30caf86670947c4890de286fdac990e050ae6"
+        }
+      ]
+    }
+  },
+  "status": "not_reproduced",
+  "environment_note": "Same Python major/minor as dataset; actual micro-version and image ID recorded. Minimal test dependencies, not the original complete pip freeze."
+}

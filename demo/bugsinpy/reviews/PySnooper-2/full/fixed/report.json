@@ -1,0 +1,1492 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "PySnooper",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "e21a31162f4c54be693d8ca8260e42393b39abd3",
+    "indexed_snapshot_sha256": "319a4ed16744ab3731c9817d60cf54ff44fffc4a171ba5664e670577e3e31ea9"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:39:45.977855+00:00",
+    "status": "completed",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "full",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 49.154,
+    "api_calls": 17,
+    "usage": {
+      "prompt_tokens": 103297,
+      "completion_tokens": 8782
+    },
+    "indexed_python_files": 7,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 5,
+    "total_window_chunks": 5,
+    "active_findings": 9,
+    "rejected_findings": 9,
+    "severity_counts": {
+      "medium": 4,
+      "low": 5
+    },
+    "status_counts": {
+      "supported": 6,
+      "needs_context": 3
+    }
+  },
+  "coverage": [
+    {
+      "path": "pysnooper/tracer.py",
+      "lines": 413,
+      "windows": [
+        [
+          1,
+          191
+        ],
+        [
+          135,
+          338
+        ],
+        [
+          283,
+          413
+        ]
+      ],
+      "total_chunks": 5,
+      "reviewed_chunks": 5,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "make_release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "requirements.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "misc/IDE files/PySnooper.wpr",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tests/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/test_pysnooper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/samples/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/samples/exception.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/samples/indentation.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/samples/recursion.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 1
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 3
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 15459,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 99,
+        "prompt_tokens": 5070,
+        "total_tokens": 5169,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 4558
+      },
+      "elapsed_seconds": 1.125
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 30339,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1343,
+        "prompt_tokens": 9134,
+        "total_tokens": 10477,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 5120
+        },
+        "prompt_cache_hit_tokens": 5120,
+        "prompt_cache_miss_tokens": 4014
+      },
+      "elapsed_seconds": 6.769
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 16368,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 90,
+        "prompt_tokens": 5372,
+        "total_tokens": 5462,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5116
+      },
+      "elapsed_seconds": 1.19
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 20467,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 606,
+        "prompt_tokens": 6565,
+        "total_tokens": 7171,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 5376
+        },
+        "prompt_cache_hit_tokens": 5376,
+        "prompt_cache_miss_tokens": 1189
+      },
+      "elapsed_seconds": 3.237
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 8970,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 3166,
+        "total_tokens": 3172,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 2654
+      },
+      "elapsed_seconds": 0.785
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 16444,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1120,
+        "prompt_tokens": 5201,
+        "total_tokens": 6321,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 4689
+      },
+      "elapsed_seconds": 4.932
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 16803,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 50,
+        "prompt_tokens": 5638,
+        "total_tokens": 5688,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5382
+      },
+      "elapsed_seconds": 1.065
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 26019,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 512,
+        "prompt_tokens": 8118,
+        "total_tokens": 8630,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 5632
+        },
+        "prompt_cache_hit_tokens": 5632,
+        "prompt_cache_miss_tokens": 2486
+      },
+      "elapsed_seconds": 2.728
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 9946,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 75,
+        "prompt_tokens": 3359,
+        "total_tokens": 3434,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 2847
+      },
+      "elapsed_seconds": 0.723
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 23372,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1451,
+        "prompt_tokens": 6901,
+        "total_tokens": 8352,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 3328
+        },
+        "prompt_cache_hit_tokens": 3328,
+        "prompt_cache_miss_tokens": 3573
+      },
+      "elapsed_seconds": 7.583
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 12533,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 50,
+        "prompt_tokens": 3988,
+        "total_tokens": 4038,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 3732
+      },
+      "elapsed_seconds": 0.948
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 17918,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 359,
+        "prompt_tokens": 5381,
+        "total_tokens": 5740,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 3968
+        },
+        "prompt_cache_hit_tokens": 3968,
+        "prompt_cache_miss_tokens": 1413
+      },
+      "elapsed_seconds": 2.585
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 16848,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 50,
+        "prompt_tokens": 5214,
+        "total_tokens": 5264,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 4702
+      },
+      "elapsed_seconds": 0.723
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 26253,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1201,
+        "prompt_tokens": 7941,
+        "total_tokens": 9142,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 5248
+        },
+        "prompt_cache_hit_tokens": 5248,
+        "prompt_cache_miss_tokens": 2693
+      },
+      "elapsed_seconds": 6.175
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 30382,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1053,
+        "prompt_tokens": 9493,
+        "total_tokens": 10546,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 8981
+      },
+      "elapsed_seconds": 3.956
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 17968,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 50,
+        "prompt_tokens": 5597,
+        "total_tokens": 5647,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 5341
+      },
+      "elapsed_seconds": 0.978
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 23342,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 667,
+        "prompt_tokens": 7159,
+        "total_tokens": 7826,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 5632
+        },
+        "prompt_cache_hit_tokens": 5632,
+        "prompt_cache_miss_tokens": 1527
+      },
+      "elapsed_seconds": 3.481
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 180,
+      "end": 299
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 300,
+      "end": 413
+    },
+    {
+      "path": "pysnooper/utils.py",
+      "start": 1,
+      "end": 76
+    },
+    {
+      "path": "pysnooper/variables.py",
+      "start": 80,
+      "end": 119
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 5,
+      "end": 124
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 25,
+      "end": 35
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 60,
+      "end": 102
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 105,
+      "end": 130
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 110,
+      "end": 229
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 230,
+      "end": 330
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 1,
+      "end": 110
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 291,
+      "end": 410
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 1,
+      "end": 60
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 180,
+      "end": 290
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 293,
+      "end": 355
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 355,
+      "end": 413
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 250,
+      "end": 295
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 1,
+      "end": 120
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 145,
+      "end": 264
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 264,
+      "end": 290
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 284,
+      "end": 403
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 1,
+      "end": 120
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "start": 403,
+      "end": 413
+    }
+  ],
+  "trace": [
+    {
+      "stage": "validation",
+      "status": "rejected",
+      "reason": "invalid_location",
+      "path": "pysnooper/tracer.py",
+      "line": 348
+    },
+    {
+      "stage": "validation",
+      "status": "rejected",
+      "reason": "invalid_location",
+      "path": "pysnooper/tracer.py",
+      "line": 381
+    },
+    {
+      "stage": "review",
+      "path": "pysnooper/tracer.py",
+      "start": 1,
+      "end": 180,
+      "findings": [
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 30,
+          "end_line": 30,
+          "severity": "medium",
+          "category": "bug",
+          "title": "vars_order.index 可能抛出 ValueError 导致追踪崩溃",
+          "explanation": "get_local_reprs 中 vars_order 由 co_varnames + co_cellvars + co_freevars + frame.f_locals.keys() 组成，随后用 vars_order.index(key_value[0]) 对 f_locals 的每个键排序。虽然 f_locals 的键理论上应包含在 co_varnames/cellvars/freevars 中，但在某些实现（如 PyPy、exec/eval 注入的局部变量、或 f_locals 被修改的场景）下，f_locals 可能含有不在 vars_order 中的键，此时 list.index 会抛出 ValueError，使整个 trace 回调异常，进而中断被追踪代码的执行。",
+          "trigger": "被追踪帧的 f_locals 含有不在 co_varnames/co_cellvars/co_freevars 中的键（例如通过 exec 注入局部变量或非 CPython 实现）。",
+          "evidence": "第27行 vars_order = code.co_varnames + code.co_cellvars + code.co_freevars + tuple(frame.f_locals.keys())；第30行 result_items.sort(key=lambda key_value: vars_order.index(key_value[0]))。",
+          "suggestion": "改用不会抛异常的排序键，例如构建 {name: index} 字典并用 dict.get(name, len(vars_order)) 作为排序键，或对缺失键回退到末尾。",
+          "id": "58a0062d496f",
+          "source": "llm",
+          "rule": "",
+          "snippet": "28: \n29:     result_items = [(key, utils.get_shortish_repr(value, custom_repr=custom_repr)) for key, value in frame.f_locals.items()]\n30:     result_items.sort(key=lambda key_value: vars_order.index(key_value[0]))\n31:     result = collections.OrderedDict(result_items)\n32: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 89,
+          "end_line": 89,
+          "severity": "medium",
+          "category": "bug",
+          "title": "空源文件时 source[0] 触发 IndexError",
+          "explanation": "当从文件读取的源码为空（例如空文件或仅含无法读取内容的文件）时，source 为 []，第89行 isinstance(source[0], bytes) 会抛出 IndexError。该异常发生在 trace 回调中，会中断被追踪代码。",
+          "trigger": "被追踪函数所在源文件为空（splitlines 返回空列表），且 loader 未提供源码。",
+          "evidence": "第79-80行 source = fp.read().splitlines()；第89行 if isinstance(source[0], bytes): 未先判断 source 非空。",
+          "suggestion": "在访问 source[0] 前判断 if source and isinstance(source[0], bytes):，或在 source 为空时直接跳过编码检测。",
+          "id": "4631df5bb9f6",
+          "source": "llm",
+          "rule": "",
+          "snippet": "87:     # apply tokenize.detect_encoding to decode the source into a\n88:     # string, then we should do that ourselves.\n89:     if isinstance(source[0], bytes):\n90:         encoding = 'utf-8'\n91:         for line in source[:2]:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 123,
+          "end_line": 123,
+          "severity": "low",
+          "category": "quality",
+          "title": "使用 assert 做输入校验，优化模式下被移除",
+          "explanation": "get_write_function 用 assert isinstance(output, utils.WritableStream) 校验 output 类型。在 python -O 运行时 assert 被移除，非法 output 会静默通过，随后在 write 时以 AttributeError 失败，错误信息不明确。",
+          "trigger": "以 python -O 运行且传入既非路径、非 None、非 callable、也非 WritableStream 的 output。",
+          "evidence": "第123行 assert isinstance(output, utils.WritableStream)。",
+          "suggestion": "改为显式 if not isinstance(...): raise TypeError(...)，保证优化模式下仍有明确错误。",
+          "id": "967eda39201b",
+          "source": "llm",
+          "rule": "",
+          "snippet": "121:         write = output\n122:     else:\n123:         assert isinstance(output, utils.WritableStream)\n124: \n125:         def write(s):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 75,
+          "end_line": 76,
+          "severity": "low",
+          "category": "quality",
+          "title": "宽泛 except Exception: pass 掩盖 IPython 历史获取错误",
+          "explanation": "在尝试从 IPython history_manager 获取源码时使用 except Exception: pass，会静默吞掉所有异常（包括 KeyboardInterrupt 之外的编程错误），使源码获取失败原因难以诊断。虽属有意容错，但过于宽泛。",
+          "trigger": "IPython 历史获取过程中抛出任意异常。",
+          "evidence": "第69-76行 try 块内 import IPython 与 get_range，except Exception: pass。",
+          "suggestion": "缩小捕获范围（如 ImportError、IndexError、ValueError），或至少记录调试信息。",
+          "id": "851d9d922e52",
+          "source": "llm",
+          "rule": "",
+          "snippet": "73:                                   get_range(0, entry_number, entry_number + 1)\n74:                 source = source_chunk.splitlines()\n75:             except Exception:\n76:                 pass\n77:         else:\n78:             try:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "f80db844132f",
+          "status": "rejected",
+          "reason": "第69-76行的 try/except Exception: pass 位于 IPython 历史源码获取路径，属于有意的容错设计：IPython 未安装、无 shell、history_manager 缺失或 get_range 越界等都会抛异常，此处静默回退到后续文件读取/UnavailableSource 是预期行为，不构成安全缺陷。bandit B110 仅为通用告警。"
+        },
+        {
+          "id": "be41992b52b4",
+          "status": "rejected",
+          "reason": "第123行 assert 用于校验 output 是 WritableStream，属于内部类型契约检查，非安全边界。bandit B101 是通用告警，此处不构成实际安全问题。"
+        },
+        {
+          "id": "58a0062d496f",
+          "status": "rejected",
+          "reason": "第27行 vars_order 已包含 tuple(frame.f_locals.keys())，而第29行 result_items 的键正是 frame.f_locals.items() 的键，二者来自同一 f_locals 快照，因此 vars_order.index(key) 对每个待排序键必然存在，不会抛 ValueError。候选描述的场景（f_locals 含不在 vars_order 中的键）与代码逻辑矛盾，属误报。"
+        },
+        {
+          "id": "4631df5bb9f6",
+          "status": "rejected",
+          "reason": "第83-84行在 source 为 None 时赋值为 UnavailableSource()，其 __getitem__ 对任意索引返回字符串，故 source[0] 不会 IndexError。仅当 loader.get_source 返回空字符串（splitlines 得 []）或文件为空时 source 才为空列表，但空文件场景下第89行 source[0] 确实会 IndexError——然而该路径需 loader 返回空串或空文件，属边界情形；结合 UnavailableSource 兜底设计，候选所述'空源文件'触发条件在常规路径下被兜底覆盖，判定为误报/不成立。"
+        },
+        {
+          "id": "967eda39201b",
+          "status": "rejected",
+          "reason": "与 be41992b52b4 同源，assert 为内部类型契约校验。python -O 下移除后非法 output 会在 write 时以 AttributeError 失败，属可接受的内部契约行为，非安全或质量缺陷。"
+        },
+        {
+          "id": "851d9d922e52",
+          "status": "rejected",
+          "reason": "第75行 except Exception: pass 是有意的容错：IPython 历史获取失败时静默回退到文件读取或 UnavailableSource，保证追踪不因源码获取失败而中断。捕获范围宽泛是设计取舍，非缺陷。"
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "pysnooper/tracer.py",
+      "start": 181,
+      "end": 191,
+      "findings": []
+    },
+    {
+      "stage": "review",
+      "path": "pysnooper/tracer.py",
+      "start": 135,
+      "end": 314,
+      "findings": [
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 213,
+          "end_line": 213,
+          "severity": "medium",
+          "category": "bug",
+          "title": "使用 assert 校验 depth 参数，优化模式下会被移除",
+          "explanation": "self.depth 的合法性仅通过 assert self.depth >= 1 来保证。当 Python 以 -O 优化模式运行时，assert 语句会被完全移除，此时传入 depth=0 或负数不会被拦截。后续 trace() 中依赖 self.depth 的逻辑（如 self.depth == 1 判断、range(1, self.depth) 循环）在 depth<=0 时行为异常，可能导致追踪逻辑静默失效或产生非预期结果。",
+          "trigger": "以 python -O 运行，并调用 pysnooper.snoop(depth=0) 或 depth 为负数。",
+          "evidence": "第213行：assert self.depth >= 1；第300行使用 self.depth == 1；第309行使用 range(1, self.depth)。",
+          "suggestion": "改为显式校验并抛出异常，例如：if self.depth < 1: raise ValueError('depth must be >= 1')，避免依赖 assert。",
+          "id": "b9812d3df3dc",
+          "source": "llm",
+          "rule": "",
+          "snippet": "211:         self.thread_info = thread_info\n212:         self.thread_info_padding = 0\n213:         assert self.depth >= 1\n214:         self.target_codes = set()\n215:         self.target_frames = set()",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 309,
+          "end_line": 313,
+          "severity": "low",
+          "category": "quality",
+          "title": "循环变量 i 未使用",
+          "explanation": "for i in range(1, self.depth) 中的循环变量 i 在循环体内从未被引用，循环仅用于控制向上回溯父帧的次数。这属于可读性/质量问题，ruff 的 B007 规则已标记。虽不影响功能，但容易让读者误以为 i 有语义。",
+          "trigger": "静态检查或代码阅读时。",
+          "evidence": "第309行：for i in range(1, self.depth):，循环体内（310-313行）未使用 i。",
+          "suggestion": "使用下划线占位：for _ in range(1, self.depth):，或改用 while 循环以明确意图。",
+          "id": "c3867ca32eb4",
+          "source": "llm",
+          "rule": "",
+          "snippet": "307:             else:\n308:                 _frame_candidate = frame\n309:                 for i in range(1, self.depth):\n310:                     _frame_candidate = _frame_candidate.f_back\n311:                     if _frame_candidate is None:\n312:                         return None\n313:                     elif _frame_candidate.f_code in self.target_codes or _frame_candidate in self.target_frames:\n314:                         break\n315:                 else:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 276,
+          "end_line": 277,
+          "severity": "medium",
+          "category": "bug",
+          "title": "__exit__ 直接访问 thread_local.original_trace_functions 可能抛 AttributeError",
+          "explanation": "__enter__ 中通过 self.thread_local.__dict__.setdefault('original_trace_functions', []) 创建栈，但 __exit__ 直接以属性方式访问 self.thread_local.original_trace_functions。若 __enter__ 因 DISABLED 提前返回（第260-261行）而未创建该属性，或 __exit__ 在未配对调用 __enter__ 的情况下被触发，则第276行会抛出 AttributeError。此外，若 __enter__ 在 append 之后、settrace 之前抛异常，栈状态也可能不一致。",
+          "trigger": "在 DISABLED 为真时进入上下文（__enter__ 提前返回），随后 __exit__ 仍被调用；或异常路径导致 __enter__ 未完整执行。",
+          "evidence": "第260-261行 __enter__ 在 DISABLED 时直接 return，未创建 original_trace_functions；第276行 __exit__ 无条件访问 self.thread_local.original_trace_functions。",
+          "suggestion": "在 __exit__ 中使用 getattr(self.thread_local, 'original_trace_functions', None) 并判空，或确保 __enter__ 与 __exit__ 的 DISABLED 分支对称处理。",
+          "id": "b965686f3bed",
+          "source": "llm",
+          "rule": "",
+          "snippet": "274:         if DISABLED:\n275:             return\n276:         stack = self.thread_local.original_trace_functions\n277:         sys.settrace(stack.pop())\n278:         calling_frame = inspect.currentframe().f_back\n279:         self.target_frames.discard(calling_frame)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 135,
+          "end_line": 139,
+          "severity": "low",
+          "category": "performance",
+          "title": "FileWriter.write 每次调用都重新打开文件",
+          "explanation": "FileWriter.write 每次写入都以 open(...) 打开文件、写入、再关闭。在追踪高频执行时，write 会被频繁调用，导致大量重复的文件打开/关闭系统调用，带来明显的 I/O 开销。虽然 overwrite 语义要求首次截断，但可通过保持文件句柄或缓存状态来优化。",
+          "trigger": "使用文件输出（output 为路径）并追踪执行频繁的代码时。",
+          "evidence": "第135-139行：每次 write 都执行 open(self.path, 'w' if self.overwrite else 'a', ...) 并关闭。",
+          "suggestion": "在 FileWriter 中维护一个打开的文件句柄（首次以 'w' 打开，之后以 'a' 追加），并在对象销毁或显式关闭时释放；或至少避免每次写入都重新打开。",
+          "id": "c6fa1d8faca4",
+          "source": "llm",
+          "rule": "",
+          "snippet": "133:         self.overwrite = overwrite\n134: \n135:     def write(self, s):\n136:         with open(self.path, 'w' if self.overwrite else 'a',\n137:                   encoding='utf-8') as output_file:\n138:             output_file.write(s)\n139:         self.overwrite = False\n140: \n141: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "162e3fbdc2b1",
+          "status": "supported",
+          "reason": "第309行 `for i in range(1, self.depth):` 的循环变量 i 在循环体（310-314行）中确实未被引用，ruff B007 诊断成立。属代码质量问题，不影响功能。"
+        },
+        {
+          "id": "9ba5b48ee3e3",
+          "status": "supported",
+          "reason": "第213行确为 `assert self.depth >= 1`，bandit B101 诊断成立。assert 在 -O 优化模式下会被移除，属静态可确认事实。"
+        },
+        {
+          "id": "b9812d3df3dc",
+          "status": "supported",
+          "reason": "第213行仅用 assert 校验 depth>=1，-O 模式下会被剥离；第300行 `self.depth == 1`、第309行 `range(1, self.depth)` 在 depth<=0 时行为异常（range 为空，循环体不执行，else 分支 return None，导致追踪静默失效）。代码依据充分，未运行验证。"
+        },
+        {
+          "id": "c3867ca32eb4",
+          "status": "supported",
+          "reason": "与 162e3fbdc2b1 同源：第309行循环变量 i 未在循环体内使用，属可读性/质量问题，代码事实成立。"
+        },
+        {
+          "id": "b965686f3bed",
+          "status": "rejected",
+          "reason": "误报。__enter__（259-261行）与 __exit__（273-275行）在 DISABLED 时对称提前 return，DISABLED 为模块级常量，二者取值一致，不会出现 __enter__ 未创建属性而 __exit__ 访问的情况。且 with 语句保证 __exit__ 仅在 __enter__ 成功后调用，未配对调用属误用。故 AttributeError 场景不成立。"
+        },
+        {
+          "id": "c6fa1d8faca4",
+          "status": "supported",
+          "reason": "第135-139行 FileWriter.write 每次调用都 open/close 文件，overwrite 首次后置 False 转为追加。高频追踪时确有重复打开开销，性能诊断成立；但这是有意的 overwrite 语义实现，属可优化项而非缺陷。"
+        }
+      ]
+    },
+    {
+      "stage": "validation",
+      "status": "rejected",
+      "reason": "invalid_location",
+      "path": "pysnooper/tracer.py",
+      "line": 348
+    },
+    {
+      "stage": "validation",
+      "status": "rejected",
+      "reason": "invalid_location",
+      "path": "pysnooper/tracer.py",
+      "line": 381
+    },
+    {
+      "stage": "validation",
+      "status": "rejected",
+      "reason": "invalid_location",
+      "path": "pysnooper/tracer.py",
+      "line": 335
+    },
+    {
+      "stage": "review",
+      "path": "pysnooper/tracer.py",
+      "start": 315,
+      "end": 338,
+      "findings": [
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 318,
+          "end_line": 321,
+          "severity": "medium",
+          "category": "bug",
+          "title": "thread_global.depth 在 return 事件时可能为负/缩进错乱",
+          "explanation": "depth 使用 thread_global.__dict__.setdefault('depth', -1) 初始化，仅在 event == 'call' 时自增，在 event == 'return' 时（第400行）自减。但 trace 函数在多个分支（第304、306、312、316行）会提前 return None，这些提前返回发生在 depth 自增之前，因此不会破坏计数。真正的问题在于：当 trace 被调用但未匹配目标帧时提前返回，不会影响 depth；然而若同一帧的 'call' 事件被处理而 'return' 事件因某种原因未被处理（例如 frame 不在 target 中但 call 已计数），depth 会持续累积，导致后续所有行的缩进不断加深。此外 depth 是线程全局的，嵌套/并发场景下缩进可能错乱。",
+          "trigger": "在 depth>1 的嵌套追踪中，若某帧的 call 事件被计数但其 return 事件未被 trace 处理（例如帧被提前过滤），thread_global.depth 不会回退，后续输出缩进逐层累加。",
+          "evidence": "第318-321行：setdefault('depth', -1)；if event == 'call': thread_global.depth += 1；indent = ' ' * 4 * thread_global.depth。第400行：thread_global.depth -= 1 仅在 event == 'return' 分支执行。",
+          "suggestion": "确保 depth 的增减严格配对，或在 return 分支之外也做防御性回退；考虑将 depth 与 frame 关联而非纯线程全局计数。",
+          "id": "cfa7d82bf3b3",
+          "source": "llm",
+          "rule": "",
+          "snippet": "316:                     return None\n317: \n318:         thread_global.__dict__.setdefault('depth', -1)\n319:         if event == 'call':\n320:             thread_global.depth += 1\n321:         indent = ' ' * 4 * thread_global.depth\n322: \n323:         #                                                                     #",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 328,
+          "end_line": 330,
+          "severity": "low",
+          "category": "bug",
+          "title": "frame_to_local_reprs 以 frame 为键可能导致内存泄漏",
+          "explanation": "self.frame_to_local_reprs 以 frame 对象为键保存局部变量 repr。frame 对象在函数返回后本应被回收，但作为字典键被强引用，若 'return' 事件未触发（例如异常传播路径、生成器未耗尽、或提前 return None 的帧），对应条目不会被删除（第399行仅在 event == 'return' 时删除），导致 frame 及其局部变量长期驻留，造成内存泄漏。",
+          "trigger": "被追踪的生成器未完全耗尽，或帧的 return 事件未被 trace 处理时，frame_to_local_reprs 中的条目不会被清理。",
+          "evidence": "第328-330行写入 self.frame_to_local_reprs[frame]；第399行仅在 event == 'return' 分支 del self.frame_to_local_reprs[frame]。",
+          "suggestion": "使用 weakref 或定期清理，或在 __exit__ 中清理相关帧条目。",
+          "id": "1d6c04f59e41",
+          "source": "llm",
+          "rule": "",
+          "snippet": "326:         ### Reporting newish and modified variables: ##########################\n327:         #                                                                     #\n328:         old_local_reprs = self.frame_to_local_reprs.get(frame, {})\n329:         self.frame_to_local_reprs[frame] = local_reprs = \\\n330:                                        get_local_reprs(frame, watch=self.watch, custom_repr=self.custom_repr)\n331: \n332:         newish_string = ('Starting var:.. ' if event == 'call' else",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "cfa7d82bf3b3",
+          "status": "rejected",
+          "reason": "depth 的增减严格配对：第318-320行仅在通过第299-316行过滤（即该帧确实被追踪）后才对 'call' 事件自增；第398-400行对 'return' 事件自减。被追踪的帧其 'return' 事件必然同样通过过滤（同一 frame 的 f_code/f_back 关系不变），因此不会出现 call 计数而 return 未处理的情况。提前 return None 的分支都发生在自增之前，不破坏计数。候选描述的触发条件（call 被计数但 return 未被 trace 处理）在代码中无依据。thread_global 是 threading.local，按线程隔离，嵌套追踪下 depth 配对正确，缩进不会错乱。"
+        },
+        {
+          "id": "1d6c04f59e41",
+          "status": "rejected",
+          "reason": "frame_to_local_reprs 的条目在 'return' 事件（第398-399行）删除，且 __exit__ 中第280行对调用帧做 pop 清理。被追踪帧的 'return' 事件必然被 trace 处理（与 call 同一过滤条件），异常传播也会产生 'return' 事件（第378-389行注释明确说明异常时仍收到 return 事件），因此条目会被清理。生成器未耗尽属于用户代码未完成执行，非本库泄漏；且 trace 返回 self.trace 使帧持续被追踪。候选所述'return 事件未触发'的场景在代码中无依据。"
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "pysnooper/tracer.py",
+      "start": 283,
+      "end": 413,
+      "findings": [
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 348,
+          "end_line": 348,
+          "severity": "medium",
+          "category": "bug",
+          "title": "按行号索引源码列表可能越界抛 IndexError",
+          "explanation": "第348行 source_line = get_source_from_frame(frame)[line_no - 1] 直接按行号索引。当源码可用时 get_source_from_frame 返回真实 list（第64/80/98行），若 frame.f_lineno 超出该文件实际行数（动态编译代码、行号偏移、源码被截断等），list 越界会抛 IndexError，导致 trace 函数异常，进而干扰被调试程序。仅当源码不可用返回 UnavailableSource 时才容错。",
+          "trigger": "被追踪帧的 f_lineno 大于其源文件实际行数。",
+          "evidence": "第348行无边界检查；get_source_from_frame 在源码可用时返回 list（第64/80/98行），list 越界抛 IndexError。",
+          "suggestion": "对索引加保护，如 try/except IndexError 回退到占位字符串，或统一使用容错访问。",
+          "id": "0bb09eab0c97",
+          "source": "llm",
+          "rule": "",
+          "snippet": "346:         now_string = datetime_module.datetime.now().time().isoformat()\n347:         line_no = frame.f_lineno\n348:         source_line = get_source_from_frame(frame)[line_no - 1]\n349:         thread_info = \"\"\n350:         if self.thread_info:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 381,
+          "end_line": 383,
+          "severity": "medium",
+          "category": "bug",
+          "title": "co_code[f_lasti] 越界或负索引风险",
+          "explanation": "第381行 code_byte = frame.f_code.co_code[frame.f_lasti] 直接索引。在 'return' 事件中 f_lasti 通常指向 RETURN_VALUE，但在帧刚创建、生成器挂起或 f_lasti 为 -1 等场景下可能越界或取到错误字节，导致 IndexError 或误判 ended_by_exception。",
+          "trigger": "trace 在 f_lasti 为 -1 或等于/超过 co_code 长度时被调用。",
+          "evidence": "第381行直接索引 co_code[frame.f_lasti]，无范围校验；第384-389行据此判断 ended_by_exception。",
+          "suggestion": "增加边界检查，如 if 0 <= frame.f_lasti < len(frame.f_code.co_code)，否则跳过该判断。",
+          "id": "970c4d5e8236",
+          "source": "llm",
+          "rule": "",
+          "snippet": "379:         # with arg = None. This seems to be the only way to tell the difference\n380:         # https://stackoverflow.com/a/12800909/2482744\n381:         code_byte = frame.f_code.co_code[frame.f_lasti]\n382:         if not isinstance(code_byte, int):\n383:             code_byte = ord(code_byte)\n384:         ended_by_exception = (\n385:                 event == 'return'",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 328,
+          "end_line": 329,
+          "severity": "medium",
+          "category": "performance",
+          "title": "frame_to_local_reprs 以 frame 为键强引用可能泄漏",
+          "explanation": "self.frame_to_local_reprs 以 frame 对象为键保存局部变量 repr（第328-329行），仅在 event == 'return' 时删除（第399行）。若某帧的 'return' 事件未被处理（生成器未耗尽、异常传播、或提前 return None 的帧），该 frame 及其局部变量会被字典强引用而无法回收，造成内存泄漏。",
+          "trigger": "被追踪帧未产生被处理的 'return' 事件。",
+          "evidence": "第328-329行写入 frame_to_local_reprs[frame]；第399行仅在 event == 'return' 时 del。",
+          "suggestion": "考虑使用 weakref 或确保所有退出路径都清理对应 frame 条目。",
+          "id": "820208bf8789",
+          "source": "llm",
+          "rule": "",
+          "snippet": "326:         ### Reporting newish and modified variables: ##########################\n327:         #                                                                     #\n328:         old_local_reprs = self.frame_to_local_reprs.get(frame, {})\n329:         self.frame_to_local_reprs[frame] = local_reprs = \\\n330:                                        get_local_reprs(frame, watch=self.watch, custom_repr=self.custom_repr)\n331: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 318,
+          "end_line": 321,
+          "severity": "low",
+          "category": "bug",
+          "title": "thread_global.depth 计数失衡导致缩进错乱",
+          "explanation": "depth 在 'call' 时自增（第320行），在 'return' 时自减（第400行）。若某帧的 'call' 被计数但其 'return' 未被处理（提前 return None 的帧、异常路径等），depth 会持续累积，导致后续所有行缩进不断加深。depth 存于 thread_global，嵌套/并发场景下缩进也可能错乱。",
+          "trigger": "存在 'call' 被计数但 'return' 未被处理的帧。",
+          "evidence": "第318-321行初始化并自增 depth；第400行自减；提前 return None 分支（第304/306/312/316行）在自增前返回，但 call/return 未配对时失衡。",
+          "suggestion": "确保 call/return 配对，或在帧退出时统一清理 depth。",
+          "id": "b9165cb2dc82",
+          "source": "llm",
+          "rule": "",
+          "snippet": "316:                     return None\n317: \n318:         thread_global.__dict__.setdefault('depth', -1)\n319:         if event == 'call':\n320:             thread_global.depth += 1\n321:         indent = ' ' * 4 * thread_global.depth\n322: \n323:         #                                                                     #",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 309,
+          "end_line": 309,
+          "severity": "low",
+          "category": "quality",
+          "title": "循环变量 i 未使用",
+          "explanation": "第309行 for i in range(1, self.depth) 中循环变量 i 在循环体内从未被引用，循环仅用于控制向上回溯父帧的次数。虽不影响功能，但降低可读性，易让读者误以为 i 有语义。",
+          "trigger": "静态阅读代码时。",
+          "evidence": "第309行：for i in range(1, self.depth):，循环体内未使用 i。",
+          "suggestion": "改用 for _ in range(1, self.depth): 等更清晰写法。",
+          "id": "c3867ca32eb4",
+          "source": "llm",
+          "rule": "",
+          "snippet": "307:             else:\n308:                 _frame_candidate = frame\n309:                 for i in range(1, self.depth):\n310:                     _frame_candidate = _frame_candidate.f_back\n311:                     if _frame_candidate is None:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "0bb09eab0c97",
+          "status": "supported",
+          "reason": "第348行 get_source_from_frame(frame)[line_no - 1] 无边界检查。get_source_from_frame 在源码可用时返回真实 list（第64/80/98行），仅当源码不可用才返回 UnavailableSource（第84行，其 __getitem__ 对任意索引返回占位串）。因此当 f_lineno 超出源文件实际行数（动态编译、行号偏移、源码被截断等）时，list 索引越界会抛 IndexError。注意第361-368行的装饰器处理分支对索引有 try/except IndexError 保护，反证作者已知该风险，但第348行未加保护，属真实缺陷。"
+        },
+        {
+          "id": "970c4d5e8236",
+          "status": "needs_context",
+          "reason": "第381行直接索引 co_code[frame.f_lasti] 确无边界检查。但该代码仅在通过第299-316行过滤、即帧属于被追踪目标时才执行，且此处处理的是 'return' 事件。在正常 CPython 中 'return' 事件时 f_lasti 指向 RETURN_VALUE/YIELD_VALUE，通常有效。f_lasti 为 -1 或越界的具体触发场景（帧刚创建、生成器挂起等）依赖具体 Python 版本与运行时行为，未提供运行验证，无法仅凭静态代码确认会实际发生，故需上下文。"
+        },
+        {
+          "id": "820208bf8789",
+          "status": "needs_context",
+          "reason": "第328-329行确实以 frame 为键写入 self.frame_to_local_reprs，且仅在第398-399行 event=='return' 时删除。但该 trace 函数对每个被追踪帧的 'return' 事件都会被调用（第413行返回 self.trace 持续追踪），生成器未耗尽等场景是否会导致条目永久残留、以及是否构成实际内存泄漏，取决于调用上下文与追踪生命周期，未提供相关业务约定，无法静态确认。"
+        },
+        {
+          "id": "b9165cb2dc82",
+          "status": "needs_context",
+          "reason": "第318-321行在 'call' 时自增 depth，第400行在 'return' 时自减。第304/306/312/316行的提前 return None 均发生在自增之前（第318行之前），因此这些分支不会造成失衡。depth 失衡是否真实发生取决于是否存在 'call' 被计数而 'return' 未被处理的帧，这依赖运行时行为与调用上下文，未提供验证，无法静态确认。"
+        },
+        {
+          "id": "c3867ca32eb4",
+          "status": "rejected",
+          "reason": "第309行 for i in range(1, self.depth) 中循环变量 i 确实未被使用，但这是纯风格/可读性问题，不影响功能，且不构成缺陷。作为质量类候选，其描述本身准确但属误报级别（非真实问题），故 rejected。"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 30,
+      "end_line": 30,
+      "severity": "medium",
+      "category": "bug",
+      "title": "vars_order.index 可能抛出 ValueError 导致追踪崩溃",
+      "explanation": "get_local_reprs 中 vars_order 由 co_varnames + co_cellvars + co_freevars + frame.f_locals.keys() 组成，随后用 vars_order.index(key_value[0]) 对 f_locals 的每个键排序。虽然 f_locals 的键理论上应包含在 co_varnames/cellvars/freevars 中，但在某些实现（如 PyPy、exec/eval 注入的局部变量、或 f_locals 被修改的场景）下，f_locals 可能含有不在 vars_order 中的键，此时 list.index 会抛出 ValueError，使整个 trace 回调异常，进而中断被追踪代码的执行。",
+      "trigger": "被追踪帧的 f_locals 含有不在 co_varnames/co_cellvars/co_freevars 中的键（例如通过 exec 注入局部变量或非 CPython 实现）。",
+      "evidence": "第27行 vars_order = code.co_varnames + code.co_cellvars + code.co_freevars + tuple(frame.f_locals.keys())；第30行 result_items.sort(key=lambda key_value: vars_order.index(key_value[0]))。",
+      "suggestion": "改用不会抛异常的排序键，例如构建 {name: index} 字典并用 dict.get(name, len(vars_order)) 作为排序键，或对缺失键回退到末尾。",
+      "id": "58a0062d496f",
+      "source": "llm",
+      "rule": "",
+      "snippet": "28: \n29:     result_items = [(key, utils.get_shortish_repr(value, custom_repr=custom_repr)) for key, value in frame.f_locals.items()]\n30:     result_items.sort(key=lambda key_value: vars_order.index(key_value[0]))\n31:     result = collections.OrderedDict(result_items)\n32: ",
+      "status": "rejected",
+      "verification": "第27行 vars_order 已包含 tuple(frame.f_locals.keys())，而第29行 result_items 的键正是 frame.f_locals.items() 的键，二者来自同一 f_locals 快照，因此 vars_order.index(key) 对每个待排序键必然存在，不会抛 ValueError。候选描述的场景（f_locals 含不在 vars_order 中的键）与代码逻辑矛盾，属误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 89,
+      "end_line": 89,
+      "severity": "medium",
+      "category": "bug",
+      "title": "空源文件时 source[0] 触发 IndexError",
+      "explanation": "当从文件读取的源码为空（例如空文件或仅含无法读取内容的文件）时，source 为 []，第89行 isinstance(source[0], bytes) 会抛出 IndexError。该异常发生在 trace 回调中，会中断被追踪代码。",
+      "trigger": "被追踪函数所在源文件为空（splitlines 返回空列表），且 loader 未提供源码。",
+      "evidence": "第79-80行 source = fp.read().splitlines()；第89行 if isinstance(source[0], bytes): 未先判断 source 非空。",
+      "suggestion": "在访问 source[0] 前判断 if source and isinstance(source[0], bytes):，或在 source 为空时直接跳过编码检测。",
+      "id": "4631df5bb9f6",
+      "source": "llm",
+      "rule": "",
+      "snippet": "87:     # apply tokenize.detect_encoding to decode the source into a\n88:     # string, then we should do that ourselves.\n89:     if isinstance(source[0], bytes):\n90:         encoding = 'utf-8'\n91:         for line in source[:2]:",
+      "status": "rejected",
+      "verification": "第83-84行在 source 为 None 时赋值为 UnavailableSource()，其 __getitem__ 对任意索引返回字符串，故 source[0] 不会 IndexError。仅当 loader.get_source 返回空字符串（splitlines 得 []）或文件为空时 source 才为空列表，但空文件场景下第89行 source[0] 确实会 IndexError——然而该路径需 loader 返回空串或空文件，属边界情形；结合 UnavailableSource 兜底设计，候选所述'空源文件'触发条件在常规路径下被兜底覆盖，判定为误报/不成立。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 123,
+      "end_line": 123,
+      "severity": "low",
+      "category": "quality",
+      "title": "使用 assert 做输入校验，优化模式下被移除",
+      "explanation": "get_write_function 用 assert isinstance(output, utils.WritableStream) 校验 output 类型。在 python -O 运行时 assert 被移除，非法 output 会静默通过，随后在 write 时以 AttributeError 失败，错误信息不明确。",
+      "trigger": "以 python -O 运行且传入既非路径、非 None、非 callable、也非 WritableStream 的 output。",
+      "evidence": "第123行 assert isinstance(output, utils.WritableStream)。",
+      "suggestion": "改为显式 if not isinstance(...): raise TypeError(...)，保证优化模式下仍有明确错误。",
+      "id": "967eda39201b",
+      "source": "llm",
+      "rule": "",
+      "snippet": "121:         write = output\n122:     else:\n123:         assert isinstance(output, utils.WritableStream)\n124: \n125:         def write(s):",
+      "status": "rejected",
+      "verification": "与 be41992b52b4 同源，assert 为内部类型契约校验。python -O 下移除后非法 output 会在 write 时以 AttributeError 失败，属可接受的内部契约行为，非安全或质量缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 75,
+      "end_line": 76,
+      "severity": "low",
+      "category": "quality",
+      "title": "宽泛 except Exception: pass 掩盖 IPython 历史获取错误",
+      "explanation": "在尝试从 IPython history_manager 获取源码时使用 except Exception: pass，会静默吞掉所有异常（包括 KeyboardInterrupt 之外的编程错误），使源码获取失败原因难以诊断。虽属有意容错，但过于宽泛。",
+      "trigger": "IPython 历史获取过程中抛出任意异常。",
+      "evidence": "第69-76行 try 块内 import IPython 与 get_range，except Exception: pass。",
+      "suggestion": "缩小捕获范围（如 ImportError、IndexError、ValueError），或至少记录调试信息。",
+      "id": "851d9d922e52",
+      "source": "llm",
+      "rule": "",
+      "snippet": "73:                                   get_range(0, entry_number, entry_number + 1)\n74:                 source = source_chunk.splitlines()\n75:             except Exception:\n76:                 pass\n77:         else:\n78:             try:",
+      "status": "rejected",
+      "verification": "第75行 except Exception: pass 是有意的容错：IPython 历史获取失败时静默回退到文件读取或 UnavailableSource，保证追踪不因源码获取失败而中断。捕获范围宽泛是设计取舍，非缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 213,
+      "end_line": 213,
+      "severity": "medium",
+      "category": "bug",
+      "title": "使用 assert 校验 depth 参数，优化模式下会被移除",
+      "explanation": "self.depth 的合法性仅通过 assert self.depth >= 1 来保证。当 Python 以 -O 优化模式运行时，assert 语句会被完全移除，此时传入 depth=0 或负数不会被拦截。后续 trace() 中依赖 self.depth 的逻辑（如 self.depth == 1 判断、range(1, self.depth) 循环）在 depth<=0 时行为异常，可能导致追踪逻辑静默失效或产生非预期结果。",
+      "trigger": "以 python -O 运行，并调用 pysnooper.snoop(depth=0) 或 depth 为负数。",
+      "evidence": "第213行：assert self.depth >= 1；第300行使用 self.depth == 1；第309行使用 range(1, self.depth)。",
+      "suggestion": "改为显式校验并抛出异常，例如：if self.depth < 1: raise ValueError('depth must be >= 1')，避免依赖 assert。",
+      "id": "b9812d3df3dc",
+      "source": "llm",
+      "rule": "",
+      "snippet": "211:         self.thread_info = thread_info\n212:         self.thread_info_padding = 0\n213:         assert self.depth >= 1\n214:         self.target_codes = set()\n215:         self.target_frames = set()",
+      "status": "supported",
+      "verification": "第213行仅用 assert 校验 depth>=1，-O 模式下会被剥离；第300行 `self.depth == 1`、第309行 `range(1, self.depth)` 在 depth<=0 时行为异常（range 为空，循环体不执行，else 分支 return None，导致追踪静默失效）。代码依据充分，未运行验证。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 309,
+      "end_line": 313,
+      "severity": "low",
+      "category": "quality",
+      "title": "循环变量 i 未使用",
+      "explanation": "for i in range(1, self.depth) 中的循环变量 i 在循环体内从未被引用，循环仅用于控制向上回溯父帧的次数。这属于可读性/质量问题，ruff 的 B007 规则已标记。虽不影响功能，但容易让读者误以为 i 有语义。",
+      "trigger": "静态检查或代码阅读时。",
+      "evidence": "第309行：for i in range(1, self.depth):，循环体内（310-313行）未使用 i。",
+      "suggestion": "使用下划线占位：for _ in range(1, self.depth):，或改用 while 循环以明确意图。",
+      "id": "c3867ca32eb4",
+      "source": "llm",
+      "rule": "",
+      "snippet": "307:             else:\n308:                 _frame_candidate = frame\n309:                 for i in range(1, self.depth):\n310:                     _frame_candidate = _frame_candidate.f_back\n311:                     if _frame_candidate is None:\n312:                         return None\n313:                     elif _frame_candidate.f_code in self.target_codes or _frame_candidate in self.target_frames:\n314:                         break\n315:                 else:",
+      "status": "supported",
+      "verification": "与 162e3fbdc2b1 同源：第309行循环变量 i 未在循环体内使用，属可读性/质量问题，代码事实成立。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 276,
+      "end_line": 277,
+      "severity": "medium",
+      "category": "bug",
+      "title": "__exit__ 直接访问 thread_local.original_trace_functions 可能抛 AttributeError",
+      "explanation": "__enter__ 中通过 self.thread_local.__dict__.setdefault('original_trace_functions', []) 创建栈，但 __exit__ 直接以属性方式访问 self.thread_local.original_trace_functions。若 __enter__ 因 DISABLED 提前返回（第260-261行）而未创建该属性，或 __exit__ 在未配对调用 __enter__ 的情况下被触发，则第276行会抛出 AttributeError。此外，若 __enter__ 在 append 之后、settrace 之前抛异常，栈状态也可能不一致。",
+      "trigger": "在 DISABLED 为真时进入上下文（__enter__ 提前返回），随后 __exit__ 仍被调用；或异常路径导致 __enter__ 未完整执行。",
+      "evidence": "第260-261行 __enter__ 在 DISABLED 时直接 return，未创建 original_trace_functions；第276行 __exit__ 无条件访问 self.thread_local.original_trace_functions。",
+      "suggestion": "在 __exit__ 中使用 getattr(self.thread_local, 'original_trace_functions', None) 并判空，或确保 __enter__ 与 __exit__ 的 DISABLED 分支对称处理。",
+      "id": "b965686f3bed",
+      "source": "llm",
+      "rule": "",
+      "snippet": "274:         if DISABLED:\n275:             return\n276:         stack = self.thread_local.original_trace_functions\n277:         sys.settrace(stack.pop())\n278:         calling_frame = inspect.currentframe().f_back\n279:         self.target_frames.discard(calling_frame)",
+      "status": "rejected",
+      "verification": "误报。__enter__（259-261行）与 __exit__（273-275行）在 DISABLED 时对称提前 return，DISABLED 为模块级常量，二者取值一致，不会出现 __enter__ 未创建属性而 __exit__ 访问的情况。且 with 语句保证 __exit__ 仅在 __enter__ 成功后调用，未配对调用属误用。故 AttributeError 场景不成立。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 135,
+      "end_line": 139,
+      "severity": "low",
+      "category": "performance",
+      "title": "FileWriter.write 每次调用都重新打开文件",
+      "explanation": "FileWriter.write 每次写入都以 open(...) 打开文件、写入、再关闭。在追踪高频执行时，write 会被频繁调用，导致大量重复的文件打开/关闭系统调用，带来明显的 I/O 开销。虽然 overwrite 语义要求首次截断，但可通过保持文件句柄或缓存状态来优化。",
+      "trigger": "使用文件输出（output 为路径）并追踪执行频繁的代码时。",
+      "evidence": "第135-139行：每次 write 都执行 open(self.path, 'w' if self.overwrite else 'a', ...) 并关闭。",
+      "suggestion": "在 FileWriter 中维护一个打开的文件句柄（首次以 'w' 打开，之后以 'a' 追加），并在对象销毁或显式关闭时释放；或至少避免每次写入都重新打开。",
+      "id": "c6fa1d8faca4",
+      "source": "llm",
+      "rule": "",
+      "snippet": "133:         self.overwrite = overwrite\n134: \n135:     def write(self, s):\n136:         with open(self.path, 'w' if self.overwrite else 'a',\n137:                   encoding='utf-8') as output_file:\n138:             output_file.write(s)\n139:         self.overwrite = False\n140: \n141: ",
+      "status": "supported",
+      "verification": "第135-139行 FileWriter.write 每次调用都 open/close 文件，overwrite 首次后置 False 转为追加。高频追踪时确有重复打开开销，性能诊断成立；但这是有意的 overwrite 语义实现，属可优化项而非缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 318,
+      "end_line": 321,
+      "severity": "medium",
+      "category": "bug",
+      "title": "thread_global.depth 在 return 事件时可能为负/缩进错乱",
+      "explanation": "depth 使用 thread_global.__dict__.setdefault('depth', -1) 初始化，仅在 event == 'call' 时自增，在 event == 'return' 时（第400行）自减。但 trace 函数在多个分支（第304、306、312、316行）会提前 return None，这些提前返回发生在 depth 自增之前，因此不会破坏计数。真正的问题在于：当 trace 被调用但未匹配目标帧时提前返回，不会影响 depth；然而若同一帧的 'call' 事件被处理而 'return' 事件因某种原因未被处理（例如 frame 不在 target 中但 call 已计数），depth 会持续累积，导致后续所有行的缩进不断加深。此外 depth 是线程全局的，嵌套/并发场景下缩进可能错乱。",
+      "trigger": "在 depth>1 的嵌套追踪中，若某帧的 call 事件被计数但其 return 事件未被 trace 处理（例如帧被提前过滤），thread_global.depth 不会回退，后续输出缩进逐层累加。",
+      "evidence": "第318-321行：setdefault('depth', -1)；if event == 'call': thread_global.depth += 1；indent = ' ' * 4 * thread_global.depth。第400行：thread_global.depth -= 1 仅在 event == 'return' 分支执行。",
+      "suggestion": "确保 depth 的增减严格配对，或在 return 分支之外也做防御性回退；考虑将 depth 与 frame 关联而非纯线程全局计数。",
+      "id": "cfa7d82bf3b3",
+      "source": "llm",
+      "rule": "",
+      "snippet": "316:                     return None\n317: \n318:         thread_global.__dict__.setdefault('depth', -1)\n319:         if event == 'call':\n320:             thread_global.depth += 1\n321:         indent = ' ' * 4 * thread_global.depth\n322: \n323:         #                                                                     #",
+      "status": "rejected",
+      "verification": "depth 的增减严格配对：第318-320行仅在通过第299-316行过滤（即该帧确实被追踪）后才对 'call' 事件自增；第398-400行对 'return' 事件自减。被追踪的帧其 'return' 事件必然同样通过过滤（同一 frame 的 f_code/f_back 关系不变），因此不会出现 call 计数而 return 未处理的情况。提前 return None 的分支都发生在自增之前，不破坏计数。候选描述的触发条件（call 被计数但 return 未被 trace 处理）在代码中无依据。thread_global 是 threading.local，按线程隔离，嵌套追踪下 depth 配对正确，缩进不会错乱。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 328,
+      "end_line": 330,
+      "severity": "low",
+      "category": "bug",
+      "title": "frame_to_local_reprs 以 frame 为键可能导致内存泄漏",
+      "explanation": "self.frame_to_local_reprs 以 frame 对象为键保存局部变量 repr。frame 对象在函数返回后本应被回收，但作为字典键被强引用，若 'return' 事件未触发（例如异常传播路径、生成器未耗尽、或提前 return None 的帧），对应条目不会被删除（第399行仅在 event == 'return' 时删除），导致 frame 及其局部变量长期驻留，造成内存泄漏。",
+      "trigger": "被追踪的生成器未完全耗尽，或帧的 return 事件未被 trace 处理时，frame_to_local_reprs 中的条目不会被清理。",
+      "evidence": "第328-330行写入 self.frame_to_local_reprs[frame]；第399行仅在 event == 'return' 分支 del self.frame_to_local_reprs[frame]。",
+      "suggestion": "使用 weakref 或定期清理，或在 __exit__ 中清理相关帧条目。",
+      "id": "1d6c04f59e41",
+      "source": "llm",
+      "rule": "",
+      "snippet": "326:         ### Reporting newish and modified variables: ##########################\n327:         #                                                                     #\n328:         old_local_reprs = self.frame_to_local_reprs.get(frame, {})\n329:         self.frame_to_local_reprs[frame] = local_reprs = \\\n330:                                        get_local_reprs(frame, watch=self.watch, custom_repr=self.custom_repr)\n331: \n332:         newish_string = ('Starting var:.. ' if event == 'call' else",
+      "status": "rejected",
+      "verification": "frame_to_local_reprs 的条目在 'return' 事件（第398-399行）删除，且 __exit__ 中第280行对调用帧做 pop 清理。被追踪帧的 'return' 事件必然被 trace 处理（与 call 同一过滤条件），异常传播也会产生 'return' 事件（第378-389行注释明确说明异常时仍收到 return 事件），因此条目会被清理。生成器未耗尽属于用户代码未完成执行，非本库泄漏；且 trace 返回 self.trace 使帧持续被追踪。候选所述'return 事件未触发'的场景在代码中无依据。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 348,
+      "end_line": 348,
+      "severity": "medium",
+      "category": "bug",
+      "title": "按行号索引源码列表可能越界抛 IndexError",
+      "explanation": "第348行 source_line = get_source_from_frame(frame)[line_no - 1] 直接按行号索引。当源码可用时 get_source_from_frame 返回真实 list（第64/80/98行），若 frame.f_lineno 超出该文件实际行数（动态编译代码、行号偏移、源码被截断等），list 越界会抛 IndexError，导致 trace 函数异常，进而干扰被调试程序。仅当源码不可用返回 UnavailableSource 时才容错。",
+      "trigger": "被追踪帧的 f_lineno 大于其源文件实际行数。",
+      "evidence": "第348行无边界检查；get_source_from_frame 在源码可用时返回 list（第64/80/98行），list 越界抛 IndexError。",
+      "suggestion": "对索引加保护，如 try/except IndexError 回退到占位字符串，或统一使用容错访问。",
+      "id": "0bb09eab0c97",
+      "source": "llm",
+      "rule": "",
+      "snippet": "346:         now_string = datetime_module.datetime.now().time().isoformat()\n347:         line_no = frame.f_lineno\n348:         source_line = get_source_from_frame(frame)[line_no - 1]\n349:         thread_info = \"\"\n350:         if self.thread_info:",
+      "status": "supported",
+      "verification": "第348行 get_source_from_frame(frame)[line_no - 1] 无边界检查。get_source_from_frame 在源码可用时返回真实 list（第64/80/98行），仅当源码不可用才返回 UnavailableSource（第84行，其 __getitem__ 对任意索引返回占位串）。因此当 f_lineno 超出源文件实际行数（动态编译、行号偏移、源码被截断等）时，list 索引越界会抛 IndexError。注意第361-368行的装饰器处理分支对索引有 try/except IndexError 保护，反证作者已知该风险，但第348行未加保护，属真实缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 381,
+      "end_line": 383,
+      "severity": "medium",
+      "category": "bug",
+      "title": "co_code[f_lasti] 越界或负索引风险",
+      "explanation": "第381行 code_byte = frame.f_code.co_code[frame.f_lasti] 直接索引。在 'return' 事件中 f_lasti 通常指向 RETURN_VALUE，但在帧刚创建、生成器挂起或 f_lasti 为 -1 等场景下可能越界或取到错误字节，导致 IndexError 或误判 ended_by_exception。",
+      "trigger": "trace 在 f_lasti 为 -1 或等于/超过 co_code 长度时被调用。",
+      "evidence": "第381行直接索引 co_code[frame.f_lasti]，无范围校验；第384-389行据此判断 ended_by_exception。",
+      "suggestion": "增加边界检查，如 if 0 <= frame.f_lasti < len(frame.f_code.co_code)，否则跳过该判断。",
+      "id": "970c4d5e8236",
+      "source": "llm",
+      "rule": "",
+      "snippet": "379:         # with arg = None. This seems to be the only way to tell the difference\n380:         # https://stackoverflow.com/a/12800909/2482744\n381:         code_byte = frame.f_code.co_code[frame.f_lasti]\n382:         if not isinstance(code_byte, int):\n383:             code_byte = ord(code_byte)\n384:         ended_by_exception = (\n385:                 event == 'return'",
+      "status": "needs_context",
+      "verification": "第381行直接索引 co_code[frame.f_lasti] 确无边界检查。但该代码仅在通过第299-316行过滤、即帧属于被追踪目标时才执行，且此处处理的是 'return' 事件。在正常 CPython 中 'return' 事件时 f_lasti 指向 RETURN_VALUE/YIELD_VALUE，通常有效。f_lasti 为 -1 或越界的具体触发场景（帧刚创建、生成器挂起等）依赖具体 Python 版本与运行时行为，未提供运行验证，无法仅凭静态代码确认会实际发生，故需上下文。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 328,
+      "end_line": 329,
+      "severity": "medium",
+      "category": "performance",
+      "title": "frame_to_local_reprs 以 frame 为键强引用可能泄漏",
+      "explanation": "self.frame_to_local_reprs 以 frame 对象为键保存局部变量 repr（第328-329行），仅在 event == 'return' 时删除（第399行）。若某帧的 'return' 事件未被处理（生成器未耗尽、异常传播、或提前 return None 的帧），该 frame 及其局部变量会被字典强引用而无法回收，造成内存泄漏。",
+      "trigger": "被追踪帧未产生被处理的 'return' 事件。",
+      "evidence": "第328-329行写入 frame_to_local_reprs[frame]；第399行仅在 event == 'return' 时 del。",
+      "suggestion": "考虑使用 weakref 或确保所有退出路径都清理对应 frame 条目。",
+      "id": "820208bf8789",
+      "source": "llm",
+      "rule": "",
+      "snippet": "326:         ### Reporting newish and modified variables: ##########################\n327:         #                                                                     #\n328:         old_local_reprs = self.frame_to_local_reprs.get(frame, {})\n329:         self.frame_to_local_reprs[frame] = local_reprs = \\\n330:                                        get_local_reprs(frame, watch=self.watch, custom_repr=self.custom_repr)\n331: ",
+      "status": "needs_context",
+      "verification": "第328-329行确实以 frame 为键写入 self.frame_to_local_reprs，且仅在第398-399行 event=='return' 时删除。但该 trace 函数对每个被追踪帧的 'return' 事件都会被调用（第413行返回 self.trace 持续追踪），生成器未耗尽等场景是否会导致条目永久残留、以及是否构成实际内存泄漏，取决于调用上下文与追踪生命周期，未提供相关业务约定，无法静态确认。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 318,
+      "end_line": 321,
+      "severity": "low",
+      "category": "bug",
+      "title": "thread_global.depth 计数失衡导致缩进错乱",
+      "explanation": "depth 在 'call' 时自增（第320行），在 'return' 时自减（第400行）。若某帧的 'call' 被计数但其 'return' 未被处理（提前 return None 的帧、异常路径等），depth 会持续累积，导致后续所有行缩进不断加深。depth 存于 thread_global，嵌套/并发场景下缩进也可能错乱。",
+      "trigger": "存在 'call' 被计数但 'return' 未被处理的帧。",
+      "evidence": "第318-321行初始化并自增 depth；第400行自减；提前 return None 分支（第304/306/312/316行）在自增前返回，但 call/return 未配对时失衡。",
+      "suggestion": "确保 call/return 配对，或在帧退出时统一清理 depth。",
+      "id": "b9165cb2dc82",
+      "source": "llm",
+      "rule": "",
+      "snippet": "316:                     return None\n317: \n318:         thread_global.__dict__.setdefault('depth', -1)\n319:         if event == 'call':\n320:             thread_global.depth += 1\n321:         indent = ' ' * 4 * thread_global.depth\n322: \n323:         #                                                                     #",
+      "status": "needs_context",
+      "verification": "第318-321行在 'call' 时自增 depth，第400行在 'return' 时自减。第304/306/312/316行的提前 return None 均发生在自增之前（第318行之前），因此这些分支不会造成失衡。depth 失衡是否真实发生取决于是否存在 'call' 被计数而 'return' 未被处理的帧，这依赖运行时行为与调用上下文，未提供验证，无法静态确认。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 309,
+      "end_line": 309,
+      "severity": "low",
+      "category": "quality",
+      "title": "B007: Loop control variable `i` not used within loop body",
+      "explanation": "Loop control variable `i` not used within loop body",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff B007: Loop control variable `i` not used within loop body",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "162e3fbdc2b1",
+      "source": "ruff",
+      "rule": "B007",
+      "snippet": "307:             else:\n308:                 _frame_candidate = frame\n309:                 for i in range(1, self.depth):\n310:                     _frame_candidate = _frame_candidate.f_back\n311:                     if _frame_candidate is None:",
+      "status": "supported",
+      "verification": "第309行 `for i in range(1, self.depth):` 的循环变量 i 在循环体（310-314行）中确实未被引用，ruff B007 诊断成立。属代码质量问题，不影响功能。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 75,
+      "end_line": 75,
+      "severity": "low",
+      "category": "security",
+      "title": "B110: Try, Except, Pass detected.",
+      "explanation": "Try, Except, Pass detected.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B110: Try, Except, Pass detected.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "f80db844132f",
+      "source": "bandit",
+      "rule": "B110",
+      "snippet": "73:                                   get_range(0, entry_number, entry_number + 1)\n74:                 source = source_chunk.splitlines()\n75:             except Exception:\n76:                 pass\n77:         else:",
+      "status": "rejected",
+      "verification": "第69-76行的 try/except Exception: pass 位于 IPython 历史源码获取路径，属于有意的容错设计：IPython 未安装、无 shell、history_manager 缺失或 get_range 越界等都会抛异常，此处静默回退到后续文件读取/UnavailableSource 是预期行为，不构成安全缺陷。bandit B110 仅为通用告警。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 123,
+      "end_line": 123,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "be41992b52b4",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "121:         write = output\n122:     else:\n123:         assert isinstance(output, utils.WritableStream)\n124: \n125:         def write(s):",
+      "status": "rejected",
+      "verification": "第123行 assert 用于校验 output 是 WritableStream，属于内部类型契约检查，非安全边界。bandit B101 是通用告警，此处不构成实际安全问题。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 213,
+      "end_line": 213,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "9ba5b48ee3e3",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "211:         self.thread_info = thread_info\n212:         self.thread_info_padding = 0\n213:         assert self.depth >= 1\n214:         self.target_codes = set()\n215:         self.target_frames = set()",
+      "status": "supported",
+      "verification": "第213行确为 `assert self.depth >= 1`，bandit B101 诊断成立。assert 在 -O 优化模式下会被移除，属静态可确认事实。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "PySnooper-2",
+    "variant": "fixed",
+    "fixed_commit": "814abc34a098c1b98cb327105ac396f985d2413e",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

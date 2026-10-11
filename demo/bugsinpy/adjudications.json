@@ -1,0 +1,3571 @@
+[
+  {
+    "case": "PySnooper-1",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "已逐项核对保留候选；FileWriter相关报告只讨论反复open和并发覆盖，没有指出默认文本编码导致ASCII环境下写入中文触发UnicodeEncodeError。source[0]空列表和ABC兼容性均不是本样本复现的问题。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "11b3c326a472",
+      "0d9c1003c7f3"
+    ],
+    "active_findings": [
+      {
+        "id": "52810a310ef7",
+        "path": "pysnooper/pycompat.py",
+        "line": 15,
+        "title": "Python 2 回退 ABC 使用 __metaclass__ 在 Python 3 下无效",
+        "explanation": "当 abc.ABC 不存在时（Python 2 环境），回退类通过类属性 __metaclass__ = abc.ABCMeta 指定元类。这在 Python 2 中有效，但该模块同时被 Python 3 使用；若在 Python 3 下 abc.ABC 缺失（例如极旧或裁剪的 abc 模块），__metaclass__ 属性在 Python 3 中不会生效，ABC 将退化为普通 object 子类，导致 PathLike 的抽象方法约束失效，isinstance/issubclass 语义与预期不符。",
+        "trigger": "在 Python 3 解释器中运行且 abc 模块没有 ABC 属性时，导入本模块并检查 PathLike 的抽象基类行为。",
+        "status": "unverified"
+      },
+      {
+        "id": "1383ad528154",
+        "path": "pysnooper/pycompat.py",
+        "line": 35,
+        "title": "__subclasshook__ 未返回 NotImplemented 导致非路径类被误判",
+        "explanation": "PathLike.__subclasshook__ 在条件不满足时返回 False 而非 NotImplemented。按照 ABC 协议，__subclasshook__ 应返回 True、False 或 NotImplemented；返回 False 会阻止其他 ABC 注册/继承路径的判定，并且对于任何没有 __fspath__ 且不满足 open+path 名称条件的类，issubclass(cls, PathLike) 会直接为 False，而不是交给常规继承检查。这可能导致某些实际实现了路径协议但通过注册方式声明的类被错误排除。",
+        "trigger": "调用 issubclass(SomeRegisteredPathClass, PathLike) 或 issubclass(SomeClass, PathLike)，其中 SomeClass 通过 PathLike.register 注册但未定义 __fspath__。",
+        "status": "unverified"
+      },
+      {
+        "id": "9995401f07e7",
+        "path": "pysnooper/pycompat.py",
+        "line": 38,
+        "title": "注释末尾多余字符 'g'",
+        "explanation": "第 38 行注释 'Make a concession for older `pathlib` versions:g' 末尾多了一个 'g'，属于明显的笔误，不影响运行但降低代码可读性。",
+        "trigger": "阅读该行注释时可见。",
+        "status": "unverified"
+      },
+      {
+        "id": "9a0478546c47",
+        "path": "pysnooper/pycompat.py",
+        "line": 47,
+        "title": "回退 iscoroutinefunction 使用 lambda 且注释不专业",
+        "explanation": "当 inspect.iscoroutinefunction 不存在时，回退实现为 lambda whatever: False，注释为 '# Lolz'。该回退会静默地把所有函数判定为非协程函数，在旧 Python 上可能导致异步函数被错误处理；同时注释不符合生产代码规范。",
+        "trigger": "在缺少 inspect.iscoroutinefunction 的 Python 版本上导入本模块并调用 iscoroutinefunction。",
+        "status": "unverified"
+      },
+      {
+        "id": "ce6df46053b0",
+        "path": "pysnooper/tracer.py",
+        "line": 24,
+        "title": "get_local_reprs 中 vars_order.index 可能抛出 ValueError",
+        "explanation": "vars_order 由 co_varnames、co_cellvars、co_freevars 以及 frame.f_locals.keys() 拼接而成。frame.f_locals 的键理论上应包含在 co_varnames/co_cellvars/co_freevars 中，但在某些实现（如 PyPy、exec/eval 动态作用域、或 f_locals 被修改）下，f_locals 可能包含不在这些元组中的键。此时 vars_order.index(key) 会抛出 ValueError，导致 tracer 崩溃。",
+        "trigger": "当 frame.f_locals 中存在既不在 co_varnames 也不在 co_cellvars/co_freevars 中的键时（例如通过 exec 注入局部变量或某些 Python 实现），调用 get_local_reprs 会触发 ValueError。",
+        "status": "unverified"
+      },
+      {
+        "id": "11b3c326a472",
+        "path": "pysnooper/tracer.py",
+        "line": 86,
+        "title": "source 为空列表时 source[0] 抛出 IndexError",
+        "explanation": "当 loader.get_source 返回空字符串或文件为空时，source 被 splitlines() 得到空列表 []。第86行 isinstance(source[0], bytes) 会因索引 0 不存在而抛出 IndexError，导致 tracer 无法获取源码。",
+        "trigger": "当被追踪函数的源文件为空，或 loader.get_source 返回空字符串时，source 为 []，执行到第86行触发 IndexError。",
+        "status": "unverified"
+      },
+      {
+        "id": "0c4d17390cfd",
+        "path": "pysnooper/tracer.py",
+        "line": 98,
+        "title": "source_cache 无上限且缓存 UnavailableSource 实例",
+        "explanation": "source_cache 是模块级全局字典，会随不同 (module_name, file_name) 无限增长，长期运行的程序可能内存泄漏。此外当源码不可用时缓存 UnavailableSource 实例，后续相同键直接返回该实例，行为正确但缓存了不可用状态，若之后源码变为可用则不会刷新。",
+        "trigger": "长时间运行并追踪大量不同文件/模块时，source_cache 持续增长；或源码文件在首次读取失败后又被创建，缓存仍返回 UnavailableSource。",
+        "status": "unverified"
+      },
+      {
+        "id": "0d9c1003c7f3",
+        "path": "pysnooper/tracer.py",
+        "line": 133,
+        "title": "FileWriter.write 每次调用都重新打开文件，且 overwrite 状态非线程安全",
+        "explanation": "FileWriter.write 每次写入都 open 文件，性能较差；同时 self.overwrite 在第一次写入后被置为 False，若多个线程共享同一个 FileWriter 实例（例如通过 thread_global 或全局 tracer），存在竞态条件，可能导致覆盖模式判断错误或文件内容交错。",
+        "trigger": "多线程环境下多个线程同时使用同一个 FileWriter 实例写入日志时，self.overwrite 的读写和文件打开可能产生竞态，导致日志丢失或覆盖。",
+        "status": "unverified"
+      },
+      {
+        "id": "a4899f7d054d",
+        "path": "pysnooper/tracer.py",
+        "line": 120,
+        "title": "assert 用于输入校验，在 -O 模式下被跳过",
+        "explanation": "第120行使用 assert isinstance(output, utils.WritableStream) 校验 output 类型。Python 以 -O 优化模式运行时 assert 会被移除，此时若 output 既不是路径、可调用对象，也不是 WritableStream，后续 write 函数会调用 output.write(s) 并可能抛出 AttributeError，错误信息不明确。",
+        "trigger": "在 python -O 下运行，且传入的 output 不是路径、不可调用、也不是 WritableStream 时，assert 被跳过，直到实际写入才报错。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "PySnooper-1",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "partial",
+    "reproduction": "reproduced",
+    "target_issue_detected": null,
+    "matched_finding_ids": [],
+    "reason": "pycompat窗口模型返回无法解析的JSON，审查状态partial；保留错误，不将这个版本用于完整成对评分。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "ef2ef4628492",
+      "77000726ab27"
+    ],
+    "active_findings": [
+      {
+        "id": "cfc70acf3795",
+        "path": "pysnooper/tracer.py",
+        "line": 26,
+        "title": "vars_order.index 可能抛出 ValueError 导致排序失败",
+        "explanation": "第26行构造 vars_order 时使用 code.co_varnames + co_cellvars + co_freevars + tuple(frame.f_locals.keys())。第29行用 vars_order.index(key_value[0]) 作为排序键。虽然 f_locals 的键通常包含在 co_varnames 中，但在某些情况下（例如 exec/eval 注入的局部变量、类体作用域、或 CPython 实现差异）f_locals 可能包含不在 co_varnames 中的键，此时 index() 会抛出 ValueError，使 get_local_reprs 崩溃，进而导致整个 tracer 在记录变量时异常。",
+        "trigger": "当 frame.f_locals 中存在一个键既不在 co_varnames、co_cellvars、co_freevars 中时（例如通过 exec 动态注入的局部变量），调用 get_local_reprs 触发排序。",
+        "status": "unverified"
+      },
+      {
+        "id": "ef2ef4628492",
+        "path": "pysnooper/tracer.py",
+        "line": 88,
+        "title": "source 为空列表时 source[0] 触发 IndexError",
+        "explanation": "第88行访问 source[0] 判断是否为 bytes。当 loader.get_source 返回空字符串（source = ''.splitlines() == []）或文件为空（fp.read().splitlines() == []）时，source 是空列表，source[0] 会抛出 IndexError。该异常未被捕获，会导致 get_source_from_frame 失败。",
+        "trigger": "被追踪函数的源文件为空，或 loader.get_source 返回空字符串时调用 get_source_from_frame。",
+        "status": "unverified"
+      },
+      {
+        "id": "c8ffd1c111ba",
+        "path": "pysnooper/tracer.py",
+        "line": 42,
+        "title": "source_cache 无上限且以 (module_name, file_name) 为键可能缓存错误内容",
+        "explanation": "source_cache 是模块级全局字典，永不清理，长期运行或大量不同文件时会持续增长内存。此外缓存键为 (module_name, file_name)，若同一文件被不同模块名加载（例如动态导入、重命名模块），会命中错误缓存；反之同一模块名对应不同文件内容变更时也不会失效。",
+        "trigger": "长时间运行的程序追踪大量不同文件，或同一文件以不同 __name__ 被加载。",
+        "status": "unverified"
+      },
+      {
+        "id": "e6d3da21f53a",
+        "path": "pysnooper/tracer.py",
+        "line": 104,
+        "title": "get_write_function 对非路径非可调用非 WritableStream 的 output 使用 assert 校验",
+        "explanation": "第122行使用 assert isinstance(output, utils.WritableStream) 做输入校验。assert 在 Python -O 优化模式下会被移除，此时非法 output 会静默通过，随后第125行 output.write(s) 在运行时才抛出 AttributeError，错误信息不明确。",
+        "trigger": "以 -O 运行且传入既非路径、非可调用、也非 WritableStream 的 output 对象。",
+        "status": "unverified"
+      },
+      {
+        "id": "77000726ab27",
+        "path": "pysnooper/tracer.py",
+        "line": 134,
+        "title": "FileWriter.write 每次调用都重新打开文件",
+        "explanation": "FileWriter.write 每次写入都执行 open(...) 并关闭文件。在追踪高频执行时，每条日志都会触发一次文件打开/关闭系统调用，带来显著 I/O 开销，且并发写入时可能交错。",
+        "trigger": "使用 @pysnooper.snoop('/path/to/file') 追踪循环或高频函数时。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "PySnooper-1",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "保留项为source[0]空列表、assert优化、反复打开文件和缓存增长；没有描述FileWriter默认编码在ASCII locale下写中文失败。复现日志证明的是UnicodeEncodeError，而这些候选触发条件不同。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "65bac8b9d901",
+      "848993f3cc03"
+    ],
+    "active_findings": [
+      {
+        "id": "65bac8b9d901",
+        "path": "pysnooper/tracer.py",
+        "line": 86,
+        "title": "source 为空列表时 source[0] 触发 IndexError",
+        "explanation": "当 loader.get_source 返回空字符串或文件为空时，source = source.splitlines() 得到空列表 []。第86行 isinstance(source[0], bytes) 会因索引空列表抛 IndexError，导致 get_source_from_frame 崩溃。",
+        "trigger": "被追踪模块的源码为空（空文件或 loader 返回空字符串）。",
+        "status": "needs_context"
+      },
+      {
+        "id": "473e66ea7674",
+        "path": "pysnooper/tracer.py",
+        "line": 120,
+        "title": "使用 assert 做输入校验，优化模式下会被移除",
+        "explanation": "第120行用 assert isinstance(output, utils.WritableStream) 校验 output 类型。在 python -O 下 assert 被移除，非法 output 会继续执行并在后续 output.write 时以更晦涩的方式失败。",
+        "trigger": "以 python -O 运行且传入既非路径、非 None、非 callable、也非 WritableStream 的 output。",
+        "status": "supported"
+      },
+      {
+        "id": "848993f3cc03",
+        "path": "pysnooper/tracer.py",
+        "line": 132,
+        "title": "FileWriter.write 每次调用都重新打开文件",
+        "explanation": "FileWriter.write 每次写入都执行 open(...)，追踪过程中每行输出都会打开/关闭文件一次，产生大量系统调用，显著拖慢被追踪代码，且并发写入时可能交错。",
+        "trigger": "使用 @pysnooper.snoop('/path/to/file') 追踪任意函数。",
+        "status": "supported"
+      },
+      {
+        "id": "d0f8ca26a0c8",
+        "path": "pysnooper/tracer.py",
+        "line": 40,
+        "title": "source_cache 无上限且以 (module_name, file_name) 为键",
+        "explanation": "source_cache 是模块级全局字典，永不清理。对于动态生成大量模块名或文件名的场景（如 exec/compile 生成代码），缓存会持续增长造成内存泄漏。",
+        "trigger": "长时间运行且不断产生新的 (module_name, file_name) 组合。",
+        "status": "needs_context"
+      }
+    ]
+  },
+  {
+    "case": "PySnooper-1",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "修复版保留的ABC协议、注释、source空列表、缓存、assert优化和文件重复打开均不指向默认编码的参考缺陷；FileWriter已显式UTF-8，未报告同一编码问题。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "ef2ef4628492",
+      "c6fa1d8faca4"
+    ],
+    "active_findings": [
+      {
+        "id": "3293c1ef8ea3",
+        "path": "pysnooper/pycompat.py",
+        "line": 36,
+        "title": "PathLike.__subclasshook__ 未返回 NotImplemented，导致非路径类被误判为 PathLike 子类",
+        "explanation": "__subclasshook__ 在无法判定时应返回 NotImplemented，以便 ABCMeta 回退到常规的继承/注册检查。这里无论条件是否满足都返回布尔值：当 subclass 没有 __fspath__ 且不满足 open+path 名称条件时返回 False，会直接否决该类的子类关系，破坏正常的继承判定（例如显式继承 PathLike 或通过 register 注册的类可能被错误地判定为非子类）。",
+        "trigger": "对显式继承 PathLike 或通过 PathLike.register() 注册、但自身未定义 __fspath__ 的类调用 issubclass(cls, PathLike) 时。",
+        "status": "needs_context"
+      },
+      {
+        "id": "f2f23b03c9ce",
+        "path": "pysnooper/pycompat.py",
+        "line": 39,
+        "title": "注释末尾存在多余字符 'g'",
+        "explanation": "第 39 行注释 'Make a concession for older `pathlib` versions:g' 末尾多了一个 'g'，疑似误输入，属于文档/可读性瑕疵。",
+        "trigger": "阅读该注释时。",
+        "status": "supported"
+      },
+      {
+        "id": "13f4a763127e",
+        "path": "pysnooper/tracer.py",
+        "line": 29,
+        "title": "vars_order.index 可能抛出 ValueError 导致排序失败",
+        "explanation": "result_items 由 frame.f_locals.items() 生成，而 vars_order 由 co_varnames + co_cellvars + co_freevars + f_locals.keys() 拼接而成。虽然 f_locals.keys() 通常覆盖所有局部变量，但在某些实现（如 PyPy、或 f_locals 为动态代理/快照）下，f_locals 的键集合可能与迭代时不一致，导致某个 key 不在 vars_order 中，list.index 抛出 ValueError，使整个 get_local_reprs 崩溃。",
+        "trigger": "当 frame.f_locals 的键在构造 vars_order 之后发生变化，或运行在 f_locals 行为与 CPython 不同的解释器上时，排序 key 函数对不存在的键调用 index。",
+        "status": "needs_context"
+      },
+      {
+        "id": "ef2ef4628492",
+        "path": "pysnooper/tracer.py",
+        "line": 88,
+        "title": "source 为空列表时 source[0] 触发 IndexError",
+        "explanation": "当 loader.get_source 返回空字符串或文件为空时，source 会被 splitlines() 变成空列表 []。此时第88行 isinstance(source[0], bytes) 会抛出 IndexError，因为空列表没有索引 0。该异常未被捕获，会中断 tracer 初始化。",
+        "trigger": "被追踪函数的源文件为空，或 loader.get_source 返回空字符串（source.splitlines() == []）。",
+        "status": "supported"
+      },
+      {
+        "id": "5b30c9e69c3e",
+        "path": "pysnooper/tracer.py",
+        "line": 100,
+        "title": "source_cache 无上限且以 (module_name, file_name) 为键可能缓存错误内容",
+        "explanation": "source_cache 是模块级全局字典，永不清理，长期运行会持续增长。此外缓存键为 (module_name, file_name)，若同一文件被不同 loader 以不同内容加载（如热重载、动态生成模块），会返回过期的源码，导致行号与显示源码不匹配。",
+        "trigger": "长时间运行且追踪大量不同模块；或模块被重新加载/替换后再次追踪。",
+        "status": "needs_context"
+      },
+      {
+        "id": "a17095f514c1",
+        "path": "pysnooper/tracer.py",
+        "line": 122,
+        "title": "使用 assert 做输入校验，优化模式下会被移除",
+        "explanation": "第122行用 assert isinstance(output, utils.WritableStream) 校验 output 类型。在 python -O 下 assert 被剥离，非法 output 会静默通过，随后在 write 中调用 output.write 时才报错，错误信息更晦涩。",
+        "trigger": "以 -O 运行且传入既非路径、非 None、非 callable、也非 WritableStream 的 output。",
+        "status": "supported"
+      },
+      {
+        "id": "c6fa1d8faca4",
+        "path": "pysnooper/tracer.py",
+        "line": 135,
+        "title": "FileWriter.write 每次调用都重新打开文件",
+        "explanation": "每次 write 都执行 open(...) 并关闭，且 overwrite 只在首次写入后置 False。对于高频日志输出，反复打开/关闭文件带来显著 I/O 开销，且并发写入时可能交错。",
+        "trigger": "被追踪代码产生大量输出行时，每行都会触发一次文件打开与关闭。",
+        "status": "supported"
+      }
+    ]
+  },
+  {
+    "case": "tornado-1",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "全部候选涉及Origin、清理、send_error、版本、ValueError消息、默认列表和客户端URL/头部；未指出合法WebSocket open回调中set_nodelay访问self.stream而不是ws_connection导致测试断言失败。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "a9859a1e664b",
+        "path": "tornado/websocket.py",
+        "line": 542,
+        "title": "check_origin 未处理 Host 头缺失导致比较失效",
+        "explanation": "check_origin 通过 self.request.headers.get(\"Host\") 获取 Host 头，若请求缺少 Host 头则 host 为 None。此时 origin（来自 Origin 头的 netloc）与 None 比较恒为 False，会拒绝连接，属于安全默认（fail-closed），但缺少对缺失 Host 的显式处理，行为依赖隐式比较。更值得注意的是，当 Origin 头缺失时，urlparse(origin) 中 origin 可能为 None，urlparse(None) 在部分 Python 版本会抛出异常或返回空 netloc，导致 check_origin 抛出未捕获异常而非返回 False。",
+        "trigger": "客户端发起 WebSocket 握手时未携带 Origin 头（例如非浏览器客户端），或携带的 Origin 头为空字符串。",
+        "status": "unverified"
+      },
+      {
+        "id": "7f915ca9aca9",
+        "path": "tornado/websocket.py",
+        "line": 586,
+        "title": "_break_cycles 在状态非 101 时可能重复调用父类",
+        "explanation": "_break_cycles 的条件为 if self.get_status() != 101 or self._on_close_called: 才调用父类 _break_cycles。当状态为 101 且 _on_close_called 为 False 时跳过父类清理，这是有意设计（等待真正关闭）。但 on_connection_close 中先设置 _on_close_called = True 再调用 _break_cycles，此时条件为 True 会调用父类；若之后再次触发 _break_cycles（例如重复关闭路径），条件仍为 True 会再次调用父类 _break_cycles，父类实现若未做幂等保护可能导致重复清理。",
+        "trigger": "WebSocket 连接关闭后，_break_cycles 被多次调用（例如 on_connection_close 与其它清理路径重复触发）。",
+        "status": "unverified"
+      },
+      {
+        "id": "aab06c7cabd6",
+        "path": "tornado/websocket.py",
+        "line": 589,
+        "title": "send_error 在 stream 非空时静默丢弃错误信息",
+        "explanation": "send_error 在 self.stream 不为 None 时直接调用 self.stream.close()，不记录也不传递 args/kwargs 中的错误信息。这会导致握手期间发生的异常被静默关闭连接，缺少日志或错误上下文，增加排查难度。注释也承认只能粗暴关闭，但未提供任何日志输出。",
+        "trigger": "WebSocket 握手过程中发生未捕获异常，且 self.stream 已建立。",
+        "status": "unverified"
+      },
+      {
+        "id": "9de6814c5af1",
+        "path": "tornado/websocket.py",
+        "line": 599,
+        "title": "get_websocket_protocol 对 Sec-WebSocket-Version 缺失返回 None 但未区分不支持版本",
+        "explanation": "get_websocket_protocol 仅当 Sec-WebSocket-Version 为 \"7\"、\"8\"、\"13\" 时返回 WebSocketProtocol13，否则返回 None。调用方若将 None 视为“非 WebSocket 请求”而非“版本不支持”，可能无法返回正确的 426 Upgrade Required 响应，导致客户端收到不明确的错误。",
+        "trigger": "客户端发送 Sec-WebSocket-Version 为其它值（如 \"6\"）或缺失该头。",
+        "status": "unverified"
+      },
+      {
+        "id": "9c3894d4b559",
+        "path": "tornado/websocket.py",
+        "line": 729,
+        "title": "ValueError 使用 %r 占位符但未做格式化",
+        "explanation": "raise ValueError 时传入的是多个参数（格式字符串和两个值），而不是格式化后的字符串。ValueError 的 args 会变成三元组，异常消息显示为 \"('Invalid max_wbits value %r; allowed range 8-%d', 7, 15)\"，而不是可读的格式化文本。这会影响错误诊断和日志可读性。",
+        "trigger": "调用 _PerMessageDeflateCompressor 时传入超出 [8, zlib.MAX_WBITS] 范围的 max_wbits（例如 7 或 16）。",
+        "status": "unverified"
+      },
+      {
+        "id": "8c674ab37688",
+        "path": "tornado/websocket.py",
+        "line": 1366,
+        "title": "可变默认参数 subprotocols=[]",
+        "explanation": "subprotocols 使用可变对象 [] 作为默认参数。虽然当前代码只读取该列表（join），未直接修改，但这是 Python 中典型的可变默认参数反模式：若后续代码或子类对该列表进行 append 等修改，会污染所有调用共享的同一列表对象，导致跨实例状态泄漏。",
+        "trigger": "任何调用方未传 subprotocols 时共享同一个列表对象；一旦有代码修改该列表，后续所有默认调用都会受影响。",
+        "status": "unverified"
+      },
+      {
+        "id": "dcaff38c975e",
+        "path": "tornado/websocket.py",
+        "line": 1382,
+        "title": "非 ws/wss scheme 触发 KeyError",
+        "explanation": "使用字典下标 {\"ws\": \"http\", \"wss\": \"https\"}[scheme] 进行映射，当 request.url 的 scheme 不是 ws 或 wss（例如 http、https 或拼写错误）时会抛出 KeyError，而非给出清晰的错误信息。",
+        "trigger": "调用 websocket_connect 时传入 scheme 非 ws/wss 的 URL，例如 'http://...'。",
+        "status": "unverified"
+      },
+      {
+        "id": "97cd1e5e9bee",
+        "path": "tornado/websocket.py",
+        "line": 1392,
+        "title": "空 subprotocols 列表仍设置空协议头",
+        "explanation": "当 subprotocols 为空列表（非 None）时，条件 if subprotocols is not None 为真，会设置 Sec-WebSocket-Protocol 为空字符串。发送空的协议头可能不符合预期，且与不发送该头语义不同。",
+        "trigger": "调用方显式传入 subprotocols=[]。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "tornado-1",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "set_nodelay候选aded3884634d讨论连接尚未建立及-O移除assert，未声称已升级的有效连接仍使用错误stream；它与参考缺陷触发条件不同，不能算修复后同问题误报。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "aded3884634d"
+    ],
+    "active_findings": [
+      {
+        "id": "4b147052fce1",
+        "path": "tornado/websocket.py",
+        "line": 542,
+        "title": "check_origin 在 Host 头缺失时可能被绕过",
+        "explanation": "check_origin 通过比较 Origin 的 netloc 与请求头 Host 来判断来源。当请求中缺少 Host 头时，self.request.headers.get(\"Host\") 返回 None，而 origin 是字符串。若 origin 也为空字符串（例如 Origin 头缺失或为空），则 origin == host 可能成立（'' == None 为 False，但需注意 origin 为空字符串时与 None 比较为 False，因此不会直接绕过）。真正的问题在于：当 Host 头缺失时，比较结果取决于 origin 是否为空；若攻击者能控制 Origin 为空字符串且 Host 缺失，则 origin='' 与 host=None 不相等，不会绕过。但若 Host 头存在而 Origin 头缺失，urlparse('') 得到 netloc=''，与 host 不相等，会拒绝。因此该实现本身在 Host 缺失时不会错误放行，但依赖 Host 头存在性，若上游代理未设置 Host 头，可能导致合法请求被拒绝或行为不一致。更关键的是，该比较未考虑默认端口（如 Origin 为 https://example.com:443 而 Host 为 example.com），可能导致合法跨端口请求被拒绝，但这属于功能问题而非安全绕过。综合判断，此处主要风险是 Host 头缺失时比较逻辑不明确，建议显式处理 None 情况。",
+        "trigger": "请求缺少 Host 头，或 Origin 与 Host 的端口表示不一致（如 Origin 含默认端口而 Host 不含）。",
+        "status": "unverified"
+      },
+      {
+        "id": "aded3884634d",
+        "path": "tornado/websocket.py",
+        "line": 561,
+        "title": "set_nodelay 在 ws_connection 为 None 时触发 AssertionError",
+        "explanation": "set_nodelay 使用 assert self.ws_connection is not None 来保证连接已建立。在 Python 以 -O 优化模式运行时，assert 语句会被移除，此时若 ws_connection 为 None，后续 self.ws_connection.set_nodelay(value) 会抛出 AttributeError，而不是给出明确的错误信息。此外，即使未优化，assert 失败也会抛出 AssertionError，调用方难以区分是编程错误还是运行时状态问题。",
+        "trigger": "在 WebSocket 连接尚未建立（ws_connection 为 None）时调用 set_nodelay，且 Python 以 -O 运行。",
+        "status": "unverified"
+      },
+      {
+        "id": "72d9fadcc9d9",
+        "path": "tornado/websocket.py",
+        "line": 586,
+        "title": "_break_cycles 条件依赖 get_status 可能引发意外行为",
+        "explanation": "_break_cycles 中通过 self.get_status() != 101 来判断连接是否已建立。get_status 返回的是 HTTP 状态码，但在 WebSocket 握手成功后状态码为 101。若在握手过程中发生异常导致状态码未设置为 101，但连接实际已部分建立，则可能提前调用 super()._break_cycles()，破坏引用环清理的预期时机。注释说明希望等到真正关闭后再清理，但条件判断仅依赖状态码，可能不够健壮。",
+        "trigger": "握手过程中状态码未正确设置为 101，但连接已部分建立并触发 _break_cycles。",
+        "status": "unverified"
+      },
+      {
+        "id": "07de77fd5340",
+        "path": "tornado/websocket.py",
+        "line": 1373,
+        "title": "可变默认参数 subprotocols=[]",
+        "explanation": "subprotocols 使用可变对象 [] 作为默认参数。虽然当前代码只读取该列表（第1400行 join），未直接修改，但这是 Python 中典型的可变默认参数反模式，若后续代码或调用方修改该默认列表，会在多次调用间共享状态，导致难以排查的 bug。",
+        "trigger": "任何调用 WebSocketClientConnection 时未传入 subprotocols，且后续代码对该默认列表进行原地修改（append 等）。",
+        "status": "unverified"
+      },
+      {
+        "id": "e013a271a6a5",
+        "path": "tornado/websocket.py",
+        "line": 1388,
+        "title": "URL scheme 解析对无冒号或非法 scheme 会 KeyError",
+        "explanation": "使用 partition(\":\") 解析 URL 后直接以 scheme 作为字典键查找。若 URL 不含冒号（partition 返回空 scheme）或 scheme 不是 ws/wss（例如 http/https 或拼写错误），会抛出 KeyError，而非给出清晰的错误信息。",
+        "trigger": "调用 websocket_connect 时传入的 URL 缺少 scheme 前缀，或使用了非 ws/wss 的 scheme。",
+        "status": "unverified"
+      },
+      {
+        "id": "6af7b3a63226",
+        "path": "tornado/websocket.py",
+        "line": 1399,
+        "title": "subprotocols 为空列表时仍发送空的 Sec-WebSocket-Protocol 头",
+        "explanation": "当 subprotocols 为 None 时跳过设置；但当传入空列表 [] 时，条件为真，会设置 Sec-WebSocket-Protocol 为空字符串。发送空的协议头不符合预期，可能被某些服务器拒绝或产生歧义。",
+        "trigger": "调用方显式传入 subprotocols=[]。",
+        "status": "unverified"
+      },
+      {
+        "id": "1cdc98cb22b4",
+        "path": "tornado/websocket.py",
+        "line": 1342,
+        "title": "periodic_ping 超时判断依赖 last_ping 初始值可能误判",
+        "explanation": "超时判断使用 since_last_ping < 2 * ping_interval 来确保最近发送过 ping。若 last_ping 从未被更新（例如 start_pinging 未被调用或 ping_interval 为 0 时仍被调度），since_last_ping 会很大，导致条件为假，从而跳过超时关闭逻辑，连接可能无法按预期关闭。",
+        "trigger": "periodic_ping 被调用但 last_ping 未正确初始化/更新，或 ping_interval 配置异常。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "tornado-1",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "复核保留send_error行为、ValueError未格式化与B006默认列表，均没有描述set_nodelay在正常已升级连接上访问错误对象；该参考问题在容器测试中实际触发，但被漏检。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "d0ec09619e27",
+        "path": "tornado/websocket.py",
+        "line": 589,
+        "title": "send_error 在握手后直接关闭流，丢失错误响应语义",
+        "explanation": "send_error 在 self.stream 非空时直接调用 self.stream.close()，不发送任何 HTTP 错误响应，也不区分握手阶段与握手后阶段。注释也承认握手后异常只能粗暴关闭。若在握手过程中（尚未完成 101 升级）发生异常，客户端将收到连接被重置而非明确的 HTTP 错误码，影响可诊断性与协议正确性。",
+        "trigger": "在 WebSocket 握手处理期间（stream 已建立但未完成升级）抛出未捕获异常并触发 send_error。",
+        "status": "supported"
+      },
+      {
+        "id": "4d3d66885987",
+        "path": "tornado/websocket.py",
+        "line": 729,
+        "title": "ValueError 构造参数错误导致异常信息格式异常",
+        "explanation": "raise ValueError 时传入了三个参数（格式字符串和两个值），而不是使用 % 格式化。ValueError 的 args 会变成三元组，str(e) 会显示为元组形式 (\"Invalid max_wbits value %r; allowed range 8-%d\", max_wbits, zlib.MAX_WBITS)，而不是格式化后的可读消息。这会让用户看到难以理解的错误信息。",
+        "trigger": "调用 _PerMessageDeflateCompressor 时传入超出范围（如 7 或 16）的 max_wbits 值。",
+        "status": "supported"
+      },
+      {
+        "id": "a76dcef0ba61",
+        "path": "tornado/websocket.py",
+        "line": 1366,
+        "title": "B006: Do not use mutable data structures for argument defaults",
+        "explanation": "Do not use mutable data structures for argument defaults",
+        "trigger": "触发条件需结合业务调用确认。",
+        "status": "supported"
+      }
+    ]
+  },
+  {
+    "case": "tornado-1",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "保留候选是压缩输出assert在优化模式下被移除，位置766，与修复set_nodelay的ws_connection路径无关；没有报告同一个参考问题。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "bb316e707aa8",
+        "path": "tornado/websocket.py",
+        "line": 766,
+        "title": "使用 assert 校验压缩输出，优化模式下会被移除",
+        "explanation": "compress() 中用 assert 断言压缩结果以 Z_SYNC_FLUSH 标记结尾。当 Python 以 -O 运行时 assert 语句被剥离，该完整性校验失效；若底层 zlib 行为异常，后续 data[:-4] 会静默截断错误数据而非暴露问题。",
+        "trigger": "以 python -O 或 PYTHONOPTIMIZE 运行，且压缩输出未以 b'\\x00\\x00\\xff\\xff' 结尾时。",
+        "status": "supported"
+      },
+      {
+        "id": "c08e6c25ef2c",
+        "path": "tornado/websocket.py",
+        "line": 766,
+        "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+        "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+        "trigger": "触发条件需结合业务调用确认。",
+        "status": "supported"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-1",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "候选为render_table、数字/字符串正则、转义、None返回类型和search部分匹配；未指出UNARY_OPERATORS用is not None将存在但为False的布尔值当成True。实际测试失败为match_str('is_live', {'is_live': False})返回True。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "72aadda38ff4",
+        "path": "youtube_dl/utils.py",
+        "line": 2518,
+        "title": "render_table 对空数据或空列会抛出异常",
+        "explanation": "render_table 使用 zip(*table) 计算每列最大长度。当 data 为空时，table 仅含 header_row，zip(*table) 仍可工作；但当 header_row 为空列表（无列）时，zip(*table) 返回空迭代，max_lens 为空列表，随后 max_lens[:-1] 为空，format_str 变为 '%s'，而每行是空元组，'%s' % () 会抛出 TypeError。此外若某列为空字符串，len 为 0 不会出错，但整体对空表结构缺乏防护。",
+        "trigger": "调用 render_table([], []) 或 header_row 为空列表时。",
+        "status": "unverified"
+      },
+      {
+        "id": "c57593d272b6",
+        "path": "youtube_dl/utils.py",
+        "line": 2536,
+        "title": "intval 正则允许前导点导致 int() 失败后误走 filesize 解析",
+        "explanation": "intval 模式为 [0-9.]+，可匹配 '.5'、'1.2.3' 等非整数形式。代码先尝试 int(m.group('intval'))，失败后调用 parse_filesize。对于 '.5' 这类值，parse_filesize 可能返回 None，再尝试加 'B' 仍可能为 None，最终抛出 ValueError。这本身是错误处理路径，但正则允许明显非法的数字串（如 '1.2.3'）进入解析，错误信息可能误导。",
+        "trigger": "过滤表达式如 'filesize>1.2.3' 或 'filesize>.5'。",
+        "status": "unverified"
+      },
+      {
+        "id": "66f39aa901e1",
+        "path": "youtube_dl/utils.py",
+        "line": 2537,
+        "title": "带引号字符串正则要求至少一个字符，空字符串无法匹配",
+        "explanation": "quotedstrval 模式为 (?:\\\\.|(?!(?P=quote)|\\\\).)+?，其中 + 要求至少一个字符，因此 \"\" 或 '' 这类空字符串值无法被匹配。若用户希望用空字符串做比较（如 title=\"\"），会落入 strval 分支或整体匹配失败，导致行为与预期不符。",
+        "trigger": "过滤表达式包含空引号字符串，如 'title=\"\"'。",
+        "status": "unverified"
+      },
+      {
+        "id": "35020f59f656",
+        "path": "youtube_dl/utils.py",
+        "line": 2557,
+        "title": "引号转义替换仅处理反斜杠加引号，未处理其他转义",
+        "explanation": "当 quote 非 None 时，仅将 \\<quote> 替换为 <quote>，其他转义序列（如 \\\\、\\n）保持原样。这与正则中 \\\\. 允许任意转义字符的语义不一致，可能导致比较值包含多余反斜杠。",
+        "trigger": "过滤表达式如 'title=\"a\\\\b\"'（即值中含反斜杠）。",
+        "status": "unverified"
+      },
+      {
+        "id": "329aeef11631",
+        "path": "youtube_dl/utils.py",
+        "line": 2572,
+        "title": "actual_value 为 None 时返回 none_inclusive 字符串而非布尔值",
+        "explanation": "当 actual_value 为 None 且 none_inclusive 匹配时，返回的是 m.group('none_inclusive')，即字符串 ' ?' 或 None，而非布尔 True/False。match_str 使用 all() 判断，非空字符串为真，None 为假，行为上可能符合预期，但返回类型不一致，调用方若直接使用返回值可能出错。",
+        "trigger": "过滤表达式如 'filesize>100?' 且 dct 中无 filesize 键。",
+        "status": "unverified"
+      },
+      {
+        "id": "adf5417d5d42",
+        "path": "youtube_dl/utils.py",
+        "line": 2542,
+        "title": "使用 search 而非 fullmatch 依赖正则锚点，易受未锚定输入影响",
+        "explanation": "operator_rex 使用 search，虽然模式末尾有 \\s*$ 锚定，但开头没有 ^ 锚定，且 (?x) 模式下 \\s* 可匹配前导空白。若 filter_part 前有非空白字符，search 仍可能从中间匹配成功，导致意外解析。",
+        "trigger": "filter_part 形如 'x filesize>100' 时可能匹配到 'filesize>100' 部分。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-1",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "修复版候选仍为表格/正则/字符串转义/None类型/空过滤条件，不涉及已修复的布尔False与存在性混淆；无参考问题复发报告。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "72aadda38ff4",
+        "path": "youtube_dl/utils.py",
+        "line": 2518,
+        "title": "render_table 对空数据或空列会抛出异常",
+        "explanation": "render_table 使用 zip(*table) 对列进行转置，然后对每列调用 max(len(...) for v in col)。当 data 为空列表时，table 仅含 header_row，zip(*table) 仍能产生列，但若 header_row 为空则 zip 返回空迭代器，max_lens 为空，后续 format_str 构造会得到空字符串，'\\n'.join(...) 对每行执行 format_str % tuple(row) 时若行非空会抛 TypeError（not all arguments converted）。更直接的问题是：若某列为空（例如 header_row 为空列表），max() 会因空序列抛 ValueError。",
+        "trigger": "调用 render_table([], []) 或 render_table([], [[1]]) 等 header_row 为空的情况。",
+        "status": "unverified"
+      },
+      {
+        "id": "a3dcdb70cd54",
+        "path": "youtube_dl/utils.py",
+        "line": 2536,
+        "title": "intval 正则允许前导点导致 int() 失败后误走 parse_filesize",
+        "explanation": "intval 模式为 [0-9.]+，可匹配 '.5'、'1.2.3' 等非整数形式。第2563行 int(m.group('intval')) 对 '.5' 会抛 ValueError，随后第2565行调用 parse_filesize('.5')。parse_filesize 通常要求数字后跟单位，'.5' 可能返回 None，再尝试 '.5B' 也可能失败，最终抛出 'Invalid integer value'。但若 parse_filesize 对某些输入返回非预期值，比较结果会错误。此外 '1.2.3' 这类输入会进入 parse_filesize 分支，语义不明确。",
+        "trigger": "过滤表达式如 'filesize>1.2.3' 或 'filesize>.5'。",
+        "status": "unverified"
+      },
+      {
+        "id": "42f5640f549b",
+        "path": "youtube_dl/utils.py",
+        "line": 2557,
+        "title": "引号字符串转义替换只处理反斜杠加引号，未处理其他转义",
+        "explanation": "第2557行取 comparison_value 后，第2560行仅将 `\\<quote>` 替换为 quote。正则 quotedstrval 允许 `\\\\.` 即任意反斜杠转义序列，但代码只还原了引号转义，其他如 `\\\\`、`\\n` 等保持原样。这可能导致用户期望的转义语义与实际不符，例如过滤字符串中包含反斜杠时行为不一致。",
+        "trigger": "过滤表达式中使用带反斜杠转义的引号字符串，如 'title=\"a\\\\b\"'。",
+        "status": "unverified"
+      },
+      {
+        "id": "95267d0eba30",
+        "path": "youtube_dl/utils.py",
+        "line": 2572,
+        "title": "actual_value 为 None 时 none_inclusive 返回字符串而非布尔值",
+        "explanation": "第2572-2573行当 actual_value 为 None 时返回 m.group('none_inclusive')。该组匹配的是可选空白加 '?'，若存在则返回字符串 '?'（或含空白），否则返回 None。函数约定返回布尔值，返回 '?' 或 None 会破坏调用方 all(...) 的语义：None 为假值可接受，但 '?' 为真值，且类型不一致。",
+        "trigger": "过滤表达式如 'key>5?' 且 dct 中 key 不存在或为 None。",
+        "status": "unverified"
+      },
+      {
+        "id": "7947f9607732",
+        "path": "youtube_dl/utils.py",
+        "line": 2542,
+        "title": "使用 search 而非 fullmatch 可能导致部分匹配",
+        "explanation": "operator_rex 以 `\\s*$` 结尾，理论上要求匹配到字符串末尾，但使用 search 仍可能从中间开始匹配。若 filter_part 前部有无法匹配的内容，search 会跳过并匹配后半部分，导致意外接受非法输入。例如 'x key=1' 可能匹配 'key=1' 部分。",
+        "trigger": "filter_part 包含前导非法字符，如 'foo key=1'。",
+        "status": "unverified"
+      },
+      {
+        "id": "97c5b0814c17",
+        "path": "youtube_dl/utils.py",
+        "line": 2596,
+        "title": "match_str 对空 filter_str 返回 True 可能非预期",
+        "explanation": "match_str 使用 filter_str.split('&')，空字符串会得到 ['']，_match_one('', dct) 会进入 UNARY_OPERATORS 分支，'' 操作符对 None 返回 False，对非 None 返回 True。因此空过滤字符串对非空字典返回 True，可能被误认为无过滤条件。",
+        "trigger": "调用 match_str('', {'a': 1})。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-1",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "复核后仅保留render_table行列数量的待确认候选；没有识别布尔False的单目过滤语义错误，该问题已由官方选择器测试复现。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "e9c442534682",
+        "path": "youtube_dl/utils.py",
+        "line": 2518,
+        "title": "render_table 对空 data 或列数不一致的行会出错",
+        "explanation": "max_lens 通过 zip(*table) 计算，若 data 为空则 table 仅含 header_row，zip 仍可工作；但若 data 中某行长度与 header_row 不一致，zip 会按最短截断，导致 max_lens 长度与 format_str 不匹配，最终 format_str % tuple(row) 可能抛 TypeError（参数数量不匹配）。",
+        "trigger": "调用 render_table 时传入列数与 header_row 不一致的行。",
+        "status": "needs_context"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-1",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "仅保留render_table列数与格式化的待确认候选，未报告修复后的UNARY_OPERATORS布尔过滤问题；不能把这个无关候选算作参考问题误报。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "fc6c0ac116f4",
+        "path": "youtube_dl/utils.py",
+        "line": 2518,
+        "title": "render_table 对空数据或列数不一致的行会崩溃或错位",
+        "explanation": "max_lens 通过 zip(*table) 计算，若 data 为空则 table 只有 header_row，zip 仍可工作；但若某行列数与 header_row 不一致，zip 会按最短列截断，导致 max_lens 长度与行长度不匹配，format_str 的占位符数量与 row 元素数量不符，'%' 格式化会抛 TypeError。另外当 max_lens 为空（header_row 为空列表）时，max_lens[:-1] 为空，format_str 仅为 '%s'，但 row 可能有多列，同样会格式化失败。",
+        "trigger": "调用 render_table 时传入的 data 中某行长度与 header_row 不同，或 header_row 为空列表。",
+        "status": "needs_context"
+      }
+    ]
+  },
+  {
+    "case": "PySnooper-2",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "not_reproduced",
+    "target_issue_detected": null,
+    "matched_finding_ids": [],
+    "reason": "原始选择器未能执行：缺陷版缺少tests.mini_toolbox，重建修复版依赖的pycompat.PY2也缺失，均在收集测试阶段失败。保留该样本及日志，但不据此给参考缺陷检出/误报评分。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "ce6df46053b0",
+      "65bac8b9d901",
+      "d9c6755fa90f",
+      "38aeec35096b",
+      "ba77136fb591",
+      "84584aae2ece"
+    ],
+    "active_findings": [
+      {
+        "id": "ce6df46053b0",
+        "path": "pysnooper/tracer.py",
+        "line": 24,
+        "title": "get_local_reprs 中 vars_order.index 可能抛出 ValueError",
+        "explanation": "vars_order 由 co_varnames、co_cellvars、co_freevars 以及 frame.f_locals.keys() 拼接而成。frame.f_locals 的键理论上应包含于这些来源，但在某些实现（如 CPython 的优化、exec/eval 动态注入的局部变量、或 f_locals 被修改）下，f_locals 可能含有不在 vars_order 中的键。此时排序 key 调用 vars_order.index(key_value[0]) 会抛出 ValueError，导致追踪中断。",
+        "trigger": "当 frame.f_locals 中存在一个键既不在 co_varnames/co_cellvars/co_freevars 中，也不在拼接时捕获的 f_locals.keys() 快照中（例如在排序前 f_locals 被并发修改，或解释器实现差异）时触发。",
+        "status": "unverified"
+      },
+      {
+        "id": "65bac8b9d901",
+        "path": "pysnooper/tracer.py",
+        "line": 86,
+        "title": "source 为空列表时 source[0] 触发 IndexError",
+        "explanation": "当 loader.get_source 返回空字符串、或文件为空、或 IPython 历史为空时，source 会被 splitlines() 得到空列表 []。第86行直接访问 source[0] 判断是否为 bytes，空列表会抛出 IndexError，导致 get_source_from_frame 失败。",
+        "trigger": "被追踪函数的源文件为空，或 loader.get_source 返回空字符串，或 IPython 历史条目为空字符串时。",
+        "status": "unverified"
+      },
+      {
+        "id": "b904c459f388",
+        "path": "pysnooper/tracer.py",
+        "line": 98,
+        "title": "source_cache 无界增长且缓存 UnavailableSource 实例",
+        "explanation": "source_cache 是模块级全局字典，每次遇到新的 (module_name, file_name) 都会写入且从不清理。长期运行、动态生成大量模块或使用 exec 生成不同文件名的场景下会造成内存持续增长。此外当源不可用时缓存的是 UnavailableSource 实例，后续即使源变为可用也不会重新读取。",
+        "trigger": "长时间运行的程序中不断出现新的模块名/文件名组合，或源文件在首次读取时不可用但之后可用。",
+        "status": "unverified"
+      },
+      {
+        "id": "d9c6755fa90f",
+        "path": "pysnooper/tracer.py",
+        "line": 132,
+        "title": "FileWriter.write 每次写入都重新打开文件",
+        "explanation": "FileWriter.write 每次调用都执行 open(...)，写入后关闭。在追踪高频执行时，每条日志都会触发一次文件打开/关闭系统调用，性能开销显著，且在多线程/多进程并发写同一文件时可能交错或丢失内容。",
+        "trigger": "使用 @pysnooper.snoop('/path/to/file.log') 追踪执行频繁的函数时。",
+        "status": "unverified"
+      },
+      {
+        "id": "84adfb42e034",
+        "path": "pysnooper/tracer.py",
+        "line": 103,
+        "title": "overwrite 校验使用宽泛的 Exception 且未覆盖所有非法组合",
+        "explanation": "当 overwrite=True 且 output 不是路径时抛出通用 Exception，调用方难以精确捕获；同时该检查只覆盖 overwrite 与 is_path 的组合，未校验 overwrite 与 None/callable/stream 的语义，错误信息也不够具体。",
+        "trigger": "调用 get_write_function(output=<非路径>, overwrite=True) 时。",
+        "status": "unverified"
+      },
+      {
+        "id": "38aeec35096b",
+        "path": "pysnooper/tracer.py",
+        "line": 19,
+        "title": "IPython 文件名正则未覆盖带路径或变体格式",
+        "explanation": "ipython_filename_pattern 仅匹配 '^<ipython-input-([0-9]+)-.*>$'。某些 IPython/Jupyter 版本生成的文件名可能带有额外前缀或不同格式（如 '<ipython-input-...>' 之外的形式），导致无法从历史中恢复源码，只能回退到 UnavailableSource。",
+        "trigger": "在文件名格式与正则不匹配的 IPython/Jupyter 环境中使用 pysnooper。",
+        "status": "unverified"
+      },
+      {
+        "id": "ac639fdc6976",
+        "path": "pysnooper/tracer.py",
+        "line": 298,
+        "title": "thread_global.depth 在 'return' 事件时未递减，导致缩进持续增长",
+        "explanation": "thread_global.depth 只在 event == 'call' 时递增（第299-300行），但从未在函数返回（'return' 事件）时递减。由于 thread_global 是 threading.local，其 depth 值在同一线程内跨多次调用持续累积。每次进入被追踪函数都会使 depth 增加，缩进量 ' ' * 4 * thread_global.depth 会不断变大，输出格式随调用次数线性恶化。",
+        "trigger": "在同一线程中多次调用被 @snoop 装饰的函数（或多次进入 with snoop() 块），每次调用都会使 thread_global.depth 加一且不归零。",
+        "status": "unverified"
+      },
+      {
+        "id": "ba77136fb591",
+        "path": "pysnooper/tracer.py",
+        "line": 250,
+        "title": "__enter__ 与 __exit__ 的 trace 栈可能不匹配，导致 sys.settrace 恢复错误",
+        "explanation": "__enter__ 将当前 sys.gettrace() 压入 self.thread_local.original_trace_functions 栈，__exit__ 弹出并恢复。但 __exit__ 直接访问 self.thread_local.original_trace_functions（第255行），若 __enter__ 未成功执行（例如在 __enter__ 抛出异常后仍调用 __exit__，或跨线程/跨 Tracer 实例复用），该属性可能不存在或栈为空，导致 AttributeError 或 IndexError。此外，若嵌套使用不同 Tracer 实例，各实例的 thread_local 独立，恢复顺序可能错乱。",
+        "trigger": "在 __enter__ 部分执行后发生异常，或 __exit__ 在未配对 __enter__ 的情况下被调用；或同一线程中嵌套使用多个 Tracer 实例。",
+        "status": "unverified"
+      },
+      {
+        "id": "84584aae2ece",
+        "path": "pysnooper/tracer.py",
+        "line": 132,
+        "title": "每次 write 都重新打开文件，且 overwrite 标志在首次写入后永久关闭",
+        "explanation": "write 方法每次调用都执行 open(self.path, 'w' if self.overwrite else 'a')，即每条日志行都打开/关闭一次文件，频繁 I/O 开销大。同时 self.overwrite 在第一次写入后被设为 False（第135行），后续写入变为追加模式。若多个 Tracer 实例共享同一路径或同一实例被多次使用，首次写入会截断文件，行为可能不符合预期。",
+        "trigger": "被追踪函数产生大量日志行时，每条日志触发一次文件打开/关闭；或同一 Tracer 实例在 overwrite=True 下被多次调用。",
+        "status": "unverified"
+      },
+      {
+        "id": "45e290ac6132",
+        "path": "pysnooper/tracer.py",
+        "line": 279,
+        "title": "depth 检查中 for-else 逻辑在 _frame_candidate 为 None 时可能误判",
+        "explanation": "第289-296行的循环：每次迭代先取 _frame_candidate = _frame_candidate.f_back，若为 None 则 return None；否则检查是否命中目标。若循环正常结束（未 break），执行 else 分支 return None。逻辑本身在 None 时提前返回，但若 depth 较大且调用栈较浅，会在到达目标前返回 None，这是预期行为。潜在问题是当 _frame_candidate 命中目标后 break，但此时 frame 本身可能并非目标帧，后续仍会继续追踪该帧，可能产生非预期的额外输出。",
+        "trigger": "depth > 1 且被追踪函数的调用链深度小于 depth 时，或中间帧恰好命中 target_codes/target_frames 时。",
+        "status": "unverified"
+      },
+      {
+        "id": "3189824a9fea",
+        "path": "pysnooper/tracer.py",
+        "line": 317,
+        "title": "使用 locals() 格式化字符串会捕获循环变量并可能遮蔽模板字段",
+        "explanation": "第317-318行通过 .format(**locals()) 填充模板。locals() 返回当前函数作用域内所有局部变量，包括循环变量 name、value_repr、newish_string、old_local_reprs、local_reprs、event、self 等。模板中使用的 {indent}、{newish_string}、{name}、{value_repr} 恰好都能从 locals() 中取到，因此当前可工作；但这是脆弱的隐式依赖：任何局部变量重命名或新增同名变量都会静默改变输出，且 locals() 在函数内是快照，性能与可读性都差。",
+        "trigger": "当函数作用域内存在与模板字段同名的局部变量，或后续重构重命名 indent/newish_string 等变量时，格式化结果会出错或抛出 KeyError。",
+        "status": "unverified"
+      },
+      {
+        "id": "e110a700f8d0",
+        "path": "pysnooper/tracer.py",
+        "line": 328,
+        "title": "源码行号越界导致 IndexError",
+        "explanation": "get_source_from_frame(frame) 返回的源码行列表按 frame.f_lineno - 1 直接索引，没有边界检查。当被追踪的代码由 exec/compile 动态生成、或源码文件在运行期间被修改/截断、或 f_lineno 指向文件末尾之后时，该索引会抛出 IndexError，使 trace 函数异常并中断被追踪程序。",
+        "trigger": "被追踪函数来自动态编译的代码对象（如 exec 字符串）或源码文件在运行中被截断，导致 frame.f_lineno - 1 超出 get_source_from_frame 返回列表的长度。",
+        "status": "unverified"
+      },
+      {
+        "id": "8453c71521bc",
+        "path": "pysnooper/tracer.py",
+        "line": 361,
+        "title": "f_lasti 可能越界或指向无效字节",
+        "explanation": "frame.f_code.co_code[frame.f_lasti] 直接按 f_lasti 索引字节码。在 'call' 事件时 f_lasti 可能为 -1 或指向尚未执行的指令；在异常/返回边界也可能越界。Python 3.11+ 中 f_lasti 语义变化（可能指向 CACHE 或 EXTENDED_ARG），opcode.opname[code_byte] 可能得到非预期名称，导致 ended_by_exception 判断错误。",
+        "trigger": "trace 在 'call' 事件被调用且 f_lasti 为 -1，或 f_lasti 等于/超过 co_code 长度，或 Python 3.11+ 中 f_lasti 指向 CACHE 指令。",
+        "status": "unverified"
+      },
+      {
+        "id": "ae746dd8a381",
+        "path": "pysnooper/tracer.py",
+        "line": 298,
+        "title": "thread_global.depth 在异常路径下可能不递减",
+        "explanation": "depth 在 'call' 事件递增，在 'return' 事件递减。但若 trace 函数在 'return' 处理之前因异常提前退出（例如第 328 行 IndexError、第 361 行越界），则 depth 不会递减，导致后续缩进持续累积、输出错乱。此外，若 'call' 事件被记录但对应帧的 'return' 事件因 trace 被提前移除而丢失，也会造成 depth 泄漏。",
+        "trigger": "trace 在 'return' 事件处理前抛出异常（如源码行越界），或帧的 return 事件未被 trace 捕获。",
+        "status": "unverified"
+      },
+      {
+        "id": "49340e210ab0",
+        "path": "pysnooper/tracer.py",
+        "line": 338,
+        "title": "装饰器行查找可能跳过非 def 的可调用定义",
+        "explanation": "当 'call' 事件对应行以 '@' 开头时，代码向后查找第一个 lstrip().startswith('def') 的行。若装饰器应用于 async def、或装饰器与 def 之间有空行/注释，仍能找到 def；但若装饰器应用于类方法之外的 lambda 或赋值形式（如 f = decorator(...)），则找不到 def，循环会一直读到文件末尾才 break，浪费性能且可能把 line_no 留在错误位置。",
+        "trigger": "被装饰对象不是以 'def' 开头的函数定义（例如装饰器用于赋值表达式或 async def 在旧版本中），或源码中装饰器后没有 def 行。",
+        "status": "unverified"
+      },
+      {
+        "id": "d2232b479f25",
+        "path": "pysnooper/tracer.py",
+        "line": 388,
+        "title": "异常格式化假设 arg 至少有 2 个元素",
+        "explanation": "event == 'exception' 时 arg 是 (exc_type, exc_value, exc_tb) 三元组，arg[:2] 通常安全。但若 arg 为 None 或长度不足 2（某些自定义 trace 场景或 Python 实现差异），traceback.format_exception_only(*arg[:2]) 会抛出 TypeError。",
+        "trigger": "trace 收到 'exception' 事件但 arg 为 None 或长度小于 2。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "PySnooper-2",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "not_reproduced",
+    "target_issue_detected": null,
+    "matched_finding_ids": [],
+    "reason": "原始选择器未能执行：缺陷版缺少tests.mini_toolbox，重建修复版依赖的pycompat.PY2也缺失，均在收集测试阶段失败。保留该样本及日志，但不据此给参考缺陷检出/误报评分。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "d411a38c1638",
+      "4de7c249429b",
+      "c81733b36de6",
+      "995059fb9a2e",
+      "ae6ee2d5a500",
+      "44160c2636a1",
+      "498bda8054d7",
+      "3ed08b01e591"
+    ],
+    "active_findings": [
+      {
+        "id": "d411a38c1638",
+        "path": "pysnooper/tracer.py",
+        "line": 27,
+        "title": "vars_order.index 可能抛出 ValueError 导致排序失败",
+        "explanation": "第27行构造 vars_order 时使用了 code.co_varnames + co_cellvars + co_freevars + tuple(frame.f_locals.keys())。第30行用 vars_order.index(key_value[0]) 作为排序键。虽然 f_locals 的键通常都在 vars_order 中，但在某些实现（如 PyPy、exec/eval 动态注入的局部变量、或 f_locals 被外部修改）下，f_locals 可能包含不在 co_varnames/co_cellvars/co_freevars 中的键，此时 index 会抛出 ValueError，导致 get_local_reprs 崩溃，进而使整个 tracer 失效。",
+        "trigger": "当 frame.f_locals 中存在既不在 co_varnames、co_cellvars、co_freevars 中，也不在 tuple(frame.f_locals.keys()) 快照中的键时（例如排序过程中 f_locals 被并发修改，或某些 Python 实现下 f_locals 键集合与快照不一致），vars_order.index 抛出 ValueError。",
+        "status": "unverified"
+      },
+      {
+        "id": "4de7c249429b",
+        "path": "pysnooper/tracer.py",
+        "line": 89,
+        "title": "source 为空列表时 source[0] 触发 IndexError",
+        "explanation": "第89行直接访问 source[0] 判断是否为 bytes。当 loader.get_source 返回空字符串（source = ''.splitlines() == []）或文件为空（fp.read().splitlines() == []）时，source 是空列表，source[0] 会抛出 IndexError，导致 get_source_from_frame 崩溃。",
+        "trigger": "当被追踪模块的源码为空（空文件或 loader 返回空字符串）时，source 被赋值为空列表，第89行 source[0] 抛出 IndexError。",
+        "status": "unverified"
+      },
+      {
+        "id": "c81733b36de6",
+        "path": "pysnooper/tracer.py",
+        "line": 136,
+        "title": "FileWriter.write 每次写入都重新打开文件",
+        "explanation": "FileWriter.write 每次调用都执行 open(...) 打开文件、写入、关闭。在追踪循环中每行代码都会调用 write，导致频繁的文件打开/关闭系统调用，性能开销显著，且在多线程/多进程场景下可能产生交错写入。",
+        "trigger": "每次 tracer 输出一行日志时都会调用 FileWriter.write，从而重新打开文件。",
+        "status": "unverified"
+      },
+      {
+        "id": "995059fb9a2e",
+        "path": "pysnooper/tracer.py",
+        "line": 143,
+        "title": "PYSNOOPER_DISABLED 环境变量解析过于宽松",
+        "explanation": "DISABLED = bool(os.getenv('PYSNOOPER_DISABLED', '')) 只要环境变量存在且非空字符串就视为禁用。设置 PYSNOOPER_DISABLED=0 或 PYSNOOPER_DISABLED=false 也会禁用追踪，与用户直觉不符。",
+        "trigger": "用户设置 PYSNOOPER_DISABLED=0 或 PYSNOOPER_DISABLED=false 时，bool('0') 为 True，追踪被意外禁用。",
+        "status": "unverified"
+      },
+      {
+        "id": "e473626d28bd",
+        "path": "pysnooper/tracer.py",
+        "line": 72,
+        "title": "IPython 历史获取使用裸 except Exception 吞掉所有异常",
+        "explanation": "第75行 except Exception: pass 会静默吞掉 IPython 历史获取过程中的所有异常（包括 KeyboardInterrupt 之外的错误），使调试困难，且无法区分是 IPython 未安装还是历史 API 变更。",
+        "trigger": "当 IPython 历史管理器 API 变更或 get_range 返回格式不符时，异常被静默忽略，source 保持 None，最终回退到 UnavailableSource，用户无法得知原因。",
+        "status": "unverified"
+      },
+      {
+        "id": "ae6ee2d5a500",
+        "path": "pysnooper/tracer.py",
+        "line": 276,
+        "title": "__exit__ 在未成功进入时访问 original_trace_functions 可能抛 AttributeError",
+        "explanation": "Tracer.__enter__ 在 DISABLED 为真时直接 return，不会在 self.thread_local 上创建 original_trace_functions 属性。但 __exit__ 在 DISABLED 为真时也直接 return，因此该分支本身不会触发。真正的问题在于：如果 __enter__ 中 sys.settrace 之前发生异常（例如 inspect.currentframe 返回 None 导致 f_back 访问失败），则 original_trace_functions 可能尚未创建，而 __exit__ 仍会执行并访问 self.thread_local.original_trace_functions，抛出 AttributeError，掩盖原始异常。此外，__exit__ 使用属性访问而非 setdefault，若 thread_local 被其他代码重置也会失败。",
+        "trigger": "在 with self: 块中，__enter__ 在 stack.append 之前抛出异常，或 thread_local 状态被外部修改后调用 __exit__。",
+        "status": "unverified"
+      },
+      {
+        "id": "830eb1e658a2",
+        "path": "pysnooper/tracer.py",
+        "line": 299,
+        "title": "depth>1 时 trace 函数对非目标帧返回 None 会停止该帧后续追踪",
+        "explanation": "Python 的 sys.settrace 语义：当 trace 函数对某个帧返回 None 时，该帧的后续行事件将不再被追踪（该帧的 f_trace 被清除）。在 depth>1 的分支中，当 frame 不是目标帧且不是内部帧时，代码会向上遍历 depth 层寻找目标帧；如果找到目标帧则 break 并继续执行后续追踪逻辑，但如果遍历过程中 _frame_candidate 为 None 则 return None。问题在于：对于当前 frame 本身，如果它不在目标帧链上，返回 None 会停止对该 frame 的追踪，这是符合预期的；但若当前 frame 是目标帧的后代且 depth 尚未达到，返回 None 会阻止后续更深层调用被追踪，因为该 frame 的 f_trace 被清除后，其子调用不会触发新的 trace 调用。这可能导致 depth 参数在多层嵌套调用中无法按预期工作。",
+        "trigger": "使用 @pysnooper.snoop(depth=3) 装饰函数，且被装饰函数调用链中存在中间帧，中间帧的 trace 返回 None 后其子帧不再被追踪。",
+        "status": "unverified"
+      },
+      {
+        "id": "44160c2636a1",
+        "path": "pysnooper/tracer.py",
+        "line": 135,
+        "title": "write 每次调用都重新打开文件，频繁 I/O 开销大",
+        "explanation": "Tracer.write 每次被调用时都执行 open(...) 打开文件、写入、关闭。在追踪高频执行时（每行代码都可能触发 write），这会造成大量文件打开/关闭系统调用，显著降低被追踪程序的性能，并可能因频繁 I/O 导致日志写入成为瓶颈。",
+        "trigger": "使用 @pysnooper.snoop('/path/to/file.log') 追踪包含循环或高频执行的函数。",
+        "status": "unverified"
+      },
+      {
+        "id": "498bda8054d7",
+        "path": "pysnooper/tracer.py",
+        "line": 262,
+        "title": "__enter__ 中 calling_frame 可能为 None 导致 AttributeError",
+        "explanation": "inspect.currentframe() 在某些实现中可能返回 None（例如在非 CPython 实现或某些受限环境）。代码直接访问 calling_frame.f_back 和 calling_frame.f_trace，若 currentframe() 返回 None 会抛出 AttributeError。虽然 CPython 通常返回帧对象，但该假设未做防御。",
+        "trigger": "在 inspect.currentframe() 返回 None 的 Python 实现或环境中使用 with pysnooper.snoop():。",
+        "status": "unverified"
+      },
+      {
+        "id": "3ed08b01e591",
+        "path": "pysnooper/tracer.py",
+        "line": 217,
+        "title": "custom_repr 参数校验逻辑可能误判合法输入",
+        "explanation": "第 217-219 行：if len(custom_repr) == 2 and not all(isinstance(x, pycompat.collections_abc.Iterable) for x in custom_repr): custom_repr = (custom_repr,)。该逻辑意图是：当用户传入单个 (type, func) 元组时，将其包装为 ((type, func),)。但如果用户传入的 custom_repr 恰好是长度为 2 的序列，且两个元素都是可迭代对象（例如两个字符串或两个元组），则不会被包装，导致后续处理可能出错。此外，如果 custom_repr 是生成器或非序列类型，len() 会失败。",
+        "trigger": "传入 custom_repr=('ab', 'cd') 或 custom_repr 为生成器。",
+        "status": "unverified"
+      },
+      {
+        "id": "9c6d2469d80e",
+        "path": "pysnooper/tracer.py",
+        "line": 348,
+        "title": "get_source_from_frame 返回空列表时索引越界",
+        "explanation": "第348行直接使用 get_source_from_frame(frame)[line_no - 1] 访问源码行，未做任何边界检查。当被追踪的代码来自交互式解释器、exec 动态编译的字符串、或源码文件不可读时，get_source_from_frame 可能返回空列表或长度不足的列表，导致 IndexError 抛出，使整个 trace 函数崩溃并中断被追踪程序的执行。",
+        "trigger": "被装饰函数通过 exec/compile 动态定义，或源码文件无法被 linecache 读取，导致 get_source_from_frame 返回空列表，而 frame.f_lineno 仍为有效行号。",
+        "status": "unverified"
+      },
+      {
+        "id": "3dcb7531d515",
+        "path": "pysnooper/tracer.py",
+        "line": 381,
+        "title": "f_lasti 可能越界访问 co_code",
+        "explanation": "第381行使用 frame.f_code.co_code[frame.f_lasti] 读取当前字节码。在 Python 3.11+ 中 f_lasti 可能指向指令边界之外，或在某些事件（如 'exception' 事件、生成器恢复）下 f_lasti 可能等于或超过 co_code 长度，导致 IndexError。此外 Python 3.11 起 co_code 为 bytes，索引返回 int，第382-383行的 ord 分支虽兼容旧版但无法防止越界。",
+        "trigger": "在 Python 3.11+ 上追踪包含异常或生成器的函数，f_lasti 指向 co_code 末尾之外时触发 IndexError。",
+        "status": "unverified"
+      },
+      {
+        "id": "038169ba7e73",
+        "path": "pysnooper/tracer.py",
+        "line": 299,
+        "title": "depth 检查循环中 f_back 链可能提前 break 导致误判",
+        "explanation": "第309-316行的 for/else 结构用于判断当前帧是否在目标帧的 depth 层内。当 _frame_candidate 在循环中匹配到目标时执行 break，跳过 else 分支；但若在到达目标前 _frame_candidate 变为 None 则 return None。逻辑本身正确，但当 depth 较大且调用栈较浅时，循环会遍历到 None 并返回，行为符合预期。此处主要风险是 self.depth 若被设为 0 或负数，range(1, self.depth) 为空，for 循环不执行，else 分支执行 return None，导致所有非目标帧被静默忽略，与 depth=1 的快速路径行为不一致。",
+        "trigger": "用户将 depth 设置为 0 或负数时，range(1, self.depth) 为空，else 子句直接 return None，所有非目标帧均不被追踪。",
+        "status": "unverified"
+      },
+      {
+        "id": "4fdfe663be1d",
+        "path": "pysnooper/tracer.py",
+        "line": 358,
+        "title": "装饰器行检测仅匹配 '@' 开头，可能误判或漏判",
+        "explanation": "第358行通过 source_line.lstrip().startswith('@') 判断是否为装饰器行，但 '@' 也可能是矩阵乘法运算符（Python 3.5+）或字符串/注释中的字符。第370行查找 'def' 时同样仅做前缀匹配，若装饰器与 def 之间有多行装饰器或注释，循环会继续向下查找，但若遇到另一个 '@' 装饰器行不会停止，可能跳过实际 def 行之前的其他语句。此外该逻辑仅在 event == 'call' 时触发，对 async def 不匹配 'def' 前缀（'async def' 以 'async' 开头），导致 async 函数装饰器场景下无法定位到定义行。",
+        "trigger": "使用 @decorator 修饰 async def 函数时，第370行 candidate_source_line.lstrip().startswith('def') 对 'async def' 返回 False，循环继续直到文件末尾或 IndexError，回退到原始装饰器行。",
+        "status": "unverified"
+      },
+      {
+        "id": "f5d9dc17f718",
+        "path": "pysnooper/tracer.py",
+        "line": 399,
+        "title": "return 事件中 frame_to_local_reprs 删除与 depth 递减可能不配对",
+        "explanation": "第398-400行在 event == 'return' 时删除 frame_to_local_reprs[frame] 并递减 thread_global.depth。但 depth 仅在 event == 'call' 时递增（第319-320行），而 trace 函数可能因第299-316行的过滤逻辑对某些帧返回 None 而不记录 call 事件。若某帧的 call 事件被过滤但 return 事件未被过滤（例如目标帧在 depth 范围内但 call 时不在），则 depth 会被错误递减，导致缩进层级错乱甚至负值。",
+        "trigger": "depth > 1 时，某帧的 call 事件因不在目标范围内被过滤，但其 return 事件因调用栈变化被判定在范围内，导致 depth 递减而未递增。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "PySnooper-2",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "not_reproduced",
+    "target_issue_detected": null,
+    "matched_finding_ids": [],
+    "reason": "原始选择器未能执行：缺陷版缺少tests.mini_toolbox，重建修复版依赖的pycompat.PY2也缺失，均在收集测试阶段失败。保留该样本及日志，但不据此给参考缺陷检出/误报评分。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "7f3be094c83b",
+      "65bac8b9d901",
+      "a6d213c51dd4"
+    ],
+    "active_findings": [
+      {
+        "id": "7f3be094c83b",
+        "path": "pysnooper/tracer.py",
+        "line": 24,
+        "title": "vars_order.index 可能抛出 ValueError 导致排序失败",
+        "explanation": "第24行构造 vars_order 时拼接了 co_varnames、co_cellvars、co_freevars 以及 frame.f_locals.keys()。第27行用 vars_order.index(key_value[0]) 作为排序键。虽然 f_locals 的键通常都在 vars_order 中，但在某些情况下（例如 exec/eval 注入的局部变量、或 f_locals 为自定义映射、或 CPython 版本差异导致 f_locals 含未在 co_* 中列出的键）仍可能出现 ValueError，使 get_local_reprs 直接抛异常，从而中断整个 trace 输出。",
+        "trigger": "被追踪函数的 frame.f_locals 中存在一个不在 co_varnames/co_cellvars/co_freevars 中的键（例如通过 exec 注入的局部变量），调用 get_local_reprs 时触发。",
+        "status": "needs_context"
+      },
+      {
+        "id": "65bac8b9d901",
+        "path": "pysnooper/tracer.py",
+        "line": 86,
+        "title": "source 为空列表时 source[0] 触发 IndexError",
+        "explanation": "第80-81行仅在 source is None 时替换为 UnavailableSource。若 loader.get_source 返回空字符串（第61行 splitlines() 得到空列表 []），或文件为空（第77行 read().splitlines() 得到 []），则 source 为 [] 而非 None。第86行 isinstance(source[0], bytes) 会因索引空列表抛出 IndexError，导致 get_source_from_frame 崩溃。",
+        "trigger": "被追踪模块的源码为空文件，或 loader.get_source 返回空字符串时调用 get_source_from_frame。",
+        "status": "needs_context"
+      },
+      {
+        "id": "a6d213c51dd4",
+        "path": "pysnooper/tracer.py",
+        "line": 250,
+        "title": "__exit__ 在未成功进入时访问不存在的 original_trace_functions",
+        "explanation": "__enter__ 通过 self.thread_local.__dict__.setdefault('original_trace_functions', []) 创建栈并 append。__exit__ 直接访问 self.thread_local.original_trace_functions 并 pop。若 __enter__ 在 append 之前抛出异常（例如 sys.settrace 失败或 calling_frame 处理异常），或 __exit__ 在未调用 __enter__ 的情况下被调用，则属性不存在，会抛出 AttributeError，掩盖原始异常。",
+        "trigger": "with self: 块中 __enter__ 部分执行后失败，或异常路径导致 __exit__ 被调用但栈未初始化。",
+        "status": "needs_context"
+      },
+      {
+        "id": "ba44f950cc88",
+        "path": "pysnooper/tracer.py",
+        "line": 361,
+        "title": "f_lasti 可能越界或指向无效字节码导致 IndexError",
+        "explanation": "代码通过 frame.f_code.co_code[frame.f_lasti] 读取当前字节码。在 'return' 事件中，f_lasti 可能等于 co_code 长度（例如函数体执行完毕、或某些 Python 版本/实现下），此时索引越界会抛出 IndexError，导致 trace 函数崩溃并中断被追踪程序。此外在 Python 3.6+ 中 co_code 是 bytes，索引返回 int，isinstance 检查虽能处理旧版 str，但越界问题依然存在。",
+        "trigger": "被追踪函数正常返回或异常返回时，若 frame.f_lasti 等于 len(co_code)，执行第 361 行索引越界。",
+        "status": "needs_context"
+      },
+      {
+        "id": "c832f8c2e3c8",
+        "path": "pysnooper/tracer.py",
+        "line": 379,
+        "title": "return 事件中 frame_to_local_reprs 可能不存在导致 KeyError",
+        "explanation": "第 379 行 del self.frame_to_local_reprs[frame] 假设该 frame 一定在字典中。但若 'call' 事件因深度过滤被跳过（第 279-296 行提前 return None），而后续 'return' 事件通过了过滤（例如 depth 变化或 frame 匹配条件不同），则字典中无此 frame，del 抛 KeyError。",
+        "trigger": "call 事件被过滤未记录 frame，但 return 事件通过过滤到达第 379 行。",
+        "status": "needs_context"
+      }
+    ]
+  },
+  {
+    "case": "PySnooper-2",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "not_reproduced",
+    "target_issue_detected": null,
+    "matched_finding_ids": [],
+    "reason": "原始选择器未能执行：缺陷版缺少tests.mini_toolbox，重建修复版依赖的pycompat.PY2也缺失，均在收集测试阶段失败。保留该样本及日志，但不据此给参考缺陷检出/误报评分。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "c6fa1d8faca4",
+      "820208bf8789"
+    ],
+    "active_findings": [
+      {
+        "id": "b9812d3df3dc",
+        "path": "pysnooper/tracer.py",
+        "line": 213,
+        "title": "使用 assert 校验 depth 参数，优化模式下会被移除",
+        "explanation": "self.depth 的合法性仅通过 assert self.depth >= 1 来保证。当 Python 以 -O 优化模式运行时，assert 语句会被完全移除，此时传入 depth=0 或负数不会被拦截。后续 trace() 中依赖 self.depth 的逻辑（如 self.depth == 1 判断、range(1, self.depth) 循环）在 depth<=0 时行为异常，可能导致追踪逻辑静默失效或产生非预期结果。",
+        "trigger": "以 python -O 运行，并调用 pysnooper.snoop(depth=0) 或 depth 为负数。",
+        "status": "supported"
+      },
+      {
+        "id": "c3867ca32eb4",
+        "path": "pysnooper/tracer.py",
+        "line": 309,
+        "title": "循环变量 i 未使用",
+        "explanation": "for i in range(1, self.depth) 中的循环变量 i 在循环体内从未被引用，循环仅用于控制向上回溯父帧的次数。这属于可读性/质量问题，ruff 的 B007 规则已标记。虽不影响功能，但容易让读者误以为 i 有语义。",
+        "trigger": "静态检查或代码阅读时。",
+        "status": "supported"
+      },
+      {
+        "id": "c6fa1d8faca4",
+        "path": "pysnooper/tracer.py",
+        "line": 135,
+        "title": "FileWriter.write 每次调用都重新打开文件",
+        "explanation": "FileWriter.write 每次写入都以 open(...) 打开文件、写入、再关闭。在追踪高频执行时，write 会被频繁调用，导致大量重复的文件打开/关闭系统调用，带来明显的 I/O 开销。虽然 overwrite 语义要求首次截断，但可通过保持文件句柄或缓存状态来优化。",
+        "trigger": "使用文件输出（output 为路径）并追踪执行频繁的代码时。",
+        "status": "supported"
+      },
+      {
+        "id": "0bb09eab0c97",
+        "path": "pysnooper/tracer.py",
+        "line": 348,
+        "title": "按行号索引源码列表可能越界抛 IndexError",
+        "explanation": "第348行 source_line = get_source_from_frame(frame)[line_no - 1] 直接按行号索引。当源码可用时 get_source_from_frame 返回真实 list（第64/80/98行），若 frame.f_lineno 超出该文件实际行数（动态编译代码、行号偏移、源码被截断等），list 越界会抛 IndexError，导致 trace 函数异常，进而干扰被调试程序。仅当源码不可用返回 UnavailableSource 时才容错。",
+        "trigger": "被追踪帧的 f_lineno 大于其源文件实际行数。",
+        "status": "supported"
+      },
+      {
+        "id": "970c4d5e8236",
+        "path": "pysnooper/tracer.py",
+        "line": 381,
+        "title": "co_code[f_lasti] 越界或负索引风险",
+        "explanation": "第381行 code_byte = frame.f_code.co_code[frame.f_lasti] 直接索引。在 'return' 事件中 f_lasti 通常指向 RETURN_VALUE，但在帧刚创建、生成器挂起或 f_lasti 为 -1 等场景下可能越界或取到错误字节，导致 IndexError 或误判 ended_by_exception。",
+        "trigger": "trace 在 f_lasti 为 -1 或等于/超过 co_code 长度时被调用。",
+        "status": "needs_context"
+      },
+      {
+        "id": "820208bf8789",
+        "path": "pysnooper/tracer.py",
+        "line": 328,
+        "title": "frame_to_local_reprs 以 frame 为键强引用可能泄漏",
+        "explanation": "self.frame_to_local_reprs 以 frame 对象为键保存局部变量 repr（第328-329行），仅在 event == 'return' 时删除（第399行）。若某帧的 'return' 事件未被处理（生成器未耗尽、异常传播、或提前 return None 的帧），该 frame 及其局部变量会被字典强引用而无法回收，造成内存泄漏。",
+        "trigger": "被追踪帧未产生被处理的 'return' 事件。",
+        "status": "needs_context"
+      },
+      {
+        "id": "b9165cb2dc82",
+        "path": "pysnooper/tracer.py",
+        "line": 318,
+        "title": "thread_global.depth 计数失衡导致缩进错乱",
+        "explanation": "depth 在 'call' 时自增（第320行），在 'return' 时自减（第400行）。若某帧的 'call' 被计数但其 'return' 未被处理（提前 return None 的帧、异常路径等），depth 会持续累积，导致后续所有行缩进不断加深。depth 存于 thread_global，嵌套/并发场景下缩进也可能错乱。",
+        "trigger": "存在 'call' 被计数但 'return' 未被处理的帧。",
+        "status": "needs_context"
+      },
+      {
+        "id": "162e3fbdc2b1",
+        "path": "pysnooper/tracer.py",
+        "line": 309,
+        "title": "B007: Loop control variable `i` not used within loop body",
+        "explanation": "Loop control variable `i` not used within loop body",
+        "trigger": "触发条件需结合业务调用确认。",
+        "status": "supported"
+      },
+      {
+        "id": "9ba5b48ee3e3",
+        "path": "pysnooper/tracer.py",
+        "line": 213,
+        "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+        "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+        "trigger": "触发条件需结合业务调用确认。",
+        "status": "supported"
+      }
+    ]
+  },
+  {
+    "case": "tornado-2",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "已核对该版本全部保留问题；报告讨论Content-Length非整数转换、响应头字符或HEAD语义，未指出显式Transfer-Encoding: chunked时_chunking_output被错误关闭这一参考缺陷。修复版没有报告相同chunking问题。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "62391ef8eb67",
+        "path": "tornado/http1connection.py",
+        "line": 437,
+        "title": "Content-Length 头部解析未做异常处理，非法值导致未捕获异常",
+        "explanation": "第437行直接使用 int(headers[\"Content-Length\"]) 解析头部值。若应用传入非数字的 Content-Length（例如空字符串、'abc'、带逗号的重复值 '1, 2'），int() 会抛出 ValueError，而该异常不会被转换为 HTTPOutputError 或 HTTPInputError，会以未预期的异常形式向上传播，可能中断连接处理流程并产生难以诊断的错误。",
+        "trigger": "应用调用 write_headers 时传入 headers 包含非整数形式的 Content-Length（如 'abc' 或空字符串），且响应不是 HEAD/304。",
+        "status": "unverified"
+      },
+      {
+        "id": "6c537f8545ed",
+        "path": "tornado/http1connection.py",
+        "line": 448,
+        "title": "仅检查换行符，未过滤回车符，存在响应头注入风险",
+        "explanation": "第447-449行只检查 header 行中是否包含 b\"\\n\"，未检查 b\"\\r\"。虽然第457行用 b\"\\r\\n\" 拼接，但若头部值中包含单独的 '\\r'（例如通过 latin1 编码的字节），仍可能被下游解析器或中间代理解释为行终止，从而造成 HTTP 响应头注入（CRLF 注入的变体）。",
+        "trigger": "应用将包含 '\\r' 字符（不含 '\\n'）的值写入响应头，例如 headers['X-Foo'] = 'a\\rb'。",
+        "status": "unverified"
+      },
+      {
+        "id": "754c4a4f0edf",
+        "path": "tornado/http1connection.py",
+        "line": 431,
+        "title": "HEAD/304 分支未校验 Content-Length 与实际内容一致性",
+        "explanation": "第431-435行对 HEAD 请求或 304 响应直接将 _expected_content_remaining 置为 0，忽略可能存在的 Content-Length 头部。若应用在 HEAD 响应中设置了非零 Content-Length（这是合法且常见的，用于告知资源大小），后续 _format_chunk 会因 _expected_content_remaining 为 0 而在写入任何 body 时立即报错。虽然 HEAD 不应有 body，但该逻辑与 Content-Length 语义存在潜在冲突，且未对 304 的 Content-Length 做一致性处理。",
+        "trigger": "对 HEAD 请求返回带非零 Content-Length 的响应，且应用随后尝试写入 body（或框架内部写入）。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "tornado-2",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "已核对该版本全部保留问题；报告讨论Content-Length非整数转换、响应头字符或HEAD语义，未指出显式Transfer-Encoding: chunked时_chunking_output被错误关闭这一参考缺陷。修复版没有报告相同chunking问题。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "tornado-2",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "已核对该版本全部保留问题；报告讨论Content-Length非整数转换、响应头字符或HEAD语义，未指出显式Transfer-Encoding: chunked时_chunking_output被错误关闭这一参考缺陷。修复版没有报告相同chunking问题。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "6a1d9b70ed97",
+        "path": "tornado/http1connection.py",
+        "line": 437,
+        "title": "Content-Length 头未校验即 int() 转换，可导致未捕获异常",
+        "explanation": "第437行直接对 headers[\"Content-Length\"] 调用 int()，没有捕获 ValueError。当应用（或上游）传入非数字、空字符串或带空格的 Content-Length 值时，会抛出未处理的 ValueError，而不是转换为 HTTPOutputError 或返回 500，可能中断响应流程并暴露内部错误。",
+        "trigger": "应用调用 write_headers 时 headers 中包含 Content-Length: abc 或 Content-Length: '' 等非整数值。",
+        "status": "needs_context"
+      }
+    ]
+  },
+  {
+    "case": "tornado-2",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "已核对该版本全部保留问题；报告讨论Content-Length非整数转换、响应头字符或HEAD语义，未指出显式Transfer-Encoding: chunked时_chunking_output被错误关闭这一参考缺陷。修复版没有报告相同chunking问题。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "e7284b5eb21b",
+        "path": "tornado/http1connection.py",
+        "line": 440,
+        "title": "Content-Length 解析未捕获 ValueError，可导致连接处理异常",
+        "explanation": "write_headers 在响应头包含 Content-Length 时直接调用 int(headers[\"Content-Length\"])。如果应用或上游传入非数字（例如空字符串、带空格、多个值拼接、非 ASCII 数字等），int() 会抛出 ValueError。该异常发生在写响应头阶段，不会被转换为 HTTPOutputError 或干净的连接关闭，可能中断请求处理并产生未预期的错误日志/连接状态不一致。",
+        "trigger": "应用调用 write_headers 时传入 headers[\"Content-Length\"] 为非整数可解析字符串（如 \"abc\"、\"\"、\"12, 12\"）。",
+        "status": "needs_context"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-2",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考缺陷是 DASH representation 的 format_id 不唯一使后续合并丢失格式；实际候选为 segment_urls 越界、零时长或 ISM 属性，未描述 ID 冲突与格式丢失。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "youtube-dl-2",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考缺陷是 DASH representation 的 format_id 不唯一使后续合并丢失格式；实际候选为 segment_urls 越界、零时长或 ISM 属性，未描述 ID 冲突与格式丢失。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "youtube-dl-2",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考缺陷是 DASH representation 的 format_id 不唯一使后续合并丢失格式；实际候选为 segment_urls 越界、零时长或 ISM 属性，未描述 ID 冲突与格式丢失。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "a7e3eee82eaf",
+        "path": "youtube_dl/extractor/common.py",
+        "line": 1972,
+        "title": "segment_urls 索引可能越界导致 IndexError",
+        "explanation": "在 'segment_urls' 与 's' 同时存在的分支中，代码按 SegmentTimeline 的 s 元素及其 r 重复次数展开片段，并用递增的 segment_index 去索引 representation_ms_info['segment_urls']。当清单中 SegmentTimeline 声明的片段总数（sum(r+1)）大于实际提供的 segment_urls 数量时，segment_index 会超出列表长度，抛出 IndexError，导致整个 DASH 解析失败而不是跳过或告警。",
+        "trigger": "DASH MPD 中 SegmentTimeline 的 s 元素重复计数总和大于 SegmentTemplate/SegmentList 提供的 segment_urls 数量（清单不一致或恶意构造）。",
+        "status": "supported"
+      },
+      {
+        "id": "9a1eadebcee5",
+        "path": "youtube_dl/extractor/common.py",
+        "line": 1985,
+        "title": "segment_duration 为 0 时被当作缺失",
+        "explanation": "计算 segment_duration 后，在 1992 行用 `if segment_duration:` 判断是否写入 fragment['duration']。当清单中 segment_duration 显式为 0（或 timescale 导致结果为 0.0）时，该真值判断为假，duration 不会被设置，与“存在但为 0”的语义不符。",
+        "trigger": "representation_ms_info 含 segment_duration 且其值为 0（或 float_or_none 结果为 0.0）。",
+        "status": "supported"
+      },
+      {
+        "id": "6b8b6f7017d1",
+        "path": "youtube_dl/extractor/common.py",
+        "line": 2044,
+        "title": "ISM 清单 Protection 检测过于宽泛",
+        "explanation": "_parse_ism_formats 在 ism_doc.find('Protection') is not None 时直接返回空列表。find 只匹配直接子元素且不区分命名空间/具体 Protection 类型，任何 Protection 元素（包括非 DRM 的元数据）都会导致整个清单被判定为不可用，可能漏掉可播放的流。",
+        "trigger": "ISM 清单根下存在任意名为 Protection 的子元素（即使并非加密保护）。",
+        "status": "needs_context"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-2",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考缺陷是 DASH representation 的 format_id 不唯一使后续合并丢失格式；实际候选为 segment_urls 越界、零时长或 ISM 属性，未描述 ID 冲突与格式丢失。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "280c7ba3c948",
+        "path": "youtube_dl/extractor/common.py",
+        "line": 1973,
+        "title": "segment_urls 索引越界导致 IndexError",
+        "explanation": "在 'segment_urls' 与 's' 同时存在的分支中，代码按 SegmentTimeline 的 s 元素及其 r 重复次数展开片段，并用递增的 segment_index 去索引 representation_ms_info['segment_urls']。但 SegmentTimeline 声明的片段总数（sum(r+1)）与 segment_urls 列表长度并不保证一致：当 manifest 中 s 的重复次数多于实际提供的 segment URL 数量时，segment_index 会超出列表长度，抛出未捕获的 IndexError，使整个 DASH 格式解析失败。",
+        "trigger": "DASH MPD 中 Representation 同时含 SegmentTimeline（s 元素，含 r 重复）和 SegmentList/SegmentTemplate 生成的 segment_urls，且时间线声明的片段数大于 segment_urls 实际数量。",
+        "status": "needs_context"
+      },
+      {
+        "id": "a15e209a1f73",
+        "path": "youtube_dl/extractor/common.py",
+        "line": 1972,
+        "title": "循环变量 r 未使用",
+        "explanation": "for r in range(...) 中 r 从未在循环体内被引用，仅用于控制重复次数，属于可读性/静态检查问题（ruff B007）。",
+        "trigger": "静态检查或代码审查时触发。",
+        "status": "supported"
+      },
+      {
+        "id": "72b2e45df929",
+        "path": "youtube_dl/extractor/common.py",
+        "line": 2045,
+        "title": "ISM Duration 属性缺失或非数字时崩溃",
+        "explanation": "_parse_ism_formats 直接以 ism_doc.attrib['Duration'] 取值并 int() 转换。若 manifest 缺少 Duration 属性会抛 KeyError，若值非纯整数（如带小数或空串）会抛 ValueError，均未被捕获，导致解析中断而非返回空列表或警告。",
+        "trigger": "ISM/Smooth Streaming manifest 的根节点缺少 Duration 属性，或 Duration 值不是可被 int() 解析的字符串。",
+        "status": "supported"
+      },
+      {
+        "id": "cf541039c04b",
+        "path": "youtube_dl/extractor/common.py",
+        "line": 2062,
+        "title": "Bitrate 属性缺失或非数字时崩溃",
+        "explanation": "对每个 QualityLevel 直接访问 track.attrib['Bitrate'] 并做整除。若某 QualityLevel 缺少 Bitrate 属性会抛 KeyError；若值非数字会抛 ValueError，导致整个 ISM 解析失败。",
+        "trigger": "ISM manifest 中某个 QualityLevel 节点缺少 Bitrate 属性或其值无法转换为整数。",
+        "status": "supported"
+      },
+      {
+        "id": "ddbc59b06cc1",
+        "path": "youtube_dl/extractor/common.py",
+        "line": 2053,
+        "title": "StreamIndex 缺少 Url 属性时崩溃",
+        "explanation": "url_pattern = stream.attrib['Url'] 直接索引必需属性。若 StreamIndex 节点未提供 Url 属性，会抛 KeyError 中断解析。",
+        "trigger": "ISM manifest 的 StreamIndex 节点缺少 Url 属性。",
+        "status": "supported"
+      },
+      {
+        "id": "766edb102530",
+        "path": "youtube_dl/extractor/common.py",
+        "line": 1972,
+        "title": "B007: Loop control variable `r` not used within loop body",
+        "explanation": "Loop control variable `r` not used within loop body",
+        "trigger": "触发条件需结合业务调用确认。",
+        "status": "supported"
+      }
+    ]
+  },
+  {
+    "case": "PySnooper-3",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": true,
+    "matched_finding_ids": [
+      "228f4dfba835"
+    ],
+    "reason": "候选明确指出 get_write_function 的 output_path 从未定义，传文件路径调用将 NameError，与参考补丁改为 output 一致；依赖复跑证据另存。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "228f4dfba835"
+    ],
+    "active_findings": [
+      {
+        "id": "2319bdcf261c",
+        "path": "pysnooper/pysnooper.py",
+        "line": 22,
+        "title": "get_write_function 中未导入 sys 导致 NameError",
+        "explanation": "在 output 为 None 的分支中，write 函数引用了 sys.stderr，但本文件顶部（第 11-16 行）只导入了 decorator、utils、pycompat、Tracer，没有 import sys。当调用 snoop() 使用默认 output=None 时，write 被调用会抛出 NameError: name 'sys' is not defined，导致默认输出到 stderr 的功能完全不可用。",
+        "trigger": "调用 snoop() 且不传 output 参数（output 默认为 None），随后被装饰函数执行并触发 write(s)，即访问 sys.stderr。",
+        "status": "unverified"
+      },
+      {
+        "id": "228f4dfba835",
+        "path": "pysnooper/pysnooper.py",
+        "line": 26,
+        "title": "output 为字符串/PathLike 时引用未定义的 output_path",
+        "explanation": "当 output 是 str 或 PathLike 时，write 函数打开的是 output_path，但该名称在 get_write_function 作用域内从未定义。output_path 既不是参数也不是局部变量，调用 write 会抛出 NameError。正确做法应使用传入的 output 参数。",
+        "trigger": "调用 snoop(output='somefile.log') 或传入任意 PathLike 路径，随后 write(s) 被调用。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "PySnooper-3",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "修复版改用 output 参数创建文件写入器；候选没有继续报告原来的 output_path 未定义。初次复现因缺 future 失败，依赖复跑证据另外保存。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "5010761a9776",
+      "65baa2e15026"
+    ],
+    "active_findings": [
+      {
+        "id": "3bd2bfe1b7a8",
+        "path": "pysnooper/pysnooper.py",
+        "line": 22,
+        "title": "output 为 None 时引用未导入的 sys 导致 NameError",
+        "explanation": "get_write_function 在 output 为 None 时返回的 write 闭包内使用了 sys.stderr，但本模块顶部只导入了 decorator、utils、pycompat、Tracer，没有 import sys。因此默认调用 snoop()（output=None）并实际写出日志时会抛出 NameError: name 'sys' is not defined，默认行为完全不可用。",
+        "trigger": "调用 snoop() 使用默认 output=None，被装饰函数执行并触发一次日志写出时。",
+        "status": "unverified"
+      },
+      {
+        "id": "5010761a9776",
+        "path": "pysnooper/pysnooper.py",
+        "line": 26,
+        "title": "每次写出日志都重新打开文件，性能低下",
+        "explanation": "当 output 为路径或字符串时，write 闭包每次调用都执行 open(output, 'a') 并写入后关闭。日志写出在跟踪过程中会被高频调用，导致大量重复的文件打开/关闭系统调用，显著拖慢被跟踪代码并可能造成日志交错。",
+        "trigger": "output 传入文件路径字符串，且被跟踪函数产生多次日志写出时。",
+        "status": "unverified"
+      },
+      {
+        "id": "65baa2e15026",
+        "path": "pysnooper/pysnooper.py",
+        "line": 29,
+        "title": "使用 assert 做输入类型校验，优化模式下会被跳过",
+        "explanation": "对非 None、非 PathLike/str 的 output 使用 assert isinstance(output, utils.WritableStream) 进行校验。Python 以 -O 运行时 assert 被移除，非法 output 将不再被拦截，而是在后续 output.write(s) 时以更晦涩的 AttributeError 失败。",
+        "trigger": "以 python -O 运行且传入既非 None、非路径、也非 WritableStream 的 output 对象时。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "PySnooper-3",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": true,
+    "matched_finding_ids": [
+      "b4ff73245a46"
+    ],
+    "reason": "候选明确指出文件输出分支引用未定义 output_path，给出同一 NameError 条件，匹配参考修复；重复 F821 候选不重复计分。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "b4ff73245a46",
+      "32d8b2043b71"
+    ],
+    "active_findings": [
+      {
+        "id": "b4ff73245a46",
+        "path": "pysnooper/pysnooper.py",
+        "line": 26,
+        "title": "write 闭包引用未定义的 output_path 变量",
+        "explanation": "当 output 为字符串或 PathLike 时，write 闭包内使用 open(output_path, 'a')，但 output_path 从未定义（函数参数名为 output）。该名称既非局部变量也非闭包变量，运行时一旦调用 write 就会抛出 NameError，导致文件输出功能完全不可用。",
+        "trigger": "调用 @pysnooper.snoop('/path/to/log') 或传入任意字符串/PathLike 路径，被装饰函数执行触发 write 时。",
+        "status": "supported"
+      },
+      {
+        "id": "32d8b2043b71",
+        "path": "pysnooper/pysnooper.py",
+        "line": 26,
+        "title": "F821: Undefined name `output_path`",
+        "explanation": "Undefined name `output_path`",
+        "trigger": "触发条件需结合业务调用确认。",
+        "status": "supported"
+      }
+    ]
+  },
+  {
+    "case": "PySnooper-3",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "修复版改用 output 参数创建文件写入器；候选没有继续报告原来的 output_path 未定义。初次复现因缺 future 失败，依赖复跑证据另外保存。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "55c51dec5879",
+      "0c0f0f4e84c8"
+    ],
+    "active_findings": [
+      {
+        "id": "55c51dec5879",
+        "path": "pysnooper/pysnooper.py",
+        "line": 29,
+        "title": "assert 校验输出流在优化模式下被移除",
+        "explanation": "get_write_function 用 assert isinstance(output, utils.WritableStream) 来校验非 None/非路径的 output 参数。当 Python 以 -O 或 -OO 运行时，assert 语句会被完全移除，此时传入任意不支持 write 的对象不会被拦截，错误会延迟到实际写入时才以 AttributeError 形式暴露，且错误位置远离调用点，难以定位。",
+        "trigger": "使用 python -O 运行，并调用 @pysnooper.snoop(output=<非 WritableStream 对象>) 或传入不支持 write 的对象。",
+        "status": "supported"
+      },
+      {
+        "id": "0c0f0f4e84c8",
+        "path": "pysnooper/pysnooper.py",
+        "line": 26,
+        "title": "每次写入都重新打开文件",
+        "explanation": "当 output 为路径或字符串时，write 闭包在每次被调用时都执行 open(output, 'a') 并写入后关闭。Tracer 会对每一行执行写入，导致频繁的文件打开/关闭系统调用，在高频追踪场景下产生明显开销。",
+        "trigger": "使用 @pysnooper.snoop('/path/to/log') 追踪包含大量执行行的函数。",
+        "status": "supported"
+      }
+    ]
+  },
+  {
+    "case": "tornado-3",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是弱引用缓存条目可能已消失，close 的删除操作抛异常；实际候选仅参数类型声明，不含缓存生命周期和关闭异常。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "tornado-3",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是弱引用缓存条目可能已消失，close 的删除操作抛异常；实际候选仅参数类型声明，不含缓存生命周期和关闭异常。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "tornado-3",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是弱引用缓存条目可能已消失，close 的删除操作抛异常；实际候选仅参数类型声明，不含缓存生命周期和关闭异常。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "aefca5216f0e",
+        "path": "tornado/httpclient.py",
+        "line": 212,
+        "title": "initialize 的 defaults 参数类型注解与默认值不一致",
+        "explanation": "initialize 的签名 defaults: Dict[str, Any] = None 将参数标注为非 Optional 的 Dict，但默认值为 None，并在第215行显式做 None 检查。类型注解与运行时行为不一致，静态类型检查器（mypy）会报 incompatible default，且调用方无法从注解得知可传 None。",
+        "trigger": "静态类型检查或依赖注解生成文档/IDE 提示时。",
+        "status": "supported"
+      }
+    ]
+  },
+  {
+    "case": "tornado-3",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是弱引用缓存条目可能已消失，close 的删除操作抛异常；实际候选仅参数类型声明，不含缓存生命周期和关闭异常。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "youtube-dl-3",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考缺陷是实体匹配允许正文包含 &，吞入后续实体起点；候选只讨论数字范围、缺分号、assert 或性能，没有给出该相邻实体错误。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "2277c8037455",
+      "becb006911f3"
+    ],
+    "active_findings": [
+      {
+        "id": "230d7b2c0563",
+        "path": "youtube_dl/utils.py",
+        "line": 553,
+        "title": "orderedSet 使用列表成员检查导致 O(n²) 复杂度",
+        "explanation": "orderedSet 通过 `if el not in res` 对列表 res 做线性查找，整体复杂度为 O(n²)。当输入元素较多（例如解析大量 URL 或格式列表）时会明显变慢。",
+        "trigger": "传入包含大量元素的 iterable 时，每次 append 前都要遍历已收集的列表。",
+        "status": "unverified"
+      },
+      {
+        "id": "2842ffcbccff",
+        "path": "youtube_dl/utils.py",
+        "line": 575,
+        "title": "数字实体解析未校验 Unicode 码点范围",
+        "explanation": "对 `&#...;` 数字实体直接调用 compat_chr(int(numstr, base))，未检查码点是否在合法 Unicode 范围内。超出范围（如 &#x110000; 或超大十进制数）会抛出 ValueError 被捕获，但某些实现/版本可能抛出 OverflowError 或产生意外字符，且捕获范围仅限 ValueError。",
+        "trigger": "输入包含超出 Unicode 最大码点（0x10FFFF）或负值/超大数值的数字实体时。",
+        "status": "unverified"
+      },
+      {
+        "id": "2277c8037455",
+        "path": "youtube_dl/utils.py",
+        "line": 598,
+        "title": "unescapeHTML 正则无法匹配不含分号的实体",
+        "explanation": "正则 `&([^;]+;)` 要求实体以分号结尾，因此 HTML5 中合法的无分号实体（如 `&amp` 或 `&Eacuteric`）不会被解码。代码注释也承认该限制，但函数名暗示完整解码，可能造成调用方对输出预期不一致。",
+        "trigger": "输入字符串包含不带分号的 HTML 实体时。",
+        "status": "unverified"
+      },
+      {
+        "id": "becb006911f3",
+        "path": "youtube_dl/utils.py",
+        "line": 596,
+        "title": "使用 assert 做类型检查在优化模式下被移除",
+        "explanation": "unescapeHTML 与 encodeFilename 使用 `assert type(s) == compat_str` 做输入校验。Python 以 -O 运行时 assert 会被移除，导致类型错误在后续逻辑中以更难诊断的方式暴露。",
+        "trigger": "以 python -O 运行且传入非 compat_str 类型参数时。",
+        "status": "unverified"
+      },
+      {
+        "id": "aa584485d622",
+        "path": "youtube_dl/utils.py",
+        "line": 628,
+        "title": "encodeFilename 在非 Windows 平台对 str 调用 encode 可能返回 bytes 与调用方预期不符",
+        "explanation": "在 Python 2 非 Windows 平台，函数返回 s.encode(...) 得到 bytes；而 Windows 分支返回 str。调用方若统一按 str 处理返回值，在跨平台路径上可能出现类型不一致。",
+        "trigger": "Python 2 环境下在非 Windows 平台调用 encodeFilename。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-3",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考缺陷是实体匹配允许正文包含 &，吞入后续实体起点；候选只讨论数字范围、缺分号、assert 或性能，没有给出该相邻实体错误。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "6ce997d4304f"
+    ],
+    "active_findings": [
+      {
+        "id": "230d7b2c0563",
+        "path": "youtube_dl/utils.py",
+        "line": 553,
+        "title": "orderedSet 使用列表成员检查导致 O(n²) 复杂度",
+        "explanation": "orderedSet 通过 `if el not in res` 对列表 res 做线性查找，整体复杂度为 O(n²)。当输入 iterable 元素较多（例如解析大量 URL 或格式列表）时会显著变慢。",
+        "trigger": "传入包含大量元素的 iterable 时，每次去重检查都遍历已收集的列表。",
+        "status": "unverified"
+      },
+      {
+        "id": "479e8cccb76c",
+        "path": "youtube_dl/utils.py",
+        "line": 575,
+        "title": "数字实体正则未锚定结尾，可能接受非法实体",
+        "explanation": "正则 `#(x[0-9a-fA-F]+|[0-9]+)` 没有使用 `$` 锚定，因此像 `#12abc` 这样的实体也会匹配到 `#12` 并返回对应字符，而忽略尾部非法内容。虽然 int() 对匹配到的部分不会抛错，但会静默接受格式错误的实体。",
+        "trigger": "输入包含形如 `&#12abc;` 或 `&#x1g;` 的实体时，正则匹配前缀并返回错误解码结果。",
+        "status": "unverified"
+      },
+      {
+        "id": "60f47fdcd0df",
+        "path": "youtube_dl/utils.py",
+        "line": 585,
+        "title": "数字实体超出 Unicode 范围时未捕获 OverflowError",
+        "explanation": "compat_chr(int(numstr, base)) 在数值超出 Unicode 码点范围（如 `&#x110000;`）时会抛出 OverflowError，而代码只捕获 ValueError，导致异常向上传播，可能中断 HTML 解码流程。",
+        "trigger": "输入包含超出 Unicode 最大码点的数字实体，例如 `&#x110000;` 或 `&#99999999;`。",
+        "status": "unverified"
+      },
+      {
+        "id": "6ce997d4304f",
+        "path": "youtube_dl/utils.py",
+        "line": 596,
+        "title": "使用 assert 做类型检查，优化模式下会被移除",
+        "explanation": "unescapeHTML 使用 `assert type(s) == compat_str` 做输入校验。在 Python -O 优化模式下 assert 会被移除，导致非字符串输入进入 re.sub 并抛出难以理解的 TypeError。此外 `type(s) == compat_str` 会拒绝 str 子类。",
+        "trigger": "以 -O 运行且传入非字符串，或传入 str 子类实例时。",
+        "status": "unverified"
+      },
+      {
+        "id": "7cd65fe18c28",
+        "path": "youtube_dl/utils.py",
+        "line": 619,
+        "title": "encodeFilename 使用 assert 做类型检查",
+        "explanation": "encodeFilename 同样使用 `assert type(s) == compat_str`。在 -O 模式下该检查被移除，非字符串输入会在后续 encode 调用处失败；且 type 相等比较拒绝 str 子类。",
+        "trigger": "以 -O 运行并传入非字符串，或传入 str 子类实例时。",
+        "status": "unverified"
+      },
+      {
+        "id": "bbea8217bb7c",
+        "path": "youtube_dl/utils.py",
+        "line": 635,
+        "title": "encodeFilename 使用 'ignore' 编码错误处理会静默丢失字符",
+        "explanation": "在 Python 2 非 Windows 路径下，`s.encode(get_subprocess_encoding(), 'ignore')` 会静默丢弃无法编码的字符，导致文件名被截断或与预期不符，且调用方无法感知。",
+        "trigger": "Python 2 环境下文件名包含目标编码（如 ascii）无法表示的字符时。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-3",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考缺陷是实体匹配允许正文包含 &，吞入后续实体起点；候选只讨论数字范围、缺分号、assert 或性能，没有给出该相邻实体错误。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "d427db33601d"
+    ],
+    "active_findings": [
+      {
+        "id": "0148c48bdbb4",
+        "path": "youtube_dl/utils.py",
+        "line": 575,
+        "title": "数字实体解码未捕获 OverflowError，超大码点会抛出异常",
+        "explanation": "正则 r'#(x[0-9a-fA-F]+|[0-9]+)' 允许任意长度的数字，int(numstr, base) 在 Python 3 中可解析任意大整数，随后 compat_chr(int(...)) 对超出 Unicode 范围（>0x10FFFF）的码点会抛出 OverflowError，而这里只捕获了 ValueError。因此形如 '&#99999999999999;' 的实体在 Python 3 下会直接抛出未捕获异常，导致 unescapeHTML 崩溃，而不是按注释所述回退为字面量表示。",
+        "trigger": "调用 unescapeHTML 处理包含超大数字 HTML 实体（如 '&#1114112;' 或更长的数字）的字符串，且运行于 Python 3。",
+        "status": "needs_context"
+      },
+      {
+        "id": "d427db33601d",
+        "path": "youtube_dl/utils.py",
+        "line": 596,
+        "title": "使用 assert 做类型校验，优化模式下会被移除",
+        "explanation": "unescapeHTML 用 assert type(s) == compat_str 做输入类型校验。在 Python -O 优化模式下 assert 会被剥离，类型错误将不再被拦截，可能在下游 re.sub 中产生难以定位的错误。同时 type(s) == compat_str 使用精确类型比较，会拒绝 compat_str 的子类。",
+        "trigger": "以 -O 运行解释器，或传入 compat_str 的子类实例。",
+        "status": "supported"
+      },
+      {
+        "id": "5a93eabecdbf",
+        "path": "youtube_dl/utils.py",
+        "line": 619,
+        "title": "encodeFilename 使用 assert 校验类型，优化模式下失效",
+        "explanation": "encodeFilename 用 assert type(s) == compat_str 校验参数。在 -O 模式下该断言被移除，非字符串输入会继续执行到 s.encode(...) 或直接返回，导致错误行为或异常位置偏移。",
+        "trigger": "以 -O 运行解释器并传入非 compat_str 类型参数。",
+        "status": "supported"
+      },
+      {
+        "id": "e735e37ec611",
+        "path": "youtube_dl/utils.py",
+        "line": 553,
+        "title": "orderedSet 使用列表成员检查，复杂度为 O(n^2)",
+        "explanation": "orderedSet 通过 'el not in res' 对列表做线性查找，对每个元素都遍历已收集结果，整体为 O(n^2)。当输入 iterable 较大（例如大量 URL 或格式列表）时性能显著下降。",
+        "trigger": "对包含大量元素的 iterable 调用 orderedSet。",
+        "status": "supported"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-3",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考缺陷是实体匹配允许正文包含 &，吞入后续实体起点；候选只讨论数字范围、缺分号、assert 或性能，没有给出该相邻实体错误。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "581df70ce01a",
+        "path": "youtube_dl/utils.py",
+        "line": 575,
+        "title": "数字实体解析对超大码点仅捕获 ValueError",
+        "explanation": "_htmlentity_transform 对数字实体调用 compat_chr(int(numstr, base))，仅捕获 ValueError。当实体数值超出 Unicode 范围（如 &#x110000; 或极大十进制数）时，Python 3 的 chr 会抛出 ValueError（已被捕获），但在某些实现/版本中可能抛出 OverflowError，导致未捕获异常向上传播，使 unescapeHTML 整体失败。",
+        "trigger": "输入包含超出有效 Unicode 码点范围的数字实体，如 '&#x110000;' 或 '&#99999999999999999999;'。",
+        "status": "needs_context"
+      }
+    ]
+  },
+  {
+    "case": "tornado-4",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": true,
+    "matched_finding_ids": [
+      "5e57da68aa46",
+      "1ec31a1568d1"
+    ],
+    "reason": "候选分别指出 bytes=-N 且 N>size 使起点仍为负、Content-Length 错，以及 end<start 的负长度；对应参考补丁的夹零和无效范围判断。一个缺陷对仅计一次。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "5e57da68aa46"
+    ],
+    "active_findings": [
+      {
+        "id": "6dd909281c12",
+        "path": "tornado/web.py",
+        "line": 2621,
+        "title": "206 状态判断在 start 为负或 end 被截断时可能错误",
+        "explanation": "第 2621 行用 `size != (end or size) - (start or 0)` 判断是否返回 206。当请求为后缀范围（如 `bytes=-100`）时，start 为负数，第 2611-2612 行会将其加上 size 变为正数，但第 2621 行的判断发生在该修正之后，因此 start 已为正，逻辑本身尚可。然而当 start 为 0 时，`start or 0` 仍为 0，无影响；当 end 为 0 时，`end or size` 会变成 size，但 end==0 已在第 2603 行被拦截。真正的问题在于：若请求范围恰好覆盖整个文件（如 `bytes=0-`），end 为 None，`(end or size) - (start or 0)` 等于 size，不返回 206，符合注释意图。但若请求 `bytes=0-{size-1}`，end 被设为 size-1，计算结果为 size-1，不等于 size，会返回 206，而实际上这覆盖了整个文件，语义上应返回 200。这会导致客户端收到 206 而非 200，可能影响缓存和播放行为。",
+        "trigger": "客户端发送 `Range: bytes=0-<size-1>`，即显式请求整个文件范围。",
+        "status": "unverified"
+      },
+      {
+        "id": "5e57da68aa46",
+        "path": "tornado/web.py",
+        "line": 2603,
+        "title": "范围不可满足判断遗漏 start 为负且绝对值超过 size 的情况",
+        "explanation": "第 2603 行判断 `(start is not None and start >= size) or end == 0` 来返回 416。对于后缀范围 `bytes=-N`，httputil._parse_request_range 会返回 start 为负数（如 -N）。若 N 大于文件大小 size，则 start 为负且绝对值大于 size，此时 start >= size 为假，end 通常为 None，不会触发 416。随后第 2611-2612 行 `start += size` 会使 start 变为正数（因为 -N + size 仍可能为负？实际上若 N > size，-N + size < 0，start 仍为负）。接着第 2629-2634 行计算 content_length 时，若 start 为负且 end 为 None，会走 `content_length = size - start`，得到大于 size 的值，导致 Content-Length 错误，可能引发客户端读取越界或挂起。",
+        "trigger": "客户端发送 `Range: bytes=-<N>`，其中 N 大于文件实际大小。",
+        "status": "unverified"
+      },
+      {
+        "id": "1ec31a1568d1",
+        "path": "tornado/web.py",
+        "line": 2637,
+        "title": "Content-Length 可能为负数",
+        "explanation": "第 2629-2630 行当 start 和 end 均不为 None 时计算 `content_length = end - start`。若请求范围中 end 小于 start（例如 `bytes=100-50`），httputil._parse_request_range 可能返回 start=100、end=50，此时 content_length 为负数。第 2637 行直接将其设置为 Content-Length 头，会产生非法的负值头，可能导致客户端解析错误或服务器异常。",
+        "trigger": "客户端发送 `Range: bytes=100-50` 这类 end 小于 start 的无效范围。",
+        "status": "unverified"
+      },
+      {
+        "id": "9948b247f891",
+        "path": "tornado/web.py",
+        "line": 2640,
+        "title": "get_content 可能返回 None 导致迭代失败",
+        "explanation": "第 2640 行调用 `self.get_content(self.absolute_path, start, end)`，其返回值在基类中可能为 bytes 或可迭代对象。若子类实现返回 None（例如文件不存在或读取失败），第 2641 行 `isinstance(content, bytes)` 为假，第 2643 行 `for chunk in content:` 会抛出 TypeError。虽然基类实现通常返回 bytes，但子类可能覆盖，且没有防御性检查。",
+        "trigger": "子类覆盖 get_content 并返回 None，或文件在 validate_absolute_path 之后被删除导致读取失败。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "tornado-4",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是过大后缀范围没有夹到起点零、或反向范围未判不可满足；full 没有保留候选。fixed direct 对合法范围声称应416或虚构 end 负值，未描述修复前的负起点/反向范围失败。此边界判读需人类复查。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "bb832463889b",
+      "ddd97631497b"
+    ],
+    "active_findings": [
+      {
+        "id": "1145da898b97",
+        "path": "tornado/web.py",
+        "line": 2629,
+        "title": "206 判定使用 (end or size) 在 end==0 时误判为整文件",
+        "explanation": "第 2629 行用 `size != (end or size) - (start or 0)` 判断是否返回 206。当请求范围解析出 end 为 0 时（例如 `Range: bytes=0-0`），`end or size` 会因 0 为假值而取 size，导致计算出的长度等于 size，从而不设置 206 状态码，而是返回 200 并发送整个文件。这违反了 HTTP 范围请求语义，客户端请求 1 字节却收到整个文件。",
+        "trigger": "客户端发送 `Range: bytes=0-0`（或任何 end 解析为 0 的合法范围），且文件 size > 1。",
+        "status": "unverified"
+      },
+      {
+        "id": "bb832463889b",
+        "path": "tornado/web.py",
+        "line": 2607,
+        "title": "范围不可满足判定遗漏 end < start 的负长度情况",
+        "explanation": "第 2607-2610 行的条件为 `(start >= size or (end is not None and start >= end)) or end == 0`。当 start 为 None 且 end 为负（如 `Range: bytes=-0` 或解析出负 end）时，条件不成立，随后第 2639-2640 行 `content_length = end` 会得到负数，第 2645 行 `set_header(\"Content-Length\", content_length)` 会写入负的 Content-Length，导致响应头非法。",
+        "trigger": "Range 头解析出 end 为负值且 start 为 None（例如后缀范围长度为 0 或负）。",
+        "status": "unverified"
+      },
+      {
+        "id": "ddd97631497b",
+        "path": "tornado/web.py",
+        "line": 2603,
+        "title": "负 start 归一化后未重新校验是否超出 size",
+        "explanation": "第 2603-2606 行将负 start 加上 size 并夹到 0，但归一化后的 start 未再与 size 比较。若原始 start 为负且其绝对值大于 size（如 `Range: bytes=-999999` 对 10 字节文件），归一化后 start=0，随后第 2607-2610 行条件 `start >= size` 为假，会按 start=0 返回整个文件而非 416。虽然多数实现将过大后缀范围视为整文件，但此处与 RFC 语义及代码注释中“不可满足”的意图存在不一致，且未显式处理。",
+        "trigger": "客户端发送后缀范围且长度大于文件大小，例如 `Range: bytes=-999999`。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "tornado-4",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是过大后缀范围没有夹到起点零、或反向范围未判不可满足；full 没有保留候选。fixed direct 对合法范围声称应416或虚构 end 负值，未描述修复前的负起点/反向范围失败。此边界判读需人类复查。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "tornado-4",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是过大后缀范围没有夹到起点零、或反向范围未判不可满足；full 没有保留候选。fixed direct 对合法范围声称应416或虚构 end 负值，未描述修复前的负起点/反向范围失败。此边界判读需人类复查。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "youtube-dl-4",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是零参数函数调用正则不匹配或空参数 split 导致解析错误；候选只报告 assert 优化、元组参数传递和其他方法参数限制，未指出 f() 失败。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "044c133263d3",
+        "path": "youtube_dl/jsinterp.py",
+        "line": 98,
+        "title": "索引赋值中 assert 校验 idx 为 int 可被 -O 禁用",
+        "explanation": "第98行使用 assert isinstance(idx, int) 来保证数组下标是整数。当 Python 以 -O 优化模式运行时 assert 会被完全移除，此时若 idx 不是 int（例如字符串或 None），第99行 lvar[idx] 会抛出 TypeError 或产生非预期行为，而不是给出清晰的错误。",
+        "trigger": "解释形如 a[expr] = value 的赋值语句，且 expr 求值结果不是整数（例如字符串变量），同时 Python 以 -O 运行。",
+        "status": "unverified"
+      },
+      {
+        "id": "ac62842c8fc3",
+        "path": "youtube_dl/jsinterp.py",
+        "line": 144,
+        "title": "函数调用分支用 assert 校验表达式以 ')' 结尾",
+        "explanation": "第144行 assert expr.endswith(')') 用于确认函数调用表达式以右括号结束。在 -O 模式下该断言被移除，若正则匹配到 member 但表达式实际不以 ')' 结尾，后续 arg_str 解析和 obj[member](argvals) 调用可能产生难以理解的错误。",
+        "trigger": "表达式匹配第123-125行的成员/函数调用正则但结尾不是 ')'，且 Python 以 -O 运行。",
+        "status": "unverified"
+      },
+      {
+        "id": "22615848875c",
+        "path": "youtube_dl/jsinterp.py",
+        "line": 154,
+        "title": "split 调用用 assert 校验参数为 ('',)",
+        "explanation": "第154行 assert argvals == ('',) 假定 split 只接受空字符串参数。在 -O 模式下断言被移除，若传入其他参数（如 split(',')），会静默执行 list(obj) 而忽略分隔符，产生错误的解析结果而非报错。",
+        "trigger": "JS 代码中出现 obj.split(',') 等带非空参数的 split 调用，且 Python 以 -O 运行。",
+        "status": "unverified"
+      },
+      {
+        "id": "695ddc53f17c",
+        "path": "youtube_dl/jsinterp.py",
+        "line": 157,
+        "title": "join 调用用 assert 校验参数个数",
+        "explanation": "第157行 assert len(argvals) == 1 用于保证 join 只有一个参数。在 -O 模式下断言被移除，若参数个数不为 1，第158行 argvals[0] 会抛出 IndexError 或使用错误的分隔符，导致解析失败或结果错误。",
+        "trigger": "JS 代码中出现参数个数不为 1 的 join 调用，且 Python 以 -O 运行。",
+        "status": "unverified"
+      },
+      {
+        "id": "647d448549c2",
+        "path": "youtube_dl/jsinterp.py",
+        "line": 160,
+        "title": "reverse 调用用 assert 校验无参数",
+        "explanation": "第160行 assert len(argvals) == 0 假定 reverse 不接受参数。在 -O 模式下断言被移除，带参数的 reverse 调用会被静默接受并执行 obj.reverse()，忽略传入参数，可能掩盖 JS 语义错误。",
+        "trigger": "JS 代码中出现带参数的 reverse 调用，且 Python 以 -O 运行。",
+        "status": "unverified"
+      },
+      {
+        "id": "43a29f59584d",
+        "path": "youtube_dl/jsinterp.py",
+        "line": 164,
+        "title": "slice 调用用 assert 校验参数个数",
+        "explanation": "第164行 assert len(argvals) == 1 假定 slice 只接受一个参数。在 -O 模式下断言被移除，若参数个数不为 1，第165行 obj[argvals[0]:] 会抛出 IndexError 或产生错误的切片结果。",
+        "trigger": "JS 代码中出现参数个数不为 1 的 slice 调用，且 Python 以 -O 运行。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-4",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是零参数函数调用正则不匹配或空参数 split 导致解析错误；候选只报告 assert 优化、元组参数传递和其他方法参数限制，未指出 f() 失败。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "412d33a999a9"
+    ],
+    "active_findings": [
+      {
+        "id": "bde0641ce296",
+        "path": "youtube_dl/jsinterp.py",
+        "line": 98,
+        "title": "assert 用于校验索引类型，优化模式下失效",
+        "explanation": "第98行使用 assert isinstance(idx, int) 校验数组下标类型。Python 以 -O 运行时 assert 会被移除，此时若 idx 不是 int（例如字符串或 None），第99行 lvar[idx] 会抛出 TypeError 或产生非预期行为，而不是给出清晰的错误。",
+        "trigger": "以 python -O 运行，且 JS 代码中数组赋值下标表达式解析结果不是 int。",
+        "status": "unverified"
+      },
+      {
+        "id": "6e600dec88cb",
+        "path": "youtube_dl/jsinterp.py",
+        "line": 116,
+        "title": "未定义变量直接 KeyError 而非受控错误",
+        "explanation": "第116行 local_vars[var_m.group('name')] 在变量不存在时抛出 KeyError，而不是 ExtractorError。这会使调用方无法按预期捕获并处理 JS 解释失败，导致整个提取流程以未处理异常终止。",
+        "trigger": "JS 表达式中引用了一个未在 local_vars 中定义的变量名。",
+        "status": "unverified"
+      },
+      {
+        "id": "36091ea8f63f",
+        "path": "youtube_dl/jsinterp.py",
+        "line": 142,
+        "title": "成员访问对非字典对象使用 obj[member] 可能失败",
+        "explanation": "第142行 return obj[member] 假定 obj 支持字符串下标。当 obj 是列表或字符串等对象且 member 不是 'length' 时，会抛出 TypeError（列表索引必须是整数）或返回意外结果，而不是受控的 ExtractorError。",
+        "trigger": "JS 代码中访问列表/字符串对象的非 length 成员，例如 arr.foo。",
+        "status": "unverified"
+      },
+      {
+        "id": "734873a12c04",
+        "path": "youtube_dl/jsinterp.py",
+        "line": 168,
+        "title": "splice 参数解包未校验数量",
+        "explanation": "第168行 index, howMany = argvals 直接解包，若 argvals 元素数量不是 2（例如 splice(1) 或 splice(1,2,3)），会抛出 ValueError 而非受控错误。",
+        "trigger": "JS 代码调用 splice 时传入的参数个数不是 2。",
+        "status": "unverified"
+      },
+      {
+        "id": "fe079ad647fb",
+        "path": "youtube_dl/jsinterp.py",
+        "line": 174,
+        "title": "函数调用参数以元组整体传入，与 JS 语义不符",
+        "explanation": "第174行 return obj[member](argvals) 将参数元组作为单个参数传入。对于期望多个位置参数的 Python 函数，这会导致 TypeError 或行为错误；JS 中 obj.method(a, b) 应展开为 obj[member](a, b)。",
+        "trigger": "JS 代码调用带多个参数的方法，且 obj[member] 是普通 Python 可调用对象。",
+        "status": "unverified"
+      },
+      {
+        "id": "412d33a999a9",
+        "path": "youtube_dl/jsinterp.py",
+        "line": 205,
+        "title": "函数调用参数解析对未定义变量抛 KeyError",
+        "explanation": "第205行 local_vars[v] 在参数名未定义时抛出 KeyError，而非 ExtractorError。此外该分支只支持数字或变量名，不支持字符串/表达式参数，遇到其他形式会静默失败或抛异常。",
+        "trigger": "JS 代码调用函数时传入未定义变量或非数字/变量形式的参数。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-4",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是零参数函数调用正则不匹配或空参数 split 导致解析错误；候选只报告 assert 优化、元组参数传递和其他方法参数限制，未指出 f() 失败。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "f1603e8038ef",
+        "path": "youtube_dl/jsinterp.py",
+        "line": 174,
+        "title": "通用成员调用将 argvals 作为单个元组参数传递",
+        "explanation": "第 174 行 return obj[member](argvals) 把整个参数元组作为单个位置参数传给方法。对于需要多个参数的方法（如 String.prototype.substr(start, length) 等），实际只传入一个元组，导致参数数量错误或类型错误。",
+        "trigger": "被解释的 JS 调用非内置处理的多参数成员方法，例如 obj.substr(1, 2)。",
+        "status": "needs_context"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-4",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是零参数函数调用正则不匹配或空参数 split 导致解析错误；候选只报告 assert 优化、元组参数传递和其他方法参数限制，未指出 f() 失败。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "tornado-5",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是系统时钟后退时 _next_timeout 未前进导致调度异常；候选是极小周期下溢、start/stop 状态和其他重复调度，没有时钟后退原因。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "3e9902ad3763"
+    ],
+    "active_findings": [
+      {
+        "id": "9fd57fb712c4",
+        "path": "tornado/ioloop.py",
+        "line": 1194,
+        "title": "stop() 在 start() 之前调用会因缺少 io_loop 属性而抛 AttributeError",
+        "explanation": "self.io_loop 仅在 start() 中赋值（第1185行）。stop() 在第1193行检查 self._timeout is not None，但 _timeout 初始为 None（第1178行），因此未 start 时不会进入分支，看似安全。然而若对象被 start() 后又 stop()，io_loop 存在；真正的问题是若在 start() 之前手动设置 _timeout 或子类场景下，stop() 会访问不存在的 self.io_loop。更直接的缺陷是：stop() 未对 io_loop 做存在性检查，依赖 _timeout 的隐式状态耦合，属于脆弱设计。",
+        "trigger": "在调用 start() 之前调用 stop()，且 _timeout 被外部或子类设置为非 None；或 start() 中 IOLoop.current() 抛异常导致 _running=True 但 io_loop 未赋值。",
+        "status": "unverified"
+      },
+      {
+        "id": "55e9bc6e4e5f",
+        "path": "tornado/ioloop.py",
+        "line": 1210,
+        "title": "异常处理调用 handle_callback_exception 时参数错误",
+        "explanation": "IOLoop.handle_callback_exception 的签名通常为 handle_callback_exception(self, callback)，但这里传入的是 self.callback（用户回调函数），而非异常对象。在 Tornado 中该方法内部会使用 sys.exc_info() 获取当前异常，因此传入 callback 是符合预期的。但若 callback 本身不是可调用对象或已被替换，可能导致错误信息不准确。更关键的是：第1209行捕获 Exception 后调用 handle_callback_exception，但该方法可能重新抛出异常，导致 finally 中的 _schedule_next 仍会执行，这是正确行为。此处无明显 bug，但异常处理依赖全局 sys.exc_info()，在多线程或异步上下文中可能捕获到错误的异常。",
+        "trigger": "当 callback 抛出异常时，_run 捕获后调用 handle_callback_exception(self.callback)，若此时 sys.exc_info() 已被其他代码修改，则记录错误的异常信息。",
+        "status": "unverified"
+      },
+      {
+        "id": "3e9902ad3763",
+        "path": "tornado/ioloop.py",
+        "line": 1222,
+        "title": "_update_next 中 callback_time_sec 可能为 0 导致除零错误",
+        "explanation": "第1221行 callback_time_sec = self.callback_time / 1000.0。虽然 __init__ 中检查了 callback_time <= 0 并抛出 ValueError（第1174-1175行），但若 callback_time 是极小正数（如 1e-300），除以 1000.0 后可能下溢为 0.0，导致第1222行 math.floor((current_time - self._next_timeout) / callback_time_sec) 触发 ZeroDivisionError。此外，若 callback_time 为 NaN，比较 <= 0 为 False，也会导致后续除零或 NaN 传播。",
+        "trigger": "callback_time 为极小正数（如 1e-300）或 NaN 时，callback_time_sec 变为 0.0 或 NaN，_update_next 中除法失败。",
+        "status": "unverified"
+      },
+      {
+        "id": "03b4e1f326d3",
+        "path": "tornado/ioloop.py",
+        "line": 1216,
+        "title": "_schedule_next 中 _update_next 与 add_timeout 之间可能产生竞态",
+        "explanation": "_schedule_next 先调用 _update_next(self.io_loop.time()) 计算 _next_timeout，然后调用 add_timeout。若在两次调用之间时间已超过 _next_timeout，add_timeout 会立即触发 _run，导致回调被连续调用。虽然这是设计上的容错，但在高负载下可能导致回调风暴。",
+        "trigger": "系统时间在 _update_next 和 add_timeout 之间跳跃，或 IOLoop 事件循环繁忙导致延迟。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "tornado-5",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是系统时钟后退时 _next_timeout 未前进导致调度异常；候选是极小周期下溢、start/stop 状态和其他重复调度，没有时钟后退原因。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "tornado-5",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是系统时钟后退时 _next_timeout 未前进导致调度异常；候选是极小周期下溢、start/stop 状态和其他重复调度，没有时钟后退原因。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "tornado-5",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是系统时钟后退时 _next_timeout 未前进导致调度异常；候选是极小周期下溢、start/stop 状态和其他重复调度，没有时钟后退原因。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "0d4ed97d539a",
+        "path": "tornado/ioloop.py",
+        "line": 1204,
+        "title": "_run 中 finally 在 stop() 后仍会重新调度回调",
+        "explanation": "_run 的 finally 块无条件调用 _schedule_next()。_schedule_next 内部检查 self._running，因此若回调执行期间调用了 stop()，_running 已为 False，不会重新调度，这一点是正确的。但存在另一条路径：回调内部调用 start() 会重置 _next_timeout 并再次 _schedule_next，随后 finally 又调用一次 _schedule_next，导致同一 PeriodicCallback 被注册两个 timeout，回调将以双倍频率触发，且 stop() 只能移除其中一个（self._timeout 被覆盖），造成定时器泄漏与重复执行。",
+        "trigger": "在 PeriodicCallback 的回调函数内部调用 self.start()（或再次 start 同一实例），回调返回后 finally 再次调度。",
+        "status": "needs_context"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-5",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考补丁修复 parsedate_tz 返回 tuple 被误调用 timetuple() 及回退路径漏加 PM 偏移；候选中的时区偏移、通用 PM 文本误匹配或日期循环是其他问题，不能只按邻近位置命中。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "2c1e0da46315",
+      "5625fd566c39"
+    ],
+    "active_findings": [
+      {
+        "id": "27b2f7f11e32",
+        "path": "youtube_dl/utils.py",
+        "line": 1082,
+        "title": "unified_strdate 循环未在匹配后 break，可能被后续格式覆盖",
+        "explanation": "for 循环遍历所有日期格式，每次成功解析都会覆盖 upload_date，而不是在首次成功后退出。若某个较宽松的格式在后续迭代中也能解析同一字符串但得到不同结果，最终返回值取决于最后一个匹配的格式，而非最精确的格式。这会导致日期解析结果不确定或错误。",
+        "trigger": "当 date_str 同时匹配 DATE_FORMATS 中多个表达式且这些表达式解析出不同日期时（例如某些格式对同一字符串产生不同解释）。",
+        "status": "unverified"
+      },
+      {
+        "id": "2c1e0da46315",
+        "path": "youtube_dl/utils.py",
+        "line": 1104,
+        "title": "unified_timestamp 中 PM 检测在移除 AM/PM 之前，且 AM 未处理",
+        "explanation": "pm_delta 通过 re.search(r'(?i)PM', date_str) 判断，但该判断在移除 AM/PM 之前执行，逻辑上尚可；然而只检测 PM 而不检测 AM，且正则 (?i)PM 会匹配任意包含 'PM' 的子串（如时区名或单词中的 pm），可能误加 12 小时。此外，若字符串含 'PM' 但实际是 12 小时制以外的内容，也会错误偏移。",
+        "trigger": "date_str 中包含 'PM' 子串但并非表示下午时间（例如时区缩写、单词），或包含 'AM' 时未做任何处理。",
+        "status": "unverified"
+      },
+      {
+        "id": "5625fd566c39",
+        "path": "youtube_dl/utils.py",
+        "line": 1116,
+        "title": "unified_timestamp 回退路径忽略时区偏移",
+        "explanation": "当 strptime 全部失败后，使用 email.utils.parsedate_tz 解析，但直接对 timetuple 调用 calendar.timegm，未应用 parsedate_tz 返回的时区偏移（timetuple 的第 10 个元素）。这会导致带时区的日期被当作 UTC 处理，产生时间戳偏差。",
+        "trigger": "date_str 无法被 DATE_FORMATS 解析但能被 parsedate_tz 解析，且包含非 UTC 时区偏移。",
+        "status": "unverified"
+      },
+      {
+        "id": "6224d710111e",
+        "path": "youtube_dl/utils.py",
+        "line": 1134,
+        "title": "subtitles_filename 对无扩展名文件名处理不当",
+        "explanation": "使用 rsplit('.', 1)[0] 去除扩展名。若 filename 不含 '.'，rsplit 返回整个字符串，结果会变成 'filename.lang.format'，这可能是期望的；但若 filename 以 '.' 开头（隐藏文件）或路径中含点，行为可能不符合预期。更关键的是，若 filename 本身无扩展名，结果会附加语言和格式，可能产生意外文件名。",
+        "trigger": "filename 不含 '.' 或为隐藏文件（如 '.mp4'）时。",
+        "status": "unverified"
+      },
+      {
+        "id": "381961af15b3",
+        "path": "youtube_dl/utils.py",
+        "line": 1147,
+        "title": "date_from_str 对无效输入抛出未捕获异常",
+        "explanation": "函数末尾直接调用 datetime.datetime.strptime(date_str, '%Y%m%d').date()，若 date_str 不匹配任何已知格式，会抛出 ValueError 而非返回 None 或友好错误。调用方可能未预期异常。",
+        "trigger": "传入不符合 YYYYMMDD 或相对日期格式的字符串。",
+        "status": "unverified"
+      },
+      {
+        "id": "ee62420dda5f",
+        "path": "youtube_dl/utils.py",
+        "line": 1124,
+        "title": "determine_ext 对带斜杠的扩展名判断逻辑不一致",
+        "explanation": "先通过 rpartition('.') 取 guess，若 guess 匹配 ^[A-Za-z0-9]+$ 则直接返回。对于 'bar.mp4/' 这类 URL，guess 为 'mp4/'，不匹配第一个正则，然后检查 guess.rstrip('/') 是否在 KNOWN_EXTENSIONS 中。但若 guess 为 'mp4/' 且 KNOWN_EXTENSIONS 不含 'mp4'（或含），逻辑依赖 KNOWN_EXTENSIONS 内容，可能返回默认值。此外，若 guess 含非字母数字但去掉斜杠后是已知扩展名，返回的是 rstrip 后的值，行为不一致。",
+        "trigger": "URL 形如 http://example.com/foo/bar.mp4/?download 且 KNOWN_EXTENSIONS 中不含 'mp4' 或 guess 含其他字符。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-5",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考补丁修复 parsedate_tz 返回 tuple 被误调用 timetuple() 及回退路径漏加 PM 偏移；候选中的时区偏移、通用 PM 文本误匹配或日期循环是其他问题，不能只按邻近位置命中。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "2f3740407353",
+      "ab0b60027249",
+      "8be075fc0dbe"
+    ],
+    "active_findings": [
+      {
+        "id": "da7dcf5b90ea",
+        "path": "youtube_dl/utils.py",
+        "line": 1082,
+        "title": "unified_strdate 循环未在匹配后中断，可能被后续格式覆盖",
+        "explanation": "for 循环遍历所有日期格式，每次成功解析都会覆盖 upload_date，且没有 break。若某个较宽松的格式在后续迭代中也能匹配同一字符串但解析出不同日期，最终结果取决于最后一个匹配的格式而非第一个，行为不确定且可能返回错误日期。",
+        "trigger": "date_str 同时匹配 DATE_FORMATS 中多个表达式且它们解析出不同日期时。",
+        "status": "unverified"
+      },
+      {
+        "id": "2f3740407353",
+        "path": "youtube_dl/utils.py",
+        "line": 1112,
+        "title": "unified_timestamp 对无时区日期减去 timezone 导致结果偏移",
+        "explanation": "extract_timezone 在未找到时区时返回的 timezone 值（通常为 timedelta(0)）被无条件从解析出的 datetime 中减去。若 extract_timezone 返回非零默认值或解析出的时间本身已含时区信息，会导致时间戳偏移。需要确认 extract_timezone 的默认返回值。",
+        "trigger": "date_str 不含时区信息时，timezone 的默认值被减去。",
+        "status": "unverified"
+      },
+      {
+        "id": "ab0b60027249",
+        "path": "youtube_dl/utils.py",
+        "line": 1116,
+        "title": "unified_timestamp 回退分支忽略 timezone 偏移",
+        "explanation": "当 strptime 全部失败后使用 email.utils.parsedate_tz 回退，但该分支只加上 pm_delta*3600，未应用前面提取的 timezone 偏移，导致与主分支的时间戳计算不一致。",
+        "trigger": "日期字符串无法被 date_formats 解析但能被 parsedate_tz 解析且含时区时。",
+        "status": "unverified"
+      },
+      {
+        "id": "8be075fc0dbe",
+        "path": "youtube_dl/utils.py",
+        "line": 1104,
+        "title": "PM 检测可能误匹配包含 PM 子串的文本",
+        "explanation": "使用 re.search(r'(?i)PM', date_str) 检测 PM，未加词边界，可能匹配到如 'PM' 出现在其他单词或时区缩写中的情况，导致错误地增加 12 小时。",
+        "trigger": "date_str 中 'PM' 作为其他词的一部分出现时。",
+        "status": "unverified"
+      },
+      {
+        "id": "b20e662a36c4",
+        "path": "youtube_dl/utils.py",
+        "line": 1128,
+        "title": "determine_ext 对带斜杠扩展名的判断顺序可能返回错误扩展",
+        "explanation": "先判断 guess 是否全为字母数字，若 guess 形如 'mp4/' 则第一个条件不满足，进入 elif 判断 guess.rstrip('/') 是否在 KNOWN_EXTENSIONS。但若 guess 为 'mp4' 且不在 KNOWN_EXTENSIONS 中，会返回 default_ext，而实际扩展名可能有效。逻辑依赖 KNOWN_EXTENSIONS 的完整性。",
+        "trigger": "URL 形如 http://example.com/foo/bar.mp4/?download 且 'mp4' 不在 KNOWN_EXTENSIONS 时。",
+        "status": "unverified"
+      },
+      {
+        "id": "8c5fe91da293",
+        "path": "youtube_dl/utils.py",
+        "line": 1147,
+        "title": "date_from_str 正则未锚定结尾，可能接受多余字符",
+        "explanation": "re.match 只从字符串开头匹配，模式末尾没有 $，因此像 'today+1dayxyz' 这样的输入也会匹配成功，忽略尾部多余字符，可能导致意外解析。",
+        "trigger": "date_str 以合法模式开头但后跟额外字符时。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-5",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": true,
+    "matched_finding_ids": [
+      "510601d7d03a"
+    ],
+    "reason": "候选明确给出含 PM 且主格式解析失败回退 parsedate_tz 时忽略 pm_delta、少加12小时；匹配参考补丁补上 pm_delta*3600。其其他顺序推测不作为证据。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "510601d7d03a"
+    ],
+    "active_findings": [
+      {
+        "id": "27b2f7f11e32",
+        "path": "youtube_dl/utils.py",
+        "line": 1082,
+        "title": "unified_strdate 循环未在匹配后 break，可能被后续格式覆盖",
+        "explanation": "for 循环遍历所有日期格式，每次成功解析都会覆盖 upload_date，且不 break。若某个较宽松的格式在后续迭代中也能匹配同一字符串但解析出不同日期，最终结果取决于最后一个匹配的格式而非第一个。这会导致日期解析结果不确定/错误。",
+        "trigger": "输入字符串同时匹配 DATE_FORMATS 中多个表达式且解析结果不同时。",
+        "status": "supported"
+      },
+      {
+        "id": "510601d7d03a",
+        "path": "youtube_dl/utils.py",
+        "line": 1110,
+        "title": "unified_timestamp 时区/PM 处理顺序导致时间偏移错误",
+        "explanation": "pm_delta 在移除 AM/PM 之前基于原始字符串计算，而 timezone 通过 extract_timezone 提取。若字符串中 PM 与 timezone 同时存在，pm_delta 与 timezone 的加减顺序（dt - timezone + pm_delta）可能产生错误时间；且当解析失败回退到 email.utils.parsedate_tz 时（1116-1118），pm_delta 被完全忽略，导致 PM 时间少加 12 小时。",
+        "trigger": "输入含 PM 且格式匹配失败、回退到 parsedate_tz 的日期字符串。",
+        "status": "supported"
+      },
+      {
+        "id": "273dbe85b083",
+        "path": "youtube_dl/utils.py",
+        "line": 1128,
+        "title": "determine_ext 中 guess.rstrip('/') 与正则分支逻辑不一致",
+        "explanation": "第一个分支用 re.match(r'^[A-Za-z0-9]+$', guess) 判断，若 guess 含斜杠则进入 elif，用 guess.rstrip('/') 判断 KNOWN_EXTENSIONS 并返回 rstrip 后的值。但若 guess 形如 'mp4/'，正则分支不匹配（含斜杠），elif 判断 'mp4' 是否在 KNOWN_EXTENSIONS。逻辑本身可工作，但若 guess 为 'mp4//' 等，rstrip 后仍可能返回非预期值；且 KNOWN_EXTENSIONS 未在本片段定义，无法确认其内容。",
+        "trigger": "URL 形如 http://example.com/foo/bar.mp4/ 时。",
+        "status": "needs_context"
+      },
+      {
+        "id": "1163fcf817b5",
+        "path": "youtube_dl/utils.py",
+        "line": 1135,
+        "title": "subtitles_filename 对无扩展名文件名处理不当",
+        "explanation": "使用 filename.rsplit('.', 1)[0] 去掉最后一个点后的部分。若 filename 不含点，rsplit 返回整个字符串，结果正确；但若文件名以点开头（如 '.hidden'），rsplit 会得到空字符串，导致生成 '.sub_lang.sub_format' 丢失原文件名。",
+        "trigger": "filename 为隐藏文件或无扩展名且含点前缀时。",
+        "status": "supported"
+      },
+      {
+        "id": "2a8ca1f25dd8",
+        "path": "youtube_dl/utils.py",
+        "line": 1147,
+        "title": "date_from_str 正则未锚定结尾且单位近似不精确",
+        "explanation": "正则 '(now|today)(?P<sign>[+-])(?P<time>\\d+)(?P<unit>day|week|month|year)(s)?' 未用 $ 锚定，可能匹配带多余后缀的字符串；month/year 用 30/365 天近似（注释已承认），对跨月/闰年计算不精确。",
+        "trigger": "输入如 'today+1monthx' 或需要精确月份/年份计算时。",
+        "status": "supported"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-5",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考补丁修复 parsedate_tz 返回 tuple 被误调用 timetuple() 及回退路径漏加 PM 偏移；候选中的时区偏移、通用 PM 文本误匹配或日期循环是其他问题，不能只按邻近位置命中。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "1eda84e8c934",
+        "path": "youtube_dl/utils.py",
+        "line": 1082,
+        "title": "unified_strdate 循环不 break，可能被后续格式覆盖",
+        "explanation": "for 循环遍历所有 date_formats，每次成功解析都会覆盖 upload_date，且没有 break。若某个较宽松的格式在后续迭代中匹配到不同（错误）的日期，会覆盖先前正确的结果。虽然多数情况下结果一致，但存在被后置格式覆盖的风险，且做了无谓的重复解析。",
+        "trigger": "date_str 同时能被多个格式匹配，且后置格式解析出不同日期时。",
+        "status": "supported"
+      },
+      {
+        "id": "168ef3a7851c",
+        "path": "youtube_dl/utils.py",
+        "line": 1128,
+        "title": "determine_ext 对带斜杠扩展名的判断逻辑可疑",
+        "explanation": "guess 由 rpartition('.') 得到，通常不含斜杠；对形如 bar.mp4/ 的 URL，guess 为 'mp4/'，此时 re.match(r'^[A-Za-z0-9]+$', guess) 失败，进入 elif 判断 guess.rstrip('/') in KNOWN_EXTENSIONS。逻辑本身可工作，但注释与实现依赖 KNOWN_EXTENSIONS 内容，若扩展名不在集合中则返回默认值，行为依赖外部常量，需确认。",
+        "trigger": "URL 形如 http://example.com/foo/bar.mp4/?download 且 mp4 不在 KNOWN_EXTENSIONS 中时。",
+        "status": "needs_context"
+      },
+      {
+        "id": "1163fcf817b5",
+        "path": "youtube_dl/utils.py",
+        "line": 1135,
+        "title": "subtitles_filename 对无扩展名文件名处理不当",
+        "explanation": "使用 rsplit('.', 1)[0] 去掉最后一个点之后的内容。若 filename 不含点（如 'video'），rsplit 返回 ['video']，[0] 仍为 'video'，结果正确；但若文件名以点开头或路径中含点（如目录名带点），可能截断错误部分。",
+        "trigger": "filename 为 '/path.with.dot/video' 这类目录名含点且文件名无扩展名时。",
+        "status": "supported"
+      },
+      {
+        "id": "ee085aedfb14",
+        "path": "youtube_dl/utils.py",
+        "line": 1147,
+        "title": "date_from_str 正则未锚定结尾，可能匹配多余字符",
+        "explanation": "正则 '(now|today)(?P<sign>[+-])(?P<time>\\d+)(?P<unit>day|week|month|year)(s)?' 未使用 $ 锚定，re.match 只要求前缀匹配，因此 'today+1daygarbage' 也会匹配成功，忽略尾部非法字符。",
+        "trigger": "输入形如 'today+1dayxyz' 的字符串时。",
+        "status": "supported"
+      }
+    ]
+  },
+  {
+    "case": "tornado-6",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": true,
+    "matched_finding_ids": [
+      "d901df168a53"
+    ],
+    "reason": "候选明确指出 initialize 登记全局 _ioloop_for_asyncio 而 close 未删除，残留已关闭实例；对应参考补丁删除注册条目这一根因。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "d901df168a53",
+      "a5f180821a07"
+    ],
+    "active_findings": [
+      {
+        "id": "d901df168a53",
+        "path": "tornado/platform/asyncio.py",
+        "line": 41,
+        "title": "initialize 中注册 _ioloop_for_asyncio 后未在 close 时清理",
+        "explanation": "initialize 将 asyncio_loop 映射到 self 并写入 IOLoop._ioloop_for_asyncio，但 close() 只关闭 asyncio_loop 并移除 handlers，没有从该全局字典中删除对应条目。若同一 asyncio loop 被复用或重新创建 IOLoop，旧映射会残留，导致 IOLoop.current()/IOLoop._ioloop_for_asyncio 返回已关闭的实例，产生难以排查的状态错误。",
+        "trigger": "创建 BaseAsyncIOLoop 后调用 close()，随后再次基于同一 asyncio_loop 创建 IOLoop 或调用依赖 _ioloop_for_asyncio 的代码。",
+        "status": "unverified"
+      },
+      {
+        "id": "a5f180821a07",
+        "path": "tornado/platform/asyncio.py",
+        "line": 51,
+        "title": "close() 无条件关闭外部传入的 asyncio_loop",
+        "explanation": "BaseAsyncIOLoop 的 asyncio_loop 由调用方传入，可能由外部拥有和管理。close() 直接调用 self.asyncio_loop.close()，会关闭不属于本对象的 loop，影响其他使用者，且关闭后再次 close 或使用会抛 RuntimeError。",
+        "trigger": "外部创建 asyncio loop 并传入 BaseAsyncIOLoop，随后调用 IOLoop.close()。",
+        "status": "unverified"
+      },
+      {
+        "id": "376b0622eed1",
+        "path": "tornado/platform/asyncio.py",
+        "line": 46,
+        "title": "close() 遍历 handlers 时修改字典依赖 list() 快照但 remove_handler 可能抛异常",
+        "explanation": "close() 使用 list(self.handlers) 创建快照以避免迭代时修改，但 remove_handler 内部会调用 split_fd 并可能因 fd 状态异常抛错，导致后续 handler 未被清理且 asyncio_loop.close() 不执行，资源泄漏。",
+        "trigger": "某个 handler 的 fd 在 close 前已被外部关闭或 split_fd 失败。",
+        "status": "unverified"
+      },
+      {
+        "id": "684a2b3e5059",
+        "path": "tornado/platform/asyncio.py",
+        "line": 57,
+        "title": "add_handler 使用 stack_context.wrap 包装 handler 但未保留原始引用",
+        "explanation": "add_handler 将 handler 包装后存入 handlers，remove_handler 只删除条目，不涉及恢复。若调用方后续需要原始 handler 或进行身份比较，无法获取。此外 stack_context.wrap 在 asyncio 集成下可能已非必要，增加一层间接调用。",
+        "trigger": "调用方在 add_handler 后尝试通过 handlers 获取原始 handler 或依赖 handler 身份。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "tornado-6",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是 close 不清理全局 loop 映射造成持有关系和生命周期错误；fixed direct 无候选，full 两版本均未描述这一问题。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "tornado-6",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是 close 不清理全局 loop 映射造成持有关系和生命周期错误；fixed direct 无候选，full 两版本均未描述这一问题。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "tornado-6",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是 close 不清理全局 loop 映射造成持有关系和生命周期错误；fixed direct 无候选，full 两版本均未描述这一问题。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "youtube-dl-6",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": true,
+    "matched_finding_ids": [
+      "65515eead4e0"
+    ],
+    "reason": "候选明确指出 TTML 段落缺 begin 或 end/dur 时直接属性索引 KeyError，匹配参考补丁 get 及跳过不完整段落。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "65515eead4e0"
+    ],
+    "active_findings": [
+      {
+        "id": "c9298b3c6552",
+        "path": "youtube_dl/utils.py",
+        "line": 1991,
+        "title": "srt_subtitles_timecode 使用浮点除法生成时间码，可能产生错误格式",
+        "explanation": "该函数使用 '%02d:%02d:%02d,%03d' 格式化，但传入的表达式 (seconds / 3600, (seconds % 3600) / 60, seconds % 60, (seconds % 1) * 1000) 在 Python 3 中均为浮点数。%d 格式化浮点数会截断小数部分，而 (seconds % 1) * 1000 作为毫秒值在浮点误差下可能得到如 999.9999 被截断为 999，或 1000.0 被截断为 1000（超出 3 位毫秒范围），导致生成非法 SRT 时间码。",
+        "trigger": "当 seconds 的小数部分乘以 1000 后因浮点表示误差略大于等于 1000（例如 seconds=1.9999999999999999）或略小于整数时，毫秒字段会输出 1000 或错误值。",
+        "status": "unverified"
+      },
+      {
+        "id": "65515eead4e0",
+        "path": "youtube_dl/utils.py",
+        "line": 2023,
+        "title": "dfxp2srt 对缺少 begin/dur 属性的段落会抛出 KeyError",
+        "explanation": "代码直接使用 para.attrib['begin'] 和 para.attrib['dur']，若 TTML 段落缺少 begin 属性或既无 end 也无 dur 属性，会抛出 KeyError 而非给出可理解的错误信息，导致字幕转换崩溃。",
+        "trigger": "输入 TTML/DFXP 文件中某个 <p> 元素没有 begin 属性，或没有 end 属性且没有 dur 属性。",
+        "status": "unverified"
+      },
+      {
+        "id": "b653e90f2c6d",
+        "path": "youtube_dl/utils.py",
+        "line": 2011,
+        "title": "parse_node 对未知子元素使用 tostring 会包含 XML 标签而非纯文本",
+        "explanation": "当子元素既不是 br 也不是 span 时，代码用 xml.etree.ElementTree.tostring(child) 将其序列化为 XML 字符串并拼入字幕文本，导致输出中包含原始 XML 标签（如 <foo>...</foo>），污染 SRT 字幕内容。",
+        "trigger": "TTML 段落中包含除 br/span 外的其他子元素（如 <metadata>、<style> 或自定义标签）。",
+        "status": "unverified"
+      },
+      {
+        "id": "85bcd65f1c2b",
+        "path": "youtube_dl/utils.py",
+        "line": 1985,
+        "title": "parse_dfxp_time_expr 对不匹配的时间表达式返回 None 而非报错",
+        "explanation": "函数在 time_expr 非空但既不匹配秒数格式也不匹配 HH:MM:SS 格式时，隐式返回 None。调用方 parse_dfxp_time_expr(para.attrib.get('end')) 得到 None 后，第 2025 行 'if not end_time' 会误判为缺失并尝试读取 dur，可能掩盖格式错误或导致后续计算异常。",
+        "trigger": "TTML 中 end 属性为无法解析的格式（如 '00:00:00:00' 帧格式或空字符串）。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-6",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考修复对缺少 begin/end/dur 的段落跳过并使缺失时间表达式返回 None；fixed 候选为 end_time=0 真值处理和浮点时间码，未报告缺失属性引发 KeyError，属其他剩余问题。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "b8651e68a886"
+    ],
+    "active_findings": [
+      {
+        "id": "f2a95e34648d",
+        "path": "youtube_dl/utils.py",
+        "line": 1991,
+        "title": "srt_subtitles_timecode 使用浮点除法导致时间码格式错误",
+        "explanation": "该函数使用 '%02d' 格式化浮点数。在 Python 3 中，seconds / 3600 等运算返回 float，'%02d' 对 float 会截断为整数，但 (seconds % 1) * 1000 仍为 float，'%03d' 会截断小数部分，导致毫秒精度丢失（例如 0.9995 秒会得到 999 而非 1000，且可能因浮点误差产生 999 而非预期的 1000）。更严重的是，当 seconds 为负或极大值时行为异常。此外，在 Python 2 中整数除法会直接截断，行为不一致。",
+        "trigger": "调用 srt_subtitles_timecode 传入非整数秒（如 1.5）或浮点误差值（如 0.9999999）时，毫秒部分被截断，生成的时间码不准确。",
+        "status": "unverified"
+      },
+      {
+        "id": "b8651e68a886",
+        "path": "youtube_dl/utils.py",
+        "line": 2028,
+        "title": "dfxp2srt 中 end_time 为 0 时被误判为缺失",
+        "explanation": "第 2028 行使用 `if not end_time:` 判断 end_time 是否缺失。如果字幕的 end 属性解析结果为 0.0（例如 '0s' 或 '00:00:00.000'），该条件为真，会错误地认为 end_time 缺失，进而尝试使用 dur 或跳过该字幕。这会导致合法的零时长或从零开始结束的字幕被丢弃或错误计算。",
+        "trigger": "当 DFXP/TTML 字幕的 end 属性值为 '0s'、'00:00:00.000' 或解析结果为 0.0 时，end_time 被当作缺失处理。",
+        "status": "unverified"
+      },
+      {
+        "id": "0057964e5159",
+        "path": "youtube_dl/utils.py",
+        "line": 2011,
+        "title": "parse_node 对未知子元素使用 tostring 可能产生 XML 命名空间前缀",
+        "explanation": "当子元素不是 br 或 span 时，代码使用 xml.etree.ElementTree.tostring(child) 将其序列化为字符串并追加到输出。这会将 XML 标签（如 <ttml:span> 或其他元素）直接写入 SRT 字幕文本中，导致字幕内容包含 XML 标记而非纯文本。此外，tostring 默认包含命名空间前缀，可能产生用户可见的乱码。",
+        "trigger": "当 DFXP/TTML 字幕的段落中包含非 br/span 的子元素（如 <ttml:style>、<ttml:metadata> 或其他自定义元素）时，这些元素的 XML 序列化结果会被插入字幕文本。",
+        "status": "unverified"
+      },
+      {
+        "id": "f11c6ebd6eb2",
+        "path": "youtube_dl/utils.py",
+        "line": 1947,
+        "title": "一元操作符正则表达式未转义空字符串导致匹配任意位置",
+        "explanation": "UNARY_OPERATORS 的键包含空字符串 ''，在构建正则表达式时，'|'.join(map(re.escape, UNARY_OPERATORS.keys())) 会生成类似 '|!' 的模式。由于空字符串被转义后仍为空，正则表达式中的第一个分支为空，导致 (?P<op>|!) 可以匹配空字符串。这会使 operator_rex.search 在 filter_part 的任意位置匹配，可能错误地解析本应无效的过滤器。",
+        "trigger": "当 filter_part 包含类似 'key' 或 '!key' 的字符串时，正则表达式可能匹配到意外的位置，导致一元操作符解析错误。",
+        "status": "unverified"
+      },
+      {
+        "id": "47d4ed72e731",
+        "path": "youtube_dl/utils.py",
+        "line": 1938,
+        "title": "_match_one 中 actual_value 为 None 时返回 none_inclusive 可能为字符串而非布尔值",
+        "explanation": "第 1940 行返回 m.group('none_inclusive')，这是一个字符串（如 'None' 或空字符串），而不是布尔值。match_str 使用 all() 判断，非空字符串为真，空字符串为假。这可能导致过滤器语义与预期不符，特别是当 none_inclusive 为空字符串时，返回假值，但调用方可能期望布尔值。",
+        "trigger": "当过滤器包含 none_inclusive 部分且 actual_value 为 None 时，返回字符串而非布尔值。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-6",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": true,
+    "matched_finding_ids": [
+      "6040e7214949"
+    ],
+    "reason": "候选明确指出 para.attrib[begin]/[dur] 在属性缺失时抛 KeyError，匹配参考修复中的缺失时间检查和跳过。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "6040e7214949"
+    ],
+    "active_findings": [
+      {
+        "id": "137ca91017a9",
+        "path": "youtube_dl/utils.py",
+        "line": 1990,
+        "title": "srt_subtitles_timecode 使用浮点除法导致时间码格式错误",
+        "explanation": "该函数用 '%02d:%02d:%02d,%03d' 格式化时间码，但传入的 seconds 是浮点数（parse_dfxp_time_expr 返回 float）。在 Python 3 中 seconds / 3600 和 (seconds % 3600) / 60 都是浮点除法，%d 会截断为整数，看似可用；但 (seconds % 1) * 1000 是浮点数，%03d 会截断小数部分，导致毫秒精度丢失（例如 0.9995 秒会得到 999 而非 1000，且不会进位）。更严重的是当 seconds 为负或浮点误差导致 (seconds % 1)*1000 达到 1000 时，会产生非法时间码。此外 Python 2 中整数除法行为不同，跨版本结果不一致。",
+        "trigger": "解析包含小数秒的 DFXP/TTML 字幕，例如 begin=\"1.5s\"，毫秒部分被截断；或浮点误差使毫秒计算为 1000。",
+        "status": "supported"
+      },
+      {
+        "id": "6040e7214949",
+        "path": "youtube_dl/utils.py",
+        "line": 2023,
+        "title": "dfxp2srt 对缺失 begin/dur 属性直接抛 KeyError",
+        "explanation": "第 2023 行用 para.attrib['begin'] 直接索引，第 2026 行用 para.attrib['dur'] 直接索引。若字幕段落缺少 begin 或既无 end 又无 dur 属性，会抛出未捕获的 KeyError，而不是给出有意义的错误信息。虽然第 2019-2020 行对无段落情况做了处理，但对属性缺失未做防御。",
+        "trigger": "输入 DFXP/TTML 文件中某个 <p> 元素缺少 begin 属性，或缺少 end 且缺少 dur 属性。",
+        "status": "supported"
+      },
+      {
+        "id": "8840d1f68240",
+        "path": "youtube_dl/utils.py",
+        "line": 1985,
+        "title": "parse_dfxp_time_expr 对无法解析的表达式返回 None",
+        "explanation": "函数在 time_expr 非空但既不匹配纯秒数格式也不匹配 HH:MM:SS 格式时，会隐式返回 None。调用方 dfxp2srt 在第 2023-2026 行将返回值直接用于算术运算，None 会导致 TypeError。此外第 2024 行 end_time 为 None 时，第 2025 行 'if not end_time' 会误判为需要回退到 dur，掩盖了格式错误。",
+        "trigger": "DFXP 时间表达式格式不符合两种正则之一，例如 '00:00' 或 '1m30s'。",
+        "status": "supported"
+      },
+      {
+        "id": "0ec49083109e",
+        "path": "youtube_dl/utils.py",
+        "line": 2011,
+        "title": "parse_node 对未知子元素使用 tostring 产生原始 XML 文本",
+        "explanation": "当子元素既不是 br 也不是 span 时，代码用 xml.etree.ElementTree.tostring(child) 将其序列化为原始 XML 字符串并拼接到字幕文本中。这会把标签（如 <metadata>、<style> 等）原样输出到 SRT 字幕内容里，产生包含 XML 标记的脏文本。",
+        "trigger": "DFXP/TTML 段落内包含 br/span 之外的子元素。",
+        "status": "needs_context"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-6",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考修复对缺少 begin/end/dur 的段落跳过并使缺失时间表达式返回 None；fixed 候选为 end_time=0 真值处理和浮点时间码，未报告缺失属性引发 KeyError，属其他剩余问题。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "6ef3f489fb44"
+    ],
+    "active_findings": [
+      {
+        "id": "f2a95e34648d",
+        "path": "youtube_dl/utils.py",
+        "line": 1991,
+        "title": "srt_subtitles_timecode 使用浮点除法导致时间码格式错误",
+        "explanation": "该函数用 '%02d:%02d:%02d,%03d' 格式化 seconds/3600、(seconds%3600)/60 等表达式。在 Python 3 中这些除法返回 float，%d 会截断小数部分，但 (seconds % 1) * 1000 得到的是毫秒的浮点值，%d 截断而非四舍五入，且当 seconds 为浮点且毫秒部分接近 1000 时可能产生 999 或进位错误。更关键的是，若 seconds 为负或极大值，格式会异常。此外在 Python 2 中整数除法会丢失小数秒。",
+        "trigger": "调用 dfxp2srt 处理带小数秒的 begin/end 时间（如 1.999s），或 seconds 为浮点数时。",
+        "status": "supported"
+      },
+      {
+        "id": "6ef3f489fb44",
+        "path": "youtube_dl/utils.py",
+        "line": 2028,
+        "title": "end_time 为 0 时被误判为缺失",
+        "explanation": "代码用 `if not end_time:` 判断 end_time 是否缺失，但 end_time 可能合法地为 0.0（例如 begin=0, end=0 或 dur 计算后为 0）。此时会被当作缺失，进而尝试用 dur 计算或直接 continue 跳过该字幕，导致合法字幕丢失。",
+        "trigger": "字幕段落 end 属性为 '0' 或 '0.0s'，或 begin_time + dur 结果为 0。",
+        "status": "supported"
+      },
+      {
+        "id": "740e301ad218",
+        "path": "youtube_dl/utils.py",
+        "line": 2011,
+        "title": "未知子节点被序列化为 XML 文本混入字幕",
+        "explanation": "parse_node 对非 br/span 的子节点调用 xml.etree.ElementTree.tostring(child) 并直接拼接到字幕文本中。这会把原始 XML 标签（如 <metadata>、<style> 等）作为可见文本输出到 SRT 字幕，产生脏数据。",
+        "trigger": "TTML 段落中包含 br/span 之外的子元素（如 style、metadata、set 等）。",
+        "status": "supported"
+      },
+      {
+        "id": "ad0c9bdd4c77",
+        "path": "youtube_dl/utils.py",
+        "line": 2015,
+        "title": "dfxp_data.encode('utf-8') 对已编码字节或非字符串输入处理不当",
+        "explanation": "dfxp_data 若已是 bytes（例如从网络读取的原始字节），在 Python 3 中调用 .encode('utf-8') 会抛出 AttributeError；若为 str 则正常。此外 compat_etree_fromstring 解析不可信 XML 时若未禁用外部实体，存在 XXE 风险。需确认 compat_etree_fromstring 的实现是否安全。",
+        "trigger": "传入 bytes 类型的 dfxp_data，或解析含外部实体的恶意 TTML。",
+        "status": "needs_context"
+      }
+    ]
+  },
+  {
+    "case": "tornado-7",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考缺陷是 concurrent.futures.Future 不能直接 await，需要桥接 Tornado Future；实际候选只报告 assert、线程池竞态或取消异常，未指出返回类型不兼容。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "tornado-7",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考缺陷是 concurrent.futures.Future 不能直接 await，需要桥接 Tornado Future；实际候选只报告 assert、线程池竞态或取消异常，未指出返回类型不兼容。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "tornado-7",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考缺陷是 concurrent.futures.Future 不能直接 await，需要桥接 Tornado Future；实际候选只报告 assert、线程池竞态或取消异常，未指出返回类型不兼容。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "5fe1f92f5761",
+        "path": "tornado/ioloop.py",
+        "line": 637,
+        "title": "add_future 使用 assert 校验参数，优化模式下会被移除",
+        "explanation": "add_future 用 `assert is_future(future)` 做参数校验。Python 以 -O 运行时 assert 语句会被整体移除，此时传入非 Future 对象不会立即报错，而是在后续 `future.add_done_callback(...)` 处抛出 AttributeError，错误信息与真实原因（参数类型错误）不符，增加排查成本。",
+        "trigger": "以 `python -O` 运行，并调用 `IOLoop.add_future(non_future, callback)`。",
+        "status": "supported"
+      },
+      {
+        "id": "8947ff82bd8a",
+        "path": "tornado/ioloop.py",
+        "line": 654,
+        "title": "run_in_executor 惰性创建默认 executor 存在竞态",
+        "explanation": "默认 executor 通过 `if not hasattr(self, '_executor')` 惰性创建并赋值。若多个线程并发调用 run_in_executor（executor=None），可能同时通过 hasattr 检查，各自创建一个 ThreadPoolExecutor，其中一个被覆盖且未被 shutdown，造成线程池泄漏。",
+        "trigger": "多线程环境下并发首次调用 `IOLoop.run_in_executor(None, func)`。",
+        "status": "needs_context"
+      },
+      {
+        "id": "8aeed57ae273",
+        "path": "tornado/ioloop.py",
+        "line": 690,
+        "title": "_discard_future_result 在 future 被取消时抛出 CancelledError",
+        "explanation": "_discard_future_result 调用 `future.result()` 以消费异常，但若该 future 被取消，result() 会抛出 CancelledError。该回调由 add_future 注册，异常会经由 _run_callback 的 handle_callback_exception 记录为错误日志，产生误导性的“callback 异常”日志，而取消通常是正常流程。",
+        "trigger": "通过 _run_callback 返回的 Future 被取消后，_discard_future_result 被调用。",
+        "status": "supported"
+      }
+    ]
+  },
+  {
+    "case": "tornado-7",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考缺陷是 concurrent.futures.Future 不能直接 await，需要桥接 Tornado Future；实际候选只报告 assert、线程池竞态或取消异常，未指出返回类型不兼容。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "90adce93c215",
+        "path": "tornado/ioloop.py",
+        "line": 654,
+        "title": "默认 executor 惰性创建存在竞态，可能创建多个线程池",
+        "explanation": "run_in_executor 在 executor 为 None 时先检查 hasattr(self, '_executor') 再赋值。若多个线程并发首次调用 run_in_executor，可能同时通过检查并各自创建 ThreadPoolExecutor，导致线程池泄漏且 self._executor 被覆盖，先前创建的池无法回收。",
+        "trigger": "多线程环境下首次并发调用 run_in_executor(None, ...)。",
+        "status": "needs_context"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-7",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是双引号 JS 字符串中的转义单引号未规范化导致非法 JSON；buggy 候选只针对单引号字符串。fixed 的反规范化建议错误声称删除转义改变 JS 语义，并非原缺陷仍导致非法 JSON；需人类复查该边界判读。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "252950bee545"
+    ],
+    "active_findings": [
+      {
+        "id": "252950bee545",
+        "path": "youtube_dl/utils.py",
+        "line": 1707,
+        "title": "js_to_json 单引号字符串转义处理不完整",
+        "explanation": "fix_kv 中处理单引号字符串时，仅对 \\\\、\\' 和 \" 三种序列做替换，其他反斜杠转义序列（如 \\n、\\t、\\uXXXX、\\/ 等）被原样保留。由于外层正则（1715-1716 行）允许单引号字符串内出现 \\\\ 和 \\['\"nu] 转义，这些转义会进入 fix_kv，但不会被正确转换。例如 JS 中的 'a\\nb' 会被转换为 \"a\\nb\"（字面反斜杠+n），而非换行符，导致后续 json.loads 解析出的值与 JS 语义不一致。",
+        "trigger": "输入包含单引号字符串且其中含有 \\n、\\t、\\uXXXX 等非 \\' 转义序列时，例如 js_to_json(\"{'a': 'x\\\\ny'}\")。",
+        "status": "unverified"
+      },
+      {
+        "id": "4f898344ba6f",
+        "path": "youtube_dl/utils.py",
+        "line": 1714,
+        "title": "js_to_json 正则未匹配数字字面量导致键值处理遗漏",
+        "explanation": "外层正则只匹配双引号字符串、单引号字符串和标识符（[a-zA-Z_][.a-zA-Z_0-9]*），不匹配数字字面量。虽然数字本身无需加引号，但 fix_kv 依赖该正则来识别需要转换的 token；数字不会被回调处理，这本身没问题。然而该正则也不匹配以数字开头的标识符或含 $ 的标识符，可能影响某些 JS 对象字面量的解析。",
+        "trigger": "输入包含以数字开头或含 $ 的标识符作为键或值时，例如 js_to_json('{a$b: 1}')。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-7",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是双引号 JS 字符串中的转义单引号未规范化导致非法 JSON；buggy 候选只针对单引号字符串。fixed 的反规范化建议错误声称删除转义改变 JS 语义，并非原缺陷仍导致非法 JSON；需人类复查该边界判读。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "c14dbf6537c0"
+    ],
+    "active_findings": [
+      {
+        "id": "c14dbf6537c0",
+        "path": "youtube_dl/utils.py",
+        "line": 1707,
+        "title": "js_to_json 单引号字符串转义处理错误，反斜杠被重复转义",
+        "explanation": "在 fix_kv 中处理单引号字符串时，先执行 v = v[1:-1] 去掉外层引号，然后用 re.sub(r\"\\\\\\\\|\\\\'|\\\"\", ...) 替换。该正则匹配的是两个反斜杠（\\\\\\\\）、反斜杠加单引号（\\\\'）以及双引号。替换映射中 '\\\\\\\\': '\\\\\\\\' 将匹配到的两个反斜杠替换为两个反斜杠，看似不变，但实际语义上并未把 JS 中的转义反斜杠还原为单个反斜杠，导致后续 json.loads 解析时反斜杠数量错误。例如 JS 源码 'a\\\\b'（表示 a\\b）会被保留为 a\\\\b，最终 JSON 字符串内容变成 a\\\\b 而非 a\\b。",
+        "trigger": "输入包含反斜杠转义的单引号 JS 字符串，例如 js_to_json(\"x = 'a\\\\\\\\b'\") 或包含 \\\\' 的字符串。",
+        "status": "unverified"
+      },
+      {
+        "id": "a814da524f71",
+        "path": "youtube_dl/utils.py",
+        "line": 1714,
+        "title": "js_to_json 正则未处理字符串中的转义引号，可能提前结束匹配",
+        "explanation": "用于匹配字符串的正则分支为 \"(?:[^\"\\\\]*(?:\\\\\\\\|\\\\['\"nu]))*[^\"\\\\]*\" 和单引号版本。字符类 [^\"\\\\]* 排除了反斜杠，但转义序列只允许 \\\\\\\\、\\\\'、\\\\\"、\\\\n、\\\\u。对于其他转义（如 \\\\/、\\\\t、\\\\r、\\\\b、\\\\f 或 \\\\x41），正则无法匹配，导致字符串匹配在转义字符处中断，后续内容被当作标识符处理，产生错误的 JSON。",
+        "trigger": "JS 字符串中包含未列入允许集合的转义序列，例如 \"a\\\\/b\" 或 'a\\\\tb'。",
+        "status": "unverified"
+      },
+      {
+        "id": "3abf76fc3bce",
+        "path": "youtube_dl/utils.py",
+        "line": 1714,
+        "title": "js_to_json 标识符正则允许以点开头或连续点，可能误匹配属性访问",
+        "explanation": "标识符分支 [a-zA-Z_][.a-zA-Z_0-9]* 允许在首字符后出现任意数量的点，包括连续点（如 a..b）或以点结尾（如 a.）。这会把非法的 JS 标识符当作键处理并加上引号，可能改变语义或产生无效 JSON。",
+        "trigger": "输入包含类似 a..b 或 a. 的文本。",
+        "status": "unverified"
+      },
+      {
+        "id": "907746db2e24",
+        "path": "youtube_dl/utils.py",
+        "line": 1719,
+        "title": "js_to_json 去除尾随逗号的正则可能误删字符串内的逗号",
+        "explanation": "res = re.sub(r',(\\s*[\\]}])', lambda m: m.group(1), res) 在已加引号的字符串上执行，若字符串内容本身以逗号结尾且后面紧跟 } 或 ]（例如 \"a,\" 后接 }），该正则会把字符串内的逗号删除，破坏字符串内容。",
+        "trigger": "输入包含字符串值以逗号结尾且紧邻 } 或 ]，例如 js_to_json('{\"a\": \"x,\"}')。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-7",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是双引号 JS 字符串中的转义单引号未规范化导致非法 JSON；buggy 候选只针对单引号字符串。fixed 的反规范化建议错误声称删除转义改变 JS 语义，并非原缺陷仍导致非法 JSON；需人类复查该边界判读。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "youtube-dl-7",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是双引号 JS 字符串中的转义单引号未规范化导致非法 JSON；buggy 候选只针对单引号字符串。fixed 的反规范化建议错误声称删除转义改变 JS 语义，并非原缺陷仍导致非法 JSON；需人类复查该边界判读。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "39a891b8b3cd",
+      "7e48ace073da"
+    ],
+    "active_findings": [
+      {
+        "id": "39a891b8b3cd",
+        "path": "youtube_dl/utils.py",
+        "line": 1704,
+        "title": "js_to_json 对双引号字符串错误地反转义 \\' 导致内容被破坏",
+        "explanation": "fix_kv 处理以双引号开头的字符串时，用 re.sub(r\"\\\\'\", \"'\", v[1:-1]) 把 \\' 替换为 '。但 JSON 双引号字符串中 \\' 是非法转义，而 JS 中双引号字符串里的 \\' 实际表示反斜杠加单引号（即字面量 \\'）。这里把反斜杠删除，改变了字符串内容，例如 JS 值 \"a\\'b\" 会被转成 \"a'b\"，与原始语义不符，可能破坏 URL、正则或文本数据。",
+        "trigger": "输入 JS 对象中包含双引号字符串且字符串内含有反斜杠加单引号的序列，例如 {\"k\": \"a\\\\'b\"}。",
+        "status": "supported"
+      },
+      {
+        "id": "7e48ace073da",
+        "path": "youtube_dl/utils.py",
+        "line": 1707,
+        "title": "单引号字符串转义映射表键值相同，反斜杠未被正确转义",
+        "explanation": "映射 {'\\\\\\\\': '\\\\\\\\', ...} 中键和值都是两个反斜杠字符，即把 \\\\ 映射为 \\\\，没有做任何转换。在 JS 单引号字符串中，\\\\ 表示一个反斜杠，而输出到 JSON 双引号字符串中一个反斜杠必须写成 \\\\。由于映射未改变内容，当原字符串含 \\\\ 时，生成的 JSON 中反斜杠数量不足，导致 json.loads 解析失败或得到错误值。",
+        "trigger": "JS 单引号字符串中包含转义反斜杠，例如 {'k': 'a\\\\b'}（源码中为两个反斜杠）。",
+        "status": "supported"
+      },
+      {
+        "id": "9218adc9d89d",
+        "path": "youtube_dl/utils.py",
+        "line": 1714,
+        "title": "js_to_json 正则未处理字符串中的转义引号边界，可能提前结束匹配",
+        "explanation": "用于匹配字符串的正则 \"(?:[^\"\\\\]*(?:\\\\\\\\|\\\\['\"nu]))*[^\"\\\\]*\" 只把 \\\\、\\'、\\\"、\\n、\\u 视为可跳过的转义序列。对于其他转义（如 \\t、\\r、\\/、\\b、\\f 或 \\x 等），反斜杠会被 [^\"\\\\]* 排除，导致匹配在反斜杠处停止，字符串被截断，后续内容被当作标识符处理，产生错误的 JSON。",
+        "trigger": "JS 字符串中包含 \\t、\\r、\\/、\\b、\\f 等未被正则列出的转义序列。",
+        "status": "supported"
+      },
+      {
+        "id": "aedbd28f221a",
+        "path": "youtube_dl/utils.py",
+        "line": 1719,
+        "title": "去除尾随逗号的正则可能误删字符串内的逗号加括号序列",
+        "explanation": "res = re.sub(r',(\\s*[\\]}])', lambda m: m.group(1), res) 在整个结果字符串上运行，不区分字符串内外。如果某个字符串值本身以逗号结尾且后面紧跟 } 或 ]（例如 \"a,\" 后接 }），该逗号会被删除，破坏字符串内容。",
+        "trigger": "JS 对象/数组中的字符串值以逗号结尾且紧邻闭合括号，例如 {\"k\": \"a,\"}。",
+        "status": "needs_context"
+      }
+    ]
+  },
+  {
+    "case": "tornado-8",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是 WebSocket 握手头校验 ValueError 在 try 之外、没有转换成400响应；两模式两版本没有保留问题，未识别该异常路径。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "tornado-8",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是 WebSocket 握手头校验 ValueError 在 try 之外、没有转换成400响应；两模式两版本没有保留问题，未识别该异常路径。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "tornado-8",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是 WebSocket 握手头校验 ValueError 在 try 之外、没有转换成400响应；两模式两版本没有保留问题，未识别该异常路径。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "tornado-8",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是 WebSocket 握手头校验 ValueError 在 try 之外、没有转换成400响应；两模式两版本没有保留问题，未识别该异常路径。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "youtube-dl-8",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是 / 分支立即追加并清空当前选择器，紧随过滤器不能附到整个 choice；候选谈未闭合括号、空左侧或 + 的过滤器行为，未给出同一 / 后过滤绑定根因。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": []
+  },
+  {
+    "case": "youtube-dl-8",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是 / 分支立即追加并清空当前选择器，紧随过滤器不能附到整个 choice；候选谈未闭合括号、空左侧或 + 的过滤器行为，未给出同一 / 后过滤绑定根因。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "3da29ae24ccc",
+      "e495bd845454"
+    ],
+    "active_findings": [
+      {
+        "id": "f58f7e49066a",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 928,
+        "title": "_parse_filter 在 token 流耗尽时静默返回不完整过滤器",
+        "explanation": "`_parse_filter` 只在遇到 `]` 时返回；若 token 流在到达 `]` 之前结束（例如用户输入 `best[height<720` 缺少右括号），for 循环自然结束，函数隐式返回 None。调用方 `_parse_format_selection` 第 966 行随后执行 `current_selector.filters.append(format_filter)`，把 None 追加进 filters 列表。后续构建 selector function 时对 filter 字符串做解析/求值会因 None 触发异常或产生错误过滤行为，而不是给出清晰的语法错误。",
+        "trigger": "格式选择字符串中 `[` 之后没有匹配的 `]`，例如 `-f 'best[height<720'`。",
+        "status": "unverified"
+      },
+      {
+        "id": "5b8b583300a6",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 934,
+        "title": "格式选择解析器未校验 token 流是否被完整消费",
+        "explanation": "`_parse_format_selection` 在遇到 `)`、`/`、`,` 或 ENDMARKER 时 break，但顶层调用时若输入含多余 token（如 `best)` 或 `best]`），解析器会提前 break 并返回已解析的 selectors，剩余 token 被静默忽略，用户得到与预期不符的格式选择而不报错。",
+        "trigger": "格式字符串包含不匹配的右括号或多余运算符，例如 `-f 'best)'`、`-f 'best]'`。",
+        "status": "unverified"
+      },
+      {
+        "id": "3da29ae24ccc",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 958,
+        "title": "`/` 选择器在左侧为空时产生 None 选择器",
+        "explanation": "当 `/` 出现在没有前置 selector 的位置（如 `-f '/best'` 或 `-f 'best,/worst'` 中逗号后紧跟 `/`），`current_selector` 为 None，`first_choice` 被设为 None，随后构造 `FormatSelector(PICKFIRST, (None, second_choice), [])`。后续 `_build_selector_function` 递归处理 None 时不会命中 list/FormatSelector 分支，导致 AttributeError 或错误行为，而非语法错误。",
+        "trigger": "格式字符串以 `/` 开头或逗号后紧跟 `/`，例如 `-f '/best'`。",
+        "status": "unverified"
+      },
+      {
+        "id": "b296a277734b",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 972,
+        "title": "`+` 合并选择器在左侧为空时产生 None 视频选择器",
+        "explanation": "与 `/` 类似，`+` 出现在没有前置 selector 的位置（如 `-f '+bestaudio'`）时，`video_selector` 为 None，构造 `FormatSelector(MERGE, (None, audio_selector), [])`。后续构建 selector function 时对 None 的处理缺失，会导致异常或非预期合并行为。",
+        "trigger": "格式字符串以 `+` 开头，例如 `-f '+bestaudio'`。",
+        "status": "unverified"
+      },
+      {
+        "id": "e495bd845454",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 962,
+        "title": "过滤器解析未处理嵌套方括号或空过滤器",
+        "explanation": "`_parse_filter` 遇到第一个 `]` 即返回，不处理嵌套 `[`；同时若 `[` 后紧跟 `]`（如 `best[]`），返回空字符串并 append 到 filters。空过滤器在后续求值时可能产生意外结果或异常，且嵌套场景会提前截断。",
+        "trigger": "格式字符串包含 `best[]` 或嵌套方括号如 `best[a[b]]`。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-8",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是 / 分支立即追加并清空当前选择器，紧随过滤器不能附到整个 choice；候选谈未闭合括号、空左侧或 + 的过滤器行为，未给出同一 / 后过滤绑定根因。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "261567eff5b2"
+    ],
+    "active_findings": [
+      {
+        "id": "bf78822b8629",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 928,
+        "title": "_parse_filter 中未使用的循环变量 start",
+        "explanation": "_parse_filter 的 for 循环解包了 5 个 token 字段，但循环体内只使用 type 和 string，start 变量从未被引用。这属于死代码/可读性问题，不影响功能，但会让读者误以为该函数会用到位置信息。",
+        "trigger": "静态分析或人工阅读 _parse_filter 时可见。",
+        "status": "supported"
+      },
+      {
+        "id": "261567eff5b2",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 963,
+        "title": "格式过滤器中 '[' 未校验 current_selector 类型导致过滤器挂到错误选择器",
+        "explanation": "当遇到 '[' 时，如果 current_selector 已存在（例如来自 '/' 或 '+' 分支后仍保留的旧选择器），代码会直接把过滤器追加到该选择器上，而不是报错或新建。在 '/' 分支中 current_selector 被置为 None 后追加 PICKFIRST，但 '+' 分支（973-976）在构造 MERGE 前未将 current_selector 置空，若后续紧跟 '['，过滤器会被错误地附加到 MERGE 选择器上，语义与用户预期不符。",
+        "trigger": "形如 `bestvideo+bestaudio[height<=720]` 的格式串，'[' 出现在 '+' 之后。",
+        "status": "needs_context"
+      },
+      {
+        "id": "fdc9f2c1b046",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 981,
+        "title": "_parse_format_selection 在 tokens 耗尽时静默返回，未报告未闭合结构",
+        "explanation": "函数依赖 ENDMARKER 或 ')' 来终止循环。若输入在 merge/choice/group 中途结束（例如 `best+` 或 `(best`），循环自然结束，函数直接返回已收集的 selectors，不会抛出语法错误。这会让不完整/非法的格式串被当作合法处理，产生难以诊断的下载行为。",
+        "trigger": "格式串以 '+'、'/' 或 '(' 结尾而缺少右操作数/右括号。",
+        "status": "needs_context"
+      },
+      {
+        "id": "ae4afde4b262",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 928,
+        "title": "B007: Loop control variable `start` not used within loop body",
+        "explanation": "Loop control variable `start` not used within loop body",
+        "trigger": "触发条件需结合业务调用确认。",
+        "status": "supported"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-8",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是 / 分支立即追加并清空当前选择器，紧随过滤器不能附到整个 choice；候选谈未闭合括号、空左侧或 + 的过滤器行为，未给出同一 / 后过滤绑定根因。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "4b9c54bb9be7",
+      "b5757b03c6dd"
+    ],
+    "active_findings": [
+      {
+        "id": "bf78822b8629",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 928,
+        "title": "_parse_filter 中未使用的循环变量 start",
+        "explanation": "在 _parse_filter 的 for 循环中解包了 token 的 start 字段但从未使用，属于冗余代码。ruff 的 B007 也报告了该问题。这本身不影响功能，但会降低可读性，并可能在后续重构中造成误解。",
+        "trigger": "静态检查或代码审查时触发，不影响运行时行为。",
+        "status": "supported"
+      },
+      {
+        "id": "7215200b3c35",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 934,
+        "title": "_parse_format_selection 中 current_selector 可能为 None 被追加到 selectors",
+        "explanation": "当遇到逗号 ',' 时（第955-957行），代码无条件执行 `selectors.append(current_selector)` 然后重置 current_selector。如果输入中出现连续逗号（如 'best,,worst'）或前导逗号（如 ',best'），此时 current_selector 为 None，会被追加进 selectors 列表。后续 _build_selector_function 递归处理该列表时，None 元素会导致对 None 调用 _build_selector_function 或属性访问，从而抛出异常或产生非预期行为。",
+        "trigger": "用户传入包含连续逗号或前导逗号的格式选择字符串，例如 `-f 'best,,worst'` 或 `-f ',best'`。",
+        "status": "needs_context"
+      },
+      {
+        "id": "4b9c54bb9be7",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 958,
+        "title": "'/' 选择器在 current_selector 为 None 时构造 PICKFIRST 含 None 分支",
+        "explanation": "当遇到 '/' 时（第958-961行），代码将 current_selector 作为 first_choice，并递归解析 second_choice，然后构造 FormatSelector(PICKFIRST, (first_choice, second_choice), [])。若 '/' 出现在选择器开头（如 '/best'），first_choice 为 None，会被放入 PICKFIRST 的元组中。后续 _build_selector_function 处理 PICKFIRST 时对 None 分支调用构建函数会失败。",
+        "trigger": "用户传入以 '/' 开头的格式选择字符串，例如 `-f '/best'`。",
+        "status": "needs_context"
+      },
+      {
+        "id": "812ca8acc884",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 972,
+        "title": "'+' 合并选择器在 current_selector 为 None 时构造 MERGE 含 None 视频分支",
+        "explanation": "当遇到 '+' 时（第972-975行），代码将 current_selector 作为 video_selector，递归解析 audio_selector，然后构造 FormatSelector(MERGE, (video_selector, audio_selector), [])。若 '+' 出现在选择器开头（如 '+bestaudio'），video_selector 为 None，会被放入 MERGE 元组。后续构建合并逻辑时对 None 视频分支处理会失败。",
+        "trigger": "用户传入以 '+' 开头的格式选择字符串，例如 `-f '+bestaudio'`。",
+        "status": "needs_context"
+      },
+      {
+        "id": "b5757b03c6dd",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 962,
+        "title": "_parse_filter 遇到未闭合的 '[' 时静默返回空过滤器",
+        "explanation": "_parse_filter（第926-932行）在遍历 token 时，只有遇到 ']' 才返回拼接结果；若 token 流结束（ENDMARKER）仍未遇到 ']'，循环自然结束，函数隐式返回 None。调用处第965-966行 `format_filter = _parse_filter(tokens); current_selector.filters.append(format_filter)` 会把 None 追加到 filters。后续使用该过滤器时可能因 None 导致异常或过滤行为异常，而非给出明确的语法错误。",
+        "trigger": "用户传入未闭合方括号的格式选择字符串，例如 `-f 'best[height>720'`。",
+        "status": "needs_context"
+      },
+      {
+        "id": "ae4afde4b262",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 928,
+        "title": "B007: Loop control variable `start` not used within loop body",
+        "explanation": "Loop control variable `start` not used within loop body",
+        "trigger": "触发条件需结合业务调用确认。",
+        "status": "supported"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-9",
+    "mode": "direct",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是合并、选择、分组与逗号终止的优先级组合解析错误；候选仅可变默认参数、缺失左操作数、空格式列表或扩展键，没有指出合法混合表达式错误。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "cfcf92cba544",
+      "485f537930b9",
+      "2521c68640b7",
+      "b4670807019f"
+    ],
+    "active_findings": [
+      {
+        "id": "cfcf92cba544",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 934,
+        "title": "可变默认参数 endwith=[]",
+        "explanation": "函数 _parse_format_selection 使用可变列表 [] 作为默认参数 endwith。虽然当前代码未对该列表进行修改（仅使用 `string in endwith` 判断），但这是 Python 中典型的可变默认参数反模式，一旦后续维护中有人向 endwith 追加元素，就会在多次调用间共享状态，导致难以排查的解析错误。",
+        "trigger": "任何调用 _parse_format_selection 且未显式传入 endwith 的场景；若未来代码修改 endwith 内容则立即触发跨调用污染。",
+        "status": "unverified"
+      },
+      {
+        "id": "485f537930b9",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 951,
+        "title": "逗号分隔时可能追加 None 选择器",
+        "explanation": "在解析格式选择时，遇到 ',' 会无条件执行 `selectors.append(current_selector)`。如果输入中出现连续逗号（如 'best,,worst'）或逗号前没有有效选择器（如 ',best'），current_selector 为 None，会被追加进 selectors。后续 _build_selector_function 对 None 调用 `selector.type` 会抛出 AttributeError，而不是给出友好的语法错误。",
+        "trigger": "format_spec 包含连续逗号或前导逗号，例如 `-f 'best,,worst'` 或 `-f ',best'`。",
+        "status": "unverified"
+      },
+      {
+        "id": "2521c68640b7",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 953,
+        "title": "PICKFIRST 左侧选择器可能为 None",
+        "explanation": "处理 '/' 时，first_choice = current_selector 可能为 None（例如格式串以 '/' 开头，或前一个操作符已把 current_selector 置为 None）。随后构造 FormatSelector(PICKFIRST, (None, second_choice), [])，在 _build_selector_function 中会对 None 调用 _build_selector_function，导致 `selector.type` 触发 AttributeError。",
+        "trigger": "format_spec 以 '/' 开头或 '/' 前没有有效选择器，例如 `-f '/best'`。",
+        "status": "unverified"
+      },
+      {
+        "id": "b4670807019f",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 967,
+        "title": "MERGE 左侧选择器可能为 None",
+        "explanation": "处理 '+' 时，video_selector = current_selector 可能为 None（例如格式串以 '+' 开头）。随后构造 FormatSelector(MERGE, (None, audio_selector), [])，在 _build_selector_function 中会对 None 调用 _build_selector_function，导致 AttributeError。",
+        "trigger": "format_spec 以 '+' 开头或 '+' 前没有有效选择器，例如 `-f '+bestaudio'`。",
+        "status": "unverified"
+      },
+      {
+        "id": "64e52c724c8b",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 1043,
+        "title": "扩展名匹配使用 f['ext'] 可能触发 KeyError",
+        "explanation": "在按扩展名或 format_id 过滤时，filter_f 直接使用 `f['ext']` 和 `f['format_id']` 下标访问。若某个 format 字典缺少这些键（例如某些提取器返回不完整的 format 信息），会抛出 KeyError 导致整个格式选择失败。代码其他位置（如 1011、1021、1033 行）均使用 .get() 安全访问。",
+        "trigger": "formats 列表中任一 format 字典缺少 'ext' 或 'format_id' 键，且 format_spec 不是 all/best/worst/bestaudio 等内置关键字。",
+        "status": "unverified"
+      },
+      {
+        "id": "46d4b6cac80b",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 1056,
+        "title": "_merge 中 report_error 后返回 None 导致后续解包失败",
+        "explanation": "_merge 在第一个格式不含视频时调用 self.report_error 并 `return`（返回 None）。调用方若对 _merge 的返回值进行解包或属性访问，会因 None 触发 TypeError。虽然 report_error 通常会抛出异常终止流程，但若其行为被配置为仅记录错误而不抛出，则 None 会继续传播。",
+        "trigger": "用户使用 `-f audio+video` 顺序颠倒（第一个格式 vcodec 为 'none'），且 report_error 未抛出异常。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-9",
+    "mode": "direct",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是合并、选择、分组与逗号终止的优先级组合解析错误；候选仅可变默认参数、缺失左操作数、空格式列表或扩展键，没有指出合法混合表达式错误。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "8dece2bfdb1b",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 1058,
+        "title": "MERGE 选择器假设 formats_info 恰好包含两个元素",
+        "explanation": "_merge 中 `format_1, format_2 = [f['format_id'] for f in formats_info]` 要求 formats_info 恰好有两个元素。但 MERGE 的 selector 是 (video_selector, audio_selector)，每个子选择器可能返回多个格式（例如 'bestvideo+bestaudio' 通常各返回一个，但若用户使用 'all+all' 或某个选择器匹配多个格式，则 formats_info 长度不为 2），此时会抛出 ValueError: too many values to unpack，导致下载崩溃而非给出友好错误。",
+        "trigger": "使用形如 `-f all+all` 或任何使 MERGE 两侧选择器各产生多于一个格式的格式串时，_merge 被调用且 formats_info 长度 != 2。",
+        "status": "unverified"
+      },
+      {
+        "id": "c658c89ba811",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 1061,
+        "title": "MERGE 中 report_error 后返回 None 导致后续 KeyError",
+        "explanation": "当第一个格式不含视频时，_merge 调用 self.report_error 后 `return`（返回 None）。调用方若未检查 None 而直接使用返回值（例如访问返回字典的键），会触发 TypeError/KeyError。report_error 默认行为可能只是记录错误而不终止，因此返回 None 会被继续传播。",
+        "trigger": "使用 `-f bestaudio+bestvideo` 等第一个格式为纯音频的合并格式串时，_merge 返回 None。",
+        "status": "unverified"
+      },
+      {
+        "id": "35c9bad85da2",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 1050,
+        "title": "按扩展名匹配时使用 f['ext'] 可能 KeyError",
+        "explanation": "第 1050 行 `filter_f = lambda f: f['ext'] == format_spec` 使用下标访问 'ext'，若某个格式字典缺少 'ext' 键会抛出 KeyError。相比之下第 1052 行使用 f['format_id'] 同样有风险，但 format_id 通常必存在；ext 在某些提取器返回的格式中可能缺失。",
+        "trigger": "格式列表中某个格式字典没有 'ext' 键，且 format_spec 是已知扩展名（如 'mp4'）时，filter 调用触发 KeyError。",
+        "status": "unverified"
+      },
+      {
+        "id": "34df1a59ea45",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 1020,
+        "title": "best/worst 回退分支在 formats 为空时索引越界",
+        "explanation": "第 1020-1022 行：当没有同时含音视频的格式，且所有格式都满足 `acodec != 'none'` 或所有格式都满足 `vcodec != 'none'` 时，执行 `yield formats[format_idx]`。若 formats 为空列表，`all(...)` 对空序列返回 True，随后 `formats[format_idx]` 会抛出 IndexError。",
+        "trigger": "formats 为空列表且 format_spec 为 'best'/'worst'/None 时。",
+        "status": "unverified"
+      },
+      {
+        "id": "8be3c967a883",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 926,
+        "title": "_parse_filter 遇到未闭合的 '[' 时静默返回不完整过滤器",
+        "explanation": "_parse_filter 遍历 tokens，只有遇到 ']' 才 return；若输入在 '[' 后没有闭合的 ']'（例如格式串以 '[' 结尾），循环自然结束，函数隐式返回 None。调用方第 967 行 `current_selector.filters.append(format_filter)` 会把 None 加入 filters，后续过滤逻辑可能因 None 而异常或产生难以理解的错误，而不是给出语法错误提示。",
+        "trigger": "格式串包含未闭合的 '['，如 `-f 'best['`。",
+        "status": "unverified"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-9",
+    "mode": "full",
+    "variant": "buggy",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是合并、选择、分组与逗号终止的优先级组合解析错误；候选仅可变默认参数、缺失左操作数、空格式列表或扩展键，没有指出合法混合表达式错误。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [
+      "67aca8951ca1",
+      "83adcded9492"
+    ],
+    "active_findings": [
+      {
+        "id": "67aca8951ca1",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 934,
+        "title": "可变默认参数 endwith=[] 存在共享状态风险",
+        "explanation": "_parse_format_selection 使用可变列表 [] 作为默认参数。虽然当前实现只对该参数做 `string in endwith` 的只读判断，未直接修改它，因此暂未触发实际 bug，但这是典型的可变默认参数反模式，后续维护中若有人向 endwith 追加元素，会污染所有调用共享的同一列表对象，导致难以排查的解析错误。",
+        "trigger": "任何调用 _parse_format_selection(tokens) 不传 endwith 时都会复用同一个列表对象；一旦未来代码修改该列表即出现跨调用污染。",
+        "status": "supported"
+      },
+      {
+        "id": "e7a52684ffba",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 928,
+        "title": "_parse_filter 循环中未使用的 start 变量",
+        "explanation": "_parse_filter 在解包 token 元组时绑定了 start 变量但从未使用，属于死代码/可读性问题。ruff 规则 B007 已标记。虽不影响功能，但会误导读者以为该变量有用途。",
+        "trigger": "静态检查或代码审查时触发。",
+        "status": "supported"
+      },
+      {
+        "id": "ae68a8648d9a",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 1053,
+        "title": "_merge 假设 formats_info 恰好包含两个元素",
+        "explanation": "_merge 通过 `format_1, format_2 = [f['format_id'] for f in formats_info]` 解包，隐含 formats_info 必须恰好有两个元素。若 MERGE 选择器某一侧（video_selector 或 audio_selector）返回空列表或返回多于一个格式，解包会抛出 ValueError（too many/not enough values to unpack），导致下载流程以未捕获异常中断，而非给出友好的格式错误提示。",
+        "trigger": "当用户使用 `-f video+audio` 形式且其中一侧选择器匹配到 0 个或多于 1 个格式时（例如某侧为 PICKFIRST 返回多个，或某侧无匹配）。",
+        "status": "needs_context"
+      },
+      {
+        "id": "ae4afde4b262",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 928,
+        "title": "B007: Loop control variable `start` not used within loop body",
+        "explanation": "Loop control variable `start` not used within loop body",
+        "trigger": "触发条件需结合业务调用确认。",
+        "status": "supported"
+      },
+      {
+        "id": "83adcded9492",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 934,
+        "title": "B006: Do not use mutable data structures for argument defaults",
+        "explanation": "Do not use mutable data structures for argument defaults",
+        "trigger": "触发条件需结合业务调用确认。",
+        "status": "supported"
+      }
+    ]
+  },
+  {
+    "case": "youtube-dl-9",
+    "mode": "full",
+    "variant": "fixed",
+    "run_status": "completed",
+    "reproduction": "reproduced",
+    "target_issue_detected": false,
+    "matched_finding_ids": [],
+    "reason": "参考问题是合并、选择、分组与逗号终止的优先级组合解析错误；候选仅可变默认参数、缺失左操作数、空格式列表或扩展键，没有指出合法混合表达式错误。",
+    "adjudicator": "Codex model-assisted evidence review; human review pending",
+    "location_candidates": [],
+    "active_findings": [
+      {
+        "id": "95b33e1ce715",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 1058,
+        "title": "MERGE 中 _merge 对 formats_info 长度不做校验，且 report_error 后仍继续",
+        "explanation": "_merge 直接解包 `format_1, format_2 = [f['format_id'] for f in formats_info]`，假定 formats_info 恰好有两个元素。虽然 MERGE 的 selector_function 通过 itertools.product 生成二元组，但 _merge 也被设计为可被外部/其他路径调用，且当 formats_info 长度不为 2 时会抛出 ValueError 而非给出友好错误。此外，当第一个格式不含视频时调用 self.report_error 后 `return`（返回 None），selector_function 会把 None 作为格式 yield 出去，下游 process_video_result 可能对 None 做字典访问而崩溃。",
+        "trigger": "使用 `-f bestvideo+bestaudio` 等合并选择器，且第一个被选中的格式 vcodec 为 'none'（例如用户写成 `-f bestaudio+bestvideo`），或 formats_info 元素数不为 2。",
+        "status": "supported"
+      },
+      {
+        "id": "ef6db79abcf7",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 1012,
+        "title": "best/worst 在仅有单一类型格式时可能 IndexError 或选错",
+        "explanation": "当没有同时含音视频的格式时，进入 elif 分支：条件为所有格式都有音频或所有格式都有视频。若 formats 为空列表，`all(...)` 对空序列返回 True，于是执行 `yield formats[format_idx]`，对空列表取索引会抛 IndexError。另外该分支用 `formats[format_idx]` 直接取首/末元素，未按质量排序，可能选出非最优/最差格式。",
+        "trigger": "调用 build_format_selector 生成的 selector 在 formats 为空列表时被调用（例如某 URL 未解析出任何格式）。",
+        "status": "needs_context"
+      },
+      {
+        "id": "58ba3eb3922a",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 926,
+        "title": "_parse_filter 未处理 token 流结束，可能返回 None",
+        "explanation": "_parse_filter 遍历 tokens，仅在遇到 ']' 时 return 拼接结果。若 token 流在遇到 ']' 之前结束（例如格式串以 '[' 结尾但 tokenize 未报错），函数会隐式返回 None，随后 967 行 `current_selector.filters.append(format_filter)` 会把 None 加入 filters，后续 _build_format_filter(None) 会因 re.search(None) 抛 TypeError。",
+        "trigger": "格式规范中包含未闭合的 '[' 且 tokenize 未抛出 TokenError 的边界情况。",
+        "status": "needs_context"
+      },
+      {
+        "id": "2b1684543d3e",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 1104,
+        "title": "tokenize 异常处理丢失原始异常链",
+        "explanation": "在 except tokenize.TokenError 分支中直接 raise syntax_error(...)，未使用 raise ... from err 或 from None，导致原始 TokenError 的上下文被隐式保留（Python 3 中会显示 'During handling of the above exception'），调试时难以区分是格式串语法错误还是 tokenize 内部错误。ruff B904 也标记了该问题。",
+        "trigger": "当 format_spec 含有未闭合的括号/引号等导致 compat_tokenize_tokenize 抛出 tokenize.TokenError 时。",
+        "status": "supported"
+      },
+      {
+        "id": "5d387721c55e",
+        "path": "youtube_dl/YoutubeDL.py",
+        "line": 1106,
+        "title": "B904: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+        "explanation": "Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+        "trigger": "触发条件需结合业务调用确认。",
+        "status": "supported"
+      }
+    ]
+  }
+]

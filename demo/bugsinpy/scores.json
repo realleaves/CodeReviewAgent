@@ -1,0 +1,46 @@
+{
+  "metrics": [
+    {
+      "mode": "direct",
+      "planned_pairs": 20,
+      "eligible_pairs": 18,
+      "detected_known_bugs": 4,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 4,
+      "known_bug_detection_rate": 0.2222222222222222,
+      "fixed_target_alarm_rate": 0.0,
+      "paired_discrimination_rate": 0.2222222222222222,
+      "exclusions": [
+        {
+          "case": "PySnooper-1",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "PySnooper-2",
+          "reason": "reproduction_not_verified"
+        }
+      ]
+    },
+    {
+      "mode": "full",
+      "planned_pairs": 20,
+      "eligible_pairs": 19,
+      "detected_known_bugs": 3,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 3,
+      "known_bug_detection_rate": 0.15789473684210525,
+      "fixed_target_alarm_rate": 0.0,
+      "paired_discrimination_rate": 0.15789473684210525,
+      "exclusions": [
+        {
+          "case": "PySnooper-2",
+          "reason": "reproduction_not_verified"
+        }
+      ]
+    }
+  ],
+  "scoring_scope": "Only the known reference issue; extra findings are not automatically false positives.",
+  "adjudicators": [
+    "Codex model-assisted evidence review; human review pending"
+  ]
+}

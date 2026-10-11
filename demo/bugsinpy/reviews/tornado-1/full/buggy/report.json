@@ -1,0 +1,1969 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "https://github.com/tornadoweb/tornado",
+    "name": "tornado",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "6a5a0bfa370b6c0d3dbbf9589a560a98202d2baa",
+    "indexed_snapshot_sha256": "3efdb89f1b593a1b0ca8675f237f200fba2f44357c27003727ebb7f7d9d1f06d"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:36:24.042303+00:00",
+    "status": "completed",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "full",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 31.61,
+    "api_calls": 11,
+    "usage": {
+      "prompt_tokens": 75261,
+      "completion_tokens": 4293
+    },
+    "indexed_python_files": 62,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 3,
+    "total_window_chunks": 3,
+    "active_findings": 3,
+    "rejected_findings": 13,
+    "severity_counts": {
+      "medium": 3
+    },
+    "status_counts": {
+      "supported": 3
+    }
+  },
+  "coverage": [
+    {
+      "path": "tornado/websocket.py",
+      "lines": 1656,
+      "windows": [
+        [
+          513,
+          610
+        ],
+        [
+          669,
+          764
+        ],
+        [
+          1300,
+          1395
+        ]
+      ],
+      "total_chunks": 3,
+      "reviewed_chunks": 3,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".coveragerc",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".flake8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "appveyor.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "codecov.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "readthedocs.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "runtests.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/Dockerfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/docker-compose.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/schema.sql",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/static/blog.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/archive.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/base.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/compose.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/create_author.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/feed.xml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/login.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/modules/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/static/chat.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/static/chat.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/templates/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/templates/message.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/static/facebook.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/static/facebook.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/templates/stream.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/templates/modules/post.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/tcpecho/README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/twitter/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/static/chat.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/static/chat.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/templates/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/templates/message.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/asyncio.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/auth.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/autoreload.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/caresresolver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/concurrent.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conda.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/coroutine.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/escape.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/faq.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/favicon.ico",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/gen.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/http.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/http1connection.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httpclient.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httpserver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httputil.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/integration.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/ioloop.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/iostream.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/locale.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/locks.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/log.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/netutil.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/networking.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/options.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/process.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/queues.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/routing.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tcpclient.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tcpserver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/template.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/testing.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tornado.png",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/twisted.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/util.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/utilities.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/web.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/webframework.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/websocket.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/wsgi.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/async.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/coroutines.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/intro.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/queues.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/running.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/security.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/structure.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/templates.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.3.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.4.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.4.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.3.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.4.3.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.5.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.5.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.5.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.5.3.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v5.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v5.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v5.0.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v5.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v5.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v6.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/requirements.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/scripts/run_autopep8.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/cythonapp.pyx",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/mypy/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/mypy/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/redbot/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/redbot/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/fuzzingclient.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/fuzzingserver.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/run-client.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/run-server.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/shared-setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/windows/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/py.typed",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/speedups.c",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/speedups.pyi",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/platform/auto.pyi",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/options_test.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/options_test_types.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/options_test_types_str.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static_foo.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/test.crt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/test.key",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tornado/test/csv_translations/fr_FR.csv",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/gettext_translations/fr_FR/LC_MESSAGES/tornado_test.mo",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/gettext_translations/fr_FR/LC_MESSAGES/tornado_test.po",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/robots.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/sample.xml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/sample.xml.bz2",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/sample.xml.gz",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/dir/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/templates/utf8.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/scripts/test_resolvers.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/cython/cythonapp_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/cython/pythonmodule.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/cython/setup.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/mypy/bad.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/mypy/good.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/mypy/setup.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/redbot/red_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/websocket/client.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/websocket/server.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/__main__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/asyncio_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/auth_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/autoreload_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/concurrent_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/curl_httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/escape_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/gen_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/http1connection_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httpserver_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httputil_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/import_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/ioloop_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/iostream_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/locale_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/locks_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/log_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/netutil_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/options_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/process_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/queues_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/resolve_test_helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/routing_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/runtests.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/simple_httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/tcpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/tcpserver_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/template_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/testing_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/twisted_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/util.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/util_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/web_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/websocket_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/windows_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/wsgi_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/gettext_translations/extract_me.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 3
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 21
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 18258,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1011,
+        "prompt_tokens": 6079,
+        "total_tokens": 7090,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 5888
+        },
+        "prompt_cache_hit_tokens": 5888,
+        "prompt_cache_miss_tokens": 191
+      },
+      "elapsed_seconds": 10.686
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 19394,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 57,
+        "prompt_tokens": 6237,
+        "total_tokens": 6294,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 5725
+      },
+      "elapsed_seconds": 0.993
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 23529,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 52,
+        "prompt_tokens": 7416,
+        "total_tokens": 7468,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 6272
+        },
+        "prompt_cache_hit_tokens": 6272,
+        "prompt_cache_miss_tokens": 1144
+      },
+      "elapsed_seconds": 1.81
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 28770,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 652,
+        "prompt_tokens": 8926,
+        "total_tokens": 9578,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 8414
+      },
+      "elapsed_seconds": 3.417
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 17478,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 471,
+        "prompt_tokens": 5936,
+        "total_tokens": 6407,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 5760
+        },
+        "prompt_cache_hit_tokens": 5760,
+        "prompt_cache_miss_tokens": 176
+      },
+      "elapsed_seconds": 3.132
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 14024,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 82,
+        "prompt_tokens": 4662,
+        "total_tokens": 4744,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 4150
+      },
+      "elapsed_seconds": 0.814
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 19047,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 359,
+        "prompt_tokens": 6191,
+        "total_tokens": 6550,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 4736
+        },
+        "prompt_cache_hit_tokens": 4736,
+        "prompt_cache_miss_tokens": 1455
+      },
+      "elapsed_seconds": 2.041
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 18720,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 726,
+        "prompt_tokens": 6356,
+        "total_tokens": 7082,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 6144
+        },
+        "prompt_cache_hit_tokens": 6144,
+        "prompt_cache_miss_tokens": 212
+      },
+      "elapsed_seconds": 3.292
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 20551,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 67,
+        "prompt_tokens": 6735,
+        "total_tokens": 6802,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6479
+      },
+      "elapsed_seconds": 0.664
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 24389,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 68,
+        "prompt_tokens": 7891,
+        "total_tokens": 7959,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 6784
+        },
+        "prompt_cache_hit_tokens": 6784,
+        "prompt_cache_miss_tokens": 1107
+      },
+      "elapsed_seconds": 0.956
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 27404,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 748,
+        "prompt_tokens": 8832,
+        "total_tokens": 9580,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8576
+      },
+      "elapsed_seconds": 3.48
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "tornado/websocket.py",
+      "start": 513,
+      "end": 632
+    },
+    {
+      "path": "tornado/websocket.py",
+      "start": 440,
+      "end": 515
+    },
+    {
+      "path": "tornado/websocket.py",
+      "start": 1540,
+      "end": 1570
+    },
+    {
+      "path": "tornado/websocket.py",
+      "start": 200,
+      "end": 280
+    },
+    {
+      "path": "tornado/websocket.py",
+      "start": 704,
+      "end": 787
+    },
+    {
+      "path": "tornado/websocket.py",
+      "start": 718,
+      "end": 790
+    },
+    {
+      "path": "tornado/websocket.py",
+      "start": 790,
+      "end": 830
+    },
+    {
+      "path": "tornado/websocket.py",
+      "start": 1283,
+      "end": 1391
+    },
+    {
+      "path": "tornado/websocket.py",
+      "start": 1391,
+      "end": 1420
+    },
+    {
+      "path": "tornado/websocket.py",
+      "start": 1,
+      "end": 60
+    },
+    {
+      "path": "tornado/websocket.py",
+      "start": 122,
+      "end": 135
+    },
+    {
+      "path": "tornado/websocket.py",
+      "start": 1420,
+      "end": 1470
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "tornado/websocket.py",
+      "start": 513,
+      "end": 609,
+      "findings": [
+        {
+          "path": "tornado/websocket.py",
+          "line": 538,
+          "end_line": 545,
+          "severity": "medium",
+          "category": "security",
+          "title": "check_origin 未处理缺失 Host 头导致 Origin 校验可被绕过",
+          "explanation": "check_origin 通过比较 Origin 的 netloc 与请求头 Host 来判断同源。当请求缺少 Host 头时，self.request.headers.get(\"Host\") 返回 None，而 origin 为字符串。若攻击者构造的 Origin 头解析后 netloc 为空字符串（例如 Origin: file:// 或 Origin: 空值），则 origin == host 可能因类型/值比较产生意外结果；更关键的是该校验完全依赖客户端可控的 Host 头，在反向代理未强制覆盖 Host 时，攻击者可同时伪造 Origin 与 Host 使二者相等，从而绕过跨站 WebSocket 劫持防护。",
+          "trigger": "客户端发送 WebSocket 升级请求，同时控制 Origin 与 Host 头（例如经未规范化 Host 的代理），使 urlparse(origin).netloc 与 Host 头相等。",
+          "evidence": "542: host = self.request.headers.get(\"Host\")\n544: # Check to see that origin matches host directly, including ports\n545: return origin == host",
+          "suggestion": "在比较前校验 host 非空，并在文档/实现中明确依赖可信代理设置 Host；可考虑对缺失 Host 或 Origin 直接拒绝，或使用配置的允许来源列表而非仅依赖请求头。",
+          "id": "a309730b7f92",
+          "source": "llm",
+          "rule": "",
+          "snippet": "536: \n537:         \"\"\"\n538:         parsed_origin = urlparse(origin)\n539:         origin = parsed_origin.netloc\n540:         origin = origin.lower()\n541: \n542:         host = self.request.headers.get(\"Host\")\n543: \n544:         # Check to see that origin matches host directly, including ports\n545:         return origin == host\n546: \n547:     def set_nodelay(self, value: bool) -> None:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "tornado/websocket.py",
+          "line": 561,
+          "end_line": 562,
+          "severity": "low",
+          "category": "quality",
+          "title": "set_nodelay 使用 assert 做运行时前置条件检查",
+          "explanation": "set_nodelay 用 assert self.stream is not None 来保证流存在。在 Python -O 优化模式下 assert 会被移除，若此时 self.stream 为 None，则下一行 self.stream.set_nodelay(value) 会抛出 AttributeError 而非清晰的断言错误，掩盖真实问题。",
+          "trigger": "以 python -O 运行且 self.stream 为 None 时调用 set_nodelay。",
+          "evidence": "561: assert self.stream is not None\n562: self.stream.set_nodelay(value)",
+          "suggestion": "改为显式检查并抛出明确异常，例如 if self.stream is None: raise RuntimeError(...)，避免依赖 assert。",
+          "id": "379762f8883f",
+          "source": "llm",
+          "rule": "",
+          "snippet": "559:         .. versionadded:: 3.1\n560:         \"\"\"\n561:         assert self.stream is not None\n562:         self.stream.set_nodelay(value)\n563: \n564:     def on_connection_close(self) -> None:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "tornado/websocket.py",
+          "line": 589,
+          "end_line": 597,
+          "severity": "medium",
+          "category": "bug",
+          "title": "send_error 在握手后直接关闭流，丢失错误响应语义",
+          "explanation": "send_error 在 self.stream 非空时直接调用 self.stream.close()，不发送任何 HTTP 错误响应，也不区分握手阶段与握手后阶段。注释也承认握手后异常只能粗暴关闭。若在握手过程中（尚未完成 101 升级）发生异常，客户端将收到连接被重置而非明确的 HTTP 错误码，影响可诊断性与协议正确性。",
+          "trigger": "在 WebSocket 握手处理期间（stream 已建立但未完成升级）抛出未捕获异常并触发 send_error。",
+          "evidence": "590: if self.stream is None:\n591: super(WebSocketHandler, self).send_error(*args, **kwargs)\n592: else:\n593: # If we get an uncaught exception during the handshake,\n594: # we have no choice but to abruptly close the connection.\n597: self.stream.close()",
+          "suggestion": "在握手未完成时尝试通过 super().send_error 发送标准 HTTP 错误响应，仅在已升级为 WebSocket 后才直接关闭底层流。",
+          "id": "d0ec09619e27",
+          "source": "llm",
+          "rule": "",
+          "snippet": "587:             super(WebSocketHandler, self)._break_cycles()\n588: \n589:     def send_error(self, *args: Any, **kwargs: Any) -> None:\n590:         if self.stream is None:\n591:             super(WebSocketHandler, self).send_error(*args, **kwargs)\n592:         else:\n593:             # If we get an uncaught exception during the handshake,\n594:             # we have no choice but to abruptly close the connection.\n595:             # TODO: for uncaught exceptions after the handshake,\n596:             # we can close the connection more gracefully.\n597:             self.stream.close()\n598: \n599:     def get_websocket_protocol(self) -> Optional[\"WebSocketProtocol\"]:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "tornado/websocket.py",
+          "line": 599,
+          "end_line": 609,
+          "severity": "low",
+          "category": "quality",
+          "title": "get_websocket_protocol 对未知版本静默返回 None",
+          "explanation": "当 Sec-WebSocket-Version 不在 (\"7\",\"8\",\"13\") 中时返回 None，调用方需自行处理 None。若调用方未检查，后续可能对 None 调用方法导致 AttributeError；同时缺少对不支持版本的明确错误反馈。",
+          "trigger": "客户端发送 Sec-WebSocket-Version 为其他值（如缺失或 \"14\"）时调用 get_websocket_protocol。",
+          "evidence": "600: websocket_version = self.request.headers.get(\"Sec-WebSocket-Version\")\n601: if websocket_version in (\"7\", \"8\", \"13\"):\n...\n609: return None",
+          "suggestion": "在返回 None 前记录日志或由调用方显式处理并返回 400/426 响应，明确告知客户端不支持的版本。",
+          "id": "ac7c958f8d8d",
+          "source": "llm",
+          "rule": "",
+          "snippet": "597:             self.stream.close()\n598: \n599:     def get_websocket_protocol(self) -> Optional[\"WebSocketProtocol\"]:\n600:         websocket_version = self.request.headers.get(\"Sec-WebSocket-Version\")\n601:         if websocket_version in (\"7\", \"8\", \"13\"):\n602:             params = _WebSocketParams(\n603:                 ping_interval=self.ping_interval,\n604:                 ping_timeout=self.ping_timeout,\n605:                 max_message_size=self.max_message_size,\n606:                 compression_options=self.get_compression_options(),\n607:             )\n608:             return WebSocketProtocol13(self, False, params)\n609:         return None\n610: \n611:     def _detach_stream(self) -> IOStream:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "d17259c660b7",
+          "status": "rejected",
+          "reason": "该 assert 位于 set_nodelay 中，用于在开发期捕获 self.stream 为 None 的编程错误。self.stream 在 __init__ 中初始化为 None，仅在握手成功后才被赋值；set_nodelay 是供用户在连接建立后调用的公开方法，正常调用路径下 stream 必然非空。bandit B101 属于通用风格告警，此处并非安全边界，且 -O 下移除后下一行会抛 AttributeError，仍会失败而非静默放行。不构成实际安全问题。"
+        },
+        {
+          "id": "a309730b7f92",
+          "status": "rejected",
+          "reason": "check_origin 的语义是“比较 Origin 的 netloc 与请求 Host 是否一致”，这是 Tornado 文档明确记载的默认同源策略。攻击者若同时伪造 Origin 与 Host 使二者相等，则其 Origin 与 Host 本就一致，不构成跨站；跨站攻击场景下浏览器发送的 Origin 是真实站点，无法被脚本伪造，因此 Host 与 Origin 不会相等。缺少 Host 头时 host 为 None，origin 为字符串，比较为 False，会拒绝而非放行。反向代理未规范化 Host 属于部署配置问题，非本函数缺陷。原候选的绕过论证不成立。"
+        },
+        {
+          "id": "379762f8883f",
+          "status": "rejected",
+          "reason": "与 d17259c660b7 同一处 assert。该断言是内部不变量检查，非用户输入校验；-O 模式下移除后 self.stream.set_nodelay 会抛 AttributeError，仍能暴露问题，不会导致安全或正确性后果。属于风格偏好，不构成需修复的缺陷。"
+        },
+        {
+          "id": "d0ec09619e27",
+          "status": "supported",
+          "reason": "代码与注释一致：send_error 在 self.stream 非空时直接 self.stream.close()，不发送任何 HTTP 错误响应。注释明确说明“握手期间未捕获异常只能粗暴关闭连接”，并留有 TODO 表示握手后可更优雅关闭。因此握手阶段（stream 已建立但未完成 101 升级）发生异常时，客户端收到连接重置而非明确 HTTP 错误码，确实影响可诊断性与协议正确性。属有意为之的已知限制，但候选描述与代码事实相符。"
+        },
+        {
+          "id": "ac7c958f8d8d",
+          "status": "rejected",
+          "reason": "get_websocket_protocol 返回 None 是设计契约：调用方 get() 在 276-280 行显式检查 if self.ws_connection: ... else: self.set_status(426, \"Upgrade Required\")，即对不支持的版本返回 426 响应。候选所称“调用方未检查导致 AttributeError”与源码不符，且缺少明确错误反馈的说法也不成立。属误报。"
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "tornado/websocket.py",
+      "start": 669,
+      "end": 763,
+      "findings": [
+        {
+          "path": "tornado/websocket.py",
+          "line": 729,
+          "end_line": 733,
+          "severity": "medium",
+          "category": "bug",
+          "title": "ValueError 构造参数错误导致异常信息格式异常",
+          "explanation": "raise ValueError 时传入了三个参数（格式字符串和两个值），而不是使用 % 格式化。ValueError 的 args 会变成三元组，str(e) 会显示为元组形式 (\"Invalid max_wbits value %r; allowed range 8-%d\", max_wbits, zlib.MAX_WBITS)，而不是格式化后的可读消息。这会让用户看到难以理解的错误信息。",
+          "trigger": "调用 _PerMessageDeflateCompressor 时传入超出范围（如 7 或 16）的 max_wbits 值。",
+          "evidence": "第 729-733 行：raise ValueError(\"Invalid max_wbits value %r; allowed range 8-%d\", max_wbits, zlib.MAX_WBITS)，缺少 % 运算符。",
+          "suggestion": "改为 raise ValueError(\"Invalid max_wbits value %r; allowed range 8-%d\" % (max_wbits, zlib.MAX_WBITS)) 或使用 f-string。",
+          "id": "4d3d66885987",
+          "source": "llm",
+          "rule": "",
+          "snippet": "727:         # There is no symbolic constant for the minimum wbits value.\n728:         if not (8 <= max_wbits <= zlib.MAX_WBITS):\n729:             raise ValueError(\n730:                 \"Invalid max_wbits value %r; allowed range 8-%d\",\n731:                 max_wbits,\n732:                 zlib.MAX_WBITS,\n733:             )\n734:         self._max_wbits = max_wbits\n735: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "tornado/websocket.py",
+          "line": 762,
+          "end_line": 762,
+          "severity": "low",
+          "category": "quality",
+          "title": "使用 assert 校验压缩输出，优化模式下会被移除",
+          "explanation": "bandit B101 指出此处使用 assert 校验压缩结果以 \\x00\\x00\\xff\\xff 结尾。当 Python 以 -O 优化模式运行时，assert 语句会被完全移除，导致后续 data[:-4] 在异常情况下可能静默产生错误数据而非抛出错误。",
+          "trigger": "以 python -O 运行且 zlib 压缩输出未按预期以同步刷新标记结尾时。",
+          "evidence": "第 762 行：assert data.endswith(b\"\\x00\\x00\\xff\\xff\")，随后第 763 行 data[:-4] 依赖该假设。",
+          "suggestion": "若该不变量确实重要，改为显式 if not ...: raise RuntimeError(...)；否则可保留但需知晓优化模式下失效。",
+          "id": "15cb5556b628",
+          "source": "llm",
+          "rule": "",
+          "snippet": "760:         compressor = self._compressor or self._create_compressor()\n761:         data = compressor.compress(data) + compressor.flush(zlib.Z_SYNC_FLUSH)\n762:         assert data.endswith(b\"\\x00\\x00\\xff\\xff\")\n763:         return data[:-4]\n764: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "fb86a0970c8a",
+          "status": "rejected",
+          "reason": "bandit B101 对 assert 的通用告警在此处不构成安全漏洞。该 assert 仅校验 zlib 在 Z_SYNC_FLUSH 下必然产生的同步刷新标记（b\"\\x00\\x00\\xff\\xff\"），是内部不变量检查，不涉及外部不可信输入，也不承担安全边界职责。优化模式下移除不会引入安全风险，属误报。"
+        },
+        {
+          "id": "4d3d66885987",
+          "status": "supported",
+          "reason": "第729-733行确实将格式字符串与两个参数作为三个独立位置参数传给 ValueError，缺少 % 运算符。ValueError.args 会变成三元组，str(e) 显示为元组而非格式化消息。第777-782行 _PerMessageDeflateDecompressor 存在同样写法，佐证这是真实缺陷而非有意设计。触发条件为 max_wbits 超出 8..zlib.MAX_WBITS 范围。"
+        },
+        {
+          "id": "15cb5556b628",
+          "status": "rejected",
+          "reason": "与 fb86a0970c8a 为同一处 assert 的重复报告。该断言校验的是 zlib 在 Z_SYNC_FLUSH 下必然输出的固定标记，属内部不变量，非安全校验。优化模式下移除不会导致静默错误数据：若标记缺失，data[:-4] 仅会截掉末尾4字节，且此情形在正常 zlib 行为下不会发生。作为质量提示价值有限，不构成需修复的缺陷。"
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "tornado/websocket.py",
+      "start": 1300,
+      "end": 1395,
+      "findings": [
+        {
+          "path": "tornado/websocket.py",
+          "line": 1366,
+          "end_line": 1366,
+          "severity": "medium",
+          "category": "bug",
+          "title": "可变默认参数 subprotocols=[] 在实例间共享",
+          "explanation": "__init__ 的 subprotocols 参数默认值为可变列表 []。虽然当前代码只读取该列表（\",\".join(subprotocols)）而未修改，但可变默认参数是共享对象，任何后续对该列表的原地修改都会污染所有使用默认值的调用，属于典型的可变默认参数缺陷。",
+          "trigger": "调用 WebSocketClientConnection(...) 时不传 subprotocols，随后（或未来代码）对该默认列表执行 append/remove 等原地修改，会影响所有共享同一默认列表的实例。",
+          "evidence": "第1366行：subprotocols: Optional[List[str]] = []；第1392-1393行读取该列表用于拼接 Sec-WebSocket-Protocol 头。ruff 规则 B006 也报告了该问题。",
+          "suggestion": "将默认值改为 None，并在函数体内处理：subprotocols: Optional[List[str]] = None，然后 if subprotocols: request.headers[\"Sec-WebSocket-Protocol\"] = \",\".join(subprotocols)。",
+          "id": "7d53e45885a2",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1364:         ping_timeout: float = None,\n1365:         max_message_size: int = _default_max_message_size,\n1366:         subprotocols: Optional[List[str]] = [],\n1367:     ) -> None:\n1368:         self.connect_future = Future()  # type: Future[WebSocketClientConnection]",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "tornado/websocket.py",
+          "line": 1308,
+          "end_line": 1309,
+          "severity": "low",
+          "category": "quality",
+          "title": "ping_timeout 依赖 assert 校验 ping_interval 非空",
+          "explanation": "ping_timeout 属性在 params.ping_timeout 为 None 时通过 assert self.ping_interval is not None 来保证后续计算安全。assert 在 -O 优化模式下会被移除，届时若 ping_interval 为 None，max(3 * self.ping_interval, 30) 会抛出 TypeError 而非给出清晰错误。",
+          "trigger": "以 python -O 运行且 ping_interval 为 None 时访问 ping_timeout 属性。",
+          "evidence": "第1308行 assert self.ping_interval is not None；第1309行 return max(3 * self.ping_interval, 30)。bandit B101 报告了该 assert。",
+          "suggestion": "用显式判断替代 assert，例如 if self.ping_interval is None: raise ValueError(...)，或确保 ping_interval 在构造时已被规范化。",
+          "id": "e6d3d846e62d",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1306:         if timeout is not None:\n1307:             return timeout\n1308:         assert self.ping_interval is not None\n1309:         return max(3 * self.ping_interval, 30)\n1310: \n1311:     def start_pinging(self) -> None:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "tornado/websocket.py",
+          "line": 1336,
+          "end_line": 1341,
+          "severity": "low",
+          "category": "quality",
+          "title": "periodic_ping 中 assert 在优化模式下失效",
+          "explanation": "periodic_ping 使用 assert 保证 ping_interval 与 ping_timeout 非空，随后用它们做超时判断。在 -O 模式下 assert 被移除，若这些值为 None，比较运算 since_last_pong > self.ping_timeout 会抛 TypeError，导致周期性 ping 回调异常。",
+          "trigger": "以 python -O 运行且 ping_interval/ping_timeout 为 None 时触发 periodic_ping 回调。",
+          "evidence": "第1336-1337行 assert self.ping_interval is not None / assert self.ping_timeout is not None；第1339-1340行使用这两个值进行比较。bandit B101 报告了这两处 assert。",
+          "suggestion": "改为显式校验或提前返回，避免依赖 assert 做运行时保证。",
+          "id": "20afae7652ac",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1334:         since_last_pong = now - self.last_pong\n1335:         since_last_ping = now - self.last_ping\n1336:         assert self.ping_interval is not None\n1337:         assert self.ping_timeout is not None\n1338:         if (\n1339:             since_last_ping < 2 * self.ping_interval\n1340:             and since_last_pong > self.ping_timeout\n1341:         ):\n1342:             self.close()\n1343:             return",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "a76dcef0ba61",
+          "status": "supported",
+          "reason": "第1366行 subprotocols 默认值为可变列表 []，属 B006 规则命中。代码仅在1392-1393行读取该列表（\",\".join），未原地修改，因此当前无实际缺陷，但可变默认参数本身确实存在，规则报告成立。"
+        },
+        {
+          "id": "ff225078ec44",
+          "status": "rejected",
+          "reason": "第1308行 assert self.ping_interval is not None 是内部不变量断言：ping_interval 属性（1297-1301行）在 params.ping_interval 为 None 时返回 0 而非 None，故该 assert 恒为真，不会因 -O 移除而产生 TypeError。bandit B101 属误报。"
+        },
+        {
+          "id": "0338be8565c5",
+          "status": "rejected",
+          "reason": "第1313行 assert self.ping_interval is not None 同样恒为真（ping_interval 属性返回 0 或非 None 值），-O 移除后 1314 行 self.ping_interval > 0 仍安全。bandit B101 属误报。"
+        },
+        {
+          "id": "dbc74acec956",
+          "status": "rejected",
+          "reason": "第1336行 assert self.ping_interval is not None 恒为真（属性返回 0 或非 None），移除后 1339 行 2 * self.ping_interval 仍安全。bandit B101 属误报。"
+        },
+        {
+          "id": "20a9273f3287",
+          "status": "rejected",
+          "reason": "第1337行 assert self.ping_timeout is not None 恒为真：ping_timeout 属性（1304-1309行）在 params.ping_timeout 为 None 时返回 max(3*ping_interval,30)（ping_interval 至少为 0），否则返回非 None 值。移除后 1340 行比较仍安全。bandit B101 属误报。"
+        },
+        {
+          "id": "7d53e45885a2",
+          "status": "rejected",
+          "reason": "subprotocols 默认 [] 虽为可变默认参数，但代码仅在1392-1393行读取（\",\".join），从不原地修改该列表，且该列表不会被存入实例或对外暴露，不存在跨实例污染路径。当前无可触发的实际缺陷，属风格问题而非 bug。"
+        },
+        {
+          "id": "e6d3d846e62d",
+          "status": "rejected",
+          "reason": "ping_interval 属性（1297-1301行）保证返回 0 或非 None 值，assert 恒为真；即使 -O 移除，max(3*self.ping_interval,30) 中 ping_interval 为 0 时也返回 30，不会抛 TypeError。前提不成立。"
+        },
+        {
+          "id": "20afae7652ac",
+          "status": "rejected",
+          "reason": "ping_interval 与 ping_timeout 属性均保证返回非 None（分别为 0/非 None 与 max(3*interval,30)/非 None），两处 assert 恒为真；-O 移除后 1339-1340 行的比较运算仍安全，不会抛 TypeError。前提不成立。"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "tornado/websocket.py",
+      "line": 538,
+      "end_line": 545,
+      "severity": "medium",
+      "category": "security",
+      "title": "check_origin 未处理缺失 Host 头导致 Origin 校验可被绕过",
+      "explanation": "check_origin 通过比较 Origin 的 netloc 与请求头 Host 来判断同源。当请求缺少 Host 头时，self.request.headers.get(\"Host\") 返回 None，而 origin 为字符串。若攻击者构造的 Origin 头解析后 netloc 为空字符串（例如 Origin: file:// 或 Origin: 空值），则 origin == host 可能因类型/值比较产生意外结果；更关键的是该校验完全依赖客户端可控的 Host 头，在反向代理未强制覆盖 Host 时，攻击者可同时伪造 Origin 与 Host 使二者相等，从而绕过跨站 WebSocket 劫持防护。",
+      "trigger": "客户端发送 WebSocket 升级请求，同时控制 Origin 与 Host 头（例如经未规范化 Host 的代理），使 urlparse(origin).netloc 与 Host 头相等。",
+      "evidence": "542: host = self.request.headers.get(\"Host\")\n544: # Check to see that origin matches host directly, including ports\n545: return origin == host",
+      "suggestion": "在比较前校验 host 非空，并在文档/实现中明确依赖可信代理设置 Host；可考虑对缺失 Host 或 Origin 直接拒绝，或使用配置的允许来源列表而非仅依赖请求头。",
+      "id": "a309730b7f92",
+      "source": "llm",
+      "rule": "",
+      "snippet": "536: \n537:         \"\"\"\n538:         parsed_origin = urlparse(origin)\n539:         origin = parsed_origin.netloc\n540:         origin = origin.lower()\n541: \n542:         host = self.request.headers.get(\"Host\")\n543: \n544:         # Check to see that origin matches host directly, including ports\n545:         return origin == host\n546: \n547:     def set_nodelay(self, value: bool) -> None:",
+      "status": "rejected",
+      "verification": "check_origin 的语义是“比较 Origin 的 netloc 与请求 Host 是否一致”，这是 Tornado 文档明确记载的默认同源策略。攻击者若同时伪造 Origin 与 Host 使二者相等，则其 Origin 与 Host 本就一致，不构成跨站；跨站攻击场景下浏览器发送的 Origin 是真实站点，无法被脚本伪造，因此 Host 与 Origin 不会相等。缺少 Host 头时 host 为 None，origin 为字符串，比较为 False，会拒绝而非放行。反向代理未规范化 Host 属于部署配置问题，非本函数缺陷。原候选的绕过论证不成立。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 561,
+      "end_line": 562,
+      "severity": "low",
+      "category": "quality",
+      "title": "set_nodelay 使用 assert 做运行时前置条件检查",
+      "explanation": "set_nodelay 用 assert self.stream is not None 来保证流存在。在 Python -O 优化模式下 assert 会被移除，若此时 self.stream 为 None，则下一行 self.stream.set_nodelay(value) 会抛出 AttributeError 而非清晰的断言错误，掩盖真实问题。",
+      "trigger": "以 python -O 运行且 self.stream 为 None 时调用 set_nodelay。",
+      "evidence": "561: assert self.stream is not None\n562: self.stream.set_nodelay(value)",
+      "suggestion": "改为显式检查并抛出明确异常，例如 if self.stream is None: raise RuntimeError(...)，避免依赖 assert。",
+      "id": "379762f8883f",
+      "source": "llm",
+      "rule": "",
+      "snippet": "559:         .. versionadded:: 3.1\n560:         \"\"\"\n561:         assert self.stream is not None\n562:         self.stream.set_nodelay(value)\n563: \n564:     def on_connection_close(self) -> None:",
+      "status": "rejected",
+      "verification": "与 d17259c660b7 同一处 assert。该断言是内部不变量检查，非用户输入校验；-O 模式下移除后 self.stream.set_nodelay 会抛 AttributeError，仍能暴露问题，不会导致安全或正确性后果。属于风格偏好，不构成需修复的缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 589,
+      "end_line": 597,
+      "severity": "medium",
+      "category": "bug",
+      "title": "send_error 在握手后直接关闭流，丢失错误响应语义",
+      "explanation": "send_error 在 self.stream 非空时直接调用 self.stream.close()，不发送任何 HTTP 错误响应，也不区分握手阶段与握手后阶段。注释也承认握手后异常只能粗暴关闭。若在握手过程中（尚未完成 101 升级）发生异常，客户端将收到连接被重置而非明确的 HTTP 错误码，影响可诊断性与协议正确性。",
+      "trigger": "在 WebSocket 握手处理期间（stream 已建立但未完成升级）抛出未捕获异常并触发 send_error。",
+      "evidence": "590: if self.stream is None:\n591: super(WebSocketHandler, self).send_error(*args, **kwargs)\n592: else:\n593: # If we get an uncaught exception during the handshake,\n594: # we have no choice but to abruptly close the connection.\n597: self.stream.close()",
+      "suggestion": "在握手未完成时尝试通过 super().send_error 发送标准 HTTP 错误响应，仅在已升级为 WebSocket 后才直接关闭底层流。",
+      "id": "d0ec09619e27",
+      "source": "llm",
+      "rule": "",
+      "snippet": "587:             super(WebSocketHandler, self)._break_cycles()\n588: \n589:     def send_error(self, *args: Any, **kwargs: Any) -> None:\n590:         if self.stream is None:\n591:             super(WebSocketHandler, self).send_error(*args, **kwargs)\n592:         else:\n593:             # If we get an uncaught exception during the handshake,\n594:             # we have no choice but to abruptly close the connection.\n595:             # TODO: for uncaught exceptions after the handshake,\n596:             # we can close the connection more gracefully.\n597:             self.stream.close()\n598: \n599:     def get_websocket_protocol(self) -> Optional[\"WebSocketProtocol\"]:",
+      "status": "supported",
+      "verification": "代码与注释一致：send_error 在 self.stream 非空时直接 self.stream.close()，不发送任何 HTTP 错误响应。注释明确说明“握手期间未捕获异常只能粗暴关闭连接”，并留有 TODO 表示握手后可更优雅关闭。因此握手阶段（stream 已建立但未完成 101 升级）发生异常时，客户端收到连接重置而非明确 HTTP 错误码，确实影响可诊断性与协议正确性。属有意为之的已知限制，但候选描述与代码事实相符。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 599,
+      "end_line": 609,
+      "severity": "low",
+      "category": "quality",
+      "title": "get_websocket_protocol 对未知版本静默返回 None",
+      "explanation": "当 Sec-WebSocket-Version 不在 (\"7\",\"8\",\"13\") 中时返回 None，调用方需自行处理 None。若调用方未检查，后续可能对 None 调用方法导致 AttributeError；同时缺少对不支持版本的明确错误反馈。",
+      "trigger": "客户端发送 Sec-WebSocket-Version 为其他值（如缺失或 \"14\"）时调用 get_websocket_protocol。",
+      "evidence": "600: websocket_version = self.request.headers.get(\"Sec-WebSocket-Version\")\n601: if websocket_version in (\"7\", \"8\", \"13\"):\n...\n609: return None",
+      "suggestion": "在返回 None 前记录日志或由调用方显式处理并返回 400/426 响应，明确告知客户端不支持的版本。",
+      "id": "ac7c958f8d8d",
+      "source": "llm",
+      "rule": "",
+      "snippet": "597:             self.stream.close()\n598: \n599:     def get_websocket_protocol(self) -> Optional[\"WebSocketProtocol\"]:\n600:         websocket_version = self.request.headers.get(\"Sec-WebSocket-Version\")\n601:         if websocket_version in (\"7\", \"8\", \"13\"):\n602:             params = _WebSocketParams(\n603:                 ping_interval=self.ping_interval,\n604:                 ping_timeout=self.ping_timeout,\n605:                 max_message_size=self.max_message_size,\n606:                 compression_options=self.get_compression_options(),\n607:             )\n608:             return WebSocketProtocol13(self, False, params)\n609:         return None\n610: \n611:     def _detach_stream(self) -> IOStream:",
+      "status": "rejected",
+      "verification": "get_websocket_protocol 返回 None 是设计契约：调用方 get() 在 276-280 行显式检查 if self.ws_connection: ... else: self.set_status(426, \"Upgrade Required\")，即对不支持的版本返回 426 响应。候选所称“调用方未检查导致 AttributeError”与源码不符，且缺少明确错误反馈的说法也不成立。属误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 729,
+      "end_line": 733,
+      "severity": "medium",
+      "category": "bug",
+      "title": "ValueError 构造参数错误导致异常信息格式异常",
+      "explanation": "raise ValueError 时传入了三个参数（格式字符串和两个值），而不是使用 % 格式化。ValueError 的 args 会变成三元组，str(e) 会显示为元组形式 (\"Invalid max_wbits value %r; allowed range 8-%d\", max_wbits, zlib.MAX_WBITS)，而不是格式化后的可读消息。这会让用户看到难以理解的错误信息。",
+      "trigger": "调用 _PerMessageDeflateCompressor 时传入超出范围（如 7 或 16）的 max_wbits 值。",
+      "evidence": "第 729-733 行：raise ValueError(\"Invalid max_wbits value %r; allowed range 8-%d\", max_wbits, zlib.MAX_WBITS)，缺少 % 运算符。",
+      "suggestion": "改为 raise ValueError(\"Invalid max_wbits value %r; allowed range 8-%d\" % (max_wbits, zlib.MAX_WBITS)) 或使用 f-string。",
+      "id": "4d3d66885987",
+      "source": "llm",
+      "rule": "",
+      "snippet": "727:         # There is no symbolic constant for the minimum wbits value.\n728:         if not (8 <= max_wbits <= zlib.MAX_WBITS):\n729:             raise ValueError(\n730:                 \"Invalid max_wbits value %r; allowed range 8-%d\",\n731:                 max_wbits,\n732:                 zlib.MAX_WBITS,\n733:             )\n734:         self._max_wbits = max_wbits\n735: ",
+      "status": "supported",
+      "verification": "第729-733行确实将格式字符串与两个参数作为三个独立位置参数传给 ValueError，缺少 % 运算符。ValueError.args 会变成三元组，str(e) 显示为元组而非格式化消息。第777-782行 _PerMessageDeflateDecompressor 存在同样写法，佐证这是真实缺陷而非有意设计。触发条件为 max_wbits 超出 8..zlib.MAX_WBITS 范围。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 762,
+      "end_line": 762,
+      "severity": "low",
+      "category": "quality",
+      "title": "使用 assert 校验压缩输出，优化模式下会被移除",
+      "explanation": "bandit B101 指出此处使用 assert 校验压缩结果以 \\x00\\x00\\xff\\xff 结尾。当 Python 以 -O 优化模式运行时，assert 语句会被完全移除，导致后续 data[:-4] 在异常情况下可能静默产生错误数据而非抛出错误。",
+      "trigger": "以 python -O 运行且 zlib 压缩输出未按预期以同步刷新标记结尾时。",
+      "evidence": "第 762 行：assert data.endswith(b\"\\x00\\x00\\xff\\xff\")，随后第 763 行 data[:-4] 依赖该假设。",
+      "suggestion": "若该不变量确实重要，改为显式 if not ...: raise RuntimeError(...)；否则可保留但需知晓优化模式下失效。",
+      "id": "15cb5556b628",
+      "source": "llm",
+      "rule": "",
+      "snippet": "760:         compressor = self._compressor or self._create_compressor()\n761:         data = compressor.compress(data) + compressor.flush(zlib.Z_SYNC_FLUSH)\n762:         assert data.endswith(b\"\\x00\\x00\\xff\\xff\")\n763:         return data[:-4]\n764: ",
+      "status": "rejected",
+      "verification": "与 fb86a0970c8a 为同一处 assert 的重复报告。该断言校验的是 zlib 在 Z_SYNC_FLUSH 下必然输出的固定标记，属内部不变量，非安全校验。优化模式下移除不会导致静默错误数据：若标记缺失，data[:-4] 仅会截掉末尾4字节，且此情形在正常 zlib 行为下不会发生。作为质量提示价值有限，不构成需修复的缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 1366,
+      "end_line": 1366,
+      "severity": "medium",
+      "category": "bug",
+      "title": "可变默认参数 subprotocols=[] 在实例间共享",
+      "explanation": "__init__ 的 subprotocols 参数默认值为可变列表 []。虽然当前代码只读取该列表（\",\".join(subprotocols)）而未修改，但可变默认参数是共享对象，任何后续对该列表的原地修改都会污染所有使用默认值的调用，属于典型的可变默认参数缺陷。",
+      "trigger": "调用 WebSocketClientConnection(...) 时不传 subprotocols，随后（或未来代码）对该默认列表执行 append/remove 等原地修改，会影响所有共享同一默认列表的实例。",
+      "evidence": "第1366行：subprotocols: Optional[List[str]] = []；第1392-1393行读取该列表用于拼接 Sec-WebSocket-Protocol 头。ruff 规则 B006 也报告了该问题。",
+      "suggestion": "将默认值改为 None，并在函数体内处理：subprotocols: Optional[List[str]] = None，然后 if subprotocols: request.headers[\"Sec-WebSocket-Protocol\"] = \",\".join(subprotocols)。",
+      "id": "7d53e45885a2",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1364:         ping_timeout: float = None,\n1365:         max_message_size: int = _default_max_message_size,\n1366:         subprotocols: Optional[List[str]] = [],\n1367:     ) -> None:\n1368:         self.connect_future = Future()  # type: Future[WebSocketClientConnection]",
+      "status": "rejected",
+      "verification": "subprotocols 默认 [] 虽为可变默认参数，但代码仅在1392-1393行读取（\",\".join），从不原地修改该列表，且该列表不会被存入实例或对外暴露，不存在跨实例污染路径。当前无可触发的实际缺陷，属风格问题而非 bug。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 1308,
+      "end_line": 1309,
+      "severity": "low",
+      "category": "quality",
+      "title": "ping_timeout 依赖 assert 校验 ping_interval 非空",
+      "explanation": "ping_timeout 属性在 params.ping_timeout 为 None 时通过 assert self.ping_interval is not None 来保证后续计算安全。assert 在 -O 优化模式下会被移除，届时若 ping_interval 为 None，max(3 * self.ping_interval, 30) 会抛出 TypeError 而非给出清晰错误。",
+      "trigger": "以 python -O 运行且 ping_interval 为 None 时访问 ping_timeout 属性。",
+      "evidence": "第1308行 assert self.ping_interval is not None；第1309行 return max(3 * self.ping_interval, 30)。bandit B101 报告了该 assert。",
+      "suggestion": "用显式判断替代 assert，例如 if self.ping_interval is None: raise ValueError(...)，或确保 ping_interval 在构造时已被规范化。",
+      "id": "e6d3d846e62d",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1306:         if timeout is not None:\n1307:             return timeout\n1308:         assert self.ping_interval is not None\n1309:         return max(3 * self.ping_interval, 30)\n1310: \n1311:     def start_pinging(self) -> None:",
+      "status": "rejected",
+      "verification": "ping_interval 属性（1297-1301行）保证返回 0 或非 None 值，assert 恒为真；即使 -O 移除，max(3*self.ping_interval,30) 中 ping_interval 为 0 时也返回 30，不会抛 TypeError。前提不成立。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 1336,
+      "end_line": 1341,
+      "severity": "low",
+      "category": "quality",
+      "title": "periodic_ping 中 assert 在优化模式下失效",
+      "explanation": "periodic_ping 使用 assert 保证 ping_interval 与 ping_timeout 非空，随后用它们做超时判断。在 -O 模式下 assert 被移除，若这些值为 None，比较运算 since_last_pong > self.ping_timeout 会抛 TypeError，导致周期性 ping 回调异常。",
+      "trigger": "以 python -O 运行且 ping_interval/ping_timeout 为 None 时触发 periodic_ping 回调。",
+      "evidence": "第1336-1337行 assert self.ping_interval is not None / assert self.ping_timeout is not None；第1339-1340行使用这两个值进行比较。bandit B101 报告了这两处 assert。",
+      "suggestion": "改为显式校验或提前返回，避免依赖 assert 做运行时保证。",
+      "id": "20afae7652ac",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1334:         since_last_pong = now - self.last_pong\n1335:         since_last_ping = now - self.last_ping\n1336:         assert self.ping_interval is not None\n1337:         assert self.ping_timeout is not None\n1338:         if (\n1339:             since_last_ping < 2 * self.ping_interval\n1340:             and since_last_pong > self.ping_timeout\n1341:         ):\n1342:             self.close()\n1343:             return",
+      "status": "rejected",
+      "verification": "ping_interval 与 ping_timeout 属性均保证返回非 None（分别为 0/非 None 与 max(3*interval,30)/非 None），两处 assert 恒为真；-O 移除后 1339-1340 行的比较运算仍安全，不会抛 TypeError。前提不成立。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 1366,
+      "end_line": 1366,
+      "severity": "medium",
+      "category": "bug",
+      "title": "B006: Do not use mutable data structures for argument defaults",
+      "explanation": "Do not use mutable data structures for argument defaults",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff B006: Do not use mutable data structures for argument defaults",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "a76dcef0ba61",
+      "source": "ruff",
+      "rule": "B006",
+      "snippet": "1364:         ping_timeout: float = None,\n1365:         max_message_size: int = _default_max_message_size,\n1366:         subprotocols: Optional[List[str]] = [],\n1367:     ) -> None:\n1368:         self.connect_future = Future()  # type: Future[WebSocketClientConnection]",
+      "status": "supported",
+      "verification": "第1366行 subprotocols 默认值为可变列表 []，属 B006 规则命中。代码仅在1392-1393行读取该列表（\",\".join），未原地修改，因此当前无实际缺陷，但可变默认参数本身确实存在，规则报告成立。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 561,
+      "end_line": 561,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "d17259c660b7",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "559:         .. versionadded:: 3.1\n560:         \"\"\"\n561:         assert self.stream is not None\n562:         self.stream.set_nodelay(value)\n563: ",
+      "status": "rejected",
+      "verification": "该 assert 位于 set_nodelay 中，用于在开发期捕获 self.stream 为 None 的编程错误。self.stream 在 __init__ 中初始化为 None，仅在握手成功后才被赋值；set_nodelay 是供用户在连接建立后调用的公开方法，正常调用路径下 stream 必然非空。bandit B101 属于通用风格告警，此处并非安全边界，且 -O 下移除后下一行会抛 AttributeError，仍会失败而非静默放行。不构成实际安全问题。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 762,
+      "end_line": 762,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "fb86a0970c8a",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "760:         compressor = self._compressor or self._create_compressor()\n761:         data = compressor.compress(data) + compressor.flush(zlib.Z_SYNC_FLUSH)\n762:         assert data.endswith(b\"\\x00\\x00\\xff\\xff\")\n763:         return data[:-4]\n764: ",
+      "status": "rejected",
+      "verification": "bandit B101 对 assert 的通用告警在此处不构成安全漏洞。该 assert 仅校验 zlib 在 Z_SYNC_FLUSH 下必然产生的同步刷新标记（b\"\\x00\\x00\\xff\\xff\"），是内部不变量检查，不涉及外部不可信输入，也不承担安全边界职责。优化模式下移除不会引入安全风险，属误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 1308,
+      "end_line": 1308,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "ff225078ec44",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "1306:         if timeout is not None:\n1307:             return timeout\n1308:         assert self.ping_interval is not None\n1309:         return max(3 * self.ping_interval, 30)\n1310: ",
+      "status": "rejected",
+      "verification": "第1308行 assert self.ping_interval is not None 是内部不变量断言：ping_interval 属性（1297-1301行）在 params.ping_interval 为 None 时返回 0 而非 None，故该 assert 恒为真，不会因 -O 移除而产生 TypeError。bandit B101 属误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 1313,
+      "end_line": 1313,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "0338be8565c5",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "1311:     def start_pinging(self) -> None:\n1312:         \"\"\"Start sending periodic pings to keep the connection alive\"\"\"\n1313:         assert self.ping_interval is not None\n1314:         if self.ping_interval > 0:\n1315:             self.last_ping = self.last_pong = IOLoop.current().time()",
+      "status": "rejected",
+      "verification": "第1313行 assert self.ping_interval is not None 同样恒为真（ping_interval 属性返回 0 或非 None 值），-O 移除后 1314 行 self.ping_interval > 0 仍安全。bandit B101 属误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 1336,
+      "end_line": 1336,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "dbc74acec956",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "1334:         since_last_pong = now - self.last_pong\n1335:         since_last_ping = now - self.last_ping\n1336:         assert self.ping_interval is not None\n1337:         assert self.ping_timeout is not None\n1338:         if (",
+      "status": "rejected",
+      "verification": "第1336行 assert self.ping_interval is not None 恒为真（属性返回 0 或非 None），移除后 1339 行 2 * self.ping_interval 仍安全。bandit B101 属误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 1337,
+      "end_line": 1337,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "20a9273f3287",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "1335:         since_last_ping = now - self.last_ping\n1336:         assert self.ping_interval is not None\n1337:         assert self.ping_timeout is not None\n1338:         if (\n1339:             since_last_ping < 2 * self.ping_interval",
+      "status": "rejected",
+      "verification": "第1337行 assert self.ping_timeout is not None 恒为真：ping_timeout 属性（1304-1309行）在 params.ping_timeout 为 None 时返回 max(3*ping_interval,30)（ping_interval 至少为 0），否则返回非 None 值。移除后 1340 行比较仍安全。bandit B101 属误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "tornado-1",
+    "variant": "buggy",
+    "fixed_commit": "4677c54cc18bbfbdf0f4dadf11610fab6203fd63",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

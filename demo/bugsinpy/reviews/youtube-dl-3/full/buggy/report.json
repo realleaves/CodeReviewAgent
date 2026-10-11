@@ -1,0 +1,790 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "https://github.com/ytdl-org/youtube-dl",
+    "name": "youtube-dl",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "f5469da9e6e259c1690c7ef54f1da1c19f65036f",
+    "indexed_snapshot_sha256": "f13e217f07e0541ca930ac857fc8f8fde4a38b7088924e61ee98a4a8251e7687"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:42:42.176812+00:00",
+    "status": "completed",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "full",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 11.053,
+    "api_calls": 4,
+    "usage": {
+      "prompt_tokens": 29661,
+      "completion_tokens": 1632
+    },
+    "indexed_python_files": 786,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 4,
+    "rejected_findings": 2,
+    "severity_counts": {
+      "medium": 1,
+      "low": 3
+    },
+    "status_counts": {
+      "needs_context": 1,
+      "supported": 3
+    }
+  },
+  "coverage": [
+    {
+      "path": "youtube_dl/utils.py",
+      "lines": 3826,
+      "windows": [
+        [
+          551,
+          647
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "ChangeLog",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "youtube-dl.plugin.zsh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "bin/youtube-dl",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage_w.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/bash-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/fish-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/posix-locale.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/run_tests.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/wine-py2exe.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/zsh-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/module_guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/supportedsites.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/parameters.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testcert.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "test/versions.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassConstruction.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstantInt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/DictCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/EqualsOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/LocalVars.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/MemberAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/NeOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateVoidCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticRetrieval.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringBasics.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringCharCodeAt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringConversion.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/pluzz_francetv_11507.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/teamcoco_11995.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/toggle_mobile_12211.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/twitch_vod.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/vidio.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/mpd/float_duration.mpd",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_InfoExtractor.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDL.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_aes.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_age_restriction.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_all_urls.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_cache.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_compat.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_download.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_execution.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_iqiyi_sdk_interpreter.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_jsinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_netrc.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_options.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_postprocessors.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_socks.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_subtitles.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_swfinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_unicode_literals.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_update.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_verbose_output.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_write_annotations.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_chapters.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_lists.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_signature.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 15
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 31
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 18018,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1020,
+        "prompt_tokens": 6446,
+        "total_tokens": 7466,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 5934
+      },
+      "elapsed_seconds": 5.15
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 18294,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 58,
+        "prompt_tokens": 6523,
+        "total_tokens": 6581,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6267
+      },
+      "elapsed_seconds": 1.003
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 21703,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 41,
+        "prompt_tokens": 7609,
+        "total_tokens": 7650,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 6528
+        },
+        "prompt_cache_hit_tokens": 6528,
+        "prompt_cache_miss_tokens": 1081
+      },
+      "elapsed_seconds": 0.844
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 25466,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 513,
+        "prompt_tokens": 9083,
+        "total_tokens": 9596,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 8827
+      },
+      "elapsed_seconds": 3.12
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "youtube_dl/utils.py",
+      "start": 528,
+      "end": 644
+    },
+    {
+      "path": "youtube_dl/compat.py",
+      "start": 2640,
+      "end": 2700
+    },
+    {
+      "path": "youtube_dl/compat.py",
+      "start": 1,
+      "end": 120
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "youtube_dl/utils.py",
+      "start": 551,
+      "end": 646,
+      "findings": [
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 575,
+          "end_line": 587,
+          "severity": "medium",
+          "category": "bug",
+          "title": "数字实体解码未捕获 OverflowError，超大码点会抛出异常",
+          "explanation": "正则 r'#(x[0-9a-fA-F]+|[0-9]+)' 允许任意长度的数字，int(numstr, base) 在 Python 3 中可解析任意大整数，随后 compat_chr(int(...)) 对超出 Unicode 范围（>0x10FFFF）的码点会抛出 OverflowError，而这里只捕获了 ValueError。因此形如 '&#99999999999999;' 的实体在 Python 3 下会直接抛出未捕获异常，导致 unescapeHTML 崩溃，而不是按注释所述回退为字面量表示。",
+          "trigger": "调用 unescapeHTML 处理包含超大数字 HTML 实体（如 '&#1114112;' 或更长的数字）的字符串，且运行于 Python 3。",
+          "evidence": "第 584-587 行 try 块仅 except ValueError: pass，但 compat_chr 对越界码点抛出的是 OverflowError（Python 3 中 chr 对 >0x10FFFF 抛 ValueError，但 int 转换后 chr 对超大值在部分实现/版本抛 OverflowError；无论如何 ValueError 之外的异常未被覆盖）。",
+          "suggestion": "将 except 子句扩展为 except (ValueError, OverflowError):，或在调用 compat_chr 前显式校验码点范围（0 <= code <= 0x10FFFF），超出时回退到字面量表示。",
+          "id": "0148c48bdbb4",
+          "source": "llm",
+          "rule": "",
+          "snippet": "573:         return compat_html_entities_html5[entity_with_semicolon]\n574: \n575:     mobj = re.match(r'#(x[0-9a-fA-F]+|[0-9]+)', entity)\n576:     if mobj is not None:\n577:         numstr = mobj.group(1)\n578:         if numstr.startswith('x'):\n579:             base = 16\n580:             numstr = '0%s' % numstr\n581:         else:\n582:             base = 10\n583:         # See https://github.com/rg3/youtube-dl/issues/7518\n584:         try:\n585:             return compat_chr(int(numstr, base))\n586:         except ValueError:\n587:             pass\n588: \n589:     # Unknown entity in name, return its literal representation",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 596,
+          "end_line": 596,
+          "severity": "low",
+          "category": "quality",
+          "title": "使用 assert 做类型校验，优化模式下会被移除",
+          "explanation": "unescapeHTML 用 assert type(s) == compat_str 做输入类型校验。在 Python -O 优化模式下 assert 会被剥离，类型错误将不再被拦截，可能在下游 re.sub 中产生难以定位的错误。同时 type(s) == compat_str 使用精确类型比较，会拒绝 compat_str 的子类。",
+          "trigger": "以 -O 运行解释器，或传入 compat_str 的子类实例。",
+          "evidence": "第 596 行 assert type(s) == compat_str；bandit 诊断 B101 亦标记该行。",
+          "suggestion": "改为显式 if not isinstance(s, compat_str): raise TypeError(...)，避免依赖 assert 且兼容子类。",
+          "id": "d427db33601d",
+          "source": "llm",
+          "rule": "",
+          "snippet": "594:     if s is None:\n595:         return None\n596:     assert type(s) == compat_str\n597: \n598:     return re.sub(",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 619,
+          "end_line": 619,
+          "severity": "low",
+          "category": "quality",
+          "title": "encodeFilename 使用 assert 校验类型，优化模式下失效",
+          "explanation": "encodeFilename 用 assert type(s) == compat_str 校验参数。在 -O 模式下该断言被移除，非字符串输入会继续执行到 s.encode(...) 或直接返回，导致错误行为或异常位置偏移。",
+          "trigger": "以 -O 运行解释器并传入非 compat_str 类型参数。",
+          "evidence": "第 619 行 assert type(s) == compat_str；bandit 诊断 B101 标记该行。",
+          "suggestion": "替换为显式的 isinstance 检查并抛出 TypeError。",
+          "id": "5a93eabecdbf",
+          "source": "llm",
+          "rule": "",
+          "snippet": "617:     \"\"\"\n618: \n619:     assert type(s) == compat_str\n620: \n621:     # Python 3 has a Unicode API",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 553,
+          "end_line": 559,
+          "severity": "low",
+          "category": "performance",
+          "title": "orderedSet 使用列表成员检查，复杂度为 O(n^2)",
+          "explanation": "orderedSet 通过 'el not in res' 对列表做线性查找，对每个元素都遍历已收集结果，整体为 O(n^2)。当输入 iterable 较大（例如大量 URL 或格式列表）时性能显著下降。",
+          "trigger": "对包含大量元素的 iterable 调用 orderedSet。",
+          "evidence": "第 556-558 行 for el in iterable: if el not in res: res.append(el)，res 为 list。",
+          "suggestion": "使用 set 记录已见元素（要求元素可哈希）或 OrderedDict 保持顺序，将成员检查降为 O(1)。",
+          "id": "e735e37ec611",
+          "source": "llm",
+          "rule": "",
+          "snippet": "551: \n552: \n553: def orderedSet(iterable):\n554:     \"\"\" Remove all duplicates from the input iterable \"\"\"\n555:     res = []\n556:     for el in iterable:\n557:         if el not in res:\n558:             res.append(el)\n559:     return res\n560: \n561: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "56af6b80e315",
+          "status": "rejected",
+          "reason": "B101 对 unescapeHTML 中 assert type(s) == compat_str 的告警属于通用静态规则。该 assert 是内部输入契约的防御性检查，非安全边界；在 -O 下移除不会引入安全漏洞，仅可能改变错误类型。作为安全类问题不成立。"
+        },
+        {
+          "id": "a46c43debf47",
+          "status": "rejected",
+          "reason": "encodeFilename 中 assert type(s) == compat_str 同样是内部契约检查，非安全控制。B101 作为安全告警在此不构成实际安全问题，属误报。"
+        },
+        {
+          "id": "0148c48bdbb4",
+          "status": "needs_context",
+          "reason": "候选称 compat_chr 对越界码点抛 OverflowError 而仅捕获 ValueError。但 compat_chr 的定义未在提供的代码中检索到（search_symbol 无匹配），无法确认其实现是 chr 还是自定义包装，也无法确认其异常类型。Python 3 中 chr(>0x10FFFF) 抛 ValueError 而非 OverflowError，故原候选的异常类型论断缺乏依据。需 compat_chr 定义才能判定。"
+        },
+        {
+          "id": "d427db33601d",
+          "status": "supported",
+          "reason": "第596行确为 assert type(s) == compat_str。在 -O 优化模式下 assert 被剥离，类型校验失效；且 type() 精确比较会拒绝 compat_str 子类。代码依据充分，属质量/健壮性问题。"
+        },
+        {
+          "id": "5a93eabecdbf",
+          "status": "supported",
+          "reason": "第619行确为 assert type(s) == compat_str。同样在 -O 下被移除，非字符串输入将绕过校验继续执行到 s.encode(...) 或直接返回，导致异常位置偏移或错误行为。代码依据充分。"
+        },
+        {
+          "id": "e735e37ec611",
+          "status": "supported",
+          "reason": "第553-559行 orderedSet 使用列表 res 并执行 'el not in res' 线性成员检查，对 n 个元素整体为 O(n^2)。代码依据充分，属性能问题（元素需可哈希才能改用 set，但当前实现确为二次复杂度）。"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 575,
+      "end_line": 587,
+      "severity": "medium",
+      "category": "bug",
+      "title": "数字实体解码未捕获 OverflowError，超大码点会抛出异常",
+      "explanation": "正则 r'#(x[0-9a-fA-F]+|[0-9]+)' 允许任意长度的数字，int(numstr, base) 在 Python 3 中可解析任意大整数，随后 compat_chr(int(...)) 对超出 Unicode 范围（>0x10FFFF）的码点会抛出 OverflowError，而这里只捕获了 ValueError。因此形如 '&#99999999999999;' 的实体在 Python 3 下会直接抛出未捕获异常，导致 unescapeHTML 崩溃，而不是按注释所述回退为字面量表示。",
+      "trigger": "调用 unescapeHTML 处理包含超大数字 HTML 实体（如 '&#1114112;' 或更长的数字）的字符串，且运行于 Python 3。",
+      "evidence": "第 584-587 行 try 块仅 except ValueError: pass，但 compat_chr 对越界码点抛出的是 OverflowError（Python 3 中 chr 对 >0x10FFFF 抛 ValueError，但 int 转换后 chr 对超大值在部分实现/版本抛 OverflowError；无论如何 ValueError 之外的异常未被覆盖）。",
+      "suggestion": "将 except 子句扩展为 except (ValueError, OverflowError):，或在调用 compat_chr 前显式校验码点范围（0 <= code <= 0x10FFFF），超出时回退到字面量表示。",
+      "id": "0148c48bdbb4",
+      "source": "llm",
+      "rule": "",
+      "snippet": "573:         return compat_html_entities_html5[entity_with_semicolon]\n574: \n575:     mobj = re.match(r'#(x[0-9a-fA-F]+|[0-9]+)', entity)\n576:     if mobj is not None:\n577:         numstr = mobj.group(1)\n578:         if numstr.startswith('x'):\n579:             base = 16\n580:             numstr = '0%s' % numstr\n581:         else:\n582:             base = 10\n583:         # See https://github.com/rg3/youtube-dl/issues/7518\n584:         try:\n585:             return compat_chr(int(numstr, base))\n586:         except ValueError:\n587:             pass\n588: \n589:     # Unknown entity in name, return its literal representation",
+      "status": "needs_context",
+      "verification": "候选称 compat_chr 对越界码点抛 OverflowError 而仅捕获 ValueError。但 compat_chr 的定义未在提供的代码中检索到（search_symbol 无匹配），无法确认其实现是 chr 还是自定义包装，也无法确认其异常类型。Python 3 中 chr(>0x10FFFF) 抛 ValueError 而非 OverflowError，故原候选的异常类型论断缺乏依据。需 compat_chr 定义才能判定。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 596,
+      "end_line": 596,
+      "severity": "low",
+      "category": "quality",
+      "title": "使用 assert 做类型校验，优化模式下会被移除",
+      "explanation": "unescapeHTML 用 assert type(s) == compat_str 做输入类型校验。在 Python -O 优化模式下 assert 会被剥离，类型错误将不再被拦截，可能在下游 re.sub 中产生难以定位的错误。同时 type(s) == compat_str 使用精确类型比较，会拒绝 compat_str 的子类。",
+      "trigger": "以 -O 运行解释器，或传入 compat_str 的子类实例。",
+      "evidence": "第 596 行 assert type(s) == compat_str；bandit 诊断 B101 亦标记该行。",
+      "suggestion": "改为显式 if not isinstance(s, compat_str): raise TypeError(...)，避免依赖 assert 且兼容子类。",
+      "id": "d427db33601d",
+      "source": "llm",
+      "rule": "",
+      "snippet": "594:     if s is None:\n595:         return None\n596:     assert type(s) == compat_str\n597: \n598:     return re.sub(",
+      "status": "supported",
+      "verification": "第596行确为 assert type(s) == compat_str。在 -O 优化模式下 assert 被剥离，类型校验失效；且 type() 精确比较会拒绝 compat_str 子类。代码依据充分，属质量/健壮性问题。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 619,
+      "end_line": 619,
+      "severity": "low",
+      "category": "quality",
+      "title": "encodeFilename 使用 assert 校验类型，优化模式下失效",
+      "explanation": "encodeFilename 用 assert type(s) == compat_str 校验参数。在 -O 模式下该断言被移除，非字符串输入会继续执行到 s.encode(...) 或直接返回，导致错误行为或异常位置偏移。",
+      "trigger": "以 -O 运行解释器并传入非 compat_str 类型参数。",
+      "evidence": "第 619 行 assert type(s) == compat_str；bandit 诊断 B101 标记该行。",
+      "suggestion": "替换为显式的 isinstance 检查并抛出 TypeError。",
+      "id": "5a93eabecdbf",
+      "source": "llm",
+      "rule": "",
+      "snippet": "617:     \"\"\"\n618: \n619:     assert type(s) == compat_str\n620: \n621:     # Python 3 has a Unicode API",
+      "status": "supported",
+      "verification": "第619行确为 assert type(s) == compat_str。同样在 -O 下被移除，非字符串输入将绕过校验继续执行到 s.encode(...) 或直接返回，导致异常位置偏移或错误行为。代码依据充分。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 553,
+      "end_line": 559,
+      "severity": "low",
+      "category": "performance",
+      "title": "orderedSet 使用列表成员检查，复杂度为 O(n^2)",
+      "explanation": "orderedSet 通过 'el not in res' 对列表做线性查找，对每个元素都遍历已收集结果，整体为 O(n^2)。当输入 iterable 较大（例如大量 URL 或格式列表）时性能显著下降。",
+      "trigger": "对包含大量元素的 iterable 调用 orderedSet。",
+      "evidence": "第 556-558 行 for el in iterable: if el not in res: res.append(el)，res 为 list。",
+      "suggestion": "使用 set 记录已见元素（要求元素可哈希）或 OrderedDict 保持顺序，将成员检查降为 O(1)。",
+      "id": "e735e37ec611",
+      "source": "llm",
+      "rule": "",
+      "snippet": "551: \n552: \n553: def orderedSet(iterable):\n554:     \"\"\" Remove all duplicates from the input iterable \"\"\"\n555:     res = []\n556:     for el in iterable:\n557:         if el not in res:\n558:             res.append(el)\n559:     return res\n560: \n561: ",
+      "status": "supported",
+      "verification": "第553-559行 orderedSet 使用列表 res 并执行 'el not in res' 线性成员检查，对 n 个元素整体为 O(n^2)。代码依据充分，属性能问题（元素需可哈希才能改用 set，但当前实现确为二次复杂度）。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 596,
+      "end_line": 596,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "56af6b80e315",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "594:     if s is None:\n595:         return None\n596:     assert type(s) == compat_str\n597: \n598:     return re.sub(",
+      "status": "rejected",
+      "verification": "B101 对 unescapeHTML 中 assert type(s) == compat_str 的告警属于通用静态规则。该 assert 是内部输入契约的防御性检查，非安全边界；在 -O 下移除不会引入安全漏洞，仅可能改变错误类型。作为安全类问题不成立。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 619,
+      "end_line": 619,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "a46c43debf47",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "617:     \"\"\"\n618: \n619:     assert type(s) == compat_str\n620: \n621:     # Python 3 has a Unicode API",
+      "status": "rejected",
+      "verification": "encodeFilename 中 assert type(s) == compat_str 同样是内部契约检查，非安全控制。B101 作为安全告警在此不构成实际安全问题，属误报。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "youtube-dl-3",
+    "variant": "buggy",
+    "fixed_commit": "95f3f7c20a05e7ac490e768b8470b20538ef8581",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

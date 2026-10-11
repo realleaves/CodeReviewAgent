@@ -1,0 +1,14 @@
+======================================================================
+ERROR: test_unified_timestamps (test.test_utils.TestUtil)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/test/test_utils.py", line 311, in test_unified_timestamps
+    self.assertEqual(unified_timestamp('May 16, 2016 11:15 PM'), 1463440500)
+  File "/work/youtube_dl/utils.py", line 1118, in unified_timestamp
+    return calendar.timegm(timetuple.timetuple())
+AttributeError: 'tuple' object has no attribute 'timetuple'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.011s
+
+FAILED (errors=1)

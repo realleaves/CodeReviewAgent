@@ -1,0 +1,22 @@
+
+==================================== ERRORS ====================================
+___________________ ERROR collecting tests/test_pysnooper.py ___________________
+ImportError while importing test module '/work/tests/test_pysnooper.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/test_pysnooper.py:19: in <module>
+    from . import mini_toolbox
+E   ImportError: cannot import name 'mini_toolbox' from 'tests' (/work/tests/__init__.py)
+=============================== warnings summary ===============================
+pysnooper/variables.py:3
+pysnooper/variables.py:3
+  /work/pysnooper/variables.py:3: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
+    from collections import Mapping, Sequence
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+=========================== short test summary info ============================
+ERROR tests/test_pysnooper.py
+2 warnings, 1 error in 0.05s
+ERROR: not found: /work/tests/test_pysnooper.py::test_custom_repr_single
+(no name '/work/tests/test_pysnooper.py::test_custom_repr_single' in any of [<Module test_pysnooper.py>])
+

@@ -1,0 +1,664 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "https://github.com/ytdl-org/youtube-dl",
+    "name": "youtube-dl",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "b02b960c6bba834d9e7199ac53430c7933079dc8",
+    "indexed_snapshot_sha256": "1182d2a9c1bfcede4184c49a4f4e8f13cbf5b99198a18647328b055fa8e202f7"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:45:02.152966+00:00",
+    "status": "completed",
+    "mode": "direct",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "direct",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 13.07,
+    "api_calls": 1,
+    "usage": {
+      "prompt_tokens": 1990,
+      "completion_tokens": 1511
+    },
+    "indexed_python_files": 691,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 6,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "medium": 3,
+      "low": 3
+    },
+    "status_counts": {
+      "unverified": 6
+    }
+  },
+  "coverage": [
+    {
+      "path": "youtube_dl/utils.py",
+      "lines": 2971,
+      "windows": [
+        [
+          1064,
+          1166
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "not_requested"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "ChangeLog",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "youtube-dl.plugin.zsh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "bin/youtube-dl",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage_w.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/bash-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/fish-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/posix-locale.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/wine-py2exe.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/zsh-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/module_guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/supportedsites.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/parameters.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testcert.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "test/versions.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassConstruction.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstantInt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/DictCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/EqualsOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/LocalVars.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/MemberAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/NeOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateVoidCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticRetrieval.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringBasics.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringCharCodeAt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringConversion.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_InfoExtractor.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDL.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_aes.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_age_restriction.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_all_urls.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_cache.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_compat.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_download.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_execution.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_iqiyi_sdk_interpreter.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_jsinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_netrc.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_postprocessors.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_socks.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_subtitles.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_swfinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_unicode_literals.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_update.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_verbose_output.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_write_annotations.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_lists.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_signature.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 5712,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1511,
+        "prompt_tokens": 1990,
+        "total_tokens": 3501,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 1478
+      },
+      "elapsed_seconds": 12.533
+    }
+  ],
+  "tool_reads": [],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "youtube_dl/utils.py",
+      "start": 1064,
+      "end": 1165,
+      "findings": [
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 1082,
+          "end_line": 1086,
+          "severity": "medium",
+          "category": "bug",
+          "title": "unified_strdate 循环未在匹配后 break，可能被后续格式覆盖",
+          "explanation": "for 循环遍历所有日期格式，每次成功解析都会覆盖 upload_date，而不是在首次成功后退出。若某个较宽松的格式在后续迭代中也能解析同一字符串但得到不同结果，最终返回值取决于最后一个匹配的格式，而非最精确的格式。这会导致日期解析结果不确定或错误。",
+          "trigger": "当 date_str 同时匹配 DATE_FORMATS 中多个表达式且这些表达式解析出不同日期时（例如某些格式对同一字符串产生不同解释）。",
+          "evidence": "1082-1086 行：for expression in date_formats(day_first): try: upload_date = datetime.datetime.strptime(...).strftime('%Y%m%d') except ValueError: pass —— 没有 break，成功解析后继续循环并可能被覆盖。",
+          "suggestion": "在成功解析后立即 break，或使用 next(...) 取第一个匹配结果，确保返回最优先格式的解析结果。",
+          "id": "27b2f7f11e32",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1080:     _, date_str = extract_timezone(date_str)\n1081: \n1082:     for expression in date_formats(day_first):\n1083:         try:\n1084:             upload_date = datetime.datetime.strptime(date_str, expression).strftime('%Y%m%d')\n1085:         except ValueError:\n1086:             pass\n1087:     if upload_date is None:\n1088:         timetuple = email.utils.parsedate_tz(date_str)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 1104,
+          "end_line": 1108,
+          "severity": "medium",
+          "category": "bug",
+          "title": "unified_timestamp 中 PM 检测在移除 AM/PM 之前，且 AM 未处理",
+          "explanation": "pm_delta 通过 re.search(r'(?i)PM', date_str) 判断，但该判断在移除 AM/PM 之前执行，逻辑上尚可；然而只检测 PM 而不检测 AM，且正则 (?i)PM 会匹配任意包含 'PM' 的子串（如时区名或单词中的 pm），可能误加 12 小时。此外，若字符串含 'PM' 但实际是 12 小时制以外的内容，也会错误偏移。",
+          "trigger": "date_str 中包含 'PM' 子串但并非表示下午时间（例如时区缩写、单词），或包含 'AM' 时未做任何处理。",
+          "evidence": "1104 行：pm_delta = datetime.timedelta(hours=12 if re.search(r'(?i)PM', date_str) else 0)；1108 行才移除 AM/PM。正则未加词边界，且未处理 AM。",
+          "suggestion": "使用带词边界的正则（如 r'(?i)\\bPM\\b'）并同时处理 AM/PM 的 12 小时制转换，或在移除 AM/PM 前先规范化时间。",
+          "id": "2c1e0da46315",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1102:     date_str = date_str.replace(',', ' ')\n1103: \n1104:     pm_delta = datetime.timedelta(hours=12 if re.search(r'(?i)PM', date_str) else 0)\n1105:     timezone, date_str = extract_timezone(date_str)\n1106: \n1107:     # Remove AM/PM + timezone\n1108:     date_str = re.sub(r'(?i)\\s*(?:AM|PM)(?:\\s+[A-Z]+)?', '', date_str)\n1109: \n1110:     for expression in date_formats(day_first):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 1116,
+          "end_line": 1118,
+          "severity": "medium",
+          "category": "bug",
+          "title": "unified_timestamp 回退路径忽略时区偏移",
+          "explanation": "当 strptime 全部失败后，使用 email.utils.parsedate_tz 解析，但直接对 timetuple 调用 calendar.timegm，未应用 parsedate_tz 返回的时区偏移（timetuple 的第 10 个元素）。这会导致带时区的日期被当作 UTC 处理，产生时间戳偏差。",
+          "trigger": "date_str 无法被 DATE_FORMATS 解析但能被 parsedate_tz 解析，且包含非 UTC 时区偏移。",
+          "evidence": "1116-1118 行：timetuple = email.utils.parsedate_tz(date_str); if timetuple: return calendar.timegm(timetuple.timetuple()) —— 未使用 timetuple[9] 的时区偏移。",
+          "suggestion": "使用 email.utils.mktime_tz(timetuple) 或手动减去 timetuple[9] 的偏移后再 timegm。",
+          "id": "5625fd566c39",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1114:         except ValueError:\n1115:             pass\n1116:     timetuple = email.utils.parsedate_tz(date_str)\n1117:     if timetuple:\n1118:         return calendar.timegm(timetuple.timetuple())\n1119: \n1120: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 1134,
+          "end_line": 1135,
+          "severity": "low",
+          "category": "bug",
+          "title": "subtitles_filename 对无扩展名文件名处理不当",
+          "explanation": "使用 rsplit('.', 1)[0] 去除扩展名。若 filename 不含 '.'，rsplit 返回整个字符串，结果会变成 'filename.lang.format'，这可能是期望的；但若 filename 以 '.' 开头（隐藏文件）或路径中含点，行为可能不符合预期。更关键的是，若 filename 本身无扩展名，结果会附加语言和格式，可能产生意外文件名。",
+          "trigger": "filename 不含 '.' 或为隐藏文件（如 '.mp4'）时。",
+          "evidence": "1135 行：return filename.rsplit('.', 1)[0] + '.' + sub_lang + '.' + sub_format。",
+          "suggestion": "使用 os.path.splitext 处理扩展名，或明确处理无扩展名的情况。",
+          "id": "6224d710111e",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1132: \n1133: \n1134: def subtitles_filename(filename, sub_lang, sub_format):\n1135:     return filename.rsplit('.', 1)[0] + '.' + sub_lang + '.' + sub_format\n1136: \n1137: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 1147,
+          "end_line": 1164,
+          "severity": "low",
+          "category": "quality",
+          "title": "date_from_str 对无效输入抛出未捕获异常",
+          "explanation": "函数末尾直接调用 datetime.datetime.strptime(date_str, '%Y%m%d').date()，若 date_str 不匹配任何已知格式，会抛出 ValueError 而非返回 None 或友好错误。调用方可能未预期异常。",
+          "trigger": "传入不符合 YYYYMMDD 或相对日期格式的字符串。",
+          "evidence": "1164 行：return datetime.datetime.strptime(date_str, '%Y%m%d').date()。",
+          "suggestion": "捕获 ValueError 并返回 None，或抛出带有明确信息的异常。",
+          "id": "381961af15b3",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1145:     if date_str == 'yesterday':\n1146:         return today - datetime.timedelta(days=1)\n1147:     match = re.match('(now|today)(?P<sign>[+-])(?P<time>\\d+)(?P<unit>day|week|month|year)(s)?', date_str)\n1148:     if match is not None:\n1149:         sign = match.group('sign')\n1150:         time = int(match.group('time'))\n1151:         if sign == '-':\n1152:             time = -time\n1153:         unit = match.group('unit')\n1154:         # A bad approximation?\n1155:         if unit == 'month':\n1156:             unit = 'day'\n1157:             time *= 30\n1158:         elif unit == 'year':\n1159:             unit = 'day'\n1160:             time *= 365\n1161:         unit += 's'\n1162:         delta = datetime.timedelta(**{unit: time})",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/utils.py",
+          "line": 1124,
+          "end_line": 1131,
+          "severity": "low",
+          "category": "bug",
+          "title": "determine_ext 对带斜杠的扩展名判断逻辑不一致",
+          "explanation": "先通过 rpartition('.') 取 guess，若 guess 匹配 ^[A-Za-z0-9]+$ 则直接返回。对于 'bar.mp4/' 这类 URL，guess 为 'mp4/'，不匹配第一个正则，然后检查 guess.rstrip('/') 是否在 KNOWN_EXTENSIONS 中。但若 guess 为 'mp4/' 且 KNOWN_EXTENSIONS 不含 'mp4'（或含），逻辑依赖 KNOWN_EXTENSIONS 内容，可能返回默认值。此外，若 guess 含非字母数字但去掉斜杠后是已知扩展名，返回的是 rstrip 后的值，行为不一致。",
+          "trigger": "URL 形如 http://example.com/foo/bar.mp4/?download 且 KNOWN_EXTENSIONS 中不含 'mp4' 或 guess 含其他字符。",
+          "evidence": "1124-1131 行：guess = url.partition('?')[0].rpartition('.')[2]；if re.match(r'^[A-Za-z0-9]+$', guess): return guess；elif guess.rstrip('/') in KNOWN_EXTENSIONS: return guess.rstrip('/')；else: return default_ext。",
+          "suggestion": "统一处理：先 rstrip('/') 再判断，或使用更明确的扩展名提取逻辑。",
+          "id": "ee62420dda5f",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1122:     if url is None:\n1123:         return default_ext\n1124:     guess = url.partition('?')[0].rpartition('.')[2]\n1125:     if re.match(r'^[A-Za-z0-9]+$', guess):\n1126:         return guess\n1127:     # Try extract ext from URLs like http://example.com/foo/bar.mp4/?download\n1128:     elif guess.rstrip('/') in KNOWN_EXTENSIONS:\n1129:         return guess.rstrip('/')\n1130:     else:\n1131:         return default_ext\n1132: \n1133: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 1082,
+      "end_line": 1086,
+      "severity": "medium",
+      "category": "bug",
+      "title": "unified_strdate 循环未在匹配后 break，可能被后续格式覆盖",
+      "explanation": "for 循环遍历所有日期格式，每次成功解析都会覆盖 upload_date，而不是在首次成功后退出。若某个较宽松的格式在后续迭代中也能解析同一字符串但得到不同结果，最终返回值取决于最后一个匹配的格式，而非最精确的格式。这会导致日期解析结果不确定或错误。",
+      "trigger": "当 date_str 同时匹配 DATE_FORMATS 中多个表达式且这些表达式解析出不同日期时（例如某些格式对同一字符串产生不同解释）。",
+      "evidence": "1082-1086 行：for expression in date_formats(day_first): try: upload_date = datetime.datetime.strptime(...).strftime('%Y%m%d') except ValueError: pass —— 没有 break，成功解析后继续循环并可能被覆盖。",
+      "suggestion": "在成功解析后立即 break，或使用 next(...) 取第一个匹配结果，确保返回最优先格式的解析结果。",
+      "id": "27b2f7f11e32",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1080:     _, date_str = extract_timezone(date_str)\n1081: \n1082:     for expression in date_formats(day_first):\n1083:         try:\n1084:             upload_date = datetime.datetime.strptime(date_str, expression).strftime('%Y%m%d')\n1085:         except ValueError:\n1086:             pass\n1087:     if upload_date is None:\n1088:         timetuple = email.utils.parsedate_tz(date_str)",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 1104,
+      "end_line": 1108,
+      "severity": "medium",
+      "category": "bug",
+      "title": "unified_timestamp 中 PM 检测在移除 AM/PM 之前，且 AM 未处理",
+      "explanation": "pm_delta 通过 re.search(r'(?i)PM', date_str) 判断，但该判断在移除 AM/PM 之前执行，逻辑上尚可；然而只检测 PM 而不检测 AM，且正则 (?i)PM 会匹配任意包含 'PM' 的子串（如时区名或单词中的 pm），可能误加 12 小时。此外，若字符串含 'PM' 但实际是 12 小时制以外的内容，也会错误偏移。",
+      "trigger": "date_str 中包含 'PM' 子串但并非表示下午时间（例如时区缩写、单词），或包含 'AM' 时未做任何处理。",
+      "evidence": "1104 行：pm_delta = datetime.timedelta(hours=12 if re.search(r'(?i)PM', date_str) else 0)；1108 行才移除 AM/PM。正则未加词边界，且未处理 AM。",
+      "suggestion": "使用带词边界的正则（如 r'(?i)\\bPM\\b'）并同时处理 AM/PM 的 12 小时制转换，或在移除 AM/PM 前先规范化时间。",
+      "id": "2c1e0da46315",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1102:     date_str = date_str.replace(',', ' ')\n1103: \n1104:     pm_delta = datetime.timedelta(hours=12 if re.search(r'(?i)PM', date_str) else 0)\n1105:     timezone, date_str = extract_timezone(date_str)\n1106: \n1107:     # Remove AM/PM + timezone\n1108:     date_str = re.sub(r'(?i)\\s*(?:AM|PM)(?:\\s+[A-Z]+)?', '', date_str)\n1109: \n1110:     for expression in date_formats(day_first):",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 1116,
+      "end_line": 1118,
+      "severity": "medium",
+      "category": "bug",
+      "title": "unified_timestamp 回退路径忽略时区偏移",
+      "explanation": "当 strptime 全部失败后，使用 email.utils.parsedate_tz 解析，但直接对 timetuple 调用 calendar.timegm，未应用 parsedate_tz 返回的时区偏移（timetuple 的第 10 个元素）。这会导致带时区的日期被当作 UTC 处理，产生时间戳偏差。",
+      "trigger": "date_str 无法被 DATE_FORMATS 解析但能被 parsedate_tz 解析，且包含非 UTC 时区偏移。",
+      "evidence": "1116-1118 行：timetuple = email.utils.parsedate_tz(date_str); if timetuple: return calendar.timegm(timetuple.timetuple()) —— 未使用 timetuple[9] 的时区偏移。",
+      "suggestion": "使用 email.utils.mktime_tz(timetuple) 或手动减去 timetuple[9] 的偏移后再 timegm。",
+      "id": "5625fd566c39",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1114:         except ValueError:\n1115:             pass\n1116:     timetuple = email.utils.parsedate_tz(date_str)\n1117:     if timetuple:\n1118:         return calendar.timegm(timetuple.timetuple())\n1119: \n1120: ",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 1134,
+      "end_line": 1135,
+      "severity": "low",
+      "category": "bug",
+      "title": "subtitles_filename 对无扩展名文件名处理不当",
+      "explanation": "使用 rsplit('.', 1)[0] 去除扩展名。若 filename 不含 '.'，rsplit 返回整个字符串，结果会变成 'filename.lang.format'，这可能是期望的；但若 filename 以 '.' 开头（隐藏文件）或路径中含点，行为可能不符合预期。更关键的是，若 filename 本身无扩展名，结果会附加语言和格式，可能产生意外文件名。",
+      "trigger": "filename 不含 '.' 或为隐藏文件（如 '.mp4'）时。",
+      "evidence": "1135 行：return filename.rsplit('.', 1)[0] + '.' + sub_lang + '.' + sub_format。",
+      "suggestion": "使用 os.path.splitext 处理扩展名，或明确处理无扩展名的情况。",
+      "id": "6224d710111e",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1132: \n1133: \n1134: def subtitles_filename(filename, sub_lang, sub_format):\n1135:     return filename.rsplit('.', 1)[0] + '.' + sub_lang + '.' + sub_format\n1136: \n1137: ",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 1147,
+      "end_line": 1164,
+      "severity": "low",
+      "category": "quality",
+      "title": "date_from_str 对无效输入抛出未捕获异常",
+      "explanation": "函数末尾直接调用 datetime.datetime.strptime(date_str, '%Y%m%d').date()，若 date_str 不匹配任何已知格式，会抛出 ValueError 而非返回 None 或友好错误。调用方可能未预期异常。",
+      "trigger": "传入不符合 YYYYMMDD 或相对日期格式的字符串。",
+      "evidence": "1164 行：return datetime.datetime.strptime(date_str, '%Y%m%d').date()。",
+      "suggestion": "捕获 ValueError 并返回 None，或抛出带有明确信息的异常。",
+      "id": "381961af15b3",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1145:     if date_str == 'yesterday':\n1146:         return today - datetime.timedelta(days=1)\n1147:     match = re.match('(now|today)(?P<sign>[+-])(?P<time>\\d+)(?P<unit>day|week|month|year)(s)?', date_str)\n1148:     if match is not None:\n1149:         sign = match.group('sign')\n1150:         time = int(match.group('time'))\n1151:         if sign == '-':\n1152:             time = -time\n1153:         unit = match.group('unit')\n1154:         # A bad approximation?\n1155:         if unit == 'month':\n1156:             unit = 'day'\n1157:             time *= 30\n1158:         elif unit == 'year':\n1159:             unit = 'day'\n1160:             time *= 365\n1161:         unit += 's'\n1162:         delta = datetime.timedelta(**{unit: time})",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/utils.py",
+      "line": 1124,
+      "end_line": 1131,
+      "severity": "low",
+      "category": "bug",
+      "title": "determine_ext 对带斜杠的扩展名判断逻辑不一致",
+      "explanation": "先通过 rpartition('.') 取 guess，若 guess 匹配 ^[A-Za-z0-9]+$ 则直接返回。对于 'bar.mp4/' 这类 URL，guess 为 'mp4/'，不匹配第一个正则，然后检查 guess.rstrip('/') 是否在 KNOWN_EXTENSIONS 中。但若 guess 为 'mp4/' 且 KNOWN_EXTENSIONS 不含 'mp4'（或含），逻辑依赖 KNOWN_EXTENSIONS 内容，可能返回默认值。此外，若 guess 含非字母数字但去掉斜杠后是已知扩展名，返回的是 rstrip 后的值，行为不一致。",
+      "trigger": "URL 形如 http://example.com/foo/bar.mp4/?download 且 KNOWN_EXTENSIONS 中不含 'mp4' 或 guess 含其他字符。",
+      "evidence": "1124-1131 行：guess = url.partition('?')[0].rpartition('.')[2]；if re.match(r'^[A-Za-z0-9]+$', guess): return guess；elif guess.rstrip('/') in KNOWN_EXTENSIONS: return guess.rstrip('/')；else: return default_ext。",
+      "suggestion": "统一处理：先 rstrip('/') 再判断，或使用更明确的扩展名提取逻辑。",
+      "id": "ee62420dda5f",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1122:     if url is None:\n1123:         return default_ext\n1124:     guess = url.partition('?')[0].rpartition('.')[2]\n1125:     if re.match(r'^[A-Za-z0-9]+$', guess):\n1126:         return guess\n1127:     # Try extract ext from URLs like http://example.com/foo/bar.mp4/?download\n1128:     elif guess.rstrip('/') in KNOWN_EXTENSIONS:\n1129:         return guess.rstrip('/')\n1130:     else:\n1131:         return default_ext\n1132: \n1133: ",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "youtube-dl-5",
+    "variant": "buggy",
+    "fixed_commit": "7dc2a74e0ac9cfa74cc9de6f586ffd5cc8bac0d9",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

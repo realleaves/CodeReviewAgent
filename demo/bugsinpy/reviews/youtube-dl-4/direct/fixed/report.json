@@ -1,0 +1,663 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "youtube-dl",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "bc40b3a5ba44006c23daf7fe0ed872af5e33bdc5",
+    "indexed_snapshot_sha256": "b2ce8f8c2309a77b57961cddeeee3f8b3f9ed74be9904eea0a4582074a6f2171"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:43:43.736375+00:00",
+    "status": "completed",
+    "mode": "direct",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "direct",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 6.481,
+    "api_calls": 1,
+    "usage": {
+      "prompt_tokens": 2677,
+      "completion_tokens": 1208
+    },
+    "indexed_python_files": 726,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 6,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "medium": 6
+    },
+    "status_counts": {
+      "unverified": 6
+    }
+  },
+  "coverage": [
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "lines": 258,
+      "windows": [
+        [
+          50,
+          219
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "not_requested"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "ChangeLog",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "youtube-dl.plugin.zsh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "bin/youtube-dl",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage_w.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/bash-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/fish-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/posix-locale.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/wine-py2exe.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/zsh-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/module_guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/supportedsites.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/parameters.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testcert.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "test/versions.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassConstruction.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstantInt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/DictCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/EqualsOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/LocalVars.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/MemberAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/NeOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateVoidCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticRetrieval.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringBasics.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringCharCodeAt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringConversion.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_InfoExtractor.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDL.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_aes.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_age_restriction.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_all_urls.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_cache.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_compat.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_download.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_execution.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_iqiyi_sdk_interpreter.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_jsinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_netrc.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_postprocessors.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_socks.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_subtitles.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_swfinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_unicode_literals.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_update.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_verbose_output.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_write_annotations.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_lists.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_signature.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 8885,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1208,
+        "prompt_tokens": 2677,
+        "total_tokens": 3885,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 2176
+        },
+        "prompt_cache_hit_tokens": 2176,
+        "prompt_cache_miss_tokens": 501
+      },
+      "elapsed_seconds": 5.934
+    }
+  ],
+  "tool_reads": [],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "findings": [
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 98,
+          "end_line": 98,
+          "severity": "medium",
+          "category": "bug",
+          "title": "assert 用于校验索引类型，优化模式下失效",
+          "explanation": "第98行使用 assert isinstance(idx, int) 校验数组下标类型。Python 以 -O 运行时 assert 会被移除，此时若 idx 不是 int（例如字符串或 None），第99行 lvar[idx] 会抛出 TypeError 或产生非预期行为，而不是给出清晰的错误。",
+          "trigger": "以 python -O 运行，且 JS 代码中数组赋值下标表达式解析结果不是 int。",
+          "evidence": "第96-99行：idx = self.interpret_expression(...); assert isinstance(idx, int); cur = lvar[idx]",
+          "suggestion": "改为显式判断并抛出 ExtractorError，例如 if not isinstance(idx, int): raise ExtractorError(...)。",
+          "id": "bde0641ce296",
+          "source": "llm",
+          "rule": "",
+          "snippet": "96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]\n100:                 val = opfunc(cur, right_val)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 116,
+          "end_line": 116,
+          "severity": "medium",
+          "category": "bug",
+          "title": "未定义变量直接 KeyError 而非受控错误",
+          "explanation": "第116行 local_vars[var_m.group('name')] 在变量不存在时抛出 KeyError，而不是 ExtractorError。这会使调用方无法按预期捕获并处理 JS 解释失败，导致整个提取流程以未处理异常终止。",
+          "trigger": "JS 表达式中引用了一个未在 local_vars 中定义的变量名。",
+          "evidence": "第112-116行：var_m 匹配后直接 return local_vars[var_m.group('name')]",
+          "suggestion": "使用 local_vars.get 并在缺失时抛出 ExtractorError，或捕获 KeyError 转换为 ExtractorError。",
+          "id": "6e600dec88cb",
+          "source": "llm",
+          "rule": "",
+          "snippet": "114:             expr)\n115:         if var_m:\n116:             return local_vars[var_m.group('name')]\n117: \n118:         try:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 142,
+          "end_line": 142,
+          "severity": "medium",
+          "category": "bug",
+          "title": "成员访问对非字典对象使用 obj[member] 可能失败",
+          "explanation": "第142行 return obj[member] 假定 obj 支持字符串下标。当 obj 是列表或字符串等对象且 member 不是 'length' 时，会抛出 TypeError（列表索引必须是整数）或返回意外结果，而不是受控的 ExtractorError。",
+          "trigger": "JS 代码中访问列表/字符串对象的非 length 成员，例如 arr.foo。",
+          "evidence": "第138-142行：if arg_str is None: if member == 'length': return len(obj); return obj[member]",
+          "suggestion": "对非映射对象做类型判断，或捕获异常并抛出 ExtractorError 说明不支持的成员访问。",
+          "id": "36091ea8f63f",
+          "source": "llm",
+          "rule": "",
+          "snippet": "140:                 if member == 'length':\n141:                     return len(obj)\n142:                 return obj[member]\n143: \n144:             assert expr.endswith(')')",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 168,
+          "end_line": 168,
+          "severity": "medium",
+          "category": "bug",
+          "title": "splice 参数解包未校验数量",
+          "explanation": "第168行 index, howMany = argvals 直接解包，若 argvals 元素数量不是 2（例如 splice(1) 或 splice(1,2,3)），会抛出 ValueError 而非受控错误。",
+          "trigger": "JS 代码调用 splice 时传入的参数个数不是 2。",
+          "evidence": "第166-168行：if member == 'splice': assert isinstance(obj, list); index, howMany = argvals",
+          "suggestion": "先校验 len(argvals) == 2，否则抛出 ExtractorError。",
+          "id": "734873a12c04",
+          "source": "llm",
+          "rule": "",
+          "snippet": "166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 174,
+          "end_line": 174,
+          "severity": "medium",
+          "category": "bug",
+          "title": "函数调用参数以元组整体传入，与 JS 语义不符",
+          "explanation": "第174行 return obj[member](argvals) 将参数元组作为单个参数传入。对于期望多个位置参数的 Python 函数，这会导致 TypeError 或行为错误；JS 中 obj.method(a, b) 应展开为 obj[member](a, b)。",
+          "trigger": "JS 代码调用带多个参数的方法，且 obj[member] 是普通 Python 可调用对象。",
+          "evidence": "第149-151行构造 argvals 元组，第174行 obj[member](argvals) 整体传入。",
+          "suggestion": "改为 obj[member](*argvals)，或明确文档说明仅支持单参数调用。",
+          "id": "fe079ad647fb",
+          "source": "llm",
+          "rule": "",
+          "snippet": "172:                 return res\n173: \n174:             return obj[member](argvals)\n175: \n176:         m = re.match(",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 205,
+          "end_line": 206,
+          "severity": "medium",
+          "category": "bug",
+          "title": "函数调用参数解析对未定义变量抛 KeyError",
+          "explanation": "第205行 local_vars[v] 在参数名未定义时抛出 KeyError，而非 ExtractorError。此外该分支只支持数字或变量名，不支持字符串/表达式参数，遇到其他形式会静默失败或抛异常。",
+          "trigger": "JS 代码调用函数时传入未定义变量或非数字/变量形式的参数。",
+          "evidence": "第204-206行：argvals = tuple([int(v) if v.isdigit() else local_vars[v] for v in m.group('args').split(',')])",
+          "suggestion": "使用 local_vars.get 并抛出 ExtractorError，或复用 interpret_expression 解析每个参数。",
+          "id": "412d33a999a9",
+          "source": "llm",
+          "rule": "",
+          "snippet": "203:             fname = m.group('func')\n204:             argvals = tuple([\n205:                 int(v) if v.isdigit() else local_vars[v]\n206:                 for v in m.group('args').split(',')]) if len(m.group('args')) > 0 else tuple()\n207:             if fname not in self._functions:\n208:                 self._functions[fname] = self.extract_function(fname)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 98,
+      "end_line": 98,
+      "severity": "medium",
+      "category": "bug",
+      "title": "assert 用于校验索引类型，优化模式下失效",
+      "explanation": "第98行使用 assert isinstance(idx, int) 校验数组下标类型。Python 以 -O 运行时 assert 会被移除，此时若 idx 不是 int（例如字符串或 None），第99行 lvar[idx] 会抛出 TypeError 或产生非预期行为，而不是给出清晰的错误。",
+      "trigger": "以 python -O 运行，且 JS 代码中数组赋值下标表达式解析结果不是 int。",
+      "evidence": "第96-99行：idx = self.interpret_expression(...); assert isinstance(idx, int); cur = lvar[idx]",
+      "suggestion": "改为显式判断并抛出 ExtractorError，例如 if not isinstance(idx, int): raise ExtractorError(...)。",
+      "id": "bde0641ce296",
+      "source": "llm",
+      "rule": "",
+      "snippet": "96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]\n100:                 val = opfunc(cur, right_val)",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 116,
+      "end_line": 116,
+      "severity": "medium",
+      "category": "bug",
+      "title": "未定义变量直接 KeyError 而非受控错误",
+      "explanation": "第116行 local_vars[var_m.group('name')] 在变量不存在时抛出 KeyError，而不是 ExtractorError。这会使调用方无法按预期捕获并处理 JS 解释失败，导致整个提取流程以未处理异常终止。",
+      "trigger": "JS 表达式中引用了一个未在 local_vars 中定义的变量名。",
+      "evidence": "第112-116行：var_m 匹配后直接 return local_vars[var_m.group('name')]",
+      "suggestion": "使用 local_vars.get 并在缺失时抛出 ExtractorError，或捕获 KeyError 转换为 ExtractorError。",
+      "id": "6e600dec88cb",
+      "source": "llm",
+      "rule": "",
+      "snippet": "114:             expr)\n115:         if var_m:\n116:             return local_vars[var_m.group('name')]\n117: \n118:         try:",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 142,
+      "end_line": 142,
+      "severity": "medium",
+      "category": "bug",
+      "title": "成员访问对非字典对象使用 obj[member] 可能失败",
+      "explanation": "第142行 return obj[member] 假定 obj 支持字符串下标。当 obj 是列表或字符串等对象且 member 不是 'length' 时，会抛出 TypeError（列表索引必须是整数）或返回意外结果，而不是受控的 ExtractorError。",
+      "trigger": "JS 代码中访问列表/字符串对象的非 length 成员，例如 arr.foo。",
+      "evidence": "第138-142行：if arg_str is None: if member == 'length': return len(obj); return obj[member]",
+      "suggestion": "对非映射对象做类型判断，或捕获异常并抛出 ExtractorError 说明不支持的成员访问。",
+      "id": "36091ea8f63f",
+      "source": "llm",
+      "rule": "",
+      "snippet": "140:                 if member == 'length':\n141:                     return len(obj)\n142:                 return obj[member]\n143: \n144:             assert expr.endswith(')')",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 168,
+      "end_line": 168,
+      "severity": "medium",
+      "category": "bug",
+      "title": "splice 参数解包未校验数量",
+      "explanation": "第168行 index, howMany = argvals 直接解包，若 argvals 元素数量不是 2（例如 splice(1) 或 splice(1,2,3)），会抛出 ValueError 而非受控错误。",
+      "trigger": "JS 代码调用 splice 时传入的参数个数不是 2。",
+      "evidence": "第166-168行：if member == 'splice': assert isinstance(obj, list); index, howMany = argvals",
+      "suggestion": "先校验 len(argvals) == 2，否则抛出 ExtractorError。",
+      "id": "734873a12c04",
+      "source": "llm",
+      "rule": "",
+      "snippet": "166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 174,
+      "end_line": 174,
+      "severity": "medium",
+      "category": "bug",
+      "title": "函数调用参数以元组整体传入，与 JS 语义不符",
+      "explanation": "第174行 return obj[member](argvals) 将参数元组作为单个参数传入。对于期望多个位置参数的 Python 函数，这会导致 TypeError 或行为错误；JS 中 obj.method(a, b) 应展开为 obj[member](a, b)。",
+      "trigger": "JS 代码调用带多个参数的方法，且 obj[member] 是普通 Python 可调用对象。",
+      "evidence": "第149-151行构造 argvals 元组，第174行 obj[member](argvals) 整体传入。",
+      "suggestion": "改为 obj[member](*argvals)，或明确文档说明仅支持单参数调用。",
+      "id": "fe079ad647fb",
+      "source": "llm",
+      "rule": "",
+      "snippet": "172:                 return res\n173: \n174:             return obj[member](argvals)\n175: \n176:         m = re.match(",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 205,
+      "end_line": 206,
+      "severity": "medium",
+      "category": "bug",
+      "title": "函数调用参数解析对未定义变量抛 KeyError",
+      "explanation": "第205行 local_vars[v] 在参数名未定义时抛出 KeyError，而非 ExtractorError。此外该分支只支持数字或变量名，不支持字符串/表达式参数，遇到其他形式会静默失败或抛异常。",
+      "trigger": "JS 代码调用函数时传入未定义变量或非数字/变量形式的参数。",
+      "evidence": "第204-206行：argvals = tuple([int(v) if v.isdigit() else local_vars[v] for v in m.group('args').split(',')])",
+      "suggestion": "使用 local_vars.get 并抛出 ExtractorError，或复用 interpret_expression 解析每个参数。",
+      "id": "412d33a999a9",
+      "source": "llm",
+      "rule": "",
+      "snippet": "203:             fname = m.group('func')\n204:             argvals = tuple([\n205:                 int(v) if v.isdigit() else local_vars[v]\n206:                 for v in m.group('args').split(',')]) if len(m.group('args')) > 0 else tuple()\n207:             if fname not in self._functions:\n208:                 self._functions[fname] = self.extract_function(fname)",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "youtube-dl-4",
+    "variant": "fixed",
+    "fixed_commit": "189935f15960300d316e8b07108b076ac6c2186a",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

@@ -1,0 +1,8 @@
+.
+=============================== warnings summary ===============================
+/usr/local/lib/python3.8/site-packages/future/standard_library/__init__.py:65
+  /usr/local/lib/python3.8/site-packages/future/standard_library/__init__.py:65: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+    import imp
+
+-- Docs: https://docs.pytest.org/en/latest/warnings.html
+1 passed, 1 warning in 0.02s

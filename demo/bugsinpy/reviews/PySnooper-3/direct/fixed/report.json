@@ -1,0 +1,281 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "PySnooper",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "6e3d797be3fa0a746fb5b1b7c7fea78eb926c208",
+    "indexed_snapshot_sha256": "bd540042007451c27171148d080ff169b3d71209b5df3ce2ba564e11d07f2e53"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:41:44.251344+00:00",
+    "status": "completed",
+    "mode": "direct",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "direct",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 3.613,
+    "api_calls": 1,
+    "usage": {
+      "prompt_tokens": 914,
+      "completion_tokens": 624
+    },
+    "indexed_python_files": 6,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 3,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "high": 1,
+      "medium": 1,
+      "low": 1
+    },
+    "status_counts": {
+      "unverified": 3
+    }
+  },
+  "coverage": [
+    {
+      "path": "pysnooper/pysnooper.py",
+      "lines": 76,
+      "windows": [
+        [
+          11,
+          41
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "not_requested"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "make_release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test_requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "misc/IDE files/PySnooper.wpr",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tests/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/test_pysnooper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/utils.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 2534,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 624,
+        "prompt_tokens": 914,
+        "total_tokens": 1538,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 274
+      },
+      "elapsed_seconds": 3.59
+    }
+  ],
+  "tool_reads": [],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "pysnooper/pysnooper.py",
+      "start": 11,
+      "end": 41,
+      "findings": [
+        {
+          "path": "pysnooper/pysnooper.py",
+          "line": 22,
+          "end_line": 23,
+          "severity": "high",
+          "category": "bug",
+          "title": "output 为 None 时引用未导入的 sys 导致 NameError",
+          "explanation": "get_write_function 在 output 为 None 时返回的 write 闭包内使用了 sys.stderr，但本模块顶部只导入了 decorator、utils、pycompat、Tracer，没有 import sys。因此默认调用 snoop()（output=None）并实际写出日志时会抛出 NameError: name 'sys' is not defined，默认行为完全不可用。",
+          "trigger": "调用 snoop() 使用默认 output=None，被装饰函数执行并触发一次日志写出时。",
+          "evidence": "第 22 行 `stderr = sys.stderr`；第 12-16 行的导入列表中不存在 `import sys`。",
+          "suggestion": "在模块顶部添加 `import sys`，或改为 `from sys import stderr` 并在闭包中使用 stderr。",
+          "id": "3bd2bfe1b7a8",
+          "source": "llm",
+          "rule": "",
+          "snippet": "20:     if output is None:\n21:         def write(s):\n22:             stderr = sys.stderr\n23:             stderr.write(s)\n24:     elif isinstance(output, (pycompat.PathLike, str)):\n25:         def write(s):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/pysnooper.py",
+          "line": 26,
+          "end_line": 27,
+          "severity": "medium",
+          "category": "performance",
+          "title": "每次写出日志都重新打开文件，性能低下",
+          "explanation": "当 output 为路径或字符串时，write 闭包每次调用都执行 open(output, 'a') 并写入后关闭。日志写出在跟踪过程中会被高频调用，导致大量重复的文件打开/关闭系统调用，显著拖慢被跟踪代码并可能造成日志交错。",
+          "trigger": "output 传入文件路径字符串，且被跟踪函数产生多次日志写出时。",
+          "evidence": "第 25-27 行：`def write(s): with open(output, 'a') as output_file: output_file.write(s)`，open 位于每次调用的闭包内部。",
+          "suggestion": "在 get_write_function 中一次性打开文件并保持句柄（例如在闭包外 open，或使用缓存/上下文管理），避免每次写出都重新打开。",
+          "id": "5010761a9776",
+          "source": "llm",
+          "rule": "",
+          "snippet": "24:     elif isinstance(output, (pycompat.PathLike, str)):\n25:         def write(s):\n26:             with open(output, 'a') as output_file:\n27:                 output_file.write(s)\n28:     else:\n29:         assert isinstance(output, utils.WritableStream)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/pysnooper.py",
+          "line": 29,
+          "end_line": 31,
+          "severity": "low",
+          "category": "quality",
+          "title": "使用 assert 做输入类型校验，优化模式下会被跳过",
+          "explanation": "对非 None、非 PathLike/str 的 output 使用 assert isinstance(output, utils.WritableStream) 进行校验。Python 以 -O 运行时 assert 被移除，非法 output 将不再被拦截，而是在后续 output.write(s) 时以更晦涩的 AttributeError 失败。",
+          "trigger": "以 python -O 运行且传入既非 None、非路径、也非 WritableStream 的 output 对象时。",
+          "evidence": "第 29 行 `assert isinstance(output, utils.WritableStream)`。",
+          "suggestion": "改为显式检查并抛出 TypeError，例如 `if not isinstance(output, utils.WritableStream): raise TypeError(...)`。",
+          "id": "65baa2e15026",
+          "source": "llm",
+          "rule": "",
+          "snippet": "27:                 output_file.write(s)\n28:     else:\n29:         assert isinstance(output, utils.WritableStream)\n30:         def write(s):\n31:             output.write(s)\n32: \n33:     return write",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "pysnooper/pysnooper.py",
+      "line": 22,
+      "end_line": 23,
+      "severity": "high",
+      "category": "bug",
+      "title": "output 为 None 时引用未导入的 sys 导致 NameError",
+      "explanation": "get_write_function 在 output 为 None 时返回的 write 闭包内使用了 sys.stderr，但本模块顶部只导入了 decorator、utils、pycompat、Tracer，没有 import sys。因此默认调用 snoop()（output=None）并实际写出日志时会抛出 NameError: name 'sys' is not defined，默认行为完全不可用。",
+      "trigger": "调用 snoop() 使用默认 output=None，被装饰函数执行并触发一次日志写出时。",
+      "evidence": "第 22 行 `stderr = sys.stderr`；第 12-16 行的导入列表中不存在 `import sys`。",
+      "suggestion": "在模块顶部添加 `import sys`，或改为 `from sys import stderr` 并在闭包中使用 stderr。",
+      "id": "3bd2bfe1b7a8",
+      "source": "llm",
+      "rule": "",
+      "snippet": "20:     if output is None:\n21:         def write(s):\n22:             stderr = sys.stderr\n23:             stderr.write(s)\n24:     elif isinstance(output, (pycompat.PathLike, str)):\n25:         def write(s):",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/pysnooper.py",
+      "line": 26,
+      "end_line": 27,
+      "severity": "medium",
+      "category": "performance",
+      "title": "每次写出日志都重新打开文件，性能低下",
+      "explanation": "当 output 为路径或字符串时，write 闭包每次调用都执行 open(output, 'a') 并写入后关闭。日志写出在跟踪过程中会被高频调用，导致大量重复的文件打开/关闭系统调用，显著拖慢被跟踪代码并可能造成日志交错。",
+      "trigger": "output 传入文件路径字符串，且被跟踪函数产生多次日志写出时。",
+      "evidence": "第 25-27 行：`def write(s): with open(output, 'a') as output_file: output_file.write(s)`，open 位于每次调用的闭包内部。",
+      "suggestion": "在 get_write_function 中一次性打开文件并保持句柄（例如在闭包外 open，或使用缓存/上下文管理），避免每次写出都重新打开。",
+      "id": "5010761a9776",
+      "source": "llm",
+      "rule": "",
+      "snippet": "24:     elif isinstance(output, (pycompat.PathLike, str)):\n25:         def write(s):\n26:             with open(output, 'a') as output_file:\n27:                 output_file.write(s)\n28:     else:\n29:         assert isinstance(output, utils.WritableStream)",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/pysnooper.py",
+      "line": 29,
+      "end_line": 31,
+      "severity": "low",
+      "category": "quality",
+      "title": "使用 assert 做输入类型校验，优化模式下会被跳过",
+      "explanation": "对非 None、非 PathLike/str 的 output 使用 assert isinstance(output, utils.WritableStream) 进行校验。Python 以 -O 运行时 assert 被移除，非法 output 将不再被拦截，而是在后续 output.write(s) 时以更晦涩的 AttributeError 失败。",
+      "trigger": "以 python -O 运行且传入既非 None、非路径、也非 WritableStream 的 output 对象时。",
+      "evidence": "第 29 行 `assert isinstance(output, utils.WritableStream)`。",
+      "suggestion": "改为显式检查并抛出 TypeError，例如 `if not isinstance(output, utils.WritableStream): raise TypeError(...)`。",
+      "id": "65baa2e15026",
+      "source": "llm",
+      "rule": "",
+      "snippet": "27:                 output_file.write(s)\n28:     else:\n29:         assert isinstance(output, utils.WritableStream)\n30:         def write(s):\n31:             output.write(s)\n32: \n33:     return write",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "PySnooper-3",
+    "variant": "fixed",
+    "fixed_commit": "15555ed760000b049aff8fecc79d29339c1224c3",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

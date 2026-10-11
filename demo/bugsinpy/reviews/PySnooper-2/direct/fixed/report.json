@@ -1,0 +1,906 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "PySnooper",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "e21a31162f4c54be693d8ca8260e42393b39abd3",
+    "indexed_snapshot_sha256": "319a4ed16744ab3731c9817d60cf54ff44fffc4a171ba5664e670577e3e31ea9"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:38:43.268156+00:00",
+    "status": "completed",
+    "mode": "direct",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "direct",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 22.963,
+    "api_calls": 5,
+    "usage": {
+      "prompt_tokens": 9306,
+      "completion_tokens": 4605
+    },
+    "indexed_python_files": 7,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 5,
+    "total_window_chunks": 5,
+    "active_findings": 15,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "medium": 7,
+      "low": 8
+    },
+    "status_counts": {
+      "unverified": 15
+    }
+  },
+  "coverage": [
+    {
+      "path": "pysnooper/tracer.py",
+      "lines": 413,
+      "windows": [
+        [
+          1,
+          191
+        ],
+        [
+          135,
+          338
+        ],
+        [
+          283,
+          413
+        ]
+      ],
+      "total_chunks": 5,
+      "reviewed_chunks": 5,
+      "semantic_status": "window_completed",
+      "static_status": "not_requested"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "make_release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "requirements.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "misc/IDE files/PySnooper.wpr",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tests/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/test_pysnooper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/samples/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/samples/exception.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/samples/indentation.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/samples/recursion.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 8216,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1317,
+        "prompt_tokens": 2570,
+        "total_tokens": 3887,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 2058
+      },
+      "elapsed_seconds": 6.074
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 2041,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 764,
+        "total_tokens": 770,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 252
+      },
+      "elapsed_seconds": 1.166
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 9178,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1668,
+        "prompt_tokens": 2696,
+        "total_tokens": 4364,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 2184
+      },
+      "elapsed_seconds": 7.58
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 3017,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 957,
+        "total_tokens": 963,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 445
+      },
+      "elapsed_seconds": 0.762
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 8813,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1608,
+        "prompt_tokens": 2319,
+        "total_tokens": 3927,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 1807
+      },
+      "elapsed_seconds": 7.353
+    }
+  ],
+  "tool_reads": [],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "pysnooper/tracer.py",
+      "start": 1,
+      "end": 180,
+      "findings": [
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 27,
+          "end_line": 30,
+          "severity": "medium",
+          "category": "bug",
+          "title": "vars_order.index 可能抛出 ValueError 导致排序失败",
+          "explanation": "第27行构造 vars_order 时使用了 code.co_varnames + co_cellvars + co_freevars + tuple(frame.f_locals.keys())。第30行用 vars_order.index(key_value[0]) 作为排序键。虽然 f_locals 的键通常都在 vars_order 中，但在某些实现（如 PyPy、exec/eval 动态注入的局部变量、或 f_locals 被外部修改）下，f_locals 可能包含不在 co_varnames/co_cellvars/co_freevars 中的键，此时 index 会抛出 ValueError，导致 get_local_reprs 崩溃，进而使整个 tracer 失效。",
+          "trigger": "当 frame.f_locals 中存在既不在 co_varnames、co_cellvars、co_freevars 中，也不在 tuple(frame.f_locals.keys()) 快照中的键时（例如排序过程中 f_locals 被并发修改，或某些 Python 实现下 f_locals 键集合与快照不一致），vars_order.index 抛出 ValueError。",
+          "evidence": "第27行：vars_order = code.co_varnames + code.co_cellvars + code.co_freevars + tuple(frame.f_locals.keys())\n第30行：result_items.sort(key=lambda key_value: vars_order.index(key_value[0]))",
+          "suggestion": "使用带默认值的查找，例如 vars_order.index(key_value[0]) if key_value[0] in vars_order else len(vars_order)，或改用 dict 建立位置映射并设置默认值，避免 ValueError。",
+          "id": "d411a38c1638",
+          "source": "llm",
+          "rule": "",
+          "snippet": "25: def get_local_reprs(frame, watch=(), custom_repr=()):\n26:     code = frame.f_code\n27:     vars_order = code.co_varnames + code.co_cellvars + code.co_freevars + tuple(frame.f_locals.keys())\n28: \n29:     result_items = [(key, utils.get_shortish_repr(value, custom_repr=custom_repr)) for key, value in frame.f_locals.items()]\n30:     result_items.sort(key=lambda key_value: vars_order.index(key_value[0]))\n31:     result = collections.OrderedDict(result_items)\n32: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 89,
+          "end_line": 99,
+          "severity": "medium",
+          "category": "bug",
+          "title": "source 为空列表时 source[0] 触发 IndexError",
+          "explanation": "第89行直接访问 source[0] 判断是否为 bytes。当 loader.get_source 返回空字符串（source = ''.splitlines() == []）或文件为空（fp.read().splitlines() == []）时，source 是空列表，source[0] 会抛出 IndexError，导致 get_source_from_frame 崩溃。",
+          "trigger": "当被追踪模块的源码为空（空文件或 loader 返回空字符串）时，source 被赋值为空列表，第89行 source[0] 抛出 IndexError。",
+          "evidence": "第64行：source = source.splitlines()\n第80行：source = fp.read().splitlines()\n第89行：if isinstance(source[0], bytes):",
+          "suggestion": "在访问前判断 source 非空，例如 if source and isinstance(source[0], bytes):，或对空列表直接跳过编码检测。",
+          "id": "4de7c249429b",
+          "source": "llm",
+          "rule": "",
+          "snippet": "87:     # apply tokenize.detect_encoding to decode the source into a\n88:     # string, then we should do that ourselves.\n89:     if isinstance(source[0], bytes):\n90:         encoding = 'utf-8'\n91:         for line in source[:2]:\n92:             # File coding may be specified. Match pattern from PEP-263\n93:             # (https://www.python.org/dev/peps/pep-0263/)\n94:             match = re.search(br'coding[:=]\\s*([-\\w.]+)', line)\n95:             if match:\n96:                 encoding = match.group(1).decode('ascii')\n97:                 break\n98:         source = [pycompat.text_type(sline, encoding, 'replace') for sline in\n99:                   source]\n100: \n101:     source_cache[cache_key] = source",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 136,
+          "end_line": 139,
+          "severity": "medium",
+          "category": "performance",
+          "title": "FileWriter.write 每次写入都重新打开文件",
+          "explanation": "FileWriter.write 每次调用都执行 open(...) 打开文件、写入、关闭。在追踪循环中每行代码都会调用 write，导致频繁的文件打开/关闭系统调用，性能开销显著，且在多线程/多进程场景下可能产生交错写入。",
+          "trigger": "每次 tracer 输出一行日志时都会调用 FileWriter.write，从而重新打开文件。",
+          "evidence": "第135-139行：def write(self, s):\n    with open(self.path, 'w' if self.overwrite else 'a', encoding='utf-8') as output_file:\n        output_file.write(s)\n    self.overwrite = False",
+          "suggestion": "在 FileWriter 中保持文件句柄（惰性打开并缓存），或使用缓冲写入，减少重复 open/close 开销。",
+          "id": "c81733b36de6",
+          "source": "llm",
+          "rule": "",
+          "snippet": "134: \n135:     def write(self, s):\n136:         with open(self.path, 'w' if self.overwrite else 'a',\n137:                   encoding='utf-8') as output_file:\n138:             output_file.write(s)\n139:         self.overwrite = False\n140: \n141: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 143,
+          "end_line": 143,
+          "severity": "low",
+          "category": "bug",
+          "title": "PYSNOOPER_DISABLED 环境变量解析过于宽松",
+          "explanation": "DISABLED = bool(os.getenv('PYSNOOPER_DISABLED', '')) 只要环境变量存在且非空字符串就视为禁用。设置 PYSNOOPER_DISABLED=0 或 PYSNOOPER_DISABLED=false 也会禁用追踪，与用户直觉不符。",
+          "trigger": "用户设置 PYSNOOPER_DISABLED=0 或 PYSNOOPER_DISABLED=false 时，bool('0') 为 True，追踪被意外禁用。",
+          "evidence": "第143行：DISABLED = bool(os.getenv('PYSNOOPER_DISABLED', ''))",
+          "suggestion": "解析为布尔值，例如 os.getenv('PYSNOOPER_DISABLED', '').lower() in ('1', 'true', 'yes')，或明确文档说明任何非空值均禁用。",
+          "id": "995059fb9a2e",
+          "source": "llm",
+          "rule": "",
+          "snippet": "141: \n142: thread_global = threading.local()\n143: DISABLED = bool(os.getenv('PYSNOOPER_DISABLED', ''))\n144: \n145: class Tracer:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 72,
+          "end_line": 76,
+          "severity": "low",
+          "category": "quality",
+          "title": "IPython 历史获取使用裸 except Exception 吞掉所有异常",
+          "explanation": "第75行 except Exception: pass 会静默吞掉 IPython 历史获取过程中的所有异常（包括 KeyboardInterrupt 之外的错误），使调试困难，且无法区分是 IPython 未安装还是历史 API 变更。",
+          "trigger": "当 IPython 历史管理器 API 变更或 get_range 返回格式不符时，异常被静默忽略，source 保持 None，最终回退到 UnavailableSource，用户无法得知原因。",
+          "evidence": "第69-76行：try:\n    import IPython\n    ipython_shell = IPython.get_ipython()\n    ((_, _, source_chunk),) = ipython_shell.history_manager. \\\n                      get_range(0, entry_number, entry_number + 1)\n    source = source_chunk.splitlines()\nexcept Exception:\n    pass",
+          "suggestion": "捕获更具体的异常（如 ImportError、AttributeError、ValueError），或在调试模式下记录异常信息，避免完全静默。",
+          "id": "e473626d28bd",
+          "source": "llm",
+          "rule": "",
+          "snippet": "70:                 import IPython\n71:                 ipython_shell = IPython.get_ipython()\n72:                 ((_, _, source_chunk),) = ipython_shell.history_manager. \\\n73:                                   get_range(0, entry_number, entry_number + 1)\n74:                 source = source_chunk.splitlines()\n75:             except Exception:\n76:                 pass\n77:         else:\n78:             try:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "pysnooper/tracer.py",
+      "start": 181,
+      "end": 191,
+      "findings": []
+    },
+    {
+      "stage": "review",
+      "path": "pysnooper/tracer.py",
+      "start": 135,
+      "end": 314,
+      "findings": [
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 276,
+          "end_line": 277,
+          "severity": "medium",
+          "category": "bug",
+          "title": "__exit__ 在未成功进入时访问 original_trace_functions 可能抛 AttributeError",
+          "explanation": "Tracer.__enter__ 在 DISABLED 为真时直接 return，不会在 self.thread_local 上创建 original_trace_functions 属性。但 __exit__ 在 DISABLED 为真时也直接 return，因此该分支本身不会触发。真正的问题在于：如果 __enter__ 中 sys.settrace 之前发生异常（例如 inspect.currentframe 返回 None 导致 f_back 访问失败），则 original_trace_functions 可能尚未创建，而 __exit__ 仍会执行并访问 self.thread_local.original_trace_functions，抛出 AttributeError，掩盖原始异常。此外，__exit__ 使用属性访问而非 setdefault，若 thread_local 被其他代码重置也会失败。",
+          "trigger": "在 with self: 块中，__enter__ 在 stack.append 之前抛出异常，或 thread_local 状态被外部修改后调用 __exit__。",
+          "evidence": "第 267-270 行：stack = self.thread_local.__dict__.setdefault('original_trace_functions', []); stack.append(sys.gettrace()); sys.settrace(self.trace)。第 276 行：stack = self.thread_local.original_trace_functions 直接属性访问，无存在性检查。",
+          "suggestion": "在 __exit__ 中使用 getattr(self.thread_local, 'original_trace_functions', None) 并判空，或确保 __enter__ 在可能失败的操作之前先初始化该属性。",
+          "id": "ae6ee2d5a500",
+          "source": "llm",
+          "rule": "",
+          "snippet": "274:         if DISABLED:\n275:             return\n276:         stack = self.thread_local.original_trace_functions\n277:         sys.settrace(stack.pop())\n278:         calling_frame = inspect.currentframe().f_back\n279:         self.target_frames.discard(calling_frame)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 299,
+          "end_line": 314,
+          "severity": "medium",
+          "category": "bug",
+          "title": "depth>1 时 trace 函数对非目标帧返回 None 会停止该帧后续追踪",
+          "explanation": "Python 的 sys.settrace 语义：当 trace 函数对某个帧返回 None 时，该帧的后续行事件将不再被追踪（该帧的 f_trace 被清除）。在 depth>1 的分支中，当 frame 不是目标帧且不是内部帧时，代码会向上遍历 depth 层寻找目标帧；如果找到目标帧则 break 并继续执行后续追踪逻辑，但如果遍历过程中 _frame_candidate 为 None 则 return None。问题在于：对于当前 frame 本身，如果它不在目标帧链上，返回 None 会停止对该 frame 的追踪，这是符合预期的；但若当前 frame 是目标帧的后代且 depth 尚未达到，返回 None 会阻止后续更深层调用被追踪，因为该 frame 的 f_trace 被清除后，其子调用不会触发新的 trace 调用。这可能导致 depth 参数在多层嵌套调用中无法按预期工作。",
+          "trigger": "使用 @pysnooper.snoop(depth=3) 装饰函数，且被装饰函数调用链中存在中间帧，中间帧的 trace 返回 None 后其子帧不再被追踪。",
+          "evidence": "第 299-314 行：if not (frame.f_code in self.target_codes or frame in self.target_frames): ... else: _frame_candidate = frame; for i in range(1, self.depth): _frame_candidate = _frame_candidate.f_back; if _frame_candidate is None: return None; elif ...: break。返回 None 会清除当前帧的追踪。",
+          "suggestion": "对于需要继续追踪子帧的情况，应返回 self.trace 而不是 None，或使用 sys.settrace 的全局追踪机制确保子帧被追踪。",
+          "id": "830eb1e658a2",
+          "source": "llm",
+          "rule": "",
+          "snippet": "297:         # number of levels deeper.\n298: \n299:         if not (frame.f_code in self.target_codes or frame in self.target_frames):\n300:             if self.depth == 1:\n301:                 # We did the most common and quickest check above, because the\n302:                 # trace function runs so incredibly often, therefore it's\n303:                 # crucial to hyper-optimize it for the common case.\n304:                 return None\n305:             elif self._is_internal_frame(frame):\n306:                 return None\n307:             else:\n308:                 _frame_candidate = frame\n309:                 for i in range(1, self.depth):\n310:                     _frame_candidate = _frame_candidate.f_back\n311:                     if _frame_candidate is None:\n312:                         return None\n313:                     elif _frame_candidate.f_code in self.target_codes or _frame_candidate in self.target_frames:\n314:                         break",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 135,
+          "end_line": 139,
+          "severity": "low",
+          "category": "performance",
+          "title": "write 每次调用都重新打开文件，频繁 I/O 开销大",
+          "explanation": "Tracer.write 每次被调用时都执行 open(...) 打开文件、写入、关闭。在追踪高频执行时（每行代码都可能触发 write），这会造成大量文件打开/关闭系统调用，显著降低被追踪程序的性能，并可能因频繁 I/O 导致日志写入成为瓶颈。",
+          "trigger": "使用 @pysnooper.snoop('/path/to/file.log') 追踪包含循环或高频执行的函数。",
+          "evidence": "第 135-139 行：def write(self, s): with open(self.path, 'w' if self.overwrite else 'a', encoding='utf-8') as output_file: output_file.write(s); self.overwrite = False。每次调用都 open/close。",
+          "suggestion": "在 Tracer 实例中保持文件句柄打开，在 __exit__ 或析构时关闭；或使用缓冲写入减少系统调用。",
+          "id": "44160c2636a1",
+          "source": "llm",
+          "rule": "",
+          "snippet": "133:         self.overwrite = overwrite\n134: \n135:     def write(self, s):\n136:         with open(self.path, 'w' if self.overwrite else 'a',\n137:                   encoding='utf-8') as output_file:\n138:             output_file.write(s)\n139:         self.overwrite = False\n140: \n141: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 262,
+          "end_line": 265,
+          "severity": "low",
+          "category": "bug",
+          "title": "__enter__ 中 calling_frame 可能为 None 导致 AttributeError",
+          "explanation": "inspect.currentframe() 在某些实现中可能返回 None（例如在非 CPython 实现或某些受限环境）。代码直接访问 calling_frame.f_back 和 calling_frame.f_trace，若 currentframe() 返回 None 会抛出 AttributeError。虽然 CPython 通常返回帧对象，但该假设未做防御。",
+          "trigger": "在 inspect.currentframe() 返回 None 的 Python 实现或环境中使用 with pysnooper.snoop():。",
+          "evidence": "第 262 行：calling_frame = inspect.currentframe().f_back；第 263-265 行直接使用 calling_frame.f_trace 和 self.target_frames.add(calling_frame)。",
+          "suggestion": "添加 if calling_frame is None: return 的防御性检查。",
+          "id": "498bda8054d7",
+          "source": "llm",
+          "rule": "",
+          "snippet": "260:         if DISABLED:\n261:             return\n262:         calling_frame = inspect.currentframe().f_back\n263:         if not self._is_internal_frame(calling_frame):\n264:             calling_frame.f_trace = self.trace\n265:             self.target_frames.add(calling_frame)\n266: \n267:         stack = self.thread_local.__dict__.setdefault(",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 217,
+          "end_line": 220,
+          "severity": "low",
+          "category": "bug",
+          "title": "custom_repr 参数校验逻辑可能误判合法输入",
+          "explanation": "第 217-219 行：if len(custom_repr) == 2 and not all(isinstance(x, pycompat.collections_abc.Iterable) for x in custom_repr): custom_repr = (custom_repr,)。该逻辑意图是：当用户传入单个 (type, func) 元组时，将其包装为 ((type, func),)。但如果用户传入的 custom_repr 恰好是长度为 2 的序列，且两个元素都是可迭代对象（例如两个字符串或两个元组），则不会被包装，导致后续处理可能出错。此外，如果 custom_repr 是生成器或非序列类型，len() 会失败。",
+          "trigger": "传入 custom_repr=('ab', 'cd') 或 custom_repr 为生成器。",
+          "evidence": "第 217-219 行：if len(custom_repr) == 2 and not all(isinstance(x, pycompat.collections_abc.Iterable) for x in custom_repr): custom_repr = (custom_repr,)。",
+          "suggestion": "明确文档化 custom_repr 的期望格式，或使用更稳健的类型检查（例如检查是否为 (type, callable) 对）来区分单个规则和规则列表。",
+          "id": "3ed08b01e591",
+          "source": "llm",
+          "rule": "",
+          "snippet": "215:         self.target_frames = set()\n216:         self.thread_local = threading.local()\n217:         if len(custom_repr) == 2 and not all(isinstance(x,\n218:                       pycompat.collections_abc.Iterable) for x in custom_repr):\n219:             custom_repr = (custom_repr,)\n220:         self.custom_repr = custom_repr\n221: \n222:     def __call__(self, function):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "pysnooper/tracer.py",
+      "start": 315,
+      "end": 338,
+      "findings": []
+    },
+    {
+      "stage": "review",
+      "path": "pysnooper/tracer.py",
+      "start": 283,
+      "end": 413,
+      "findings": [
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 348,
+          "end_line": 348,
+          "severity": "medium",
+          "category": "bug",
+          "title": "get_source_from_frame 返回空列表时索引越界",
+          "explanation": "第348行直接使用 get_source_from_frame(frame)[line_no - 1] 访问源码行，未做任何边界检查。当被追踪的代码来自交互式解释器、exec 动态编译的字符串、或源码文件不可读时，get_source_from_frame 可能返回空列表或长度不足的列表，导致 IndexError 抛出，使整个 trace 函数崩溃并中断被追踪程序的执行。",
+          "trigger": "被装饰函数通过 exec/compile 动态定义，或源码文件无法被 linecache 读取，导致 get_source_from_frame 返回空列表，而 frame.f_lineno 仍为有效行号。",
+          "evidence": "第348行: source_line = get_source_from_frame(frame)[line_no - 1]，无 try/except 或长度校验。",
+          "suggestion": "在索引前检查列表长度，例如 lines = get_source_from_frame(frame); source_line = lines[line_no - 1] if 0 < line_no <= len(lines) else ''，或捕获 IndexError 并回退为空字符串。",
+          "id": "9c6d2469d80e",
+          "source": "llm",
+          "rule": "",
+          "snippet": "346:         now_string = datetime_module.datetime.now().time().isoformat()\n347:         line_no = frame.f_lineno\n348:         source_line = get_source_from_frame(frame)[line_no - 1]\n349:         thread_info = \"\"\n350:         if self.thread_info:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 381,
+          "end_line": 383,
+          "severity": "medium",
+          "category": "bug",
+          "title": "f_lasti 可能越界访问 co_code",
+          "explanation": "第381行使用 frame.f_code.co_code[frame.f_lasti] 读取当前字节码。在 Python 3.11+ 中 f_lasti 可能指向指令边界之外，或在某些事件（如 'exception' 事件、生成器恢复）下 f_lasti 可能等于或超过 co_code 长度，导致 IndexError。此外 Python 3.11 起 co_code 为 bytes，索引返回 int，第382-383行的 ord 分支虽兼容旧版但无法防止越界。",
+          "trigger": "在 Python 3.11+ 上追踪包含异常或生成器的函数，f_lasti 指向 co_code 末尾之外时触发 IndexError。",
+          "evidence": "第381行: code_byte = frame.f_code.co_code[frame.f_lasti]，无边界检查。",
+          "suggestion": "增加边界检查：if 0 <= frame.f_lasti < len(frame.f_code.co_code): code_byte = frame.f_code.co_code[frame.f_lasti] else: code_byte = 0，或使用 dis.opname 配合安全索引。",
+          "id": "3dcb7531d515",
+          "source": "llm",
+          "rule": "",
+          "snippet": "379:         # with arg = None. This seems to be the only way to tell the difference\n380:         # https://stackoverflow.com/a/12800909/2482744\n381:         code_byte = frame.f_code.co_code[frame.f_lasti]\n382:         if not isinstance(code_byte, int):\n383:             code_byte = ord(code_byte)\n384:         ended_by_exception = (\n385:                 event == 'return'",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 299,
+          "end_line": 316,
+          "severity": "low",
+          "category": "bug",
+          "title": "depth 检查循环中 f_back 链可能提前 break 导致误判",
+          "explanation": "第309-316行的 for/else 结构用于判断当前帧是否在目标帧的 depth 层内。当 _frame_candidate 在循环中匹配到目标时执行 break，跳过 else 分支；但若在到达目标前 _frame_candidate 变为 None 则 return None。逻辑本身正确，但当 depth 较大且调用栈较浅时，循环会遍历到 None 并返回，行为符合预期。此处主要风险是 self.depth 若被设为 0 或负数，range(1, self.depth) 为空，for 循环不执行，else 分支执行 return None，导致所有非目标帧被静默忽略，与 depth=1 的快速路径行为不一致。",
+          "trigger": "用户将 depth 设置为 0 或负数时，range(1, self.depth) 为空，else 子句直接 return None，所有非目标帧均不被追踪。",
+          "evidence": "第309行: for i in range(1, self.depth):，第315-316行: else: return None。",
+          "suggestion": "在 __init__ 中校验 depth >= 1，或在 trace 开头将 self.depth 规范化为 max(1, self.depth)。",
+          "id": "038169ba7e73",
+          "source": "llm",
+          "rule": "",
+          "snippet": "297:         # number of levels deeper.\n298: \n299:         if not (frame.f_code in self.target_codes or frame in self.target_frames):\n300:             if self.depth == 1:\n301:                 # We did the most common and quickest check above, because the\n302:                 # trace function runs so incredibly often, therefore it's\n303:                 # crucial to hyper-optimize it for the common case.\n304:                 return None\n305:             elif self._is_internal_frame(frame):\n306:                 return None\n307:             else:\n308:                 _frame_candidate = frame\n309:                 for i in range(1, self.depth):\n310:                     _frame_candidate = _frame_candidate.f_back\n311:                     if _frame_candidate is None:\n312:                         return None\n313:                     elif _frame_candidate.f_code in self.target_codes or _frame_candidate in self.target_frames:\n314:                         break",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 358,
+          "end_line": 374,
+          "severity": "low",
+          "category": "quality",
+          "title": "装饰器行检测仅匹配 '@' 开头，可能误判或漏判",
+          "explanation": "第358行通过 source_line.lstrip().startswith('@') 判断是否为装饰器行，但 '@' 也可能是矩阵乘法运算符（Python 3.5+）或字符串/注释中的字符。第370行查找 'def' 时同样仅做前缀匹配，若装饰器与 def 之间有多行装饰器或注释，循环会继续向下查找，但若遇到另一个 '@' 装饰器行不会停止，可能跳过实际 def 行之前的其他语句。此外该逻辑仅在 event == 'call' 时触发，对 async def 不匹配 'def' 前缀（'async def' 以 'async' 开头），导致 async 函数装饰器场景下无法定位到定义行。",
+          "trigger": "使用 @decorator 修饰 async def 函数时，第370行 candidate_source_line.lstrip().startswith('def') 对 'async def' 返回 False，循环继续直到文件末尾或 IndexError，回退到原始装饰器行。",
+          "evidence": "第358行: source_line.lstrip().startswith('@')；第370行: candidate_source_line.lstrip().startswith('def')。",
+          "suggestion": "将第370行判断改为匹配 'def' 或 'async def'，例如 stripped.startswith(('def', 'async def'))，并考虑使用 tokenize/ast 更可靠地定位函数定义行。",
+          "id": "4fdfe663be1d",
+          "source": "llm",
+          "rule": "",
+          "snippet": "356:         ### Dealing with misplaced function definition: #######################\n357:         #                                                                     #\n358:         if event == 'call' and source_line.lstrip().startswith('@'):\n359:             # If a function decorator is found, skip lines until an actual\n360:             # function definition is found.\n361:             for candidate_line_no in itertools.count(line_no):\n362:                 try:\n363:                     candidate_source_line = \\\n364:                             get_source_from_frame(frame)[candidate_line_no - 1]\n365:                 except IndexError:\n366:                     # End of source file reached without finding a function\n367:                     # definition. Fall back to original source line.\n368:                     break\n369: \n370:                 if candidate_source_line.lstrip().startswith('def'):\n371:                     # Found the def line!\n372:                     line_no = candidate_line_no\n373:                     source_line = candidate_source_line",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 399,
+          "end_line": 400,
+          "severity": "low",
+          "category": "bug",
+          "title": "return 事件中 frame_to_local_reprs 删除与 depth 递减可能不配对",
+          "explanation": "第398-400行在 event == 'return' 时删除 frame_to_local_reprs[frame] 并递减 thread_global.depth。但 depth 仅在 event == 'call' 时递增（第319-320行），而 trace 函数可能因第299-316行的过滤逻辑对某些帧返回 None 而不记录 call 事件。若某帧的 call 事件被过滤但 return 事件未被过滤（例如目标帧在 depth 范围内但 call 时不在），则 depth 会被错误递减，导致缩进层级错乱甚至负值。",
+          "trigger": "depth > 1 时，某帧的 call 事件因不在目标范围内被过滤，但其 return 事件因调用栈变化被判定在范围内，导致 depth 递减而未递增。",
+          "evidence": "第319-320行仅在 event == 'call' 时 depth += 1；第398-400行在 event == 'return' 时无条件 depth -= 1。",
+          "suggestion": "使用 frame 级别的标记（如 set）记录哪些帧已递增 depth，仅在对应帧的 call 被处理过时才在 return 时递减，或改用 frame 到 depth 的映射。",
+          "id": "f5d9dc17f718",
+          "source": "llm",
+          "rule": "",
+          "snippet": "397: \n398:         if event == 'return':\n399:             del self.frame_to_local_reprs[frame]\n400:             thread_global.depth -= 1\n401: \n402:             if not ended_by_exception:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 27,
+      "end_line": 30,
+      "severity": "medium",
+      "category": "bug",
+      "title": "vars_order.index 可能抛出 ValueError 导致排序失败",
+      "explanation": "第27行构造 vars_order 时使用了 code.co_varnames + co_cellvars + co_freevars + tuple(frame.f_locals.keys())。第30行用 vars_order.index(key_value[0]) 作为排序键。虽然 f_locals 的键通常都在 vars_order 中，但在某些实现（如 PyPy、exec/eval 动态注入的局部变量、或 f_locals 被外部修改）下，f_locals 可能包含不在 co_varnames/co_cellvars/co_freevars 中的键，此时 index 会抛出 ValueError，导致 get_local_reprs 崩溃，进而使整个 tracer 失效。",
+      "trigger": "当 frame.f_locals 中存在既不在 co_varnames、co_cellvars、co_freevars 中，也不在 tuple(frame.f_locals.keys()) 快照中的键时（例如排序过程中 f_locals 被并发修改，或某些 Python 实现下 f_locals 键集合与快照不一致），vars_order.index 抛出 ValueError。",
+      "evidence": "第27行：vars_order = code.co_varnames + code.co_cellvars + code.co_freevars + tuple(frame.f_locals.keys())\n第30行：result_items.sort(key=lambda key_value: vars_order.index(key_value[0]))",
+      "suggestion": "使用带默认值的查找，例如 vars_order.index(key_value[0]) if key_value[0] in vars_order else len(vars_order)，或改用 dict 建立位置映射并设置默认值，避免 ValueError。",
+      "id": "d411a38c1638",
+      "source": "llm",
+      "rule": "",
+      "snippet": "25: def get_local_reprs(frame, watch=(), custom_repr=()):\n26:     code = frame.f_code\n27:     vars_order = code.co_varnames + code.co_cellvars + code.co_freevars + tuple(frame.f_locals.keys())\n28: \n29:     result_items = [(key, utils.get_shortish_repr(value, custom_repr=custom_repr)) for key, value in frame.f_locals.items()]\n30:     result_items.sort(key=lambda key_value: vars_order.index(key_value[0]))\n31:     result = collections.OrderedDict(result_items)\n32: ",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 89,
+      "end_line": 99,
+      "severity": "medium",
+      "category": "bug",
+      "title": "source 为空列表时 source[0] 触发 IndexError",
+      "explanation": "第89行直接访问 source[0] 判断是否为 bytes。当 loader.get_source 返回空字符串（source = ''.splitlines() == []）或文件为空（fp.read().splitlines() == []）时，source 是空列表，source[0] 会抛出 IndexError，导致 get_source_from_frame 崩溃。",
+      "trigger": "当被追踪模块的源码为空（空文件或 loader 返回空字符串）时，source 被赋值为空列表，第89行 source[0] 抛出 IndexError。",
+      "evidence": "第64行：source = source.splitlines()\n第80行：source = fp.read().splitlines()\n第89行：if isinstance(source[0], bytes):",
+      "suggestion": "在访问前判断 source 非空，例如 if source and isinstance(source[0], bytes):，或对空列表直接跳过编码检测。",
+      "id": "4de7c249429b",
+      "source": "llm",
+      "rule": "",
+      "snippet": "87:     # apply tokenize.detect_encoding to decode the source into a\n88:     # string, then we should do that ourselves.\n89:     if isinstance(source[0], bytes):\n90:         encoding = 'utf-8'\n91:         for line in source[:2]:\n92:             # File coding may be specified. Match pattern from PEP-263\n93:             # (https://www.python.org/dev/peps/pep-0263/)\n94:             match = re.search(br'coding[:=]\\s*([-\\w.]+)', line)\n95:             if match:\n96:                 encoding = match.group(1).decode('ascii')\n97:                 break\n98:         source = [pycompat.text_type(sline, encoding, 'replace') for sline in\n99:                   source]\n100: \n101:     source_cache[cache_key] = source",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 136,
+      "end_line": 139,
+      "severity": "medium",
+      "category": "performance",
+      "title": "FileWriter.write 每次写入都重新打开文件",
+      "explanation": "FileWriter.write 每次调用都执行 open(...) 打开文件、写入、关闭。在追踪循环中每行代码都会调用 write，导致频繁的文件打开/关闭系统调用，性能开销显著，且在多线程/多进程场景下可能产生交错写入。",
+      "trigger": "每次 tracer 输出一行日志时都会调用 FileWriter.write，从而重新打开文件。",
+      "evidence": "第135-139行：def write(self, s):\n    with open(self.path, 'w' if self.overwrite else 'a', encoding='utf-8') as output_file:\n        output_file.write(s)\n    self.overwrite = False",
+      "suggestion": "在 FileWriter 中保持文件句柄（惰性打开并缓存），或使用缓冲写入，减少重复 open/close 开销。",
+      "id": "c81733b36de6",
+      "source": "llm",
+      "rule": "",
+      "snippet": "134: \n135:     def write(self, s):\n136:         with open(self.path, 'w' if self.overwrite else 'a',\n137:                   encoding='utf-8') as output_file:\n138:             output_file.write(s)\n139:         self.overwrite = False\n140: \n141: ",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 143,
+      "end_line": 143,
+      "severity": "low",
+      "category": "bug",
+      "title": "PYSNOOPER_DISABLED 环境变量解析过于宽松",
+      "explanation": "DISABLED = bool(os.getenv('PYSNOOPER_DISABLED', '')) 只要环境变量存在且非空字符串就视为禁用。设置 PYSNOOPER_DISABLED=0 或 PYSNOOPER_DISABLED=false 也会禁用追踪，与用户直觉不符。",
+      "trigger": "用户设置 PYSNOOPER_DISABLED=0 或 PYSNOOPER_DISABLED=false 时，bool('0') 为 True，追踪被意外禁用。",
+      "evidence": "第143行：DISABLED = bool(os.getenv('PYSNOOPER_DISABLED', ''))",
+      "suggestion": "解析为布尔值，例如 os.getenv('PYSNOOPER_DISABLED', '').lower() in ('1', 'true', 'yes')，或明确文档说明任何非空值均禁用。",
+      "id": "995059fb9a2e",
+      "source": "llm",
+      "rule": "",
+      "snippet": "141: \n142: thread_global = threading.local()\n143: DISABLED = bool(os.getenv('PYSNOOPER_DISABLED', ''))\n144: \n145: class Tracer:",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 72,
+      "end_line": 76,
+      "severity": "low",
+      "category": "quality",
+      "title": "IPython 历史获取使用裸 except Exception 吞掉所有异常",
+      "explanation": "第75行 except Exception: pass 会静默吞掉 IPython 历史获取过程中的所有异常（包括 KeyboardInterrupt 之外的错误），使调试困难，且无法区分是 IPython 未安装还是历史 API 变更。",
+      "trigger": "当 IPython 历史管理器 API 变更或 get_range 返回格式不符时，异常被静默忽略，source 保持 None，最终回退到 UnavailableSource，用户无法得知原因。",
+      "evidence": "第69-76行：try:\n    import IPython\n    ipython_shell = IPython.get_ipython()\n    ((_, _, source_chunk),) = ipython_shell.history_manager. \\\n                      get_range(0, entry_number, entry_number + 1)\n    source = source_chunk.splitlines()\nexcept Exception:\n    pass",
+      "suggestion": "捕获更具体的异常（如 ImportError、AttributeError、ValueError），或在调试模式下记录异常信息，避免完全静默。",
+      "id": "e473626d28bd",
+      "source": "llm",
+      "rule": "",
+      "snippet": "70:                 import IPython\n71:                 ipython_shell = IPython.get_ipython()\n72:                 ((_, _, source_chunk),) = ipython_shell.history_manager. \\\n73:                                   get_range(0, entry_number, entry_number + 1)\n74:                 source = source_chunk.splitlines()\n75:             except Exception:\n76:                 pass\n77:         else:\n78:             try:",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 276,
+      "end_line": 277,
+      "severity": "medium",
+      "category": "bug",
+      "title": "__exit__ 在未成功进入时访问 original_trace_functions 可能抛 AttributeError",
+      "explanation": "Tracer.__enter__ 在 DISABLED 为真时直接 return，不会在 self.thread_local 上创建 original_trace_functions 属性。但 __exit__ 在 DISABLED 为真时也直接 return，因此该分支本身不会触发。真正的问题在于：如果 __enter__ 中 sys.settrace 之前发生异常（例如 inspect.currentframe 返回 None 导致 f_back 访问失败），则 original_trace_functions 可能尚未创建，而 __exit__ 仍会执行并访问 self.thread_local.original_trace_functions，抛出 AttributeError，掩盖原始异常。此外，__exit__ 使用属性访问而非 setdefault，若 thread_local 被其他代码重置也会失败。",
+      "trigger": "在 with self: 块中，__enter__ 在 stack.append 之前抛出异常，或 thread_local 状态被外部修改后调用 __exit__。",
+      "evidence": "第 267-270 行：stack = self.thread_local.__dict__.setdefault('original_trace_functions', []); stack.append(sys.gettrace()); sys.settrace(self.trace)。第 276 行：stack = self.thread_local.original_trace_functions 直接属性访问，无存在性检查。",
+      "suggestion": "在 __exit__ 中使用 getattr(self.thread_local, 'original_trace_functions', None) 并判空，或确保 __enter__ 在可能失败的操作之前先初始化该属性。",
+      "id": "ae6ee2d5a500",
+      "source": "llm",
+      "rule": "",
+      "snippet": "274:         if DISABLED:\n275:             return\n276:         stack = self.thread_local.original_trace_functions\n277:         sys.settrace(stack.pop())\n278:         calling_frame = inspect.currentframe().f_back\n279:         self.target_frames.discard(calling_frame)",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 299,
+      "end_line": 314,
+      "severity": "medium",
+      "category": "bug",
+      "title": "depth>1 时 trace 函数对非目标帧返回 None 会停止该帧后续追踪",
+      "explanation": "Python 的 sys.settrace 语义：当 trace 函数对某个帧返回 None 时，该帧的后续行事件将不再被追踪（该帧的 f_trace 被清除）。在 depth>1 的分支中，当 frame 不是目标帧且不是内部帧时，代码会向上遍历 depth 层寻找目标帧；如果找到目标帧则 break 并继续执行后续追踪逻辑，但如果遍历过程中 _frame_candidate 为 None 则 return None。问题在于：对于当前 frame 本身，如果它不在目标帧链上，返回 None 会停止对该 frame 的追踪，这是符合预期的；但若当前 frame 是目标帧的后代且 depth 尚未达到，返回 None 会阻止后续更深层调用被追踪，因为该 frame 的 f_trace 被清除后，其子调用不会触发新的 trace 调用。这可能导致 depth 参数在多层嵌套调用中无法按预期工作。",
+      "trigger": "使用 @pysnooper.snoop(depth=3) 装饰函数，且被装饰函数调用链中存在中间帧，中间帧的 trace 返回 None 后其子帧不再被追踪。",
+      "evidence": "第 299-314 行：if not (frame.f_code in self.target_codes or frame in self.target_frames): ... else: _frame_candidate = frame; for i in range(1, self.depth): _frame_candidate = _frame_candidate.f_back; if _frame_candidate is None: return None; elif ...: break。返回 None 会清除当前帧的追踪。",
+      "suggestion": "对于需要继续追踪子帧的情况，应返回 self.trace 而不是 None，或使用 sys.settrace 的全局追踪机制确保子帧被追踪。",
+      "id": "830eb1e658a2",
+      "source": "llm",
+      "rule": "",
+      "snippet": "297:         # number of levels deeper.\n298: \n299:         if not (frame.f_code in self.target_codes or frame in self.target_frames):\n300:             if self.depth == 1:\n301:                 # We did the most common and quickest check above, because the\n302:                 # trace function runs so incredibly often, therefore it's\n303:                 # crucial to hyper-optimize it for the common case.\n304:                 return None\n305:             elif self._is_internal_frame(frame):\n306:                 return None\n307:             else:\n308:                 _frame_candidate = frame\n309:                 for i in range(1, self.depth):\n310:                     _frame_candidate = _frame_candidate.f_back\n311:                     if _frame_candidate is None:\n312:                         return None\n313:                     elif _frame_candidate.f_code in self.target_codes or _frame_candidate in self.target_frames:\n314:                         break",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 135,
+      "end_line": 139,
+      "severity": "low",
+      "category": "performance",
+      "title": "write 每次调用都重新打开文件，频繁 I/O 开销大",
+      "explanation": "Tracer.write 每次被调用时都执行 open(...) 打开文件、写入、关闭。在追踪高频执行时（每行代码都可能触发 write），这会造成大量文件打开/关闭系统调用，显著降低被追踪程序的性能，并可能因频繁 I/O 导致日志写入成为瓶颈。",
+      "trigger": "使用 @pysnooper.snoop('/path/to/file.log') 追踪包含循环或高频执行的函数。",
+      "evidence": "第 135-139 行：def write(self, s): with open(self.path, 'w' if self.overwrite else 'a', encoding='utf-8') as output_file: output_file.write(s); self.overwrite = False。每次调用都 open/close。",
+      "suggestion": "在 Tracer 实例中保持文件句柄打开，在 __exit__ 或析构时关闭；或使用缓冲写入减少系统调用。",
+      "id": "44160c2636a1",
+      "source": "llm",
+      "rule": "",
+      "snippet": "133:         self.overwrite = overwrite\n134: \n135:     def write(self, s):\n136:         with open(self.path, 'w' if self.overwrite else 'a',\n137:                   encoding='utf-8') as output_file:\n138:             output_file.write(s)\n139:         self.overwrite = False\n140: \n141: ",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 262,
+      "end_line": 265,
+      "severity": "low",
+      "category": "bug",
+      "title": "__enter__ 中 calling_frame 可能为 None 导致 AttributeError",
+      "explanation": "inspect.currentframe() 在某些实现中可能返回 None（例如在非 CPython 实现或某些受限环境）。代码直接访问 calling_frame.f_back 和 calling_frame.f_trace，若 currentframe() 返回 None 会抛出 AttributeError。虽然 CPython 通常返回帧对象，但该假设未做防御。",
+      "trigger": "在 inspect.currentframe() 返回 None 的 Python 实现或环境中使用 with pysnooper.snoop():。",
+      "evidence": "第 262 行：calling_frame = inspect.currentframe().f_back；第 263-265 行直接使用 calling_frame.f_trace 和 self.target_frames.add(calling_frame)。",
+      "suggestion": "添加 if calling_frame is None: return 的防御性检查。",
+      "id": "498bda8054d7",
+      "source": "llm",
+      "rule": "",
+      "snippet": "260:         if DISABLED:\n261:             return\n262:         calling_frame = inspect.currentframe().f_back\n263:         if not self._is_internal_frame(calling_frame):\n264:             calling_frame.f_trace = self.trace\n265:             self.target_frames.add(calling_frame)\n266: \n267:         stack = self.thread_local.__dict__.setdefault(",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 217,
+      "end_line": 220,
+      "severity": "low",
+      "category": "bug",
+      "title": "custom_repr 参数校验逻辑可能误判合法输入",
+      "explanation": "第 217-219 行：if len(custom_repr) == 2 and not all(isinstance(x, pycompat.collections_abc.Iterable) for x in custom_repr): custom_repr = (custom_repr,)。该逻辑意图是：当用户传入单个 (type, func) 元组时，将其包装为 ((type, func),)。但如果用户传入的 custom_repr 恰好是长度为 2 的序列，且两个元素都是可迭代对象（例如两个字符串或两个元组），则不会被包装，导致后续处理可能出错。此外，如果 custom_repr 是生成器或非序列类型，len() 会失败。",
+      "trigger": "传入 custom_repr=('ab', 'cd') 或 custom_repr 为生成器。",
+      "evidence": "第 217-219 行：if len(custom_repr) == 2 and not all(isinstance(x, pycompat.collections_abc.Iterable) for x in custom_repr): custom_repr = (custom_repr,)。",
+      "suggestion": "明确文档化 custom_repr 的期望格式，或使用更稳健的类型检查（例如检查是否为 (type, callable) 对）来区分单个规则和规则列表。",
+      "id": "3ed08b01e591",
+      "source": "llm",
+      "rule": "",
+      "snippet": "215:         self.target_frames = set()\n216:         self.thread_local = threading.local()\n217:         if len(custom_repr) == 2 and not all(isinstance(x,\n218:                       pycompat.collections_abc.Iterable) for x in custom_repr):\n219:             custom_repr = (custom_repr,)\n220:         self.custom_repr = custom_repr\n221: \n222:     def __call__(self, function):",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 348,
+      "end_line": 348,
+      "severity": "medium",
+      "category": "bug",
+      "title": "get_source_from_frame 返回空列表时索引越界",
+      "explanation": "第348行直接使用 get_source_from_frame(frame)[line_no - 1] 访问源码行，未做任何边界检查。当被追踪的代码来自交互式解释器、exec 动态编译的字符串、或源码文件不可读时，get_source_from_frame 可能返回空列表或长度不足的列表，导致 IndexError 抛出，使整个 trace 函数崩溃并中断被追踪程序的执行。",
+      "trigger": "被装饰函数通过 exec/compile 动态定义，或源码文件无法被 linecache 读取，导致 get_source_from_frame 返回空列表，而 frame.f_lineno 仍为有效行号。",
+      "evidence": "第348行: source_line = get_source_from_frame(frame)[line_no - 1]，无 try/except 或长度校验。",
+      "suggestion": "在索引前检查列表长度，例如 lines = get_source_from_frame(frame); source_line = lines[line_no - 1] if 0 < line_no <= len(lines) else ''，或捕获 IndexError 并回退为空字符串。",
+      "id": "9c6d2469d80e",
+      "source": "llm",
+      "rule": "",
+      "snippet": "346:         now_string = datetime_module.datetime.now().time().isoformat()\n347:         line_no = frame.f_lineno\n348:         source_line = get_source_from_frame(frame)[line_no - 1]\n349:         thread_info = \"\"\n350:         if self.thread_info:",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 381,
+      "end_line": 383,
+      "severity": "medium",
+      "category": "bug",
+      "title": "f_lasti 可能越界访问 co_code",
+      "explanation": "第381行使用 frame.f_code.co_code[frame.f_lasti] 读取当前字节码。在 Python 3.11+ 中 f_lasti 可能指向指令边界之外，或在某些事件（如 'exception' 事件、生成器恢复）下 f_lasti 可能等于或超过 co_code 长度，导致 IndexError。此外 Python 3.11 起 co_code 为 bytes，索引返回 int，第382-383行的 ord 分支虽兼容旧版但无法防止越界。",
+      "trigger": "在 Python 3.11+ 上追踪包含异常或生成器的函数，f_lasti 指向 co_code 末尾之外时触发 IndexError。",
+      "evidence": "第381行: code_byte = frame.f_code.co_code[frame.f_lasti]，无边界检查。",
+      "suggestion": "增加边界检查：if 0 <= frame.f_lasti < len(frame.f_code.co_code): code_byte = frame.f_code.co_code[frame.f_lasti] else: code_byte = 0，或使用 dis.opname 配合安全索引。",
+      "id": "3dcb7531d515",
+      "source": "llm",
+      "rule": "",
+      "snippet": "379:         # with arg = None. This seems to be the only way to tell the difference\n380:         # https://stackoverflow.com/a/12800909/2482744\n381:         code_byte = frame.f_code.co_code[frame.f_lasti]\n382:         if not isinstance(code_byte, int):\n383:             code_byte = ord(code_byte)\n384:         ended_by_exception = (\n385:                 event == 'return'",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 299,
+      "end_line": 316,
+      "severity": "low",
+      "category": "bug",
+      "title": "depth 检查循环中 f_back 链可能提前 break 导致误判",
+      "explanation": "第309-316行的 for/else 结构用于判断当前帧是否在目标帧的 depth 层内。当 _frame_candidate 在循环中匹配到目标时执行 break，跳过 else 分支；但若在到达目标前 _frame_candidate 变为 None 则 return None。逻辑本身正确，但当 depth 较大且调用栈较浅时，循环会遍历到 None 并返回，行为符合预期。此处主要风险是 self.depth 若被设为 0 或负数，range(1, self.depth) 为空，for 循环不执行，else 分支执行 return None，导致所有非目标帧被静默忽略，与 depth=1 的快速路径行为不一致。",
+      "trigger": "用户将 depth 设置为 0 或负数时，range(1, self.depth) 为空，else 子句直接 return None，所有非目标帧均不被追踪。",
+      "evidence": "第309行: for i in range(1, self.depth):，第315-316行: else: return None。",
+      "suggestion": "在 __init__ 中校验 depth >= 1，或在 trace 开头将 self.depth 规范化为 max(1, self.depth)。",
+      "id": "038169ba7e73",
+      "source": "llm",
+      "rule": "",
+      "snippet": "297:         # number of levels deeper.\n298: \n299:         if not (frame.f_code in self.target_codes or frame in self.target_frames):\n300:             if self.depth == 1:\n301:                 # We did the most common and quickest check above, because the\n302:                 # trace function runs so incredibly often, therefore it's\n303:                 # crucial to hyper-optimize it for the common case.\n304:                 return None\n305:             elif self._is_internal_frame(frame):\n306:                 return None\n307:             else:\n308:                 _frame_candidate = frame\n309:                 for i in range(1, self.depth):\n310:                     _frame_candidate = _frame_candidate.f_back\n311:                     if _frame_candidate is None:\n312:                         return None\n313:                     elif _frame_candidate.f_code in self.target_codes or _frame_candidate in self.target_frames:\n314:                         break",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 358,
+      "end_line": 374,
+      "severity": "low",
+      "category": "quality",
+      "title": "装饰器行检测仅匹配 '@' 开头，可能误判或漏判",
+      "explanation": "第358行通过 source_line.lstrip().startswith('@') 判断是否为装饰器行，但 '@' 也可能是矩阵乘法运算符（Python 3.5+）或字符串/注释中的字符。第370行查找 'def' 时同样仅做前缀匹配，若装饰器与 def 之间有多行装饰器或注释，循环会继续向下查找，但若遇到另一个 '@' 装饰器行不会停止，可能跳过实际 def 行之前的其他语句。此外该逻辑仅在 event == 'call' 时触发，对 async def 不匹配 'def' 前缀（'async def' 以 'async' 开头），导致 async 函数装饰器场景下无法定位到定义行。",
+      "trigger": "使用 @decorator 修饰 async def 函数时，第370行 candidate_source_line.lstrip().startswith('def') 对 'async def' 返回 False，循环继续直到文件末尾或 IndexError，回退到原始装饰器行。",
+      "evidence": "第358行: source_line.lstrip().startswith('@')；第370行: candidate_source_line.lstrip().startswith('def')。",
+      "suggestion": "将第370行判断改为匹配 'def' 或 'async def'，例如 stripped.startswith(('def', 'async def'))，并考虑使用 tokenize/ast 更可靠地定位函数定义行。",
+      "id": "4fdfe663be1d",
+      "source": "llm",
+      "rule": "",
+      "snippet": "356:         ### Dealing with misplaced function definition: #######################\n357:         #                                                                     #\n358:         if event == 'call' and source_line.lstrip().startswith('@'):\n359:             # If a function decorator is found, skip lines until an actual\n360:             # function definition is found.\n361:             for candidate_line_no in itertools.count(line_no):\n362:                 try:\n363:                     candidate_source_line = \\\n364:                             get_source_from_frame(frame)[candidate_line_no - 1]\n365:                 except IndexError:\n366:                     # End of source file reached without finding a function\n367:                     # definition. Fall back to original source line.\n368:                     break\n369: \n370:                 if candidate_source_line.lstrip().startswith('def'):\n371:                     # Found the def line!\n372:                     line_no = candidate_line_no\n373:                     source_line = candidate_source_line",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 399,
+      "end_line": 400,
+      "severity": "low",
+      "category": "bug",
+      "title": "return 事件中 frame_to_local_reprs 删除与 depth 递减可能不配对",
+      "explanation": "第398-400行在 event == 'return' 时删除 frame_to_local_reprs[frame] 并递减 thread_global.depth。但 depth 仅在 event == 'call' 时递增（第319-320行），而 trace 函数可能因第299-316行的过滤逻辑对某些帧返回 None 而不记录 call 事件。若某帧的 call 事件被过滤但 return 事件未被过滤（例如目标帧在 depth 范围内但 call 时不在），则 depth 会被错误递减，导致缩进层级错乱甚至负值。",
+      "trigger": "depth > 1 时，某帧的 call 事件因不在目标范围内被过滤，但其 return 事件因调用栈变化被判定在范围内，导致 depth 递减而未递增。",
+      "evidence": "第319-320行仅在 event == 'call' 时 depth += 1；第398-400行在 event == 'return' 时无条件 depth -= 1。",
+      "suggestion": "使用 frame 级别的标记（如 set）记录哪些帧已递增 depth，仅在对应帧的 call 被处理过时才在 return 时递减，或改用 frame 到 depth 的映射。",
+      "id": "f5d9dc17f718",
+      "source": "llm",
+      "rule": "",
+      "snippet": "397: \n398:         if event == 'return':\n399:             del self.frame_to_local_reprs[frame]\n400:             thread_global.depth -= 1\n401: \n402:             if not ended_by_exception:",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "PySnooper-2",
+    "variant": "fixed",
+    "fixed_commit": "814abc34a098c1b98cb327105ac396f985d2413e",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

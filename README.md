@@ -186,6 +186,10 @@ CLI 退出码：0 为 completed/static_only；2 表示已保存报告但分析�
 
 ## 验证与评测
 
+已增加基于标准真实缺陷数据的 **BugsInPy 评测入口**，固定20个缺陷，比较缺陷/修复两版本与直接审查/双Agent模式。准备和复跑方法见 [BugsInPy 评测说明](evaluation/BUGSINPY.md)。这项评测限定参考代码窗口，单独验证测试复现；语义评分需要证据判读，不将行号重叠直接当作检出。
+
+已用 `deepseek-flash` 实跑80次审查：79次完整完成，19/20个缺陷成对复现。模型辅助判读中，direct 检出4/18个有效缺陷，full 检出3/19个；当前检出能力仍需改进。这是已知位置窗口的小样本评测，人类复查待完成。原始报告、判读依据和失败项见 [BugsInPy 实际结果](demo/bugsinpy/README.md)。
+
 本次运行的源码、模型与工具验证记录见 [VALIDATION.md](VALIDATION.md)。精选实际报告在 `demo/`：
 
 - [真实 requests 仓库报告](demo/github-review/report.html)：src/requests 下选定3/19个Python文件，12次模型调用，未发生执行失败，范围受限所以标为partial。

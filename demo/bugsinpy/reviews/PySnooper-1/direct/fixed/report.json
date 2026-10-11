@@ -1,0 +1,459 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "PySnooper",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "e21a31162f4c54be693d8ca8260e42393b39abd3",
+    "indexed_snapshot_sha256": "76bb6fa3e49122304d333b8adc4f7bcfc06fbaf8edcbf24fae1a541fa2f3c44d"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:34:34.926246+00:00",
+    "status": "partial",
+    "mode": "direct",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "direct",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 12.653,
+    "api_calls": 3,
+    "usage": {
+      "prompt_tokens": 4401,
+      "completion_tokens": 2454
+    },
+    "indexed_python_files": 7,
+    "selected_files": 2,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 2,
+    "total_window_chunks": 3,
+    "active_findings": 5,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "medium": 2,
+      "low": 3
+    },
+    "status_counts": {
+      "unverified": 5
+    }
+  },
+  "coverage": [
+    {
+      "path": "pysnooper/pycompat.py",
+      "lines": 56,
+      "windows": [
+        [
+          1,
+          56
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 0,
+      "semantic_status": "partial",
+      "static_status": "not_requested"
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "lines": 396,
+      "windows": [
+        [
+          1,
+          184
+        ]
+      ],
+      "total_chunks": 2,
+      "reviewed_chunks": 2,
+      "semantic_status": "window_completed",
+      "static_status": "not_requested"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "make_release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "requirements.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "misc/IDE files/PySnooper.wpr",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tests/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/test_chinese.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/test_pysnooper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/samples/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/samples/exception.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/samples/indentation.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/samples/recursion.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [],
+  "failures": [
+    {
+      "stage": "review_or_verify",
+      "path": "pysnooper/pycompat.py",
+      "reason": "Expecting ',' delimiter: line 1 column 588 (char 587)"
+    }
+  ],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 3357,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1250,
+        "prompt_tokens": 1179,
+        "total_tokens": 2429,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 667
+      },
+      "elapsed_seconds": 6.074
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 8156,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1198,
+        "prompt_tokens": 2550,
+        "total_tokens": 3748,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 2038
+      },
+      "elapsed_seconds": 6.104
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 1748,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 672,
+        "total_tokens": 678,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 160
+      },
+      "elapsed_seconds": 0.448
+    }
+  ],
+  "tool_reads": [],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "pysnooper/tracer.py",
+      "start": 1,
+      "end": 180,
+      "findings": [
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 26,
+          "end_line": 29,
+          "severity": "medium",
+          "category": "bug",
+          "title": "vars_order.index 可能抛出 ValueError 导致排序失败",
+          "explanation": "第26行构造 vars_order 时使用 code.co_varnames + co_cellvars + co_freevars + tuple(frame.f_locals.keys())。第29行用 vars_order.index(key_value[0]) 作为排序键。虽然 f_locals 的键通常包含在 co_varnames 中，但在某些情况下（例如 exec/eval 注入的局部变量、类体作用域、或 CPython 实现差异）f_locals 可能包含不在 co_varnames 中的键，此时 index() 会抛出 ValueError，使 get_local_reprs 崩溃，进而导致整个 tracer 在记录变量时异常。",
+          "trigger": "当 frame.f_locals 中存在一个键既不在 co_varnames、co_cellvars、co_freevars 中时（例如通过 exec 动态注入的局部变量），调用 get_local_reprs 触发排序。",
+          "evidence": "第26行：vars_order = code.co_varnames + code.co_cellvars + code.co_freevars + tuple(frame.f_locals.keys())；第29行：result_items.sort(key=lambda key_value: vars_order.index(key_value[0]))。list.index 在元素不存在时抛出 ValueError。",
+          "suggestion": "改用不会抛异常的排序键，例如构建 {name: i for i, name in enumerate(vars_order)} 映射并用 dict.get(name, len(vars_order)) 作为排序键，或对缺失键做兜底处理。",
+          "id": "cfc70acf3795",
+          "source": "llm",
+          "rule": "",
+          "snippet": "24: def get_local_reprs(frame, watch=()):\n25:     code = frame.f_code\n26:     vars_order = code.co_varnames + code.co_cellvars + code.co_freevars + tuple(frame.f_locals.keys())\n27: \n28:     result_items = [(key, utils.get_shortish_repr(value)) for key, value in frame.f_locals.items()]\n29:     result_items.sort(key=lambda key_value: vars_order.index(key_value[0]))\n30:     result = collections.OrderedDict(result_items)\n31: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 88,
+          "end_line": 98,
+          "severity": "medium",
+          "category": "bug",
+          "title": "source 为空列表时 source[0] 触发 IndexError",
+          "explanation": "第88行访问 source[0] 判断是否为 bytes。当 loader.get_source 返回空字符串（source = ''.splitlines() == []）或文件为空（fp.read().splitlines() == []）时，source 是空列表，source[0] 会抛出 IndexError。该异常未被捕获，会导致 get_source_from_frame 失败。",
+          "trigger": "被追踪函数的源文件为空，或 loader.get_source 返回空字符串时调用 get_source_from_frame。",
+          "evidence": "第63行 source = source.splitlines()；第79行 source = fp.read().splitlines()；第88行 if isinstance(source[0], bytes):。空列表索引访问会抛 IndexError。",
+          "suggestion": "在访问前判断 if source and isinstance(source[0], bytes):，或在 source 为空时直接跳过编码检测。",
+          "id": "ef2ef4628492",
+          "source": "llm",
+          "rule": "",
+          "snippet": "86:     # apply tokenize.detect_encoding to decode the source into a\n87:     # string, then we should do that ourselves.\n88:     if isinstance(source[0], bytes):\n89:         encoding = 'utf-8'\n90:         for line in source[:2]:\n91:             # File coding may be specified. Match pattern from PEP-263\n92:             # (https://www.python.org/dev/peps/pep-0263/)\n93:             match = re.search(br'coding[:=]\\s*([-\\w.]+)', line)\n94:             if match:\n95:                 encoding = match.group(1).decode('ascii')\n96:                 break\n97:         source = [pycompat.text_type(sline, encoding, 'replace') for sline in\n98:                   source]\n99: \n100:     source_cache[cache_key] = source",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 42,
+          "end_line": 100,
+          "severity": "low",
+          "category": "bug",
+          "title": "source_cache 无上限且以 (module_name, file_name) 为键可能缓存错误内容",
+          "explanation": "source_cache 是模块级全局字典，永不清理，长期运行或大量不同文件时会持续增长内存。此外缓存键为 (module_name, file_name)，若同一文件被不同模块名加载（例如动态导入、重命名模块），会命中错误缓存；反之同一模块名对应不同文件内容变更时也不会失效。",
+          "trigger": "长时间运行的程序追踪大量不同文件，或同一文件以不同 __name__ 被加载。",
+          "evidence": "第42行 source_cache = {}；第49行 cache_key = (module_name, file_name)；第100行 source_cache[cache_key] = source。无容量限制与失效机制。",
+          "suggestion": "考虑使用 functools.lru_cache 或限制缓存大小，并在键中加入文件 mtime 等失效依据。",
+          "id": "c8ffd1c111ba",
+          "source": "llm",
+          "rule": "",
+          "snippet": "40: \n41: \n42: source_cache = {}\n43: \n44: \n45: def get_source_from_frame(frame):\n46:     globs = frame.f_globals or {}\n47:     module_name = globs.get('__name__')\n48:     file_name = frame.f_code.co_filename\n49:     cache_key = (module_name, file_name)\n50:     try:\n51:         return source_cache[cache_key]\n52:     except KeyError:\n53:         pass\n54:     loader = globs.get('__loader__')\n55: \n56:     source = None\n57:     if hasattr(loader, 'get_source'):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 104,
+          "end_line": 126,
+          "severity": "low",
+          "category": "quality",
+          "title": "get_write_function 对非路径非可调用非 WritableStream 的 output 使用 assert 校验",
+          "explanation": "第122行使用 assert isinstance(output, utils.WritableStream) 做输入校验。assert 在 Python -O 优化模式下会被移除，此时非法 output 会静默通过，随后第125行 output.write(s) 在运行时才抛出 AttributeError，错误信息不明确。",
+          "trigger": "以 -O 运行且传入既非路径、非可调用、也非 WritableStream 的 output 对象。",
+          "evidence": "第122行：assert isinstance(output, utils.WritableStream)；第124-125行：def write(s): output.write(s)。",
+          "suggestion": "改为显式 if not isinstance(...): raise TypeError(...)，保证在优化模式下仍能给出清晰错误。",
+          "id": "e6d3da21f53a",
+          "source": "llm",
+          "rule": "",
+          "snippet": "102: \n103: \n104: def get_write_function(output, overwrite):\n105:     is_path = isinstance(output, (pycompat.PathLike, str))\n106:     if overwrite and not is_path:\n107:         raise Exception('`overwrite=True` can only be used when writing '\n108:                         'content to file.')\n109:     if output is None:\n110:         def write(s):\n111:             stderr = sys.stderr\n112:             try:\n113:                 stderr.write(s)\n114:             except UnicodeEncodeError:\n115:                 # God damn Python 2\n116:                 stderr.write(utils.shitcode(s))\n117:     elif is_path:\n118:         return FileWriter(output, overwrite).write\n119:     elif callable(output):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "pysnooper/tracer.py",
+          "line": 134,
+          "end_line": 138,
+          "severity": "low",
+          "category": "performance",
+          "title": "FileWriter.write 每次调用都重新打开文件",
+          "explanation": "FileWriter.write 每次写入都执行 open(...) 并关闭文件。在追踪高频执行时，每条日志都会触发一次文件打开/关闭系统调用，带来显著 I/O 开销，且并发写入时可能交错。",
+          "trigger": "使用 @pysnooper.snoop('/path/to/file') 追踪循环或高频函数时。",
+          "evidence": "第134-137行：def write(self, s): with open(self.path, 'w' if self.overwrite else 'a', encoding='utf-8') as output_file: output_file.write(s)。",
+          "suggestion": "在 FileWriter 中保持打开的文件句柄（惰性打开并复用），或使用缓冲写入，减少重复 open/close。",
+          "id": "77000726ab27",
+          "source": "llm",
+          "rule": "",
+          "snippet": "132:         self.overwrite = overwrite\n133: \n134:     def write(self, s):\n135:         with open(self.path, 'w' if self.overwrite else 'a',\n136:                   encoding='utf-8') as output_file:\n137:             output_file.write(s)\n138:         self.overwrite = False\n139: \n140: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "pysnooper/tracer.py",
+      "start": 181,
+      "end": 184,
+      "findings": []
+    }
+  ],
+  "findings": [
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 26,
+      "end_line": 29,
+      "severity": "medium",
+      "category": "bug",
+      "title": "vars_order.index 可能抛出 ValueError 导致排序失败",
+      "explanation": "第26行构造 vars_order 时使用 code.co_varnames + co_cellvars + co_freevars + tuple(frame.f_locals.keys())。第29行用 vars_order.index(key_value[0]) 作为排序键。虽然 f_locals 的键通常包含在 co_varnames 中，但在某些情况下（例如 exec/eval 注入的局部变量、类体作用域、或 CPython 实现差异）f_locals 可能包含不在 co_varnames 中的键，此时 index() 会抛出 ValueError，使 get_local_reprs 崩溃，进而导致整个 tracer 在记录变量时异常。",
+      "trigger": "当 frame.f_locals 中存在一个键既不在 co_varnames、co_cellvars、co_freevars 中时（例如通过 exec 动态注入的局部变量），调用 get_local_reprs 触发排序。",
+      "evidence": "第26行：vars_order = code.co_varnames + code.co_cellvars + code.co_freevars + tuple(frame.f_locals.keys())；第29行：result_items.sort(key=lambda key_value: vars_order.index(key_value[0]))。list.index 在元素不存在时抛出 ValueError。",
+      "suggestion": "改用不会抛异常的排序键，例如构建 {name: i for i, name in enumerate(vars_order)} 映射并用 dict.get(name, len(vars_order)) 作为排序键，或对缺失键做兜底处理。",
+      "id": "cfc70acf3795",
+      "source": "llm",
+      "rule": "",
+      "snippet": "24: def get_local_reprs(frame, watch=()):\n25:     code = frame.f_code\n26:     vars_order = code.co_varnames + code.co_cellvars + code.co_freevars + tuple(frame.f_locals.keys())\n27: \n28:     result_items = [(key, utils.get_shortish_repr(value)) for key, value in frame.f_locals.items()]\n29:     result_items.sort(key=lambda key_value: vars_order.index(key_value[0]))\n30:     result = collections.OrderedDict(result_items)\n31: ",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 88,
+      "end_line": 98,
+      "severity": "medium",
+      "category": "bug",
+      "title": "source 为空列表时 source[0] 触发 IndexError",
+      "explanation": "第88行访问 source[0] 判断是否为 bytes。当 loader.get_source 返回空字符串（source = ''.splitlines() == []）或文件为空（fp.read().splitlines() == []）时，source 是空列表，source[0] 会抛出 IndexError。该异常未被捕获，会导致 get_source_from_frame 失败。",
+      "trigger": "被追踪函数的源文件为空，或 loader.get_source 返回空字符串时调用 get_source_from_frame。",
+      "evidence": "第63行 source = source.splitlines()；第79行 source = fp.read().splitlines()；第88行 if isinstance(source[0], bytes):。空列表索引访问会抛 IndexError。",
+      "suggestion": "在访问前判断 if source and isinstance(source[0], bytes):，或在 source 为空时直接跳过编码检测。",
+      "id": "ef2ef4628492",
+      "source": "llm",
+      "rule": "",
+      "snippet": "86:     # apply tokenize.detect_encoding to decode the source into a\n87:     # string, then we should do that ourselves.\n88:     if isinstance(source[0], bytes):\n89:         encoding = 'utf-8'\n90:         for line in source[:2]:\n91:             # File coding may be specified. Match pattern from PEP-263\n92:             # (https://www.python.org/dev/peps/pep-0263/)\n93:             match = re.search(br'coding[:=]\\s*([-\\w.]+)', line)\n94:             if match:\n95:                 encoding = match.group(1).decode('ascii')\n96:                 break\n97:         source = [pycompat.text_type(sline, encoding, 'replace') for sline in\n98:                   source]\n99: \n100:     source_cache[cache_key] = source",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 42,
+      "end_line": 100,
+      "severity": "low",
+      "category": "bug",
+      "title": "source_cache 无上限且以 (module_name, file_name) 为键可能缓存错误内容",
+      "explanation": "source_cache 是模块级全局字典，永不清理，长期运行或大量不同文件时会持续增长内存。此外缓存键为 (module_name, file_name)，若同一文件被不同模块名加载（例如动态导入、重命名模块），会命中错误缓存；反之同一模块名对应不同文件内容变更时也不会失效。",
+      "trigger": "长时间运行的程序追踪大量不同文件，或同一文件以不同 __name__ 被加载。",
+      "evidence": "第42行 source_cache = {}；第49行 cache_key = (module_name, file_name)；第100行 source_cache[cache_key] = source。无容量限制与失效机制。",
+      "suggestion": "考虑使用 functools.lru_cache 或限制缓存大小，并在键中加入文件 mtime 等失效依据。",
+      "id": "c8ffd1c111ba",
+      "source": "llm",
+      "rule": "",
+      "snippet": "40: \n41: \n42: source_cache = {}\n43: \n44: \n45: def get_source_from_frame(frame):\n46:     globs = frame.f_globals or {}\n47:     module_name = globs.get('__name__')\n48:     file_name = frame.f_code.co_filename\n49:     cache_key = (module_name, file_name)\n50:     try:\n51:         return source_cache[cache_key]\n52:     except KeyError:\n53:         pass\n54:     loader = globs.get('__loader__')\n55: \n56:     source = None\n57:     if hasattr(loader, 'get_source'):",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 104,
+      "end_line": 126,
+      "severity": "low",
+      "category": "quality",
+      "title": "get_write_function 对非路径非可调用非 WritableStream 的 output 使用 assert 校验",
+      "explanation": "第122行使用 assert isinstance(output, utils.WritableStream) 做输入校验。assert 在 Python -O 优化模式下会被移除，此时非法 output 会静默通过，随后第125行 output.write(s) 在运行时才抛出 AttributeError，错误信息不明确。",
+      "trigger": "以 -O 运行且传入既非路径、非可调用、也非 WritableStream 的 output 对象。",
+      "evidence": "第122行：assert isinstance(output, utils.WritableStream)；第124-125行：def write(s): output.write(s)。",
+      "suggestion": "改为显式 if not isinstance(...): raise TypeError(...)，保证在优化模式下仍能给出清晰错误。",
+      "id": "e6d3da21f53a",
+      "source": "llm",
+      "rule": "",
+      "snippet": "102: \n103: \n104: def get_write_function(output, overwrite):\n105:     is_path = isinstance(output, (pycompat.PathLike, str))\n106:     if overwrite and not is_path:\n107:         raise Exception('`overwrite=True` can only be used when writing '\n108:                         'content to file.')\n109:     if output is None:\n110:         def write(s):\n111:             stderr = sys.stderr\n112:             try:\n113:                 stderr.write(s)\n114:             except UnicodeEncodeError:\n115:                 # God damn Python 2\n116:                 stderr.write(utils.shitcode(s))\n117:     elif is_path:\n118:         return FileWriter(output, overwrite).write\n119:     elif callable(output):",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "pysnooper/tracer.py",
+      "line": 134,
+      "end_line": 138,
+      "severity": "low",
+      "category": "performance",
+      "title": "FileWriter.write 每次调用都重新打开文件",
+      "explanation": "FileWriter.write 每次写入都执行 open(...) 并关闭文件。在追踪高频执行时，每条日志都会触发一次文件打开/关闭系统调用，带来显著 I/O 开销，且并发写入时可能交错。",
+      "trigger": "使用 @pysnooper.snoop('/path/to/file') 追踪循环或高频函数时。",
+      "evidence": "第134-137行：def write(self, s): with open(self.path, 'w' if self.overwrite else 'a', encoding='utf-8') as output_file: output_file.write(s)。",
+      "suggestion": "在 FileWriter 中保持打开的文件句柄（惰性打开并复用），或使用缓冲写入，减少重复 open/close。",
+      "id": "77000726ab27",
+      "source": "llm",
+      "rule": "",
+      "snippet": "132:         self.overwrite = overwrite\n133: \n134:     def write(self, s):\n135:         with open(self.path, 'w' if self.overwrite else 'a',\n136:                   encoding='utf-8') as output_file:\n137:             output_file.write(s)\n138:         self.overwrite = False\n139: \n140: ",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "PySnooper-1",
+    "variant": "fixed",
+    "fixed_commit": "56f22f8ffe1c6b2be4d2cf3ad1987fdb66113da2",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

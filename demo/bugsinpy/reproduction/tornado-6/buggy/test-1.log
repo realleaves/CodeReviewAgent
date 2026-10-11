@@ -1,0 +1,12 @@
+======================================================================
+FAIL: test_ioloop_close_leak (tornado.test.asyncio_test.LeakTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/tornado/test/asyncio_test.py", line 146, in test_ioloop_close_leak
+    self.assertEqual(new_count, 0)
+AssertionError: 10 != 0
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)

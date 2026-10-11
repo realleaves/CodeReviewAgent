@@ -1,0 +1,29 @@
+{
+  "dataset_commit": "11c5f1eea954a42132cfd06bf257766a7963e0fd",
+  "source_sha256": {
+    "src/__init__.py": "9d9e33ea9b0988a621a891305c15f6822aeb887e062c209110de3a43b263ddb4",
+    "src/agents.py": "2d8d2af71c9eb184997d17dfb554e05dd2bc24256ee2ad216e4142f196f7bcc1",
+    "src/code_index.py": "66b609c0e7a78c588fd99a2309ffd61df411b70943851914123a885491a34fb6",
+    "src/deduplication.py": "3071efab768fe7cc9e32073b04ad906af5cc66ffd8d145f61bcb3cfecd48788c",
+    "src/pipeline.py": "b528ea6982f612201e8e06b20cbafdf3b3a9346c62c6f8ce789020a201470b98",
+    "src/report.py": "a21fa640c7faa42a2c0311da476f61ef1aa2100704b31241ba88e2eb0cb7e52c",
+    "src/repository.py": "360f9e5f492f98780632c68197a8c72abf0b36d876b6b2c2368d8d99a0fbda4c",
+    "src/schemas.py": "6593d85b51b55a40893ed2a0845a235be702cac6d3870c7a38fe884b8f88c943",
+    "src/static_analysis.py": "c094e31f91c91916c8db62e5350617e8b3a77a2f930b6063c9d4eec33cf60d2d",
+    "evaluation/bugsinpy.py": "55892f38e00231a3860830666170736b20eaf4c0a912e74f08b9d6968aed23cc",
+    "evaluation/bugsinpy_data.py": "3ea9011586bdcd9b470369879a4010606331d1ec51f4a3f9b4e1db240d6c3afa",
+    "evaluation/bugsinpy_reproduce.py": "d58a33d8275e6206840ed1de5a4ed8ba89ab8fd61e6074ddf3a913add06e59e5",
+    "evaluation/bugsinpy_review.py": "83f178562cbb5f224aaaceaf8e13aa2268e01fed1e316c917421bcf853b619a3",
+    "evaluation/bugsinpy_score.py": "cefe0b9fce54809cd4d1304219ae6b312a7c6669ce36caac01c843b7e253d63e"
+  },
+  "limit": 20,
+  "modes": [
+    "direct",
+    "full"
+  ],
+  "max_calls_per_review": 24,
+  "max_total_calls": 720,
+  "timeout": 45,
+  "reproduction_requested": true,
+  "reviewer_answers_hidden": true
+}

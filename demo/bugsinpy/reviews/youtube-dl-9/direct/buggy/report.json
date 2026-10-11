@@ -1,0 +1,655 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "https://github.com/ytdl-org/youtube-dl",
+    "name": "youtube-dl",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "0130afb76e5cb6f470f39f127c8d09eea3e82d0d",
+    "indexed_snapshot_sha256": "4f53227cdfdf13354ba606ab2c97694a40d3b10179329690ac5021983b86ce42"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:48:41.892385+00:00",
+    "status": "completed",
+    "mode": "direct",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "direct",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 7.944,
+    "api_calls": 2,
+    "usage": {
+      "prompt_tokens": 4260,
+      "completion_tokens": 1546
+    },
+    "indexed_python_files": 563,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 2,
+    "total_window_chunks": 2,
+    "active_findings": 6,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "medium": 4,
+      "low": 2
+    },
+    "status_counts": {
+      "unverified": 6
+    }
+  },
+  "coverage": [
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "lines": 1995,
+      "windows": [
+        [
+          905,
+          1132
+        ]
+      ],
+      "total_chunks": 2,
+      "reviewed_chunks": 2,
+      "semantic_status": "window_completed",
+      "static_status": "not_requested"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "youtube-dl.plugin.zsh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "bin/youtube-dl",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage_w.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/bash-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/fish-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/posix-locale.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/wine-py2exe.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/zsh-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/module_guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/supportedsites.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/parameters.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testcert.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "test/swftests/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassConstruction.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstantInt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/DictCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/EqualsOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/LocalVars.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/MemberAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/NeOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateVoidCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticRetrieval.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringBasics.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringCharCodeAt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringConversion.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_InfoExtractor.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDL.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_aes.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_age_restriction.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_all_urls.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_cache.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_compat.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_download.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_execution.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_jsinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_netrc.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_postprocessors.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_subtitles.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_swfinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_unicode_literals.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_write_annotations.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_lists.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_signature.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 11944,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1540,
+        "prompt_tokens": 3065,
+        "total_tokens": 4605,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 2553
+      },
+      "elapsed_seconds": 6.739
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 3670,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 1195,
+        "total_tokens": 1201,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 683
+      },
+      "elapsed_seconds": 0.822
+    }
+  ],
+  "tool_reads": [],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 905,
+      "end": 1084,
+      "findings": [
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 934,
+          "end_line": 934,
+          "severity": "medium",
+          "category": "bug",
+          "title": "可变默认参数 endwith=[]",
+          "explanation": "函数 _parse_format_selection 使用可变列表 [] 作为默认参数 endwith。虽然当前代码未对该列表进行修改（仅使用 `string in endwith` 判断），但这是 Python 中典型的可变默认参数反模式，一旦后续维护中有人向 endwith 追加元素，就会在多次调用间共享状态，导致难以排查的解析错误。",
+          "trigger": "任何调用 _parse_format_selection 且未显式传入 endwith 的场景；若未来代码修改 endwith 内容则立即触发跨调用污染。",
+          "evidence": "第 934 行：`def _parse_format_selection(tokens, endwith=[]):`",
+          "suggestion": "将默认值改为不可变对象，例如 `endwith=()`，或使用 `endwith=None` 并在函数体内初始化为 `[]`。",
+          "id": "cfcf92cba544",
+          "source": "llm",
+          "rule": "",
+          "snippet": "932:                     filter_parts.append(string)\n933: \n934:         def _parse_format_selection(tokens, endwith=[]):\n935:             selectors = []\n936:             current_selector = None",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 951,
+          "end_line": 952,
+          "severity": "medium",
+          "category": "bug",
+          "title": "逗号分隔时可能追加 None 选择器",
+          "explanation": "在解析格式选择时，遇到 ',' 会无条件执行 `selectors.append(current_selector)`。如果输入中出现连续逗号（如 'best,,worst'）或逗号前没有有效选择器（如 ',best'），current_selector 为 None，会被追加进 selectors。后续 _build_selector_function 对 None 调用 `selector.type` 会抛出 AttributeError，而不是给出友好的语法错误。",
+          "trigger": "format_spec 包含连续逗号或前导逗号，例如 `-f 'best,,worst'` 或 `-f ',best'`。",
+          "evidence": "第 950-952 行：`if string == ',': selectors.append(current_selector); current_selector = None`，未检查 current_selector 是否为 None。",
+          "suggestion": "在追加前检查 `if current_selector is None: raise syntax_error('Unexpected \",\"', start)`，或跳过 None 值。",
+          "id": "485f537930b9",
+          "source": "llm",
+          "rule": "",
+          "snippet": "949:                         break\n950:                     if string == ',':\n951:                         selectors.append(current_selector)\n952:                         current_selector = None\n953:                     elif string == '/':\n954:                         first_choice = current_selector",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 953,
+          "end_line": 957,
+          "severity": "medium",
+          "category": "bug",
+          "title": "PICKFIRST 左侧选择器可能为 None",
+          "explanation": "处理 '/' 时，first_choice = current_selector 可能为 None（例如格式串以 '/' 开头，或前一个操作符已把 current_selector 置为 None）。随后构造 FormatSelector(PICKFIRST, (None, second_choice), [])，在 _build_selector_function 中会对 None 调用 _build_selector_function，导致 `selector.type` 触发 AttributeError。",
+          "trigger": "format_spec 以 '/' 开头或 '/' 前没有有效选择器，例如 `-f '/best'`。",
+          "evidence": "第 953-957 行：`first_choice = current_selector` 未做 None 校验，直接用于构造 PICKFIRST 选择器。",
+          "suggestion": "在构造前检查 `if first_choice is None: raise syntax_error('Unexpected \"/\"', start)`。",
+          "id": "2521c68640b7",
+          "source": "llm",
+          "rule": "",
+          "snippet": "951:                         selectors.append(current_selector)\n952:                         current_selector = None\n953:                     elif string == '/':\n954:                         first_choice = current_selector\n955:                         second_choice = _parse_format_selection(tokens, [','])\n956:                         current_selector = None\n957:                         selectors.append(FormatSelector(PICKFIRST, (first_choice, second_choice), []))\n958:                     elif string == '[':\n959:                         if not current_selector:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 967,
+          "end_line": 971,
+          "severity": "medium",
+          "category": "bug",
+          "title": "MERGE 左侧选择器可能为 None",
+          "explanation": "处理 '+' 时，video_selector = current_selector 可能为 None（例如格式串以 '+' 开头）。随后构造 FormatSelector(MERGE, (None, audio_selector), [])，在 _build_selector_function 中会对 None 调用 _build_selector_function，导致 AttributeError。",
+          "trigger": "format_spec 以 '+' 开头或 '+' 前没有有效选择器，例如 `-f '+bestaudio'`。",
+          "evidence": "第 967-971 行：`video_selector = current_selector` 未做 None 校验，直接用于构造 MERGE 选择器。",
+          "suggestion": "在构造前检查 `if video_selector is None: raise syntax_error('Unexpected \"+\"', start)`。",
+          "id": "b4670807019f",
+          "source": "llm",
+          "rule": "",
+          "snippet": "965:                             raise syntax_error('Unexpected \"(\"', start)\n966:                         current_selector = FormatSelector(GROUP, _parse_format_selection(tokens, [')']), [])\n967:                     elif string == '+':\n968:                         video_selector = current_selector\n969:                         audio_selector = _parse_format_selection(tokens, [','])\n970:                         current_selector = None\n971:                         selectors.append(FormatSelector(MERGE, (video_selector, audio_selector), []))\n972:                     else:\n973:                         raise syntax_error('Operator not recognized: \"{0}\"'.format(string), start)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 1043,
+          "end_line": 1050,
+          "severity": "low",
+          "category": "bug",
+          "title": "扩展名匹配使用 f['ext'] 可能触发 KeyError",
+          "explanation": "在按扩展名或 format_id 过滤时，filter_f 直接使用 `f['ext']` 和 `f['format_id']` 下标访问。若某个 format 字典缺少这些键（例如某些提取器返回不完整的 format 信息），会抛出 KeyError 导致整个格式选择失败。代码其他位置（如 1011、1021、1033 行）均使用 .get() 安全访问。",
+          "trigger": "formats 列表中任一 format 字典缺少 'ext' 或 'format_id' 键，且 format_spec 不是 all/best/worst/bestaudio 等内置关键字。",
+          "evidence": "第 1045 行：`filter_f = lambda f: f['ext'] == format_spec`；第 1047 行：`filter_f = lambda f: f['format_id'] == format_spec`。",
+          "suggestion": "改用 `f.get('ext') == format_spec` 和 `f.get('format_id') == format_spec`，与文件其他位置的防御性访问保持一致。",
+          "id": "64e52c724c8b",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1041:                             yield video_formats[0]\n1042:                     else:\n1043:                         extensions = ['mp4', 'flv', 'webm', '3gp', 'm4a', 'mp3', 'ogg', 'aac', 'wav']\n1044:                         if format_spec in extensions:\n1045:                             filter_f = lambda f: f['ext'] == format_spec\n1046:                         else:\n1047:                             filter_f = lambda f: f['format_id'] == format_spec\n1048:                         matches = list(filter(filter_f, formats))\n1049:                         if matches:\n1050:                             yield matches[-1]\n1051:             elif selector.type == MERGE:\n1052:                 def _merge(formats_info):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 1056,
+          "end_line": 1060,
+          "severity": "low",
+          "category": "bug",
+          "title": "_merge 中 report_error 后返回 None 导致后续解包失败",
+          "explanation": "_merge 在第一个格式不含视频时调用 self.report_error 并 `return`（返回 None）。调用方若对 _merge 的返回值进行解包或属性访问，会因 None 触发 TypeError。虽然 report_error 通常会抛出异常终止流程，但若其行为被配置为仅记录错误而不抛出，则 None 会继续传播。",
+          "trigger": "用户使用 `-f audio+video` 顺序颠倒（第一个格式 vcodec 为 'none'），且 report_error 未抛出异常。",
+          "evidence": "第 1056-1060 行：`if formats_info[0].get('vcodec') == 'none': self.report_error(...); return`。",
+          "suggestion": "在 report_error 后显式 `raise` 或返回一个可安全处理的值，并确保调用方对 None 做防御。",
+          "id": "46d4b6cac80b",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1054:                     # The first format must contain the video and the\n1055:                     # second the audio\n1056:                     if formats_info[0].get('vcodec') == 'none':\n1057:                         self.report_error('The first format must '\n1058:                                           'contain the video, try using '\n1059:                                           '\"-f %s+%s\"' % (format_2, format_1))\n1060:                         return\n1061:                     output_ext = (\n1062:                         formats_info[0]['ext']",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 1085,
+      "end": 1131,
+      "findings": []
+    }
+  ],
+  "findings": [
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 934,
+      "end_line": 934,
+      "severity": "medium",
+      "category": "bug",
+      "title": "可变默认参数 endwith=[]",
+      "explanation": "函数 _parse_format_selection 使用可变列表 [] 作为默认参数 endwith。虽然当前代码未对该列表进行修改（仅使用 `string in endwith` 判断），但这是 Python 中典型的可变默认参数反模式，一旦后续维护中有人向 endwith 追加元素，就会在多次调用间共享状态，导致难以排查的解析错误。",
+      "trigger": "任何调用 _parse_format_selection 且未显式传入 endwith 的场景；若未来代码修改 endwith 内容则立即触发跨调用污染。",
+      "evidence": "第 934 行：`def _parse_format_selection(tokens, endwith=[]):`",
+      "suggestion": "将默认值改为不可变对象，例如 `endwith=()`，或使用 `endwith=None` 并在函数体内初始化为 `[]`。",
+      "id": "cfcf92cba544",
+      "source": "llm",
+      "rule": "",
+      "snippet": "932:                     filter_parts.append(string)\n933: \n934:         def _parse_format_selection(tokens, endwith=[]):\n935:             selectors = []\n936:             current_selector = None",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 951,
+      "end_line": 952,
+      "severity": "medium",
+      "category": "bug",
+      "title": "逗号分隔时可能追加 None 选择器",
+      "explanation": "在解析格式选择时，遇到 ',' 会无条件执行 `selectors.append(current_selector)`。如果输入中出现连续逗号（如 'best,,worst'）或逗号前没有有效选择器（如 ',best'），current_selector 为 None，会被追加进 selectors。后续 _build_selector_function 对 None 调用 `selector.type` 会抛出 AttributeError，而不是给出友好的语法错误。",
+      "trigger": "format_spec 包含连续逗号或前导逗号，例如 `-f 'best,,worst'` 或 `-f ',best'`。",
+      "evidence": "第 950-952 行：`if string == ',': selectors.append(current_selector); current_selector = None`，未检查 current_selector 是否为 None。",
+      "suggestion": "在追加前检查 `if current_selector is None: raise syntax_error('Unexpected \",\"', start)`，或跳过 None 值。",
+      "id": "485f537930b9",
+      "source": "llm",
+      "rule": "",
+      "snippet": "949:                         break\n950:                     if string == ',':\n951:                         selectors.append(current_selector)\n952:                         current_selector = None\n953:                     elif string == '/':\n954:                         first_choice = current_selector",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 953,
+      "end_line": 957,
+      "severity": "medium",
+      "category": "bug",
+      "title": "PICKFIRST 左侧选择器可能为 None",
+      "explanation": "处理 '/' 时，first_choice = current_selector 可能为 None（例如格式串以 '/' 开头，或前一个操作符已把 current_selector 置为 None）。随后构造 FormatSelector(PICKFIRST, (None, second_choice), [])，在 _build_selector_function 中会对 None 调用 _build_selector_function，导致 `selector.type` 触发 AttributeError。",
+      "trigger": "format_spec 以 '/' 开头或 '/' 前没有有效选择器，例如 `-f '/best'`。",
+      "evidence": "第 953-957 行：`first_choice = current_selector` 未做 None 校验，直接用于构造 PICKFIRST 选择器。",
+      "suggestion": "在构造前检查 `if first_choice is None: raise syntax_error('Unexpected \"/\"', start)`。",
+      "id": "2521c68640b7",
+      "source": "llm",
+      "rule": "",
+      "snippet": "951:                         selectors.append(current_selector)\n952:                         current_selector = None\n953:                     elif string == '/':\n954:                         first_choice = current_selector\n955:                         second_choice = _parse_format_selection(tokens, [','])\n956:                         current_selector = None\n957:                         selectors.append(FormatSelector(PICKFIRST, (first_choice, second_choice), []))\n958:                     elif string == '[':\n959:                         if not current_selector:",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 967,
+      "end_line": 971,
+      "severity": "medium",
+      "category": "bug",
+      "title": "MERGE 左侧选择器可能为 None",
+      "explanation": "处理 '+' 时，video_selector = current_selector 可能为 None（例如格式串以 '+' 开头）。随后构造 FormatSelector(MERGE, (None, audio_selector), [])，在 _build_selector_function 中会对 None 调用 _build_selector_function，导致 AttributeError。",
+      "trigger": "format_spec 以 '+' 开头或 '+' 前没有有效选择器，例如 `-f '+bestaudio'`。",
+      "evidence": "第 967-971 行：`video_selector = current_selector` 未做 None 校验，直接用于构造 MERGE 选择器。",
+      "suggestion": "在构造前检查 `if video_selector is None: raise syntax_error('Unexpected \"+\"', start)`。",
+      "id": "b4670807019f",
+      "source": "llm",
+      "rule": "",
+      "snippet": "965:                             raise syntax_error('Unexpected \"(\"', start)\n966:                         current_selector = FormatSelector(GROUP, _parse_format_selection(tokens, [')']), [])\n967:                     elif string == '+':\n968:                         video_selector = current_selector\n969:                         audio_selector = _parse_format_selection(tokens, [','])\n970:                         current_selector = None\n971:                         selectors.append(FormatSelector(MERGE, (video_selector, audio_selector), []))\n972:                     else:\n973:                         raise syntax_error('Operator not recognized: \"{0}\"'.format(string), start)",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 1043,
+      "end_line": 1050,
+      "severity": "low",
+      "category": "bug",
+      "title": "扩展名匹配使用 f['ext'] 可能触发 KeyError",
+      "explanation": "在按扩展名或 format_id 过滤时，filter_f 直接使用 `f['ext']` 和 `f['format_id']` 下标访问。若某个 format 字典缺少这些键（例如某些提取器返回不完整的 format 信息），会抛出 KeyError 导致整个格式选择失败。代码其他位置（如 1011、1021、1033 行）均使用 .get() 安全访问。",
+      "trigger": "formats 列表中任一 format 字典缺少 'ext' 或 'format_id' 键，且 format_spec 不是 all/best/worst/bestaudio 等内置关键字。",
+      "evidence": "第 1045 行：`filter_f = lambda f: f['ext'] == format_spec`；第 1047 行：`filter_f = lambda f: f['format_id'] == format_spec`。",
+      "suggestion": "改用 `f.get('ext') == format_spec` 和 `f.get('format_id') == format_spec`，与文件其他位置的防御性访问保持一致。",
+      "id": "64e52c724c8b",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1041:                             yield video_formats[0]\n1042:                     else:\n1043:                         extensions = ['mp4', 'flv', 'webm', '3gp', 'm4a', 'mp3', 'ogg', 'aac', 'wav']\n1044:                         if format_spec in extensions:\n1045:                             filter_f = lambda f: f['ext'] == format_spec\n1046:                         else:\n1047:                             filter_f = lambda f: f['format_id'] == format_spec\n1048:                         matches = list(filter(filter_f, formats))\n1049:                         if matches:\n1050:                             yield matches[-1]\n1051:             elif selector.type == MERGE:\n1052:                 def _merge(formats_info):",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 1056,
+      "end_line": 1060,
+      "severity": "low",
+      "category": "bug",
+      "title": "_merge 中 report_error 后返回 None 导致后续解包失败",
+      "explanation": "_merge 在第一个格式不含视频时调用 self.report_error 并 `return`（返回 None）。调用方若对 _merge 的返回值进行解包或属性访问，会因 None 触发 TypeError。虽然 report_error 通常会抛出异常终止流程，但若其行为被配置为仅记录错误而不抛出，则 None 会继续传播。",
+      "trigger": "用户使用 `-f audio+video` 顺序颠倒（第一个格式 vcodec 为 'none'），且 report_error 未抛出异常。",
+      "evidence": "第 1056-1060 行：`if formats_info[0].get('vcodec') == 'none': self.report_error(...); return`。",
+      "suggestion": "在 report_error 后显式 `raise` 或返回一个可安全处理的值，并确保调用方对 None 做防御。",
+      "id": "46d4b6cac80b",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1054:                     # The first format must contain the video and the\n1055:                     # second the audio\n1056:                     if formats_info[0].get('vcodec') == 'none':\n1057:                         self.report_error('The first format must '\n1058:                                           'contain the video, try using '\n1059:                                           '\"-f %s+%s\"' % (format_2, format_1))\n1060:                         return\n1061:                     output_ext = (\n1062:                         formats_info[0]['ext']",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "youtube-dl-9",
+    "variant": "buggy",
+    "fixed_commit": "cf2ac6df6896dac4d23918867bb86fac1e1088d9",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

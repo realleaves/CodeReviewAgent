@@ -1,0 +1,47 @@
+{
+  "image": "python:3.7-slim@sha256:b53f496ca43e5af6994f8e316cf03af31050bf7944e0e4a308ad86c001cf028b",
+  "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+  "python_actual": "Python 3.7.17",
+  "environment": {
+    "LC_ALL": "C.UTF-8",
+    "PYTHONCOERCECLOCALE": "0",
+    "PYTHONUTF8": "0"
+  },
+  "valid_test_execution": true,
+  "all_passed": false,
+  "has_failure": true,
+  "tests": [
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "-q",
+        "tornado.test.asyncio_test.LeakTest.test_ioloop_close_leak"
+      ],
+      "exit_code": 1,
+      "timeout": false,
+      "test_executed": true,
+      "environment_error": false,
+      "elapsed_seconds": 0.585,
+      "log": "test-1.log",
+      "log_sha256": "d0c938c753fd58eb68a67b1b4edfac14664ec0ffa3a7a9b14ee01b2bd958ef13"
+    },
+    {
+      "command": [
+        "python",
+        "-m",
+        "unittest",
+        "-q",
+        "tornado.test.asyncio_test.LeakTest.test_asyncio_close_leak"
+      ],
+      "exit_code": 1,
+      "timeout": false,
+      "test_executed": true,
+      "environment_error": false,
+      "elapsed_seconds": 0.534,
+      "log": "test-2.log",
+      "log_sha256": "a4b97fcf2a57a0dab5a23a82ac3c80ad9623d6fe0570d7b929ee3441cbc08306"
+    }
+  ]
+}

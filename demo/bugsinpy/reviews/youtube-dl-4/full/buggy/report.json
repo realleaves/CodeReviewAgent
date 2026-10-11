@@ -1,0 +1,1037 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "https://github.com/ytdl-org/youtube-dl",
+    "name": "youtube-dl",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "bc40b3a5ba44006c23daf7fe0ed872af5e33bdc5",
+    "indexed_snapshot_sha256": "814db4e472b1fe8493603662631acff46e1c6053677d4fc2aeda3bdd7ccfa093"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:43:50.222311+00:00",
+    "status": "completed",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "full",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 18.077,
+    "api_calls": 5,
+    "usage": {
+      "prompt_tokens": 37984,
+      "completion_tokens": 3044
+    },
+    "indexed_python_files": 726,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 1,
+    "rejected_findings": 13,
+    "severity_counts": {
+      "medium": 1
+    },
+    "status_counts": {
+      "needs_context": 1
+    }
+  },
+  "coverage": [
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "lines": 258,
+      "windows": [
+        [
+          50,
+          219
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "ChangeLog",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "youtube-dl.plugin.zsh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "bin/youtube-dl",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage_w.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/bash-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/fish-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/posix-locale.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/wine-py2exe.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/zsh-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/module_guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/supportedsites.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/parameters.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testcert.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "test/versions.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassConstruction.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstantInt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/DictCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/EqualsOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/LocalVars.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/MemberAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/NeOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateVoidCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticRetrieval.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringBasics.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringCharCodeAt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringConversion.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_InfoExtractor.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDL.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_aes.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_age_restriction.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_all_urls.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_cache.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_compat.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_download.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_execution.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_iqiyi_sdk_interpreter.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_jsinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_netrc.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_postprocessors.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_socks.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_subtitles.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_swfinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_unicode_literals.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_update.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_verbose_output.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_write_annotations.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_lists.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_signature.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 2
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 7
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 19220,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1484,
+        "prompt_tokens": 6278,
+        "total_tokens": 7762,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 5766
+      },
+      "elapsed_seconds": 7.062
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 21433,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 93,
+        "prompt_tokens": 6834,
+        "total_tokens": 6927,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6578
+      },
+      "elapsed_seconds": 1.128
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 28186,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 708,
+        "prompt_tokens": 8989,
+        "total_tokens": 9697,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 6912
+        },
+        "prompt_cache_hit_tokens": 6912,
+        "prompt_cache_miss_tokens": 2077
+      },
+      "elapsed_seconds": 3.702
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 20562,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 52,
+        "prompt_tokens": 7008,
+        "total_tokens": 7060,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 6752
+      },
+      "elapsed_seconds": 0.907
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 26325,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 707,
+        "prompt_tokens": 8875,
+        "total_tokens": 9582,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 7040
+        },
+        "prompt_cache_hit_tokens": 7040,
+        "prompt_cache_miss_tokens": 1835
+      },
+      "elapsed_seconds": 4.624
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "start": 73,
+      "end": 192
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "start": 1,
+      "end": 72
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "start": 160,
+      "end": 175
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "start": 192,
+      "end": 258
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "start": 73,
+      "end": 192
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "start": 1,
+      "end": 72
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "start": 192,
+      "end": 258
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "findings": [
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 170,
+          "end_line": 172,
+          "severity": "medium",
+          "category": "bug",
+          "title": "splice 实现使用 pop(index) 导致元素顺序错误",
+          "explanation": "JS 的 Array.prototype.splice(index, howMany) 应返回被删除的元素，且保持原有顺序。当前实现循环中每次调用 obj.pop(index)，会从 index 位置移除元素并追加到 res，但由于每次移除后后续元素前移，pop(index) 反复取的是同一位置的新元素，结果顺序与 JS 语义一致（顺序正确），但循环变量 i 未被使用，且当 howMany 为负数或非整数时行为异常。更关键的是：当 index 为负数时，range(index, min(index+howMany, len(obj))) 可能产生空范围或错误范围，与 JS 负数索引语义不符。",
+          "trigger": "调用 splice 时传入负数 index，或 howMany 为非整数/负数。",
+          "evidence": "第 168-172 行：index, howMany = argvals; for i in range(index, min(index + howMany, len(obj))): res.append(obj.pop(index))。循环变量 i 未使用（ruff B007），且未对 index/howMany 做类型与范围校验。",
+          "suggestion": "显式校验 index 与 howMany 为整数，并按 JS 语义处理负数索引；或改用切片实现：res = obj[index:index+howMany]; del obj[index:index+howMany]; return res。",
+          "id": "a5fda15e34a6",
+          "source": "llm",
+          "rule": "",
+          "snippet": "168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 98,
+          "end_line": 98,
+          "severity": "low",
+          "category": "quality",
+          "title": "使用 assert 校验索引类型，优化模式下会被移除",
+          "explanation": "第 98 行 assert isinstance(idx, int) 用于保证索引为整数。在 Python -O 优化模式下 assert 会被移除，若 idx 非整数，后续 lvar[idx] 会抛出 TypeError 或产生非预期行为，错误信息不明确。",
+          "trigger": "以 python -O 运行且索引表达式解析结果非整数。",
+          "evidence": "第 96-99 行：idx = self.interpret_expression(...); assert isinstance(idx, int); cur = lvar[idx]。bandit B101 也标记了该 assert。",
+          "suggestion": "改为显式检查并抛出 ExtractorError，例如 if not isinstance(idx, int): raise ExtractorError(...)。",
+          "id": "d7a71ff9dad6",
+          "source": "llm",
+          "rule": "",
+          "snippet": "96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]\n100:                 val = opfunc(cur, right_val)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 144,
+          "end_line": 144,
+          "severity": "low",
+          "category": "quality",
+          "title": "函数调用分支使用 assert 校验表达式结尾",
+          "explanation": "第 144 行 assert expr.endswith(')') 依赖正则匹配结果，但在优化模式下被移除。若正则匹配到不以 ')' 结尾的表达式，后续按函数调用处理可能产生难以理解的错误。",
+          "trigger": "python -O 运行且正则匹配到不以 ')' 结尾的成员调用表达式。",
+          "evidence": "第 123-144 行：正则 (?:\\(+(?P<args>[^()]*)\\))?$ 允许无括号，但第 144 行 assert 假定有括号。bandit B101 标记。",
+          "suggestion": "用显式条件判断替代 assert，或在正则中强制要求括号并给出明确错误。",
+          "id": "7330382a7a24",
+          "source": "llm",
+          "rule": "",
+          "snippet": "142:                 return obj[member]\n143: \n144:             assert expr.endswith(')')\n145:             # Function call\n146:             if arg_str == '':",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 154,
+          "end_line": 167,
+          "severity": "low",
+          "category": "quality",
+          "title": "split/join/reverse/slice/splice 参数校验使用 assert",
+          "explanation": "第 154、157、160、164、167 行均使用 assert 校验参数个数与类型。在 -O 模式下这些校验被移除，若 JS 代码传入不符合预期的参数，会触发 IndexError、TypeError 或静默错误行为。",
+          "trigger": "python -O 运行且被解释的 JS 调用 split/join/reverse/slice/splice 时参数不符合预期。",
+          "evidence": "第 153-172 行多处 assert，bandit B101 逐条标记。",
+          "suggestion": "改为显式 if 判断并抛出 ExtractorError，保证优化模式下仍有明确错误。",
+          "id": "a3a7673df566",
+          "source": "llm",
+          "rule": "",
+          "snippet": "152: \n153:             if member == 'split':\n154:                 assert argvals == ('',)\n155:                 return list(obj)\n156:             if member == 'join':\n157:                 assert len(argvals) == 1\n158:                 return argvals[0].join(obj)\n159:             if member == 'reverse':\n160:                 assert len(argvals) == 0\n161:                 obj.reverse()\n162:                 return obj\n163:             if member == 'slice':\n164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 174,
+          "end_line": 174,
+          "severity": "medium",
+          "category": "bug",
+          "title": "通用成员调用将 argvals 作为单个元组参数传递",
+          "explanation": "第 174 行 return obj[member](argvals) 把整个参数元组作为单个位置参数传给方法。对于需要多个参数的方法（如 String.prototype.substr(start, length) 等），实际只传入一个元组，导致参数数量错误或类型错误。",
+          "trigger": "被解释的 JS 调用非内置处理的多参数成员方法，例如 obj.substr(1, 2)。",
+          "evidence": "第 149-151 行构造 argvals 为 tuple，第 174 行 obj[member](argvals) 未解包。",
+          "suggestion": "改为 obj[member](*argvals)，或针对已知方法显式分派。",
+          "id": "f1603e8038ef",
+          "source": "llm",
+          "rule": "",
+          "snippet": "172:                 return res\n173: \n174:             return obj[member](argvals)\n175: \n176:         m = re.match(",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 205,
+          "end_line": 206,
+          "severity": "medium",
+          "category": "bug",
+          "title": "函数调用参数解析仅支持数字或已存在变量",
+          "explanation": "第 204-206 行对函数参数仅支持 int(v) 或 local_vars[v]，若参数是字符串字面量、表达式或未定义变量，会抛出 KeyError 或 ValueError，且未给出明确错误信息。",
+          "trigger": "被解释的 JS 调用自定义函数时传入字符串字面量或表达式参数。",
+          "evidence": "第 200-209 行：正则限制 args 为 [a-zA-Z0-9_$,]+，第 205 行 int(v) if v.isdigit() else local_vars[v]。",
+          "suggestion": "使用 interpret_expression 解析每个参数，或至少捕获 KeyError/ValueError 并抛出 ExtractorError。",
+          "id": "bb32b9efc301",
+          "source": "llm",
+          "rule": "",
+          "snippet": "203:             fname = m.group('func')\n204:             argvals = tuple([\n205:                 int(v) if v.isdigit() else local_vars[v]\n206:                 for v in m.group('args').split(',')])\n207:             if fname not in self._functions:\n208:                 self._functions[fname] = self.extract_function(fname)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "66ac0ec6a93e",
+          "status": "rejected",
+          "reason": "B007 误报。循环变量 i 虽未在循环体内直接引用，但循环体通过 obj.pop(index) 每次移除 index 位置元素，循环次数由 range(index, min(index+howMany, len(obj))) 决定，i 仅用于控制迭代次数，这是有意设计（splice 语义：从 index 起删除 howMany 个元素）。变量未使用不影响正确性，属可读性风格问题而非缺陷。"
+        },
+        {
+          "id": "df6cb3433f34",
+          "status": "rejected",
+          "reason": "B101 误报。此处 assert isinstance(idx, int) 用于校验 JS 索引表达式解析结果类型，属内部一致性断言。该 JSInterpreter 是解析 YouTube 等站点内嵌 JS 的辅助工具，输入来自站点脚本而非直接用户输入；断言失败会抛 AssertionError 而非静默错误。在 -O 优化下断言被移除，但 idx 仍会用于 lvar[idx]，非整数索引会自然抛 TypeError，不会造成安全绕过。属可接受的内部断言用法。"
+        },
+        {
+          "id": "408061d256e9",
+          "status": "rejected",
+          "reason": "B101 误报。assert expr.endswith(')') 是解析器内部不变量检查：能匹配到该分支的正则已要求表达式以 ')' 结尾（member 后跟可选括号参数），断言仅作防御性校验。移除后行为不变，无安全影响。"
+        },
+        {
+          "id": "a42a96e73fd7",
+          "status": "rejected",
+          "reason": "B101 误报。assert argvals == ('',) 校验 split 调用参数，属 JS 内建方法语义约束。参数来自被解析的站点 JS，非直接用户输入；断言失败抛异常而非静默错误，无安全绕过。"
+        },
+        {
+          "id": "9b930f1b7720",
+          "status": "rejected",
+          "reason": "B101 误报。assert len(argvals) == 1 校验 join 参数个数，属 JS 内建方法语义约束，来源为站点 JS 脚本，非直接用户输入，无安全影响。"
+        },
+        {
+          "id": "b38404977bba",
+          "status": "rejected",
+          "reason": "B101 误报。assert len(argvals) == 0 校验 reverse 无参调用，属 JS 内建方法语义约束，来源为站点 JS 脚本，无安全影响。"
+        },
+        {
+          "id": "75c7b48a3467",
+          "status": "rejected",
+          "reason": "B101 误报。assert len(argvals) == 1 校验 slice 参数个数，属 JS 内建方法语义约束，来源为站点 JS 脚本，无安全影响。"
+        },
+        {
+          "id": "f30ce95dd712",
+          "status": "rejected",
+          "reason": "B101 误报。assert isinstance(obj, list) 校验 splice 目标为列表，属 JS 内建方法语义约束。obj 来自被解析的站点 JS 对象，非直接用户输入；断言失败抛异常而非静默错误，无安全绕过。"
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "a5fda15e34a6",
+          "status": "rejected",
+          "reason": "splice 实现中 obj.pop(index) 每次从 index 处弹出并追加到 res，顺序与 JS 语义一致；循环变量 i 未使用只是风格问题。关于负数/非整数 index 的担忧：该解释器是 youtube-dl 为特定提取器 JS 定制的受限子集，splice 仅用于已知调用模式，且 argvals 由 interpret_expression 解析，通常为整数。候选自身也承认顺序正确，其核心指控（顺序错误）不成立，负数索引属推测性边界，无代码依据表明会被触发。"
+        },
+        {
+          "id": "d7a71ff9dad6",
+          "status": "rejected",
+          "reason": "assert isinstance(idx, int) 是内部一致性断言，用于捕获解释器自身解析异常。idx 来自 interpret_expression，对合法 JS 索引表达式（数字或变量）必然为 int。以 -O 运行并非该工具的受支持/预期运行方式，且即便移除 assert，非整数索引会自然抛出 TypeError，不会造成静默错误。属低价值风格提示，非实际缺陷。"
+        },
+        {
+          "id": "7330382a7a24",
+          "status": "rejected",
+          "reason": "第 144 行 assert expr.endswith(')') 前的正则 (?:\\\\(+(?P<args>[^()]*)\\\\))?$ 中，arg_str 非 None 意味着匹配到了括号组，故 expr 必然以 ')' 结尾，assert 恒真。这是内部不变量断言，非可触发的缺陷；-O 移除后行为不变。"
+        },
+        {
+          "id": "a3a7673df566",
+          "status": "rejected",
+          "reason": "这些 assert 校验的是内置成员方法（split/join/reverse/slice/splice）的参数约定，属于解释器内部不变量。参数由 interpret_expression 从受控 JS 子集解析，正常调用满足断言。以 -O 运行非预期用法，且断言失败时本应抛出异常而非静默错误。属风格性提示，不构成实际 bug。"
+        },
+        {
+          "id": "f1603e8038ef",
+          "status": "needs_context",
+          "reason": "第 174 行 obj[member](argvals) 确实将元组作为单个参数传递，而非解包。但该分支仅处理非内置成员方法，其正确性取决于被解释 JS 中实际调用的方法签名（例如某些对象方法可能确实接收单个参数）。缺少具体提取器 JS 调用上下文，无法判定是否为缺陷，需调用方约定。"
+        },
+        {
+          "id": "bb32b9efc301",
+          "status": "rejected",
+          "reason": "第 200-206 行是自定义函数调用的参数解析，正则限制 args 为 [a-zA-Z0-9_$,]+，仅支持数字字面量和变量名，这是该受限 JS 解释器的有意设计（不支持字符串字面量/表达式参数）。对未定义变量抛 KeyError 属预期行为，因为合法 JS 中变量应已定义。候选将其描述为 bug，但这是有意的功能子集限制，非缺陷。"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 170,
+      "end_line": 172,
+      "severity": "medium",
+      "category": "bug",
+      "title": "splice 实现使用 pop(index) 导致元素顺序错误",
+      "explanation": "JS 的 Array.prototype.splice(index, howMany) 应返回被删除的元素，且保持原有顺序。当前实现循环中每次调用 obj.pop(index)，会从 index 位置移除元素并追加到 res，但由于每次移除后后续元素前移，pop(index) 反复取的是同一位置的新元素，结果顺序与 JS 语义一致（顺序正确），但循环变量 i 未被使用，且当 howMany 为负数或非整数时行为异常。更关键的是：当 index 为负数时，range(index, min(index+howMany, len(obj))) 可能产生空范围或错误范围，与 JS 负数索引语义不符。",
+      "trigger": "调用 splice 时传入负数 index，或 howMany 为非整数/负数。",
+      "evidence": "第 168-172 行：index, howMany = argvals; for i in range(index, min(index + howMany, len(obj))): res.append(obj.pop(index))。循环变量 i 未使用（ruff B007），且未对 index/howMany 做类型与范围校验。",
+      "suggestion": "显式校验 index 与 howMany 为整数，并按 JS 语义处理负数索引；或改用切片实现：res = obj[index:index+howMany]; del obj[index:index+howMany]; return res。",
+      "id": "a5fda15e34a6",
+      "source": "llm",
+      "rule": "",
+      "snippet": "168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+      "status": "rejected",
+      "verification": "splice 实现中 obj.pop(index) 每次从 index 处弹出并追加到 res，顺序与 JS 语义一致；循环变量 i 未使用只是风格问题。关于负数/非整数 index 的担忧：该解释器是 youtube-dl 为特定提取器 JS 定制的受限子集，splice 仅用于已知调用模式，且 argvals 由 interpret_expression 解析，通常为整数。候选自身也承认顺序正确，其核心指控（顺序错误）不成立，负数索引属推测性边界，无代码依据表明会被触发。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 98,
+      "end_line": 98,
+      "severity": "low",
+      "category": "quality",
+      "title": "使用 assert 校验索引类型，优化模式下会被移除",
+      "explanation": "第 98 行 assert isinstance(idx, int) 用于保证索引为整数。在 Python -O 优化模式下 assert 会被移除，若 idx 非整数，后续 lvar[idx] 会抛出 TypeError 或产生非预期行为，错误信息不明确。",
+      "trigger": "以 python -O 运行且索引表达式解析结果非整数。",
+      "evidence": "第 96-99 行：idx = self.interpret_expression(...); assert isinstance(idx, int); cur = lvar[idx]。bandit B101 也标记了该 assert。",
+      "suggestion": "改为显式检查并抛出 ExtractorError，例如 if not isinstance(idx, int): raise ExtractorError(...)。",
+      "id": "d7a71ff9dad6",
+      "source": "llm",
+      "rule": "",
+      "snippet": "96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]\n100:                 val = opfunc(cur, right_val)",
+      "status": "rejected",
+      "verification": "assert isinstance(idx, int) 是内部一致性断言，用于捕获解释器自身解析异常。idx 来自 interpret_expression，对合法 JS 索引表达式（数字或变量）必然为 int。以 -O 运行并非该工具的受支持/预期运行方式，且即便移除 assert，非整数索引会自然抛出 TypeError，不会造成静默错误。属低价值风格提示，非实际缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 144,
+      "end_line": 144,
+      "severity": "low",
+      "category": "quality",
+      "title": "函数调用分支使用 assert 校验表达式结尾",
+      "explanation": "第 144 行 assert expr.endswith(')') 依赖正则匹配结果，但在优化模式下被移除。若正则匹配到不以 ')' 结尾的表达式，后续按函数调用处理可能产生难以理解的错误。",
+      "trigger": "python -O 运行且正则匹配到不以 ')' 结尾的成员调用表达式。",
+      "evidence": "第 123-144 行：正则 (?:\\(+(?P<args>[^()]*)\\))?$ 允许无括号，但第 144 行 assert 假定有括号。bandit B101 标记。",
+      "suggestion": "用显式条件判断替代 assert，或在正则中强制要求括号并给出明确错误。",
+      "id": "7330382a7a24",
+      "source": "llm",
+      "rule": "",
+      "snippet": "142:                 return obj[member]\n143: \n144:             assert expr.endswith(')')\n145:             # Function call\n146:             if arg_str == '':",
+      "status": "rejected",
+      "verification": "第 144 行 assert expr.endswith(')') 前的正则 (?:\\\\(+(?P<args>[^()]*)\\\\))?$ 中，arg_str 非 None 意味着匹配到了括号组，故 expr 必然以 ')' 结尾，assert 恒真。这是内部不变量断言，非可触发的缺陷；-O 移除后行为不变。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 154,
+      "end_line": 167,
+      "severity": "low",
+      "category": "quality",
+      "title": "split/join/reverse/slice/splice 参数校验使用 assert",
+      "explanation": "第 154、157、160、164、167 行均使用 assert 校验参数个数与类型。在 -O 模式下这些校验被移除，若 JS 代码传入不符合预期的参数，会触发 IndexError、TypeError 或静默错误行为。",
+      "trigger": "python -O 运行且被解释的 JS 调用 split/join/reverse/slice/splice 时参数不符合预期。",
+      "evidence": "第 153-172 行多处 assert，bandit B101 逐条标记。",
+      "suggestion": "改为显式 if 判断并抛出 ExtractorError，保证优化模式下仍有明确错误。",
+      "id": "a3a7673df566",
+      "source": "llm",
+      "rule": "",
+      "snippet": "152: \n153:             if member == 'split':\n154:                 assert argvals == ('',)\n155:                 return list(obj)\n156:             if member == 'join':\n157:                 assert len(argvals) == 1\n158:                 return argvals[0].join(obj)\n159:             if member == 'reverse':\n160:                 assert len(argvals) == 0\n161:                 obj.reverse()\n162:                 return obj\n163:             if member == 'slice':\n164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []",
+      "status": "rejected",
+      "verification": "这些 assert 校验的是内置成员方法（split/join/reverse/slice/splice）的参数约定，属于解释器内部不变量。参数由 interpret_expression 从受控 JS 子集解析，正常调用满足断言。以 -O 运行非预期用法，且断言失败时本应抛出异常而非静默错误。属风格性提示，不构成实际 bug。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 174,
+      "end_line": 174,
+      "severity": "medium",
+      "category": "bug",
+      "title": "通用成员调用将 argvals 作为单个元组参数传递",
+      "explanation": "第 174 行 return obj[member](argvals) 把整个参数元组作为单个位置参数传给方法。对于需要多个参数的方法（如 String.prototype.substr(start, length) 等），实际只传入一个元组，导致参数数量错误或类型错误。",
+      "trigger": "被解释的 JS 调用非内置处理的多参数成员方法，例如 obj.substr(1, 2)。",
+      "evidence": "第 149-151 行构造 argvals 为 tuple，第 174 行 obj[member](argvals) 未解包。",
+      "suggestion": "改为 obj[member](*argvals)，或针对已知方法显式分派。",
+      "id": "f1603e8038ef",
+      "source": "llm",
+      "rule": "",
+      "snippet": "172:                 return res\n173: \n174:             return obj[member](argvals)\n175: \n176:         m = re.match(",
+      "status": "needs_context",
+      "verification": "第 174 行 obj[member](argvals) 确实将元组作为单个参数传递，而非解包。但该分支仅处理非内置成员方法，其正确性取决于被解释 JS 中实际调用的方法签名（例如某些对象方法可能确实接收单个参数）。缺少具体提取器 JS 调用上下文，无法判定是否为缺陷，需调用方约定。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 205,
+      "end_line": 206,
+      "severity": "medium",
+      "category": "bug",
+      "title": "函数调用参数解析仅支持数字或已存在变量",
+      "explanation": "第 204-206 行对函数参数仅支持 int(v) 或 local_vars[v]，若参数是字符串字面量、表达式或未定义变量，会抛出 KeyError 或 ValueError，且未给出明确错误信息。",
+      "trigger": "被解释的 JS 调用自定义函数时传入字符串字面量或表达式参数。",
+      "evidence": "第 200-209 行：正则限制 args 为 [a-zA-Z0-9_$,]+，第 205 行 int(v) if v.isdigit() else local_vars[v]。",
+      "suggestion": "使用 interpret_expression 解析每个参数，或至少捕获 KeyError/ValueError 并抛出 ExtractorError。",
+      "id": "bb32b9efc301",
+      "source": "llm",
+      "rule": "",
+      "snippet": "203:             fname = m.group('func')\n204:             argvals = tuple([\n205:                 int(v) if v.isdigit() else local_vars[v]\n206:                 for v in m.group('args').split(',')])\n207:             if fname not in self._functions:\n208:                 self._functions[fname] = self.extract_function(fname)",
+      "status": "rejected",
+      "verification": "第 200-206 行是自定义函数调用的参数解析，正则限制 args 为 [a-zA-Z0-9_$,]+，仅支持数字字面量和变量名，这是该受限 JS 解释器的有意设计（不支持字符串字面量/表达式参数）。对未定义变量抛 KeyError 属预期行为，因为合法 JS 中变量应已定义。候选将其描述为 bug，但这是有意的功能子集限制，非缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 170,
+      "end_line": 170,
+      "severity": "low",
+      "category": "quality",
+      "title": "B007: Loop control variable `i` not used within loop body",
+      "explanation": "Loop control variable `i` not used within loop body",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff B007: Loop control variable `i` not used within loop body",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "66ac0ec6a93e",
+      "source": "ruff",
+      "rule": "B007",
+      "snippet": "168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res",
+      "status": "rejected",
+      "verification": "B007 误报。循环变量 i 虽未在循环体内直接引用，但循环体通过 obj.pop(index) 每次移除 index 位置元素，循环次数由 range(index, min(index+howMany, len(obj))) 决定，i 仅用于控制迭代次数，这是有意设计（splice 语义：从 index 起删除 howMany 个元素）。变量未使用不影响正确性，属可读性风格问题而非缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 98,
+      "end_line": 98,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "df6cb3433f34",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]\n100:                 val = opfunc(cur, right_val)",
+      "status": "rejected",
+      "verification": "B101 误报。此处 assert isinstance(idx, int) 用于校验 JS 索引表达式解析结果类型，属内部一致性断言。该 JSInterpreter 是解析 YouTube 等站点内嵌 JS 的辅助工具，输入来自站点脚本而非直接用户输入；断言失败会抛 AssertionError 而非静默错误。在 -O 优化下断言被移除，但 idx 仍会用于 lvar[idx]，非整数索引会自然抛 TypeError，不会造成安全绕过。属可接受的内部断言用法。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 144,
+      "end_line": 144,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "408061d256e9",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "142:                 return obj[member]\n143: \n144:             assert expr.endswith(')')\n145:             # Function call\n146:             if arg_str == '':",
+      "status": "rejected",
+      "verification": "B101 误报。assert expr.endswith(')') 是解析器内部不变量检查：能匹配到该分支的正则已要求表达式以 ')' 结尾（member 后跟可选括号参数），断言仅作防御性校验。移除后行为不变，无安全影响。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 154,
+      "end_line": 154,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "a42a96e73fd7",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "152: \n153:             if member == 'split':\n154:                 assert argvals == ('',)\n155:                 return list(obj)\n156:             if member == 'join':",
+      "status": "rejected",
+      "verification": "B101 误报。assert argvals == ('',) 校验 split 调用参数，属 JS 内建方法语义约束。参数来自被解析的站点 JS，非直接用户输入；断言失败抛异常而非静默错误，无安全绕过。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 157,
+      "end_line": 157,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "9b930f1b7720",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "155:                 return list(obj)\n156:             if member == 'join':\n157:                 assert len(argvals) == 1\n158:                 return argvals[0].join(obj)\n159:             if member == 'reverse':",
+      "status": "rejected",
+      "verification": "B101 误报。assert len(argvals) == 1 校验 join 参数个数，属 JS 内建方法语义约束，来源为站点 JS 脚本，非直接用户输入，无安全影响。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 160,
+      "end_line": 160,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "b38404977bba",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "158:                 return argvals[0].join(obj)\n159:             if member == 'reverse':\n160:                 assert len(argvals) == 0\n161:                 obj.reverse()\n162:                 return obj",
+      "status": "rejected",
+      "verification": "B101 误报。assert len(argvals) == 0 校验 reverse 无参调用，属 JS 内建方法语义约束，来源为站点 JS 脚本，无安全影响。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 164,
+      "end_line": 164,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "75c7b48a3467",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "162:                 return obj\n163:             if member == 'slice':\n164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':",
+      "status": "rejected",
+      "verification": "B101 误报。assert len(argvals) == 1 校验 slice 参数个数，属 JS 内建方法语义约束，来源为站点 JS 脚本，无安全影响。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 167,
+      "end_line": 167,
+      "severity": "low",
+      "category": "security",
+      "title": "B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "explanation": "Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "bandit B101: Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "f30ce95dd712",
+      "source": "bandit",
+      "rule": "B101",
+      "snippet": "165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []",
+      "status": "rejected",
+      "verification": "B101 误报。assert isinstance(obj, list) 校验 splice 目标为列表，属 JS 内建方法语义约束。obj 来自被解析的站点 JS 对象，非直接用户输入；断言失败抛异常而非静默错误，无安全绕过。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "youtube-dl-4",
+    "variant": "buggy",
+    "fixed_commit": "189935f15960300d316e8b07108b076ac6c2186a",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

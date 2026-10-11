@@ -1,0 +1,876 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "youtube-dl",
+    "ref": "BugsInPy reconstructed snapshot",
+    "commit": "0130afb76e5cb6f470f39f127c8d09eea3e82d0d",
+    "indexed_snapshot_sha256": "7d5583e6ca81ff6f499d4fece0b758080b1328090e8d8c6ac85a9950a01f8524"
+  },
+  "run": {
+    "started_at": "2026-10-11T13:49:10.618980+00:00",
+    "status": "completed",
+    "mode": "full",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "options": {
+      "mode": "full",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": ""
+    },
+    "elapsed_seconds": 15.232,
+    "api_calls": 6,
+    "usage": {
+      "prompt_tokens": 42837,
+      "completion_tokens": 2532
+    },
+    "indexed_python_files": 563,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 2,
+    "total_window_chunks": 2,
+    "active_findings": 5,
+    "rejected_findings": 3,
+    "severity_counts": {
+      "medium": 2,
+      "low": 3
+    },
+    "status_counts": {
+      "supported": 3,
+      "needs_context": 2
+    }
+  },
+  "coverage": [
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "lines": 2000,
+      "windows": [
+        [
+          905,
+          1137
+        ]
+      ],
+      "total_chunks": 2,
+      "reviewed_chunks": 2,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "youtube-dl.plugin.zsh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "bin/youtube-dl",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage_w.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/bash-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/fish-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/posix-locale.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/wine-py2exe.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/zsh-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/module_guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/supportedsites.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/parameters.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testcert.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "test/swftests/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassConstruction.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstantInt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/DictCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/EqualsOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/LocalVars.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/MemberAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/NeOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateVoidCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticRetrieval.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringBasics.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringCharCodeAt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringConversion.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_InfoExtractor.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDL.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_aes.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_age_restriction.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_all_urls.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_cache.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_compat.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_download.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_execution.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_jsinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_netrc.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_postprocessors.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_subtitles.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_swfinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_unicode_literals.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_write_annotations.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_lists.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_signature.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 8
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 15
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 24524,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 54,
+        "prompt_tokens": 7563,
+        "total_tokens": 7617,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 896
+        },
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 6667
+      },
+      "elapsed_seconds": 0.962
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 29494,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1392,
+        "prompt_tokens": 9005,
+        "total_tokens": 10397,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 7552
+        },
+        "prompt_cache_hit_tokens": 7552,
+        "prompt_cache_miss_tokens": 1453
+      },
+      "elapsed_seconds": 6.666
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 22704,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 54,
+        "prompt_tokens": 7111,
+        "total_tokens": 7165,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 6599
+      },
+      "elapsed_seconds": 0.605
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 31146,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 589,
+        "prompt_tokens": 9270,
+        "total_tokens": 9859,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 7040
+        },
+        "prompt_cache_hit_tokens": 7040,
+        "prompt_cache_miss_tokens": 2230
+      },
+      "elapsed_seconds": 3.433
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 16459,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 241,
+        "prompt_tokens": 5758,
+        "total_tokens": 5999,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 5246
+      },
+      "elapsed_seconds": 1.539
+    },
+    {
+      "stage": "verify",
+      "status": "completed",
+      "input_chars": 12516,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 202,
+        "prompt_tokens": 4130,
+        "total_tokens": 4332,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 3874
+      },
+      "elapsed_seconds": 1.388
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 1084,
+      "end": 1130
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 856,
+      "end": 912
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 881,
+      "end": 1000
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 1000,
+      "end": 1100
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 840,
+      "end": 881
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 1079,
+      "end": 1131
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 905,
+      "end": 1084,
+      "findings": [
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 1058,
+          "end_line": 1065,
+          "severity": "medium",
+          "category": "bug",
+          "title": "MERGE 中 _merge 对 formats_info 长度不做校验，且 report_error 后仍继续",
+          "explanation": "_merge 直接解包 `format_1, format_2 = [f['format_id'] for f in formats_info]`，假定 formats_info 恰好有两个元素。虽然 MERGE 的 selector_function 通过 itertools.product 生成二元组，但 _merge 也被设计为可被外部/其他路径调用，且当 formats_info 长度不为 2 时会抛出 ValueError 而非给出友好错误。此外，当第一个格式不含视频时调用 self.report_error 后 `return`（返回 None），selector_function 会把 None 作为格式 yield 出去，下游 process_video_result 可能对 None 做字典访问而崩溃。",
+          "trigger": "使用 `-f bestvideo+bestaudio` 等合并选择器，且第一个被选中的格式 vcodec 为 'none'（例如用户写成 `-f bestaudio+bestvideo`），或 formats_info 元素数不为 2。",
+          "evidence": "1058: format_1, format_2 = [f['format_id'] for f in formats_info]；1061-1065: if formats_info[0].get('vcodec') == 'none': self.report_error(...); return；1091-1092: for pair in itertools.product(...): yield _merge(pair)",
+          "suggestion": "在 _merge 开头校验 len(formats_info) == 2，否则 report_error 并返回 None；同时让 selector_function 过滤掉 _merge 返回 None 的结果（如 `m = _merge(pair); if m: yield m`），避免把 None 传给下游。",
+          "id": "95b33e1ce715",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1056:             elif selector.type == MERGE:\n1057:                 def _merge(formats_info):\n1058:                     format_1, format_2 = [f['format_id'] for f in formats_info]\n1059:                     # The first format must contain the video and the\n1060:                     # second the audio\n1061:                     if formats_info[0].get('vcodec') == 'none':\n1062:                         self.report_error('The first format must '\n1063:                                           'contain the video, try using '\n1064:                                           '\"-f %s+%s\"' % (format_2, format_1))\n1065:                         return\n1066:                     output_ext = (\n1067:                         formats_info[0]['ext']",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 1012,
+          "end_line": 1022,
+          "severity": "medium",
+          "category": "bug",
+          "title": "best/worst 在仅有单一类型格式时可能 IndexError 或选错",
+          "explanation": "当没有同时含音视频的格式时，进入 elif 分支：条件为所有格式都有音频或所有格式都有视频。若 formats 为空列表，`all(...)` 对空序列返回 True，于是执行 `yield formats[format_idx]`，对空列表取索引会抛 IndexError。另外该分支用 `formats[format_idx]` 直接取首/末元素，未按质量排序，可能选出非最优/最差格式。",
+          "trigger": "调用 build_format_selector 生成的 selector 在 formats 为空列表时被调用（例如某 URL 未解析出任何格式）。",
+          "evidence": "1014-1016: audiovideo_formats = [f for f in formats if ...]；1017: if audiovideo_formats: ...；1020-1022: elif (all(...) or all(...)): yield formats[format_idx]",
+          "suggestion": "在分支前判断 `if not formats: return`；对空列表的 all() 语义做显式处理，避免对空列表索引。",
+          "id": "ef6db79abcf7",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1010:                         for f in formats:\n1011:                             yield f\n1012:                     elif format_spec in ['best', 'worst', None]:\n1013:                         format_idx = 0 if format_spec == 'worst' else -1\n1014:                         audiovideo_formats = [\n1015:                             f for f in formats\n1016:                             if f.get('vcodec') != 'none' and f.get('acodec') != 'none']\n1017:                         if audiovideo_formats:\n1018:                             yield audiovideo_formats[format_idx]\n1019:                         # for audio only (soundcloud) or video only (imgur) urls, select the best/worst audio format\n1020:                         elif (all(f.get('acodec') != 'none' for f in formats) or\n1021:                               all(f.get('vcodec') != 'none' for f in formats)):\n1022:                             yield formats[format_idx]\n1023:                     elif format_spec == 'bestaudio':\n1024:                         audio_formats = [",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 1050,
+          "end_line": 1052,
+          "severity": "low",
+          "category": "bug",
+          "title": "按扩展名/format_id 匹配时使用 f['ext']/f['format_id'] 直接下标",
+          "explanation": "filter_f 使用 `f['ext']` 和 `f['format_id']` 直接下标访问，而代码其他位置（如 1016、1026、1038）普遍使用 `f.get(...)`。若某个格式字典缺少 'ext' 或 'format_id' 键，会抛 KeyError 导致整个格式选择失败。",
+          "trigger": "formats 中存在缺少 'ext' 或 'format_id' 键的格式字典，且 format_spec 为具体扩展名或 format_id。",
+          "evidence": "1050: filter_f = lambda f: f['ext'] == format_spec；1052: filter_f = lambda f: f['format_id'] == format_spec",
+          "suggestion": "改用 f.get('ext') / f.get('format_id') 进行比较，保持与文件内其他过滤逻辑一致。",
+          "id": "6702105218c3",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1048:                         extensions = ['mp4', 'flv', 'webm', '3gp', 'm4a', 'mp3', 'ogg', 'aac', 'wav']\n1049:                         if format_spec in extensions:\n1050:                             filter_f = lambda f: f['ext'] == format_spec\n1051:                         else:\n1052:                             filter_f = lambda f: f['format_id'] == format_spec\n1053:                         matches = list(filter(filter_f, formats))\n1054:                         if matches:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 926,
+          "end_line": 932,
+          "severity": "low",
+          "category": "quality",
+          "title": "_parse_filter 未处理 token 流结束，可能返回 None",
+          "explanation": "_parse_filter 遍历 tokens，仅在遇到 ']' 时 return 拼接结果。若 token 流在遇到 ']' 之前结束（例如格式串以 '[' 结尾但 tokenize 未报错），函数会隐式返回 None，随后 967 行 `current_selector.filters.append(format_filter)` 会把 None 加入 filters，后续 _build_format_filter(None) 会因 re.search(None) 抛 TypeError。",
+          "trigger": "格式规范中包含未闭合的 '[' 且 tokenize 未抛出 TokenError 的边界情况。",
+          "evidence": "926-932: for ...: if type == tokenize.OP and string == ']': return ''.join(filter_parts) ...（无 else 返回）；967: current_selector.filters.append(format_filter)",
+          "suggestion": "在循环结束后显式 raise syntax_error('Missing closing bracket', ...) 或返回空串，避免把 None 传入 filters。",
+          "id": "58ba3eb3922a",
+          "source": "llm",
+          "rule": "",
+          "snippet": "924:         FormatSelector = collections.namedtuple('FormatSelector', ['type', 'selector', 'filters'])\n925: \n926:         def _parse_filter(tokens):\n927:             filter_parts = []\n928:             for type, string, start, _, _ in tokens:\n929:                 if type == tokenize.OP and string == ']':\n930:                     return ''.join(filter_parts)\n931:                 else:\n932:                     filter_parts.append(string)\n933: \n934:         def _parse_format_selection(tokens, inside_merge=False, inside_choice=False, inside_group=False):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 906,
+          "end_line": 910,
+          "severity": "low",
+          "category": "bug",
+          "title": "_filter 对 none_inclusive 返回字符串而非布尔值",
+          "explanation": "当 actual_value 为 None 时返回 `m.group('none_inclusive')`，该值是正则捕获的字符串（如 ' ?' 或 ''），而非布尔。filter() 会按真值判断：空字符串为假、' ?' 为真，行为上恰好符合“包含未知值”的意图，但返回类型不一致（有时 bool 有时 str），语义脆弱且易被误用。",
+          "trigger": "过滤条件带 '?'（none_inclusive）且格式字段缺失时。",
+          "evidence": "908-909: if actual_value is None: return m.group('none_inclusive')；910: return op(actual_value, comparison_value)",
+          "suggestion": "显式返回布尔值，如 `return bool(m.group('none_inclusive'))`，使返回类型一致。",
+          "id": "3d838919164e",
+          "source": "llm",
+          "rule": "",
+          "snippet": "904:             raise ValueError('Invalid filter specification %r' % filter_spec)\n905: \n906:         def _filter(f):\n907:             actual_value = f.get(m.group('key'))\n908:             if actual_value is None:\n909:                 return m.group('none_inclusive')\n910:             return op(actual_value, comparison_value)\n911:         return _filter\n912: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "ae4afde4b262",
+          "status": "rejected",
+          "reason": "B007 误报：循环变量 start 虽未在循环体内使用，但解包元组需要占位；ruff 的 B007 针对的是未使用的循环控制变量，此处为 tokenize 元组解包，属有意占位，非缺陷。"
+        },
+        {
+          "id": "95b33e1ce715",
+          "status": "supported",
+          "reason": "代码依据：1058 行直接解包假定 formats_info 恰有两个元素；1061-1065 在首格式无视频时 report_error 后 return None；1091-1092 的 selector_function 无条件 yield _merge(pair)，会把 None 传给下游。触发条件（-f bestaudio+bestvideo 等）成立。未运行测试。"
+        },
+        {
+          "id": "ef6db79abcf7",
+          "status": "needs_context",
+          "reason": "空列表时 all(...) 返回 True 导致 formats[-1] 的 IndexError 在纯 Python 语义下成立，但 build_format_selector 的调用方是否可能传入空 formats 列表取决于 process_video_result 的调用上下文，未提供；且 formats 通常已按质量排序（extractor 保证），'选错' 说法缺乏依据。需调用上下文确认。"
+        },
+        {
+          "id": "6702105218c3",
+          "status": "rejected",
+          "reason": "误报：format 字典由 extractor 生成，'ext' 与 'format_id' 是格式字典的必需字段（见 1058、1067、1074 等处同样直接下标访问），并非可选字段；使用 f.get 的其他位置是过滤条件而非必需字段访问。缺少 'ext'/'format_id' 的格式字典不属正常输入。"
+        },
+        {
+          "id": "58ba3eb3922a",
+          "status": "needs_context",
+          "reason": "需确认 tokenize 对未闭合 '[' 的行为：若 tokenize 在流结束前抛 TokenError，则 _parse_filter 不会隐式返回 None，问题不成立；若某些边界下 tokenize 正常结束，则确实返回 None。该依赖未提供的 tokenize 行为/输入上下文，无法仅凭静态代码判定。"
+        },
+        {
+          "id": "3d838919164e",
+          "status": "rejected",
+          "reason": "误报：返回 m.group('none_inclusive') 是有意设计——空字符串为假、' ?' 为真，恰好实现 '?' 表示包含未知值的语义，filter() 按真值判断行为正确。返回类型不一致属风格问题，非缺陷。"
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 1085,
+      "end": 1136,
+      "findings": [
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 1104,
+          "end_line": 1106,
+          "severity": "low",
+          "category": "quality",
+          "title": "tokenize 异常处理丢失原始异常链",
+          "explanation": "在 except tokenize.TokenError 分支中直接 raise syntax_error(...)，未使用 raise ... from err 或 from None，导致原始 TokenError 的上下文被隐式保留（Python 3 中会显示 'During handling of the above exception'），调试时难以区分是格式串语法错误还是 tokenize 内部错误。ruff B904 也标记了该问题。",
+          "trigger": "当 format_spec 含有未闭合的括号/引号等导致 compat_tokenize_tokenize 抛出 tokenize.TokenError 时。",
+          "evidence": "1105: except tokenize.TokenError:\n1106:     raise syntax_error('Missing closing/opening brackets or parenthesis', (0, len(format_spec)))",
+          "suggestion": "改为 raise syntax_error(...) from None（或 from err），以明确这是对用户输入格式串的语法错误提示，避免混淆原始异常。",
+          "id": "2b1684543d3e",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1102:         stream = io.BytesIO(format_spec.encode('utf-8'))\n1103:         try:\n1104:             tokens = list(compat_tokenize_tokenize(stream.readline))\n1105:         except tokenize.TokenError:\n1106:             raise syntax_error('Missing closing/opening brackets or parenthesis', (0, len(format_spec)))\n1107: \n1108:         class TokenIterator(object):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": []
+        }
+      ]
+    },
+    {
+      "stage": "verify",
+      "decisions": [
+        {
+          "id": "5d387721c55e",
+          "status": "supported",
+          "reason": "代码第1105-1106行确实在 except tokenize.TokenError 分支内直接 raise syntax_error(...)，未使用 raise ... from err/from None，符合 ruff B904 的静态判定。该问题为代码质量/异常链可读性提示，非功能性缺陷。"
+        },
+        {
+          "id": "2b1684543d3e",
+          "status": "supported",
+          "reason": "与上一条同源：except tokenize.TokenError 中 raise syntax_error 未显式指定异常链，Python 3 会隐式保留原始 TokenError 上下文（'During handling of the above exception'）。触发条件为 format_spec 含未闭合括号/引号导致 compat_tokenize_tokenize 抛 TokenError，代码依据充分。属低危质量提示，未做运行验证。"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 1058,
+      "end_line": 1065,
+      "severity": "medium",
+      "category": "bug",
+      "title": "MERGE 中 _merge 对 formats_info 长度不做校验，且 report_error 后仍继续",
+      "explanation": "_merge 直接解包 `format_1, format_2 = [f['format_id'] for f in formats_info]`，假定 formats_info 恰好有两个元素。虽然 MERGE 的 selector_function 通过 itertools.product 生成二元组，但 _merge 也被设计为可被外部/其他路径调用，且当 formats_info 长度不为 2 时会抛出 ValueError 而非给出友好错误。此外，当第一个格式不含视频时调用 self.report_error 后 `return`（返回 None），selector_function 会把 None 作为格式 yield 出去，下游 process_video_result 可能对 None 做字典访问而崩溃。",
+      "trigger": "使用 `-f bestvideo+bestaudio` 等合并选择器，且第一个被选中的格式 vcodec 为 'none'（例如用户写成 `-f bestaudio+bestvideo`），或 formats_info 元素数不为 2。",
+      "evidence": "1058: format_1, format_2 = [f['format_id'] for f in formats_info]；1061-1065: if formats_info[0].get('vcodec') == 'none': self.report_error(...); return；1091-1092: for pair in itertools.product(...): yield _merge(pair)",
+      "suggestion": "在 _merge 开头校验 len(formats_info) == 2，否则 report_error 并返回 None；同时让 selector_function 过滤掉 _merge 返回 None 的结果（如 `m = _merge(pair); if m: yield m`），避免把 None 传给下游。",
+      "id": "95b33e1ce715",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1056:             elif selector.type == MERGE:\n1057:                 def _merge(formats_info):\n1058:                     format_1, format_2 = [f['format_id'] for f in formats_info]\n1059:                     # The first format must contain the video and the\n1060:                     # second the audio\n1061:                     if formats_info[0].get('vcodec') == 'none':\n1062:                         self.report_error('The first format must '\n1063:                                           'contain the video, try using '\n1064:                                           '\"-f %s+%s\"' % (format_2, format_1))\n1065:                         return\n1066:                     output_ext = (\n1067:                         formats_info[0]['ext']",
+      "status": "supported",
+      "verification": "代码依据：1058 行直接解包假定 formats_info 恰有两个元素；1061-1065 在首格式无视频时 report_error 后 return None；1091-1092 的 selector_function 无条件 yield _merge(pair)，会把 None 传给下游。触发条件（-f bestaudio+bestvideo 等）成立。未运行测试。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 1012,
+      "end_line": 1022,
+      "severity": "medium",
+      "category": "bug",
+      "title": "best/worst 在仅有单一类型格式时可能 IndexError 或选错",
+      "explanation": "当没有同时含音视频的格式时，进入 elif 分支：条件为所有格式都有音频或所有格式都有视频。若 formats 为空列表，`all(...)` 对空序列返回 True，于是执行 `yield formats[format_idx]`，对空列表取索引会抛 IndexError。另外该分支用 `formats[format_idx]` 直接取首/末元素，未按质量排序，可能选出非最优/最差格式。",
+      "trigger": "调用 build_format_selector 生成的 selector 在 formats 为空列表时被调用（例如某 URL 未解析出任何格式）。",
+      "evidence": "1014-1016: audiovideo_formats = [f for f in formats if ...]；1017: if audiovideo_formats: ...；1020-1022: elif (all(...) or all(...)): yield formats[format_idx]",
+      "suggestion": "在分支前判断 `if not formats: return`；对空列表的 all() 语义做显式处理，避免对空列表索引。",
+      "id": "ef6db79abcf7",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1010:                         for f in formats:\n1011:                             yield f\n1012:                     elif format_spec in ['best', 'worst', None]:\n1013:                         format_idx = 0 if format_spec == 'worst' else -1\n1014:                         audiovideo_formats = [\n1015:                             f for f in formats\n1016:                             if f.get('vcodec') != 'none' and f.get('acodec') != 'none']\n1017:                         if audiovideo_formats:\n1018:                             yield audiovideo_formats[format_idx]\n1019:                         # for audio only (soundcloud) or video only (imgur) urls, select the best/worst audio format\n1020:                         elif (all(f.get('acodec') != 'none' for f in formats) or\n1021:                               all(f.get('vcodec') != 'none' for f in formats)):\n1022:                             yield formats[format_idx]\n1023:                     elif format_spec == 'bestaudio':\n1024:                         audio_formats = [",
+      "status": "needs_context",
+      "verification": "空列表时 all(...) 返回 True 导致 formats[-1] 的 IndexError 在纯 Python 语义下成立，但 build_format_selector 的调用方是否可能传入空 formats 列表取决于 process_video_result 的调用上下文，未提供；且 formats 通常已按质量排序（extractor 保证），'选错' 说法缺乏依据。需调用上下文确认。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 1050,
+      "end_line": 1052,
+      "severity": "low",
+      "category": "bug",
+      "title": "按扩展名/format_id 匹配时使用 f['ext']/f['format_id'] 直接下标",
+      "explanation": "filter_f 使用 `f['ext']` 和 `f['format_id']` 直接下标访问，而代码其他位置（如 1016、1026、1038）普遍使用 `f.get(...)`。若某个格式字典缺少 'ext' 或 'format_id' 键，会抛 KeyError 导致整个格式选择失败。",
+      "trigger": "formats 中存在缺少 'ext' 或 'format_id' 键的格式字典，且 format_spec 为具体扩展名或 format_id。",
+      "evidence": "1050: filter_f = lambda f: f['ext'] == format_spec；1052: filter_f = lambda f: f['format_id'] == format_spec",
+      "suggestion": "改用 f.get('ext') / f.get('format_id') 进行比较，保持与文件内其他过滤逻辑一致。",
+      "id": "6702105218c3",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1048:                         extensions = ['mp4', 'flv', 'webm', '3gp', 'm4a', 'mp3', 'ogg', 'aac', 'wav']\n1049:                         if format_spec in extensions:\n1050:                             filter_f = lambda f: f['ext'] == format_spec\n1051:                         else:\n1052:                             filter_f = lambda f: f['format_id'] == format_spec\n1053:                         matches = list(filter(filter_f, formats))\n1054:                         if matches:",
+      "status": "rejected",
+      "verification": "误报：format 字典由 extractor 生成，'ext' 与 'format_id' 是格式字典的必需字段（见 1058、1067、1074 等处同样直接下标访问），并非可选字段；使用 f.get 的其他位置是过滤条件而非必需字段访问。缺少 'ext'/'format_id' 的格式字典不属正常输入。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 926,
+      "end_line": 932,
+      "severity": "low",
+      "category": "quality",
+      "title": "_parse_filter 未处理 token 流结束，可能返回 None",
+      "explanation": "_parse_filter 遍历 tokens，仅在遇到 ']' 时 return 拼接结果。若 token 流在遇到 ']' 之前结束（例如格式串以 '[' 结尾但 tokenize 未报错），函数会隐式返回 None，随后 967 行 `current_selector.filters.append(format_filter)` 会把 None 加入 filters，后续 _build_format_filter(None) 会因 re.search(None) 抛 TypeError。",
+      "trigger": "格式规范中包含未闭合的 '[' 且 tokenize 未抛出 TokenError 的边界情况。",
+      "evidence": "926-932: for ...: if type == tokenize.OP and string == ']': return ''.join(filter_parts) ...（无 else 返回）；967: current_selector.filters.append(format_filter)",
+      "suggestion": "在循环结束后显式 raise syntax_error('Missing closing bracket', ...) 或返回空串，避免把 None 传入 filters。",
+      "id": "58ba3eb3922a",
+      "source": "llm",
+      "rule": "",
+      "snippet": "924:         FormatSelector = collections.namedtuple('FormatSelector', ['type', 'selector', 'filters'])\n925: \n926:         def _parse_filter(tokens):\n927:             filter_parts = []\n928:             for type, string, start, _, _ in tokens:\n929:                 if type == tokenize.OP and string == ']':\n930:                     return ''.join(filter_parts)\n931:                 else:\n932:                     filter_parts.append(string)\n933: \n934:         def _parse_format_selection(tokens, inside_merge=False, inside_choice=False, inside_group=False):",
+      "status": "needs_context",
+      "verification": "需确认 tokenize 对未闭合 '[' 的行为：若 tokenize 在流结束前抛 TokenError，则 _parse_filter 不会隐式返回 None，问题不成立；若某些边界下 tokenize 正常结束，则确实返回 None。该依赖未提供的 tokenize 行为/输入上下文，无法仅凭静态代码判定。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 906,
+      "end_line": 910,
+      "severity": "low",
+      "category": "bug",
+      "title": "_filter 对 none_inclusive 返回字符串而非布尔值",
+      "explanation": "当 actual_value 为 None 时返回 `m.group('none_inclusive')`，该值是正则捕获的字符串（如 ' ?' 或 ''），而非布尔。filter() 会按真值判断：空字符串为假、' ?' 为真，行为上恰好符合“包含未知值”的意图，但返回类型不一致（有时 bool 有时 str），语义脆弱且易被误用。",
+      "trigger": "过滤条件带 '?'（none_inclusive）且格式字段缺失时。",
+      "evidence": "908-909: if actual_value is None: return m.group('none_inclusive')；910: return op(actual_value, comparison_value)",
+      "suggestion": "显式返回布尔值，如 `return bool(m.group('none_inclusive'))`，使返回类型一致。",
+      "id": "3d838919164e",
+      "source": "llm",
+      "rule": "",
+      "snippet": "904:             raise ValueError('Invalid filter specification %r' % filter_spec)\n905: \n906:         def _filter(f):\n907:             actual_value = f.get(m.group('key'))\n908:             if actual_value is None:\n909:                 return m.group('none_inclusive')\n910:             return op(actual_value, comparison_value)\n911:         return _filter\n912: ",
+      "status": "rejected",
+      "verification": "误报：返回 m.group('none_inclusive') 是有意设计——空字符串为假、' ?' 为真，恰好实现 '?' 表示包含未知值的语义，filter() 按真值判断行为正确。返回类型不一致属风格问题，非缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 1104,
+      "end_line": 1106,
+      "severity": "low",
+      "category": "quality",
+      "title": "tokenize 异常处理丢失原始异常链",
+      "explanation": "在 except tokenize.TokenError 分支中直接 raise syntax_error(...)，未使用 raise ... from err 或 from None，导致原始 TokenError 的上下文被隐式保留（Python 3 中会显示 'During handling of the above exception'），调试时难以区分是格式串语法错误还是 tokenize 内部错误。ruff B904 也标记了该问题。",
+      "trigger": "当 format_spec 含有未闭合的括号/引号等导致 compat_tokenize_tokenize 抛出 tokenize.TokenError 时。",
+      "evidence": "1105: except tokenize.TokenError:\n1106:     raise syntax_error('Missing closing/opening brackets or parenthesis', (0, len(format_spec)))",
+      "suggestion": "改为 raise syntax_error(...) from None（或 from err），以明确这是对用户输入格式串的语法错误提示，避免混淆原始异常。",
+      "id": "2b1684543d3e",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1102:         stream = io.BytesIO(format_spec.encode('utf-8'))\n1103:         try:\n1104:             tokens = list(compat_tokenize_tokenize(stream.readline))\n1105:         except tokenize.TokenError:\n1106:             raise syntax_error('Missing closing/opening brackets or parenthesis', (0, len(format_spec)))\n1107: \n1108:         class TokenIterator(object):",
+      "status": "supported",
+      "verification": "与上一条同源：except tokenize.TokenError 中 raise syntax_error 未显式指定异常链，Python 3 会隐式保留原始 TokenError 上下文（'During handling of the above exception'）。触发条件为 format_spec 含未闭合括号/引号导致 compat_tokenize_tokenize 抛 TokenError，代码依据充分。属低危质量提示，未做运行验证。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 928,
+      "end_line": 928,
+      "severity": "low",
+      "category": "quality",
+      "title": "B007: Loop control variable `start` not used within loop body",
+      "explanation": "Loop control variable `start` not used within loop body",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff B007: Loop control variable `start` not used within loop body",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "ae4afde4b262",
+      "source": "ruff",
+      "rule": "B007",
+      "snippet": "926:         def _parse_filter(tokens):\n927:             filter_parts = []\n928:             for type, string, start, _, _ in tokens:\n929:                 if type == tokenize.OP and string == ']':\n930:                     return ''.join(filter_parts)",
+      "status": "rejected",
+      "verification": "B007 误报：循环变量 start 虽未在循环体内使用，但解包元组需要占位；ruff 的 B007 针对的是未使用的循环控制变量，此处为 tokenize 元组解包，属有意占位，非缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 1106,
+      "end_line": 1106,
+      "severity": "low",
+      "category": "quality",
+      "title": "B904: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+      "explanation": "Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+      "trigger": "触发条件需结合业务调用确认。",
+      "evidence": "ruff B904: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+      "suggestion": "根据诊断检查对应代码。",
+      "id": "5d387721c55e",
+      "source": "ruff",
+      "rule": "B904",
+      "snippet": "1104:             tokens = list(compat_tokenize_tokenize(stream.readline))\n1105:         except tokenize.TokenError:\n1106:             raise syntax_error('Missing closing/opening brackets or parenthesis', (0, len(format_spec)))\n1107: \n1108:         class TokenIterator(object):",
+      "status": "supported",
+      "verification": "代码第1105-1106行确实在 except tokenize.TokenError 分支内直接 raise syntax_error(...)，未使用 raise ... from err/from None，符合 ruff B904 的静态判定。该问题为代码质量/异常链可读性提示，非功能性缺陷。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": []
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。"
+  ],
+  "benchmark_provenance": {
+    "case": "youtube-dl-9",
+    "variant": "fixed",
+    "fixed_commit": "cf2ac6df6896dac4d23918867bb86fac1e1088d9",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}
