@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Command-line entry point. No repository code is executed."""
+"""Repository review; optional target execution is restricted to Docker."""
 
 import argparse
 from datetime import datetime, timezone
@@ -23,7 +23,9 @@ def main() -> int:
     review.add_argument("--ref", help="分支或 tag")
     review.add_argument("--scope", default="", help="限定仓库相对目录或文件")
     review.add_argument(
-        "--mode", choices=["full", "assisted", "direct", "static"], default="full"
+        "--mode",
+        choices=["evidence", "full", "assisted", "direct", "static"],
+        default="evidence",
     )
     review.add_argument("--max-files", type=int, default=12)
     review.add_argument("--max-calls", type=int, default=24)
@@ -34,8 +36,25 @@ def main() -> int:
     review.add_argument("--model")
     review.add_argument("--env-file")
     review.add_argument("--output", help="新建的报告目录（不能已存在）")
+    review.add_argument(
+        "--repro-image", default="python:3.13-slim", help="预先准备的隔离测试镜像"
+    )
+    review.add_argument("--repro-timeout", type=int, default=15)
+    review.add_argument("--max-reproductions", type=int, default=4)
+    replay = sub.add_parser("reproduce", help="从保存证据复跑测试，不调用模型")
+    replay.add_argument("evidence")
+    replay.add_argument("repository", help="与证据源码哈希相同的本地目录")
+    replay.add_argument("--output", required=True, help="新的执行证据目录")
     args = parser.parse_args()
     try:
+        if args.command == "reproduce":
+            from src.reproduction import replay_evidence
+
+            result = replay_evidence(
+                Path(args.evidence), Path(args.repository), Path(args.output)
+            )
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+            return 0 if result["status"] == "failure_observed" else 2
         if args.command == "doctor":
             from src.agents import MeteredLLM, load_config
 

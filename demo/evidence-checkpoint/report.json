@@ -1,0 +1,368 @@
+{
+  "schema_version": "1.1",
+  "repository": {
+    "url": "local",
+    "name": "evidence",
+    "ref": "working-tree",
+    "commit": "b6b31320eb81b18a946a1b1caba45ee85cf572a9 (working-tree-modified)",
+    "indexed_snapshot_sha256": "98f32481e441386f897454d4812f8a784d7b737db751cfc7e41c9df37469650f",
+    "execution_snapshot_sha256": "98f32481e441386f897454d4812f8a784d7b737db751cfc7e41c9df37469650f"
+  },
+  "run": {
+    "started_at": "2026-10-13T13:25:14.383779+00:00",
+    "status": "completed",
+    "mode": "evidence",
+    "model": "deepseek-flash",
+    "options": {
+      "mode": "evidence",
+      "max_files": 2,
+      "max_file_bytes": 200000,
+      "max_calls": 16,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": "",
+      "repro_image": "python:3.13-slim",
+      "repro_timeout": 15,
+      "max_reproductions": 4
+    },
+    "elapsed_seconds": 7.677,
+    "api_calls": 4,
+    "usage": {
+      "prompt_tokens": 4831,
+      "completion_tokens": 558
+    },
+    "indexed_python_files": 2,
+    "selected_files": 2,
+    "fully_reviewed_files": 2,
+    "semantic_coverage_percent": 100.0,
+    "active_findings": 1,
+    "candidate_findings": 0,
+    "reproduced_findings": 1,
+    "static_diagnostics": 0,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "high": 1
+    },
+    "status_counts": {
+      "reproduced": 1
+    }
+  },
+  "coverage": [
+    {
+      "path": "buggy.py",
+      "lines": 3,
+      "reviewed_chunks": 1,
+      "total_chunks": 1,
+      "semantic_status": "completed",
+      "static_status": "completed"
+    },
+    {
+      "path": "clean.py",
+      "lines": 5,
+      "reviewed_chunks": 1,
+      "total_chunks": 1,
+      "semantic_status": "completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 2
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 2,
+      "diagnostics": 0
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 2,
+      "diagnostics": 0
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 2214,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 215,
+        "prompt_tokens": 843,
+        "total_tokens": 1058,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 203
+      },
+      "elapsed_seconds": 2.63
+    },
+    {
+      "stage": "reproduction_plan",
+      "status": "completed",
+      "input_chars": 3715,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 223,
+        "prompt_tokens": 1373,
+        "total_tokens": 1596,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 768
+        },
+        "prompt_cache_hit_tokens": 768,
+        "prompt_cache_miss_tokens": 605
+      },
+      "elapsed_seconds": 1.613
+    },
+    {
+      "stage": "evidence_audit",
+      "status": "completed",
+      "input_chars": 5045,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 114,
+        "prompt_tokens": 1756,
+        "total_tokens": 1870,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 1500
+      },
+      "elapsed_seconds": 1.347
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 2260,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 859,
+        "total_tokens": 865,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 219
+      },
+      "elapsed_seconds": 0.613
+    }
+  ],
+  "tool_reads": [],
+  "trace": [
+    {
+      "stage": "review",
+      "path": "buggy.py",
+      "start": 1,
+      "end": 3,
+      "findings": [
+        {
+          "path": "buggy.py",
+          "line": 3,
+          "end_line": 3,
+          "severity": "high",
+          "category": "bug",
+          "title": "空列表输入触发 ZeroDivisionError，违反文档契约",
+          "explanation": "函数文档明确声明 values 为空时应返回 0.0，但实现直接执行 sum(values) / len(values)。当 values 为空列表时 len(values) 为 0，导致 ZeroDivisionError，而非返回 0.0。这是文档契约与实现不一致的行为缺陷。",
+          "trigger": "调用 average([])",
+          "evidence": "第 2 行 docstring：\"return 0.0 when values is empty\"；第 3 行 return sum(values) / len(values)，空列表时 len(values)==0 触发除零。",
+          "suggestion": "在除法前判断空输入，例如：if not values: return 0.0，再执行 sum(values) / len(values)。",
+          "id": "e1683746d10f",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1: def average(values):\n2:     \"\"\"Return the arithmetic mean; return 0.0 when values is empty.\"\"\"\n3:     return sum(values) / len(values)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "clean.py",
+      "start": 1,
+      "end": 5,
+      "findings": []
+    }
+  ],
+  "evidence_artifacts": {
+    "evidence/e1683746d10f/test_reproduction.py": "import unittest\n\nfrom buggy import average\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        self.assertEqual(average([]), 0.0)\n",
+    "evidence/e1683746d10f/attempt-1.log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.13.16\", \"tests_run\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"error\", \"exception_type\": \"ZeroDivisionError\", \"message\": \"division by zero\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 58, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 651, in run\\n    self._callTestMethod(testMethod)\\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 606, in _callTestMethod\\n    if method() is not None:\\n       ~~~~~~^^\\n  File \\\"/harness/test_reproduction.py\\\", line 8, in test_reproduction\\n    self.assertEqual(average([]), 0.0)\\n                     ~~~~~~~^^^^\\n  File \\\"/work/buggy.py\\\", line 3, in average\\n    return sum(values) / len(values)\\n           ~~~~~~~~~~~~^~~~~~~~~~~~~\\nZeroDivisionError: division by zero\\n\"}], \"target_lines\": [1, 3], \"target_calls\": [[\"<module>\", 1], [\"average\", 1]]}\n",
+    "evidence/e1683746d10f/attempt-2.log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.13.16\", \"tests_run\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"error\", \"exception_type\": \"ZeroDivisionError\", \"message\": \"division by zero\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 58, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 651, in run\\n    self._callTestMethod(testMethod)\\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 606, in _callTestMethod\\n    if method() is not None:\\n       ~~~~~~^^\\n  File \\\"/harness/test_reproduction.py\\\", line 8, in test_reproduction\\n    self.assertEqual(average([]), 0.0)\\n                     ~~~~~~~^^^^\\n  File \\\"/work/buggy.py\\\", line 3, in average\\n    return sum(values) / len(values)\\n           ~~~~~~~~~~~~^~~~~~~~~~~~~\\nZeroDivisionError: division by zero\\n\"}], \"target_lines\": [1, 3], \"target_calls\": [[\"<module>\", 1], [\"average\", 1]]}\n",
+    "evidence/e1683746d10f/evidence.json": "{\n  \"finding\": {\n    \"path\": \"buggy.py\",\n    \"line\": 3,\n    \"end_line\": 3,\n    \"severity\": \"high\",\n    \"category\": \"bug\",\n    \"title\": \"空列表输入触发 ZeroDivisionError，违反文档契约\",\n    \"explanation\": \"函数文档明确声明 values 为空时应返回 0.0，但实现直接执行 sum(values) / len(values)。当 values 为空列表时 len(values) 为 0，导致 ZeroDivisionError，而非返回 0.0。这是文档契约与实现不一致的行为缺陷。\",\n    \"trigger\": \"调用 average([])\",\n    \"evidence\": \"第 2 行 docstring：\\\"return 0.0 when values is empty\\\"；第 3 行 return sum(values) / len(values)，空列表时 len(values)==0 触发除零。\",\n    \"suggestion\": \"在除法前判断空输入，例如：if not values: return 0.0，再执行 sum(values) / len(values)。\",\n    \"id\": \"e1683746d10f\",\n    \"source\": \"llm\",\n    \"rule\": \"\",\n    \"snippet\": \"1: def average(values):\\n2:     \\\"\\\"\\\"Return the arithmetic mean; return 0.0 when values is empty.\\\"\\\"\\\"\\n3:     return sum(values) / len(values)\",\n    \"status\": \"reproduced\",\n    \"verification\": \"测试确实调用了原目标函数 average([])，输入为空列表符合 docstring 明确声明的契约（\\\"return 0.0 when values is empty\\\"），期望值 0.0 有文档原文支持。运行证据显示实际抛出 ZeroDivisionError（division by zero），与候选描述的失败一致，且失败源于实现 sum(values)/len(values) 在 len==0 时除零，非测试自行假设语义或制造无条件失败。证据充分，支持正式缺陷报告。\",\n    \"validation\": \"两次独立隔离执行出现同类型失败并触达目标代码；预期行为经模型对照引用原文核验，仍供维护者复查。\",\n    \"related_diagnostics\": []\n  },\n  \"reproduction\": {\n    \"status\": \"reproduced\",\n    \"reason\": \"测试确实调用了原目标函数 average([])，输入为空列表符合 docstring 明确声明的契约（\\\"return 0.0 when values is empty\\\"），期望值 0.0 有文档原文支持。运行证据显示实际抛出 ZeroDivisionError（division by zero），与候选描述的失败一致，且失败源于实现 sum(values)/len(values) 在 len==0 时除零，非测试自行假设语义或制造无条件失败。证据充分，支持正式缺陷报告。\",\n    \"attempts\": [\n      {\n        \"image_id\": \"sha256:ce3ff9524414289fc922d9d5dc1de87abc77a39ff2ff5007435839f2af1d7569\",\n        \"image_reference\": \"python:3.13-slim\",\n        \"exit_code\": 0,\n        \"stop_reason\": null,\n        \"seconds\": 0.671,\n        \"execution\": {\n          \"python\": \"3.13.16\",\n          \"tests_run\": 1,\n          \"failures\": 0,\n          \"errors\": 1,\n          \"skipped\": 0,\n          \"load_error\": null,\n          \"observations\": [\n            {\n              \"test\": \"generated_reproduction.ReproductionTest.test_reproduction\",\n              \"outcome\": \"error\",\n              \"exception_type\": \"ZeroDivisionError\",\n              \"message\": \"division by zero\",\n              \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 58, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 651, in run\\n    self._callTestMethod(testMethod)\\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 606, in _callTestMethod\\n    if method() is not None:\\n       ~~~~~~^^\\n  File \\\"/harness/test_reproduction.py\\\", line 8, in test_reproduction\\n    self.assertEqual(average([]), 0.0)\\n                     ~~~~~~~^^^^\\n  File \\\"/work/buggy.py\\\", line 3, in average\\n    return sum(values) / len(values)\\n           ~~~~~~~~~~~~^~~~~~~~~~~~~\\nZeroDivisionError: division by zero\\n\"\n            }\n          ],\n          \"target_lines\": [\n            1,\n            3\n          ],\n          \"target_calls\": [\n            [\n              \"<module>\",\n              1\n            ],\n            [\n              \"average\",\n              1\n            ]\n          ]\n        },\n        \"log\": \"\\nCODE_REVIEW_EXECUTION={\\\"python\\\": \\\"3.13.16\\\", \\\"tests_run\\\": 1, \\\"failures\\\": 0, \\\"errors\\\": 1, \\\"skipped\\\": 0, \\\"load_error\\\": null, \\\"observations\\\": [{\\\"test\\\": \\\"generated_reproduction.ReproductionTest.test_reproduction\\\", \\\"outcome\\\": \\\"error\\\", \\\"exception_type\\\": \\\"ZeroDivisionError\\\", \\\"message\\\": \\\"division by zero\\\", \\\"traceback\\\": \\\"Traceback (most recent call last):\\\\n  File \\\\\\\"/usr/local/lib/python3.13/unittest/case.py\\\\\\\", line 58, in testPartExecutor\\\\n    yield\\\\n  File \\\\\\\"/usr/local/lib/python3.13/unittest/case.py\\\\\\\", line 651, in run\\\\n    self._callTestMethod(testMethod)\\\\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\\\\n  File \\\\\\\"/usr/local/lib/python3.13/unittest/case.py\\\\\\\", line 606, in _callTestMethod\\\\n    if method() is not None:\\\\n       ~~~~~~^^\\\\n  File \\\\\\\"/harness/test_reproduction.py\\\\\\\", line 8, in test_reproduction\\\\n    self.assertEqual(average([]), 0.0)\\\\n                     ~~~~~~~^^^^\\\\n  File \\\\\\\"/work/buggy.py\\\\\\\", line 3, in average\\\\n    return sum(values) / len(values)\\\\n           ~~~~~~~~~~~~^~~~~~~~~~~~~\\\\nZeroDivisionError: division by zero\\\\n\\\"}], \\\"target_lines\\\": [1, 3], \\\"target_calls\\\": [[\\\"<module>\\\", 1], [\\\"average\\\", 1]]}\\n\",\n        \"log_sha256\": \"518277a64bd8debe789c85380b03424ddd6d220b89beb18fbae9823a5a7c14fe\",\n        \"verdict\": \"failure_observed\"\n      },\n      {\n        \"image_id\": \"sha256:ce3ff9524414289fc922d9d5dc1de87abc77a39ff2ff5007435839f2af1d7569\",\n        \"image_reference\": \"python:3.13-slim\",\n        \"exit_code\": 0,\n        \"stop_reason\": null,\n        \"seconds\": 0.639,\n        \"execution\": {\n          \"python\": \"3.13.16\",\n          \"tests_run\": 1,\n          \"failures\": 0,\n          \"errors\": 1,\n          \"skipped\": 0,\n          \"load_error\": null,\n          \"observations\": [\n            {\n              \"test\": \"generated_reproduction.ReproductionTest.test_reproduction\",\n              \"outcome\": \"error\",\n              \"exception_type\": \"ZeroDivisionError\",\n              \"message\": \"division by zero\",\n              \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 58, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 651, in run\\n    self._callTestMethod(testMethod)\\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 606, in _callTestMethod\\n    if method() is not None:\\n       ~~~~~~^^\\n  File \\\"/harness/test_reproduction.py\\\", line 8, in test_reproduction\\n    self.assertEqual(average([]), 0.0)\\n                     ~~~~~~~^^^^\\n  File \\\"/work/buggy.py\\\", line 3, in average\\n    return sum(values) / len(values)\\n           ~~~~~~~~~~~~^~~~~~~~~~~~~\\nZeroDivisionError: division by zero\\n\"\n            }\n          ],\n          \"target_lines\": [\n            1,\n            3\n          ],\n          \"target_calls\": [\n            [\n              \"<module>\",\n              1\n            ],\n            [\n              \"average\",\n              1\n            ]\n          ]\n        },\n        \"log\": \"\\nCODE_REVIEW_EXECUTION={\\\"python\\\": \\\"3.13.16\\\", \\\"tests_run\\\": 1, \\\"failures\\\": 0, \\\"errors\\\": 1, \\\"skipped\\\": 0, \\\"load_error\\\": null, \\\"observations\\\": [{\\\"test\\\": \\\"generated_reproduction.ReproductionTest.test_reproduction\\\", \\\"outcome\\\": \\\"error\\\", \\\"exception_type\\\": \\\"ZeroDivisionError\\\", \\\"message\\\": \\\"division by zero\\\", \\\"traceback\\\": \\\"Traceback (most recent call last):\\\\n  File \\\\\\\"/usr/local/lib/python3.13/unittest/case.py\\\\\\\", line 58, in testPartExecutor\\\\n    yield\\\\n  File \\\\\\\"/usr/local/lib/python3.13/unittest/case.py\\\\\\\", line 651, in run\\\\n    self._callTestMethod(testMethod)\\\\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\\\\n  File \\\\\\\"/usr/local/lib/python3.13/unittest/case.py\\\\\\\", line 606, in _callTestMethod\\\\n    if method() is not None:\\\\n       ~~~~~~^^\\\\n  File \\\\\\\"/harness/test_reproduction.py\\\\\\\", line 8, in test_reproduction\\\\n    self.assertEqual(average([]), 0.0)\\\\n                     ~~~~~~~^^^^\\\\n  File \\\\\\\"/work/buggy.py\\\\\\\", line 3, in average\\\\n    return sum(values) / len(values)\\\\n           ~~~~~~~~~~~~^~~~~~~~~~~~~\\\\nZeroDivisionError: division by zero\\\\n\\\"}], \\\"target_lines\\\": [1, 3], \\\"target_calls\\\": [[\\\"<module>\\\", 1], [\\\"average\\\", 1]]}\\n\",\n        \"log_sha256\": \"518277a64bd8debe789c85380b03424ddd6d220b89beb18fbae9823a5a7c14fe\",\n        \"verdict\": \"failure_observed\"\n      }\n    ],\n    \"generation_attempts\": [\n      {\n        \"response\": \"{\\\"applicable\\\": true, \\\"reason\\\": \\\"函数 docstring 明确声明空输入返回 0.0，但实现 sum(values)/len(values) 在空列表时触发 ZeroDivisionError，契约与实现不一致。\\\", \\\"contract\\\": {\\\"path\\\": \\\"buggy.py\\\", \\\"start\\\": 2, \\\"end\\\": 2, \\\"quote\\\": \\\"\\\\\\\"\\\\\\\"\\\\\\\"Return the arithmetic mean; return 0.0 when values is empty.\\\\\\\"\\\\\\\"\\\\\\\"\\\", \\\"kind\\\": \\\"documented_behavior\\\", \\\"rationale\\\": \\\"docstring 是函数行为的文档契约，明确说明 values 为空时应返回 0.0，因此 average([]) 的期望返回值有明确定义，而非随意约定。\\\"}, \\\"expected_behavior\\\": \\\"average([]) 应返回 0.0，而不是抛出 ZeroDivisionError。\\\", \\\"test_code\\\": \\\"import unittest\\\\n\\\\nfrom buggy import average\\\\n\\\\n\\\\nclass ReproductionTest(unittest.TestCase):\\\\n    def test_reproduction(self):\\\\n        self.assertEqual(average([]), 0.0)\\\\n\\\"}\"\n      }\n    ],\n    \"plan\": {\n      \"applicable\": true,\n      \"reason\": \"函数 docstring 明确声明空输入返回 0.0，但实现 sum(values)/len(values) 在空列表时触发 ZeroDivisionError，契约与实现不一致。\",\n      \"contract\": {\n        \"path\": \"buggy.py\",\n        \"start\": 2,\n        \"end\": 2,\n        \"quote\": \"\\\"\\\"\\\"Return the arithmetic mean; return 0.0 when values is empty.\\\"\\\"\\\"\",\n        \"kind\": \"documented_behavior\",\n        \"rationale\": \"docstring 是函数行为的文档契约，明确说明 values 为空时应返回 0.0，因此 average([]) 的期望返回值有明确定义，而非随意约定。\"\n      },\n      \"test_code\": \"import unittest\\n\\nfrom buggy import average\\n\\n\\nclass ReproductionTest(unittest.TestCase):\\n    def test_reproduction(self):\\n        self.assertEqual(average([]), 0.0)\\n\",\n      \"expected_behavior\": \"average([]) 应返回 0.0，而不是抛出 ZeroDivisionError。\"\n    },\n    \"audit\": {\n      \"accepted\": true,\n      \"reason\": \"测试确实调用了原目标函数 average([])，输入为空列表符合 docstring 明确声明的契约（\\\"return 0.0 when values is empty\\\"），期望值 0.0 有文档原文支持。运行证据显示实际抛出 ZeroDivisionError（division by zero），与候选描述的失败一致，且失败源于实现 sum(values)/len(values) 在 len==0 时除零，非测试自行假设语义或制造无条件失败。证据充分，支持正式缺陷报告。\"\n    },\n    \"execution_snapshot_sha256\": \"98f32481e441386f897454d4812f8a784d7b737db751cfc7e41c9df37469650f\",\n    \"snapshot_policy\": \"only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests\",\n    \"max_file_bytes\": 200000,\n    \"scope\": \"\",\n    \"review_scope\": \"\",\n    \"production_only\": false,\n    \"artifact\": \"evidence/e1683746d10f/evidence.json\"\n  }\n}"
+  },
+  "findings": [
+    {
+      "path": "buggy.py",
+      "line": 3,
+      "end_line": 3,
+      "severity": "high",
+      "category": "bug",
+      "title": "空列表输入触发 ZeroDivisionError，违反文档契约",
+      "explanation": "函数文档明确声明 values 为空时应返回 0.0，但实现直接执行 sum(values) / len(values)。当 values 为空列表时 len(values) 为 0，导致 ZeroDivisionError，而非返回 0.0。这是文档契约与实现不一致的行为缺陷。",
+      "trigger": "调用 average([])",
+      "evidence": "第 2 行 docstring：\"return 0.0 when values is empty\"；第 3 行 return sum(values) / len(values)，空列表时 len(values)==0 触发除零。",
+      "suggestion": "在除法前判断空输入，例如：if not values: return 0.0，再执行 sum(values) / len(values)。",
+      "id": "e1683746d10f",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1: def average(values):\n2:     \"\"\"Return the arithmetic mean; return 0.0 when values is empty.\"\"\"\n3:     return sum(values) / len(values)",
+      "status": "reproduced",
+      "verification": "测试确实调用了原目标函数 average([])，输入为空列表符合 docstring 明确声明的契约（\"return 0.0 when values is empty\"），期望值 0.0 有文档原文支持。运行证据显示实际抛出 ZeroDivisionError（division by zero），与候选描述的失败一致，且失败源于实现 sum(values)/len(values) 在 len==0 时除零，非测试自行假设语义或制造无条件失败。证据充分，支持正式缺陷报告。",
+      "validation": "两次独立隔离执行出现同类型失败并触达目标代码；预期行为经模型对照引用原文核验，仍供维护者复查。",
+      "related_diagnostics": [],
+      "reproduction": {
+        "status": "reproduced",
+        "reason": "测试确实调用了原目标函数 average([])，输入为空列表符合 docstring 明确声明的契约（\"return 0.0 when values is empty\"），期望值 0.0 有文档原文支持。运行证据显示实际抛出 ZeroDivisionError（division by zero），与候选描述的失败一致，且失败源于实现 sum(values)/len(values) 在 len==0 时除零，非测试自行假设语义或制造无条件失败。证据充分，支持正式缺陷报告。",
+        "attempts": [
+          {
+            "image_id": "sha256:ce3ff9524414289fc922d9d5dc1de87abc77a39ff2ff5007435839f2af1d7569",
+            "image_reference": "python:3.13-slim",
+            "exit_code": 0,
+            "stop_reason": null,
+            "seconds": 0.671,
+            "execution": {
+              "python": "3.13.16",
+              "tests_run": 1,
+              "failures": 0,
+              "errors": 1,
+              "skipped": 0,
+              "load_error": null,
+              "observations": [
+                {
+                  "test": "generated_reproduction.ReproductionTest.test_reproduction",
+                  "outcome": "error",
+                  "exception_type": "ZeroDivisionError",
+                  "message": "division by zero",
+                  "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.13/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.13/unittest/case.py\", line 651, in run\n    self._callTestMethod(testMethod)\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.13/unittest/case.py\", line 606, in _callTestMethod\n    if method() is not None:\n       ~~~~~~^^\n  File \"/harness/test_reproduction.py\", line 8, in test_reproduction\n    self.assertEqual(average([]), 0.0)\n                     ~~~~~~~^^^^\n  File \"/work/buggy.py\", line 3, in average\n    return sum(values) / len(values)\n           ~~~~~~~~~~~~^~~~~~~~~~~~~\nZeroDivisionError: division by zero\n"
+                }
+              ],
+              "target_lines": [
+                1,
+                3
+              ],
+              "target_calls": [
+                [
+                  "<module>",
+                  1
+                ],
+                [
+                  "average",
+                  1
+                ]
+              ]
+            },
+            "log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.13.16\", \"tests_run\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"error\", \"exception_type\": \"ZeroDivisionError\", \"message\": \"division by zero\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 58, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 651, in run\\n    self._callTestMethod(testMethod)\\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 606, in _callTestMethod\\n    if method() is not None:\\n       ~~~~~~^^\\n  File \\\"/harness/test_reproduction.py\\\", line 8, in test_reproduction\\n    self.assertEqual(average([]), 0.0)\\n                     ~~~~~~~^^^^\\n  File \\\"/work/buggy.py\\\", line 3, in average\\n    return sum(values) / len(values)\\n           ~~~~~~~~~~~~^~~~~~~~~~~~~\\nZeroDivisionError: division by zero\\n\"}], \"target_lines\": [1, 3], \"target_calls\": [[\"<module>\", 1], [\"average\", 1]]}\n",
+            "log_sha256": "518277a64bd8debe789c85380b03424ddd6d220b89beb18fbae9823a5a7c14fe",
+            "verdict": "failure_observed"
+          },
+          {
+            "image_id": "sha256:ce3ff9524414289fc922d9d5dc1de87abc77a39ff2ff5007435839f2af1d7569",
+            "image_reference": "python:3.13-slim",
+            "exit_code": 0,
+            "stop_reason": null,
+            "seconds": 0.639,
+            "execution": {
+              "python": "3.13.16",
+              "tests_run": 1,
+              "failures": 0,
+              "errors": 1,
+              "skipped": 0,
+              "load_error": null,
+              "observations": [
+                {
+                  "test": "generated_reproduction.ReproductionTest.test_reproduction",
+                  "outcome": "error",
+                  "exception_type": "ZeroDivisionError",
+                  "message": "division by zero",
+                  "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.13/unittest/case.py\", line 58, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.13/unittest/case.py\", line 651, in run\n    self._callTestMethod(testMethod)\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.13/unittest/case.py\", line 606, in _callTestMethod\n    if method() is not None:\n       ~~~~~~^^\n  File \"/harness/test_reproduction.py\", line 8, in test_reproduction\n    self.assertEqual(average([]), 0.0)\n                     ~~~~~~~^^^^\n  File \"/work/buggy.py\", line 3, in average\n    return sum(values) / len(values)\n           ~~~~~~~~~~~~^~~~~~~~~~~~~\nZeroDivisionError: division by zero\n"
+                }
+              ],
+              "target_lines": [
+                1,
+                3
+              ],
+              "target_calls": [
+                [
+                  "<module>",
+                  1
+                ],
+                [
+                  "average",
+                  1
+                ]
+              ]
+            },
+            "log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.13.16\", \"tests_run\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"error\", \"exception_type\": \"ZeroDivisionError\", \"message\": \"division by zero\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 58, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 651, in run\\n    self._callTestMethod(testMethod)\\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\\n  File \\\"/usr/local/lib/python3.13/unittest/case.py\\\", line 606, in _callTestMethod\\n    if method() is not None:\\n       ~~~~~~^^\\n  File \\\"/harness/test_reproduction.py\\\", line 8, in test_reproduction\\n    self.assertEqual(average([]), 0.0)\\n                     ~~~~~~~^^^^\\n  File \\\"/work/buggy.py\\\", line 3, in average\\n    return sum(values) / len(values)\\n           ~~~~~~~~~~~~^~~~~~~~~~~~~\\nZeroDivisionError: division by zero\\n\"}], \"target_lines\": [1, 3], \"target_calls\": [[\"<module>\", 1], [\"average\", 1]]}\n",
+            "log_sha256": "518277a64bd8debe789c85380b03424ddd6d220b89beb18fbae9823a5a7c14fe",
+            "verdict": "failure_observed"
+          }
+        ],
+        "generation_attempts": [
+          {
+            "response": "{\"applicable\": true, \"reason\": \"函数 docstring 明确声明空输入返回 0.0，但实现 sum(values)/len(values) 在空列表时触发 ZeroDivisionError，契约与实现不一致。\", \"contract\": {\"path\": \"buggy.py\", \"start\": 2, \"end\": 2, \"quote\": \"\\\"\\\"\\\"Return the arithmetic mean; return 0.0 when values is empty.\\\"\\\"\\\"\", \"kind\": \"documented_behavior\", \"rationale\": \"docstring 是函数行为的文档契约，明确说明 values 为空时应返回 0.0，因此 average([]) 的期望返回值有明确定义，而非随意约定。\"}, \"expected_behavior\": \"average([]) 应返回 0.0，而不是抛出 ZeroDivisionError。\", \"test_code\": \"import unittest\\n\\nfrom buggy import average\\n\\n\\nclass ReproductionTest(unittest.TestCase):\\n    def test_reproduction(self):\\n        self.assertEqual(average([]), 0.0)\\n\"}"
+          }
+        ],
+        "plan": {
+          "applicable": true,
+          "reason": "函数 docstring 明确声明空输入返回 0.0，但实现 sum(values)/len(values) 在空列表时触发 ZeroDivisionError，契约与实现不一致。",
+          "contract": {
+            "path": "buggy.py",
+            "start": 2,
+            "end": 2,
+            "quote": "\"\"\"Return the arithmetic mean; return 0.0 when values is empty.\"\"\"",
+            "kind": "documented_behavior",
+            "rationale": "docstring 是函数行为的文档契约，明确说明 values 为空时应返回 0.0，因此 average([]) 的期望返回值有明确定义，而非随意约定。"
+          },
+          "test_code": "import unittest\n\nfrom buggy import average\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        self.assertEqual(average([]), 0.0)\n",
+          "expected_behavior": "average([]) 应返回 0.0，而不是抛出 ZeroDivisionError。"
+        },
+        "audit": {
+          "accepted": true,
+          "reason": "测试确实调用了原目标函数 average([])，输入为空列表符合 docstring 明确声明的契约（\"return 0.0 when values is empty\"），期望值 0.0 有文档原文支持。运行证据显示实际抛出 ZeroDivisionError（division by zero），与候选描述的失败一致，且失败源于实现 sum(values)/len(values) 在 len==0 时除零，非测试自行假设语义或制造无条件失败。证据充分，支持正式缺陷报告。"
+        },
+        "execution_snapshot_sha256": "98f32481e441386f897454d4812f8a784d7b737db751cfc7e41c9df37469650f",
+        "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+        "max_file_bytes": 200000,
+        "scope": "",
+        "review_scope": "",
+        "production_only": false,
+        "artifact": "evidence/e1683746d10f/evidence.json"
+      }
+    }
+  ],
+  "limitations": [
+    "正式缺陷仅包含两次隔离执行失败且契约经模型核验的项目；未证实候选与静态建议分别展示。",
+    "复现只复制已索引的Python源文件，不包含数据文件、环境密钥或符号链接；缺少资源/依赖会阻止验证。",
+    "scope限制主要审查位置；证据模式可读取仓库其他Python定义作上下文，并复制这些源码供隔离导入。",
+    "执行使用无外网、只读源码的受限Docker；镜像、实际Python版本、测试与日志随证据保存。",
+    "复现支持所记录环境与输入下的结论；预期行为的语义核验仍使用模型，需要维护者复查。",
+    "仅支持 Python；外部依赖和业务约定可能缺失。",
+    "覆盖率以所选 scope 内已索引 Python 文件为分母；索引限制及未支持文件另列。",
+    "按预算分块；import 关联和只读查询提供有限跨文件上下文。"
+  ]
+}

@@ -1,0 +1,279 @@
+{
+  "dataset": "BugsInPy",
+  "dataset_commit": "11c5f1eea954a42132cfd06bf257766a7963e0fd",
+  "dataset_url": "https://github.com/soarsmu/BugsInPy",
+  "selection": "Preselected numeric IDs: tornado 9-12, youtube-dl 10-13; all failures retained.",
+  "protocol": "Known-location production-code windows; fixed snapshot follows BugsInPy checkout semantics (buggy baseline plus fixed-commit changed files); fixed test files copied into both reproduction snapshots. Labels and tests are excluded from reviewer context.",
+  "cases": [
+    {
+      "id": "tornado-9",
+      "project": "tornado",
+      "bug_id": 9,
+      "repository": "https://github.com/tornadoweb/tornado",
+      "python_version": "3.7.0",
+      "buggy_commit": "c9d2a3fa573987629ad576e991c2f3b65f4daab4",
+      "fixed_commit": "86cc31f52992fb9d11f92de6fd5496842fea2265",
+      "test_files": [
+        "tornado/test/httputil_test.py"
+      ],
+      "test_command": "python -m unittest -q tornado.test.httputil_test.TestUrlConcat.test_url_concat_none_params",
+      "patch_sha256": "fcd2f981563a8f174266064f81c711602f48113bdbb636b3ad490d5e74133936",
+      "production_hunks": {
+        "tornado/httputil.py": {
+          "buggy": [
+            [
+              603,
+              608
+            ]
+          ],
+          "fixed": [
+            [
+              603,
+              610
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "youtube-dl-10",
+      "project": "youtube-dl",
+      "bug_id": 10,
+      "repository": "https://github.com/ytdl-org/youtube-dl",
+      "python_version": "3.7.0",
+      "buggy_commit": "85d586617750d38d742a24f141b099f6b898d269",
+      "fixed_commit": "d305dd73a3d6927f0a2c63d08662a183fa173833",
+      "test_files": [
+        "test/test_utils.py"
+      ],
+      "test_command": "python -m unittest -q test.test_utils.TestUtil.test_js_to_json_realworld",
+      "patch_sha256": "33cff7ed3b0f82b20f3e350ffff4ab398c0d6e1a400d342d3a2dc77d0d626ecc",
+      "production_hunks": {
+        "youtube_dl/utils.py": {
+          "buggy": [
+            [
+              1560,
+              1567
+            ]
+          ],
+          "fixed": [
+            [
+              1560,
+              1567
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "tornado-10",
+      "project": "tornado",
+      "bug_id": 10,
+      "repository": "https://github.com/tornadoweb/tornado",
+      "python_version": "3.7.0",
+      "buggy_commit": "ecd8968c5135b810cd607b5902dda2cd32122b39",
+      "fixed_commit": "5931d913b4ea250891a0b582f1f8b2901b868c79",
+      "test_files": [
+        "tornado/test/websocket_test.py"
+      ],
+      "test_command": "python -m unittest -q tornado.test.websocket_test.WebSocketTest.test_render_message",
+      "patch_sha256": "e9432fcb28f07464bc813cc9c263abc38cb6f55a6e0b1fbb768afae12d50d333",
+      "production_hunks": {
+        "tornado/web.py": {
+          "buggy": [
+            [
+              993,
+              998
+            ]
+          ],
+          "fixed": [
+            [
+              993,
+              1001
+            ]
+          ]
+        },
+        "tornado/websocket.py": {
+          "buggy": [
+            [
+              434,
+              439
+            ]
+          ],
+          "fixed": [
+            [
+              434,
+              449
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "youtube-dl-11",
+      "project": "youtube-dl",
+      "bug_id": 11,
+      "repository": "https://github.com/ytdl-org/youtube-dl",
+      "python_version": "3.7.4",
+      "buggy_commit": "b568561eba6f4aceb87419e21aba11567c5de7da",
+      "fixed_commit": "348c6bf1c1a00eec323d6e21ff7b9b12699afe04",
+      "test_files": [
+        "test/test_utils.py"
+      ],
+      "test_command": "python -m unittest -q test.test_utils.TestUtil.test_str_to_int",
+      "patch_sha256": "eb68d62cd495aed98a150921d469cb1ff1ebff4b97cef7ff7519c428ccfd548b",
+      "production_hunks": {
+        "youtube_dl/utils.py": {
+          "buggy": [
+            [
+              3519,
+              3526
+            ]
+          ],
+          "fixed": [
+            [
+              3519,
+              3526
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "tornado-11",
+      "project": "tornado",
+      "bug_id": 11,
+      "repository": "https://github.com/tornadoweb/tornado",
+      "python_version": "3.7.0",
+      "buggy_commit": "79ef301eb05cac82c075198e502d94dad296f6aa",
+      "fixed_commit": "1131c9b50a6a4c0868d0d6fa5e0be077cf8fd1ca",
+      "test_files": [
+        "tornado/test/httpserver_test.py"
+      ],
+      "test_command": "python -m unittest -q tornado.test.httpserver_test.HTTPServerRawTest.test_chunked_request_uppercase",
+      "patch_sha256": "5266eb28f2f7bddb2e7541fe01296417073ca68badf95c148d513eea62ad8cc7",
+      "production_hunks": {
+        "tornado/http1connection.py": {
+          "buggy": [
+            [
+              565,
+              571
+            ]
+          ],
+          "fixed": [
+            [
+              565,
+              571
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "youtube-dl-12",
+      "project": "youtube-dl",
+      "bug_id": 12,
+      "repository": "https://github.com/ytdl-org/youtube-dl",
+      "python_version": "3.7.4",
+      "buggy_commit": "435e382423f860aca82a58d7c3db58cbfa242b40",
+      "fixed_commit": "e118a8794ffe5a3a414afd489726f34d753b0b23",
+      "test_files": [
+        "test/test_YoutubeDL.py"
+      ],
+      "test_command": "python -m unittest -q test.test_YoutubeDL.TestFormatSelection.test_format_selection_string_ops",
+      "patch_sha256": "e84391c373301bc498b1ca00fc2f8e5f342aa68a961f963bf6cb227cc1d433ba",
+      "production_hunks": {
+        "youtube_dl/YoutubeDL.py": {
+          "buggy": [
+            [
+              1078,
+              1084
+            ]
+          ],
+          "fixed": [
+            [
+              1078,
+              1084
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "tornado-12",
+      "project": "tornado",
+      "bug_id": 12,
+      "repository": "https://github.com/tornadoweb/tornado",
+      "python_version": "3.7.0",
+      "buggy_commit": "4ee9ba94de11aaa4f932560fa2b3d8ceb8c61d2a",
+      "fixed_commit": "301f52b532c071a0d2fec1eb7c23f2714bb38567",
+      "test_files": [
+        "tornado/test/auth_test.py"
+      ],
+      "test_command": "python -m unittest -q tornado.test.auth_test.AuthTest.test_facebook_login",
+      "patch_sha256": "7cd3eb4b944419793b59a61f05c80a70fca7ba39d6ef27ab827fc6a7b36abade",
+      "production_hunks": {
+        "tornado/auth.py": {
+          "buggy": [
+            [
+              75,
+              81
+            ],
+            [
+              985,
+              991
+            ],
+            [
+              1062,
+              1069
+            ]
+          ],
+          "fixed": [
+            [
+              75,
+              81
+            ],
+            [
+              985,
+              991
+            ],
+            [
+              1062,
+              1074
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "youtube-dl-13",
+      "project": "youtube-dl",
+      "bug_id": 13,
+      "repository": "https://github.com/ytdl-org/youtube-dl",
+      "python_version": "3.7.4",
+      "buggy_commit": "6945b9e78f38284eb4e440b7badea2fc60b66c2f",
+      "fixed_commit": "fad4ceb53404227f471af2f3544c4c14a5df4acb",
+      "test_files": [
+        "test/test_utils.py"
+      ],
+      "test_command": "python -m unittest -q test.test_utils.TestUtil.test_urljoin",
+      "patch_sha256": "21c54c2e9dda10eebd20a22bca9578622ca7bbd3fc2d413bb6885ec937d77bff",
+      "production_hunks": {
+        "youtube_dl/utils.py": {
+          "buggy": [
+            [
+              1868,
+              1874
+            ]
+          ],
+          "fixed": [
+            [
+              1868,
+              1874
+            ]
+          ]
+        }
+      }
+    }
+  ]
+}

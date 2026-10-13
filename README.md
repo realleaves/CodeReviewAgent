@@ -1,21 +1,24 @@
 # CodeReviewAgent
 
-输入公开 GitHub 仓库 URL，获取固定 commit 的代码，通过静态工具、HelloAgents 审查 Agent 和复核 Agent，输出带文件、行号、触发条件和修复建议的 HTML、Markdown、JSON 报告。
+输入公开 GitHub 仓库 URL，获取固定 commit 的代码。默认审查模式生成最小测试，在隔离 Docker 中执行；正式缺陷附测试、环境和实际日志，未证实候选单列。输出 HTML、Markdown、JSON 报告。
 
 这是基于 [Hello-Agents 第十六章](https://github.com/datawhalechina/hello-agents/tree/main/docs/chapter16) 的智能代码审查毕业设计项目。首版支持 **Python 代码**，提供命令行入口和可以在浏览器中筛选的审查报告。
 
 ## 功能
 
+**2026-10-13 复现证据首版：** 已跑通有明确行为约定的缺陷/正常代码演示，以及保存证据的独立复跑。真实仓库试跑暴露了测试生成兼容性问题，已补充纠正入口；8个新样本的完整复跑尚未完成，不能声称检出率已经提升。使用方式和限制见 [复现证据说明](evaluation/EVIDENCE.md)。
+
 - 审查 GitHub 仓库或本地目录，记录本次审查的 commit 和覆盖范围。
 - 使用 AST 建立代码索引，结合 Ruff 和 Bandit 获取静态分析线索。
 - 审查 Agent 提出候选问题，复核 Agent 检查证据、保护条件和设计上下文。
 - 每项问题包含文件位置、风险等级、触发条件、代码证据和修改建议。
+- 证据模式两次独立容器执行，并核验测试预期的来源；保存可重新运行的测试与日志。
 - 限制文件数量与模型调用次数，记录实际用量，保存未完成部分及失败原因。
 - 生成 HTML、Markdown、JSON 报告，保留复核与只读工具调用记录。
 
 ## 快速运行
 
-准备 Python 和 Git；已在 Python 3.13.5、Git 2.34.1 上验证。需要一个支持 OpenAI 兼容 Chat Completions 接口和 JSON 输出的模型服务。静态模式不需要模型 API。
+准备 Python、Git 和可用的 Docker；默认证据模式需要事先准备测试镜像。需要支持 OpenAI 兼容 Chat Completions 接口和 JSON 输出的模型服务。其他审查模式可不使用 Docker，静态模式不需要模型 API。
 
 ```bash
 git clone https://github.com/realleaves/CodeReviewAgent.git
@@ -39,6 +42,7 @@ LLM_THINKING_MODE=disabled
 
 ```bash
 python main.py doctor
+docker pull python:3.13-slim
 python main.py review https://github.com/realleaves/quadruped-rl-learning --max-files 3 --max-calls 20
 ```
 
@@ -67,6 +71,12 @@ python main.py review https://github.com/psf/requests --scope src/requests/api.p
 # 本地仓库或目录
 python main.py review ../my-project --local
 
+# 带明确契约的缺陷/正常代码演示
+python main.py review examples/evidence --local --max-files 2 --max-calls 16
+
+# 只读代码推断模式，保留原有完整Agent作对照
+python main.py review ../my-project --local --mode full
+
 # 静态模式不调用模型
 python main.py review examples --local --mode static
 
@@ -81,15 +91,18 @@ python -m pytest -q tests
 
 | 参数 | 默认值 | 用途 |
 |---|---|---|
-| `--mode` | `full` | 选择静态、直接模型、工具辅助或工具辅助加复核模式 |
+| `--mode` | `evidence` | 默认生成并执行复现测试；可选择旧的推断审查模式 |
 | `--max-files` | `12` | 最多选择多少个 Python 文件 |
 | `--max-calls` | `24` | 一次审查的模型调用总上限，包含审查与复核 |
 | `--ref` | 仓库默认分支 | 指定分支或 tag |
 | `--scope` | 仓库根目录 | 限定仓库内的目录或文件 |
 | `--local` | 关闭 | 将输入作为本地目录 |
 | `--output` | 自动生成 | 指定一个尚不存在的报告目录 |
+| `--repro-image` | `python:3.13-slim` | 已准备的隔离镜像；目标有第三方依赖时需自备兼容镜像 |
+| `--repro-timeout` | `15` | 每次隔离执行的秒数上限 |
+| `--max-reproductions` | `4` | 最多验证几个候选，生成和核验仍计入总模型调用预算 |
 
-`direct` 为直接模型审查，`assisted` 加入静态工具线索与只读代码工具，`full` 在工具辅助审查后增加复核，`static` 仅运行静态工具。
+`evidence` 优先审查行为缺陷，生成测试、两次隔离执行并核验契约；`direct`、`assisted`、`full` 保留原来的代码推断流程；`static` 仅运行静态工具。后四种模式不将代码推断称为运行证明。
 
 默认预算为 12 个 Python 文件、24 次模型调用、单文件 200KB、单块 180 行/20000 字符、单次请求 45 秒。模型自动重试关闭；工具读取最多120行，单次上下文上限90000字符。实际费用由配置服务商计价；报告记录调用次数与 token 使用量。
 
@@ -101,6 +114,7 @@ DeepSeek 服务默认关闭 thinking，以避免内部推理占满小预算而�
 - `report.md`：可读审查报告。
 - `report.json`：问题、复核轨迹、模型调用用量、只读工具读取记录。
 - `run.json`：commit、内容快照摘要、配置、覆盖范围、跳过原因和失败记录。
+- `evidence/<问题ID>/`：生成测试、两次执行日志及结构化证据；生成失败的测试和理由也保留。
 
 这些是生成的报告文件。运行结束后，复制终端显示的 `report` 路径，在 Linux 上打开：
 
@@ -119,9 +133,11 @@ xdg-open outputs/<本次运行目录>/report.html
         ↓
 Ruff / Bandit 静态诊断
         ↓
-审查 Agent ← search_symbol / read_code
+审查 Agent ← search_symbol / search_code / read_code
         ↓
-复核 Agent → 结构与行号校验 → 去重
+生成最小测试 → 契约引用与结构检查 → 两次隔离执行
+        ↓
+核验预期行为与实际失败 → 已复现缺陷 / 待验证候选
         ↓
 HTML / Markdown / JSON 报告与覆盖记录
 ```
@@ -136,6 +152,8 @@ CodeReviewAgent/
 │   ├── code_index.py       # AST 索引、分块与只读工具
 │   ├── static_analysis.py  # Ruff / Bandit 扫描
 │   ├── agents.py           # 模型客户端、审查与复核 Agent
+│   ├── reproduction.py     # 测试生成、执行、契约核验与证据复跑
+│   ├── reproduction_runner.py # 容器内测试入口
 │   ├── pipeline.py         # 审查流程与覆盖统计
 │   ├── schemas.py          # 输入及结果结构
 │   ├── deduplication.py    # 诊断去重与证据保留
@@ -153,11 +171,13 @@ CodeReviewAgent/
 
 首版支持 Python。AST 建立函数、类和 import 索引；Ruff 检查 F/E9/B 规则；Bandit 检查常见安全风险。工具在独立代码快照上运行，忽略待审仓库扫描配置。Agent 可以调用 `search_symbol` 和 `read_code` 获取有限跨文件上下文。
 
-审查 Agent 提出问题，复核 Agent 找保护条件、反例和设计意图；结果通过结构校验、文件与行号校验后汇总。相同诊断精确去重；已知规则与模型发现只有在位置、类别、复核状态一致且映射唯一时合并，原工具诊断保存在 related_diagnostics。scope 同时限定代码索引范围，scope 之外的文件不会作为关联上下文读取。
+证据模式的审查 Agent 提出问题，生成最小测试，再核验契约和实际失败。旧 full 模式保留模型复核。结果通过结构与行号校验后汇总。证据模式的 scope 限制主要审查位置，允许查阅仓库其他 Python 定义并复制其源码作隔离导入；旧模式保持原来的索引范围。
 
-仓库代码仅作为文本读取和解析，不安装它的依赖、不执行它的程序、测试或 hooks。`.env`、密钥文件、符号链接、生成目录及非 Python 资源按原因跳过。公开仓库无需 GitHub 登录；私有仓库要求 Git 已有访问权限。
+证据模式会在限制网络、权限和资源的 Docker 中导入目标代码并运行生成测试，源文件只读；不执行仓库安装脚本或 hooks，不将模型密钥或用户主目录传给容器。其他模式只读取和解析代码。`.env`、密钥文件、符号链接及非 Python 资源不进入执行快照。公开仓库无需 GitHub 登录；私有仓库要求 Git 已有访问权限。
 
 `supported` 仅表示模型复核认为有代码依据，未进行运行复现；`needs_context` 为待确认；`unverified` 为尚未复核；`rejected` 为复核驳回。驳回项保留在 JSON/HTML。模型、工具超时或失败均记录，预算耗尽保留已完成的结果。报告不保证发现所有缺陷。
+
+`reproduced` 表示两次隔离执行出现对应失败，且预期行为通过引用核查与模型语义核验；仍需维护者复查。`pending_evidence` 为未证实候选。导入错误、超时、未触达目标代码、测试通过或契约不足均不会成为正式缺陷。证据模式的默认报告视图和缺陷计数只显示 `reproduced`。
 
 覆盖率是所选 scope 内已索引 Python 文件中完成所有语义分块的文件比例。相关文件的片段读取不计作完整审查。文件大小、索引总量、语言限制导致的排除项另列；报告会标明 partial，避免把部分审查当作全仓库结论。
 
@@ -166,7 +186,7 @@ CodeReviewAgent/
 | 状态 | 含义 |
 |---|---|
 | completed | 当前索引范围内的选定分析完成 |
-| partial | 覆盖受限、调用预算耗尽，或存在执行/复核失败 |
+| partial | 覆盖受限、预算耗尽、执行/复核失败，或证据模式还有未证实候选 |
 | static_only | 仅运行静态检查 |
 | no_supported_files | 当前范围没有可审查的 Python 文件 |
 

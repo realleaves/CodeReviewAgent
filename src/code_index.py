@@ -2,6 +2,13 @@ import ast
 from dataclasses import dataclass
 import hashlib
 import json
+import warnings
+
+
+def parse_source(source):
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", SyntaxWarning)
+        return ast.parse(source)
 
 
 @dataclass
@@ -41,15 +48,16 @@ def chunks(path: str, source: str, max_lines: int, max_chars: int) -> list[Chunk
 
 
 class CodeIndex:
-    def __init__(self, files: dict[str, str]):
+    def __init__(self, files: dict[str, str], resources: dict[str, str] | None = None):
         self.files = files
+        self.resources = resources or {}
         self.symbols: list[dict] = []
         self.imports: dict[str, list[str]] = {}
         self.syntax_errors: dict[str, dict] = {}
         self.reads: list[dict] = []
         for path, source in files.items():
             try:
-                tree = ast.parse(source)
+                tree = parse_source(source)
             except (SyntaxError, ValueError, RecursionError) as exc:
                 self.syntax_errors[path] = {
                     "line": getattr(exc, "lineno", 1) or 1,
@@ -110,18 +118,19 @@ class CodeIndex:
         return related
 
     def read(self, path: str, start: int = 1, end: int = 80) -> str:
-        if path not in self.files:
+        sources = {**self.resources, **self.files}
+        if path not in sources:
             return json.dumps(
                 {"error": "只能读取已索引的仓库 Python 文件。"}, ensure_ascii=False
             )
-        line_count = len(self.files[path].splitlines())
+        line_count = len(sources[path].splitlines())
         if start < 1 or end < start or start > line_count:
             return json.dumps({"error": "行号不合法。"}, ensure_ascii=False)
         end = min(end, start + 119, line_count)
-        text = numbered(self.files[path], start, end)
+        text = numbered(sources[path], start, end)
         while len(text) > 12_000 and end > start:
             end -= 1
-            text = numbered(self.files[path], start, end)
+            text = numbered(sources[path], start, end)
         if len(text) > 12_000:
             return json.dumps({"error": "单行代码超过读取预算。"}, ensure_ascii=False)
         self.reads.append({"path": path, "start": start, "end": end})
@@ -136,6 +145,60 @@ class CodeIndex:
             {"matches": [s for s in self.symbols if symbol in s["name"]][:20]},
             ensure_ascii=False,
         )
+
+    def search_text(self, query: str) -> str:
+        if not query or len(query) > 100:
+            return '{"error":"查询长度必须为1至100字符"}'
+        matches = []
+        for path, source in {**self.files, **self.resources}.items():
+            for line, text in enumerate(source.splitlines(), 1):
+                if query in text:
+                    matches.append(
+                        {
+                            "path": path,
+                            "line": line,
+                            "code": numbered(source, max(1, line - 2), line + 2),
+                        }
+                    )
+                    if len(matches) >= 12:
+                        return json.dumps({"matches": matches}, ensure_ascii=False)
+        return json.dumps({"matches": matches}, ensure_ascii=False)
+
+    def context(self, path: str, start: int, end: int) -> list[dict]:
+        """Retrieve actual definitions used in this window, rather than file prefixes."""
+        try:
+            tree = parse_source(self.files[path])
+        except (SyntaxError, ValueError):
+            return []
+        names = set()
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Call) and start <= node.lineno <= end:
+                if isinstance(node.func, ast.Name):
+                    names.add(node.func.id)
+                elif isinstance(node.func, ast.Attribute):
+                    names.add(node.func.attr)
+        result, budget = [], 10000
+        for symbol in sorted(
+            self.symbols, key=lambda s: (s["path"] != path, s["line"])
+        ):
+            if (
+                symbol["name"] not in names
+                or symbol["path"] == path
+                and start <= symbol["line"] <= end
+            ):
+                continue
+            code = numbered(
+                self.files[symbol["path"]],
+                symbol["line"],
+                min(symbol["end"], symbol["line"] + 79),
+            )
+            if len(code) > budget:
+                continue
+            result.append({**symbol, "code": code})
+            budget -= len(code)
+            if len(result) >= 4:
+                break
+        return result
 
 
 def finding_id(path: str, line: int, rule: str, title: str) -> str:

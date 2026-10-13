@@ -67,16 +67,19 @@ def is_production(path):
     )
 
 
-def make_manifest(dataset):
+def make_manifest(dataset, project_counts=None, start_ids=None):
     actual = git_run(["-C", str(dataset), "rev-parse", "HEAD"])
     if actual != DATASET_COMMIT:
         raise ValueError(f"BugsInPy must be pinned to {DATASET_COMMIT}")
     if git_run(["-C", str(dataset), "status", "--porcelain", "--", "projects"]):
         raise ValueError("BugsInPy project metadata has local changes")
     cases = []
+    counts = project_counts or PROJECT_COUNTS
+    starts = start_ids or {p: 1 for p in counts}
     # Interleave projects: the first three cases cover one project each.
-    for number in range(1, max(PROJECT_COUNTS.values()) + 1):
-        for project, count in PROJECT_COUNTS.items():
+    for offset in range(max(counts[p] - starts[p] + 1 for p in counts)):
+        for project, count in counts.items():
+            number = starts[project] + offset
             if number > count:
                 continue
             base = dataset / "projects" / project
@@ -110,7 +113,9 @@ def make_manifest(dataset):
         "dataset": "BugsInPy",
         "dataset_commit": actual,
         "dataset_url": "https://github.com/soarsmu/BugsInPy",
-        "selection": "First numeric IDs: PySnooper 1-3, tornado 1-8, youtube-dl 1-9; selected before inference; all failures retained.",
+        "selection": "First numeric IDs: PySnooper 1-3, tornado 1-8, youtube-dl 1-9; selected before inference; all failures retained."
+        if project_counts is None and start_ids is None
+        else f"Preselected numeric IDs: {', '.join(f'{p} {starts[p]}-{counts[p]}' for p in counts)}; all failures retained.",
         "protocol": "Known-location production-code windows; fixed snapshot follows BugsInPy checkout semantics (buggy baseline plus fixed-commit changed files); fixed test files copied into both reproduction snapshots. Labels and tests are excluded from reviewer context.",
         "cases": cases,
     }

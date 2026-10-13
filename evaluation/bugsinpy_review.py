@@ -10,6 +10,7 @@ from src.deduplication import deduplicate
 from src.repository import inventory, snapshot_digest
 from src.schemas import ReviewOptions
 from src.static_analysis import analyze
+from src.reproduction import EvidenceEngine
 from evaluation.bugsinpy_data import is_production, windows
 
 
@@ -24,12 +25,21 @@ def reviewer_files(root):
 
 
 def run_scoped_review(
-    root, regions, mode, max_calls, timeout=45, env_file=None, llm=None, progress=print
+    root,
+    regions,
+    mode,
+    max_calls,
+    timeout=45,
+    env_file=None,
+    llm=None,
+    progress=print,
+    evidence_options=None,
 ):
     start = time.monotonic()
     started = datetime.now(timezone.utc).isoformat()
     files, excluded = reviewer_files(root)
     index = CodeIndex(files)
+    index.production_only = True
     scopes = {path: windows(files[path], hunks) for path, hunks in regions.items()}
     selected = sorted(scopes)
     parts = []
@@ -70,6 +80,18 @@ def run_scoped_review(
         load_config(env_file)
         llm = MeteredLLM(max_calls, timeout)
     agent = ReviewAgents(index, llm)
+    engine = (
+        EvidenceEngine(
+            index,
+            agent,
+            evidence_options
+            or ReviewOptions(
+                mode="evidence", max_calls=max_calls, max_file_bytes=1_000_000
+            ),
+        )
+        if mode == "evidence"
+        else None
+    )
     consecutive_errors = 0
     try:
         for part in parts:
@@ -86,9 +108,14 @@ def run_scoped_review(
             )
             row = next(r for r in coverage if r["path"] == part.path)
             try:
-                new = agent.review(part, findings, direct=mode == "direct")
+                new = agent.review(
+                    part, findings, direct=mode == "direct", evidence=mode == "evidence"
+                )
                 consecutive_errors = 0
                 findings.extend(new)
+                if engine:
+                    for item in new:
+                        engine.validate(item)
                 row["reviewed_chunks"] += 1
                 if mode == "full":
                     pending = [
@@ -121,6 +148,7 @@ def run_scoped_review(
             llm.close()
     all_findings = deduplicate(findings)
     active = [f for f in all_findings if f.status != "rejected"]
+    formal = [f for f in active if f.status == "reproduced"] if engine else active
     for row in coverage:
         row["semantic_status"] = (
             "window_completed"
@@ -131,6 +159,9 @@ def run_scoped_review(
         r["semantic_status"] == "window_completed" for r in coverage
     )
     if mode == "full" and any(f.status == "unverified" for f in active):
+        complete = False
+    window_completed = complete
+    if engine and any(f.source == "llm" and f.status != "reproduced" for f in active):
         complete = False
     return {
         "schema_version": "1.0",
@@ -147,11 +178,15 @@ def run_scoped_review(
             "mode": mode,
             "model": llm.model,
             "scope_kind": "known_location_windows",
-            "options": ReviewOptions(
-                mode=mode,
-                max_calls=max_calls,
-                timeout=timeout,
-                max_file_bytes=1_000_000,
+            "window_review_completed": window_completed,
+            "options": (
+                evidence_options
+                or ReviewOptions(
+                    mode=mode,
+                    max_calls=max_calls,
+                    timeout=timeout,
+                    max_file_bytes=1_000_000,
+                )
             ).model_dump(),
             "elapsed_seconds": round(time.monotonic() - start, 3),
             "api_calls": len(llm.calls),
@@ -165,7 +200,12 @@ def run_scoped_review(
             "semantic_coverage_percent": 0,
             "reviewed_window_chunks": sum(r["reviewed_chunks"] for r in coverage),
             "total_window_chunks": len(parts),
-            "active_findings": len(active),
+            "active_findings": len(formal),
+            "candidate_findings": sum(
+                f.source == "llm" and f.status != "reproduced" for f in active
+            )
+            if engine
+            else len(active),
             "rejected_findings": len(all_findings) - len(active),
             "severity_counts": dict(Counter(f.severity for f in active)),
             "status_counts": dict(Counter(f.status for f in active)),
@@ -177,11 +217,14 @@ def run_scoped_review(
         "calls": llm.calls,
         "tool_reads": index.reads,
         "trace": trace,
+        "evidence_artifacts": engine.artifacts if engine else {},
         "findings": [f.model_dump() for f in all_findings],
         "limitations": [
             "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
             "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
             "修复版本可能含其他缺陷；额外发现不自动计为误报。",
-            "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。",
+            "evidence模式使用Agent自行生成的测试与隔离执行，契约语义仍由模型核验；官方回归测试不提供给Agent。"
+            if engine
+            else "本报告是静态分析及模型推断；外部容器复现证据由评测程序另行保存。",
         ],
     }

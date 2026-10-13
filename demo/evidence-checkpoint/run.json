@@ -1,0 +1,184 @@
+{
+  "schema_version": "1.1",
+  "repository": {
+    "url": "local",
+    "name": "evidence",
+    "ref": "working-tree",
+    "commit": "b6b31320eb81b18a946a1b1caba45ee85cf572a9 (working-tree-modified)",
+    "indexed_snapshot_sha256": "98f32481e441386f897454d4812f8a784d7b737db751cfc7e41c9df37469650f",
+    "execution_snapshot_sha256": "98f32481e441386f897454d4812f8a784d7b737db751cfc7e41c9df37469650f"
+  },
+  "run": {
+    "started_at": "2026-10-13T13:25:14.383779+00:00",
+    "status": "completed",
+    "mode": "evidence",
+    "model": "deepseek-flash",
+    "options": {
+      "mode": "evidence",
+      "max_files": 2,
+      "max_file_bytes": 200000,
+      "max_calls": 16,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": "",
+      "repro_image": "python:3.13-slim",
+      "repro_timeout": 15,
+      "max_reproductions": 4
+    },
+    "elapsed_seconds": 7.677,
+    "api_calls": 4,
+    "usage": {
+      "prompt_tokens": 4831,
+      "completion_tokens": 558
+    },
+    "indexed_python_files": 2,
+    "selected_files": 2,
+    "fully_reviewed_files": 2,
+    "semantic_coverage_percent": 100.0,
+    "active_findings": 1,
+    "candidate_findings": 0,
+    "reproduced_findings": 1,
+    "static_diagnostics": 0,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "high": 1
+    },
+    "status_counts": {
+      "reproduced": 1
+    }
+  },
+  "coverage": [
+    {
+      "path": "buggy.py",
+      "lines": 3,
+      "reviewed_chunks": 1,
+      "total_chunks": 1,
+      "semantic_status": "completed",
+      "static_status": "completed"
+    },
+    {
+      "path": "clean.py",
+      "lines": 5,
+      "reviewed_chunks": 1,
+      "total_chunks": 1,
+      "semantic_status": "completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 2
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 2,
+      "diagnostics": 0
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 2,
+      "diagnostics": 0
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 2214,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 215,
+        "prompt_tokens": 843,
+        "total_tokens": 1058,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 203
+      },
+      "elapsed_seconds": 2.63
+    },
+    {
+      "stage": "reproduction_plan",
+      "status": "completed",
+      "input_chars": 3715,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 223,
+        "prompt_tokens": 1373,
+        "total_tokens": 1596,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 768
+        },
+        "prompt_cache_hit_tokens": 768,
+        "prompt_cache_miss_tokens": 605
+      },
+      "elapsed_seconds": 1.613
+    },
+    {
+      "stage": "evidence_audit",
+      "status": "completed",
+      "input_chars": 5045,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 114,
+        "prompt_tokens": 1756,
+        "total_tokens": 1870,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 1500
+      },
+      "elapsed_seconds": 1.347
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 2260,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 859,
+        "total_tokens": 865,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 219
+      },
+      "elapsed_seconds": 0.613
+    }
+  ],
+  "tool_reads": [],
+  "limitations": [
+    "正式缺陷仅包含两次隔离执行失败且契约经模型核验的项目；未证实候选与静态建议分别展示。",
+    "复现只复制已索引的Python源文件，不包含数据文件、环境密钥或符号链接；缺少资源/依赖会阻止验证。",
+    "scope限制主要审查位置；证据模式可读取仓库其他Python定义作上下文，并复制这些源码供隔离导入。",
+    "执行使用无外网、只读源码的受限Docker；镜像、实际Python版本、测试与日志随证据保存。",
+    "复现支持所记录环境与输入下的结论；预期行为的语义核验仍使用模型，需要维护者复查。",
+    "仅支持 Python；外部依赖和业务约定可能缺失。",
+    "覆盖率以所选 scope 内已索引 Python 文件为分母；索引限制及未支持文件另列。",
+    "按预算分块；import 关联和只读查询提供有限跨文件上下文。"
+  ]
+}
