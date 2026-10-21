@@ -1,0 +1,12 @@
+{
+  "baseline": {
+    "context_strategy": "legacy",
+    "thinking_mode": "disabled",
+    "review_strategy": "baseline"
+  },
+  "hypothesis_tools": {
+    "context_strategy": "legacy",
+    "thinking_mode": "disabled",
+    "review_strategy": "hypothesis_tools"
+  }
+}

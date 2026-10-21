@@ -1,0 +1,67 @@
+{
+  "case": "youtube-dl-8",
+  "side": "buggy",
+  "repetition": 1,
+  "strategy": "hypothesis_tools",
+  "path": "youtube_dl/YoutubeDL.py",
+  "start": 926,
+  "end": 991,
+  "name": "rep1-youtube-dl-8-buggy-1-hypothesis_tools",
+  "status": "failed",
+  "error": {
+    "type": "ValidationError",
+    "message": "1 validation error for HypothesisCandidates\nhypotheses.2.expected_behavior\n  String should have at least 10 characters [type=string_too_short, input_value='应报语法错误', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.14/v/string_too_short"
+  },
+  "api_calls": 1,
+  "calls": [
+    {
+      "stage": "review_hypothesis",
+      "status": "completed",
+      "input_chars": 7398,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1317,
+        "prompt_tokens": 2162,
+        "total_tokens": 3479,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 1920
+        },
+        "prompt_cache_hit_tokens": 1920,
+        "prompt_cache_miss_tokens": 242
+      },
+      "elapsed_seconds": 6.227
+    }
+  ],
+  "findings": [],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 991,
+      "strategy": "legacy",
+      "payload_sha256": "241f7bf3a9f14bbeb47de26e556839aca5548750558da1fe2465a43565199535",
+      "supplemental_chars": 586,
+      "sources": [
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "name": "syntax_error",
+          "line": 914,
+          "end": 918
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "name": "restore_last_token",
+          "line": 1125,
+          "end": 1126
+        }
+      ]
+    }
+  ],
+  "tool_reads": [],
+  "elapsed_seconds": 6.331,
+  "folder": "windows/rep1-youtube-dl-8-buggy-1-hypothesis_tools"
+}

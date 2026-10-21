@@ -231,6 +231,15 @@ HYPOTHESIS_REVIEW_PROMPT = (
     + json.dumps(HypothesisCandidates.model_json_schema(), ensure_ascii=False)
 )
 
+HYPOTHESIS_TOOL_RETRY_PROMPT = (
+    COMMON
+    + """你上一次返回了checked/hypotheses，但没有发出任何只读工具调用。checked不是证据。
+现在必须先调用至少一个工具（read_code/search_symbol/search_code），读取与假设相关的代码或定义，然后重新返回同样的JSON。
+如果无法调用工具或没有可核对内容，返回空findings，并在checked中写“无法核对”，不要编造读取记录。
+不要在未调用工具的情况下声称读过任何文件。结构必须符合："""
+    + json.dumps(HypothesisCandidates.model_json_schema(), ensure_ascii=False)
+)
+
 
 def parse_json(text: str) -> dict:
     stripped = text.strip()
@@ -306,7 +315,7 @@ class ReviewAgents:
     ):
         if context_strategy not in {"legacy", "callgraph"}:
             raise ValueError("未知的审查上下文策略。")
-        if review_strategy not in {"baseline", "hypothesis"}:
+        if review_strategy not in {"baseline", "hypothesis", "hypothesis_tools"}:
             raise ValueError("未知的发现策略。")
         self.index, self.llm = index, llm
         self.context_strategy = context_strategy
@@ -413,21 +422,41 @@ class ReviewAgents:
                 response_format={"type": "json_object"},
             )
             candidates = Candidates.model_validate(parse_json(raw)).findings
-        elif evidence and self.review_strategy == "hypothesis":
+        elif evidence and self.review_strategy in {"hypothesis", "hypothesis_tools"}:
+            reads_before = len(self.index.reads)
             raw = self._run("review_hypothesis", HYPOTHESIS_REVIEW_PROMPT, payload)
             parsed = HypothesisCandidates.model_validate(parse_json(raw))
-            self.trace.append(
-                {
-                    "stage": "hypothesis_review",
-                    "path": chunk.path,
-                    "start": chunk.start,
-                    "end": chunk.end,
-                    "checked": parsed.checked,
-                    "hypotheses": [
-                        hypothesis.model_dump() for hypothesis in parsed.hypotheses
-                    ],
-                }
-            )
+            retried = False
+            if (
+                self.review_strategy == "hypothesis_tools"
+                and len(self.index.reads) == reads_before
+            ):
+                retried = True
+                raw = self._run(
+                    "review_hypothesis_retry",
+                    HYPOTHESIS_TOOL_RETRY_PROMPT,
+                    payload,
+                )
+                parsed = HypothesisCandidates.model_validate(parse_json(raw))
+            tool_evidence = len(self.index.reads) > reads_before
+            trace = {
+                "stage": "hypothesis_review",
+                "path": chunk.path,
+                "start": chunk.start,
+                "end": chunk.end,
+                "checked": parsed.checked,
+                "hypotheses": [
+                    hypothesis.model_dump() for hypothesis in parsed.hypotheses
+                ],
+                "tool_reads_before": reads_before,
+                "tool_reads_after": len(self.index.reads),
+                "tool_retry": retried,
+                "tool_evidence": tool_evidence,
+            }
+            if self.review_strategy == "hypothesis_tools" and not tool_evidence:
+                parsed = parsed.model_copy(update={"findings": []})
+                trace["findings_dropped"] = "no_tool_evidence"
+            self.trace.append(trace)
             candidates = parsed.findings
         else:
             raw = self._run(

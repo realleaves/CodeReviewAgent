@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 58,
+    "phase": "p1b-tools",
+    "label": {
+      "case": "youtube-dl-8",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 990
+    },
+    "reserved_at": "2026-10-21T13:45:25.173348+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":956,\"end_line\":957,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"逗号分隔时可能把 None 追加进 selectors\",\"explanation\":\"在 _parse_format_selection 中，遇到 ',' 时无条件执行 selectors.append(current_selector)。若逗号前没有 NAME/NUMBER 也没有 '[' 等产生 current_selector 的分支（例如格式串以 ',' 开头，或连续两个逗号 'best,,worst'），current_selector 为 None，会被加入 selectors。随后 _build_selector_function 对列表元素递归调用，None 没有 .type 属性，触发 AttributeError 而非预期的 SyntaxError。\",\"trigger\":\"build_format_selector(',best') 或 build_format_selector('best,,worst')\",\"evidence\":\"955: elif string == ',':\\n956:     selectors.append(current_selector)\\n957:     current_selector = None\\n后续 984-986 行对 selectors 中每个元素调用 _build_selector_function，985 行 isinstance(selector, list) 为 False 后访问 selector.type（993 行），None 无 type 属性。\",\"suggestion\":\"在追加前检查 current_selector 是否为 None，若为 None 则 raise syntax_error('Unexpected \\\",\\\"', start)。\"},{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":958,\"end_line\":961,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"'/' 左侧缺少选择器时 first_choice 为 None\",\"explanation\":\"处理 '/' 时直接取 current_selector 作为 first_choice，未校验其非空。若格式串以 '/' 开头（如 '/best'），first_choice 为 None，构造出 PICKFIRST(None, ...)。_build_selector_function 对 PICKFIRST 的每个子选择器递归构建，None 无 .type 属性导致 AttributeError，而不是给出语法错误。\",\"trigger\":\"build_format_selector('/best')\",\"evidence\":\"958: elif string == '/':\\n959:     first_choice = current_selector\\n960:     second_choice = _parse_format_selection(tokens, inside_choice=True)\\n961:     current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])\\n996 行 fs = [_build_selector_function(s) for s in selector.selector] 会对 None 调用。\",\"suggestion\":\"在 958 分支中若 current_selector 为 None，raise syntax_error('Unexpected \\\"/\\\"', start)。\"},{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":972,\"end_line\":975,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"'+' 左侧缺少选择器时 video_selector 为 None\",\"explanation\":\"处理 '+' 时 video_selector = current_selector 未校验非空。若格式串以 '+' 开头（如 '+bestaudio'），video_selector 为 None，构造 MERGE(None, ...)。_build_selector_function 在 1086 行对 MERGE 的两个子选择器 map 构建，None 无 .type 属性触发 AttributeError，而非 SyntaxError。\",\"trigger\":\"build_format_selector('+bestaudio')\",\"evidence\":\"972: elif string == '+':\\n973:     video_selector = current_selector\\n974:     audio_selector = _parse_format_selection(tokens, inside_merge=True)\\n975:     current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\\n1086: video_selector, audio_selector = map(_build_selector_function, selector.selector)\",\"suggestion\":\"在 972 分支中若 current_selector 为 None，raise syntax_error('Unexpected \\\"+\\\"', start)。\"},{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":926,\"end_line\":932,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"_parse_filter 遇到 token 流结束返回 None 而非报错\",\"explanation\":\"_parse_filter 只在遇到 ']' 时返回字符串；若 token 流在 ']' 之前结束（如格式串 'best[height<720' 缺少右括号），循环自然结束，函数隐式返回 None。调用处 966 行 current_selector.filters.append(format_filter) 会把 None 加入 filters，随后 1093 行 self._build_format_filter(None) 中 re 匹配 None 会抛 TypeError，而不是给出清晰的语法错误。\",\"trigger\":\"build_format_selector('best[height<720')\",\"evidence\":\"926: def _parse_filter(tokens):\\n927:     filter_parts = []\\n928:     for type, string, start, _, _ in tokens:\\n929:         if type == tokenize.OP and string == ']':\\n930:             return ''.join(filter_parts)\\n931:         else:\\n932:             filter_parts.append(string)\\n循环结束无 return，返回 None；966 行 append 后 1093 行 _build_format_filter(None) 对 None 做正则匹配。\",\"suggestion\":\"循环结束后 raise syntax_error('Missing closing \\\"]\\\"', ...)，或在调用处检查 format_filter 为 None 时报语法错误。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 15895,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1160,
+      "prompt_tokens": 4227,
+      "total_tokens": 5387,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1792
+      },
+      "prompt_cache_hit_tokens": 1792,
+      "prompt_cache_miss_tokens": 2435
+    },
+    "elapsed_seconds": 5.336
+  }
+}

@@ -164,3 +164,11 @@ P1协议冻结6个开发样本（tornado-1/3/7、youtube-dl-2/4/8）、两侧、
 实际运行36/36窗口完成、39/80次调用；baseline候选命中1/6（youtube-dl-4无参调用regex），hypothesis 0/6；两臂修复侧同参考问题告警均为0。hypothesis候选更多（33 vs 29），但**工具读取为0**（baseline 6），`checked`声称的核对没有对应工具调用；completion tokens从8,187升到19,165。未达到采用条件，默认保持baseline。机制结论：只在提示词里要求核对、用自由文本自报`checked`不够，下一轮P1b必须让`checked`引用真实工具读取并由代码校验。
 
 结果与离线校验见[demo/discovery-hypothesis-20261021](demo/discovery-hypothesis-20261021/README.md)；`python demo/discovery-hypothesis-20261021/verify.py`核对36窗口、39请求/响应、24条判读、评分重算和源码冻结哈希。当前115项测试通过，Ruff F/E9通过。
+
+## P1b 工具证据强制 smoke（2026-10-21）
+
+P1 的 hypothesis 臂 0 次真实工具读取，`checked` 是自报。P1b 新增 `review_strategy=hypothesis_tools`：首轮没有真实工具读取时执行一次有界重试；重试后仍无读取则丢弃 findings，trace记录`tool_evidence=false`/`findings_dropped=no_tool_evidence`。样本为 tornado-3、youtube-dl-4、youtube-dl-8两侧各1窗口，共6窗口/臂；P1账本39/80，P1b phase上限41，实际19，总58/80。
+
+结果：baseline 0/3、hypothesis_tools 0/3，修复侧告警均0；baseline完成6/6、工具读取2、调用7、候选16；hypothesis_tools完成4/6、失败2、工具读取4、重试4、丢弃findings2、调用12、候选3。工具强制确实增加了读取（tornado-3 buggy、youtube-dl-8 fixed），但在关键youtube-dl-4 buggy窗口重试后仍无工具调用，findings被丢弃；P1b的baseline也未复现P1的youtube-dl-4命中（生成的是`f( )`空白参数候选而非`f()` regex），说明单次采样波动明显。两个失败窗口是`expected_behavior`最短10字符的schema过严；该限制已放宽到1，避免未来无意义失败。
+
+决定：P1b当前实现不采用。不是“工具读取没增加”，而是强制后仍无法让模型在关键窗口真正读工具，严格丢弃findings反而降低召回。下一轮若继续工具证据方向，需要tool-first流程或原生tool calling，而不是再加一次同样的文字重试。P1b资料见[demo/discovery-hypothesis-20261021](demo/discovery-hypothesis-20261021/README.md)，离线校验`python demo/discovery-hypothesis-20261021/verify-p1b.py`；当前119项测试通过，Ruff F/E9通过。

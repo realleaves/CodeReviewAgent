@@ -23,7 +23,8 @@ def main():
     results = json.loads((PHASE / "results.json").read_text())
     adjudications = json.loads((PHASE / "adjudications.json").read_text())
     scores = json.loads((PHASE / "scores.json").read_text())
-    assert budget["reserved"] == 39 and budget["limit"] == 80
+    assert budget["phases"]["p1-hypothesis"] == 39 and budget["limit"] == 80
+    assert budget["reserved"] >= 39
     assert setup["windows"] == 18 and len(setup["selection"]) == 6
     assert results["status"] == "sampled" and len(results["records"]) == 36
     assert len(manifest["input_windows"]) == 18

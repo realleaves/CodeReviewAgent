@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 50,
+    "phase": "p1b-tools",
+    "label": {
+      "case": "youtube-dl-4",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "hypothesis_tools",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219
+    },
+    "reserved_at": "2026-10-21T13:44:46.180803+00:00"
+  },
+  "raw_response": "{\"checked\":[\"读取主片段 youtube_dl/jsinterp.py:50-219 的 interpret_expression 实现\",\"读取上下文 interpret_statement(37-56) 与 extract_function(232-244)\",\"核对 _ASSIGN_OPERATORS 分支中 index 赋值路径（94-102）\",\"核对成员访问/函数调用分支（123-174）\",\"核对数组下标分支（176-182）与二元运算符分支（184-198）\",\"核对函数调用分支（200-209）\"],\"hypotheses\":[{\"claim\":\"成员访问 obj[member] 在 member 不存在时抛 KeyError/IndexError 而非受控 ExtractorError\",\"expected_behavior\":\"对不支持的成员访问应抛出 ExtractorError 或返回 None，而不是泄漏 Python 内置异常\",\"counterexample\":\"expr='foo.bar' 且 local_vars['foo']={} → obj['bar'] 抛 KeyError\",\"contract\":\"interpret_expression 对无法解释的表达式统一抛 ExtractorError('Unsupported JS expression')\"},{\"claim\":\"splice 分支 argvals 解包假定恰好两个参数，参数数量不符时抛 ValueError\",\"expected_behavior\":\"参数数量错误应给出明确错误或受控处理\",\"counterexample\":\"expr='a.splice(1)' → index, howMany = argvals 抛 ValueError\",\"contract\":\"函数调用分支对参数数量有 assert 校验（如 split/join/reverse/slice），splice 缺少同等校验\"},{\"claim\":\"函数调用分支参数解析仅支持数字或 local_vars 变量，字符串字面量参数会 KeyError\",\"expected_behavior\":\"应支持字符串字面量参数或抛受控错误\",\"counterexample\":\"expr='f(\\\"abc\\\")' 不匹配正则（含引号），落到 Unsupported；但 expr='f(a)' 且 a 未定义 → local_vars['a'] KeyError\",\"contract\":\"函数调用参数应能解析或给出 ExtractorError\"},{\"claim\":\"二元运算符分支用非贪婪 .+? 匹配，对含相同运算符的表达式可能错误切分\",\"expected_behavior\":\"应按 JS 优先级正确解析\",\"counterexample\":\"expr='a-b-c' 对 '-' 匹配 x='a', y='b-c'，结果 a-(b-c) 而非 (a-b)-c\",\"contract\":\"_OPERATORS 顺序与正则切分应保持左结合语义\"},{\"claim\":\"数组下标分支 val[idx] 对越界或非 int 索引抛异常\",\"expected_behavior\":\"越界应受控处理\",\"counterexample\":\"expr='a[5]' 且 a=[1] → IndexError\",\"contract\":\"下标访问应返回元素或抛 ExtractorError\"}],\"findings\":[{\"path\":\"youtube_dl/jsinterp.py\",\"line\":166,\"end_line\":172,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"splice 分支未校验参数数量，参数不足时抛 ValueError\",\"explanation\":\"splice 分支直接 `index, howMany = argvals` 解包，而同一函数调用分支中 split/join/reverse/slice 都用 assert 校验参数数量。当 JS 代码调用 obj.splice(i) 只传一个参数时，argvals 长度为 1，解包抛 ValueError，泄漏为未捕获的 Python 异常而非 ExtractorError，破坏 interpret_expression 统一以 ExtractorError 报告不支持表达式的契约。\",\"trigger\":\"interpret_expression('a.splice(1)', {'a':[1,2,3]}, 100)\",\"evidence\":\"第 168 行 `index, howMany = argvals` 无长度检查；对比第 154、157、160、164 行均有 assert len(argvals)==N。\",\"suggestion\":\"在解包前校验 len(argvals)==2，否则抛 ExtractorError 或按 JS 语义将 howMany 默认为 len(obj)-index。\"},{\"path\":\"youtube_dl/jsinterp.py\",\"line\":138,\"end_line\":142,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"成员访问对不存在的成员抛 KeyError 而非受控错误\",\"explanation\":\"成员访问分支在 arg_str 为 None 时直接 `return obj[member]`（length 除外）。若 obj 为 dict 且 member 不存在，抛 KeyError；若 obj 为 list 且 member 非 length，抛 TypeError。这绕过了函数末尾统一的 ExtractorError('Unsupported JS expression') 错误路径，使调用方无法按预期捕获 ExtractorError。\",\"trigger\":\"interpret_expression('foo.bar', {'foo': {}}, 100)\",\"evidence\":\"第 142 行 `return obj[member]` 无存在性检查；函数末尾第 211 行才抛 ExtractorError。\",\"suggestion\":\"对 dict 用 obj.get(member) 或捕获 KeyError/TypeError 后抛 ExtractorError，保持错误类型一致。\"},{\"path\":\"youtube_dl/jsinterp.py\",\"line\":200,\"end_line\":209,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"函数调用参数解析对未定义变量抛 KeyError\",\"explanation\":\"函数调用分支对每个参数 `int(v) if v.isdigit() else local_vars[v]`。当参数是未在 local_vars 中定义的标识符时，直接 KeyError，而非受控的 ExtractorError。正则允许 [a-zA-Z0-9_$,]* 的标识符参数，因此该路径可达。\",\"trigger\":\"interpret_expression('f(a)', {}, 100) 且 self._functions 中无 f 时先 extract_function 失败；若 f 已存在则 local_vars['a'] 抛 KeyError\",\"evidence\":\"第 205 行 `local_vars[v]` 无 get 或存在性检查。\",\"suggestion\":\"使用 local_vars.get(v) 并在缺失时抛 ExtractorError，或先校验参数名存在。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review_hypothesis",
+    "status": "completed",
+    "input_chars": 12797,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1274,
+      "prompt_tokens": 4013,
+      "total_tokens": 5287,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 3840
+      },
+      "prompt_cache_hit_tokens": 3840,
+      "prompt_cache_miss_tokens": 173
+    },
+    "elapsed_seconds": 6.344
+  }
+}

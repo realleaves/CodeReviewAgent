@@ -1,8 +1,9 @@
 {
   "limit": 80,
-  "reserved": 39,
+  "reserved": 58,
   "phases": {
-    "p1-hypothesis": 39
+    "p1-hypothesis": 39,
+    "p1b-tools": 19
   },
   "started_at": "2026-10-21T13:33:39.838850+00:00"
 }

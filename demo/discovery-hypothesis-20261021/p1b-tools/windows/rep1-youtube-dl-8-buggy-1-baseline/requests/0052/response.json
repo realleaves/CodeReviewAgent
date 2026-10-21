@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 52,
+    "phase": "p1b-tools",
+    "label": {
+      "case": "youtube-dl-8",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 991
+    },
+    "reserved_at": "2026-10-21T13:44:59.525629+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":956,\"end_line\":957,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"逗号分隔时可能把 None 追加进 selectors\",\"explanation\":\"在 _parse_format_selection 中，遇到 ',' 时无条件执行 selectors.append(current_selector)。若输入以逗号开头（如 ',best'）或连续逗号（如 'best,,worst'），此时 current_selector 为 None，会把 None 加入 selectors。后续 _build_selector_function 对列表元素递归调用 _build_selector_function(None)，而该函数对 None 没有 SINGLE/PICKFIRST/MERGE/GROUP 分支，最终会走到未定义/异常路径，导致解析崩溃而非给出语法错误。\",\"trigger\":\"format_spec 为 ',best' 或 'best,,worst'，调用 _parse_format_selection 解析。\",\"evidence\":\"第 955-957 行：elif string == ',': selectors.append(current_selector); current_selector = None。current_selector 初始为 None，逗号前未设置选择器时直接 append(None)。第 985-987 行 _build_selector_function 对 list 元素递归，None 不匹配任何分支。\",\"suggestion\":\"在追加前检查 current_selector 是否为 None，若为 None 则 raise syntax_error('Unexpected \\\",\\\"', start)，避免把 None 传入后续构建逻辑。\"},{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":958,\"end_line\":962,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"'/' 左侧缺少选择器时 first_choice 为 None\",\"explanation\":\"遇到 '/' 时直接取 first_choice = current_selector 并构造 FormatSelector(PICKFIRST, (first_choice, second_choice), [])。若输入以 '/' 开头（如 '/best'），first_choice 为 None，PICKFIRST 元组中含 None。后续构建选择器函数时对 None 处理缺失，导致异常或错误结果，而不是报告语法错误。\",\"trigger\":\"format_spec 为 '/best'，解析到 '/' 时 current_selector 仍为 None。\",\"evidence\":\"第 958-962 行：first_choice = current_selector; second_choice = _parse_format_selection(tokens, inside_choice=True); selectors.append(FormatSelector(PICKFIRST, (first_choice, second_choice), []))。未校验 first_choice 非 None。\",\"suggestion\":\"在构造 PICKFIRST 前检查 first_choice 是否为 None，若为 None 则 raise syntax_error('Unexpected \\\"/\\\"', start)。\"},{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":973,\"end_line\":976,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"'+' 左侧缺少选择器时 video_selector 为 None\",\"explanation\":\"遇到 '+' 时 video_selector = current_selector，若输入以 '+' 开头（如 '+bestaudio'），video_selector 为 None，构造 MERGE 元组 (None, audio_selector)。后续构建合并选择器时对 None 无处理，导致异常或错误行为，而非语法错误。\",\"trigger\":\"format_spec 为 '+bestaudio'，解析到 '+' 时 current_selector 为 None。\",\"evidence\":\"第 973-976 行：video_selector = current_selector; audio_selector = _parse_format_selection(tokens, inside_merge=True); current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])。未校验 video_selector 非 None。\",\"suggestion\":\"在构造 MERGE 前检查 video_selector 是否为 None，若为 None 则 raise syntax_error('Unexpected \\\"+\\\"', start)。\"},{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":926,\"end_line\":932,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"_parse_filter 遇到 token 流结束未返回字符串\",\"explanation\":\"_parse_filter 只在遇到 ']' 时 return ''.join(filter_parts)。若格式过滤器中缺少右方括号（如 'best[height<720'），token 流耗尽后函数隐式返回 None，随后 current_selector.filters.append(None)，把 None 当作过滤器字符串，后续过滤逻辑会出错或崩溃，而不是给出语法错误。\",\"trigger\":\"format_spec 为 'best[height<720'（缺少 ']'）。\",\"evidence\":\"第 926-932 行：for 循环内仅在 type == tokenize.OP and string == ']' 时 return；循环结束后无 return，隐式返回 None。第 966-967 行直接 append(format_filter)。\",\"suggestion\":\"循环结束后 raise syntax_error('Missing \\\"]\\\"', start) 或返回明确错误，避免 append(None)。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 6422,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1063,
+      "prompt_tokens": 1796,
+      "total_tokens": 2859,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1662
+      },
+      "prompt_cache_hit_tokens": 1662,
+      "prompt_cache_miss_tokens": 134
+    },
+    "elapsed_seconds": 4.97
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 53,
+    "phase": "p1b-tools",
+    "label": {
+      "case": "youtube-dl-8",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "hypothesis_tools",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 991
+    },
+    "reserved_at": "2026-10-21T13:45:04.873710+00:00"
+  },
+  "raw_response": "{\"checked\":[\"读取主片段 youtube_dl/YoutubeDL.py:926-991，确认 _parse_filter/_parse_format_selection 的 token 消费与递归结构\",\"读取上下文 syntax_error(914-918) 与 restore_last_token(1125-1126) 定义\",\"对照片段内 FormatSelector 构造与 selectors.append 逻辑\"],\"hypotheses\":[{\"claim\":\"逗号分隔时若出现空选择器（如 'best,' 或 ',best'），current_selector 为 None 会被 append 进 selectors\",\"expected_behavior\":\"非法格式串应抛出 SyntaxError，而不是把 None 作为选择器传入后续 _build_selector_function\",\"counterexample\":\"format_spec='best,' 时 tokens 末尾 ',' 触发 selectors.append(None)，随后 _build_selector_function 对 None 调用 isinstance 分支可能异常\",\"contract\":\"_parse_format_selection 返回的 selectors 列表元素应为有效 FormatSelector 或列表\"},{\"claim\":\"'/' 左侧缺少选择器时 first_choice 为 None，构造 PICKFIRST(None, second)\",\"expected_behavior\":\"应报语法错误，而非生成含 None 的选择器\",\"counterexample\":\"format_spec='/best' 时 current_selector 为 None，first_choice=None，selectors.append(FormatSelector(PICKFIRST,(None,second),[]))\",\"contract\":\"PICKFIRST 的两个分支都应为有效选择器\"},{\"claim\":\"'+' 左侧缺少选择器时 video_selector 为 None，构造 MERGE(None, audio)\",\"expected_behavior\":\"应报语法错误\",\"counterexample\":\"format_spec='+bestaudio' 时 video_selector=None，生成 MERGE((None,audio),[])\",\"contract\":\"MERGE 的 video/audio 均应为有效选择器\"},{\"claim\":\"_parse_filter 遇到未闭合 '[' 时循环结束返回已收集部分而不报错\",\"expected_behavior\":\"未闭合方括号应抛 SyntaxError\",\"counterexample\":\"format_spec='best[height<720' 时 _parse_filter 遍历完 tokens 未遇 ']'，返回 'height<720' 而非报错\",\"contract\":\"过滤器必须由 ']' 闭合\"}],\"findings\":[{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":955,\"end_line\":957,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"逗号分隔产生 None 选择器未校验\",\"explanation\":\"在 ',' 分支直接 selectors.append(current_selector)，未检查 current_selector 是否为 None。当格式串以逗号开头、结尾或出现连续逗号时，会把 None 加入 selectors，后续 _build_selector_function 处理该列表元素时对 None 调用 isinstance(selector, list) 为 False，再进入 FormatSelector 属性访问路径，导致 AttributeError 而非清晰的 SyntaxError。\",\"trigger\":\"format_spec='best,' 或 ',best' 或 'best,,worst'\",\"evidence\":\"第955-957行：elif string == ',': selectors.append(current_selector); current_selector = None。current_selector 初始为 None，逗号前无 NAME/NUMBER 时即为 None。\",\"suggestion\":\"在 append 前校验 current_selector 非 None，否则 raise syntax_error('Unexpected \\\",\\\"', start)。\"},{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":958,\"end_line\":962,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"'/' 左侧缺失选择器时构造 PICKFIRST(None, ...)\",\"explanation\":\"'/' 分支取 first_choice = current_selector，未校验其非 None。格式串以 '/' 开头时 first_choice 为 None，生成 PICKFIRST 选择器，后续构建选择器函数时对 None 分支处理会出错，而非给出语法错误。\",\"trigger\":\"format_spec='/best'\",\"evidence\":\"第959-962行：first_choice = current_selector; second_choice = _parse_format_selection(...); selectors.append(FormatSelector(PICKFIRST, (first_choice, second_choice), []))，无 None 检查。\",\"suggestion\":\"在构造 PICKFIRST 前检查 first_choice 与 second_choice 均非 None，否则 raise syntax_error。\"},{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":973,\"end_line\":976,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"'+' 左侧缺失选择器时构造 MERGE(None, ...)\",\"explanation\":\"'+' 分支取 video_selector = current_selector，未校验非 None。格式串以 '+' 开头时 video_selector 为 None，生成 MERGE 选择器，后续构建函数对 None 处理异常，而非语法错误。\",\"trigger\":\"format_spec='+bestaudio'\",\"evidence\":\"第974-976行：video_selector = current_selector; audio_selector = _parse_format_selection(...); current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])，无 None 检查。\",\"suggestion\":\"在构造 MERGE 前检查 video_selector 与 audio_selector 均非 None，否则 raise syntax_error。\"},{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":926,\"end_line\":932,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"_parse_filter 未闭合 '[' 静默返回部分内容\",\"explanation\":\"_parse_filter 仅在遇到 ']' 时返回，循环自然结束（tokens 耗尽）时函数隐式返回 None，调用方第967行 current_selector.filters.append(format_filter) 会把 None 加入 filters，后续过滤逻辑对 None 处理异常，而非报语法错误。\",\"trigger\":\"format_spec='best[height<720'\",\"evidence\":\"第926-932行：for 循环内仅 ']' 分支 return，无 else/末尾 return 或 raise；第966-967行直接 append 返回值。\",\"suggestion\":\"循环结束后 raise syntax_error('Missing \\\"]\\\"', start) 或返回前校验。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review_hypothesis",
+    "status": "completed",
+    "input_chars": 7398,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1317,
+      "prompt_tokens": 2162,
+      "total_tokens": 3479,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1920
+      },
+      "prompt_cache_hit_tokens": 1920,
+      "prompt_cache_miss_tokens": 242
+    },
+    "elapsed_seconds": 6.227
+  }
+}

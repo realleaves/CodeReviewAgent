@@ -167,9 +167,10 @@ def initialize(root):
 
 def fingerprint():
     paths = [*sorted((ROOT / "src").glob("*.py")), ROOT / "main.py", Path(__file__)]
-    strategy_runner = ROOT / "evaluation/discovery_hypothesis.py"
-    if strategy_runner.exists():
-        paths.append(strategy_runner)
+    for name in ["discovery_hypothesis.py", "discovery_hypothesis_tools.py"]:
+        runner = ROOT / "evaluation" / name
+        if runner.exists():
+            paths.append(runner)
     return {str(p.relative_to(ROOT)): digest(p) for p in paths}
 
 
@@ -181,6 +182,8 @@ def run(
     strategies,
     arm_config=None,
     variable="context_strategy",
+    case_ids=None,
+    max_windows_per_side=None,
 ):
     budget = AttemptBudget(root)
     phase = root / phase_name
@@ -219,6 +222,7 @@ def run(
         assert config.get("review_strategy", "baseline") in {
             "baseline",
             "hypothesis",
+            "hypothesis_tools",
         }
         assert (
             1
@@ -231,6 +235,19 @@ def run(
     )
     preview = ROOT / "outputs/context-callgraph-20261015/preview-final"
     original = json.loads((preview / "results.json").read_text())["records"]
+    if case_ids:
+        wanted = set(case_ids)
+        original = [row for row in original if row["case"] in wanted]
+    if max_windows_per_side:
+        per_side = {}
+        filtered = []
+        for row in original:
+            key = row["case"], row["side"]
+            if per_side.get(key, 0) < max_windows_per_side:
+                filtered.append(row)
+                per_side[key] = per_side.get(key, 0) + 1
+        original = filtered
+    assert original, "过滤后没有输入窗口。"
     cases = json.loads(
         (ROOT / "outputs/evidence-original20-20261014/selection.json").read_text()
     )

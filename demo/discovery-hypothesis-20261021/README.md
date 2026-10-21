@@ -62,6 +62,31 @@ P0 失败分类（[链接](../evidence-failure-taxonomy-20261021/README.md)）�
 - 提示词把“核对”写成了自由文本字段，没有要求引用真实工具调用或可验证路径；模型可以只写声明就返回 JSON。
 - 这解释了为什么候选更多却没有参考命中：结构化输出增加了文字量，但没有增加真实探索。completion tokens 从 8,187 增到 19,165，工具调用却从 6 降到 0。
 
+## P1b smoke：强制真实工具证据（已运行，未采用）
+
+P1 的 `checked` 是自报；P1b 新增 `hypothesis_tools`：首轮没有任何真实工具读取时，做一次有界修正；修正后仍无读取，则丢弃 findings 并记录 `findings_dropped=no_tool_evidence`。
+
+- 样本：tornado-3、youtube-dl-4、youtube-dl-8；两侧各 1 个 r0 窗口；每臂 6 窗口，共 12 次运行。
+- 预算：P1 已用 39/80；P1b phase 上限 41，实际 19；总 58/80。
+- 同一模型/上下文/thinking/输出上限；唯一变量是 `review_strategy`（baseline vs hypothesis_tools）。
+
+| 臂 | 有效对 | 候选命中 | 修复侧告警 | 完成/失败 | 工具读取 | 重试 | 丢弃 findings | 调用 | 候选数 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| baseline | 3/3 | 0/3 | 0 | 6/0 | 2 | 0 | 0 | 7 | 16 |
+| hypothesis_tools | 1/3 | 0/3 | 0 | 4/2 | 4 | 4 | 2 | 12 | 3 |
+
+关键观察：
+
+- 工具强制**确实增加了真实读取**：tornado-3 buggy 和 youtube-dl-8 fixed 各有 2 次读取，并保留了 findings；4 个窗口触发了一次重试。
+- 但在最关键的 youtube-dl-4 buggy 窗口，重试后仍然没有工具调用，按规则 findings 被丢弃；该窗口没有命中参考问题。
+- P1b 的 baseline 也没有命中 youtube-dl-4：它生成的是 `f( )` 空白参数/嵌套逗号候选，而不是参考的 `f()` 无参 regex。说明单次采样波动很大，不能用一次运行判断提示优劣。
+- 两个 hypothesis_tools 窗口失败：`Hypothesis.expected_behavior` 最短 10 字符的 schema 拒绝了“越界应受控处理”“应报语法错误”这类短但合法的字符串。该 schema 已在本轮之后放宽到 1，避免未来无意义失败；这个修复不影响上面的关键窗口结论。
+- 两臂都没有严格参考命中，hypothesis_tools 完成窗口更少、候选更少、调用更多；未达到采用条件。
+
+**决定：P1b 当前实现不采用。** 理由不是“工具读取没增加”，而是：强制后仍无法让模型在关键窗口真正读工具，且严格丢弃 findings 让召回更差。下一轮如果继续工具证据方向，应采用更强的 tool-first 流程或原生 tool calling，而不是再加一次同样的文字重试。
+
+P1b 资料：[结果](p1b-tools/results.json)、[判读](p1b-tools/adjudications.json)、[评分](p1b-tools/scores.json)、[离线校验](verify-p1b.py)。
+
 ## 指标
 
 - buggy 侧参考候选识别率（主指标）；

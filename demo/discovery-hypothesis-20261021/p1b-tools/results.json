@@ -1,0 +1,2077 @@
+{
+  "records": [
+    {
+      "case": "tornado-3",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286,
+      "name": "rep1-tornado-3-buggy-1-baseline",
+      "status": "completed",
+      "error": null,
+      "api_calls": 1,
+      "calls": [
+        {
+          "stage": "review",
+          "status": "completed",
+          "input_chars": 11781,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 6,
+            "prompt_tokens": 3460,
+            "total_tokens": 3466,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 3326
+            },
+            "prompt_cache_hit_tokens": 3326,
+            "prompt_cache_miss_tokens": 134
+          },
+          "elapsed_seconds": 1.315
+        }
+      ],
+      "findings": [],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 286,
+          "strategy": "legacy",
+          "payload_sha256": "43e81c23e616bc390d332b673a979c0ff1cd5dde88af7a5ce8cf69d1c15e5ddc",
+          "supplemental_chars": 4776,
+          "sources": [
+            {
+              "path": "tornado/httpclient.py",
+              "name": "HTTPRequest",
+              "line": 330,
+              "end": 558
+            },
+            {
+              "path": "maint/benchmark/chunk_benchmark.py",
+              "name": "get",
+              "line": 23,
+              "end": 27
+            },
+            {
+              "path": "demos/helloworld/helloworld.py",
+              "name": "get",
+              "line": 28,
+              "end": 29
+            },
+            {
+              "path": "demos/websocket/chatdemo.py",
+              "name": "get",
+              "line": 48,
+              "end": 49
+            }
+          ]
+        },
+        {
+          "stage": "review",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 286,
+          "strategy": "baseline",
+          "findings": []
+        }
+      ],
+      "tool_reads": [],
+      "elapsed_seconds": 1.319,
+      "folder": "windows/rep1-tornado-3-buggy-1-baseline"
+    },
+    {
+      "case": "tornado-3",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "hypothesis_tools",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286,
+      "name": "rep1-tornado-3-buggy-1-hypothesis_tools",
+      "status": "completed",
+      "error": null,
+      "api_calls": 3,
+      "calls": [
+        {
+          "stage": "review_hypothesis",
+          "status": "completed",
+          "input_chars": 12757,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1108,
+            "prompt_tokens": 3826,
+            "total_tokens": 4934,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 3584
+            },
+            "prompt_cache_hit_tokens": 3584,
+            "prompt_cache_miss_tokens": 242
+          },
+          "elapsed_seconds": 5.822
+        },
+        {
+          "stage": "review_hypothesis_retry",
+          "status": "completed",
+          "input_chars": 12530,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 77,
+            "prompt_tokens": 3656,
+            "total_tokens": 3733,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 0
+            },
+            "prompt_cache_hit_tokens": 0,
+            "prompt_cache_miss_tokens": 3656
+          },
+          "elapsed_seconds": 1.126
+        },
+        {
+          "stage": "review_hypothesis_retry",
+          "status": "completed",
+          "input_chars": 22686,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 815,
+            "prompt_tokens": 6502,
+            "total_tokens": 7317,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 3712
+            },
+            "prompt_cache_hit_tokens": 3712,
+            "prompt_cache_miss_tokens": 2790
+          },
+          "elapsed_seconds": 4.317
+        }
+      ],
+      "findings": [
+        {
+          "path": "tornado/httpclient.py",
+          "line": 194,
+          "end_line": 210,
+          "severity": "low",
+          "category": "bug",
+          "title": "__new__ 缓存查找键与写入键可能不一致",
+          "explanation": "__new__ 用局部变量 io_loop = IOLoop.current() 作为查找键，但写入缓存时使用 instance.io_loop，而该属性在 initialize() 中通过再次调用 IOLoop.current() 赋值。若两次调用之间当前 IOLoop 发生变化（例如在 run_sync 回调、线程或 make_current 切换期间构造实例），查找键与写入键不同，导致缓存中同一 IOLoop 出现多个实例，或后续 close 时触发 'inconsistent AsyncHTTPClient cache' 的 RuntimeError。",
+          "trigger": "在 IOLoop.current() 于 __new__ 与 initialize 之间发生变化的上下文中创建 AsyncHTTPClient（如嵌套 run_sync、跨线程构造）。",
+          "evidence": "第195行 io_loop = IOLoop.current() 用于第200行查找；第209行 instance_cache[instance.io_loop] = instance 使用 initialize 中第213行 self.io_loop = IOLoop.current() 的结果；第236-237行 close 时校验 self._instance_cache.get(self.io_loop) is not self 会抛 RuntimeError。",
+          "suggestion": "在 __new__ 中把已确定的 io_loop 传给 initialize（或让 initialize 接受 io_loop 参数），确保查找键与写入键为同一对象；或在写入缓存前断言 instance.io_loop is io_loop。",
+          "id": "44df45dbea17",
+          "source": "llm",
+          "rule": "",
+          "snippet": "192:         return getattr(cls, attr_name)\n193: \n194:     def __new__(cls, force_instance: bool = False, **kwargs: Any) -> \"AsyncHTTPClient\":\n195:         io_loop = IOLoop.current()\n196:         if force_instance:\n197:             instance_cache = None\n198:         else:\n199:             instance_cache = cls._async_clients()\n200:         if instance_cache is not None and io_loop in instance_cache:\n201:             return instance_cache[io_loop]\n202:         instance = super(AsyncHTTPClient, cls).__new__(cls, **kwargs)  # type: ignore\n203:         # Make sure the instance knows which cache to remove itself from.\n204:         # It can't simply call _async_clients() because we may be in\n205:         # __new__(AsyncHTTPClient) but instance.__class__ may be\n206:         # SimpleAsyncHTTPClient.\n207:         instance._instance_cache = instance_cache\n208:         if instance_cache is not None:\n209:             instance_cache[instance.io_loop] = instance",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 286,
+          "strategy": "legacy",
+          "payload_sha256": "43e81c23e616bc390d332b673a979c0ff1cd5dde88af7a5ce8cf69d1c15e5ddc",
+          "supplemental_chars": 4776,
+          "sources": [
+            {
+              "path": "tornado/httpclient.py",
+              "name": "HTTPRequest",
+              "line": 330,
+              "end": 558
+            },
+            {
+              "path": "maint/benchmark/chunk_benchmark.py",
+              "name": "get",
+              "line": 23,
+              "end": 27
+            },
+            {
+              "path": "demos/helloworld/helloworld.py",
+              "name": "get",
+              "line": 28,
+              "end": 29
+            },
+            {
+              "path": "demos/websocket/chatdemo.py",
+              "name": "get",
+              "line": 48,
+              "end": 49
+            }
+          ]
+        },
+        {
+          "stage": "hypothesis_review",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 286,
+          "checked": [
+            "tornado/httpclient.py:1-120（HTTPClient 构造与 close）",
+            "tornado/httpclient.py:188-210（__new__ 与 _async_clients 缓存逻辑）",
+            "tornado/httpclient.py:212-238（initialize/close 与 _instance_cache 一致性检查）",
+            "tornado/httpclient.py:240-298（fetch 与 handle_response）",
+            "tornado/httpclient.py:330-347（HTTPRequest._DEFAULTS）",
+            "search_code: _instance_cache 定义与使用位置",
+            "search_code: _async_clients 定义与调用位置"
+          ],
+          "hypotheses": [
+            {
+              "claim": "__new__ 中先按 io_loop 查缓存，但实例写入缓存时用的是 instance.io_loop（initialize 中重新取 IOLoop.current()），两者可能不一致",
+              "expected_behavior": "缓存键应与查找键一致，保证同一 IOLoop 复用同一实例",
+              "counterexample": "若 __new__ 与 initialize 之间 current IOLoop 发生变化（例如在 run_sync 或线程切换中构造），查找键与写入键不同，缓存中会出现重复实例",
+              "contract": "AsyncHTTPClient 按 IOLoop 缓存单例"
+            },
+            {
+              "claim": "close() 中若缓存条目已被替换，会抛 RuntimeError 而非静默处理",
+              "expected_behavior": "close 应幂等且不因缓存状态异常而失败",
+              "counterexample": "同一 IOLoop 上先 close 旧实例再新建实例后，旧实例再次 close 时 _closed 已为 True 直接返回，不会触发；但若缓存被外部替换则抛错",
+              "contract": "close 文档声明可重复调用"
+            },
+            {
+              "claim": "fetch 中 raise_error=False 仅对响应码错误生效，其他错误仍抛出",
+              "expected_behavior": "与文档 versionchanged 6.0 描述一致",
+              "counterexample": "网络错误时 raise_error=False 仍抛异常，符合文档",
+              "contract": "raise_error 语义"
+            }
+          ],
+          "tool_reads_before": 0,
+          "tool_reads_after": 2,
+          "tool_retry": true,
+          "tool_evidence": true
+        },
+        {
+          "stage": "review",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 286,
+          "strategy": "hypothesis_tools",
+          "findings": [
+            {
+              "path": "tornado/httpclient.py",
+              "line": 194,
+              "end_line": 210,
+              "severity": "low",
+              "category": "bug",
+              "title": "__new__ 缓存查找键与写入键可能不一致",
+              "explanation": "__new__ 用局部变量 io_loop = IOLoop.current() 作为查找键，但写入缓存时使用 instance.io_loop，而该属性在 initialize() 中通过再次调用 IOLoop.current() 赋值。若两次调用之间当前 IOLoop 发生变化（例如在 run_sync 回调、线程或 make_current 切换期间构造实例），查找键与写入键不同，导致缓存中同一 IOLoop 出现多个实例，或后续 close 时触发 'inconsistent AsyncHTTPClient cache' 的 RuntimeError。",
+              "trigger": "在 IOLoop.current() 于 __new__ 与 initialize 之间发生变化的上下文中创建 AsyncHTTPClient（如嵌套 run_sync、跨线程构造）。",
+              "evidence": "第195行 io_loop = IOLoop.current() 用于第200行查找；第209行 instance_cache[instance.io_loop] = instance 使用 initialize 中第213行 self.io_loop = IOLoop.current() 的结果；第236-237行 close 时校验 self._instance_cache.get(self.io_loop) is not self 会抛 RuntimeError。",
+              "suggestion": "在 __new__ 中把已确定的 io_loop 传给 initialize（或让 initialize 接受 io_loop 参数），确保查找键与写入键为同一对象；或在写入缓存前断言 instance.io_loop is io_loop。",
+              "id": "44df45dbea17",
+              "source": "llm",
+              "rule": "",
+              "snippet": "192:         return getattr(cls, attr_name)\n193: \n194:     def __new__(cls, force_instance: bool = False, **kwargs: Any) -> \"AsyncHTTPClient\":\n195:         io_loop = IOLoop.current()\n196:         if force_instance:\n197:             instance_cache = None\n198:         else:\n199:             instance_cache = cls._async_clients()\n200:         if instance_cache is not None and io_loop in instance_cache:\n201:             return instance_cache[io_loop]\n202:         instance = super(AsyncHTTPClient, cls).__new__(cls, **kwargs)  # type: ignore\n203:         # Make sure the instance knows which cache to remove itself from.\n204:         # It can't simply call _async_clients() because we may be in\n205:         # __new__(AsyncHTTPClient) but instance.__class__ may be\n206:         # SimpleAsyncHTTPClient.\n207:         instance._instance_cache = instance_cache\n208:         if instance_cache is not None:\n209:             instance_cache[instance.io_loop] = instance",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [
+        {
+          "path": "tornado/httpclient.py",
+          "start": 1,
+          "end": 120
+        },
+        {
+          "path": "tornado/httpclient.py",
+          "start": 286,
+          "end": 330
+        }
+      ],
+      "elapsed_seconds": 11.447,
+      "folder": "windows/rep1-tornado-3-buggy-1-hypothesis_tools"
+    },
+    {
+      "case": "tornado-3",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "hypothesis_tools",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 291,
+      "name": "rep1-tornado-3-fixed-1-hypothesis_tools",
+      "status": "completed",
+      "error": null,
+      "api_calls": 2,
+      "calls": [
+        {
+          "stage": "review_hypothesis",
+          "status": "completed",
+          "input_chars": 16007,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1157,
+            "prompt_tokens": 4837,
+            "total_tokens": 5994,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 4608
+            },
+            "prompt_cache_hit_tokens": 4608,
+            "prompt_cache_miss_tokens": 229
+          },
+          "elapsed_seconds": 6.112
+        },
+        {
+          "stage": "review_hypothesis_retry",
+          "status": "completed",
+          "input_chars": 15780,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 390,
+            "prompt_tokens": 4667,
+            "total_tokens": 5057,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 768
+            },
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 3899
+          },
+          "elapsed_seconds": 2.682
+        }
+      ],
+      "findings": [],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 291,
+          "strategy": "legacy",
+          "payload_sha256": "470f945578ab5ad5c80fd0cec5a622f8cbb9cd3b7ed21c013e72d505fe29663d",
+          "supplemental_chars": 7648,
+          "sources": [
+            {
+              "path": "tornado/httpclient.py",
+              "name": "HTTPRequest",
+              "line": 335,
+              "end": 563
+            },
+            {
+              "path": "tornado/httputil.py",
+              "name": "HTTPHeaders",
+              "line": 103,
+              "end": 267
+            },
+            {
+              "path": "tornado/ioloop.py",
+              "name": "current",
+              "line": 238,
+              "end": 239
+            },
+            {
+              "path": "tornado/ioloop.py",
+              "name": "current",
+              "line": 243,
+              "end": 244
+            }
+          ]
+        },
+        {
+          "stage": "hypothesis_review",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 291,
+          "checked": [
+            "tornado/httpclient.py 188-291 的 AsyncHTTPClient.__new__/initialize/close/fetch 逻辑",
+            "tornado/httpclient.py 335-414 HTTPRequest._DEFAULTS 与构造参数",
+            "tornado/httputil.py 103-182 HTTPHeaders 的 add/get_list 行为"
+          ],
+          "hypotheses": [
+            {
+              "claim": "__new__ 中 instance_cache 以 io_loop 为键，但 initialize 中重新获取 IOLoop.current()，若两者不一致会导致缓存键与实例 io_loop 不匹配",
+              "expected_behavior": "__new__ 缓存使用的 io_loop 应与实例 initialize 中记录的 io_loop 一致，保证 close() 能正确从缓存移除自身",
+              "counterexample": "在 __new__ 与 initialize 之间切换 IOLoop.current()（例如多线程或 IOLoop 被替换），instance_cache[instance.io_loop] 写入的键与 __new__ 检查的键不同，close() 时 pop 可能取到错误对象并触发 RuntimeError",
+              "contract": "AsyncHTTPClient 实例缓存以当前 IOLoop 为键，close() 应能移除自身缓存条目"
+            },
+            {
+              "claim": "fetch 中当 request 为 HTTPRequest 且传入 kwargs 时抛 ValueError，但字符串 URL 分支允许 kwargs，行为不对称",
+              "expected_behavior": "文档说明 kwargs 仅在字符串 URL 时用于构造 HTTPRequest，HTTPRequest 对象时禁止 kwargs 是合理设计",
+              "counterexample": "调用 fetch(HTTPRequest(url), raise_error=False) 时 raise_error 是显式参数不进入 kwargs，不会误报；但 fetch(HTTPRequest(url), foo=1) 抛 ValueError 符合预期",
+              "contract": "fetch 的 kwargs 仅用于字符串 URL 构造 HTTPRequest"
+            }
+          ],
+          "tool_reads_before": 0,
+          "tool_reads_after": 0,
+          "tool_retry": true,
+          "tool_evidence": false,
+          "findings_dropped": "no_tool_evidence"
+        },
+        {
+          "stage": "review",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 291,
+          "strategy": "hypothesis_tools",
+          "findings": []
+        }
+      ],
+      "tool_reads": [],
+      "elapsed_seconds": 8.815,
+      "folder": "windows/rep1-tornado-3-fixed-1-hypothesis_tools"
+    },
+    {
+      "case": "tornado-3",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 291,
+      "name": "rep1-tornado-3-fixed-1-baseline",
+      "status": "completed",
+      "error": null,
+      "api_calls": 1,
+      "calls": [
+        {
+          "stage": "review",
+          "status": "completed",
+          "input_chars": 15031,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 6,
+            "prompt_tokens": 4471,
+            "total_tokens": 4477,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 4224
+            },
+            "prompt_cache_hit_tokens": 4224,
+            "prompt_cache_miss_tokens": 247
+          },
+          "elapsed_seconds": 0.926
+        }
+      ],
+      "findings": [],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 291,
+          "strategy": "legacy",
+          "payload_sha256": "470f945578ab5ad5c80fd0cec5a622f8cbb9cd3b7ed21c013e72d505fe29663d",
+          "supplemental_chars": 7648,
+          "sources": [
+            {
+              "path": "tornado/httpclient.py",
+              "name": "HTTPRequest",
+              "line": 335,
+              "end": 563
+            },
+            {
+              "path": "tornado/httputil.py",
+              "name": "HTTPHeaders",
+              "line": 103,
+              "end": 267
+            },
+            {
+              "path": "tornado/ioloop.py",
+              "name": "current",
+              "line": 238,
+              "end": 239
+            },
+            {
+              "path": "tornado/ioloop.py",
+              "name": "current",
+              "line": 243,
+              "end": 244
+            }
+          ]
+        },
+        {
+          "stage": "review",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 291,
+          "strategy": "baseline",
+          "findings": []
+        }
+      ],
+      "tool_reads": [],
+      "elapsed_seconds": 1.047,
+      "folder": "windows/rep1-tornado-3-fixed-1-baseline"
+    },
+    {
+      "case": "youtube-dl-4",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "name": "rep1-youtube-dl-4-buggy-1-baseline",
+      "status": "completed",
+      "error": null,
+      "api_calls": 1,
+      "calls": [
+        {
+          "stage": "review",
+          "status": "completed",
+          "input_chars": 11780,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1171,
+            "prompt_tokens": 3634,
+            "total_tokens": 4805,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 3456
+            },
+            "prompt_cache_hit_tokens": 3456,
+            "prompt_cache_miss_tokens": 178
+          },
+          "elapsed_seconds": 6.683
+        }
+      ],
+      "findings": [
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 166,
+          "end_line": 172,
+          "severity": "medium",
+          "category": "bug",
+          "title": "splice 实现使用 pop(index) 导致元素顺序错误",
+          "explanation": "JS 的 Array.prototype.splice(index, howMany) 应返回被删除的元素，且按原顺序返回。当前实现循环 howMany 次，每次执行 obj.pop(index)，即从 index 位置弹出元素。第一次弹出后，后续元素前移，第二次 pop(index) 取到的是原 index+1 的元素，但 res 追加顺序仍为原顺序……实际上 pop(index) 每次取的都是当前 index 位置元素，由于前移，取到的依次是原 index、原 index+1……顺序正确。但问题在于循环次数：range(index, min(index+howMany, len(obj))) 的迭代次数为 min(index+howMany,len(obj))-index，当 index+howMany 超过 len(obj) 时次数正确；然而每次 pop 后 len(obj) 减少，而 min 在循环开始时已计算，因此次数固定，正确。真正问题：pop(index) 在 index 为负数或越界时行为不同，且 splice 的 index 可为负数（JS 语义），此处未处理。此外当 howMany 为 0 时返回空列表正确。综合看，主要缺陷是未处理负 index 与越界 index 的 JS 语义，以及 argvals 解包在参数不足时抛 ValueError。",
+          "trigger": "表达式如 'a.splice(-1,1)' 或 'a.splice(10,2)'，其中 a 为长度较小的列表；或 'a.splice(0)' 只传一个参数。",
+          "evidence": "第168行 `index, howMany = argvals` 在 argvals 长度不为2时抛 ValueError；第170行 range 使用原始 index，负数时 range(-1, ...) 产生错误区间，与 JS 中负索引从末尾计算的语义不符。",
+          "suggestion": "按 JS 语义规范化 index（负数加 len），校验 argvals 长度，并直接使用切片 obj[index:index+howMany] 后 del 对应区间，避免逐次 pop 的边界问题。",
+          "id": "5eca1a85a143",
+          "source": "llm",
+          "rule": "",
+          "snippet": "164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 98,
+          "end_line": 99,
+          "severity": "medium",
+          "category": "bug",
+          "title": "赋值下标表达式对非 int 索引使用 assert 且未校验键存在",
+          "explanation": "第98行 `assert isinstance(idx, int)` 在 -O 下被移除，且当 index 表达式求值为字符串（如对象属性赋值 `obj['key']=...`）时，assert 失败抛 AssertionError 而非受控的 ExtractorError；同时第95行 `local_vars[m.group('out')]` 在变量未定义时抛 KeyError。这些异常未被捕获，会以非预期异常类型向上传播。",
+          "trigger": "输入语句 `a['x'] = 1` 或 `a[b] = 1` 其中 b 为字符串变量，且 a 未在 local_vars 中定义。",
+          "evidence": "第95行直接下标访问 local_vars；第98行 assert 仅接受 int；第99行 lvar[idx] 对不存在键抛 KeyError/IndexError。",
+          "suggestion": "对 idx 类型做显式检查并抛出 ExtractorError；对 local_vars 缺失与索引越界给出明确错误信息。",
+          "id": "d09769410fce",
+          "source": "llm",
+          "rule": "",
+          "snippet": "96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]\n100:                 val = opfunc(cur, right_val)\n101:                 lvar[idx] = val",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 144,
+          "end_line": 151,
+          "severity": "low",
+          "category": "bug",
+          "title": "函数调用参数按逗号简单 split，无法处理嵌套或空参数",
+          "explanation": "第151行 `arg_str.split(',')` 对含嵌套括号或字符串内逗号的参数会错误切分；且当 arg_str 为空白时（如 `f( )`），split 得到 [' ']，interpret_expression 对空白返回 None，导致参数个数错误。此外第144行 assert expr.endswith(')') 在 -O 下失效。",
+          "trigger": "表达式 `f(a, g(b,c))` 或 `f( )`。",
+          "evidence": "第149-151行直接 split(',')；第144行 assert 依赖运行模式。",
+          "suggestion": "使用能识别括号层级的参数解析，或至少对空参数串做 strip 判断；将 assert 替换为显式错误。",
+          "id": "3325dd134c44",
+          "source": "llm",
+          "rule": "",
+          "snippet": "142:                 return obj[member]\n143: \n144:             assert expr.endswith(')')\n145:             # Function call\n146:             if arg_str == '':\n147:                 argvals = tuple()\n148:             else:\n149:                 argvals = tuple([\n150:                     self.interpret_expression(v, local_vars, allow_recursion)\n151:                     for v in arg_str.split(',')])\n152: \n153:             if member == 'split':",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 174,
+          "end_line": 174,
+          "severity": "low",
+          "category": "bug",
+          "title": "成员方法调用将整个 argvals 元组作为单个参数传入",
+          "explanation": "第174行 `return obj[member](argvals)` 把参数元组整体作为一个实参传给 Python 方法，而多数方法期望展开的参数。例如对字符串调用 `s.substring(1,3)` 会变成 substring((1,3))，类型错误。这与前面 split/join 等特例处理不一致，未特例化的方法均受影响。",
+          "trigger": "表达式 `s.substring(1,3)` 或 `arr.indexOf(x)` 等未在 153-172 行特例化的方法调用。",
+          "evidence": "第174行仅传一个 argvals 元组参数，未使用 *argvals。",
+          "suggestion": "改为 `obj[member](*argvals)`，并为需要特殊语义的方法保留特例。",
+          "id": "cbd527078c38",
+          "source": "llm",
+          "rule": "",
+          "snippet": "172:                 return res\n173: \n174:             return obj[member](argvals)\n175: \n176:         m = re.match(",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "strategy": "legacy",
+          "payload_sha256": "c11974d5a0c33fa7ed39b156ad4c9ef169a4235836b0d46025ff5e7f1715b799",
+          "supplemental_chars": 2565,
+          "sources": [
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "interpret_statement",
+              "line": 37,
+              "end": 56
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "extract_function",
+              "line": 232,
+              "end": 244
+            },
+            {
+              "path": "youtube_dl/extractor/huajiao.py",
+              "name": "get",
+              "line": 42,
+              "end": 43
+            },
+            {
+              "path": "youtube_dl/extractor/iqiyi.py",
+              "name": "split",
+              "line": 63,
+              "end": 78
+            }
+          ]
+        },
+        {
+          "stage": "review",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "strategy": "baseline",
+          "findings": [
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 166,
+              "end_line": 172,
+              "severity": "medium",
+              "category": "bug",
+              "title": "splice 实现使用 pop(index) 导致元素顺序错误",
+              "explanation": "JS 的 Array.prototype.splice(index, howMany) 应返回被删除的元素，且按原顺序返回。当前实现循环 howMany 次，每次执行 obj.pop(index)，即从 index 位置弹出元素。第一次弹出后，后续元素前移，第二次 pop(index) 取到的是原 index+1 的元素，但 res 追加顺序仍为原顺序……实际上 pop(index) 每次取的都是当前 index 位置元素，由于前移，取到的依次是原 index、原 index+1……顺序正确。但问题在于循环次数：range(index, min(index+howMany, len(obj))) 的迭代次数为 min(index+howMany,len(obj))-index，当 index+howMany 超过 len(obj) 时次数正确；然而每次 pop 后 len(obj) 减少，而 min 在循环开始时已计算，因此次数固定，正确。真正问题：pop(index) 在 index 为负数或越界时行为不同，且 splice 的 index 可为负数（JS 语义），此处未处理。此外当 howMany 为 0 时返回空列表正确。综合看，主要缺陷是未处理负 index 与越界 index 的 JS 语义，以及 argvals 解包在参数不足时抛 ValueError。",
+              "trigger": "表达式如 'a.splice(-1,1)' 或 'a.splice(10,2)'，其中 a 为长度较小的列表；或 'a.splice(0)' 只传一个参数。",
+              "evidence": "第168行 `index, howMany = argvals` 在 argvals 长度不为2时抛 ValueError；第170行 range 使用原始 index，负数时 range(-1, ...) 产生错误区间，与 JS 中负索引从末尾计算的语义不符。",
+              "suggestion": "按 JS 语义规范化 index（负数加 len），校验 argvals 长度，并直接使用切片 obj[index:index+howMany] 后 del 对应区间，避免逐次 pop 的边界问题。",
+              "id": "5eca1a85a143",
+              "source": "llm",
+              "rule": "",
+              "snippet": "164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 98,
+              "end_line": 99,
+              "severity": "medium",
+              "category": "bug",
+              "title": "赋值下标表达式对非 int 索引使用 assert 且未校验键存在",
+              "explanation": "第98行 `assert isinstance(idx, int)` 在 -O 下被移除，且当 index 表达式求值为字符串（如对象属性赋值 `obj['key']=...`）时，assert 失败抛 AssertionError 而非受控的 ExtractorError；同时第95行 `local_vars[m.group('out')]` 在变量未定义时抛 KeyError。这些异常未被捕获，会以非预期异常类型向上传播。",
+              "trigger": "输入语句 `a['x'] = 1` 或 `a[b] = 1` 其中 b 为字符串变量，且 a 未在 local_vars 中定义。",
+              "evidence": "第95行直接下标访问 local_vars；第98行 assert 仅接受 int；第99行 lvar[idx] 对不存在键抛 KeyError/IndexError。",
+              "suggestion": "对 idx 类型做显式检查并抛出 ExtractorError；对 local_vars 缺失与索引越界给出明确错误信息。",
+              "id": "d09769410fce",
+              "source": "llm",
+              "rule": "",
+              "snippet": "96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]\n100:                 val = opfunc(cur, right_val)\n101:                 lvar[idx] = val",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 144,
+              "end_line": 151,
+              "severity": "low",
+              "category": "bug",
+              "title": "函数调用参数按逗号简单 split，无法处理嵌套或空参数",
+              "explanation": "第151行 `arg_str.split(',')` 对含嵌套括号或字符串内逗号的参数会错误切分；且当 arg_str 为空白时（如 `f( )`），split 得到 [' ']，interpret_expression 对空白返回 None，导致参数个数错误。此外第144行 assert expr.endswith(')') 在 -O 下失效。",
+              "trigger": "表达式 `f(a, g(b,c))` 或 `f( )`。",
+              "evidence": "第149-151行直接 split(',')；第144行 assert 依赖运行模式。",
+              "suggestion": "使用能识别括号层级的参数解析，或至少对空参数串做 strip 判断；将 assert 替换为显式错误。",
+              "id": "3325dd134c44",
+              "source": "llm",
+              "rule": "",
+              "snippet": "142:                 return obj[member]\n143: \n144:             assert expr.endswith(')')\n145:             # Function call\n146:             if arg_str == '':\n147:                 argvals = tuple()\n148:             else:\n149:                 argvals = tuple([\n150:                     self.interpret_expression(v, local_vars, allow_recursion)\n151:                     for v in arg_str.split(',')])\n152: \n153:             if member == 'split':",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 174,
+              "end_line": 174,
+              "severity": "low",
+              "category": "bug",
+              "title": "成员方法调用将整个 argvals 元组作为单个参数传入",
+              "explanation": "第174行 `return obj[member](argvals)` 把参数元组整体作为一个实参传给 Python 方法，而多数方法期望展开的参数。例如对字符串调用 `s.substring(1,3)` 会变成 substring((1,3))，类型错误。这与前面 split/join 等特例处理不一致，未特例化的方法均受影响。",
+              "trigger": "表达式 `s.substring(1,3)` 或 `arr.indexOf(x)` 等未在 153-172 行特例化的方法调用。",
+              "evidence": "第174行仅传一个 argvals 元组参数，未使用 *argvals。",
+              "suggestion": "改为 `obj[member](*argvals)`，并为需要特殊语义的方法保留特例。",
+              "id": "cbd527078c38",
+              "source": "llm",
+              "rule": "",
+              "snippet": "172:                 return res\n173: \n174:             return obj[member](argvals)\n175: \n176:         m = re.match(",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [],
+      "elapsed_seconds": 6.692,
+      "folder": "windows/rep1-youtube-dl-4-buggy-1-baseline"
+    },
+    {
+      "case": "youtube-dl-4",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "hypothesis_tools",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "name": "rep1-youtube-dl-4-buggy-1-hypothesis_tools",
+      "status": "completed",
+      "error": null,
+      "api_calls": 2,
+      "calls": [
+        {
+          "stage": "review_hypothesis",
+          "status": "completed",
+          "input_chars": 12756,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1341,
+            "prompt_tokens": 4000,
+            "total_tokens": 5341,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 3840
+            },
+            "prompt_cache_hit_tokens": 3840,
+            "prompt_cache_miss_tokens": 160
+          },
+          "elapsed_seconds": 6.664
+        },
+        {
+          "stage": "review_hypothesis_retry",
+          "status": "completed",
+          "input_chars": 12529,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 720,
+            "prompt_tokens": 3830,
+            "total_tokens": 4550,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 768
+            },
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 3062
+          },
+          "elapsed_seconds": 3.792
+        }
+      ],
+      "findings": [],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "strategy": "legacy",
+          "payload_sha256": "c11974d5a0c33fa7ed39b156ad4c9ef169a4235836b0d46025ff5e7f1715b799",
+          "supplemental_chars": 2565,
+          "sources": [
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "interpret_statement",
+              "line": 37,
+              "end": 56
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "extract_function",
+              "line": 232,
+              "end": 244
+            },
+            {
+              "path": "youtube_dl/extractor/huajiao.py",
+              "name": "get",
+              "line": 42,
+              "end": 43
+            },
+            {
+              "path": "youtube_dl/extractor/iqiyi.py",
+              "name": "split",
+              "line": 63,
+              "end": 78
+            }
+          ]
+        },
+        {
+          "stage": "hypothesis_review",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "checked": [
+            "已读取 youtube_dl/jsinterp.py 第50-219行（interpret_expression 主体）",
+            "已读取上下文 interpret_statement 第37-56行",
+            "已读取 extract_function 第232-244行"
+          ],
+          "hypotheses": [
+            {
+              "claim": "splice 实现使用 obj.pop(index) 循环，可能索引越界或行为与 JS 不一致",
+              "expected_behavior": "splice(index, howMany) 应删除从 index 开始的 howMany 个元素并返回被删除元素",
+              "counterexample": "obj=[1,2,3], index=1, howMany=5：range(1, min(6,3))=range(1,3)，pop(1) 两次得到 [2,3]，结果正确；但 index 为负数时 range(-1, min(4,3))=range(-1,3) 会 pop(-1) 等，行为异常",
+              "contract": "JS Array.prototype.splice 语义"
+            },
+            {
+              "claim": "成员访问 obj[member] 在 member 不存在时抛 KeyError 而非 JS 的 undefined",
+              "expected_behavior": "访问不存在的属性应返回 undefined/None 而非异常",
+              "counterexample": "obj={} 时 obj['foo'] 抛 KeyError",
+              "contract": "JS 属性访问语义"
+            }
+          ],
+          "tool_reads_before": 0,
+          "tool_reads_after": 0,
+          "tool_retry": true,
+          "tool_evidence": false,
+          "findings_dropped": "no_tool_evidence"
+        },
+        {
+          "stage": "review",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "strategy": "hypothesis_tools",
+          "findings": []
+        }
+      ],
+      "tool_reads": [],
+      "elapsed_seconds": 10.476,
+      "folder": "windows/rep1-youtube-dl-4-buggy-1-hypothesis_tools"
+    },
+    {
+      "case": "youtube-dl-4",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "hypothesis_tools",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "name": "rep1-youtube-dl-4-fixed-1-hypothesis_tools",
+      "status": "failed",
+      "error": {
+        "type": "ValidationError",
+        "message": "1 validation error for HypothesisCandidates\nhypotheses.4.expected_behavior\n  String should have at least 10 characters [type=string_too_short, input_value='越界应受控处理', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.14/v/string_too_short"
+      },
+      "api_calls": 1,
+      "calls": [
+        {
+          "stage": "review_hypothesis",
+          "status": "completed",
+          "input_chars": 12797,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1274,
+            "prompt_tokens": 4013,
+            "total_tokens": 5287,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 3840
+            },
+            "prompt_cache_hit_tokens": 3840,
+            "prompt_cache_miss_tokens": 173
+          },
+          "elapsed_seconds": 6.344
+        }
+      ],
+      "findings": [],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "strategy": "legacy",
+          "payload_sha256": "7e9432b3dbba72b5dfe88057c0b1d7fc4d2d71873436cde4608964fc4e8dd7eb",
+          "supplemental_chars": 2565,
+          "sources": [
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "interpret_statement",
+              "line": 37,
+              "end": 56
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "extract_function",
+              "line": 232,
+              "end": 244
+            },
+            {
+              "path": "youtube_dl/extractor/huajiao.py",
+              "name": "get",
+              "line": 42,
+              "end": 43
+            },
+            {
+              "path": "youtube_dl/extractor/iqiyi.py",
+              "name": "split",
+              "line": 63,
+              "end": 78
+            }
+          ]
+        }
+      ],
+      "tool_reads": [],
+      "elapsed_seconds": 6.349,
+      "folder": "windows/rep1-youtube-dl-4-fixed-1-hypothesis_tools"
+    },
+    {
+      "case": "youtube-dl-4",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "name": "rep1-youtube-dl-4-fixed-1-baseline",
+      "status": "completed",
+      "error": null,
+      "api_calls": 1,
+      "calls": [
+        {
+          "stage": "review",
+          "status": "completed",
+          "input_chars": 11821,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1098,
+            "prompt_tokens": 3647,
+            "total_tokens": 4745,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 3456
+            },
+            "prompt_cache_hit_tokens": 3456,
+            "prompt_cache_miss_tokens": 191
+          },
+          "elapsed_seconds": 6.024
+        }
+      ],
+      "findings": [
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 166,
+          "end_line": 172,
+          "severity": "medium",
+          "category": "bug",
+          "title": "splice 实现使用 pop(index) 导致结果顺序与语义错误",
+          "explanation": "JS 的 Array.prototype.splice(index, howMany) 应删除从 index 开始的 howMany 个连续元素，并返回这些被删除元素按原顺序组成的数组。这里循环 range(index, min(index+howMany, len(obj)))，每次执行 obj.pop(index)，即反复删除同一位置元素。由于每次删除后后续元素前移，pop(index) 依次取出的正是原 index、index+1... 的元素，结果顺序其实正确；但循环上界用 min(index+howMany, len(obj)) 作为 range 终点，而 range 的终点是绝对索引，不是删除次数。当 index>0 时，循环次数为 min(index+howMany,len(obj))-index，可能少于 howMany。例如 obj=[0,1,2,3,4]，index=2，howMany=2：range(2, min(4,5))=range(2,4) 执行两次，删除 2、3，结果正确。再如 index=3，howMany=2，len=5：range(3,min(5,5))=range(3,5) 两次，正确。但 index=1，howMany=3，len=5：range(1,min(4,5))=range(1,4) 三次，正确。实际循环次数 = min(index+howMany,len)-index = min(howMany, len-index)，恰好等于应删除数量，因此行为正确。",
+          "trigger": "obj=[0,1,2,3,4]，调用 obj.splice(1,2)",
+          "evidence": "第170行 for i in range(index, min(index + howMany, len(obj)))，第171行 res.append(obj.pop(index))。循环次数为 min(index+howMany,len)-index=min(howMany,len-index)，与 JS 语义一致。",
+          "suggestion": "无需修改；当前实现循环次数正确。若担心可读性可改为 for _ in range(min(howMany, len(obj)-index))。",
+          "id": "001e9736db13",
+          "source": "llm",
+          "rule": "",
+          "snippet": "164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 144,
+          "end_line": 151,
+          "severity": "low",
+          "category": "bug",
+          "title": "函数调用参数按逗号简单切分，嵌套逗号会误分",
+          "explanation": "第124行正则 (?P<args>[^()]*) 已排除括号，因此参数中不能含括号；但参数本身可能是含逗号的字符串字面量，如 f('a,b')。此时 arg_str.split(',') 会切成 \"'a\" 和 \"b'\"，分别解释失败或得到错误值。不过该正则本身不允许参数含括号，且字符串字面量在 JS 中常见。",
+          "trigger": "表达式 obj.method('a,b')",
+          "evidence": "第149-151行 argvals = tuple([self.interpret_expression(v,...) for v in arg_str.split(',')])，直接按逗号切分。",
+          "suggestion": "使用能识别引号和嵌套的切分器，或至少先按引号保护再切分。",
+          "id": "135b9249549e",
+          "source": "llm",
+          "rule": "",
+          "snippet": "142:                 return obj[member]\n143: \n144:             assert expr.endswith(')')\n145:             # Function call\n146:             if arg_str == '':\n147:                 argvals = tuple()\n148:             else:\n149:                 argvals = tuple([\n150:                     self.interpret_expression(v, local_vars, allow_recursion)\n151:                     for v in arg_str.split(',')])\n152: \n153:             if member == 'split':",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 98,
+          "end_line": 99,
+          "severity": "low",
+          "category": "bug",
+          "title": "下标赋值对非 int 索引使用 assert，-O 下会静默错误",
+          "explanation": "第98行 assert isinstance(idx, int) 在 Python -O 下被移除，随后 lvar[idx] 可能用字符串索引 list 抛 TypeError，或用浮点索引抛 TypeError。但 idx 来自 interpret_expression，可能返回 None（空表达式）或字符串。契约上索引应为整数，assert 是内部不变量检查。",
+          "trigger": "local_vars['a']=[1,2]; 表达式 a['x']=3",
+          "evidence": "第96-99行 idx = self.interpret_expression(...); assert isinstance(idx, int); cur = lvar[idx]。",
+          "suggestion": "改为显式 if not isinstance(idx, int): raise ExtractorError(...)，避免 -O 下行为变化。",
+          "id": "9a738aacdfb2",
+          "source": "llm",
+          "rule": "",
+          "snippet": "96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]\n100:                 val = opfunc(cur, right_val)\n101:                 lvar[idx] = val",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 109,
+          "end_line": 110,
+          "severity": "low",
+          "category": "bug",
+          "title": "isdigit 对 Unicode 数字返回 True 但 int 可能失败或语义不同",
+          "explanation": "str.isdigit() 对某些 Unicode 数字（如 '²'）返回 True，但 int('²') 抛 ValueError。第109行 expr.isdigit() 后直接 int(expr)，对这类输入会崩溃而非走后续分支。JS 源码通常为 ASCII，但输入来自网页，可能含 Unicode。",
+          "trigger": "表达式 '²'",
+          "evidence": "第109-110行 if expr.isdigit(): return int(expr)。'²'.isdigit() 为 True，int('²') 抛 ValueError。",
+          "suggestion": "改用 expr.isascii() and expr.isdigit() 或 try/except 包裹 int 转换。",
+          "id": "5808e08f4b0b",
+          "source": "llm",
+          "rule": "",
+          "snippet": "107:                 return val\n108: \n109:         if expr.isdigit():\n110:             return int(expr)\n111: \n112:         var_m = re.match(",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "strategy": "legacy",
+          "payload_sha256": "7e9432b3dbba72b5dfe88057c0b1d7fc4d2d71873436cde4608964fc4e8dd7eb",
+          "supplemental_chars": 2565,
+          "sources": [
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "interpret_statement",
+              "line": 37,
+              "end": 56
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "extract_function",
+              "line": 232,
+              "end": 244
+            },
+            {
+              "path": "youtube_dl/extractor/huajiao.py",
+              "name": "get",
+              "line": 42,
+              "end": 43
+            },
+            {
+              "path": "youtube_dl/extractor/iqiyi.py",
+              "name": "split",
+              "line": 63,
+              "end": 78
+            }
+          ]
+        },
+        {
+          "stage": "review",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "strategy": "baseline",
+          "findings": [
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 166,
+              "end_line": 172,
+              "severity": "medium",
+              "category": "bug",
+              "title": "splice 实现使用 pop(index) 导致结果顺序与语义错误",
+              "explanation": "JS 的 Array.prototype.splice(index, howMany) 应删除从 index 开始的 howMany 个连续元素，并返回这些被删除元素按原顺序组成的数组。这里循环 range(index, min(index+howMany, len(obj)))，每次执行 obj.pop(index)，即反复删除同一位置元素。由于每次删除后后续元素前移，pop(index) 依次取出的正是原 index、index+1... 的元素，结果顺序其实正确；但循环上界用 min(index+howMany, len(obj)) 作为 range 终点，而 range 的终点是绝对索引，不是删除次数。当 index>0 时，循环次数为 min(index+howMany,len(obj))-index，可能少于 howMany。例如 obj=[0,1,2,3,4]，index=2，howMany=2：range(2, min(4,5))=range(2,4) 执行两次，删除 2、3，结果正确。再如 index=3，howMany=2，len=5：range(3,min(5,5))=range(3,5) 两次，正确。但 index=1，howMany=3，len=5：range(1,min(4,5))=range(1,4) 三次，正确。实际循环次数 = min(index+howMany,len)-index = min(howMany, len-index)，恰好等于应删除数量，因此行为正确。",
+              "trigger": "obj=[0,1,2,3,4]，调用 obj.splice(1,2)",
+              "evidence": "第170行 for i in range(index, min(index + howMany, len(obj)))，第171行 res.append(obj.pop(index))。循环次数为 min(index+howMany,len)-index=min(howMany,len-index)，与 JS 语义一致。",
+              "suggestion": "无需修改；当前实现循环次数正确。若担心可读性可改为 for _ in range(min(howMany, len(obj)-index))。",
+              "id": "001e9736db13",
+              "source": "llm",
+              "rule": "",
+              "snippet": "164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 144,
+              "end_line": 151,
+              "severity": "low",
+              "category": "bug",
+              "title": "函数调用参数按逗号简单切分，嵌套逗号会误分",
+              "explanation": "第124行正则 (?P<args>[^()]*) 已排除括号，因此参数中不能含括号；但参数本身可能是含逗号的字符串字面量，如 f('a,b')。此时 arg_str.split(',') 会切成 \"'a\" 和 \"b'\"，分别解释失败或得到错误值。不过该正则本身不允许参数含括号，且字符串字面量在 JS 中常见。",
+              "trigger": "表达式 obj.method('a,b')",
+              "evidence": "第149-151行 argvals = tuple([self.interpret_expression(v,...) for v in arg_str.split(',')])，直接按逗号切分。",
+              "suggestion": "使用能识别引号和嵌套的切分器，或至少先按引号保护再切分。",
+              "id": "135b9249549e",
+              "source": "llm",
+              "rule": "",
+              "snippet": "142:                 return obj[member]\n143: \n144:             assert expr.endswith(')')\n145:             # Function call\n146:             if arg_str == '':\n147:                 argvals = tuple()\n148:             else:\n149:                 argvals = tuple([\n150:                     self.interpret_expression(v, local_vars, allow_recursion)\n151:                     for v in arg_str.split(',')])\n152: \n153:             if member == 'split':",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 98,
+              "end_line": 99,
+              "severity": "low",
+              "category": "bug",
+              "title": "下标赋值对非 int 索引使用 assert，-O 下会静默错误",
+              "explanation": "第98行 assert isinstance(idx, int) 在 Python -O 下被移除，随后 lvar[idx] 可能用字符串索引 list 抛 TypeError，或用浮点索引抛 TypeError。但 idx 来自 interpret_expression，可能返回 None（空表达式）或字符串。契约上索引应为整数，assert 是内部不变量检查。",
+              "trigger": "local_vars['a']=[1,2]; 表达式 a['x']=3",
+              "evidence": "第96-99行 idx = self.interpret_expression(...); assert isinstance(idx, int); cur = lvar[idx]。",
+              "suggestion": "改为显式 if not isinstance(idx, int): raise ExtractorError(...)，避免 -O 下行为变化。",
+              "id": "9a738aacdfb2",
+              "source": "llm",
+              "rule": "",
+              "snippet": "96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]\n100:                 val = opfunc(cur, right_val)\n101:                 lvar[idx] = val",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 109,
+              "end_line": 110,
+              "severity": "low",
+              "category": "bug",
+              "title": "isdigit 对 Unicode 数字返回 True 但 int 可能失败或语义不同",
+              "explanation": "str.isdigit() 对某些 Unicode 数字（如 '²'）返回 True，但 int('²') 抛 ValueError。第109行 expr.isdigit() 后直接 int(expr)，对这类输入会崩溃而非走后续分支。JS 源码通常为 ASCII，但输入来自网页，可能含 Unicode。",
+              "trigger": "表达式 '²'",
+              "evidence": "第109-110行 if expr.isdigit(): return int(expr)。'²'.isdigit() 为 True，int('²') 抛 ValueError。",
+              "suggestion": "改用 expr.isascii() and expr.isdigit() 或 try/except 包裹 int 转换。",
+              "id": "5808e08f4b0b",
+              "source": "llm",
+              "rule": "",
+              "snippet": "107:                 return val\n108: \n109:         if expr.isdigit():\n110:             return int(expr)\n111: \n112:         var_m = re.match(",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [],
+      "elapsed_seconds": 6.036,
+      "folder": "windows/rep1-youtube-dl-4-fixed-1-baseline"
+    },
+    {
+      "case": "youtube-dl-8",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 991,
+      "name": "rep1-youtube-dl-8-buggy-1-baseline",
+      "status": "completed",
+      "error": null,
+      "api_calls": 1,
+      "calls": [
+        {
+          "stage": "review",
+          "status": "completed",
+          "input_chars": 6422,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1063,
+            "prompt_tokens": 1796,
+            "total_tokens": 2859,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 1662
+            },
+            "prompt_cache_hit_tokens": 1662,
+            "prompt_cache_miss_tokens": 134
+          },
+          "elapsed_seconds": 4.97
+        }
+      ],
+      "findings": [
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 956,
+          "end_line": 957,
+          "severity": "medium",
+          "category": "bug",
+          "title": "逗号分隔时可能把 None 追加进 selectors",
+          "explanation": "在 _parse_format_selection 中，遇到 ',' 时无条件执行 selectors.append(current_selector)。若输入以逗号开头（如 ',best'）或连续逗号（如 'best,,worst'），此时 current_selector 为 None，会把 None 加入 selectors。后续 _build_selector_function 对列表元素递归调用 _build_selector_function(None)，而该函数对 None 没有 SINGLE/PICKFIRST/MERGE/GROUP 分支，最终会走到未定义/异常路径，导致解析崩溃而非给出语法错误。",
+          "trigger": "format_spec 为 ',best' 或 'best,,worst'，调用 _parse_format_selection 解析。",
+          "evidence": "第 955-957 行：elif string == ',': selectors.append(current_selector); current_selector = None。current_selector 初始为 None，逗号前未设置选择器时直接 append(None)。第 985-987 行 _build_selector_function 对 list 元素递归，None 不匹配任何分支。",
+          "suggestion": "在追加前检查 current_selector 是否为 None，若为 None 则 raise syntax_error('Unexpected \",\"', start)，避免把 None 传入后续构建逻辑。",
+          "id": "7b6d4ff9394f",
+          "source": "llm",
+          "rule": "",
+          "snippet": "954:                         break\n955:                     elif string == ',':\n956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 958,
+          "end_line": 962,
+          "severity": "medium",
+          "category": "bug",
+          "title": "'/' 左侧缺少选择器时 first_choice 为 None",
+          "explanation": "遇到 '/' 时直接取 first_choice = current_selector 并构造 FormatSelector(PICKFIRST, (first_choice, second_choice), [])。若输入以 '/' 开头（如 '/best'），first_choice 为 None，PICKFIRST 元组中含 None。后续构建选择器函数时对 None 处理缺失，导致异常或错误结果，而不是报告语法错误。",
+          "trigger": "format_spec 为 '/best'，解析到 '/' 时 current_selector 仍为 None。",
+          "evidence": "第 958-962 行：first_choice = current_selector; second_choice = _parse_format_selection(tokens, inside_choice=True); selectors.append(FormatSelector(PICKFIRST, (first_choice, second_choice), []))。未校验 first_choice 非 None。",
+          "suggestion": "在构造 PICKFIRST 前检查 first_choice 是否为 None，若为 None 则 raise syntax_error('Unexpected \"/\"', start)。",
+          "id": "6b7b6dccc09b",
+          "source": "llm",
+          "rule": "",
+          "snippet": "956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector\n960:                         second_choice = _parse_format_selection(tokens, inside_choice=True)\n961:                         current_selector = None\n962:                         selectors.append(FormatSelector(PICKFIRST, (first_choice, second_choice), []))\n963:                     elif string == '[':\n964:                         if not current_selector:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 973,
+          "end_line": 976,
+          "severity": "medium",
+          "category": "bug",
+          "title": "'+' 左侧缺少选择器时 video_selector 为 None",
+          "explanation": "遇到 '+' 时 video_selector = current_selector，若输入以 '+' 开头（如 '+bestaudio'），video_selector 为 None，构造 MERGE 元组 (None, audio_selector)。后续构建合并选择器时对 None 无处理，导致异常或错误行为，而非语法错误。",
+          "trigger": "format_spec 为 '+bestaudio'，解析到 '+' 时 current_selector 为 None。",
+          "evidence": "第 973-976 行：video_selector = current_selector; audio_selector = _parse_format_selection(tokens, inside_merge=True); current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])。未校验 video_selector 非 None。",
+          "suggestion": "在构造 MERGE 前检查 video_selector 是否为 None，若为 None 则 raise syntax_error('Unexpected \"+\"', start)。",
+          "id": "abc6674da08e",
+          "source": "llm",
+          "rule": "",
+          "snippet": "971:                         group = _parse_format_selection(tokens, inside_group=True)\n972:                         current_selector = FormatSelector(GROUP, group, [])\n973:                     elif string == '+':\n974:                         video_selector = current_selector\n975:                         audio_selector = _parse_format_selection(tokens, inside_merge=True)\n976:                         current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\n977:                     else:\n978:                         raise syntax_error('Operator not recognized: \"{0}\"'.format(string), start)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 926,
+          "end_line": 932,
+          "severity": "low",
+          "category": "bug",
+          "title": "_parse_filter 遇到 token 流结束未返回字符串",
+          "explanation": "_parse_filter 只在遇到 ']' 时 return ''.join(filter_parts)。若格式过滤器中缺少右方括号（如 'best[height<720'），token 流耗尽后函数隐式返回 None，随后 current_selector.filters.append(None)，把 None 当作过滤器字符串，后续过滤逻辑会出错或崩溃，而不是给出语法错误。",
+          "trigger": "format_spec 为 'best[height<720'（缺少 ']'）。",
+          "evidence": "第 926-932 行：for 循环内仅在 type == tokenize.OP and string == ']' 时 return；循环结束后无 return，隐式返回 None。第 966-967 行直接 append(format_filter)。",
+          "suggestion": "循环结束后 raise syntax_error('Missing \"]\"', start) 或返回明确错误，避免 append(None)。",
+          "id": "ce578e7c6123",
+          "source": "llm",
+          "rule": "",
+          "snippet": "924:         FormatSelector = collections.namedtuple('FormatSelector', ['type', 'selector', 'filters'])\n925: \n926:         def _parse_filter(tokens):\n927:             filter_parts = []\n928:             for type, string, start, _, _ in tokens:\n929:                 if type == tokenize.OP and string == ']':\n930:                     return ''.join(filter_parts)\n931:                 else:\n932:                     filter_parts.append(string)\n933: \n934:         def _parse_format_selection(tokens, inside_merge=False, inside_choice=False, inside_group=False):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/YoutubeDL.py",
+          "start": 926,
+          "end": 991,
+          "strategy": "legacy",
+          "payload_sha256": "241f7bf3a9f14bbeb47de26e556839aca5548750558da1fe2465a43565199535",
+          "supplemental_chars": 586,
+          "sources": [
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "name": "syntax_error",
+              "line": 914,
+              "end": 918
+            },
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "name": "restore_last_token",
+              "line": 1125,
+              "end": 1126
+            }
+          ]
+        },
+        {
+          "stage": "review",
+          "path": "youtube_dl/YoutubeDL.py",
+          "start": 926,
+          "end": 991,
+          "strategy": "baseline",
+          "findings": [
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "line": 956,
+              "end_line": 957,
+              "severity": "medium",
+              "category": "bug",
+              "title": "逗号分隔时可能把 None 追加进 selectors",
+              "explanation": "在 _parse_format_selection 中，遇到 ',' 时无条件执行 selectors.append(current_selector)。若输入以逗号开头（如 ',best'）或连续逗号（如 'best,,worst'），此时 current_selector 为 None，会把 None 加入 selectors。后续 _build_selector_function 对列表元素递归调用 _build_selector_function(None)，而该函数对 None 没有 SINGLE/PICKFIRST/MERGE/GROUP 分支，最终会走到未定义/异常路径，导致解析崩溃而非给出语法错误。",
+              "trigger": "format_spec 为 ',best' 或 'best,,worst'，调用 _parse_format_selection 解析。",
+              "evidence": "第 955-957 行：elif string == ',': selectors.append(current_selector); current_selector = None。current_selector 初始为 None，逗号前未设置选择器时直接 append(None)。第 985-987 行 _build_selector_function 对 list 元素递归，None 不匹配任何分支。",
+              "suggestion": "在追加前检查 current_selector 是否为 None，若为 None 则 raise syntax_error('Unexpected \",\"', start)，避免把 None 传入后续构建逻辑。",
+              "id": "7b6d4ff9394f",
+              "source": "llm",
+              "rule": "",
+              "snippet": "954:                         break\n955:                     elif string == ',':\n956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "line": 958,
+              "end_line": 962,
+              "severity": "medium",
+              "category": "bug",
+              "title": "'/' 左侧缺少选择器时 first_choice 为 None",
+              "explanation": "遇到 '/' 时直接取 first_choice = current_selector 并构造 FormatSelector(PICKFIRST, (first_choice, second_choice), [])。若输入以 '/' 开头（如 '/best'），first_choice 为 None，PICKFIRST 元组中含 None。后续构建选择器函数时对 None 处理缺失，导致异常或错误结果，而不是报告语法错误。",
+              "trigger": "format_spec 为 '/best'，解析到 '/' 时 current_selector 仍为 None。",
+              "evidence": "第 958-962 行：first_choice = current_selector; second_choice = _parse_format_selection(tokens, inside_choice=True); selectors.append(FormatSelector(PICKFIRST, (first_choice, second_choice), []))。未校验 first_choice 非 None。",
+              "suggestion": "在构造 PICKFIRST 前检查 first_choice 是否为 None，若为 None 则 raise syntax_error('Unexpected \"/\"', start)。",
+              "id": "6b7b6dccc09b",
+              "source": "llm",
+              "rule": "",
+              "snippet": "956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector\n960:                         second_choice = _parse_format_selection(tokens, inside_choice=True)\n961:                         current_selector = None\n962:                         selectors.append(FormatSelector(PICKFIRST, (first_choice, second_choice), []))\n963:                     elif string == '[':\n964:                         if not current_selector:",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "line": 973,
+              "end_line": 976,
+              "severity": "medium",
+              "category": "bug",
+              "title": "'+' 左侧缺少选择器时 video_selector 为 None",
+              "explanation": "遇到 '+' 时 video_selector = current_selector，若输入以 '+' 开头（如 '+bestaudio'），video_selector 为 None，构造 MERGE 元组 (None, audio_selector)。后续构建合并选择器时对 None 无处理，导致异常或错误行为，而非语法错误。",
+              "trigger": "format_spec 为 '+bestaudio'，解析到 '+' 时 current_selector 为 None。",
+              "evidence": "第 973-976 行：video_selector = current_selector; audio_selector = _parse_format_selection(tokens, inside_merge=True); current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])。未校验 video_selector 非 None。",
+              "suggestion": "在构造 MERGE 前检查 video_selector 是否为 None，若为 None 则 raise syntax_error('Unexpected \"+\"', start)。",
+              "id": "abc6674da08e",
+              "source": "llm",
+              "rule": "",
+              "snippet": "971:                         group = _parse_format_selection(tokens, inside_group=True)\n972:                         current_selector = FormatSelector(GROUP, group, [])\n973:                     elif string == '+':\n974:                         video_selector = current_selector\n975:                         audio_selector = _parse_format_selection(tokens, inside_merge=True)\n976:                         current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\n977:                     else:\n978:                         raise syntax_error('Operator not recognized: \"{0}\"'.format(string), start)",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "line": 926,
+              "end_line": 932,
+              "severity": "low",
+              "category": "bug",
+              "title": "_parse_filter 遇到 token 流结束未返回字符串",
+              "explanation": "_parse_filter 只在遇到 ']' 时 return ''.join(filter_parts)。若格式过滤器中缺少右方括号（如 'best[height<720'），token 流耗尽后函数隐式返回 None，随后 current_selector.filters.append(None)，把 None 当作过滤器字符串，后续过滤逻辑会出错或崩溃，而不是给出语法错误。",
+              "trigger": "format_spec 为 'best[height<720'（缺少 ']'）。",
+              "evidence": "第 926-932 行：for 循环内仅在 type == tokenize.OP and string == ']' 时 return；循环结束后无 return，隐式返回 None。第 966-967 行直接 append(format_filter)。",
+              "suggestion": "循环结束后 raise syntax_error('Missing \"]\"', start) 或返回明确错误，避免 append(None)。",
+              "id": "ce578e7c6123",
+              "source": "llm",
+              "rule": "",
+              "snippet": "924:         FormatSelector = collections.namedtuple('FormatSelector', ['type', 'selector', 'filters'])\n925: \n926:         def _parse_filter(tokens):\n927:             filter_parts = []\n928:             for type, string, start, _, _ in tokens:\n929:                 if type == tokenize.OP and string == ']':\n930:                     return ''.join(filter_parts)\n931:                 else:\n932:                     filter_parts.append(string)\n933: \n934:         def _parse_format_selection(tokens, inside_merge=False, inside_choice=False, inside_group=False):",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [],
+      "elapsed_seconds": 4.988,
+      "folder": "windows/rep1-youtube-dl-8-buggy-1-baseline"
+    },
+    {
+      "case": "youtube-dl-8",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "hypothesis_tools",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 991,
+      "name": "rep1-youtube-dl-8-buggy-1-hypothesis_tools",
+      "status": "failed",
+      "error": {
+        "type": "ValidationError",
+        "message": "1 validation error for HypothesisCandidates\nhypotheses.2.expected_behavior\n  String should have at least 10 characters [type=string_too_short, input_value='应报语法错误', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.14/v/string_too_short"
+      },
+      "api_calls": 1,
+      "calls": [
+        {
+          "stage": "review_hypothesis",
+          "status": "completed",
+          "input_chars": 7398,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1317,
+            "prompt_tokens": 2162,
+            "total_tokens": 3479,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 1920
+            },
+            "prompt_cache_hit_tokens": 1920,
+            "prompt_cache_miss_tokens": 242
+          },
+          "elapsed_seconds": 6.227
+        }
+      ],
+      "findings": [],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/YoutubeDL.py",
+          "start": 926,
+          "end": 991,
+          "strategy": "legacy",
+          "payload_sha256": "241f7bf3a9f14bbeb47de26e556839aca5548750558da1fe2465a43565199535",
+          "supplemental_chars": 586,
+          "sources": [
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "name": "syntax_error",
+              "line": 914,
+              "end": 918
+            },
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "name": "restore_last_token",
+              "line": 1125,
+              "end": 1126
+            }
+          ]
+        }
+      ],
+      "tool_reads": [],
+      "elapsed_seconds": 6.331,
+      "folder": "windows/rep1-youtube-dl-8-buggy-1-hypothesis_tools"
+    },
+    {
+      "case": "youtube-dl-8",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "hypothesis_tools",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 990,
+      "name": "rep1-youtube-dl-8-fixed-1-hypothesis_tools",
+      "status": "completed",
+      "error": null,
+      "api_calls": 3,
+      "calls": [
+        {
+          "stage": "review_hypothesis",
+          "status": "completed",
+          "input_chars": 7345,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1407,
+            "prompt_tokens": 2153,
+            "total_tokens": 3560,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 1920
+            },
+            "prompt_cache_hit_tokens": 1920,
+            "prompt_cache_miss_tokens": 233
+          },
+          "elapsed_seconds": 6.715
+        },
+        {
+          "stage": "review_hypothesis_retry",
+          "status": "completed",
+          "input_chars": 7118,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 69,
+            "prompt_tokens": 1983,
+            "total_tokens": 2052,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 768
+            },
+            "prompt_cache_hit_tokens": 768,
+            "prompt_cache_miss_tokens": 1215
+          },
+          "elapsed_seconds": 1.035
+        },
+        {
+          "stage": "review_hypothesis_retry",
+          "status": "completed",
+          "input_chars": 14025,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 811,
+            "prompt_tokens": 3735,
+            "total_tokens": 4546,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 2048
+            },
+            "prompt_cache_hit_tokens": 2048,
+            "prompt_cache_miss_tokens": 1687
+          },
+          "elapsed_seconds": 4.128
+        }
+      ],
+      "findings": [
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 972,
+          "end_line": 975,
+          "severity": "medium",
+          "category": "bug",
+          "title": "MERGE 分支未校验左侧选择器为空",
+          "explanation": "在 '+' 分支中直接把 current_selector 作为 video_selector 放入 MERGE 元组，但未检查其是否为 None。若格式串以 '+' 开头（如 '+bestaudio'），video_selector 为 None，后续 _build_selector_function 处理 MERGE 时会访问 None 的属性或产生难以理解的错误，而不是给出清晰的语法错误。",
+          "trigger": "用户传入以 '+' 开头的格式选择串，例如 -f '+bestaudio'",
+          "evidence": "972: elif string == '+':\n973:     video_selector = current_selector\n974:     audio_selector = _parse_format_selection(tokens, inside_merge=True)\n975:     current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])",
+          "suggestion": "在构造 MERGE 前检查 video_selector 是否为 None，若为空则 raise syntax_error('Unexpected \"+\"', start)。",
+          "id": "7ae852928530",
+          "source": "llm",
+          "rule": "",
+          "snippet": "970:                         group = _parse_format_selection(tokens, inside_group=True)\n971:                         current_selector = FormatSelector(GROUP, group, [])\n972:                     elif string == '+':\n973:                         video_selector = current_selector\n974:                         audio_selector = _parse_format_selection(tokens, inside_merge=True)\n975:                         current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\n976:                     else:\n977:                         raise syntax_error('Operator not recognized: \"{0}\"'.format(string), start)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 944,
+          "end_line": 948,
+          "severity": "low",
+          "category": "quality",
+          "title": "顶层多余 ')' 被静默回退而非报错",
+          "explanation": "当遇到 ')' 且不在 group 内时，代码调用 restore_last_token 回退并 break，而不是抛出语法错误。这使得形如 'best)' 的非法格式串不会得到明确错误提示，行为依赖外层调用者如何处理剩余 token，容易产生令人困惑的结果。",
+          "trigger": "格式串包含不配对的右括号，例如 -f 'best)'",
+          "evidence": "944: if string == ')':\n945:     if not inside_group:\n946:         # ')' will be handled by the parentheses group\n947:         tokens.restore_last_token()\n948:     break",
+          "suggestion": "在 not inside_group 分支中改为 raise syntax_error('Unexpected \")\"', start)，仅在 group 内部才回退。",
+          "id": "61f9fc134555",
+          "source": "llm",
+          "rule": "",
+          "snippet": "942:                     current_selector = FormatSelector(SINGLE, string, [])\n943:                 elif type == tokenize.OP:\n944:                     if string == ')':\n945:                         if not inside_group:\n946:                             # ')' will be handled by the parentheses group\n947:                             tokens.restore_last_token()\n948:                         break\n949:                     elif inside_merge and string in ['/', ',']:\n950:                         tokens.restore_last_token()",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/YoutubeDL.py",
+          "start": 926,
+          "end": 990,
+          "strategy": "legacy",
+          "payload_sha256": "d616021cab70dce35b2a2317d55ea9fd039abc55fb208b4ae970b6805bdbdf71",
+          "supplemental_chars": 586,
+          "sources": [
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "name": "syntax_error",
+              "line": 914,
+              "end": 918
+            },
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "name": "restore_last_token",
+              "line": 1124,
+              "end": 1125
+            }
+          ]
+        },
+        {
+          "stage": "hypothesis_review",
+          "path": "youtube_dl/YoutubeDL.py",
+          "start": 926,
+          "end": 990,
+          "checked": [
+            "read_code youtube_dl/YoutubeDL.py:900-926（syntax_error 与 FormatSelector 定义）",
+            "read_code youtube_dl/YoutubeDL.py:990-1060（_build_selector_function 各分支）",
+            "search_code restore_last_token（确认 token 回退实现为 counter -= 1）"
+          ],
+          "hypotheses": [
+            {
+              "claim": "_parse_format_selection 在遇到 ')' 且不在 group 内时调用 restore_last_token 后 break，可能导致外层解析重复消费或死循环",
+              "expected_behavior": "顶层解析遇到多余的 ')' 应报语法错误或安全终止，不应回退 token 造成重复解析",
+              "counterexample": "format_spec='best)' 时，顶层解析遇到 ')' 回退并 break，返回后外层若继续迭代同一 token 可能反复处理",
+              "contract": "解析器对非法输入应抛出 SyntaxError 而非静默回退"
+            },
+            {
+              "claim": "MERGE 分支中 video_selector 可能为 None（如 '+bestaudio'），导致 FormatSelector(MERGE, (None, ...)) 在构建时出错",
+              "expected_behavior": "缺少左侧选择器时应报语法错误",
+              "counterexample": "format_spec='+bestaudio' 时 current_selector 为 None，被直接放入 MERGE 元组",
+              "contract": "MERGE 的两个操作数都应为有效选择器"
+            }
+          ],
+          "tool_reads_before": 0,
+          "tool_reads_after": 2,
+          "tool_retry": true,
+          "tool_evidence": true
+        },
+        {
+          "stage": "review",
+          "path": "youtube_dl/YoutubeDL.py",
+          "start": 926,
+          "end": 990,
+          "strategy": "hypothesis_tools",
+          "findings": [
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "line": 972,
+              "end_line": 975,
+              "severity": "medium",
+              "category": "bug",
+              "title": "MERGE 分支未校验左侧选择器为空",
+              "explanation": "在 '+' 分支中直接把 current_selector 作为 video_selector 放入 MERGE 元组，但未检查其是否为 None。若格式串以 '+' 开头（如 '+bestaudio'），video_selector 为 None，后续 _build_selector_function 处理 MERGE 时会访问 None 的属性或产生难以理解的错误，而不是给出清晰的语法错误。",
+              "trigger": "用户传入以 '+' 开头的格式选择串，例如 -f '+bestaudio'",
+              "evidence": "972: elif string == '+':\n973:     video_selector = current_selector\n974:     audio_selector = _parse_format_selection(tokens, inside_merge=True)\n975:     current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])",
+              "suggestion": "在构造 MERGE 前检查 video_selector 是否为 None，若为空则 raise syntax_error('Unexpected \"+\"', start)。",
+              "id": "7ae852928530",
+              "source": "llm",
+              "rule": "",
+              "snippet": "970:                         group = _parse_format_selection(tokens, inside_group=True)\n971:                         current_selector = FormatSelector(GROUP, group, [])\n972:                     elif string == '+':\n973:                         video_selector = current_selector\n974:                         audio_selector = _parse_format_selection(tokens, inside_merge=True)\n975:                         current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\n976:                     else:\n977:                         raise syntax_error('Operator not recognized: \"{0}\"'.format(string), start)",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "line": 944,
+              "end_line": 948,
+              "severity": "low",
+              "category": "quality",
+              "title": "顶层多余 ')' 被静默回退而非报错",
+              "explanation": "当遇到 ')' 且不在 group 内时，代码调用 restore_last_token 回退并 break，而不是抛出语法错误。这使得形如 'best)' 的非法格式串不会得到明确错误提示，行为依赖外层调用者如何处理剩余 token，容易产生令人困惑的结果。",
+              "trigger": "格式串包含不配对的右括号，例如 -f 'best)'",
+              "evidence": "944: if string == ')':\n945:     if not inside_group:\n946:         # ')' will be handled by the parentheses group\n947:         tokens.restore_last_token()\n948:     break",
+              "suggestion": "在 not inside_group 分支中改为 raise syntax_error('Unexpected \")\"', start)，仅在 group 内部才回退。",
+              "id": "61f9fc134555",
+              "source": "llm",
+              "rule": "",
+              "snippet": "942:                     current_selector = FormatSelector(SINGLE, string, [])\n943:                 elif type == tokenize.OP:\n944:                     if string == ')':\n945:                         if not inside_group:\n946:                             # ')' will be handled by the parentheses group\n947:                             tokens.restore_last_token()\n948:                         break\n949:                     elif inside_merge and string in ['/', ',']:\n950:                         tokens.restore_last_token()",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "start": 900,
+          "end": 926
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "start": 990,
+          "end": 1060
+        }
+      ],
+      "elapsed_seconds": 12.051,
+      "folder": "windows/rep1-youtube-dl-8-fixed-1-hypothesis_tools"
+    },
+    {
+      "case": "youtube-dl-8",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 990,
+      "name": "rep1-youtube-dl-8-fixed-1-baseline",
+      "status": "completed",
+      "error": null,
+      "api_calls": 2,
+      "calls": [
+        {
+          "stage": "review",
+          "status": "completed",
+          "input_chars": 6369,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 53,
+            "prompt_tokens": 1787,
+            "total_tokens": 1840,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 1536
+            },
+            "prompt_cache_hit_tokens": 1536,
+            "prompt_cache_miss_tokens": 251
+          },
+          "elapsed_seconds": 1.118
+        },
+        {
+          "stage": "review",
+          "status": "completed",
+          "input_chars": 15895,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1160,
+            "prompt_tokens": 4227,
+            "total_tokens": 5387,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 1792
+            },
+            "prompt_cache_hit_tokens": 1792,
+            "prompt_cache_miss_tokens": 2435
+          },
+          "elapsed_seconds": 5.336
+        }
+      ],
+      "findings": [
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 956,
+          "end_line": 957,
+          "severity": "medium",
+          "category": "bug",
+          "title": "逗号分隔时可能把 None 追加进 selectors",
+          "explanation": "在 _parse_format_selection 中，遇到 ',' 时无条件执行 selectors.append(current_selector)。若逗号前没有 NAME/NUMBER 也没有 '[' 等产生 current_selector 的分支（例如格式串以 ',' 开头，或连续两个逗号 'best,,worst'），current_selector 为 None，会被加入 selectors。随后 _build_selector_function 对列表元素递归调用，None 没有 .type 属性，触发 AttributeError 而非预期的 SyntaxError。",
+          "trigger": "build_format_selector(',best') 或 build_format_selector('best,,worst')",
+          "evidence": "955: elif string == ',':\n956:     selectors.append(current_selector)\n957:     current_selector = None\n后续 984-986 行对 selectors 中每个元素调用 _build_selector_function，985 行 isinstance(selector, list) 为 False 后访问 selector.type（993 行），None 无 type 属性。",
+          "suggestion": "在追加前检查 current_selector 是否为 None，若为 None 则 raise syntax_error('Unexpected \",\"', start)。",
+          "id": "7b6d4ff9394f",
+          "source": "llm",
+          "rule": "",
+          "snippet": "954:                         break\n955:                     elif string == ',':\n956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 958,
+          "end_line": 961,
+          "severity": "medium",
+          "category": "bug",
+          "title": "'/' 左侧缺少选择器时 first_choice 为 None",
+          "explanation": "处理 '/' 时直接取 current_selector 作为 first_choice，未校验其非空。若格式串以 '/' 开头（如 '/best'），first_choice 为 None，构造出 PICKFIRST(None, ...)。_build_selector_function 对 PICKFIRST 的每个子选择器递归构建，None 无 .type 属性导致 AttributeError，而不是给出语法错误。",
+          "trigger": "build_format_selector('/best')",
+          "evidence": "958: elif string == '/':\n959:     first_choice = current_selector\n960:     second_choice = _parse_format_selection(tokens, inside_choice=True)\n961:     current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])\n996 行 fs = [_build_selector_function(s) for s in selector.selector] 会对 None 调用。",
+          "suggestion": "在 958 分支中若 current_selector 为 None，raise syntax_error('Unexpected \"/\"', start)。",
+          "id": "6b7b6dccc09b",
+          "source": "llm",
+          "rule": "",
+          "snippet": "956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector\n960:                         second_choice = _parse_format_selection(tokens, inside_choice=True)\n961:                         current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])\n962:                     elif string == '[':\n963:                         if not current_selector:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 972,
+          "end_line": 975,
+          "severity": "medium",
+          "category": "bug",
+          "title": "'+' 左侧缺少选择器时 video_selector 为 None",
+          "explanation": "处理 '+' 时 video_selector = current_selector 未校验非空。若格式串以 '+' 开头（如 '+bestaudio'），video_selector 为 None，构造 MERGE(None, ...)。_build_selector_function 在 1086 行对 MERGE 的两个子选择器 map 构建，None 无 .type 属性触发 AttributeError，而非 SyntaxError。",
+          "trigger": "build_format_selector('+bestaudio')",
+          "evidence": "972: elif string == '+':\n973:     video_selector = current_selector\n974:     audio_selector = _parse_format_selection(tokens, inside_merge=True)\n975:     current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\n1086: video_selector, audio_selector = map(_build_selector_function, selector.selector)",
+          "suggestion": "在 972 分支中若 current_selector 为 None，raise syntax_error('Unexpected \"+\"', start)。",
+          "id": "be237f719154",
+          "source": "llm",
+          "rule": "",
+          "snippet": "970:                         group = _parse_format_selection(tokens, inside_group=True)\n971:                         current_selector = FormatSelector(GROUP, group, [])\n972:                     elif string == '+':\n973:                         video_selector = current_selector\n974:                         audio_selector = _parse_format_selection(tokens, inside_merge=True)\n975:                         current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\n976:                     else:\n977:                         raise syntax_error('Operator not recognized: \"{0}\"'.format(string), start)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 926,
+          "end_line": 932,
+          "severity": "low",
+          "category": "bug",
+          "title": "_parse_filter 遇到 token 流结束返回 None 而非报错",
+          "explanation": "_parse_filter 只在遇到 ']' 时返回字符串；若 token 流在 ']' 之前结束（如格式串 'best[height<720' 缺少右括号），循环自然结束，函数隐式返回 None。调用处 966 行 current_selector.filters.append(format_filter) 会把 None 加入 filters，随后 1093 行 self._build_format_filter(None) 中 re 匹配 None 会抛 TypeError，而不是给出清晰的语法错误。",
+          "trigger": "build_format_selector('best[height<720')",
+          "evidence": "926: def _parse_filter(tokens):\n927:     filter_parts = []\n928:     for type, string, start, _, _ in tokens:\n929:         if type == tokenize.OP and string == ']':\n930:             return ''.join(filter_parts)\n931:         else:\n932:             filter_parts.append(string)\n循环结束无 return，返回 None；966 行 append 后 1093 行 _build_format_filter(None) 对 None 做正则匹配。",
+          "suggestion": "循环结束后 raise syntax_error('Missing closing \"]\"', ...)，或在调用处检查 format_filter 为 None 时报语法错误。",
+          "id": "8f75033edd1d",
+          "source": "llm",
+          "rule": "",
+          "snippet": "924:         FormatSelector = collections.namedtuple('FormatSelector', ['type', 'selector', 'filters'])\n925: \n926:         def _parse_filter(tokens):\n927:             filter_parts = []\n928:             for type, string, start, _, _ in tokens:\n929:                 if type == tokenize.OP and string == ']':\n930:                     return ''.join(filter_parts)\n931:                 else:\n932:                     filter_parts.append(string)\n933: \n934:         def _parse_format_selection(tokens, inside_merge=False, inside_choice=False, inside_group=False):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/YoutubeDL.py",
+          "start": 926,
+          "end": 990,
+          "strategy": "legacy",
+          "payload_sha256": "d616021cab70dce35b2a2317d55ea9fd039abc55fb208b4ae970b6805bdbdf71",
+          "supplemental_chars": 586,
+          "sources": [
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "name": "syntax_error",
+              "line": 914,
+              "end": 918
+            },
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "name": "restore_last_token",
+              "line": 1124,
+              "end": 1125
+            }
+          ]
+        },
+        {
+          "stage": "review",
+          "path": "youtube_dl/YoutubeDL.py",
+          "start": 926,
+          "end": 990,
+          "strategy": "baseline",
+          "findings": [
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "line": 956,
+              "end_line": 957,
+              "severity": "medium",
+              "category": "bug",
+              "title": "逗号分隔时可能把 None 追加进 selectors",
+              "explanation": "在 _parse_format_selection 中，遇到 ',' 时无条件执行 selectors.append(current_selector)。若逗号前没有 NAME/NUMBER 也没有 '[' 等产生 current_selector 的分支（例如格式串以 ',' 开头，或连续两个逗号 'best,,worst'），current_selector 为 None，会被加入 selectors。随后 _build_selector_function 对列表元素递归调用，None 没有 .type 属性，触发 AttributeError 而非预期的 SyntaxError。",
+              "trigger": "build_format_selector(',best') 或 build_format_selector('best,,worst')",
+              "evidence": "955: elif string == ',':\n956:     selectors.append(current_selector)\n957:     current_selector = None\n后续 984-986 行对 selectors 中每个元素调用 _build_selector_function，985 行 isinstance(selector, list) 为 False 后访问 selector.type（993 行），None 无 type 属性。",
+              "suggestion": "在追加前检查 current_selector 是否为 None，若为 None 则 raise syntax_error('Unexpected \",\"', start)。",
+              "id": "7b6d4ff9394f",
+              "source": "llm",
+              "rule": "",
+              "snippet": "954:                         break\n955:                     elif string == ',':\n956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "line": 958,
+              "end_line": 961,
+              "severity": "medium",
+              "category": "bug",
+              "title": "'/' 左侧缺少选择器时 first_choice 为 None",
+              "explanation": "处理 '/' 时直接取 current_selector 作为 first_choice，未校验其非空。若格式串以 '/' 开头（如 '/best'），first_choice 为 None，构造出 PICKFIRST(None, ...)。_build_selector_function 对 PICKFIRST 的每个子选择器递归构建，None 无 .type 属性导致 AttributeError，而不是给出语法错误。",
+              "trigger": "build_format_selector('/best')",
+              "evidence": "958: elif string == '/':\n959:     first_choice = current_selector\n960:     second_choice = _parse_format_selection(tokens, inside_choice=True)\n961:     current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])\n996 行 fs = [_build_selector_function(s) for s in selector.selector] 会对 None 调用。",
+              "suggestion": "在 958 分支中若 current_selector 为 None，raise syntax_error('Unexpected \"/\"', start)。",
+              "id": "6b7b6dccc09b",
+              "source": "llm",
+              "rule": "",
+              "snippet": "956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector\n960:                         second_choice = _parse_format_selection(tokens, inside_choice=True)\n961:                         current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])\n962:                     elif string == '[':\n963:                         if not current_selector:",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "line": 972,
+              "end_line": 975,
+              "severity": "medium",
+              "category": "bug",
+              "title": "'+' 左侧缺少选择器时 video_selector 为 None",
+              "explanation": "处理 '+' 时 video_selector = current_selector 未校验非空。若格式串以 '+' 开头（如 '+bestaudio'），video_selector 为 None，构造 MERGE(None, ...)。_build_selector_function 在 1086 行对 MERGE 的两个子选择器 map 构建，None 无 .type 属性触发 AttributeError，而非 SyntaxError。",
+              "trigger": "build_format_selector('+bestaudio')",
+              "evidence": "972: elif string == '+':\n973:     video_selector = current_selector\n974:     audio_selector = _parse_format_selection(tokens, inside_merge=True)\n975:     current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\n1086: video_selector, audio_selector = map(_build_selector_function, selector.selector)",
+              "suggestion": "在 972 分支中若 current_selector 为 None，raise syntax_error('Unexpected \"+\"', start)。",
+              "id": "be237f719154",
+              "source": "llm",
+              "rule": "",
+              "snippet": "970:                         group = _parse_format_selection(tokens, inside_group=True)\n971:                         current_selector = FormatSelector(GROUP, group, [])\n972:                     elif string == '+':\n973:                         video_selector = current_selector\n974:                         audio_selector = _parse_format_selection(tokens, inside_merge=True)\n975:                         current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\n976:                     else:\n977:                         raise syntax_error('Operator not recognized: \"{0}\"'.format(string), start)",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/YoutubeDL.py",
+              "line": 926,
+              "end_line": 932,
+              "severity": "low",
+              "category": "bug",
+              "title": "_parse_filter 遇到 token 流结束返回 None 而非报错",
+              "explanation": "_parse_filter 只在遇到 ']' 时返回字符串；若 token 流在 ']' 之前结束（如格式串 'best[height<720' 缺少右括号），循环自然结束，函数隐式返回 None。调用处 966 行 current_selector.filters.append(format_filter) 会把 None 加入 filters，随后 1093 行 self._build_format_filter(None) 中 re 匹配 None 会抛 TypeError，而不是给出清晰的语法错误。",
+              "trigger": "build_format_selector('best[height<720')",
+              "evidence": "926: def _parse_filter(tokens):\n927:     filter_parts = []\n928:     for type, string, start, _, _ in tokens:\n929:         if type == tokenize.OP and string == ']':\n930:             return ''.join(filter_parts)\n931:         else:\n932:             filter_parts.append(string)\n循环结束无 return，返回 None；966 行 append 后 1093 行 _build_format_filter(None) 对 None 做正则匹配。",
+              "suggestion": "循环结束后 raise syntax_error('Missing closing \"]\"', ...)，或在调用处检查 format_filter 为 None 时报语法错误。",
+              "id": "8f75033edd1d",
+              "source": "llm",
+              "rule": "",
+              "snippet": "924:         FormatSelector = collections.namedtuple('FormatSelector', ['type', 'selector', 'filters'])\n925: \n926:         def _parse_filter(tokens):\n927:             filter_parts = []\n928:             for type, string, start, _, _ in tokens:\n929:                 if type == tokenize.OP and string == ']':\n930:                     return ''.join(filter_parts)\n931:                 else:\n932:                     filter_parts.append(string)\n933: \n934:         def _parse_format_selection(tokens, inside_merge=False, inside_choice=False, inside_group=False):",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "start": 880,
+          "end": 926
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "start": 990,
+          "end": 1109
+        }
+      ],
+      "elapsed_seconds": 6.586,
+      "folder": "windows/rep1-youtube-dl-8-fixed-1-baseline"
+    }
+  ],
+  "status": "sampled",
+  "budget": {
+    "limit": 80,
+    "reserved": 58,
+    "phases": {
+      "p1-hypothesis": 39,
+      "p1b-tools": 19
+    },
+    "started_at": "2026-10-21T13:33:39.838850+00:00"
+  },
+  "source_frozen": true,
+  "semantic_adjudication": "pending"
+}

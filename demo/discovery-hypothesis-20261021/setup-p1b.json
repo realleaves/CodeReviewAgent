@@ -1,0 +1,237 @@
+{
+  "windows": 6,
+  "selection": [
+    "tornado-3",
+    "youtube-dl-4",
+    "youtube-dl-8"
+  ],
+  "window_records": [
+    {
+      "case": "tornado-3",
+      "side": "buggy",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 4776,
+      "callgraph_supplemental_chars": 5996,
+      "relations": {
+        "callee": 2,
+        "following_code": 1,
+        "import_binding": 4,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "HTTPRequest",
+        "get",
+        "get",
+        "get"
+      ],
+      "retrieval_seconds": 0.2303,
+      "folder": "tornado-3-buggy-1",
+      "payload_sha256": {
+        "legacy": "1529c7fe78c56776b66894f1fb1c0d04452b1db6a305449f9d5c02b90b0b5a97",
+        "callgraph": "67de7c8d6a069f63ea6a7fd274840ef56a3d5e9c9427a1c33b9fb89d86854a1e"
+      }
+    },
+    {
+      "case": "tornado-3",
+      "side": "fixed",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 291,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 7648,
+      "callgraph_supplemental_chars": 5996,
+      "relations": {
+        "callee": 2,
+        "following_code": 1,
+        "import_binding": 4,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "HTTPRequest",
+        "HTTPHeaders",
+        "current",
+        "current"
+      ],
+      "retrieval_seconds": 0.0935,
+      "folder": "tornado-3-fixed-1",
+      "payload_sha256": {
+        "legacy": "9934c5e579f95bd5bdd79d9c6e0e500ad1c95bf4e354d09ef5d5d1f7468bab01",
+        "callgraph": "9d3f94fd28b91d36b4acf099ffb83550e4d6b284381be57b5a40bd41d35a5aac"
+      }
+    },
+    {
+      "case": "youtube-dl-4",
+      "side": "buggy",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 2565,
+      "callgraph_supplemental_chars": 4140,
+      "relations": {
+        "callee": 1,
+        "caller": 1,
+        "enclosing_definition": 2,
+        "import_binding": 3,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "interpret_statement",
+        "extract_function",
+        "get",
+        "split"
+      ],
+      "retrieval_seconds": 1.0806,
+      "folder": "youtube-dl-4-buggy-1",
+      "payload_sha256": {
+        "legacy": "4b3e292e115e4751d1447d21c137da7d21d0f1a80a3526825666bc09969f46fa",
+        "callgraph": "e7911d427a2cf1c0c37af8c16914d57c5215bd454d553d6e2614ee0dd91fae05"
+      }
+    },
+    {
+      "case": "youtube-dl-4",
+      "side": "fixed",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 2565,
+      "callgraph_supplemental_chars": 4140,
+      "relations": {
+        "callee": 1,
+        "caller": 1,
+        "enclosing_definition": 2,
+        "import_binding": 3,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "interpret_statement",
+        "extract_function",
+        "get",
+        "split"
+      ],
+      "retrieval_seconds": 1.0826,
+      "folder": "youtube-dl-4-fixed-1",
+      "payload_sha256": {
+        "legacy": "bdb4c78608a90c8c0b04e04014e41e60ccf042ad48819c47ab9710eb6e9a3271",
+        "callgraph": "7fd041b41c63676d01a2c0729407cdb8bc86f75279cecbeaa0346f698c7ddcb9"
+      }
+    },
+    {
+      "case": "youtube-dl-8",
+      "side": "buggy",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 991,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 586,
+      "callgraph_supplemental_chars": 7462,
+      "relations": {
+        "caller": 3,
+        "enclosing_definition": 1,
+        "following_code": 1,
+        "import_binding": 1,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "syntax_error",
+        "restore_last_token"
+      ],
+      "retrieval_seconds": 0.7335,
+      "folder": "youtube-dl-8-buggy-1",
+      "payload_sha256": {
+        "legacy": "4b84ca63b2e6bca3efc67817e607d2f138357f3796cbdf845b1bd4ca689bfe18",
+        "callgraph": "e10f4ef35f02980d127efad01fb7e9975824d20c3e71259325848baf5d093e49"
+      }
+    },
+    {
+      "case": "youtube-dl-8",
+      "side": "fixed",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 990,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 586,
+      "callgraph_supplemental_chars": 7461,
+      "relations": {
+        "caller": 3,
+        "enclosing_definition": 1,
+        "following_code": 1,
+        "import_binding": 1,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "syntax_error",
+        "restore_last_token"
+      ],
+      "retrieval_seconds": 0.616,
+      "folder": "youtube-dl-8-fixed-1",
+      "payload_sha256": {
+        "legacy": "fc86bcc32ca0a128d03e9aab11bfddfc0f6b060d74474f3559e54f0b3099f5eb",
+        "callgraph": "3bdb71654d7071e339ae2fa13fcf9205a9dab89f7a3bfebd39c1e0f711fc7b8e"
+      }
+    }
+  ],
+  "snapshots": {
+    "tornado-3/buggy": {
+      "files": 62,
+      "snapshot_sha256": "cdd87cf1e32de1921805161e8f0fd7d2f1d3be4904aae6f4b6aa890d68d1d5f4"
+    },
+    "tornado-3/fixed": {
+      "files": 62,
+      "snapshot_sha256": "39397b1cf57453a239e3ee1003a908d64a245a179044f20bb55e218330cf4247"
+    },
+    "youtube-dl-4/buggy": {
+      "files": 726,
+      "snapshot_sha256": "814db4e472b1fe8493603662631acff46e1c6053677d4fc2aeda3bdd7ccfa093"
+    },
+    "youtube-dl-4/fixed": {
+      "files": 726,
+      "snapshot_sha256": "b2ce8f8c2309a77b57961cddeeee3f8b3f9ed74be9904eea0a4582074a6f2171"
+    },
+    "youtube-dl-8/buggy": {
+      "files": 563,
+      "snapshot_sha256": "7d5583e6ca81ff6f499d4fece0b758080b1328090e8d8c6ac85a9950a01f8524"
+    },
+    "youtube-dl-8/fixed": {
+      "files": 563,
+      "snapshot_sha256": "a4b7bd8352dc7d103a8c9b23dae9cb6fdede352fcdb8e5fa364b89f8add84705"
+    }
+  },
+  "budget_before": {
+    "limit": 80,
+    "reserved": 39,
+    "phases": {
+      "p1-hypothesis": 39
+    },
+    "started_at": "2026-10-21T13:33:39.838850+00:00"
+  },
+  "source_sha256": {
+    "src/__init__.py": "9d9e33ea9b0988a621a891305c15f6822aeb887e062c209110de3a43b263ddb4",
+    "src/agents.py": "75fd39913154e49087307cfd870758095dc31a1a0f7c15285954469f3cb06303",
+    "src/code_index.py": "39330b46f887021b2aeabf0c292cf5fe5a5e3b5cfde3d701be66beadcd0c208d",
+    "src/deduplication.py": "3071efab768fe7cc9e32073b04ad906af5cc66ffd8d145f61bcb3cfecd48788c",
+    "src/pipeline.py": "8ce65a6ce45c488a2738980b6008a3a7d78ad9d3d3ecabf3cf8c29293c95ab29",
+    "src/report.py": "a05cb3f5e455b407c1ee9acc421603e40b9e1261847aabf9f1a696799fdd6f46",
+    "src/repository.py": "360f9e5f492f98780632c68197a8c72abf0b36d876b6b2c2368d8d99a0fbda4c",
+    "src/reproduction.py": "7acf8c5374813ecc540547967aa1ff2897bc7fee75eb2ed9602552c2ca07348a",
+    "src/reproduction_runner.py": "a64da9832eda9154d518ea49636ca927750d6264ddba2a0ccad135e629b7798a",
+    "src/review_context.py": "6c49b9f6b3daef53d926f5b609563696919ff506984dfc592f0a2ea5581b70dc",
+    "src/schemas.py": "6b4ed8cfada6ae19b99fa9f0105311bfc0ead4d7019b241a32776c56dedb2189",
+    "src/static_analysis.py": "c094e31f91c91916c8db62e5350617e8b3a77a2f930b6063c9d4eec33cf60d2d",
+    "main.py": "b2414013f1c5e75eba7cbacffa61a1772e80ddaa64687786318982da92c4f134",
+    "evaluation/discovery_experiment.py": "09001fc8ced75b3ca6a1c94cf3d33c6321ec3d68acb27dae15f2126279ddbbfe",
+    "evaluation/discovery_hypothesis.py": "faceb925abcb49e274f27987c48f05fba4bfffa50346c735c488e1d453fa4af4",
+    "evaluation/discovery_hypothesis_tools.py": "148500234d97f8f84193273789f3fecf697ff977064672ad2961ff2ef7b99f72"
+  },
+  "model": {
+    "model": "deepseek-flash",
+    "thinking_mode": "disabled",
+    "temperature": 0.1,
+    "max_output_tokens": 6000,
+    "provider_is_deepseek": true
+  }
+}

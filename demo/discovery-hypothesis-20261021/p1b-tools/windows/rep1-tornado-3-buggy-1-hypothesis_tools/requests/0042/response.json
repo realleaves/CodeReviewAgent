@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 42,
+    "phase": "p1b-tools",
+    "label": {
+      "case": "tornado-3",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "hypothesis_tools",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286
+    },
+    "reserved_at": "2026-10-21T13:44:11.418681+00:00"
+  },
+  "raw_response": "[TOOL_CALL:read_code:path=tornado/httpclient.py,start=1,end=120]\n[TOOL_CALL:search_code:query=_instance_cache]\n[TOOL_CALL:search_code:query=_async_clients]\n[TOOL_CALL:read_code:path=tornado/httpclient.py,start=286,end=330]",
+  "error_type": null,
+  "call": {
+    "stage": "review_hypothesis_retry",
+    "status": "completed",
+    "input_chars": 12530,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 77,
+      "prompt_tokens": 3656,
+      "total_tokens": 3733,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 3656
+    },
+    "elapsed_seconds": 1.126
+  }
+}

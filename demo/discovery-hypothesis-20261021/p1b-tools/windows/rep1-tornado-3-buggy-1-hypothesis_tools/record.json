@@ -1,0 +1,218 @@
+{
+  "case": "tornado-3",
+  "side": "buggy",
+  "repetition": 1,
+  "strategy": "hypothesis_tools",
+  "path": "tornado/httpclient.py",
+  "start": 188,
+  "end": 286,
+  "name": "rep1-tornado-3-buggy-1-hypothesis_tools",
+  "status": "completed",
+  "error": null,
+  "api_calls": 3,
+  "calls": [
+    {
+      "stage": "review_hypothesis",
+      "status": "completed",
+      "input_chars": 12757,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1108,
+        "prompt_tokens": 3826,
+        "total_tokens": 4934,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 3584
+        },
+        "prompt_cache_hit_tokens": 3584,
+        "prompt_cache_miss_tokens": 242
+      },
+      "elapsed_seconds": 5.822
+    },
+    {
+      "stage": "review_hypothesis_retry",
+      "status": "completed",
+      "input_chars": 12530,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 77,
+        "prompt_tokens": 3656,
+        "total_tokens": 3733,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 3656
+      },
+      "elapsed_seconds": 1.126
+    },
+    {
+      "stage": "review_hypothesis_retry",
+      "status": "completed",
+      "input_chars": 22686,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 815,
+        "prompt_tokens": 6502,
+        "total_tokens": 7317,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 3712
+        },
+        "prompt_cache_hit_tokens": 3712,
+        "prompt_cache_miss_tokens": 2790
+      },
+      "elapsed_seconds": 4.317
+    }
+  ],
+  "findings": [
+    {
+      "path": "tornado/httpclient.py",
+      "line": 194,
+      "end_line": 210,
+      "severity": "low",
+      "category": "bug",
+      "title": "__new__ 缓存查找键与写入键可能不一致",
+      "explanation": "__new__ 用局部变量 io_loop = IOLoop.current() 作为查找键，但写入缓存时使用 instance.io_loop，而该属性在 initialize() 中通过再次调用 IOLoop.current() 赋值。若两次调用之间当前 IOLoop 发生变化（例如在 run_sync 回调、线程或 make_current 切换期间构造实例），查找键与写入键不同，导致缓存中同一 IOLoop 出现多个实例，或后续 close 时触发 'inconsistent AsyncHTTPClient cache' 的 RuntimeError。",
+      "trigger": "在 IOLoop.current() 于 __new__ 与 initialize 之间发生变化的上下文中创建 AsyncHTTPClient（如嵌套 run_sync、跨线程构造）。",
+      "evidence": "第195行 io_loop = IOLoop.current() 用于第200行查找；第209行 instance_cache[instance.io_loop] = instance 使用 initialize 中第213行 self.io_loop = IOLoop.current() 的结果；第236-237行 close 时校验 self._instance_cache.get(self.io_loop) is not self 会抛 RuntimeError。",
+      "suggestion": "在 __new__ 中把已确定的 io_loop 传给 initialize（或让 initialize 接受 io_loop 参数），确保查找键与写入键为同一对象；或在写入缓存前断言 instance.io_loop is io_loop。",
+      "id": "44df45dbea17",
+      "source": "llm",
+      "rule": "",
+      "snippet": "192:         return getattr(cls, attr_name)\n193: \n194:     def __new__(cls, force_instance: bool = False, **kwargs: Any) -> \"AsyncHTTPClient\":\n195:         io_loop = IOLoop.current()\n196:         if force_instance:\n197:             instance_cache = None\n198:         else:\n199:             instance_cache = cls._async_clients()\n200:         if instance_cache is not None and io_loop in instance_cache:\n201:             return instance_cache[io_loop]\n202:         instance = super(AsyncHTTPClient, cls).__new__(cls, **kwargs)  # type: ignore\n203:         # Make sure the instance knows which cache to remove itself from.\n204:         # It can't simply call _async_clients() because we may be in\n205:         # __new__(AsyncHTTPClient) but instance.__class__ may be\n206:         # SimpleAsyncHTTPClient.\n207:         instance._instance_cache = instance_cache\n208:         if instance_cache is not None:\n209:             instance_cache[instance.io_loop] = instance",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286,
+      "strategy": "legacy",
+      "payload_sha256": "43e81c23e616bc390d332b673a979c0ff1cd5dde88af7a5ce8cf69d1c15e5ddc",
+      "supplemental_chars": 4776,
+      "sources": [
+        {
+          "path": "tornado/httpclient.py",
+          "name": "HTTPRequest",
+          "line": 330,
+          "end": 558
+        },
+        {
+          "path": "maint/benchmark/chunk_benchmark.py",
+          "name": "get",
+          "line": 23,
+          "end": 27
+        },
+        {
+          "path": "demos/helloworld/helloworld.py",
+          "name": "get",
+          "line": 28,
+          "end": 29
+        },
+        {
+          "path": "demos/websocket/chatdemo.py",
+          "name": "get",
+          "line": 48,
+          "end": 49
+        }
+      ]
+    },
+    {
+      "stage": "hypothesis_review",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286,
+      "checked": [
+        "tornado/httpclient.py:1-120（HTTPClient 构造与 close）",
+        "tornado/httpclient.py:188-210（__new__ 与 _async_clients 缓存逻辑）",
+        "tornado/httpclient.py:212-238（initialize/close 与 _instance_cache 一致性检查）",
+        "tornado/httpclient.py:240-298（fetch 与 handle_response）",
+        "tornado/httpclient.py:330-347（HTTPRequest._DEFAULTS）",
+        "search_code: _instance_cache 定义与使用位置",
+        "search_code: _async_clients 定义与调用位置"
+      ],
+      "hypotheses": [
+        {
+          "claim": "__new__ 中先按 io_loop 查缓存，但实例写入缓存时用的是 instance.io_loop（initialize 中重新取 IOLoop.current()），两者可能不一致",
+          "expected_behavior": "缓存键应与查找键一致，保证同一 IOLoop 复用同一实例",
+          "counterexample": "若 __new__ 与 initialize 之间 current IOLoop 发生变化（例如在 run_sync 或线程切换中构造），查找键与写入键不同，缓存中会出现重复实例",
+          "contract": "AsyncHTTPClient 按 IOLoop 缓存单例"
+        },
+        {
+          "claim": "close() 中若缓存条目已被替换，会抛 RuntimeError 而非静默处理",
+          "expected_behavior": "close 应幂等且不因缓存状态异常而失败",
+          "counterexample": "同一 IOLoop 上先 close 旧实例再新建实例后，旧实例再次 close 时 _closed 已为 True 直接返回，不会触发；但若缓存被外部替换则抛错",
+          "contract": "close 文档声明可重复调用"
+        },
+        {
+          "claim": "fetch 中 raise_error=False 仅对响应码错误生效，其他错误仍抛出",
+          "expected_behavior": "与文档 versionchanged 6.0 描述一致",
+          "counterexample": "网络错误时 raise_error=False 仍抛异常，符合文档",
+          "contract": "raise_error 语义"
+        }
+      ],
+      "tool_reads_before": 0,
+      "tool_reads_after": 2,
+      "tool_retry": true,
+      "tool_evidence": true
+    },
+    {
+      "stage": "review",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286,
+      "strategy": "hypothesis_tools",
+      "findings": [
+        {
+          "path": "tornado/httpclient.py",
+          "line": 194,
+          "end_line": 210,
+          "severity": "low",
+          "category": "bug",
+          "title": "__new__ 缓存查找键与写入键可能不一致",
+          "explanation": "__new__ 用局部变量 io_loop = IOLoop.current() 作为查找键，但写入缓存时使用 instance.io_loop，而该属性在 initialize() 中通过再次调用 IOLoop.current() 赋值。若两次调用之间当前 IOLoop 发生变化（例如在 run_sync 回调、线程或 make_current 切换期间构造实例），查找键与写入键不同，导致缓存中同一 IOLoop 出现多个实例，或后续 close 时触发 'inconsistent AsyncHTTPClient cache' 的 RuntimeError。",
+          "trigger": "在 IOLoop.current() 于 __new__ 与 initialize 之间发生变化的上下文中创建 AsyncHTTPClient（如嵌套 run_sync、跨线程构造）。",
+          "evidence": "第195行 io_loop = IOLoop.current() 用于第200行查找；第209行 instance_cache[instance.io_loop] = instance 使用 initialize 中第213行 self.io_loop = IOLoop.current() 的结果；第236-237行 close 时校验 self._instance_cache.get(self.io_loop) is not self 会抛 RuntimeError。",
+          "suggestion": "在 __new__ 中把已确定的 io_loop 传给 initialize（或让 initialize 接受 io_loop 参数），确保查找键与写入键为同一对象；或在写入缓存前断言 instance.io_loop is io_loop。",
+          "id": "44df45dbea17",
+          "source": "llm",
+          "rule": "",
+          "snippet": "192:         return getattr(cls, attr_name)\n193: \n194:     def __new__(cls, force_instance: bool = False, **kwargs: Any) -> \"AsyncHTTPClient\":\n195:         io_loop = IOLoop.current()\n196:         if force_instance:\n197:             instance_cache = None\n198:         else:\n199:             instance_cache = cls._async_clients()\n200:         if instance_cache is not None and io_loop in instance_cache:\n201:             return instance_cache[io_loop]\n202:         instance = super(AsyncHTTPClient, cls).__new__(cls, **kwargs)  # type: ignore\n203:         # Make sure the instance knows which cache to remove itself from.\n204:         # It can't simply call _async_clients() because we may be in\n205:         # __new__(AsyncHTTPClient) but instance.__class__ may be\n206:         # SimpleAsyncHTTPClient.\n207:         instance._instance_cache = instance_cache\n208:         if instance_cache is not None:\n209:             instance_cache[instance.io_loop] = instance",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ]
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "tornado/httpclient.py",
+      "start": 1,
+      "end": 120
+    },
+    {
+      "path": "tornado/httpclient.py",
+      "start": 286,
+      "end": 330
+    }
+  ],
+  "elapsed_seconds": 11.447,
+  "folder": "windows/rep1-tornado-3-buggy-1-hypothesis_tools"
+}

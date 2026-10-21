@@ -1,0 +1,41 @@
+{
+  "title": "P1b smoke: hypothesis-first with enforced tool evidence",
+  "date": "2026-10-21",
+  "kind": "P1b single-variable tool-evidence enforcement; discovery only",
+  "hypothesis": "P1 failed because checked was self-reported and the hypothesis arm made zero real tool reads. Requiring one real read (with one bounded retry) should increase tool use and recover or maintain candidate recall; if the retry still reads nothing, findings must be dropped rather than trusted.",
+  "selection": [
+    "tornado-3",
+    "youtube-dl-4",
+    "youtube-dl-8"
+  ],
+  "selection_reason": "One no-candidate case (tornado-3), the baseline candidate hit (youtube-dl-4), and an off-target case (youtube-dl-8); both sides, one r0 window per side, six windows per arm.",
+  "arms": {
+    "baseline": {
+      "context_strategy": "legacy",
+      "thinking_mode": "disabled",
+      "review_strategy": "baseline"
+    },
+    "hypothesis_tools": {
+      "context_strategy": "legacy",
+      "thinking_mode": "disabled",
+      "review_strategy": "hypothesis_tools"
+    }
+  },
+  "variable": "review_strategy",
+  "repetitions": 1,
+  "window_call_limit": 3,
+  "budget": {
+    "phase_limit": 41,
+    "remaining_after_p1": 41,
+    "per_window": 3
+  },
+  "metrics": [
+    "reference candidate recall on the 3 cases",
+    "real tool reads and bounded retries",
+    "findings dropped for missing tool evidence",
+    "fixed-side same-issue alarms",
+    "completed windows, calls and tokens"
+  ],
+  "adoption": "At least one more candidate hit than baseline with real tool reads and no fixed-side alarm; or, at minimum, restore the youtube-dl-4 hit while adding real reads. A six-window smoke is exploratory; a gain requires the full 18-window development set and a repeat before adoption.",
+  "scope": "Discovery only; no evidence engine, official tests/labels/opposite version in the Agent input. One repetition; all requests, failures and dropped findings retained."
+}

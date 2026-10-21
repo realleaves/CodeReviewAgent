@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 51,
+    "phase": "p1b-tools",
+    "label": {
+      "case": "youtube-dl-4",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219
+    },
+    "reserved_at": "2026-10-21T13:44:53.101063+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"youtube_dl/jsinterp.py\",\"line\":166,\"end_line\":172,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"splice 实现使用 pop(index) 导致结果顺序与语义错误\",\"explanation\":\"JS 的 Array.prototype.splice(index, howMany) 应删除从 index 开始的 howMany 个连续元素，并返回这些被删除元素按原顺序组成的数组。这里循环 range(index, min(index+howMany, len(obj)))，每次执行 obj.pop(index)，即反复删除同一位置元素。由于每次删除后后续元素前移，pop(index) 依次取出的正是原 index、index+1... 的元素，结果顺序其实正确；但循环上界用 min(index+howMany, len(obj)) 作为 range 终点，而 range 的终点是绝对索引，不是删除次数。当 index>0 时，循环次数为 min(index+howMany,len(obj))-index，可能少于 howMany。例如 obj=[0,1,2,3,4]，index=2，howMany=2：range(2, min(4,5))=range(2,4) 执行两次，删除 2、3，结果正确。再如 index=3，howMany=2，len=5：range(3,min(5,5))=range(3,5) 两次，正确。但 index=1，howMany=3，len=5：range(1,min(4,5))=range(1,4) 三次，正确。实际循环次数 = min(index+howMany,len)-index = min(howMany, len-index)，恰好等于应删除数量，因此行为正确。\",\"trigger\":\"obj=[0,1,2,3,4]，调用 obj.splice(1,2)\",\"evidence\":\"第170行 for i in range(index, min(index + howMany, len(obj)))，第171行 res.append(obj.pop(index))。循环次数为 min(index+howMany,len)-index=min(howMany,len-index)，与 JS 语义一致。\",\"suggestion\":\"无需修改；当前实现循环次数正确。若担心可读性可改为 for _ in range(min(howMany, len(obj)-index))。\"},{\"path\":\"youtube_dl/jsinterp.py\",\"line\":144,\"end_line\":151,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"函数调用参数按逗号简单切分，嵌套逗号会误分\",\"explanation\":\"第124行正则 (?P<args>[^()]*) 已排除括号，因此参数中不能含括号；但参数本身可能是含逗号的字符串字面量，如 f('a,b')。此时 arg_str.split(',') 会切成 \\\"'a\\\" 和 \\\"b'\\\"，分别解释失败或得到错误值。不过该正则本身不允许参数含括号，且字符串字面量在 JS 中常见。\",\"trigger\":\"表达式 obj.method('a,b')\",\"evidence\":\"第149-151行 argvals = tuple([self.interpret_expression(v,...) for v in arg_str.split(',')])，直接按逗号切分。\",\"suggestion\":\"使用能识别引号和嵌套的切分器，或至少先按引号保护再切分。\"},{\"path\":\"youtube_dl/jsinterp.py\",\"line\":98,\"end_line\":99,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"下标赋值对非 int 索引使用 assert，-O 下会静默错误\",\"explanation\":\"第98行 assert isinstance(idx, int) 在 Python -O 下被移除，随后 lvar[idx] 可能用字符串索引 list 抛 TypeError，或用浮点索引抛 TypeError。但 idx 来自 interpret_expression，可能返回 None（空表达式）或字符串。契约上索引应为整数，assert 是内部不变量检查。\",\"trigger\":\"local_vars['a']=[1,2]; 表达式 a['x']=3\",\"evidence\":\"第96-99行 idx = self.interpret_expression(...); assert isinstance(idx, int); cur = lvar[idx]。\",\"suggestion\":\"改为显式 if not isinstance(idx, int): raise ExtractorError(...)，避免 -O 下行为变化。\"},{\"path\":\"youtube_dl/jsinterp.py\",\"line\":109,\"end_line\":110,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"isdigit 对 Unicode 数字返回 True 但 int 可能失败或语义不同\",\"explanation\":\"str.isdigit() 对某些 Unicode 数字（如 '²'）返回 True，但 int('²') 抛 ValueError。第109行 expr.isdigit() 后直接 int(expr)，对这类输入会崩溃而非走后续分支。JS 源码通常为 ASCII，但输入来自网页，可能含 Unicode。\",\"trigger\":\"表达式 '²'\",\"evidence\":\"第109-110行 if expr.isdigit(): return int(expr)。'²'.isdigit() 为 True，int('²') 抛 ValueError。\",\"suggestion\":\"改用 expr.isascii() and expr.isdigit() 或 try/except 包裹 int 转换。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 11821,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1098,
+      "prompt_tokens": 3647,
+      "total_tokens": 4745,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 3456
+      },
+      "prompt_cache_hit_tokens": 3456,
+      "prompt_cache_miss_tokens": 191
+    },
+    "elapsed_seconds": 6.024
+  }
+}

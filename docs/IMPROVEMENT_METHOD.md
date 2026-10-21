@@ -8,7 +8,7 @@
 
 2026-10-21 失败分类（P0）：对2026-10-14的26个有效参考对逐条归类，候选命中4个、有效证据1个；22个漏检中8个完全没有候选、14个有候选但偏题；另有3个候选命中但证据失败。8个无候选的运行大多只调用1–2次且已完成，说明不是测试生成失败，而是发现阶段没有提出候选；14个偏题集中在输入变体、状态/生命周期、协议/头部和regex/编码，callgraph扩充没有解决。结论：下一轮应做发现流程的单变量实验，而不是继续加取证门控或上下文。分类见[失败分类](../demo/evidence-failure-taxonomy-20261021/README.md)。
 
-2026-10-21 P1结果（未采用）：实现并运行`review_strategy=hypothesis`的结构化发现提示（理解→枚举→反例→核对→候选），6个开发样本、18窗口、两臂、36窗口全部完成、39/80次调用。baseline候选命中1/6（youtube-dl-4无参调用regex），hypothesis 0/6；两臂修复侧告警0。hypothesis候选更多（33 vs 29）但真实工具读取为0（baseline 6），`checked`中的核对没有对应工具调用；completion tokens 8,187→19,165。未达到采用条件，默认保持baseline。结论：只在提示词里要求核对、用自由文本自报不够；下一轮P1b要强制`checked`引用真实工具读取并由代码校验，先用剩余41次预算做开发集smoke。结果见[P1](../demo/discovery-hypothesis-20261021/README.md)。
+2026-10-21 P1/P1b结果（未采用）：P1实现并运行`review_strategy=hypothesis`的结构化发现提示（理解→枚举→反例→核对→候选），6个开发样本、18窗口、两臂、36窗口全部完成、39/80次调用。baseline候选命中1/6（youtube-dl-4无参调用regex），hypothesis 0/6；两臂修复侧告警0。hypothesis候选更多（33 vs 29）但真实工具读取为0（baseline 6），`checked`中的核对没有对应工具调用；completion tokens 8,187→19,165。P1b在3样本、6窗口上强制真实工具证据并允许一次重试：19次调用，baseline 0/3、hypothesis_tools 0/3；工具读取2→4、重试4、失败2、丢弃findings 2，关键youtube-dl-4窗口重试后仍无工具调用。两轮均未达到采用条件，默认保持baseline。结论：只在提示词里要求核对/重试不够；下一轮若继续工具证据方向，需要tool-first流程或原生tool calling，而不是再加一次同样的文字重试。结果见[P1/P1b](../demo/discovery-hypothesis-20261021/README.md)。
 
 2026-10-15进展：13条历史自动接受记录已完成[执行复测及逐条契约判读](../demo/evidence-retest13-20261015/README.md)，仍待维护者人工确认。调用关系上下文策略已做可选实现，6个开发样本两版本18组[初始输入离线核查](../demo/context-callgraph-20261015/README.md)完成；模型发现阶段成对实验和新样本盲测仍未运行，不能把输入检索覆盖当成检出提升。对照基线为该次修改前工作区快照，保留此前执行判定修复，见归档协议，不再笼统等同40034c2。
 

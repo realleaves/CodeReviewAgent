@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 48,
+    "phase": "p1b-tools",
+    "label": {
+      "case": "youtube-dl-4",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "hypothesis_tools",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219
+    },
+    "reserved_at": "2026-10-21T13:44:35.106777+00:00"
+  },
+  "raw_response": "{\"checked\":[\"读取主片段 youtube_dl/jsinterp.py:50-219，确认 interpret_expression 的解析顺序与各分支契约\",\"读取上下文 interpret_statement:37-56，确认 allow_recursion 默认值与 return/var 前缀处理\",\"读取 extract_function:232-244，确认函数名查找与参数名解析\",\"核对 _ASSIGN_OPERATORS 分支中 index 赋值路径对 local_vars 的依赖\",\"核对成员访问/函数调用分支对 self._objects 缓存与 obj[member] 的假设\",\"核对 splice 分支对 argvals 解包与 pop 索引的假设\",\"核对运算符分支对 interpret_statement 返回 abort 的处理\"],\"hypotheses\":[{\"claim\":\"成员访问分支对 member=='length' 返回 len(obj)，但 obj 可能是 dict 或字符串，len 语义与 JS 的 .length 不一致\",\"expected_behavior\":\"对 JS 对象/字符串的 .length 应返回字符数或属性数，与 JS 语义一致\",\"counterexample\":\"expr='a.length' 且 local_vars['a']={'x':1}，返回 1（键数）而非 JS 中 undefined\",\"contract\":\"interpret_expression 应模拟 JS 成员访问语义\"},{\"claim\":\"splice 分支 index, howMany = argvals 在 argvals 长度不为 2 时抛 ValueError 而非 ExtractorError\",\"expected_behavior\":\"非法参数应给出可诊断的 ExtractorError\",\"counterexample\":\"expr='a.splice(1)' 且 a 为 list，argvals=(1,)，解包抛 ValueError\",\"contract\":\"不支持/非法输入应抛 ExtractorError\"},{\"claim\":\"赋值分支 m.group('index') 存在时直接 local_vars[m.group('out')] 取值，若变量不存在抛 KeyError\",\"expected_behavior\":\"对未定义变量赋值索引应给出明确错误或按 JS 语义处理\",\"counterexample\":\"expr='a[0] = 1' 且 local_vars 无 'a'，第95行 KeyError\",\"contract\":\"interpret_expression 对未定义变量应抛 ExtractorError 或按 JS 语义\"},{\"claim\":\"函数调用分支 obj[member](argvals) 把整个 tuple 作为单个参数传入，与 JS 多参数调用语义不符\",\"expected_behavior\":\"应按 argvals 展开为多个位置参数\",\"counterexample\":\"expr='a.foo(1,2)'，调用 obj['foo']((1,2)) 而非 obj['foo'](1,2)\",\"contract\":\"JS 函数调用应传递多个参数\"},{\"claim\":\"运算符分支用非贪婪 .+? 匹配，可能把 '-' 等运算符在负数或字符串中误切分\",\"expected_behavior\":\"应正确识别运算符边界，避免在字面量内部切分\",\"counterexample\":\"expr='1-2' 正常，但 expr='\\\"a-b\\\"' 可能被 '-' 切分为 '\\\"a' 与 'b\\\"'\",\"contract\":\"运算符解析应尊重字符串字面量边界\"}],\"findings\":[{\"path\":\"youtube_dl/jsinterp.py\",\"line\":166,\"end_line\":172,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"splice 参数个数不足时抛 ValueError 而非 ExtractorError\",\"explanation\":\"splice 分支直接 `index, howMany = argvals` 解包，未校验 argvals 长度。当 JS 代码调用 `a.splice(1)`（只传一个参数）时，argvals 为长度 1 的 tuple，解包抛 ValueError，绕过统一的 ExtractorError 错误路径，导致上层无法按预期捕获并给出可诊断信息。\",\"trigger\":\"interpret_expression('a.splice(1)', {'a':[1,2,3]}, 100)\",\"evidence\":\"第168行 `index, howMany = argvals` 无长度断言；同函数其他成员分支（split/join/reverse/slice）均有 assert 校验参数个数，唯独 splice 缺失。\",\"suggestion\":\"在解包前增加 `assert len(argvals) == 2` 或显式检查并抛 ExtractorError，与其他成员分支保持一致。\"},{\"path\":\"youtube_dl/jsinterp.py\",\"line\":94,\"end_line\":102,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"索引赋值分支对未定义变量抛 KeyError\",\"explanation\":\"当赋值表达式带索引（如 `a[0] = 1`）时，代码直接 `lvar = local_vars[m.group('out')]`，若变量尚未在 local_vars 中定义则抛 KeyError。而普通赋值分支使用 `local_vars.get(...)` 容忍未定义变量。两条路径对未定义变量的处理不一致，索引赋值会以非 ExtractorError 异常逃逸。\",\"trigger\":\"interpret_expression('a[0] = 1', {}, 100)\",\"evidence\":\"第95行 `lvar = local_vars[m.group('out')]` 直接下标访问；第104行普通分支使用 `local_vars.get(m.group('out'))`。\",\"suggestion\":\"对索引赋值分支同样使用 `local_vars.get` 并在缺失时抛 ExtractorError 或按 JS 语义初始化。\"},{\"path\":\"youtube_dl/jsinterp.py\",\"line\":174,\"end_line\":174,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"成员函数调用把参数 tuple 作为单个参数传入\",\"explanation\":\"对未特判的成员函数调用，代码执行 `obj[member](argvals)`，把整个参数 tuple 作为单个位置参数传入，而非展开为多个参数。对于期望多参数的 JS 函数（如 `a.foo(1,2)`），实际调用为 `foo((1,2))`，参数语义错误。\",\"trigger\":\"interpret_expression('a.foo(1,2)', {'a':{'foo':lambda *a: a}}, 100)\",\"evidence\":\"第149-151行构造 argvals 为 tuple，第174行 `return obj[member](argvals)` 未用 `*argvals` 展开。\",\"suggestion\":\"改为 `obj[member](*argvals)` 以匹配 JS 多参数调用语义。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review_hypothesis",
+    "status": "completed",
+    "input_chars": 12756,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1341,
+      "prompt_tokens": 4000,
+      "total_tokens": 5341,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 3840
+      },
+      "prompt_cache_hit_tokens": 3840,
+      "prompt_cache_miss_tokens": 160
+    },
+    "elapsed_seconds": 6.664
+  }
+}

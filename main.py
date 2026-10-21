@@ -49,9 +49,9 @@ def main() -> int:
     )
     review.add_argument(
         "--review-strategy",
-        choices=["baseline", "hypothesis"],
+        choices=["baseline", "hypothesis", "hypothesis_tools"],
         default="baseline",
-        help="evidence发现策略；hypothesis为假设—反例式实验，尚无检出率提升结论",
+        help="evidence发现策略；hypothesis/hypothesis_tools为实验，尚无检出率提升结论",
     )
     review.add_argument(
         "--enforce-admission",

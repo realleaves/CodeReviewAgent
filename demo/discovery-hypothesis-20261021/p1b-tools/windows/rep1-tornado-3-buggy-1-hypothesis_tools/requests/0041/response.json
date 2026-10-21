@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 41,
+    "phase": "p1b-tools",
+    "label": {
+      "case": "tornado-3",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "hypothesis_tools",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286
+    },
+    "reserved_at": "2026-10-21T13:44:05.594902+00:00"
+  },
+  "raw_response": "{\"checked\":[\"读取主片段 tornado/httpclient.py:188-286，确认 __new__/initialize/close/fetch 的契约\",\"读取上下文 HTTPRequest.__init__ 与 _DEFAULTS（330-409），确认 defaults 合并与 headers 类型\",\"核对 __new__ 中 instance_cache 与 instance.io_loop 的写入时机（207-209）\",\"核对 close() 中 _instance_cache 删除逻辑（232-238）\",\"核对 fetch() 对已关闭实例与 kwargs 的校验（274-282）\"],\"hypotheses\":[{\"claim\":\"__new__ 在 initialize 之前访问 instance.io_loop，可能写入错误键或 AttributeError\",\"expected_behavior\":\"缓存键应与实例实际使用的 IOLoop 一致，且实例初始化完成后再入缓存\",\"counterexample\":\"调用 AsyncHTTPClient() 时，super().__new__ 返回后立即执行 instance_cache[instance.io_loop]=instance，但 io_loop 仅在 initialize 中赋值\",\"contract\":\"__new__ 负责创建并缓存实例，initialize 负责设置 io_loop；缓存键必须与实例 io_loop 一致\"},{\"claim\":\"force_instance=True 创建的实例 _instance_cache 为 None，close() 不清理任何缓存，但若该实例被误放入缓存则泄漏\",\"expected_behavior\":\"force_instance 实例不应进入共享缓存，close 后应完全释放\",\"counterexample\":\"force_instance=True 后 close()，_instance_cache 为 None，跳过删除分支，符合预期；但若 __new__ 中 instance_cache 非 None 分支被走到则不一致\",\"contract\":\"force_instance 实例不参与缓存复用\"},{\"claim\":\"fetch 传入 HTTPRequest 且 kwargs 非空时抛 ValueError，但字符串 URL 时 kwargs 被静默接受并传给 HTTPRequest，可能包含非法键\",\"expected_behavior\":\"非法 kwargs 应在构造 HTTPRequest 时由 TypeError 暴露\",\"counterexample\":\"fetch('http://x', bogus=1) 会进入 HTTPRequest(url=..., bogus=1)，触发 TypeError 而非 ValueError\",\"contract\":\"kwargs 仅在 request 为字符串时用于构造 HTTPRequest\"},{\"claim\":\"close() 后再次 fetch 抛 RuntimeError，但 close() 幂等；若缓存中实例被替换，close 抛 inconsistent 错误\",\"expected_behavior\":\"close 幂等且不破坏其他实例\",\"counterexample\":\"两个 IOLoop 场景下缓存键不一致时 close 抛 RuntimeError('inconsistent AsyncHTTPClient cache')\",\"contract\":\"close 后不得再调用其他方法；缓存一致性由 close 校验\"}],\"findings\":[{\"path\":\"tornado/httpclient.py\",\"line\":207,\"end_line\":209,\"severity\":\"high\",\"category\":\"bug\",\"title\":\"__new__ 在 initialize 前读取 instance.io_loop 作为缓存键\",\"explanation\":\"__new__ 中先执行 super().__new__ 得到实例，随后立即用 instance.io_loop 作为 WeakKeyDictionary 的键写入缓存。但 io_loop 属性只在 initialize() 中赋值（第213行）。若子类或调用路径在 initialize 之前访问该属性，会触发 AttributeError；即便 initialize 随后被调用，缓存键也可能与实例最终使用的 IOLoop 不一致（例如 initialize 中 IOLoop.current() 与 __new__ 时不同）。close() 依赖 self.io_loop 删除缓存项，键不一致会导致删除失败或抛 inconsistent 错误。\",\"trigger\":\"调用 AsyncHTTPClient()（非 force_instance），在 __new__ 返回后、initialize 执行前访问 instance.io_loop；或 initialize 中 IOLoop.current() 与 __new__ 时不同。\",\"evidence\":\"第207行 instance._instance_cache = instance_cache；第209行 instance_cache[instance.io_loop] = instance；第213行 initialize 中 self.io_loop = IOLoop.current()；第236-238行 close 用 self.io_loop 查找并删除缓存。\",\"suggestion\":\"在 __new__ 中使用局部变量 io_loop（第195行已取得）作为缓存键，或在 initialize 完成后再入缓存；确保 close 使用同一键。\"},{\"path\":\"tornado/httpclient.py\",\"line\":276,\"end_line\":282,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"fetch 对字符串 URL 的非法 kwargs 未做与 HTTPRequest 分支一致的校验\",\"explanation\":\"当 request 是 HTTPRequest 对象且 kwargs 非空时抛 ValueError；但当 request 是字符串时，kwargs 被直接传给 HTTPRequest(url=request, **kwargs)。若 kwargs 含非法键，会在 HTTPRequest 构造时抛 TypeError 而非 ValueError，错误类型与文档/另一分支不一致，调用方难以统一处理。\",\"trigger\":\"client.fetch('http://example.com', bogus=1)\",\"evidence\":\"第276-277行 request = HTTPRequest(url=request, **kwargs)；第279-282行对 HTTPRequest 分支抛 ValueError('kwargs can\\\\'t be used if request is an HTTPRequest object')。\",\"suggestion\":\"对字符串分支同样校验 kwargs 键是否属于 HTTPRequest 支持的参数，或统一错误类型。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review_hypothesis",
+    "status": "completed",
+    "input_chars": 12757,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1108,
+      "prompt_tokens": 3826,
+      "total_tokens": 4934,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 3584
+      },
+      "prompt_cache_hit_tokens": 3584,
+      "prompt_cache_miss_tokens": 242
+    },
+    "elapsed_seconds": 5.822
+  }
+}

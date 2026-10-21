@@ -1,0 +1,51 @@
+{
+  "metrics": [
+    {
+      "arm": "baseline",
+      "planned_cases": 3,
+      "eligible_pairs": 3,
+      "candidate_hits": 0,
+      "fixed_side_alarms": 0,
+      "candidate_findings": 16,
+      "completed_windows": 6,
+      "failed_windows": 0,
+      "calls": 7,
+      "usage": {
+        "prompt_tokens": 23022,
+        "completion_tokens": 4557
+      },
+      "tool_reads": 2,
+      "tool_retries": 0,
+      "dropped_findings": 0
+    },
+    {
+      "arm": "hypothesis_tools",
+      "planned_cases": 3,
+      "eligible_pairs": 1,
+      "candidate_hits": 0,
+      "fixed_side_alarms": 0,
+      "candidate_findings": 3,
+      "completed_windows": 4,
+      "failed_windows": 2,
+      "calls": 12,
+      "usage": {
+        "prompt_tokens": 45364,
+        "completion_tokens": 10486
+      },
+      "tool_reads": 4,
+      "tool_retries": 4,
+      "dropped_findings": 2
+    }
+  ],
+  "delta_hypothesis_tools_minus_baseline": {
+    "candidate_hits": 0,
+    "tool_reads": 2,
+    "completed_windows": -2,
+    "failed_windows": 2
+  },
+  "adoption": "Not met: neither arm has a strict reference hit in this smoke; tool enforcement adds reads and retries but completes fewer windows, drops findings on the key youtube-dl-4 window, and two windows fail on the short expected_behavior schema.",
+  "scope": "3 development cases, one r0 window per side, 6 windows per arm, one repetition; smoke only, not a full development/holdout score.",
+  "adjudicators": [
+    "DeepSeek frozen-reference review; human review pending"
+  ]
+}
