@@ -48,6 +48,12 @@ def main() -> int:
         help="evidence模式的上下文选择；callgraph为调用链检索实验，尚无检出率提升结论",
     )
     review.add_argument(
+        "--enforce-admission",
+        action=argparse.BooleanOptionalAction,
+        default=True,
+        help="结构化预期准入；默认开启，--no-enforce-admission仅用于对照实验",
+    )
+    review.add_argument(
         "--max-repro-repairs",
         type=int,
         choices=[0, 1],

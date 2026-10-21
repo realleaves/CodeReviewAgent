@@ -1,0 +1,165 @@
+{
+  "finding": {
+    "path": "youtube_dl/extractor/youtube.py",
+    "line": 1696,
+    "end_line": 1697,
+    "severity": "medium",
+    "category": "bug",
+    "title": "章节结束时间取下一章时索引越界",
+    "explanation": "循环使用 enumerate(chapters_list, start=1)，next_num 从 1 开始，而 chapters_list 是 0 基列表。当 next_num < len(chapters_list) 时访问 chapters_list[next_num]，实际取到的是当前章节之后第二个元素（跳过了一章），并且当 next_num == len(chapters_list)-1 时仍会访问 chapters_list[len-1]，即最后一个元素，导致倒数第二章的 end_time 被设为最后一章的开始时间而非下一章开始时间；更严重的是当 next_num 等于 len(chapters_list) 时条件为假走 duration 分支，但若列表长度与索引错位，最后一章的 end_time 逻辑也依赖 duration。实际错误：章节边界错位，end_time 与 start_time 不匹配。预期：应使用 chapters_list[next_num-1] 或 enumerate 从 0 开始。",
+    "trigger": "watch_next_response 中包含至少 3 个章节，例如 chapters_list 长度为 3，循环 next_num=1 时访问 chapters_list[1]（第二章节）作为第一章节的 end_time，跳过正确边界。",
+    "evidence": "for next_num, chapter in enumerate(chapters_list, start=1): ... end_time = (chapter_time(chapters_list[next_num]) if next_num < len(chapters_list) else duration)",
+    "suggestion": "改为 enumerate(chapters_list) 从 0 开始，或访问 chapters_list[next_num] 时使用 next_num 作为 0 基索引（即 end_time 取 chapters_list[next_num] 当 next_num < len(chapters_list) 且 next_num 从 0 开始）。",
+    "id": "2a2a34764e9f",
+    "source": "llm",
+    "rule": "",
+    "snippet": "1694:             if start_time is None:\n1695:                 continue\n1696:             end_time = (chapter_time(chapters_list[next_num])\n1697:                         if next_num < len(chapters_list) else duration)\n1698:             if end_time is None:\n1699:                 continue",
+    "status": "pending_evidence",
+    "verification": "尚未复核；未运行待审代码。",
+    "validation": "执行未形成与候选对应的有效失败；不作为正式缺陷。",
+    "related_diagnostics": []
+  },
+  "reproduction": {
+    "status": "unrelated_failure",
+    "reason": "执行未形成与候选对应的有效失败；不作为正式缺陷。",
+    "attempts": [
+      {
+        "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "image_reference": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "exit_code": 0,
+        "stop_reason": null,
+        "seconds": 1.804,
+        "execution": {
+          "python": "3.7.17",
+          "tests_run": 1,
+          "failures": 0,
+          "errors": 1,
+          "skipped": 0,
+          "load_error": null,
+          "observations": [
+            {
+              "test": "generated_reproduction.ReproductionTest.test_reproduction",
+              "outcome": "error",
+              "exception_type": "AttributeError",
+              "message": "'NoneType' object has no attribute 'params'",
+              "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 59, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 628, in run\n    testMethod()\n  File \"/harness/test_reproduction.py\", line 32, in test_reproduction\n    result = ie._extract_chapters_from_json(webpage, 'vid', 30)\n  File \"/work/youtube_dl/extractor/youtube.py\", line 1661, in _extract_chapters_from_json\n    'player args', default='{}'),\n  File \"/work/youtube_dl/extractor/common.py\", line 991, in _search_regex\n    if not self._downloader.params.get('no_color') and compat_os_name != 'nt' and sys.stderr.isatty():\nAttributeError: 'NoneType' object has no attribute 'params'\n",
+              "traceback_frames": [
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 59,
+                  "function": "testPartExecutor"
+                },
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 628,
+                  "function": "run"
+                },
+                {
+                  "path": "/harness/test_reproduction.py",
+                  "line": 32,
+                  "function": "test_reproduction"
+                },
+                {
+                  "path": "/work/youtube_dl/extractor/youtube.py",
+                  "line": 1661,
+                  "function": "_extract_chapters_from_json"
+                },
+                {
+                  "path": "/work/youtube_dl/extractor/common.py",
+                  "line": 991,
+                  "function": "_search_regex"
+                }
+              ]
+            }
+          ],
+          "target_lines": [
+            1265,
+            1266,
+            1656,
+            1658,
+            1659,
+            1660,
+            1661
+          ],
+          "target_calls": [
+            [
+              "__init__",
+              1264
+            ],
+            [
+              "_extract_chapters_from_json",
+              1655
+            ]
+          ],
+          "target_trace_scope": "test_execution"
+        },
+        "log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.7.17\", \"tests_run\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"error\", \"exception_type\": \"AttributeError\", \"message\": \"'NoneType' object has no attribute 'params'\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 59, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 628, in run\\n    testMethod()\\n  File \\\"/harness/test_reproduction.py\\\", line 32, in test_reproduction\\n    result = ie._extract_chapters_from_json(webpage, 'vid', 30)\\n  File \\\"/work/youtube_dl/extractor/youtube.py\\\", line 1661, in _extract_chapters_from_json\\n    'player args', default='{}'),\\n  File \\\"/work/youtube_dl/extractor/common.py\\\", line 991, in _search_regex\\n    if not self._downloader.params.get('no_color') and compat_os_name != 'nt' and sys.stderr.isatty():\\nAttributeError: 'NoneType' object has no attribute 'params'\\n\", \"traceback_frames\": [{\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 59, \"function\": \"testPartExecutor\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 628, \"function\": \"run\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 32, \"function\": \"test_reproduction\"}, {\"path\": \"/work/youtube_dl/extractor/youtube.py\", \"line\": 1661, \"function\": \"_extract_chapters_from_json\"}, {\"path\": \"/work/youtube_dl/extractor/common.py\", \"line\": 991, \"function\": \"_search_regex\"}]}], \"target_lines\": [1265, 1266, 1656, 1658, 1659, 1660, 1661], \"target_calls\": [[\"__init__\", 1264], [\"_extract_chapters_from_json\", 1655]], \"target_trace_scope\": \"test_execution\"}\n",
+        "log_sha256": "bad9f9963eea621ec0e16ba494f3eb47d1ac58405d938db9420affd5e6f8b58d",
+        "verdict": "unrelated_failure",
+        "plan_version": 0,
+        "test_sha256": "8f29fcd0de674ad4efe03f7d9826ea36c6929bd350c64cac06056e0516186113",
+        "execution_snapshot_sha256": "acfe5638a11847f03c791fb7aa9772879179fd2332373dd0ee0fd9921052fd00"
+      }
+    ],
+    "generation_attempts": [
+      {
+        "response": "{\"applicable\": true, \"reason\": \"候选缺陷成立：enumerate(chapters_list, start=1) 使 next_num 为 1 基，但 chapters_list[next_num] 是 0 基索引，导致每章的 end_time 取到的是下下章的开始时间（跳过一章），最后一章才用 duration。这是明确的索引错位 bug。\", \"contract\": {\"path\": \"youtube_dl/extractor/youtube.py\", \"start\": 1692, \"end\": 1697, \"quote\": \"for next_num, chapter in enumerate(chapters_list, start=1):\\n            start_time = chapter_time(chapter)\\n            if start_time is None:\\n                continue\\n            end_time = (chapter_time(chapters_list[next_num])\\n                        if next_num < len(chapters_list) else duration)\", \"kind\": \"language_rule\", \"rationale\": \"章节的 end_time 语义上应为下一章的开始时间（最后一章为 duration），这是章节列表的固有语义。enumerate 从 1 开始却用 next_num 直接索引 0 基列表，按 Python 索引规则会取到错误元素，导致边界错位。\", \"expected_outcome\": \"return_value\", \"precondition\": \"构造包含至少 3 个章节的 watch_next_response，每章有 timeRangeStartMillis，调用 _extract_chapters_from_json，返回的每章 end_time 应等于下一章 start_time。\", \"assumptions\": [\"_extract_chapters_from_json 可通过构造 webpage 中的 RELATED_PLAYER_ARGS JSON 触发\", \"章节 end_time 语义为下一章开始时间（由相邻章节 start_time 推断）\"]}, \"expected_behavior\": \"对于 3 个章节（start 0, 10, 20，duration 30），返回的章节 end_time 应分别为 10, 20, 30；当前实现会得到 20, 30, 30，第一章 end_time 错误。\", \"test_code\": \"import json\\nimport unittest\\n\\nfrom youtube_dl.extractor.youtube import YoutubeIE\\n\\n\\nclass ReproductionTest(unittest.TestCase):\\n    def test_reproduction(self):\\n        def chapter(ms, title):\\n            return {'chapterRenderer': {'timeRangeStartMillis': ms, 'title': {'simpleText': title}}}\\n\\n        chapters = [chapter(0, 'a'), chapter(10000, 'b'), chapter(20000, 'c')]\\n        response = {\\n            'playerOverlays': {\\n                'playerOverlayRenderer': {\\n                    'decoratedPlayerBarRenderer': {\\n                        'decoratedPlayerBarRenderer': {\\n                            'playerBar': {\\n                                'chapteredPlayerBarRenderer': {\\n                                    'chapters': chapters,\\n                                }\\n                            }\\n                        }\\n                    }\\n                }\\n            }\\n        }\\n        player = {'watch_next_response': json.dumps(response)}\\n        webpage = 'RELATED_PLAYER_ARGS\\\": ' + json.dumps(player) + ',\\\\n'\\n\\n        ie = YoutubeIE()\\n        result = ie._extract_chapters_from_json(webpage, 'vid', 30)\\n        self.assertIsNotNone(result)\\n        self.assertEqual(len(result), 3)\\n        self.assertEqual(result[0]['start_time'], 0)\\n        self.assertEqual(result[0]['end_time'], 10)\\n        self.assertEqual(result[1]['end_time'], 20)\\n        self.assertEqual(result[2]['end_time'], 30)\\n\"}"
+      }
+    ],
+    "plan": {
+      "applicable": true,
+      "reason": "候选缺陷成立：enumerate(chapters_list, start=1) 使 next_num 为 1 基，但 chapters_list[next_num] 是 0 基索引，导致每章的 end_time 取到的是下下章的开始时间（跳过一章），最后一章才用 duration。这是明确的索引错位 bug。",
+      "contract": {
+        "path": "youtube_dl/extractor/youtube.py",
+        "start": 1692,
+        "end": 1697,
+        "quote": "for next_num, chapter in enumerate(chapters_list, start=1):\n            start_time = chapter_time(chapter)\n            if start_time is None:\n                continue\n            end_time = (chapter_time(chapters_list[next_num])\n                        if next_num < len(chapters_list) else duration)",
+        "kind": "language_rule",
+        "rationale": "章节的 end_time 语义上应为下一章的开始时间（最后一章为 duration），这是章节列表的固有语义。enumerate 从 1 开始却用 next_num 直接索引 0 基列表，按 Python 索引规则会取到错误元素，导致边界错位。",
+        "expected_outcome": "return_value",
+        "expected_exception": "",
+        "precondition": "构造包含至少 3 个章节的 watch_next_response，每章有 timeRangeStartMillis，调用 _extract_chapters_from_json，返回的每章 end_time 应等于下一章 start_time。",
+        "assumptions": [
+          "_extract_chapters_from_json 可通过构造 webpage 中的 RELATED_PLAYER_ARGS JSON 触发",
+          "章节 end_time 语义为下一章开始时间（由相邻章节 start_time 推断）"
+        ]
+      },
+      "test_code": "import json\nimport unittest\n\nfrom youtube_dl.extractor.youtube import YoutubeIE\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        def chapter(ms, title):\n            return {'chapterRenderer': {'timeRangeStartMillis': ms, 'title': {'simpleText': title}}}\n\n        chapters = [chapter(0, 'a'), chapter(10000, 'b'), chapter(20000, 'c')]\n        response = {\n            'playerOverlays': {\n                'playerOverlayRenderer': {\n                    'decoratedPlayerBarRenderer': {\n                        'decoratedPlayerBarRenderer': {\n                            'playerBar': {\n                                'chapteredPlayerBarRenderer': {\n                                    'chapters': chapters,\n                                }\n                            }\n                        }\n                    }\n                }\n            }\n        }\n        player = {'watch_next_response': json.dumps(response)}\n        webpage = 'RELATED_PLAYER_ARGS\": ' + json.dumps(player) + ',\\n'\n\n        ie = YoutubeIE()\n        result = ie._extract_chapters_from_json(webpage, 'vid', 30)\n        self.assertIsNotNone(result)\n        self.assertEqual(len(result), 3)\n        self.assertEqual(result[0]['start_time'], 0)\n        self.assertEqual(result[0]['end_time'], 10)\n        self.assertEqual(result[1]['end_time'], 20)\n        self.assertEqual(result[2]['end_time'], 30)\n",
+      "expected_behavior": "对于 3 个章节（start 0, 10, 20，duration 30），返回的章节 end_time 应分别为 10, 20, 30；当前实现会得到 20, 30, 30，第一章 end_time 错误。"
+    },
+    "plan_history": [
+      {
+        "applicable": true,
+        "reason": "候选缺陷成立：enumerate(chapters_list, start=1) 使 next_num 为 1 基，但 chapters_list[next_num] 是 0 基索引，导致每章的 end_time 取到的是下下章的开始时间（跳过一章），最后一章才用 duration。这是明确的索引错位 bug。",
+        "contract": {
+          "path": "youtube_dl/extractor/youtube.py",
+          "start": 1692,
+          "end": 1697,
+          "quote": "for next_num, chapter in enumerate(chapters_list, start=1):\n            start_time = chapter_time(chapter)\n            if start_time is None:\n                continue\n            end_time = (chapter_time(chapters_list[next_num])\n                        if next_num < len(chapters_list) else duration)",
+          "kind": "language_rule",
+          "rationale": "章节的 end_time 语义上应为下一章的开始时间（最后一章为 duration），这是章节列表的固有语义。enumerate 从 1 开始却用 next_num 直接索引 0 基列表，按 Python 索引规则会取到错误元素，导致边界错位。",
+          "expected_outcome": "return_value",
+          "expected_exception": "",
+          "precondition": "构造包含至少 3 个章节的 watch_next_response，每章有 timeRangeStartMillis，调用 _extract_chapters_from_json，返回的每章 end_time 应等于下一章 start_time。",
+          "assumptions": [
+            "_extract_chapters_from_json 可通过构造 webpage 中的 RELATED_PLAYER_ARGS JSON 触发",
+            "章节 end_time 语义为下一章开始时间（由相邻章节 start_time 推断）"
+          ]
+        },
+        "test_code": "import json\nimport unittest\n\nfrom youtube_dl.extractor.youtube import YoutubeIE\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        def chapter(ms, title):\n            return {'chapterRenderer': {'timeRangeStartMillis': ms, 'title': {'simpleText': title}}}\n\n        chapters = [chapter(0, 'a'), chapter(10000, 'b'), chapter(20000, 'c')]\n        response = {\n            'playerOverlays': {\n                'playerOverlayRenderer': {\n                    'decoratedPlayerBarRenderer': {\n                        'decoratedPlayerBarRenderer': {\n                            'playerBar': {\n                                'chapteredPlayerBarRenderer': {\n                                    'chapters': chapters,\n                                }\n                            }\n                        }\n                    }\n                }\n            }\n        }\n        player = {'watch_next_response': json.dumps(response)}\n        webpage = 'RELATED_PLAYER_ARGS\": ' + json.dumps(player) + ',\\n'\n\n        ie = YoutubeIE()\n        result = ie._extract_chapters_from_json(webpage, 'vid', 30)\n        self.assertIsNotNone(result)\n        self.assertEqual(len(result), 3)\n        self.assertEqual(result[0]['start_time'], 0)\n        self.assertEqual(result[0]['end_time'], 10)\n        self.assertEqual(result[1]['end_time'], 20)\n        self.assertEqual(result[2]['end_time'], 30)\n",
+        "expected_behavior": "对于 3 个章节（start 0, 10, 20，duration 30），返回的章节 end_time 应分别为 10, 20, 30；当前实现会得到 20, 30, 30，第一章 end_time 错误。"
+      }
+    ],
+    "feedback": [],
+    "active_attempt_indexes": [
+      0
+    ],
+    "execution_snapshot_sha256": "acfe5638a11847f03c791fb7aa9772879179fd2332373dd0ee0fd9921052fd00",
+    "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+    "max_file_bytes": 1000000,
+    "scope": "",
+    "review_scope": "",
+    "production_only": true,
+    "artifact": "evidence/2a2a34764e9f/evidence.json"
+  }
+}

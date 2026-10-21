@@ -84,3 +84,9 @@ Docker 无外网、只读根文件系统和源代码、普通用户、移除 cap
 用4个已见固定候选做真实模型验证：PySnooper-3文档正例、tornado-1 fixed、youtube-dl-4 fixed、youtube-dl-8 buggy。模型重新生成计划，两次隔离Docker后先过`requirement_gate`，通过后再做结构化审计。干净运行5次provider调用、4次容器执行：PySnooper-3两次NameError触达目标，准入与审计6项检查全部通过，保持`reproduced`；tornado-1 fixed和youtube-dl-4 fixed由模型直接返回`applicable=false`，状态`unsupported`，未执行容器；youtube-dl-8 buggy实际两次AttributeError，但计划要求SyntaxError，确定性门控拒绝为`contract_unconfirmed`，未花审计调用。
 
 这证明固定正反例上的提示与门控行为，不是新样本检出率或全局精确率；历史旧判定只作参考，不是重新采样的成对基线。youtube-dl-8的AttributeError看起来真实，但SyntaxError预期无文档/测试依据，降级是保守取舍，可能误杀真实问题。当前沙箱Docker看不到`/tmp` bind mount，需把`TMPDIR`指到工作区；三轮诊断合计12次请求均有记录，最终干净运行5次。离线校验：`python demo/admission-validation-20261021/verify.py`。详见[固定案例验证](../demo/admission-validation-20261021/README.md)。
+
+## 2026-10-21 新样本evidence对照
+
+在4个预选holdout样本上做第一次evidence-stage对照：每样本缺陷/修复两侧，baseline（关闭`enforce_admission`）与admission（开启）两臂；同一提示词、模型、生产代码窗口和预算。共16次运行、37次调用，两臂完整窗口均8/8。两臂都是参考缺陷有效检出1/4、修复侧同问题告警0、成对区分1/4；唯一有效命中是tornado-14的`initialize(make_current=True)`条件取反，两臂都通过两次隔离执行与审计。admission多1次调用、多5条待确认候选（13 vs 8），没有增加有效证据，也没有破坏唯一正例。
+
+这轮只隔离门控，两臂共享新提示词；样本复用discovery holdout、单次重复，不是完全盲测。结论：固定案例上门控能拒绝无依据预期，但在这个小样本evidence pilot上没有显示端到端检出/精确率收益；不能据此声称提升，也不足以关闭安全门控。额外候选不自动算误报，人工复查待完成。离线校验：`python demo/evidence-holdout-compare-20261021/verify.py`。详见[新样本evidence对照](../demo/evidence-holdout-compare-20261021/README.md)。

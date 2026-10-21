@@ -1,0 +1,159 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CodeReview · snapshot</title>
+<style>
+:root{--bg:#f4f6fa;--ink:#182635;--muted:#526376;--line:#dbe3ed;--accent:#126b65}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 system-ui,sans-serif}
+header{background:#112e38;color:#fff;padding:38px max(24px,calc((100vw - 1100px)/2))}
+.eyebrow{letter-spacing:2px;font-size:12px;color:#94d9cc}h1{font-size:32px;margin:10px 0}header p{margin:6px 0;color:#c7d8df;overflow-wrap:anywhere}
+main{max-width:1150px;margin:auto;padding:28px 24px 60px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat,.panel,.finding{background:white;border:1px solid var(--line);border-radius:12px;padding:22px}
+.stat strong{display:block;font-size:30px;color:var(--accent)}.stat span{color:var(--muted)}
+.panel{margin:22px 0}h2{font-size:20px;margin:0 0 14px}.filters{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}
+select,input{font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:7px;background:white}input{min-width:220px;flex:1}
+.finding{margin:14px 0}.finding[hidden]{display:none}h3{font-size:19px;margin:12px 0 5px}.tags{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{border-radius:5px;padding:3px 9px;background:#edf2f7;font-size:12px}.badge.high{color:#a12f37;background:#ffebed}
+.badge.medium{color:#96590c;background:#fff1dc}.badge.low{color:#176467;background:#e7f5f3}.origin,.location{color:var(--muted);font-size:13px}
+a{color:var(--accent)}dl{margin:18px 0}.detail{display:grid;grid-template-columns:90px 1fr;gap:12px;margin:9px 0}dt{font-weight:600}dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+pre{background:#122b37;color:#e0edf2;padding:17px;border-radius:8px;overflow:auto;font:13px/1.7 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line)}td{overflow-wrap:anywhere}
+.note{color:var(--muted)}summary{cursor:pointer;font-weight:600}footer{color:var(--muted);margin-top:25px}#empty{padding:30px;text-align:center;color:var(--muted)}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}header{padding:25px 20px}main{padding:20px 14px}.detail{grid-template-columns:1fr;gap:2px}h1{font-size:25px}}
+</style></head><body><header><div class="eyebrow">CODE REVIEW AGENT / REPOSITORY REPORT</div>
+<h1>snapshot</h1><p>local-benchmark · blinded-snapshot</p>
+<p>Commit snapshot · 运行状态 partial</p></header><main>
+<div class="stats"><div class="stat"><strong>0</strong><span>已复现缺陷</span></div>
+<div class="stat"><strong>0%</strong><span>已索引 Python 文件语义覆盖</span></div>
+<div class="stat"><strong>6</strong><span>模型调用</span></div>
+<div class="stat"><strong>20.66s</strong><span>运行耗时</span></div></div>
+<section class="panel"><h2>审查范围与证据</h2><p>模式 evidence · 模型 deepseek-flash · 完整语义审查 0/819 个文件</p>
+<ul class="note"><li>BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。</li><li>completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。</li><li>修复版本可能含其他缺陷；额外发现不自动计为误报。</li><li>evidence模式使用Agent自行生成的测试与隔离执行，契约语义仍由模型核验；官方回归测试不提供给Agent。</li></ul></section>
+<h2>审查发现</h2><div class="filters"><input id="search" aria-label="搜索问题或文件" placeholder="搜索问题、文件路径或依据…">
+<select id="severity" aria-label="风险程度"><option value="">全部风险</option><option value="high">高</option><option value="medium">中</option><option value="low">低</option></select>
+<select id="status" aria-label="复核状态"><option value="reproduced">已复现缺陷</option><option value="pending">待验证候选与静态建议</option><option value="all">全部含驳回</option><option value="supported">有代码依据</option><option value="needs_context">待确认</option><option value="unverified">未复核</option><option value="rejected">已驳回</option></select></div>
+<div id="findings"><article class="finding" data-severity="medium" data-status="pending_evidence">
+          <div class="tags"><span class="badge medium">中风险</span>
+          <span class="badge">待验证</span><span class="origin">llm</span></div>
+          <h3>章节结束时间取下一章时索引越界</h3><div class="location">youtube_dl/extractor/youtube.py:1696</div><dl><div class="detail"><dt>问题说明</dt><dd>循环使用 enumerate(chapters_list, start=1)，next_num 从 1 开始，而 chapters_list 是 0 基列表。当 next_num &lt; len(chapters_list) 时访问 chapters_list[next_num]，实际取到的是当前章节之后第二个元素（跳过了一章），并且当 next_num == len(chapters_list)-1 时仍会访问 chapters_list[len-1]，即最后一个元素，导致倒数第二章的 end_time 被设为最后一章的开始时间而非下一章开始时间；更严重的是当 next_num 等于 len(chapters_list) 时条件为假走 duration 分支，但若列表长度与索引错位，最后一章的 end_time 逻辑也依赖 duration。实际错误：章节边界错位，end_time 与 start_time 不匹配。预期：应使用 chapters_list[next_num-1] 或 enumerate 从 0 开始。</dd></div><div class="detail"><dt>触发条件</dt><dd>watch_next_response 中包含至少 3 个章节，例如 chapters_list 长度为 3，循环 next_num=1 时访问 chapters_list[1]（第二章节）作为第一章节的 end_time，跳过正确边界。</dd></div><div class="detail"><dt>代码依据</dt><dd>for next_num, chapter in enumerate(chapters_list, start=1): ... end_time = (chapter_time(chapters_list[next_num]) if next_num &lt; len(chapters_list) else duration)</dd></div><div class="detail"><dt>修复建议</dt><dd>改为 enumerate(chapters_list) 从 0 开始，或访问 chapters_list[next_num] 时使用 next_num 作为 0 基索引（即 end_time 取 chapters_list[next_num] 当 next_num &lt; len(chapters_list) 且 next_num 从 0 开始）。</dd></div><div class="detail"><dt>复核理由</dt><dd>尚未复核；未运行待审代码。</dd></div><div class="detail"><dt>验证方式</dt><dd>执行未形成与候选对应的有效失败；不作为正式缺陷。</dd></div></dl>
+          <pre><code>1694:             if start_time is None:
+1695:                 continue
+1696:             end_time = (chapter_time(chapters_list[next_num])
+1697:                         if next_num &lt; len(chapters_list) else duration)
+1698:             if end_time is None:
+1699:                 continue</code></pre><p>复现：unrelated_failure · 执行未形成与候选对应的有效失败；不作为正式缺陷。</p><p><a href="evidence/2a2a34764e9f/evidence.json">完整运行证据</a></p><details><summary>复现测试与预期行为</summary><p>对于 3 个章节（start 0, 10, 20，duration 30），返回的章节 end_time 应分别为 10, 20, 30；当前实现会得到 20, 30, 30，第一章 end_time 错误。</p><pre><code>import json
+import unittest
+
+from youtube_dl.extractor.youtube import YoutubeIE
+
+
+class ReproductionTest(unittest.TestCase):
+    def test_reproduction(self):
+        def chapter(ms, title):
+            return {&#x27;chapterRenderer&#x27;: {&#x27;timeRangeStartMillis&#x27;: ms, &#x27;title&#x27;: {&#x27;simpleText&#x27;: title}}}
+
+        chapters = [chapter(0, &#x27;a&#x27;), chapter(10000, &#x27;b&#x27;), chapter(20000, &#x27;c&#x27;)]
+        response = {
+            &#x27;playerOverlays&#x27;: {
+                &#x27;playerOverlayRenderer&#x27;: {
+                    &#x27;decoratedPlayerBarRenderer&#x27;: {
+                        &#x27;decoratedPlayerBarRenderer&#x27;: {
+                            &#x27;playerBar&#x27;: {
+                                &#x27;chapteredPlayerBarRenderer&#x27;: {
+                                    &#x27;chapters&#x27;: chapters,
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        player = {&#x27;watch_next_response&#x27;: json.dumps(response)}
+        webpage = &#x27;RELATED_PLAYER_ARGS&quot;: &#x27; + json.dumps(player) + &#x27;,\n&#x27;
+
+        ie = YoutubeIE()
+        result = ie._extract_chapters_from_json(webpage, &#x27;vid&#x27;, 30)
+        self.assertIsNotNone(result)
+        self.assertEqual(len(result), 3)
+        self.assertEqual(result[0][&#x27;start_time&#x27;], 0)
+        self.assertEqual(result[0][&#x27;end_time&#x27;], 10)
+        self.assertEqual(result[1][&#x27;end_time&#x27;], 20)
+        self.assertEqual(result[2][&#x27;end_time&#x27;], 30)
+</code></pre></details><details><summary>执行1 · unrelated_failure · Python 3.7.17 · 测试版本 1</summary><p>镜像 sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8</p><pre>
+CODE_REVIEW_EXECUTION={&quot;python&quot;: &quot;3.7.17&quot;, &quot;tests_run&quot;: 1, &quot;failures&quot;: 0, &quot;errors&quot;: 1, &quot;skipped&quot;: 0, &quot;load_error&quot;: null, &quot;observations&quot;: [{&quot;test&quot;: &quot;generated_reproduction.ReproductionTest.test_reproduction&quot;, &quot;outcome&quot;: &quot;error&quot;, &quot;exception_type&quot;: &quot;AttributeError&quot;, &quot;message&quot;: &quot;&#x27;NoneType&#x27; object has no attribute &#x27;params&#x27;&quot;, &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;/usr/local/lib/python3.7/unittest/case.py\&quot;, line 59, in testPartExecutor\n    yield\n  File \&quot;/usr/local/lib/python3.7/unittest/case.py\&quot;, line 628, in run\n    testMethod()\n  File \&quot;/harness/test_reproduction.py\&quot;, line 32, in test_reproduction\n    result = ie._extract_chapters_from_json(webpage, &#x27;vid&#x27;, 30)\n  File \&quot;/work/youtube_dl/extractor/youtube.py\&quot;, line 1661, in _extract_chapters_from_json\n    &#x27;player args&#x27;, default=&#x27;{}&#x27;),\n  File \&quot;/work/youtube_dl/extractor/common.py\&quot;, line 991, in _search_regex\n    if not self._downloader.params.get(&#x27;no_color&#x27;) and compat_os_name != &#x27;nt&#x27; and sys.stderr.isatty():\nAttributeError: &#x27;NoneType&#x27; object has no attribute &#x27;params&#x27;\n&quot;, &quot;traceback_frames&quot;: [{&quot;path&quot;: &quot;/usr/local/lib/python3.7/unittest/case.py&quot;, &quot;line&quot;: 59, &quot;function&quot;: &quot;testPartExecutor&quot;}, {&quot;path&quot;: &quot;/usr/local/lib/python3.7/unittest/case.py&quot;, &quot;line&quot;: 628, &quot;function&quot;: &quot;run&quot;}, {&quot;path&quot;: &quot;/harness/test_reproduction.py&quot;, &quot;line&quot;: 32, &quot;function&quot;: &quot;test_reproduction&quot;}, {&quot;path&quot;: &quot;/work/youtube_dl/extractor/youtube.py&quot;, &quot;line&quot;: 1661, &quot;function&quot;: &quot;_extract_chapters_from_json&quot;}, {&quot;path&quot;: &quot;/work/youtube_dl/extractor/common.py&quot;, &quot;line&quot;: 991, &quot;function&quot;: &quot;_search_regex&quot;}]}], &quot;target_lines&quot;: [1265, 1266, 1656, 1658, 1659, 1660, 1661], &quot;target_calls&quot;: [[&quot;__init__&quot;, 1264], [&quot;_extract_chapters_from_json&quot;, 1655]], &quot;target_trace_scope&quot;: &quot;test_execution&quot;}
+</pre></details></article><article class="finding" data-severity="low" data-status="pending_evidence">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">待验证</span><span class="origin">llm</span></div>
+          <h3>描述章节 start_time 超过 duration 时直接 break 丢弃后续章节</h3><div class="location">youtube_dl/extractor/youtube.py:1725</div><dl><div class="detail"><dt>问题说明</dt><dd>在 _extract_chapters_from_description 中，若某章节 start_time &gt; duration 则 break，停止处理后续所有章节。但描述中的章节时间可能乱序或 duration 未知/偏小，直接 break 会丢弃后续合法章节。预期行为应是跳过该章节（continue）而非终止整个解析。</dd></div><div class="detail"><dt>触发条件</dt><dd>description 含章节时间 [00:10, 00:20, 00:05]，duration=15；处理到 00:20 时 start_time&gt;duration 触发 break，00:05 章节被丢弃。</dd></div><div class="detail"><dt>代码依据</dt><dd>if start_time &gt; duration:
+    break</dd></div><div class="detail"><dt>修复建议</dt><dd>将 break 改为 continue，或仅在确认章节按时间升序时保留 break 并加注释。</dd></div><div class="detail"><dt>复核理由</dt><dd>尚未复核；未运行待审代码。</dd></div><div class="detail"><dt>验证方式</dt><dd>候选缺陷声称 _extract_chapters_from_description 在 start_time &gt; duration 时 break 会丢弃后续合法章节，但仓库中没有任何文档、测试或注释约定描述章节时间可以乱序、或 duration 可能偏小、或应跳过越界章节继续解析。现有实现（break 与 continue 的选择）本身不能证明期望行为。该函数是私有静态方法，其输入格式（YouTube 描述中的 seekTo 链接）通常按时间升序排列，乱序输入并非受支持的用法。缺少可定位的契约来断言应返回后续章节，因此无法构造有依据的复现测试。</dd></div></dl>
+          <pre><code>1723:             if start_time is None:
+1724:                 continue
+1725:             if start_time &gt; duration:
+1726:                 break
+1727:             end_time = (duration if next_num == len(chapter_lines)
+1728:                         else parse_duration(chapter_lines[next_num][1]))
+1729:             if end_time is None:
+1730:                 continue
+1731:             if end_time &gt; duration:
+1732:                 end_time = duration
+1733:             if start_time &gt; end_time:
+1734:                 break
+1735:             chapter_title = re.sub(
+1736:                 r&#x27;&lt;a[^&gt;]+&gt;[^&lt;]+&lt;/a&gt;&#x27;, &#x27;&#x27;, chapter_line).strip(&#x27; \t-&#x27;)</code></pre><p>复现：unsupported · 候选缺陷声称 _extract_chapters_from_description 在 start_time &gt; duration 时 break 会丢弃后续合法章节，但仓库中没有任何文档、测试或注释约定描述章节时间可以乱序、或 duration 可能偏小、或应跳过越界章节继续解析。现有实现（break 与 continue 的选择）本身不能证明期望行为。该函数是私有静态方法，其输入格式（YouTube 描述中的 seekTo 链接）通常按时间升序排列，乱序输入并非受支持的用法。缺少可定位的契约来断言应返回后续章节，因此无法构造有依据的复现测试。</p><p><a href="evidence/026c0524a9de/evidence.json">完整运行证据</a></p></article><article class="finding" data-severity="low" data-status="pending_evidence">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">待验证</span><span class="origin">llm</span></div>
+          <h3>start_time &gt; end_time 时 break 丢弃后续章节</h3><div class="location">youtube_dl/extractor/youtube.py:1733</div><dl><div class="detail"><dt>问题说明</dt><dd>当解析出的 end_time 小于 start_time（例如下一章节时间点更早或 parse_duration 返回异常值）时直接 break，终止整个章节列表构建，后续章节全部丢失。预期应跳过当前异常章节继续处理。</dd></div><div class="detail"><dt>触发条件</dt><dd>description 中章节时间点乱序，如 [00:30, 00:10, 00:20]，duration=60；处理第一章节时 end_time=10 &lt; start_time=30，触发 break，后续 00:10、00:20 章节丢失。</dd></div><div class="detail"><dt>代码依据</dt><dd>if start_time &gt; end_time:
+    break</dd></div><div class="detail"><dt>修复建议</dt><dd>改为 continue 跳过异常章节，或对章节按时间排序后再处理。</dd></div><div class="detail"><dt>复核理由</dt><dd>尚未复核；未运行待审代码。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>1731:             if end_time &gt; duration:
+1732:                 end_time = duration
+1733:             if start_time &gt; end_time:
+1734:                 break
+1735:             chapter_title = re.sub(
+1736:                 r&#x27;&lt;a[^&gt;]+&gt;[^&lt;]+&lt;/a&gt;&#x27;, &#x27;&#x27;, chapter_line).strip(&#x27; \t-&#x27;)</code></pre><p>复现：budget_exhausted · 达到复现候选数量预算。</p></article><article class="finding" data-severity="low" data-status="pending_evidence">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">待验证</span><span class="origin">llm</span></div>
+          <h3>average_rating 使用 or 导致 0 分被丢弃</h3><div class="location">youtube_dl/extractor/youtube.py:2351</div><dl><div class="detail"><dt>问题说明</dt><dd>averageRating 为 &#x27;0&#x27; 或 0 时 float_or_none 返回 0.0，0.0 为假值，`or` 会继续回退到 video_info 的 avg_rating；若后者缺失则 average_rating 变为 None，而不是合法的 0.0。契约上 0 是有效评分，应保留。</dd></div><div class="detail"><dt>触发条件</dt><dd>video_details[&#x27;averageRating&#x27;] = &#x27;0&#x27;，且 video_info 中无 avg_rating 或 avg_rating 为 None。</dd></div><div class="detail"><dt>代码依据</dt><dd>average_rating = (float_or_none(video_details.get(&#x27;averageRating&#x27;)) or try_get(video_info, lambda x: float_or_none(x[&#x27;avg_rating&#x27;][0])))</dd></div><div class="detail"><dt>修复建议</dt><dd>改为显式判断 None：先取 float_or_none，若为 None 再回退到 video_info 的值。</dd></div><div class="detail"><dt>复核理由</dt><dd>尚未复核；未运行待审代码。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>2349:                 &#x27;view count&#x27;, default=None))
+2350: 
+2351:         average_rating = (
+2352:             float_or_none(video_details.get(&#x27;averageRating&#x27;))
+2353:             or try_get(video_info, lambda x: float_or_none(x[&#x27;avg_rating&#x27;][0])))
+2354: 
+2355:         # subtitles</code></pre><p>复现：budget_exhausted · 达到复现候选数量预算。</p></article><article class="finding" data-severity="low" data-status="pending_evidence">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">待验证</span><span class="origin">llm</span></div>
+          <h3>时长为 0 时被当作缺失并回退</h3><div class="location">youtube_dl/extractor/youtube.py:2359</div><dl><div class="detail"><dt>问题说明</dt><dd>`if not video_duration` 把合法的 0 秒时长视为缺失，继续用 lengthSeconds 或 meta duration 覆盖。若这些来源缺失，最终 video_duration 为 None，而实际契约是 0。</dd></div><div class="detail"><dt>触发条件</dt><dd>video_info[&#x27;length_seconds&#x27;][0] = &#x27;0&#x27;，且 video_details 无 lengthSeconds、页面无 duration meta。</dd></div><div class="detail"><dt>代码依据</dt><dd>video_duration = try_get(video_info, lambda x: int_or_none(x[&#x27;length_seconds&#x27;][0]))
+if not video_duration:
+    video_duration = int_or_none(video_details.get(&#x27;lengthSeconds&#x27;))
+if not video_duration:
+    video_duration = parse_duration(...)</dd></div><div class="detail"><dt>修复建议</dt><dd>使用 `if video_duration is None:` 判断缺失，保留 0 值。</dd></div><div class="detail"><dt>复核理由</dt><dd>尚未复核；未运行待审代码。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>2357:         automatic_captions = self.extract_automatic_captions(video_id, video_webpage)
+2358: 
+2359:         video_duration = try_get(
+2360:             video_info, lambda x: int_or_none(x[&#x27;length_seconds&#x27;][0]))
+2361:         if not video_duration:
+2362:             video_duration = int_or_none(video_details.get(&#x27;lengthSeconds&#x27;))
+2363:         if not video_duration:
+2364:             video_duration = parse_duration(self._html_search_meta(
+2365:                 &#x27;duration&#x27;, video_webpage, &#x27;video duration&#x27;))
+2366: 
+2367:         # annotations</code></pre><p>复现：budget_exhausted · 达到复现候选数量预算。</p></article><article class="finding" data-severity="low" data-status="pending_evidence">
+          <div class="tags"><span class="badge low">低风险</span>
+          <span class="badge">待验证</span><span class="origin">llm</span></div>
+          <h3>filesize 为 0 时被重新提取覆盖</h3><div class="location">youtube_dl/extractor/youtube.py:2404</div><dl><div class="detail"><dt>问题说明</dt><dd>`if not df.get(&#x27;filesize&#x27;)` 将合法的 0 视为缺失并调用 _extract_filesize 覆盖。若 URL 中无 clen，_extract_filesize 返回 None，把原本的 0 覆盖成 None。</dd></div><div class="detail"><dt>触发条件</dt><dd>_extract_mpd_formats 返回的 df 含 &#x27;filesize&#x27;: 0，且 df[&#x27;url&#x27;] 不含 clen 参数。</dd></div><div class="detail"><dt>代码依据</dt><dd>if not df.get(&#x27;filesize&#x27;):
+    df[&#x27;filesize&#x27;] = _extract_filesize(df[&#x27;url&#x27;])</dd></div><div class="detail"><dt>修复建议</dt><dd>改为 `if df.get(&#x27;filesize&#x27;) is None:`，仅在缺失时提取。</dd></div><div class="detail"><dt>复核理由</dt><dd>尚未复核；未运行待审代码。</dd></div><div class="detail"><dt>验证方式</dt><dd>静态诊断或代码推断；未执行复现测试。</dd></div></dl>
+          <pre><code>2402:                             mpd_url, video_id, fatal=dash_mpd_fatal,
+2403:                             formats_dict=self._formats):
+2404:                         if not df.get(&#x27;filesize&#x27;):
+2405:                             df[&#x27;filesize&#x27;] = _extract_filesize(df[&#x27;url&#x27;])
+2406:                         # Do not overwrite DASH format found in some previous DASH manifest
+2407:                         if df[&#x27;format_id&#x27;] not in dash_formats:</code></pre><p>复现：budget_exhausted · 达到复现候选数量预算。</p></article></div><p id="empty" hidden>当前筛选没有候选问题；请结合覆盖范围和失败记录解读。</p>
+<section class="panel"><h2>文件覆盖</h2><div class="table-wrap"><table><thead><tr><th>文件</th><th>静态检查</th><th>语义审查</th><th>完成分块</th></tr></thead><tbody><tr><td>youtube_dl/extractor/youtube.py</td><td>completed</td><td>window_completed</td><td>3/3</td></tr></tbody></table></div></section>
+<section class="panel"><h2>失败记录</h2><p>没有执行失败记录。</p></section>
+<section class="panel"><details><summary>跳过文件（106）</summary><div class="table-wrap"><table><thead><tr><th>文件</th><th>原因</th></tr></thead><tbody><tr><td>.gitignore</td><td>unsupported_language_or_resource</td></tr><tr><td>.travis.yml</td><td>unsupported_language_or_resource</td></tr><tr><td>AUTHORS</td><td>unsupported_language_or_resource</td></tr><tr><td>CONTRIBUTING.md</td><td>unsupported_language_or_resource</td></tr><tr><td>ChangeLog</td><td>unsupported_language_or_resource</td></tr><tr><td>LICENSE</td><td>unsupported_language_or_resource</td></tr><tr><td>MANIFEST.in</td><td>unsupported_language_or_resource</td></tr><tr><td>Makefile</td><td>unsupported_language_or_resource</td></tr><tr><td>README.md</td><td>unsupported_language_or_resource</td></tr><tr><td>setup.cfg</td><td>unsupported_language_or_resource</td></tr><tr><td>tox.ini</td><td>unsupported_language_or_resource</td></tr><tr><td>youtube-dl.plugin.zsh</td><td>unsupported_language_or_resource</td></tr><tr><td>.github/PULL_REQUEST_TEMPLATE.md</td><td>unsupported_language_or_resource</td></tr><tr><td>.github/ISSUE_TEMPLATE/1_broken_site.md</td><td>unsupported_language_or_resource</td></tr><tr><td>.github/ISSUE_TEMPLATE/2_site_support_request.md</td><td>unsupported_language_or_resource</td></tr><tr><td>.github/ISSUE_TEMPLATE/3_site_feature_request.md</td><td>unsupported_language_or_resource</td></tr><tr><td>.github/ISSUE_TEMPLATE/4_bug_report.md</td><td>unsupported_language_or_resource</td></tr><tr><td>.github/ISSUE_TEMPLATE/5_feature_request.md</td><td>unsupported_language_or_resource</td></tr><tr><td>.github/ISSUE_TEMPLATE/6_question.md</td><td>unsupported_language_or_resource</td></tr><tr><td>.github/ISSUE_TEMPLATE_tmpl/1_broken_site.md</td><td>unsupported_language_or_resource</td></tr><tr><td>.github/ISSUE_TEMPLATE_tmpl/2_site_support_request.md</td><td>unsupported_language_or_resource</td></tr><tr><td>.github/ISSUE_TEMPLATE_tmpl/3_site_feature_request.md</td><td>unsupported_language_or_resource</td></tr><tr><td>.github/ISSUE_TEMPLATE_tmpl/4_bug_report.md</td><td>unsupported_language_or_resource</td></tr><tr><td>.github/ISSUE_TEMPLATE_tmpl/5_feature_request.md</td><td>unsupported_language_or_resource</td></tr><tr><td>bin/youtube-dl</td><td>unsupported_language_or_resource</td></tr><tr><td>devscripts/SizeOfImage.patch</td><td>unsupported_language_or_resource</td></tr><tr><td>devscripts/SizeOfImage_w.patch</td><td>unsupported_language_or_resource</td></tr><tr><td>devscripts/bash-completion.in</td><td>unsupported_language_or_resource</td></tr><tr><td>devscripts/fish-completion.in</td><td>unsupported_language_or_resource</td></tr><tr><td>devscripts/install_jython.sh</td><td>unsupported_language_or_resource</td></tr><tr><td>devscripts/posix-locale.sh</td><td>unsupported_language_or_resource</td></tr><tr><td>devscripts/release.sh</td><td>unsupported_language_or_resource</td></tr><tr><td>devscripts/run_tests.sh</td><td>unsupported_language_or_resource</td></tr><tr><td>devscripts/wine-py2exe.sh</td><td>unsupported_language_or_resource</td></tr><tr><td>devscripts/zsh-completion.in</td><td>unsupported_language_or_resource</td></tr><tr><td>docs/.gitignore</td><td>unsupported_language_or_resource</td></tr><tr><td>docs/Makefile</td><td>unsupported_language_or_resource</td></tr><tr><td>docs/index.rst</td><td>unsupported_language_or_resource</td></tr><tr><td>docs/module_guide.rst</td><td>unsupported_language_or_resource</td></tr><tr><td>docs/supportedsites.md</td><td>unsupported_language_or_resource</td></tr><tr><td>test/parameters.json</td><td>unsupported_language_or_resource</td></tr><tr><td>test/testcert.pem</td><td>sensitive_file</td></tr><tr><td>test/versions.json</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/.gitignore</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/ArrayAccess.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/ClassCall.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/ClassConstruction.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/ConstArrayAccess.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/ConstantInt.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/DictCall.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/EqualsOperator.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/LocalVars.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/MemberAssignment.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/NeOperator.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/PrivateCall.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/PrivateVoidCall.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/StaticAssignment.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/StaticRetrieval.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/StringBasics.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/StringCharCodeAt.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/swftests/StringConversion.as</td><td>unsupported_language_or_resource</td></tr><tr><td>test/testdata/cookies/httponly_cookies.txt</td><td>unsupported_language_or_resource</td></tr><tr><td>test/testdata/cookies/malformed_cookies.txt</td><td>unsupported_language_or_resource</td></tr><tr><td>test/testdata/cookies/session_cookies.txt</td><td>unsupported_language_or_resource</td></tr><tr><td>test/testdata/f4m/custom_base_url.f4m</td><td>unsupported_language_or_resource</td></tr><tr><td>test/testdata/m3u8/pluzz_francetv_11507.m3u8</td><td>unsupported_language_or_resource</td></tr><tr><td>test/testdata/m3u8/teamcoco_11995.m3u8</td><td>unsupported_language_or_resource</td></tr><tr><td>test/testdata/m3u8/ted_18923.m3u8</td><td>unsupported_language_or_resource</td></tr><tr><td>test/testdata/m3u8/toggle_mobile_12211.m3u8</td><td>unsupported_language_or_resource</td></tr><tr><td>test/testdata/m3u8/twitch_vod.m3u8</td><td>unsupported_language_or_resource</td></tr><tr><td>test/testdata/m3u8/vidio.m3u8</td><td>unsupported_language_or_resource</td></tr><tr><td>test/testdata/mpd/float_duration.mpd</td><td>unsupported_language_or_resource</td></tr><tr><td>test/testdata/mpd/unfragmented.mpd</td><td>unsupported_language_or_resource</td></tr><tr><td>test/testdata/mpd/urls_only.mpd</td><td>unsupported_language_or_resource</td></tr><tr><td>test/testdata/xspf/foo_xspf.xspf</td><td>unsupported_language_or_resource</td></tr><tr><td>docs/conf.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/__init__.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/helper.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_InfoExtractor.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_YoutubeDL.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_YoutubeDLCookieJar.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_aes.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_age_restriction.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_all_urls.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_cache.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_compat.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_download.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_downloader_http.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_execution.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_http.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_iqiyi_sdk_interpreter.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_jsinterp.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_netrc.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_options.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_postprocessors.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_socks.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_subtitles.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_swfinterp.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_unicode_literals.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_update.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_utils.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_verbose_output.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_write_annotations.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_youtube_chapters.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_youtube_lists.py</td><td>benchmark_tests_hidden</td></tr><tr><td>test/test_youtube_signature.py</td><td>benchmark_tests_hidden</td></tr></tbody></table></div></details></section>
+<footer>Token 用量：输入 22639 / 输出 3186。完整结构化结果及复核轨迹见 report.json。</footer>
+</main><script>
+const search=document.getElementById('search'),severity=document.getElementById('severity'),status=document.getElementById('status');
+function filter(){let count=0;for(const card of document.querySelectorAll('.finding')){const s=status.value;
+const show=(!severity.value||card.dataset.severity===severity.value)&&(s==='all'||(s==='pending'?!['reproduced','rejected'].includes(card.dataset.status):(s==='active'?card.dataset.status!=='rejected':card.dataset.status===s)))&&card.textContent.toLowerCase().includes(search.value.toLowerCase());
+card.hidden=!show;if(show)count++;}document.getElementById('empty').hidden=count!==0;}
+for(const control of [search,severity,status])control.addEventListener('input',filter);filter();
+</script></body></html>

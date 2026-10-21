@@ -1,0 +1,8 @@
+{
+  "limit": 140,
+  "reserved": 37,
+  "phases": {
+    "evidence-holdout-compare": 37
+  },
+  "started_at": "2026-10-21T13:06:32.553752+00:00"
+}

@@ -1,0 +1,34 @@
+{
+  "reservation": {
+    "id": 26,
+    "phase": "evidence-holdout-compare",
+    "label": {
+      "case": "tornado-14",
+      "arm": "baseline",
+      "side": "buggy"
+    },
+    "reserved_at": "2026-10-21T13:07:48.503969+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"tornado/ioloop.py\",\"line\":251,\"end_line\":254,\"severity\":\"high\",\"category\":\"bug\",\"title\":\"initialize(make_current=True) 的条件判断反了，导致无法显式设为当前 IOLoop\",\"explanation\":\"当 make_current 为真时，代码在 `IOLoop.current(instance=False) is None`（即当前线程还没有 IOLoop）时抛出 RuntimeError(\\\"current IOLoop already exists\\\")，而在已经存在当前 IOLoop 时反而调用 make_current() 覆盖它。这与文档语义（显式要求把本实例设为当前，若已有当前实例才应报错）完全相反：没有当前实例时本应成功设为当前，却抛异常；已有当前实例时本应报错，却静默覆盖。\",\"trigger\":\"在无当前 IOLoop 的线程中执行 `IOLoop().initialize(make_current=True)`。\",\"evidence\":\"第 251-254 行：`elif make_current:` 分支内 `if IOLoop.current(instance=False) is None: raise RuntimeError(\\\"current IOLoop already exists\\\")`，随后 `self.make_current()`。条件与错误信息矛盾：None 表示不存在当前实例，不应报“已存在”。\",\"suggestion\":\"将条件改为 `if IOLoop.current(instance=False) is not None: raise RuntimeError(...)`，再调用 `self.make_current()`。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 8418,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 311,
+      "prompt_tokens": 2542,
+      "total_tokens": 2853,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1792
+      },
+      "prompt_cache_hit_tokens": 1792,
+      "prompt_cache_miss_tokens": 750
+    },
+    "elapsed_seconds": 2.361
+  }
+}

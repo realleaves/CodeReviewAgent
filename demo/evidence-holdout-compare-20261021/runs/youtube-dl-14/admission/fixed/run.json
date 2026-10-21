@@ -1,0 +1,673 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "snapshot",
+    "ref": "blinded-snapshot",
+    "commit": "snapshot",
+    "indexed_snapshot_sha256": "acfe5638a11847f03c791fb7aa9772879179fd2332373dd0ee0fd9921052fd00"
+  },
+  "run": {
+    "started_at": "2026-10-21T13:07:04.901198+00:00",
+    "status": "partial",
+    "mode": "evidence",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "window_review_completed": true,
+    "options": {
+      "mode": "evidence",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 8,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": "",
+      "repro_image": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+      "repro_timeout": 15,
+      "max_reproductions": 2,
+      "max_repro_repairs": 0,
+      "context_strategy": "legacy",
+      "enforce_admission": true
+    },
+    "elapsed_seconds": 22.555,
+    "api_calls": 7,
+    "usage": {
+      "prompt_tokens": 28087,
+      "completion_tokens": 3927
+    },
+    "indexed_python_files": 819,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 3,
+    "total_window_chunks": 3,
+    "active_findings": 0,
+    "candidate_findings": 7,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "medium": 2,
+      "low": 5
+    },
+    "status_counts": {
+      "pending_evidence": 7
+    }
+  },
+  "coverage": [
+    {
+      "path": "youtube_dl/extractor/youtube.py",
+      "lines": 3382,
+      "windows": [
+        [
+          1607,
+          1796
+        ],
+        [
+          2338,
+          2434
+        ]
+      ],
+      "total_chunks": 3,
+      "reviewed_chunks": 3,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "ChangeLog",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "youtube-dl.plugin.zsh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/1_broken_site.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/2_site_support_request.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/3_site_feature_request.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/4_bug_report.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/5_feature_request.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/6_question.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl/1_broken_site.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl/2_site_support_request.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl/3_site_feature_request.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl/4_bug_report.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl/5_feature_request.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "bin/youtube-dl",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage_w.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/bash-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/fish-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/install_jython.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/posix-locale.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/run_tests.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/wine-py2exe.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/zsh-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/module_guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/supportedsites.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/parameters.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testcert.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "test/versions.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassConstruction.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstantInt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/DictCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/EqualsOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/LocalVars.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/MemberAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/NeOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateVoidCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticRetrieval.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringBasics.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringCharCodeAt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringConversion.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/cookies/httponly_cookies.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/cookies/malformed_cookies.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/cookies/session_cookies.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/f4m/custom_base_url.f4m",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/pluzz_francetv_11507.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/teamcoco_11995.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/ted_18923.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/toggle_mobile_12211.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/twitch_vod.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/vidio.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/mpd/float_duration.mpd",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/mpd/unfragmented.mpd",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/mpd/urls_only.mpd",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/xspf/foo_xspf.xspf",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_InfoExtractor.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDL.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDLCookieJar.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_aes.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_age_restriction.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_all_urls.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_cache.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_compat.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_download.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_downloader_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_execution.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_iqiyi_sdk_interpreter.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_jsinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_netrc.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_options.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_postprocessors.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_socks.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_subtitles.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_swfinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_unicode_literals.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_update.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_verbose_output.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_write_annotations.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_chapters.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_lists.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_signature.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 7
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 3
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 14232,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 898,
+        "prompt_tokens": 4511,
+        "total_tokens": 5409,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 3072
+        },
+        "prompt_cache_hit_tokens": 3072,
+        "prompt_cache_miss_tokens": 1439
+      },
+      "elapsed_seconds": 5.034
+    },
+    {
+      "stage": "reproduction_plan",
+      "status": "completed",
+      "input_chars": 13674,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 953,
+        "prompt_tokens": 4281,
+        "total_tokens": 5234,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 1024
+        },
+        "prompt_cache_hit_tokens": 1024,
+        "prompt_cache_miss_tokens": 3257
+      },
+      "elapsed_seconds": 4.204,
+      "format_repair_requested": true
+    },
+    {
+      "stage": "reproduction_plan",
+      "status": "completed",
+      "input_chars": 16521,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 751,
+        "prompt_tokens": 5199,
+        "total_tokens": 5950,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 896
+        },
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 4303
+      },
+      "elapsed_seconds": 3.016
+    },
+    {
+      "stage": "reproduction_plan",
+      "status": "completed",
+      "input_chars": 15641,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 187,
+        "prompt_tokens": 5061,
+        "total_tokens": 5248,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 4224
+        },
+        "prompt_cache_hit_tokens": 4224,
+        "prompt_cache_miss_tokens": 837
+      },
+      "elapsed_seconds": 1.548
+    },
+    {
+      "stage": "reproduction_plan",
+      "status": "completed",
+      "input_chars": 14305,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 122,
+        "prompt_tokens": 4477,
+        "total_tokens": 4599,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 1024
+        },
+        "prompt_cache_hit_tokens": 1024,
+        "prompt_cache_miss_tokens": 3453
+      },
+      "elapsed_seconds": 1.589
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 3593,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 1341,
+        "total_tokens": 1347,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 768
+        },
+        "prompt_cache_hit_tokens": 768,
+        "prompt_cache_miss_tokens": 573
+      },
+      "elapsed_seconds": 0.776
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 10542,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1010,
+        "prompt_tokens": 3217,
+        "total_tokens": 4227,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 2304
+        },
+        "prompt_cache_hit_tokens": 2304,
+        "prompt_cache_miss_tokens": 913
+      },
+      "elapsed_seconds": 4.627
+    }
+  ],
+  "tool_reads": [],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "evidence模式使用Agent自行生成的测试与隔离执行，契约语义仍由模型核验；官方回归测试不提供给Agent。"
+  ]
+}

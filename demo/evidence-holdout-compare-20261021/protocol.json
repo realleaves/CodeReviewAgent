@@ -1,0 +1,62 @@
+{
+  "created_at": "2026-10-21T13:06:32.552312+00:00",
+  "kind": "evidence-stage pilot on the 2026-10-20 holdout; reuse of discovery samples",
+  "selection": [
+    "tornado-13",
+    "youtube-dl-14",
+    "tornado-14",
+    "youtube-dl-15"
+  ],
+  "arms": {
+    "baseline": false,
+    "admission": true
+  },
+  "model": {
+    "model": "deepseek-flash",
+    "thinking_mode": "disabled",
+    "temperature": 0.1,
+    "max_output_tokens": 6000,
+    "provider_is_deepseek": true
+  },
+  "budget": {
+    "limit": 140,
+    "per_run": 8,
+    "max_reproductions": 2
+  },
+  "image": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+  "source_sha256": {
+    "src/__init__.py": "9d9e33ea9b0988a621a891305c15f6822aeb887e062c209110de3a43b263ddb4",
+    "src/agents.py": "396e69628790766b122a6041524659b4b70ba3b7ec6b69b05382e4919c780b8e",
+    "src/code_index.py": "39330b46f887021b2aeabf0c292cf5fe5a5e3b5cfde3d701be66beadcd0c208d",
+    "src/deduplication.py": "3071efab768fe7cc9e32073b04ad906af5cc66ffd8d145f61bcb3cfecd48788c",
+    "src/pipeline.py": "d962cd493da3ace3e4ef0784615ad2241b036c1cc3f743d87d20bc4a6ab0a3ab",
+    "src/report.py": "a05cb3f5e455b407c1ee9acc421603e40b9e1261847aabf9f1a696799fdd6f46",
+    "src/repository.py": "360f9e5f492f98780632c68197a8c72abf0b36d876b6b2c2368d8d99a0fbda4c",
+    "src/reproduction.py": "7acf8c5374813ecc540547967aa1ff2897bc7fee75eb2ed9602552c2ca07348a",
+    "src/reproduction_runner.py": "a64da9832eda9154d518ea49636ca927750d6264ddba2a0ccad135e629b7798a",
+    "src/review_context.py": "6c49b9f6b3daef53d926f5b609563696919ff506984dfc592f0a2ea5581b70dc",
+    "src/schemas.py": "820eba212eb78fe1ae597af693cdb1cf2aacfdf9074a781000f27057ce1d2d21",
+    "src/static_analysis.py": "c094e31f91c91916c8db62e5350617e8b3a77a2f930b6063c9d4eec33cf60d2d",
+    "main.py": "a1bfbe3d8a1c97215a2f428748dc2b1a8bd9a7ca422c6faa75434444d6198b3e",
+    "evaluation/evidence_holdout_compare.py": "811e3f38c8cf982ea3dae1f6ba751ecfafc815ca86838b4de167ac52ebcaf333",
+    "evaluation/bugsinpy_review.py": "94bcbe5fdd388e6d7d02c05d5f0885771f3926e82647f94b156124647258b4bf",
+    "evaluation/bugsinpy_data.py": "6f9d3335e6dfe70f98ed9beef0b46d3ac127dcdd7fbc283fe09a1db14452dfff",
+    "evaluation/discovery_experiment.py": "947f6a5a5a6353b512f3536653a7e1b373e2205af11964cffed22227c9ab50b9",
+    "evaluation/bugsinpy_score.py": "a9c13b8f9f6d0a5b2710b982e0ccac95c2f32d463576cc4a8c172908d6a12665"
+  },
+  "official": {
+    "path": "outputs/discovery-goal-20261015/holdout-reproduction/results.json",
+    "status": {
+      "tornado-13": "reproduced",
+      "youtube-dl-14": "reproduced",
+      "tornado-14": "reproduced",
+      "youtube-dl-15": "reproduced"
+    }
+  },
+  "reference": {
+    "path": "outputs/discovery-goal-20261015/holdout-freeze/reference-rubric.json",
+    "sha256": "c772a7f16c0ee3df5b618a144a9aaa2a53b28f3290a03b6361ef435d8bf05ef3"
+  },
+  "protocol": "Same prompt, model, production-only windows and per-run budget in both arms; only ReviewOptions.enforce_admission differs. Baseline accepts the model audit directly; admission requires requirement_gate and audit_gate. Official tests and reference labels are evaluator-only. All planned runs, failures and provider attempts are retained. No repetition and no new-sample claim beyond these 4 cases.",
+  "scoring": "A reference hit requires a reproduced Agent finding matching the frozen reference cause and trigger. Extra findings are separate. Candidate identification without reproduced evidence is reported separately."
+}

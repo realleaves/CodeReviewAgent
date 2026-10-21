@@ -1,0 +1,34 @@
+{
+  "reservation": {
+    "id": 22,
+    "phase": "evidence-holdout-compare",
+    "label": {
+      "case": "youtube-dl-14",
+      "arm": "baseline",
+      "side": "fixed"
+    },
+    "reserved_at": "2026-10-21T13:07:37.959773+00:00"
+  },
+  "raw_response": "{\"applicable\": true, \"reason\": \"候选缺陷成立：enumerate(chapters_list, start=1) 使 next_num 为 1 基，但 chapters_list[next_num] 是 0 基索引，导致每章的 end_time 取到的是下下章的开始时间（跳过一章），最后一章才用 duration。这是明确的索引错位 bug。\", \"contract\": {\"path\": \"youtube_dl/extractor/youtube.py\", \"start\": 1692, \"end\": 1697, \"quote\": \"for next_num, chapter in enumerate(chapters_list, start=1):\\n            start_time = chapter_time(chapter)\\n            if start_time is None:\\n                continue\\n            end_time = (chapter_time(chapters_list[next_num])\\n                        if next_num < len(chapters_list) else duration)\", \"kind\": \"language_rule\", \"rationale\": \"章节的 end_time 语义上应为下一章的开始时间（最后一章为 duration），这是章节列表的固有语义。enumerate 从 1 开始却用 next_num 直接索引 0 基列表，按 Python 索引规则会取到错误元素，导致边界错位。\", \"expected_outcome\": \"return_value\", \"precondition\": \"构造包含至少 3 个章节的 watch_next_response，每章有 timeRangeStartMillis，调用 _extract_chapters_from_json，返回的每章 end_time 应等于下一章 start_time。\", \"assumptions\": [\"_extract_chapters_from_json 可通过构造 webpage 中的 RELATED_PLAYER_ARGS JSON 触发\", \"章节 end_time 语义为下一章开始时间（由相邻章节 start_time 推断）\"]}, \"expected_behavior\": \"对于 3 个章节（start 0, 10, 20，duration 30），返回的章节 end_time 应分别为 10, 20, 30；当前实现会得到 20, 30, 30，第一章 end_time 错误。\", \"test_code\": \"import json\\nimport unittest\\n\\nfrom youtube_dl.extractor.youtube import YoutubeIE\\n\\n\\nclass ReproductionTest(unittest.TestCase):\\n    def test_reproduction(self):\\n        def chapter(ms, title):\\n            return {'chapterRenderer': {'timeRangeStartMillis': ms, 'title': {'simpleText': title}}}\\n\\n        chapters = [chapter(0, 'a'), chapter(10000, 'b'), chapter(20000, 'c')]\\n        response = {\\n            'playerOverlays': {\\n                'playerOverlayRenderer': {\\n                    'decoratedPlayerBarRenderer': {\\n                        'decoratedPlayerBarRenderer': {\\n                            'playerBar': {\\n                                'chapteredPlayerBarRenderer': {\\n                                    'chapters': chapters,\\n                                }\\n                            }\\n                        }\\n                    }\\n                }\\n            }\\n        }\\n        player = {'watch_next_response': json.dumps(response)}\\n        webpage = 'RELATED_PLAYER_ARGS\\\": ' + json.dumps(player) + ',\\\\n'\\n\\n        ie = YoutubeIE()\\n        result = ie._extract_chapters_from_json(webpage, 'vid', 30)\\n        self.assertIsNotNone(result)\\n        self.assertEqual(len(result), 3)\\n        self.assertEqual(result[0]['start_time'], 0)\\n        self.assertEqual(result[0]['end_time'], 10)\\n        self.assertEqual(result[1]['end_time'], 20)\\n        self.assertEqual(result[2]['end_time'], 30)\\n\"}",
+  "error_type": null,
+  "call": {
+    "stage": "reproduction_plan",
+    "status": "completed",
+    "input_chars": 16026,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 775,
+      "prompt_tokens": 4935,
+      "total_tokens": 5710,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1024
+      },
+      "prompt_cache_hit_tokens": 1024,
+      "prompt_cache_miss_tokens": 3911
+    },
+    "elapsed_seconds": 2.872
+  }
+}

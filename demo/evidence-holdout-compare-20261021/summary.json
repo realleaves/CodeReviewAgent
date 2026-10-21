@@ -1,0 +1,32 @@
+{
+  "status": "sampled",
+  "cases": 4,
+  "runs": 16,
+  "api_calls": 37,
+  "budget": {
+    "limit": 140,
+    "reserved": 37,
+    "phases": {
+      "evidence-holdout-compare": 37
+    },
+    "started_at": "2026-10-21T13:06:32.553752+00:00"
+  },
+  "by_arm": {
+    "baseline": {
+      "runs": 8,
+      "completed_windows": 8,
+      "api_calls": 18,
+      "reproduced_findings": 1,
+      "pending_findings": 8
+    },
+    "admission": {
+      "runs": 8,
+      "completed_windows": 8,
+      "api_calls": 19,
+      "reproduced_findings": 1,
+      "pending_findings": 13
+    }
+  },
+  "scope": "4 discovery-holdout cases; first evidence-stage run; one repetition; not a fully unseen or full-repo benchmark",
+  "source_frozen": true
+}

@@ -1,0 +1,45 @@
+{
+  "metrics": [
+    {
+      "arm": "admission",
+      "planned_pairs": 4,
+      "eligible_pairs": 4,
+      "detected_known_bugs": 1,
+      "identified_reference_candidates": 1,
+      "candidate_identified_but_not_reproduced": 0,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 1,
+      "api_calls": 19,
+      "reproduced_findings": 1,
+      "pending_findings": 13,
+      "usage": {
+        "prompt_tokens": 70080,
+        "completion_tokens": 7319
+      },
+      "exclusions": []
+    },
+    {
+      "arm": "baseline",
+      "planned_pairs": 4,
+      "eligible_pairs": 4,
+      "detected_known_bugs": 1,
+      "identified_reference_candidates": 1,
+      "candidate_identified_but_not_reproduced": 0,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 1,
+      "api_calls": 18,
+      "reproduced_findings": 1,
+      "pending_findings": 8,
+      "usage": {
+        "prompt_tokens": 65435,
+        "completion_tokens": 5712
+      },
+      "exclusions": []
+    }
+  ],
+  "scoring_scope": "Frozen reference issue; a hit requires a reproduced Agent finding. Extra findings are separate, not automatic false positives.",
+  "stage": "evidence-stage pilot on 4 discovery-holdout cases; one repetition; not a new-sample or full-repo benchmark",
+  "adjudicators": [
+    "DeepSeek frozen-reference review; human review pending"
+  ]
+}

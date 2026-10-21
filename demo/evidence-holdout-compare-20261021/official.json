@@ -1,0 +1,284 @@
+{
+  "tornado-13": {
+    "case": "tornado-13",
+    "python_declared": "3.7.0",
+    "variants": {
+      "buggy": {
+        "image": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "python_actual": "Python 3.7.17",
+        "environment": {
+          "LC_ALL": "C.UTF-8",
+          "PYTHONCOERCECLOCALE": "0",
+          "PYTHONUTF8": "0"
+        },
+        "valid_test_execution": true,
+        "all_passed": false,
+        "has_failure": true,
+        "tests": [
+          {
+            "command": [
+              "python",
+              "-m",
+              "unittest",
+              "-q",
+              "tornado.test.http1connection_test.HTTP1ConnectionTest.test_http10_no_content_length"
+            ],
+            "exit_code": 1,
+            "timeout": false,
+            "test_executed": true,
+            "environment_error": false,
+            "elapsed_seconds": 1.169,
+            "log": "test-1.log",
+            "log_sha256": "ebd4c5005ff80a5080f77243ed91e8536ecb6ab967a0b752683ad04881f77f84"
+          }
+        ]
+      },
+      "fixed": {
+        "image": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "python_actual": "Python 3.7.17",
+        "environment": {
+          "LC_ALL": "C.UTF-8",
+          "PYTHONCOERCECLOCALE": "0",
+          "PYTHONUTF8": "0"
+        },
+        "valid_test_execution": true,
+        "all_passed": true,
+        "has_failure": false,
+        "tests": [
+          {
+            "command": [
+              "python",
+              "-m",
+              "unittest",
+              "-q",
+              "tornado.test.http1connection_test.HTTP1ConnectionTest.test_http10_no_content_length"
+            ],
+            "exit_code": 0,
+            "timeout": false,
+            "test_executed": true,
+            "environment_error": false,
+            "elapsed_seconds": 0.498,
+            "log": "test-1.log",
+            "log_sha256": "5f4da3a10467ed523d52edf10edfcd360269e31f5319fbb2e3c0632fb4663431"
+          }
+        ]
+      }
+    },
+    "status": "reproduced",
+    "environment_note": "Same Python major/minor as dataset; actual micro-version and image ID recorded. Minimal test dependencies, not the original complete pip freeze."
+  },
+  "youtube-dl-14": {
+    "case": "youtube-dl-14",
+    "python_declared": "3.7.4",
+    "variants": {
+      "buggy": {
+        "image": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "python_actual": "Python 3.7.17",
+        "environment": {
+          "LC_ALL": "C.UTF-8",
+          "PYTHONCOERCECLOCALE": "0",
+          "PYTHONUTF8": "0"
+        },
+        "valid_test_execution": true,
+        "all_passed": false,
+        "has_failure": true,
+        "tests": [
+          {
+            "command": [
+              "python",
+              "-m",
+              "unittest",
+              "-q",
+              "test.test_youtube_chapters.TestYoutubeChapters.test_youtube_chapters"
+            ],
+            "exit_code": 1,
+            "timeout": false,
+            "test_executed": true,
+            "environment_error": false,
+            "elapsed_seconds": 0.821,
+            "log": "test-1.log",
+            "log_sha256": "032b6279f96e453d588f632370feefb4625f1c1f6365cfa562138266665c5ccd"
+          }
+        ]
+      },
+      "fixed": {
+        "image": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "python_actual": "Python 3.7.17",
+        "environment": {
+          "LC_ALL": "C.UTF-8",
+          "PYTHONCOERCECLOCALE": "0",
+          "PYTHONUTF8": "0"
+        },
+        "valid_test_execution": true,
+        "all_passed": true,
+        "has_failure": false,
+        "tests": [
+          {
+            "command": [
+              "python",
+              "-m",
+              "unittest",
+              "-q",
+              "test.test_youtube_chapters.TestYoutubeChapters.test_youtube_chapters"
+            ],
+            "exit_code": 0,
+            "timeout": false,
+            "test_executed": true,
+            "environment_error": false,
+            "elapsed_seconds": 0.862,
+            "log": "test-1.log",
+            "log_sha256": "5f4da3a10467ed523d52edf10edfcd360269e31f5319fbb2e3c0632fb4663431"
+          }
+        ]
+      }
+    },
+    "status": "reproduced",
+    "environment_note": "Same Python major/minor as dataset; actual micro-version and image ID recorded. Minimal test dependencies, not the original complete pip freeze."
+  },
+  "tornado-14": {
+    "case": "tornado-14",
+    "python_declared": "3.7.0",
+    "variants": {
+      "buggy": {
+        "image": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "python_actual": "Python 3.7.17",
+        "environment": {
+          "LC_ALL": "C.UTF-8",
+          "PYTHONCOERCECLOCALE": "0",
+          "PYTHONUTF8": "0"
+        },
+        "valid_test_execution": true,
+        "all_passed": false,
+        "has_failure": true,
+        "tests": [
+          {
+            "command": [
+              "python",
+              "-m",
+              "unittest",
+              "-q",
+              "tornado.test.ioloop_test.TestIOLoopCurrent.test_force_current"
+            ],
+            "exit_code": 1,
+            "timeout": false,
+            "test_executed": true,
+            "environment_error": false,
+            "elapsed_seconds": 0.49,
+            "log": "test-1.log",
+            "log_sha256": "051614707291918ec1b03469c6a19ffd2ca062e50c839820c075f826e608c5c7"
+          }
+        ]
+      },
+      "fixed": {
+        "image": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "python_actual": "Python 3.7.17",
+        "environment": {
+          "LC_ALL": "C.UTF-8",
+          "PYTHONCOERCECLOCALE": "0",
+          "PYTHONUTF8": "0"
+        },
+        "valid_test_execution": true,
+        "all_passed": true,
+        "has_failure": false,
+        "tests": [
+          {
+            "command": [
+              "python",
+              "-m",
+              "unittest",
+              "-q",
+              "tornado.test.ioloop_test.TestIOLoopCurrent.test_force_current"
+            ],
+            "exit_code": 0,
+            "timeout": false,
+            "test_executed": true,
+            "environment_error": false,
+            "elapsed_seconds": 0.45,
+            "log": "test-1.log",
+            "log_sha256": "445221b98f22d14309aaea4fee1a9f41c9659ced4c922d71fbc0dcbbde571045"
+          }
+        ]
+      }
+    },
+    "status": "reproduced",
+    "environment_note": "Same Python major/minor as dataset; actual micro-version and image ID recorded. Minimal test dependencies, not the original complete pip freeze."
+  },
+  "youtube-dl-15": {
+    "case": "youtube-dl-15",
+    "python_declared": "3.7.4",
+    "variants": {
+      "buggy": {
+        "image": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "python_actual": "Python 3.7.17",
+        "environment": {
+          "LC_ALL": "C.UTF-8",
+          "PYTHONCOERCECLOCALE": "0",
+          "PYTHONUTF8": "0"
+        },
+        "valid_test_execution": true,
+        "all_passed": false,
+        "has_failure": true,
+        "tests": [
+          {
+            "command": [
+              "python",
+              "-m",
+              "unittest",
+              "-q",
+              "test.test_utils.TestUtil.test_js_to_json_edgecases",
+              "test.test_utils.TestUtil.test_js_to_json_realworld"
+            ],
+            "exit_code": 1,
+            "timeout": false,
+            "test_executed": true,
+            "environment_error": false,
+            "elapsed_seconds": 0.792,
+            "log": "test-1.log",
+            "log_sha256": "9932e5d25a03f1f42b39c078db72f27801efeb5bb056a0d186766ab1bc54e9ff"
+          }
+        ]
+      },
+      "fixed": {
+        "image": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "python_actual": "Python 3.7.17",
+        "environment": {
+          "LC_ALL": "C.UTF-8",
+          "PYTHONCOERCECLOCALE": "0",
+          "PYTHONUTF8": "0"
+        },
+        "valid_test_execution": true,
+        "all_passed": true,
+        "has_failure": false,
+        "tests": [
+          {
+            "command": [
+              "python",
+              "-m",
+              "unittest",
+              "-q",
+              "test.test_utils.TestUtil.test_js_to_json_edgecases",
+              "test.test_utils.TestUtil.test_js_to_json_realworld"
+            ],
+            "exit_code": 0,
+            "timeout": false,
+            "test_executed": true,
+            "environment_error": false,
+            "elapsed_seconds": 0.793,
+            "log": "test-1.log",
+            "log_sha256": "d618543eb9aa92cc6157dcb22ac2fda3ea1324a7a13bce6cfed513321faadf70"
+          }
+        ]
+      }
+    },
+    "status": "reproduced",
+    "environment_note": "Same Python major/minor as dataset; actual micro-version and image ID recorded. Minimal test dependencies, not the original complete pip freeze."
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "finding": {
+    "path": "youtube_dl/extractor/youtube.py",
+    "line": 1696,
+    "end_line": 1697,
+    "severity": "medium",
+    "category": "bug",
+    "title": "章节结束时间取到下一章时索引越界",
+    "explanation": "循环使用 enumerate(chapters_list, start=1)，next_num 从 1 开始，而 chapters_list 是 0 基列表。当 next_num < len(chapters_list) 时，代码访问 chapters_list[next_num]，实际取到的是当前章节之后第二个章节（偏移了一位），而不是紧邻的下一章。例如 3 个章节时，第 1 章（next_num=1）的 end_time 取 chapters_list[1]（第 2 章）看似正确，但第 2 章（next_num=2）取 chapters_list[2]（第 3 章），第 3 章（next_num=3）因 3<3 为假而使用 duration。真正的问题是：当 next_num 等于 len(chapters_list) 时条件为假，不会越界；但偏移导致第 2 章的结束时间被设为第 3 章的开始时间，跳过了第 2 章自身的结束边界，使第 2 章区间被错误拉长到第 3 章开始。预期 end_time 应为 chapters_list[next_num-1] 的开始时间（即当前章之后的下一章）。",
+    "trigger": "watch_next_response 中 chapters 列表含 3 个及以上章节，且各章 timeRangeStartMillis 不同。",
+    "evidence": "for next_num, chapter in enumerate(chapters_list, start=1): ... end_time = (chapter_time(chapters_list[next_num]) if next_num < len(chapters_list) else duration)。next_num 为 1 基，chapters_list 为 0 基，chapters_list[next_num] 指向当前章的后两章。",
+    "suggestion": "改为 chapter_time(chapters_list[next_num]) 时使用 next_num 作为 0 基索引，即判断 next_num < len(chapters_list) 后取 chapters_list[next_num] 前先确认语义；正确写法是 end_time = chapter_time(chapters_list[next_num]) if next_num < len(chapters_list) else duration 中 next_num 应为 0 基，或改为 chapters_list[next_num] 当 next_num 从 0 开始枚举。",
+    "id": "ac59583e0bd1",
+    "source": "llm",
+    "rule": "",
+    "snippet": "1694:             if start_time is None:\n1695:                 continue\n1696:             end_time = (chapter_time(chapters_list[next_num])\n1697:                         if next_num < len(chapters_list) else duration)\n1698:             if end_time is None:\n1699:                 continue",
+    "status": "pending_evidence",
+    "verification": "尚未复核；未运行待审代码。",
+    "validation": "候选缺陷不成立。enumerate(chapters_list, start=1) 使 next_num 为 1 基，而 chapters_list 为 0 基；对第 i 章（0 基索引 i-1，next_num=i），chapters_list[next_num] 即 chapters_list[i] 正是紧邻的下一章（0 基索引 i）。因此 end_time 取的是下一章开始时间，语义正确，不存在偏移。当 next_num == len(chapters_list)（最后一章）时条件为假，使用 duration，也不会越界。候选描述中“第 2 章取到第 3 章开始”恰恰是正确行为（第 2 章的结束边界就是第 3 章的开始）。没有可定位的契约被违反，无法构造真实失败的复现测试。",
+    "related_diagnostics": []
+  },
+  "reproduction": {
+    "status": "unsupported",
+    "reason": "候选缺陷不成立。enumerate(chapters_list, start=1) 使 next_num 为 1 基，而 chapters_list 为 0 基；对第 i 章（0 基索引 i-1，next_num=i），chapters_list[next_num] 即 chapters_list[i] 正是紧邻的下一章（0 基索引 i）。因此 end_time 取的是下一章开始时间，语义正确，不存在偏移。当 next_num == len(chapters_list)（最后一章）时条件为假，使用 duration，也不会越界。候选描述中“第 2 章取到第 3 章开始”恰恰是正确行为（第 2 章的结束边界就是第 3 章的开始）。没有可定位的契约被违反，无法构造真实失败的复现测试。",
+    "attempts": [],
+    "generation_attempts": [
+      {
+        "response": "{\"applicable\": true, \"reason\": \"候选缺陷成立：enumerate(chapters_list, start=1) 使 next_num 为 1 基，而 chapters_list 为 0 基列表。当 next_num < len(chapters_list) 时访问 chapters_list[next_num]，取到的是当前章节之后第二个章节，导致每章 end_time 偏移一章。例如 4 章时第 2 章 end_time 取第 4 章开始，跳过第 3 章边界。预期 end_time 应为紧邻下一章的开始时间。\", \"contract\": {\"path\": \"youtube_dl/extractor/youtube.py\", \"start\": 1692, \"end\": 1697, \"quote\": \"for next_num, chapter in enumerate(chapters_list, start=1):\\n            start_time = chapter_time(chapter)\\n            if start_time is None:\\n                continue\\n            end_time = (chapter_time(chapters_list[next_num])\\n                        if next_num < len(chapters_list) else duration)\", \"kind\": \"documented_behavior\", \"rationale\": \"章节区间语义要求每章的 end_time 等于紧邻下一章的开始时间，最后一章用 duration。enumerate 从 1 开始使 next_num 为 1 基，而 chapters_list 为 0 基，chapters_list[next_num] 指向当前章的后两章，导致 end_time 偏移。这是章节提取的明确业务契约：相邻章节边界应衔接。\", \"expected_outcome\": \"return_value\", \"precondition\": \"构造含 4 个章节的 watch_next_response JSON，各章 timeRangeStartMillis 不同，调用 _extract_chapters_from_json 返回章节列表。\", \"assumptions\": [\"_extract_chapters_from_json 可通过构造 webpage 中的 RELATED_PLAYER_ARGS 触发\", \"章节列表顺序与时间顺序一致\"]}, \"expected_behavior\": \"对 4 个章节（开始时间 0、10、20、30，duration=40），返回的章节应为 [{start:0,end:10},{start:10,end:20},{start:20,end:30},{start:30,end:40}]。当前实现第 2 章 end 取 chapters_list[2]（第 3 章开始 20）看似正确，但第 1 章 end 取 chapters_list[1]（第 2 章开始 10）也正确；实际偏移在 next_num 与索引对应上：第 1 章 next_num=1 取 chapters_list[1]=第 2 章开始，正确；第 2 章 next_num=2 取 chapters_list[2]=第 3 章开始，正确；第 3 章 next_num=3 取 chapters_list[3]=第 4 章开始，正确；第 4 章 next_num=4 不小于 4 用 duration。因此 4 章时结果恰好正确。真正偏移出现在 next_num 与 len 比较：当 next_num == len 时用 duration，但 chapters_list[next_num] 在 next_num < len 时取的是下一章，索引正确。需重新审视：next_num 从 1 开始，chapters_list[next_num] 当 next_num=1 取索引 1 即第 2 章，正是第 1 章的下一章，正确。因此该候选描述有误，实际无偏移。\", \"test_code\": \"\"}",
+        "validation_error": "复现缺少测试、明确预期或可定位契约。"
+      },
+      {
+        "response": "{\"applicable\": false, \"reason\": \"候选缺陷不成立。enumerate(chapters_list, start=1) 使 next_num 为 1 基，而 chapters_list 为 0 基；对第 i 章（0 基索引 i-1，next_num=i），chapters_list[next_num] 即 chapters_list[i] 正是紧邻的下一章（0 基索引 i）。因此 end_time 取的是下一章开始时间，语义正确，不存在偏移。当 next_num == len(chapters_list)（最后一章）时条件为假，使用 duration，也不会越界。候选描述中“第 2 章取到第 3 章开始”恰恰是正确行为（第 2 章的结束边界就是第 3 章的开始）。没有可定位的契约被违反，无法构造真实失败的复现测试。\"}"
+      }
+    ],
+    "plan": {
+      "applicable": false,
+      "reason": "候选缺陷不成立。enumerate(chapters_list, start=1) 使 next_num 为 1 基，而 chapters_list 为 0 基；对第 i 章（0 基索引 i-1，next_num=i），chapters_list[next_num] 即 chapters_list[i] 正是紧邻的下一章（0 基索引 i）。因此 end_time 取的是下一章开始时间，语义正确，不存在偏移。当 next_num == len(chapters_list)（最后一章）时条件为假，使用 duration，也不会越界。候选描述中“第 2 章取到第 3 章开始”恰恰是正确行为（第 2 章的结束边界就是第 3 章的开始）。没有可定位的契约被违反，无法构造真实失败的复现测试。",
+      "contract": null,
+      "test_code": "",
+      "expected_behavior": ""
+    },
+    "execution_snapshot_sha256": "acfe5638a11847f03c791fb7aa9772879179fd2332373dd0ee0fd9921052fd00",
+    "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+    "max_file_bytes": 1000000,
+    "scope": "",
+    "review_scope": "",
+    "production_only": true,
+    "artifact": "evidence/ac59583e0bd1/evidence.json"
+  }
+}

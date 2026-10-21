@@ -1,0 +1,34 @@
+{
+  "reservation": {
+    "id": 13,
+    "phase": "evidence-holdout-compare",
+    "label": {
+      "case": "youtube-dl-14",
+      "arm": "admission",
+      "side": "fixed"
+    },
+    "reserved_at": "2026-10-21T13:07:06.344210+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":1696,\"end_line\":1697,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"章节结束时间取到下一章时索引越界\",\"explanation\":\"循环使用 enumerate(chapters_list, start=1)，next_num 从 1 开始，而 chapters_list 是 0 基列表。当 next_num < len(chapters_list) 时，代码访问 chapters_list[next_num]，实际取到的是当前章节之后第二个章节（偏移了一位），而不是紧邻的下一章。例如 3 个章节时，第 1 章（next_num=1）的 end_time 取 chapters_list[1]（第 2 章）看似正确，但第 2 章（next_num=2）取 chapters_list[2]（第 3 章），第 3 章（next_num=3）因 3<3 为假而使用 duration。真正的问题是：当 next_num 等于 len(chapters_list) 时条件为假，不会越界；但偏移导致第 2 章的结束时间被设为第 3 章的开始时间，跳过了第 2 章自身的结束边界，使第 2 章区间被错误拉长到第 3 章开始。预期 end_time 应为 chapters_list[next_num-1] 的开始时间（即当前章之后的下一章）。\",\"trigger\":\"watch_next_response 中 chapters 列表含 3 个及以上章节，且各章 timeRangeStartMillis 不同。\",\"evidence\":\"for next_num, chapter in enumerate(chapters_list, start=1): ... end_time = (chapter_time(chapters_list[next_num]) if next_num < len(chapters_list) else duration)。next_num 为 1 基，chapters_list 为 0 基，chapters_list[next_num] 指向当前章的后两章。\",\"suggestion\":\"改为 chapter_time(chapters_list[next_num]) 时使用 next_num 作为 0 基索引，即判断 next_num < len(chapters_list) 后取 chapters_list[next_num] 前先确认语义；正确写法是 end_time = chapter_time(chapters_list[next_num]) if next_num < len(chapters_list) else duration 中 next_num 应为 0 基，或改为 chapters_list[next_num] 当 next_num 从 0 开始枚举。\"},{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":1725,\"end_line\":1734,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"描述章节 start_time 超过 duration 时直接 break 丢弃后续有效章节\",\"explanation\":\"_extract_chapters_from_description 在 start_time > duration 时执行 break 而非 continue。若描述中章节时间点并非严格递增（例如作者把某章时间写错成大于视频时长，后面又出现合法时间点），后续所有合法章节都会被丢弃。预期应跳过该异常条目继续处理，或至少与 JSON 路径的 continue 行为一致。\",\"trigger\":\"description 中章节时间点序列为 [0:10, 99:00, 0:30]，duration 为 60 秒。\",\"evidence\":\"if start_time > duration: break；而 _extract_chapters_from_json 对无效 start_time 使用 continue。\",\"suggestion\":\"将 break 改为 continue，或在确认时间点单调递增契约后保留 break 并加注释说明。\"},{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":1733,\"end_line\":1734,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"start_time > end_time 时 break 丢弃后续章节\",\"explanation\":\"当某章 start_time 大于其 end_time（下一章时间点更早，描述中时间乱序）时执行 break，导致后续所有章节被丢弃。预期应跳过该异常章节继续处理后续条目。\",\"trigger\":\"description 章节时间点为 [0:30, 0:10, 0:50]，duration 为 60 秒。\",\"evidence\":\"if start_time > end_time: break\",\"suggestion\":\"改为 continue 以跳过乱序条目，保留后续有效章节。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 14232,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 898,
+      "prompt_tokens": 4511,
+      "total_tokens": 5409,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 3072
+      },
+      "prompt_cache_hit_tokens": 3072,
+      "prompt_cache_miss_tokens": 1439
+    },
+    "elapsed_seconds": 5.034
+  }
+}

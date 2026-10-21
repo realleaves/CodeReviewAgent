@@ -140,3 +140,11 @@ legacy/callgraph与两轮单变量改进均结束，另完成预选4新样本、
 本轮同时发现当前沙箱的Docker daemon看不到`/tmp` bind mount，前两次诊断运行因此出现`environment_failed`；把`TMPDIR`指到工作区内后挂载正常。三轮诊断尝试合计12次请求，均有记录；最终干净运行5次。该验证只证明固定正反例行为，不是新样本检出率或全局精确率；历史旧判定（4个都曾reproduced）只作参考，不是重新采样的成对基线。youtube-dl-8的底层AttributeError看起来真实，但SyntaxError预期无文档/测试依据，降级是保守取舍，可能误杀真实问题。
 
 离线校验：`python demo/admission-validation-20261021/verify.py`，核对4个案例、5次请求/响应配对、预算、正负例状态、审计字段、附件哈希与源码冻结哈希，不调用模型或Docker。资料见[固定案例验证](demo/admission-validation-20261021/README.md)。
+
+## 新样本 evidence 对照（2026-10-21）
+
+在4个预选holdout样本（tornado-13、youtube-dl-14、tornado-14、youtube-dl-15）上做第一次evidence-stage对照：每样本缺陷/修复两侧，baseline（`enforce_admission=False`）与admission（`True`）两臂；同一提示词、模型、生产代码窗口、单次8次调用上限和最多2个复现候选。共16次运行、37次provider调用（baseline 18、admission 19），两臂完整窗口均8/8，无provider错误；全局上限140，实际37。官方测试4/4成对复现，测试/补丁/标签只在评测侧。
+
+结果：两臂都是参考缺陷有效检出1/4、修复侧同问题告警0、成对区分1/4；唯一有效命中是tornado-14的`initialize(make_current=True)`条件取反，两臂都两次隔离执行并审计通过。tornado-13只有Ruff B904静态建议，无模型候选；youtube-dl-14候选偏离网页JSON章节元数据参考路径；youtube-dl-15无候选。admission相对baseline多1次调用、多5条待确认候选（13 vs 8），没有增加有效证据，也没有破坏唯一正例。判读为DeepSeek对照冻结reference-rubric，人工复查待完成；额外候选不自动算误报。
+
+该对照只隔离门控（两臂共享新提示词），不是旧版vs新版；样本复用discovery holdout，单次重复，不是完全盲测或全仓库成绩。结论：准入在固定案例上拦住了无依据预期，但在这个小样本evidence pilot上没有显示端到端检出/精确率收益；不能据此声称提升，也不足以关闭安全门控。资料见[新样本evidence对照](demo/evidence-holdout-compare-20261021/README.md)；离线校验`python demo/evidence-holdout-compare-20261021/verify.py`，不调用模型/Docker。当前项目109项测试通过，Ruff F/E9通过。

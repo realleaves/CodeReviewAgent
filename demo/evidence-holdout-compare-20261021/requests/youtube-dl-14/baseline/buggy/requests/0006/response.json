@@ -1,0 +1,34 @@
+{
+  "reservation": {
+    "id": 6,
+    "phase": "evidence-holdout-compare",
+    "label": {
+      "case": "youtube-dl-14",
+      "arm": "baseline",
+      "side": "buggy"
+    },
+    "reserved_at": "2026-10-21T13:06:43.417928+00:00"
+  },
+  "raw_response": "{\"applicable\": false, \"reason\": \"候选缺陷描述的是章节区间在解析失败时可能出现空洞/重叠，但代码中没有任何文档、测试或语言规则约定 _extract_chapters 在中间章节时间点无法解析时必须如何计算相邻章节的 end_time。现有实现（跳过无法解析的章节、用原始下一行时间点作为 end_time）本身不能证明期望行为；候选建议的“先过滤再计算”只是改进建议，不是可定位的契约。因此无法构造有来源断言的复现测试。\"}",
+  "error_type": null,
+  "call": {
+    "stage": "reproduction_plan",
+    "status": "completed",
+    "input_chars": 12667,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 114,
+      "prompt_tokens": 4358,
+      "total_tokens": 4472,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1024
+      },
+      "prompt_cache_hit_tokens": 1024,
+      "prompt_cache_miss_tokens": 3334
+    },
+    "elapsed_seconds": 1.376
+  }
+}

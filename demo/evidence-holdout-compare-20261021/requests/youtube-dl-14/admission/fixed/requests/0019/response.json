@@ -1,0 +1,34 @@
+{
+  "reservation": {
+    "id": 19,
+    "phase": "evidence-holdout-compare",
+    "label": {
+      "case": "youtube-dl-14",
+      "arm": "admission",
+      "side": "fixed"
+    },
+    "reserved_at": "2026-10-21T13:07:22.821680+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":2351,\"end_line\":2353,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"average_rating 使用 or 导致 0.0 被后续值覆盖\",\"explanation\":\"averageRating 为 '0' 时 float_or_none 返回 0.0，属于合法评分（无评分/零分）。但 `0.0 or try_get(...)` 会把 0.0 当作假值，转而使用 video_info 的 avg_rating，若后者缺失则得到 None，丢失了原本有效的 0.0。预期应保留 0.0。\",\"trigger\":\"video_details['averageRating'] = '0'，且 video_info 中无 avg_rating 或 avg_rating 为 None。\",\"evidence\":\"average_rating = (float_or_none(video_details.get('averageRating')) or try_get(video_info, lambda x: float_or_none(x['avg_rating'][0])))\",\"suggestion\":\"改为显式判断 None：先取 float_or_none，若为 None 再回退到 video_info 的值。\"},{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":2359,\"end_line\":2365,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"时长为 0 时被当作缺失并回退到其他来源\",\"explanation\":\"`if not video_duration` 将 0 视为缺失。若 video_info 的 length_seconds 为 '0'（合法零时长，如直播/占位），会继续用 video_details.lengthSeconds，再回退到 meta duration，可能得到错误时长或 None。预期应仅在 None 时回退。\",\"trigger\":\"video_info['length_seconds'][0] = '0'，video_details 无 lengthSeconds，页面 meta duration 为其他值。\",\"evidence\":\"video_duration = try_get(video_info, lambda x: int_or_none(x['length_seconds'][0]))\\nif not video_duration:\\n    video_duration = int_or_none(video_details.get('lengthSeconds'))\\nif not video_duration:\\n    video_duration = parse_duration(...)\",\"suggestion\":\"使用 `if video_duration is None:` 判断，保留合法的 0。\"},{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":2399,\"end_line\":2417,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"decrypt_sig 抛出的 ExtractorError 被外层 except 吞掉并仅警告\",\"explanation\":\"re.sub 调用 decrypt_sig，其中 _decrypt_signature 在失败时抛 ExtractorError。该异常被同一 try 的 `except (ExtractorError, KeyError)` 捕获，只 report_warning 后继续，导致该 DASH manifest 被静默跳过；若所有 manifest 都失败，最终可能缺少 DASH 格式而无致命错误。预期签名解密失败应作为提取失败上报（或至少区分处理）。\",\"trigger\":\"mpd_url 含 /s/<sig>，player_url 为 None 或签名函数提取失败，_decrypt_signature 抛 ExtractorError。\",\"evidence\":\"mpd_url = re.sub(r'/s/([a-fA-F0-9\\\\.]+)', decrypt_sig, mpd_url)\\n...\\nexcept (ExtractorError, KeyError) as e:\\n    self.report_warning('Skipping DASH manifest: %r' % e, video_id)\",\"suggestion\":\"将签名解密移出该 try，或在 except 中区分签名解密失败并重新抛出/致命处理。\"},{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":2404,\"end_line\":2405,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"df 缺少 url 键时 KeyError 被吞并跳过整个 manifest\",\"explanation\":\"`df['url']` 直接索引，若 _extract_mpd_formats 返回的格式项无 'url'（例如仅有 'fragment_base_url' 或异常数据），会抛 KeyError，被外层 except 捕获，导致该 manifest 已解析出的其他格式全部丢弃。预期应使用 df.get('url') 或跳过单个格式。\",\"trigger\":\"_extract_mpd_formats 返回的某个 df 不含 'url' 键。\",\"evidence\":\"if not df.get('filesize'):\\n    df['filesize'] = _extract_filesize(df['url'])\",\"suggestion\":\"使用 df.get('url') 并在缺失时跳过该格式，而非让 KeyError 终止整个 manifest 处理。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 10542,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1010,
+      "prompt_tokens": 3217,
+      "total_tokens": 4227,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 2304
+      },
+      "prompt_cache_hit_tokens": 2304,
+      "prompt_cache_miss_tokens": 913
+    },
+    "elapsed_seconds": 4.627
+  }
+}

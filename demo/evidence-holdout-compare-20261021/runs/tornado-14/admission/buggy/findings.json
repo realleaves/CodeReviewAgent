@@ -1,0 +1,41 @@
+[
+  {
+    "id": "37b96dbfb16c",
+    "path": "tornado/ioloop.py",
+    "line": 251,
+    "end_line": 254,
+    "title": "initialize 的 make_current=True 分支条件取反，导致总是抛异常或从不抛异常",
+    "category": "bug",
+    "status": "reproduced",
+    "source": "llm",
+    "evidence_status": "reproduced",
+    "evidence_reason": "测试在 clear_current 后确认 current(instance=False) 为 None，再构造 IOLoop(make_current=True)，实际调用到 ioloop.py:253 并抛出 RuntimeError('current IOLoop already exists')，与候选描述一致。make_current 文档明确说明显式调用 make_current 可使该 IOLoop 成为当前线程的 current，且 4.1 起无 current 时创建会自动成为 current；因此无 current 时 make_current=True 应成功设置而非报错。条件 `is None` 与异常语义相反，属行为缺陷。",
+    "plan_kind": "documented_behavior",
+    "expected_outcome": "state_change",
+    "expected_exception": "",
+    "admission": {
+      "enforced": true,
+      "requirement": {
+        "accepted": true,
+        "reason": ""
+      },
+      "audit": {
+        "accepted": true,
+        "checks": {
+          "model_accepted": true,
+          "input_supported": true,
+          "requirement_supported": true,
+          "failure_matches_candidate": true,
+          "behavior_class": true,
+          "no_unresolved_assumptions": true
+        },
+        "failed": []
+      },
+      "accepted": true
+    },
+    "attempt_verdicts": [
+      "failure_observed",
+      "failure_observed"
+    ]
+  }
+]

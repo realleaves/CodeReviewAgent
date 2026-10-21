@@ -1,0 +1,36 @@
+[
+  {
+    "id": "7e441a16cb1b",
+    "path": "youtube_dl/extractor/youtube.py",
+    "line": 1672,
+    "end_line": 1673,
+    "title": "章节结束时间使用原始索引而非过滤后的上一章节",
+    "category": "bug",
+    "status": "pending_evidence",
+    "source": "llm",
+    "evidence_status": "unsupported",
+    "evidence_reason": "候选缺陷描述的是章节区间在解析失败时可能出现空洞/重叠，但代码中没有任何文档、测试或语言规则约定 _extract_chapters 在中间章节时间点无法解析时必须如何计算相邻章节的 end_time。现有实现（跳过无法解析的章节、用原始下一行时间点作为 end_time）本身不能证明期望行为；候选建议的“先过滤再计算”只是改进建议，不是可定位的契约。因此无法构造有来源断言的复现测试。",
+    "plan_kind": null,
+    "expected_outcome": null,
+    "expected_exception": null,
+    "admission": null,
+    "attempt_verdicts": []
+  },
+  {
+    "id": "7337254b3642",
+    "path": "youtube_dl/extractor/youtube.py",
+    "line": 2340,
+    "end_line": 2358,
+    "title": "DASH 签名解密异常未被捕获，导致整个提取失败",
+    "category": "bug",
+    "status": "pending_evidence",
+    "source": "llm",
+    "evidence_status": "unsupported",
+    "evidence_reason": "候选缺陷自身结论即为“无需修改；异常已被捕获并降级为警告”。静态检查确认：第2340行 re.sub 回调抛出的 ExtractorError 会被第2356行 except (ExtractorError, KeyError) 捕获并 report_warning，不会导致整个提取失败。因此不存在可复现的行为缺陷，无法构造有契约依据的失败测试。",
+    "plan_kind": null,
+    "expected_outcome": null,
+    "expected_exception": null,
+    "admission": null,
+    "attempt_verdicts": []
+  }
+]

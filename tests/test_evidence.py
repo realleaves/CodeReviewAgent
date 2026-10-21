@@ -677,3 +677,46 @@ def test_legacy_plan_without_structured_fields_is_still_parseable_and_replayable
     validate_plan(parsed, CodeIndex({"a.py": SOURCE}))
     with pytest.raises(ValueError, match="expected_outcome"):
         validate_requirement(parsed)
+
+
+def test_baseline_without_admission_accepts_a_free_form_audit():
+    llm = FakeLLM(
+        [
+            plan().model_dump_json(),
+            json.dumps(
+                {
+                    "accepted": True,
+                    "reason": "对照实验：模型口头接受，未填写结构化准入字段。",
+                }
+            ),
+        ]
+    )
+    index = CodeIndex({"a.py": SOURCE})
+    validator = EvidenceEngine(
+        index,
+        ReviewAgents(index, llm),
+        ReviewOptions(mode="evidence", enforce_admission=False),
+        FixedExecutor(attempt()),
+    )
+    item = finding()
+    validator.validate(item)
+    assert item.status == "reproduced"
+    assert item.reproduction["admission"]["enforced"] is False
+    assert item.reproduction["admission"]["audit"]["checks"] is None
+    assert "关闭结构化准入" in item.validation
+
+
+def test_baseline_without_admission_does_not_pre_reject_a_language_rule():
+    llm = FakeLLM([language_rule_plan().model_dump_json(), audit()])
+    index = CodeIndex({"a.py": SOURCE})
+    validator = EvidenceEngine(
+        index,
+        ReviewAgents(index, llm),
+        ReviewOptions(mode="evidence", enforce_admission=False),
+        FixedExecutor(attempt()),
+    )
+    item = finding()
+    validator.validate(item)
+    assert item.status == "reproduced"
+    assert item.reproduction["admission"]["enforced"] is False
+    assert "requirement" not in item.reproduction["admission"]

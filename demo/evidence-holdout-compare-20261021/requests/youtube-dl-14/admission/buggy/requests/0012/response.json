@@ -1,0 +1,34 @@
+{
+  "reservation": {
+    "id": 12,
+    "phase": "evidence-holdout-compare",
+    "label": {
+      "case": "youtube-dl-14",
+      "arm": "admission",
+      "side": "buggy"
+    },
+    "reserved_at": "2026-10-21T13:06:59.721786+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":2327,\"end_line\":2327,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"video_duration 可能为 None 时传给 _extract_chapters 导致比较异常\",\"explanation\":\"video_duration 依次尝试 video_info['length_seconds']、video_details['lengthSeconds'] 和页面 meta duration，三者都可能缺失而保持 None。随后无条件调用 self._extract_chapters(description_original, video_duration)。_extract_chapters 在匹配到章节行后执行 `if start_time > duration`，duration 为 None 时 Python 3 抛出 TypeError（'NoneType' 与 int 不可比较），导致整个视频提取失败，而不是仅跳过章节。\",\"trigger\":\"视频页面包含带 seekTo 的章节链接（description 匹配章节正则），但 video_info 无 length_seconds、video_details 无 lengthSeconds、页面也无 duration meta，使 video_duration 为 None。\",\"evidence\":\"2300-2306 行 video_duration 可能保持 None；2327 行无条件调用 _extract_chapters(description_original, video_duration)；_extract_chapters 1670 行 `if start_time > duration:` 在 duration=None 时抛 TypeError。\",\"suggestion\":\"在调用前判断 video_duration 是否为 None（为 None 时跳过章节提取），或在 _extract_chapters 内对 duration 为 None 做保护。\"},{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":2340,\"end_line\":2340,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"DASH manifest URL 签名替换中 _decrypt_signature 抛出的 ExtractorError 未被捕获\",\"explanation\":\"decrypt_sig 回调调用 self._decrypt_signature，而 _decrypt_signature 在 player_url 为 None 或签名提取失败时抛出 ExtractorError。该回调在 try 块内由 re.sub 执行，但 except 只捕获 (ExtractorError, KeyError) —— 实际上 ExtractorError 会被捕获，然而 _decrypt_signature 内部把任意异常包装为 ExtractorError 并附带 traceback，这里会被当作“跳过 DASH manifest”警告吞掉，导致该 manifest 的所有 DASH 格式静默丢失，且 dash_mpd_fatal 仍为 True 时后续 manifest 失败会升级为致命错误。更关键的是：若 decrypt_sig 抛出的是非 ExtractorError/KeyError 的异常（如 re.sub 回调中 _decrypt_signature 之外的错误），会直接向上传播。\",\"trigger\":\"mpd_url 含 /s/<hex> 签名段，且 player_url 为 None 或签名函数提取失败，_decrypt_signature 抛 ExtractorError。\",\"evidence\":\"2335-2340 行 decrypt_sig 调用 _decrypt_signature；_decrypt_signature 1408-1409、1427-1430 行抛 ExtractorError；2356 行 except (ExtractorError, KeyError) 将其转为 warning 并跳过整个 manifest。\",\"suggestion\":\"区分签名解密失败与 manifest 下载失败：签名解密失败应保留原始 URL 或明确报错，而不是静默丢弃整个 DASH manifest。\"},{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":2345,\"end_line\":2346,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"_extract_filesize 对 df['url'] 直接取值，缺少 url 时抛 KeyError 被误报为跳过 manifest\",\"explanation\":\"循环中对每个 df 执行 `if not df.get('filesize'): df['filesize'] = _extract_filesize(df['url'])`。若某个 DASH 格式字典没有 'url' 键（例如使用 fragment_base_url 的分片格式），会抛 KeyError，被外层 except (ExtractorError, KeyError) 捕获并报告“Skipping DASH manifest”，从而丢弃该 manifest 中已解析出的全部格式，而不是仅跳过该格式。\",\"trigger\":\"_extract_mpd_formats 返回的某个格式字典不含 'url' 键且无 filesize。\",\"evidence\":\"2345-2346 行直接 df['url']；2356 行 except (ExtractorError, KeyError) 将 KeyError 当作 manifest 级失败处理。\",\"suggestion\":\"使用 df.get('url') 并在缺失时跳过 filesize 计算，或将 filesize 计算移出 manifest 级 try 块。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 11854,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 991,
+      "prompt_tokens": 3605,
+      "total_tokens": 4596,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 3456
+      },
+      "prompt_cache_hit_tokens": 3456,
+      "prompt_cache_miss_tokens": 149
+    },
+    "elapsed_seconds": 5.12
+  }
+}

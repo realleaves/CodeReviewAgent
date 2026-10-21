@@ -1,0 +1,34 @@
+{
+  "reservation": {
+    "id": 5,
+    "phase": "evidence-holdout-compare",
+    "label": {
+      "case": "youtube-dl-14",
+      "arm": "baseline",
+      "side": "buggy"
+    },
+    "reserved_at": "2026-10-21T13:06:39.889249+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":1672,\"end_line\":1673,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"章节结束时间使用原始索引而非过滤后的上一章节\",\"explanation\":\"循环用 enumerate(chapter_lines, start=1) 的 next_num 判断是否为最后一行，但循环体内存在 continue（start_time 为 None、end_time 为 None）和 break。当某个中间章节因 parse_duration 返回 None 被 continue 跳过时，后续章节的 end_time 仍取 chapter_lines[next_num][1]，即原始列表的下一行，而不是实际被加入的下一章节。这本身与“下一行”语义一致，但若被跳过的行恰是最后一行，则 next_num == len(chapter_lines) 成立，end_time 取 duration，而实际最后加入的章节的 end_time 应为被跳过行的解析结果（None 则跳过该章节）。更明确的问题：当某章节 start_time > duration 触发 break 时，前面已加入的最后一个章节的 end_time 已被设为该越界章节的 start_time（因为 next_num 指向它），随后被 clamp 到 duration，行为可接受。真正缺陷在于 continue 分支：若 chapter_lines[next_num][1] 解析失败，当前章节被 continue 跳过，但其 start_time 已用于前一章节的 end_time，导致前一章节 end_time 指向一个未加入章节的时间点，章节区间出现空洞或重叠。\",\"trigger\":\"description 含三行章节，第二行时间点无法被 parse_duration 解析（如 '1:2:3:4' 或空），第一行 start_time 有效。\",\"evidence\":\"1667-1675：start_time 解析失败 continue；end_time = parse_duration(chapter_lines[next_num][1])，next_num 为原始索引；若该值为 None 则当前章节 continue，但前一章节已用该值作为 end_time。\",\"suggestion\":\"先过滤出可解析的章节列表，再基于过滤后的相邻元素计算 end_time，或解析失败时回退到 duration/下一有效时间点。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 11805,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 462,
+      "prompt_tokens": 3930,
+      "total_tokens": 4392,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 2560
+      },
+      "prompt_cache_hit_tokens": 2560,
+      "prompt_cache_miss_tokens": 1370
+    },
+    "elapsed_seconds": 3.385
+  }
+}

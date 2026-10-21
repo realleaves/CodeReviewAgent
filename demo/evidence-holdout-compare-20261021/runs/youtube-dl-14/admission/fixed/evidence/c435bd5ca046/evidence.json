@@ -1,0 +1,46 @@
+{
+  "finding": {
+    "path": "youtube_dl/extractor/youtube.py",
+    "line": 1725,
+    "end_line": 1734,
+    "severity": "low",
+    "category": "bug",
+    "title": "描述章节 start_time 超过 duration 时直接 break 丢弃后续有效章节",
+    "explanation": "_extract_chapters_from_description 在 start_time > duration 时执行 break 而非 continue。若描述中章节时间点并非严格递增（例如作者把某章时间写错成大于视频时长，后面又出现合法时间点），后续所有合法章节都会被丢弃。预期应跳过该异常条目继续处理，或至少与 JSON 路径的 continue 行为一致。",
+    "trigger": "description 中章节时间点序列为 [0:10, 99:00, 0:30]，duration 为 60 秒。",
+    "evidence": "if start_time > duration: break；而 _extract_chapters_from_json 对无效 start_time 使用 continue。",
+    "suggestion": "将 break 改为 continue，或在确认时间点单调递增契约后保留 break 并加注释说明。",
+    "id": "c435bd5ca046",
+    "source": "llm",
+    "rule": "",
+    "snippet": "1723:             if start_time is None:\n1724:                 continue\n1725:             if start_time > duration:\n1726:                 break\n1727:             end_time = (duration if next_num == len(chapter_lines)\n1728:                         else parse_duration(chapter_lines[next_num][1]))\n1729:             if end_time is None:\n1730:                 continue\n1731:             if end_time > duration:\n1732:                 end_time = duration\n1733:             if start_time > end_time:\n1734:                 break\n1735:             chapter_title = re.sub(\n1736:                 r'<a[^>]+>[^<]+</a>', '', chapter_line).strip(' \\t-')",
+    "status": "pending_evidence",
+    "verification": "尚未复核；未运行待审代码。",
+    "validation": "候选缺陷声称 start_time > duration 时用 break 会丢弃后续合法章节，但仓库中没有任何文档、测试或语言规则约定描述章节时间点必须非单调递增、或异常条目应被跳过而继续处理。_extract_chapters_from_description 的现有实现（break）与 _extract_chapters_from_json 的 continue 属于不同数据源的不同处理策略，代码本身不能证明期望行为。缺少可定位的契约来断言应返回后续章节，因此无法构造有依据的复现测试。",
+    "related_diagnostics": []
+  },
+  "reproduction": {
+    "status": "unsupported",
+    "reason": "候选缺陷声称 start_time > duration 时用 break 会丢弃后续合法章节，但仓库中没有任何文档、测试或语言规则约定描述章节时间点必须非单调递增、或异常条目应被跳过而继续处理。_extract_chapters_from_description 的现有实现（break）与 _extract_chapters_from_json 的 continue 属于不同数据源的不同处理策略，代码本身不能证明期望行为。缺少可定位的契约来断言应返回后续章节，因此无法构造有依据的复现测试。",
+    "attempts": [],
+    "generation_attempts": [
+      {
+        "response": "{\"applicable\": false, \"reason\": \"候选缺陷声称 start_time > duration 时用 break 会丢弃后续合法章节，但仓库中没有任何文档、测试或语言规则约定描述章节时间点必须非单调递增、或异常条目应被跳过而继续处理。_extract_chapters_from_description 的现有实现（break）与 _extract_chapters_from_json 的 continue 属于不同数据源的不同处理策略，代码本身不能证明期望行为。缺少可定位的契约来断言应返回后续章节，因此无法构造有依据的复现测试。\"}"
+      }
+    ],
+    "plan": {
+      "applicable": false,
+      "reason": "候选缺陷声称 start_time > duration 时用 break 会丢弃后续合法章节，但仓库中没有任何文档、测试或语言规则约定描述章节时间点必须非单调递增、或异常条目应被跳过而继续处理。_extract_chapters_from_description 的现有实现（break）与 _extract_chapters_from_json 的 continue 属于不同数据源的不同处理策略，代码本身不能证明期望行为。缺少可定位的契约来断言应返回后续章节，因此无法构造有依据的复现测试。",
+      "contract": null,
+      "test_code": "",
+      "expected_behavior": ""
+    },
+    "execution_snapshot_sha256": "acfe5638a11847f03c791fb7aa9772879179fd2332373dd0ee0fd9921052fd00",
+    "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+    "max_file_bytes": 1000000,
+    "scope": "",
+    "review_scope": "",
+    "production_only": true,
+    "artifact": "evidence/c435bd5ca046/evidence.json"
+  }
+}

@@ -560,7 +560,8 @@ class EvidenceEngine:
                     plan = ReproductionPlan.model_validate(parse_json(raw))
                     evidence["plan"] = plan.model_dump()
                     validate_plan(plan, self.index)
-                    validate_requirement(plan)
+                    if self.options.enforce_admission:
+                        validate_requirement(plan)
                     break
                 except ValueError as error:
                     evidence["generation_attempts"][-1]["validation_error"] = str(
@@ -649,7 +650,8 @@ class EvidenceEngine:
                     )
                     break
                 validate_plan(repaired, self.index)
-                validate_requirement(repaired)
+                if self.options.enforce_admission:
+                    validate_requirement(repaired)
                 if repaired.test_code == plan.test_code:
                     feedback["status"] = "unchanged"
                     evidence.update(
@@ -674,22 +676,26 @@ class EvidenceEngine:
                         status="inconsistent", reason="两次全新容器的失败类型不一致。"
                     )
                 else:
-                    requirement_ok, requirement_reason = requirement_gate(
-                        plan, active_attempts
-                    )
-                    evidence["admission"] = {
-                        "requirement": {
-                            "accepted": requirement_ok,
-                            "reason": requirement_reason,
-                        }
-                    }
-                    if not requirement_ok:
-                        evidence["admission"]["accepted"] = False
-                        evidence.update(
-                            status="contract_unconfirmed",
-                            reason="预期依据准入未通过：" + requirement_reason,
+                    if self.options.enforce_admission:
+                        requirement_ok, requirement_reason = requirement_gate(
+                            plan, active_attempts
                         )
-                        return
+                        evidence["admission"] = {
+                            "enforced": True,
+                            "requirement": {
+                                "accepted": requirement_ok,
+                                "reason": requirement_reason,
+                            },
+                        }
+                        if not requirement_ok:
+                            evidence["admission"]["accepted"] = False
+                            evidence.update(
+                                status="contract_unconfirmed",
+                                reason="预期依据准入未通过：" + requirement_reason,
+                            )
+                            return
+                    else:
+                        evidence["admission"] = {"enforced": False}
                     reference = plan.contract
                     audit = {
                         "candidate": payload["candidate"],
@@ -712,7 +718,11 @@ class EvidenceEngine:
                         )
                     )
                     evidence["audit"] = decision.model_dump()
-                    admitted, checks, failed = audit_gate(decision)
+                    if self.options.enforce_admission:
+                        admitted, checks, failed = audit_gate(decision)
+                    else:
+                        admitted = decision.accepted is True
+                        checks, failed = None, []
                     evidence["admission"]["audit"] = {
                         "accepted": admitted,
                         "checks": checks,
@@ -722,7 +732,11 @@ class EvidenceEngine:
                     if admitted:
                         evidence.update(status="reproduced", reason=decision.reason)
                         finding.status = "reproduced"
-                        finding.validation = "两次独立隔离执行出现同类型失败并触达目标代码；预期依据通过结构化准入检查与模型对照引用原文核验，仍供维护者复查。"
+                        finding.validation = (
+                            "两次独立隔离执行出现同类型失败并触达目标代码；预期依据通过结构化准入检查与模型对照引用原文核验，仍供维护者复查。"
+                            if self.options.enforce_admission
+                            else "实验对照：关闭结构化准入，仅按模型核验接受；两次独立执行已触达目标，不能当作生产默认行为。"
+                        )
                         finding.verification = decision.reason
                     else:
                         reason = (

@@ -67,6 +67,9 @@ class ReviewOptions(BaseModel):
     max_reproductions: int = Field(default=4, ge=1, le=20)
     max_repro_repairs: int = Field(default=0, ge=0, le=1)
     context_strategy: Literal["legacy", "callgraph"] = "legacy"
+    # Experiment switch: the prompt stays the same; only the structured
+    # admission checks and audit re-check are disabled when False.
+    enforce_admission: bool = True
 
 
 class ContractReference(BaseModel):

@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-PROJECT = ROOT.parents[1]
+SNAPSHOT = ROOT / "implementation"
 
 
 def digest(path):
@@ -59,7 +59,7 @@ def main():
         for relative, expected in row["artifacts"].items():
             assert digest(ROOT / "cases" / case / "artifacts" / relative) == expected
     for relative, expected in protocol["source_sha256"].items():
-        assert digest(PROJECT / relative) == expected
+        assert digest(SNAPSHOT / relative) == expected
     print(
         json.dumps(
             {

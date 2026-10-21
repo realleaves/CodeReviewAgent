@@ -1,0 +1,46 @@
+{
+  "finding": {
+    "path": "youtube_dl/extractor/youtube.py",
+    "line": 1670,
+    "end_line": 1671,
+    "severity": "low",
+    "category": "bug",
+    "title": "duration 为 None 时章节时间比较抛 TypeError",
+    "explanation": "_extract_chapters 的 duration 参数若为 None（调用方未提供时长），第1670行 start_time > duration 会触发 TypeError: '>' not supported between instances of 'int' and 'NoneType'。函数签名未声明 duration 必填，且第1657行只对 description 做了空值保护，未对 duration 做保护。",
+    "trigger": "调用 _extract_chapters(description, None)，其中 description 含至少一个可解析的章节行。",
+    "evidence": "第1656行 def _extract_chapters(description, duration):；第1667行 start_time = parse_duration(time_point)；第1670行 if start_time > duration:。duration 为 None 时比较抛 TypeError。",
+    "suggestion": "在函数开头对 duration 为 None 的情况做处理（如直接返回 None 或使用无穷大），或在比较前判断 duration is not None。",
+    "id": "faabe2871599",
+    "source": "llm",
+    "rule": "",
+    "snippet": "1668:             if start_time is None:\n1669:                 continue\n1670:             if start_time > duration:\n1671:                 break\n1672:             end_time = (duration if next_num == len(chapter_lines)\n1673:                         else parse_duration(chapter_lines[next_num][1]))",
+    "status": "pending_evidence",
+    "verification": "尚未复核；未运行待审代码。",
+    "validation": "候选缺陷声称 _extract_chapters(description, None) 会因 start_time > duration 抛 TypeError。但该函数是私有静态方法，其唯一调用方在 _real_extract 中传入的 duration 来自视频元数据；需要确认调用方是否可能传 None，以及是否有文档/测试约定 duration 可为 None。函数签名未声明必填并不构成契约。缺少调用方传 None 的证据，且无文档或测试约定该输入应返回特定结果，因此无法构造有契约依据的复现。",
+    "related_diagnostics": []
+  },
+  "reproduction": {
+    "status": "unsupported",
+    "reason": "候选缺陷声称 _extract_chapters(description, None) 会因 start_time > duration 抛 TypeError。但该函数是私有静态方法，其唯一调用方在 _real_extract 中传入的 duration 来自视频元数据；需要确认调用方是否可能传 None，以及是否有文档/测试约定 duration 可为 None。函数签名未声明必填并不构成契约。缺少调用方传 None 的证据，且无文档或测试约定该输入应返回特定结果，因此无法构造有契约依据的复现。",
+    "attempts": [],
+    "generation_attempts": [
+      {
+        "response": "{\"applicable\": false, \"reason\": \"候选缺陷声称 _extract_chapters(description, None) 会因 start_time > duration 抛 TypeError。但该函数是私有静态方法，其唯一调用方在 _real_extract 中传入的 duration 来自视频元数据；需要确认调用方是否可能传 None，以及是否有文档/测试约定 duration 可为 None。函数签名未声明必填并不构成契约。缺少调用方传 None 的证据，且无文档或测试约定该输入应返回特定结果，因此无法构造有契约依据的复现。\"}"
+      }
+    ],
+    "plan": {
+      "applicable": false,
+      "reason": "候选缺陷声称 _extract_chapters(description, None) 会因 start_time > duration 抛 TypeError。但该函数是私有静态方法，其唯一调用方在 _real_extract 中传入的 duration 来自视频元数据；需要确认调用方是否可能传 None，以及是否有文档/测试约定 duration 可为 None。函数签名未声明必填并不构成契约。缺少调用方传 None 的证据，且无文档或测试约定该输入应返回特定结果，因此无法构造有契约依据的复现。",
+      "contract": null,
+      "test_code": "",
+      "expected_behavior": ""
+    },
+    "execution_snapshot_sha256": "ae6dab79ae9d30cb372e597a10476989b27e8a14c88a4102d0727b8bdc04b4cc",
+    "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+    "max_file_bytes": 1000000,
+    "scope": "",
+    "review_scope": "",
+    "production_only": true,
+    "artifact": "evidence/faabe2871599/evidence.json"
+  }
+}

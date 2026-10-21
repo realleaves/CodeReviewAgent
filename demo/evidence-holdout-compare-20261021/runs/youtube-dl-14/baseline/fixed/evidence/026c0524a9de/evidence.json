@@ -1,0 +1,46 @@
+{
+  "finding": {
+    "path": "youtube_dl/extractor/youtube.py",
+    "line": 1725,
+    "end_line": 1734,
+    "severity": "low",
+    "category": "bug",
+    "title": "描述章节 start_time 超过 duration 时直接 break 丢弃后续章节",
+    "explanation": "在 _extract_chapters_from_description 中，若某章节 start_time > duration 则 break，停止处理后续所有章节。但描述中的章节时间可能乱序或 duration 未知/偏小，直接 break 会丢弃后续合法章节。预期行为应是跳过该章节（continue）而非终止整个解析。",
+    "trigger": "description 含章节时间 [00:10, 00:20, 00:05]，duration=15；处理到 00:20 时 start_time>duration 触发 break，00:05 章节被丢弃。",
+    "evidence": "if start_time > duration:\n    break",
+    "suggestion": "将 break 改为 continue，或仅在确认章节按时间升序时保留 break 并加注释。",
+    "id": "026c0524a9de",
+    "source": "llm",
+    "rule": "",
+    "snippet": "1723:             if start_time is None:\n1724:                 continue\n1725:             if start_time > duration:\n1726:                 break\n1727:             end_time = (duration if next_num == len(chapter_lines)\n1728:                         else parse_duration(chapter_lines[next_num][1]))\n1729:             if end_time is None:\n1730:                 continue\n1731:             if end_time > duration:\n1732:                 end_time = duration\n1733:             if start_time > end_time:\n1734:                 break\n1735:             chapter_title = re.sub(\n1736:                 r'<a[^>]+>[^<]+</a>', '', chapter_line).strip(' \\t-')",
+    "status": "pending_evidence",
+    "verification": "尚未复核；未运行待审代码。",
+    "validation": "候选缺陷声称 _extract_chapters_from_description 在 start_time > duration 时 break 会丢弃后续合法章节，但仓库中没有任何文档、测试或注释约定描述章节时间可以乱序、或 duration 可能偏小、或应跳过越界章节继续解析。现有实现（break 与 continue 的选择）本身不能证明期望行为。该函数是私有静态方法，其输入格式（YouTube 描述中的 seekTo 链接）通常按时间升序排列，乱序输入并非受支持的用法。缺少可定位的契约来断言应返回后续章节，因此无法构造有依据的复现测试。",
+    "related_diagnostics": []
+  },
+  "reproduction": {
+    "status": "unsupported",
+    "reason": "候选缺陷声称 _extract_chapters_from_description 在 start_time > duration 时 break 会丢弃后续合法章节，但仓库中没有任何文档、测试或注释约定描述章节时间可以乱序、或 duration 可能偏小、或应跳过越界章节继续解析。现有实现（break 与 continue 的选择）本身不能证明期望行为。该函数是私有静态方法，其输入格式（YouTube 描述中的 seekTo 链接）通常按时间升序排列，乱序输入并非受支持的用法。缺少可定位的契约来断言应返回后续章节，因此无法构造有依据的复现测试。",
+    "attempts": [],
+    "generation_attempts": [
+      {
+        "response": "{\"applicable\": false, \"reason\": \"候选缺陷声称 _extract_chapters_from_description 在 start_time > duration 时 break 会丢弃后续合法章节，但仓库中没有任何文档、测试或注释约定描述章节时间可以乱序、或 duration 可能偏小、或应跳过越界章节继续解析。现有实现（break 与 continue 的选择）本身不能证明期望行为。该函数是私有静态方法，其输入格式（YouTube 描述中的 seekTo 链接）通常按时间升序排列，乱序输入并非受支持的用法。缺少可定位的契约来断言应返回后续章节，因此无法构造有依据的复现测试。\"}"
+      }
+    ],
+    "plan": {
+      "applicable": false,
+      "reason": "候选缺陷声称 _extract_chapters_from_description 在 start_time > duration 时 break 会丢弃后续合法章节，但仓库中没有任何文档、测试或注释约定描述章节时间可以乱序、或 duration 可能偏小、或应跳过越界章节继续解析。现有实现（break 与 continue 的选择）本身不能证明期望行为。该函数是私有静态方法，其输入格式（YouTube 描述中的 seekTo 链接）通常按时间升序排列，乱序输入并非受支持的用法。缺少可定位的契约来断言应返回后续章节，因此无法构造有依据的复现测试。",
+      "contract": null,
+      "test_code": "",
+      "expected_behavior": ""
+    },
+    "execution_snapshot_sha256": "acfe5638a11847f03c791fb7aa9772879179fd2332373dd0ee0fd9921052fd00",
+    "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+    "max_file_bytes": 1000000,
+    "scope": "",
+    "review_scope": "",
+    "production_only": true,
+    "artifact": "evidence/026c0524a9de/evidence.json"
+  }
+}

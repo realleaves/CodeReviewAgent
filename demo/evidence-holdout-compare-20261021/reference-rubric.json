@@ -1,0 +1,16 @@
+{
+  "protocol": "Reference-specific concrete cause and supported trigger, identical scoring rules to development. Defined before holdout model calls. Official patch/test-derived and hidden from reviewer. Extra findings scored separately; no automatic false-positive label. Human review pending.",
+  "defined_at": "2026-10-20T13:34:55.015088+00:00",
+  "issues": {
+    "tornado-13": "HTTP/1.0 response start lines have no method attribute. _can_keep_alive directly accesses start_line.method when response has no Content-Length or chunked Transfer-Encoding, raising AttributeError instead of completing the response/connection handling.",
+    "youtube-dl-14": "YouTube chapters may be supplied in webpage RELATED_PLAYER_ARGS/watch_next_response playerOverlay chapter metadata, without timestamp chapters in the description. The old extraction only examines the description and therefore omits valid chapter start/end/title metadata. A concrete missing webpage-JSON extraction path is required; unrelated timestamp parsing is not this reference issue.",
+    "tornado-14": "IOLoop.initialize(make_current=True) reverses the existing-current condition: it raises current IOLoop already exists when no current loop exists, instead of making the new loop current; the conflict guard must reject when an existing loop is present.",
+    "youtube-dl-15": "js_to_json token regex consumes e/E inside a valid numeric scientific-notation literal as an identifier, quoting it and corrupting valid JSON numeric output. Require a concrete exponent numeric input, not general identifier or escape advice."
+  },
+  "official_patch_sha256": {
+    "tornado-13": "3241c1d53958d0db3f0a7f9100852ef77c8c3c2a9fafcccdb01a3ba0cada7ef6",
+    "youtube-dl-14": "0faf945777ba119fbe1844016baedffd58c567aca2e55c6ae4ceda06fa9cd9e7",
+    "tornado-14": "9d5e4a277b61c7f5f6f2a5fc59c7a21e8ce6236d7f236c9e230c022027498120",
+    "youtube-dl-15": "e342bb03bd8620f78c9833d3a3f17706247498e0fc87d696905a49f24128d4b0"
+  }
+}

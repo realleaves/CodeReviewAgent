@@ -1,0 +1,22 @@
+[
+  {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 8422,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 6,
+      "prompt_tokens": 2543,
+      "total_tokens": 2549,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1792
+      },
+      "prompt_cache_hit_tokens": 1792,
+      "prompt_cache_miss_tokens": 751
+    },
+    "elapsed_seconds": 0.78
+  }
+]

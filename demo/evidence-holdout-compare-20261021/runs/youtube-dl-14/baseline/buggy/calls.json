@@ -1,0 +1,82 @@
+[
+  {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 11805,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 462,
+      "prompt_tokens": 3930,
+      "total_tokens": 4392,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 2560
+      },
+      "prompt_cache_hit_tokens": 2560,
+      "prompt_cache_miss_tokens": 1370
+    },
+    "elapsed_seconds": 3.385
+  },
+  {
+    "stage": "reproduction_plan",
+    "status": "completed",
+    "input_chars": 12667,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 114,
+      "prompt_tokens": 4358,
+      "total_tokens": 4472,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1024
+      },
+      "prompt_cache_hit_tokens": 1024,
+      "prompt_cache_miss_tokens": 3334
+    },
+    "elapsed_seconds": 1.376
+  },
+  {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 11854,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 718,
+      "prompt_tokens": 3605,
+      "total_tokens": 4323,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 2304
+      },
+      "prompt_cache_hit_tokens": 2304,
+      "prompt_cache_miss_tokens": 1301
+    },
+    "elapsed_seconds": 4.177
+  },
+  {
+    "stage": "reproduction_plan",
+    "status": "completed",
+    "input_chars": 17216,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 91,
+      "prompt_tokens": 5181,
+      "total_tokens": 5272,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1024
+      },
+      "prompt_cache_hit_tokens": 1024,
+      "prompt_cache_miss_tokens": 4157
+    },
+    "elapsed_seconds": 1.19
+  }
+]

@@ -1,0 +1,34 @@
+{
+  "reservation": {
+    "id": 17,
+    "phase": "evidence-holdout-compare",
+    "label": {
+      "case": "youtube-dl-14",
+      "arm": "admission",
+      "side": "fixed"
+    },
+    "reserved_at": "2026-10-21T13:07:20.264155+00:00"
+  },
+  "raw_response": "{\"applicable\": false, \"reason\": \"候选缺陷声称 start_time > duration 时用 break 会丢弃后续合法章节，但仓库中没有任何文档、测试或语言规则约定描述章节时间点必须非单调递增、或异常条目应被跳过而继续处理。_extract_chapters_from_description 的现有实现（break）与 _extract_chapters_from_json 的 continue 属于不同数据源的不同处理策略，代码本身不能证明期望行为。缺少可定位的契约来断言应返回后续章节，因此无法构造有依据的复现测试。\"}",
+  "error_type": null,
+  "call": {
+    "stage": "reproduction_plan",
+    "status": "completed",
+    "input_chars": 14305,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 122,
+      "prompt_tokens": 4477,
+      "total_tokens": 4599,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1024
+      },
+      "prompt_cache_hit_tokens": 1024,
+      "prompt_cache_miss_tokens": 3453
+    },
+    "elapsed_seconds": 1.589
+  }
+}

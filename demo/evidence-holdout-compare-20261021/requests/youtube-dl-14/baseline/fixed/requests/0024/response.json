@@ -1,0 +1,34 @@
+{
+  "reservation": {
+    "id": 24,
+    "phase": "evidence-holdout-compare",
+    "label": {
+      "case": "youtube-dl-14",
+      "arm": "baseline",
+      "side": "fixed"
+    },
+    "reserved_at": "2026-10-21T13:07:44.547248+00:00"
+  },
+  "raw_response": "{\"findings\":[]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 3593,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 6,
+      "prompt_tokens": 1341,
+      "total_tokens": 1347,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1152
+      },
+      "prompt_cache_hit_tokens": 1152,
+      "prompt_cache_miss_tokens": 189
+    },
+    "elapsed_seconds": 0.558
+  }
+}

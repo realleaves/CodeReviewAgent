@@ -1,0 +1,34 @@
+{
+  "reservation": {
+    "id": 27,
+    "phase": "evidence-holdout-compare",
+    "label": {
+      "case": "tornado-14",
+      "arm": "baseline",
+      "side": "buggy"
+    },
+    "reserved_at": "2026-10-21T13:07:50.897555+00:00"
+  },
+  "raw_response": "{\"applicable\": true, \"reason\": \"initialize(make_current=True) 的条件判断与错误消息语义相反：当当前线程没有 IOLoop 时（current(instance=False) is None）抛出 'current IOLoop already exists'，而当已存在当前 IOLoop 时反而静默覆盖。文档说明 make_current 显式调用用于在启动前把本实例设为当前，因此无当前实例时应成功设为当前。\", \"contract\": {\"path\": \"tornado/ioloop.py\", \"start\": 212, \"end\": 225, \"quote\": \"    def make_current(self):\\n        \\\"\\\"\\\"Makes this the `IOLoop` for the current thread.\\n\\n        An `IOLoop` automatically becomes current for its thread\\n        when it is started, but it is sometimes useful to call\\n        `make_current` explicitly before starting the `IOLoop`,\\n        so that code run at startup time can find the right\\n        instance.\\n\\n        .. versionchanged:: 4.1\\n           An `IOLoop` created while there is no current `IOLoop`\\n           will automatically become current.\\n        \\\"\\\"\\\"\\n        IOLoop._current.instance = self\", \"kind\": \"documented_behavior\", \"rationale\": \"make_current 文档说明显式调用用于在启动前把本实例设为当前线程的 IOLoop；initialize(make_current=True) 的语义即显式要求设为当前。当线程中尚无当前 IOLoop 时，这一操作应成功并把该实例设为当前，而不是抛出 'current IOLoop already exists'。\", \"expected_outcome\": \"state_change\", \"precondition\": \"在清空当前 IOLoop 的线程中调用 IOLoop().initialize(make_current=True)，属于文档支持的显式 make_current 用法。\", \"assumptions\": [\"IOLoop() 构造在无当前实例时不会自动设为当前（initialize 由构造调用，make_current 默认 None 分支仅在无当前实例时设置；需在 clear_current 后构造以隔离）\", \"IOLoop.current(instance=False) 在 clear_current 后返回 None\"]}, \"expected_behavior\": \"在无当前 IOLoop 的线程中调用 initialize(make_current=True) 应成功，并使 IOLoop.current(instance=False) 返回该实例，而不是抛出 RuntimeError。\", \"test_code\": \"import unittest\\nfrom tornado.ioloop import IOLoop\\n\\n\\nclass ReproductionTest(unittest.TestCase):\\n    def test_reproduction(self):\\n        IOLoop.clear_current()\\n        loop = IOLoop()\\n        IOLoop.clear_current()\\n        try:\\n            loop.initialize(make_current=True)\\n        finally:\\n            pass\\n        self.assertIs(IOLoop.current(instance=False), loop)\\n        IOLoop.clear_current()\\n\"}",
+  "error_type": null,
+  "call": {
+    "stage": "reproduction_plan",
+    "status": "completed",
+    "input_chars": 11484,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 626,
+      "prompt_tokens": 3591,
+      "total_tokens": 4217,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1024
+      },
+      "prompt_cache_hit_tokens": 1024,
+      "prompt_cache_miss_tokens": 2567
+    },
+    "elapsed_seconds": 3.236
+  }
+}

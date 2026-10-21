@@ -1,0 +1,19 @@
+[
+  {
+    "id": "560aac0f34a6",
+    "path": "tornado/http1connection.py",
+    "line": 512,
+    "end_line": 512,
+    "title": "B904: Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+    "category": "quality",
+    "status": "unverified",
+    "source": "ruff",
+    "evidence_status": null,
+    "evidence_reason": null,
+    "plan_kind": null,
+    "expected_outcome": null,
+    "expected_exception": null,
+    "admission": null,
+    "attempt_verdicts": []
+  }
+]

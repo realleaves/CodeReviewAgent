@@ -1,0 +1,34 @@
+{
+  "reservation": {
+    "id": 23,
+    "phase": "evidence-holdout-compare",
+    "label": {
+      "case": "youtube-dl-14",
+      "arm": "baseline",
+      "side": "fixed"
+    },
+    "reserved_at": "2026-10-21T13:07:42.895515+00:00"
+  },
+  "raw_response": "{\"applicable\": false, \"reason\": \"候选缺陷声称 _extract_chapters_from_description 在 start_time > duration 时 break 会丢弃后续合法章节，但仓库中没有任何文档、测试或注释约定描述章节时间可以乱序、或 duration 可能偏小、或应跳过越界章节继续解析。现有实现（break 与 continue 的选择）本身不能证明期望行为。该函数是私有静态方法，其输入格式（YouTube 描述中的 seekTo 链接）通常按时间升序排列，乱序输入并非受支持的用法。缺少可定位的契约来断言应返回后续章节，因此无法构造有依据的复现测试。\"}",
+  "error_type": null,
+  "call": {
+    "stage": "reproduction_plan",
+    "status": "completed",
+    "input_chars": 14273,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 143,
+      "prompt_tokens": 4467,
+      "total_tokens": 4610,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1024
+      },
+      "prompt_cache_hit_tokens": 1024,
+      "prompt_cache_miss_tokens": 3443
+    },
+    "elapsed_seconds": 1.613
+  }
+}

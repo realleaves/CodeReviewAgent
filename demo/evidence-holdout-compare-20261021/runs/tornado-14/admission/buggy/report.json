@@ -1,0 +1,1412 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "snapshot",
+    "ref": "blinded-snapshot",
+    "commit": "snapshot",
+    "indexed_snapshot_sha256": "355f01d43a5ee2fc19d4c0b5c95764746c83ca2bfe66aa0ce8f7fb039ae1086b"
+  },
+  "run": {
+    "started_at": "2026-10-21T13:07:57.372195+00:00",
+    "status": "completed",
+    "mode": "evidence",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "window_review_completed": true,
+    "options": {
+      "mode": "evidence",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 8,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": "",
+      "repro_image": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+      "repro_timeout": 15,
+      "max_reproductions": 2,
+      "max_repro_repairs": 0,
+      "context_strategy": "legacy",
+      "enforce_admission": true
+    },
+    "elapsed_seconds": 7.945,
+    "api_calls": 3,
+    "usage": {
+      "prompt_tokens": 11429,
+      "completion_tokens": 1145
+    },
+    "indexed_python_files": 62,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 1,
+    "candidate_findings": 0,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "high": 1
+    },
+    "status_counts": {
+      "reproduced": 1
+    }
+  },
+  "coverage": [
+    {
+      "path": "tornado/ioloop.py",
+      "lines": 1034,
+      "windows": [
+        [
+          204,
+          300
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".coveragerc",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "runtests.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/app.yaml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/static/blog.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/archive.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/base.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/compose.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/feed.xml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/modules/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/Dockerfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/docker-compose.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/schema.sql",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/static/blog.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/archive.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/base.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/compose.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/create_author.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/feed.xml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/login.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/modules/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/static/chat.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/static/chat.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/templates/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/templates/message.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/static/facebook.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/static/facebook.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/templates/stream.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/templates/modules/post.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/twitter/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/static/chat.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/static/chat.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/templates/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/templates/message.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/asyncio.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/auth.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/autoreload.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/caresresolver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/concurrent.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/coroutine.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/escape.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/faq.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/favicon.ico",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/gen.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/http.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/http1connection.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httpclient.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httpserver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httputil.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/integration.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/ioloop.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/iostream.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/locale.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/locks.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/log.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/netutil.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/networking.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/options.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/process.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/queues.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/stack_context.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tcpclient.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tcpserver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/template.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/testing.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tornado.png",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/twisted.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/util.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/utilities.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/web.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/webframework.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/websocket.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/wsgi.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/async.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/coroutines.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/intro.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/queues.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/running.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/security.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/structure.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/templates.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/next.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.3.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.4.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.4.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/scripts/run_autopep8.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/appengine/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/appengine/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/appengine/py27/app.yaml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/pyuv/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/redbot/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/redbot/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/fuzzingclient.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/fuzzingserver.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/run-client.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/run-server.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/shared-setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu10.04/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu10.04/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu10.04/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/windows/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/speedups.c",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/options_test.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static_foo.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/test.crt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/test.key",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tornado/test/csv_translations/fr_FR.csv",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/gettext_translations/fr_FR/LC_MESSAGES/tornado_test.mo",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/gettext_translations/fr_FR/LC_MESSAGES/tornado_test.po",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/robots.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/dir/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/templates/utf8.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/scripts/test_resolvers.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/appengine/setup.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/appengine/common/cgi_runtests.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/appengine/common/runtests.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/redbot/red_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/websocket/client.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/websocket/server.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/__main__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/asyncio_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/auth_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/concurrent_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/curl_httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/escape_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/gen_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httpserver_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httputil_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/import_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/ioloop_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/iostream_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/locale_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/locks_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/log_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/netutil_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/options_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/process_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/queues_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/resolve_test_helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/runtests.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/simple_httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/stack_context_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/tcpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/tcpserver_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/template_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/testing_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/twisted_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/util.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/util_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/web_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/websocket_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/wsgi_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/gettext_translations/extract_me.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 1
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 2
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 8418,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 370,
+        "prompt_tokens": 2542,
+        "total_tokens": 2912,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 2304
+        },
+        "prompt_cache_hit_tokens": 2304,
+        "prompt_cache_miss_tokens": 238
+      },
+      "elapsed_seconds": 2.24
+    },
+    {
+      "stage": "reproduction_plan",
+      "status": "completed",
+      "input_chars": 11751,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 599,
+        "prompt_tokens": 3650,
+        "total_tokens": 4249,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 1024
+        },
+        "prompt_cache_hit_tokens": 1024,
+        "prompt_cache_miss_tokens": 2626
+      },
+      "elapsed_seconds": 2.659
+    },
+    {
+      "stage": "evidence_audit",
+      "status": "completed",
+      "input_chars": 17038,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 176,
+        "prompt_tokens": 5237,
+        "total_tokens": 5413,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 4597
+      },
+      "elapsed_seconds": 1.576
+    }
+  ],
+  "tool_reads": [],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "tornado/ioloop.py",
+      "start": 204,
+      "end": 300,
+      "strategy": "legacy",
+      "payload_sha256": "dcf645d82c3918a71c37509df3de9a8afba8408ee0a6e4a4bf250a88995f31ec",
+      "supplemental_chars": 1960,
+      "sources": [
+        {
+          "path": "tornado/ioloop.py",
+          "name": "instance",
+          "line": 149,
+          "end": 162
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "name": "current",
+          "line": 189,
+          "end": 210
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "tornado/ioloop.py",
+      "start": 204,
+      "end": 300,
+      "findings": [
+        {
+          "path": "tornado/ioloop.py",
+          "line": 251,
+          "end_line": 254,
+          "severity": "high",
+          "category": "bug",
+          "title": "initialize 的 make_current=True 分支条件取反，导致总是抛异常或从不抛异常",
+          "explanation": "initialize 中 make_current 为真时，本意是“若已存在 current IOLoop 则报错，否则把自己设为 current”。但代码写的是 `if IOLoop.current(instance=False) is None: raise RuntimeError(...)`，条件与语义相反：当当前线程没有 current IOLoop（正常可设置的情况）时反而抛 RuntimeError；当已经存在 current IOLoop 时却静默覆盖它。这与 make_current=None 分支（current 为 None 时才 make_current）的逻辑也不一致。",
+          "trigger": "IOLoop(make_current=True) 在尚无 current IOLoop 的线程中构造：current(instance=False) 返回 None，进入 raise 分支，抛出 RuntimeError(\"current IOLoop already exists\")，尽管实际上并不存在冲突。",
+          "evidence": "248-250 行：`if make_current is None: if IOLoop.current(instance=False) is None: self.make_current()`；251-254 行：`elif make_current: if IOLoop.current(instance=False) is None: raise RuntimeError(\"current IOLoop already exists\"); self.make_current()`。两分支对同一条件 `is None` 的处理相反，且异常消息与触发条件矛盾。",
+          "suggestion": "将条件改为 `if IOLoop.current(instance=False) is not None: raise RuntimeError(\"current IOLoop already exists\")`，再调用 self.make_current()。",
+          "id": "37b96dbfb16c",
+          "source": "llm",
+          "rule": "",
+          "snippet": "249:             if IOLoop.current(instance=False) is None:\n250:                 self.make_current()\n251:         elif make_current:\n252:             if IOLoop.current(instance=False) is None:\n253:                 raise RuntimeError(\"current IOLoop already exists\")\n254:             self.make_current()\n255: \n256:     def close(self, all_fds=False):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ]
+    }
+  ],
+  "evidence_artifacts": {
+    "evidence/37b96dbfb16c/test_reproduction.py": "import unittest\nfrom tornado.ioloop import IOLoop\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        IOLoop.clear_current()\n        self.assertIsNone(IOLoop.current(instance=False))\n        loop = IOLoop(make_current=True)\n        try:\n            self.assertIs(IOLoop.current(instance=False), loop)\n        finally:\n            IOLoop.clear_current()\n            loop.close(all_fds=True)\n",
+    "evidence/37b96dbfb16c/plan-1.py": "import unittest\nfrom tornado.ioloop import IOLoop\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        IOLoop.clear_current()\n        self.assertIsNone(IOLoop.current(instance=False))\n        loop = IOLoop(make_current=True)\n        try:\n            self.assertIs(IOLoop.current(instance=False), loop)\n        finally:\n            IOLoop.clear_current()\n            loop.close(all_fds=True)\n",
+    "evidence/37b96dbfb16c/attempt-1.log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.7.17\", \"tests_run\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"error\", \"exception_type\": \"RuntimeError\", \"message\": \"current IOLoop already exists\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 59, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 628, in run\\n    testMethod()\\n  File \\\"/harness/test_reproduction.py\\\", line 9, in test_reproduction\\n    loop = IOLoop(make_current=True)\\n  File \\\"/work/tornado/util.py\\\", line 221, in __new__\\n    instance.initialize(*args, **init_kwargs)\\n  File \\\"/work/tornado/platform/epoll.py\\\", line 26, in initialize\\n    super(EPollIOLoop, self).initialize(impl=select.epoll(), **kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 664, in initialize\\n    super(PollIOLoop, self).initialize(**kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 253, in initialize\\n    raise RuntimeError(\\\"current IOLoop already exists\\\")\\nRuntimeError: current IOLoop already exists\\n\", \"traceback_frames\": [{\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 59, \"function\": \"testPartExecutor\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 628, \"function\": \"run\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 9, \"function\": \"test_reproduction\"}, {\"path\": \"/work/tornado/util.py\", \"line\": 221, \"function\": \"__new__\"}, {\"path\": \"/work/tornado/platform/epoll.py\", \"line\": 26, \"function\": \"initialize\"}, {\"path\": \"/work/tornado/ioloop.py\", \"line\": 664, \"function\": \"initialize\"}, {\"path\": \"/work/tornado/ioloop.py\", \"line\": 253, \"function\": \"initialize\"}]}], \"target_lines\": [207, 208, 210, 229, 233, 237, 238, 239, 248, 251, 252, 253, 664], \"target_calls\": [[\"clear_current\", 227], [\"configurable_base\", 231], [\"configurable_default\", 235], [\"current\", 188], [\"initialize\", 247], [\"initialize\", 663]], \"target_trace_scope\": \"test_execution\"}\n",
+    "evidence/37b96dbfb16c/attempt-2.log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.7.17\", \"tests_run\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"error\", \"exception_type\": \"RuntimeError\", \"message\": \"current IOLoop already exists\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 59, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 628, in run\\n    testMethod()\\n  File \\\"/harness/test_reproduction.py\\\", line 9, in test_reproduction\\n    loop = IOLoop(make_current=True)\\n  File \\\"/work/tornado/util.py\\\", line 221, in __new__\\n    instance.initialize(*args, **init_kwargs)\\n  File \\\"/work/tornado/platform/epoll.py\\\", line 26, in initialize\\n    super(EPollIOLoop, self).initialize(impl=select.epoll(), **kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 664, in initialize\\n    super(PollIOLoop, self).initialize(**kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 253, in initialize\\n    raise RuntimeError(\\\"current IOLoop already exists\\\")\\nRuntimeError: current IOLoop already exists\\n\", \"traceback_frames\": [{\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 59, \"function\": \"testPartExecutor\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 628, \"function\": \"run\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 9, \"function\": \"test_reproduction\"}, {\"path\": \"/work/tornado/util.py\", \"line\": 221, \"function\": \"__new__\"}, {\"path\": \"/work/tornado/platform/epoll.py\", \"line\": 26, \"function\": \"initialize\"}, {\"path\": \"/work/tornado/ioloop.py\", \"line\": 664, \"function\": \"initialize\"}, {\"path\": \"/work/tornado/ioloop.py\", \"line\": 253, \"function\": \"initialize\"}]}], \"target_lines\": [207, 208, 210, 229, 233, 237, 238, 239, 248, 251, 252, 253, 664], \"target_calls\": [[\"clear_current\", 227], [\"configurable_base\", 231], [\"configurable_default\", 235], [\"current\", 188], [\"initialize\", 247], [\"initialize\", 663]], \"target_trace_scope\": \"test_execution\"}\n",
+    "evidence/37b96dbfb16c/evidence.json": "{\n  \"finding\": {\n    \"path\": \"tornado/ioloop.py\",\n    \"line\": 251,\n    \"end_line\": 254,\n    \"severity\": \"high\",\n    \"category\": \"bug\",\n    \"title\": \"initialize 的 make_current=True 分支条件取反，导致总是抛异常或从不抛异常\",\n    \"explanation\": \"initialize 中 make_current 为真时，本意是“若已存在 current IOLoop 则报错，否则把自己设为 current”。但代码写的是 `if IOLoop.current(instance=False) is None: raise RuntimeError(...)`，条件与语义相反：当当前线程没有 current IOLoop（正常可设置的情况）时反而抛 RuntimeError；当已经存在 current IOLoop 时却静默覆盖它。这与 make_current=None 分支（current 为 None 时才 make_current）的逻辑也不一致。\",\n    \"trigger\": \"IOLoop(make_current=True) 在尚无 current IOLoop 的线程中构造：current(instance=False) 返回 None，进入 raise 分支，抛出 RuntimeError(\\\"current IOLoop already exists\\\")，尽管实际上并不存在冲突。\",\n    \"evidence\": \"248-250 行：`if make_current is None: if IOLoop.current(instance=False) is None: self.make_current()`；251-254 行：`elif make_current: if IOLoop.current(instance=False) is None: raise RuntimeError(\\\"current IOLoop already exists\\\"); self.make_current()`。两分支对同一条件 `is None` 的处理相反，且异常消息与触发条件矛盾。\",\n    \"suggestion\": \"将条件改为 `if IOLoop.current(instance=False) is not None: raise RuntimeError(\\\"current IOLoop already exists\\\")`，再调用 self.make_current()。\",\n    \"id\": \"37b96dbfb16c\",\n    \"source\": \"llm\",\n    \"rule\": \"\",\n    \"snippet\": \"249:             if IOLoop.current(instance=False) is None:\\n250:                 self.make_current()\\n251:         elif make_current:\\n252:             if IOLoop.current(instance=False) is None:\\n253:                 raise RuntimeError(\\\"current IOLoop already exists\\\")\\n254:             self.make_current()\\n255: \\n256:     def close(self, all_fds=False):\",\n    \"status\": \"reproduced\",\n    \"verification\": \"测试在 clear_current 后确认 current(instance=False) 为 None，再构造 IOLoop(make_current=True)，实际调用到 ioloop.py:253 并抛出 RuntimeError('current IOLoop already exists')，与候选描述一致。make_current 文档明确说明显式调用 make_current 可使该 IOLoop 成为当前线程的 current，且 4.1 起无 current 时创建会自动成为 current；因此无 current 时 make_current=True 应成功设置而非报错。条件 `is None` 与异常语义相反，属行为缺陷。\",\n    \"validation\": \"两次独立隔离执行出现同类型失败并触达目标代码；预期依据通过结构化准入检查与模型对照引用原文核验，仍供维护者复查。\",\n    \"related_diagnostics\": []\n  },\n  \"reproduction\": {\n    \"status\": \"reproduced\",\n    \"reason\": \"测试在 clear_current 后确认 current(instance=False) 为 None，再构造 IOLoop(make_current=True)，实际调用到 ioloop.py:253 并抛出 RuntimeError('current IOLoop already exists')，与候选描述一致。make_current 文档明确说明显式调用 make_current 可使该 IOLoop 成为当前线程的 current，且 4.1 起无 current 时创建会自动成为 current；因此无 current 时 make_current=True 应成功设置而非报错。条件 `is None` 与异常语义相反，属行为缺陷。\",\n    \"attempts\": [\n      {\n        \"image_id\": \"sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8\",\n        \"image_reference\": \"sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8\",\n        \"exit_code\": 0,\n        \"stop_reason\": null,\n        \"seconds\": 0.621,\n        \"execution\": {\n          \"python\": \"3.7.17\",\n          \"tests_run\": 1,\n          \"failures\": 0,\n          \"errors\": 1,\n          \"skipped\": 0,\n          \"load_error\": null,\n          \"observations\": [\n            {\n              \"test\": \"generated_reproduction.ReproductionTest.test_reproduction\",\n              \"outcome\": \"error\",\n              \"exception_type\": \"RuntimeError\",\n              \"message\": \"current IOLoop already exists\",\n              \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 59, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 628, in run\\n    testMethod()\\n  File \\\"/harness/test_reproduction.py\\\", line 9, in test_reproduction\\n    loop = IOLoop(make_current=True)\\n  File \\\"/work/tornado/util.py\\\", line 221, in __new__\\n    instance.initialize(*args, **init_kwargs)\\n  File \\\"/work/tornado/platform/epoll.py\\\", line 26, in initialize\\n    super(EPollIOLoop, self).initialize(impl=select.epoll(), **kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 664, in initialize\\n    super(PollIOLoop, self).initialize(**kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 253, in initialize\\n    raise RuntimeError(\\\"current IOLoop already exists\\\")\\nRuntimeError: current IOLoop already exists\\n\",\n              \"traceback_frames\": [\n                {\n                  \"path\": \"/usr/local/lib/python3.7/unittest/case.py\",\n                  \"line\": 59,\n                  \"function\": \"testPartExecutor\"\n                },\n                {\n                  \"path\": \"/usr/local/lib/python3.7/unittest/case.py\",\n                  \"line\": 628,\n                  \"function\": \"run\"\n                },\n                {\n                  \"path\": \"/harness/test_reproduction.py\",\n                  \"line\": 9,\n                  \"function\": \"test_reproduction\"\n                },\n                {\n                  \"path\": \"/work/tornado/util.py\",\n                  \"line\": 221,\n                  \"function\": \"__new__\"\n                },\n                {\n                  \"path\": \"/work/tornado/platform/epoll.py\",\n                  \"line\": 26,\n                  \"function\": \"initialize\"\n                },\n                {\n                  \"path\": \"/work/tornado/ioloop.py\",\n                  \"line\": 664,\n                  \"function\": \"initialize\"\n                },\n                {\n                  \"path\": \"/work/tornado/ioloop.py\",\n                  \"line\": 253,\n                  \"function\": \"initialize\"\n                }\n              ]\n            }\n          ],\n          \"target_lines\": [\n            207,\n            208,\n            210,\n            229,\n            233,\n            237,\n            238,\n            239,\n            248,\n            251,\n            252,\n            253,\n            664\n          ],\n          \"target_calls\": [\n            [\n              \"clear_current\",\n              227\n            ],\n            [\n              \"configurable_base\",\n              231\n            ],\n            [\n              \"configurable_default\",\n              235\n            ],\n            [\n              \"current\",\n              188\n            ],\n            [\n              \"initialize\",\n              247\n            ],\n            [\n              \"initialize\",\n              663\n            ]\n          ],\n          \"target_trace_scope\": \"test_execution\"\n        },\n        \"log\": \"\\nCODE_REVIEW_EXECUTION={\\\"python\\\": \\\"3.7.17\\\", \\\"tests_run\\\": 1, \\\"failures\\\": 0, \\\"errors\\\": 1, \\\"skipped\\\": 0, \\\"load_error\\\": null, \\\"observations\\\": [{\\\"test\\\": \\\"generated_reproduction.ReproductionTest.test_reproduction\\\", \\\"outcome\\\": \\\"error\\\", \\\"exception_type\\\": \\\"RuntimeError\\\", \\\"message\\\": \\\"current IOLoop already exists\\\", \\\"traceback\\\": \\\"Traceback (most recent call last):\\\\n  File \\\\\\\"/usr/local/lib/python3.7/unittest/case.py\\\\\\\", line 59, in testPartExecutor\\\\n    yield\\\\n  File \\\\\\\"/usr/local/lib/python3.7/unittest/case.py\\\\\\\", line 628, in run\\\\n    testMethod()\\\\n  File \\\\\\\"/harness/test_reproduction.py\\\\\\\", line 9, in test_reproduction\\\\n    loop = IOLoop(make_current=True)\\\\n  File \\\\\\\"/work/tornado/util.py\\\\\\\", line 221, in __new__\\\\n    instance.initialize(*args, **init_kwargs)\\\\n  File \\\\\\\"/work/tornado/platform/epoll.py\\\\\\\", line 26, in initialize\\\\n    super(EPollIOLoop, self).initialize(impl=select.epoll(), **kwargs)\\\\n  File \\\\\\\"/work/tornado/ioloop.py\\\\\\\", line 664, in initialize\\\\n    super(PollIOLoop, self).initialize(**kwargs)\\\\n  File \\\\\\\"/work/tornado/ioloop.py\\\\\\\", line 253, in initialize\\\\n    raise RuntimeError(\\\\\\\"current IOLoop already exists\\\\\\\")\\\\nRuntimeError: current IOLoop already exists\\\\n\\\", \\\"traceback_frames\\\": [{\\\"path\\\": \\\"/usr/local/lib/python3.7/unittest/case.py\\\", \\\"line\\\": 59, \\\"function\\\": \\\"testPartExecutor\\\"}, {\\\"path\\\": \\\"/usr/local/lib/python3.7/unittest/case.py\\\", \\\"line\\\": 628, \\\"function\\\": \\\"run\\\"}, {\\\"path\\\": \\\"/harness/test_reproduction.py\\\", \\\"line\\\": 9, \\\"function\\\": \\\"test_reproduction\\\"}, {\\\"path\\\": \\\"/work/tornado/util.py\\\", \\\"line\\\": 221, \\\"function\\\": \\\"__new__\\\"}, {\\\"path\\\": \\\"/work/tornado/platform/epoll.py\\\", \\\"line\\\": 26, \\\"function\\\": \\\"initialize\\\"}, {\\\"path\\\": \\\"/work/tornado/ioloop.py\\\", \\\"line\\\": 664, \\\"function\\\": \\\"initialize\\\"}, {\\\"path\\\": \\\"/work/tornado/ioloop.py\\\", \\\"line\\\": 253, \\\"function\\\": \\\"initialize\\\"}]}], \\\"target_lines\\\": [207, 208, 210, 229, 233, 237, 238, 239, 248, 251, 252, 253, 664], \\\"target_calls\\\": [[\\\"clear_current\\\", 227], [\\\"configurable_base\\\", 231], [\\\"configurable_default\\\", 235], [\\\"current\\\", 188], [\\\"initialize\\\", 247], [\\\"initialize\\\", 663]], \\\"target_trace_scope\\\": \\\"test_execution\\\"}\\n\",\n        \"log_sha256\": \"a201f28699e96d14fe99b3c982c4657608b9917e7926558b5f373ab4cde8d74b\",\n        \"verdict\": \"failure_observed\",\n        \"plan_version\": 0,\n        \"test_sha256\": \"a6664563d91e07a007379cee5a7627bc180712e918ba8d1e77da791be19c11b0\",\n        \"execution_snapshot_sha256\": \"355f01d43a5ee2fc19d4c0b5c95764746c83ca2bfe66aa0ce8f7fb039ae1086b\"\n      },\n      {\n        \"image_id\": \"sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8\",\n        \"image_reference\": \"sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8\",\n        \"exit_code\": 0,\n        \"stop_reason\": null,\n        \"seconds\": 0.501,\n        \"execution\": {\n          \"python\": \"3.7.17\",\n          \"tests_run\": 1,\n          \"failures\": 0,\n          \"errors\": 1,\n          \"skipped\": 0,\n          \"load_error\": null,\n          \"observations\": [\n            {\n              \"test\": \"generated_reproduction.ReproductionTest.test_reproduction\",\n              \"outcome\": \"error\",\n              \"exception_type\": \"RuntimeError\",\n              \"message\": \"current IOLoop already exists\",\n              \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 59, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 628, in run\\n    testMethod()\\n  File \\\"/harness/test_reproduction.py\\\", line 9, in test_reproduction\\n    loop = IOLoop(make_current=True)\\n  File \\\"/work/tornado/util.py\\\", line 221, in __new__\\n    instance.initialize(*args, **init_kwargs)\\n  File \\\"/work/tornado/platform/epoll.py\\\", line 26, in initialize\\n    super(EPollIOLoop, self).initialize(impl=select.epoll(), **kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 664, in initialize\\n    super(PollIOLoop, self).initialize(**kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 253, in initialize\\n    raise RuntimeError(\\\"current IOLoop already exists\\\")\\nRuntimeError: current IOLoop already exists\\n\",\n              \"traceback_frames\": [\n                {\n                  \"path\": \"/usr/local/lib/python3.7/unittest/case.py\",\n                  \"line\": 59,\n                  \"function\": \"testPartExecutor\"\n                },\n                {\n                  \"path\": \"/usr/local/lib/python3.7/unittest/case.py\",\n                  \"line\": 628,\n                  \"function\": \"run\"\n                },\n                {\n                  \"path\": \"/harness/test_reproduction.py\",\n                  \"line\": 9,\n                  \"function\": \"test_reproduction\"\n                },\n                {\n                  \"path\": \"/work/tornado/util.py\",\n                  \"line\": 221,\n                  \"function\": \"__new__\"\n                },\n                {\n                  \"path\": \"/work/tornado/platform/epoll.py\",\n                  \"line\": 26,\n                  \"function\": \"initialize\"\n                },\n                {\n                  \"path\": \"/work/tornado/ioloop.py\",\n                  \"line\": 664,\n                  \"function\": \"initialize\"\n                },\n                {\n                  \"path\": \"/work/tornado/ioloop.py\",\n                  \"line\": 253,\n                  \"function\": \"initialize\"\n                }\n              ]\n            }\n          ],\n          \"target_lines\": [\n            207,\n            208,\n            210,\n            229,\n            233,\n            237,\n            238,\n            239,\n            248,\n            251,\n            252,\n            253,\n            664\n          ],\n          \"target_calls\": [\n            [\n              \"clear_current\",\n              227\n            ],\n            [\n              \"configurable_base\",\n              231\n            ],\n            [\n              \"configurable_default\",\n              235\n            ],\n            [\n              \"current\",\n              188\n            ],\n            [\n              \"initialize\",\n              247\n            ],\n            [\n              \"initialize\",\n              663\n            ]\n          ],\n          \"target_trace_scope\": \"test_execution\"\n        },\n        \"log\": \"\\nCODE_REVIEW_EXECUTION={\\\"python\\\": \\\"3.7.17\\\", \\\"tests_run\\\": 1, \\\"failures\\\": 0, \\\"errors\\\": 1, \\\"skipped\\\": 0, \\\"load_error\\\": null, \\\"observations\\\": [{\\\"test\\\": \\\"generated_reproduction.ReproductionTest.test_reproduction\\\", \\\"outcome\\\": \\\"error\\\", \\\"exception_type\\\": \\\"RuntimeError\\\", \\\"message\\\": \\\"current IOLoop already exists\\\", \\\"traceback\\\": \\\"Traceback (most recent call last):\\\\n  File \\\\\\\"/usr/local/lib/python3.7/unittest/case.py\\\\\\\", line 59, in testPartExecutor\\\\n    yield\\\\n  File \\\\\\\"/usr/local/lib/python3.7/unittest/case.py\\\\\\\", line 628, in run\\\\n    testMethod()\\\\n  File \\\\\\\"/harness/test_reproduction.py\\\\\\\", line 9, in test_reproduction\\\\n    loop = IOLoop(make_current=True)\\\\n  File \\\\\\\"/work/tornado/util.py\\\\\\\", line 221, in __new__\\\\n    instance.initialize(*args, **init_kwargs)\\\\n  File \\\\\\\"/work/tornado/platform/epoll.py\\\\\\\", line 26, in initialize\\\\n    super(EPollIOLoop, self).initialize(impl=select.epoll(), **kwargs)\\\\n  File \\\\\\\"/work/tornado/ioloop.py\\\\\\\", line 664, in initialize\\\\n    super(PollIOLoop, self).initialize(**kwargs)\\\\n  File \\\\\\\"/work/tornado/ioloop.py\\\\\\\", line 253, in initialize\\\\n    raise RuntimeError(\\\\\\\"current IOLoop already exists\\\\\\\")\\\\nRuntimeError: current IOLoop already exists\\\\n\\\", \\\"traceback_frames\\\": [{\\\"path\\\": \\\"/usr/local/lib/python3.7/unittest/case.py\\\", \\\"line\\\": 59, \\\"function\\\": \\\"testPartExecutor\\\"}, {\\\"path\\\": \\\"/usr/local/lib/python3.7/unittest/case.py\\\", \\\"line\\\": 628, \\\"function\\\": \\\"run\\\"}, {\\\"path\\\": \\\"/harness/test_reproduction.py\\\", \\\"line\\\": 9, \\\"function\\\": \\\"test_reproduction\\\"}, {\\\"path\\\": \\\"/work/tornado/util.py\\\", \\\"line\\\": 221, \\\"function\\\": \\\"__new__\\\"}, {\\\"path\\\": \\\"/work/tornado/platform/epoll.py\\\", \\\"line\\\": 26, \\\"function\\\": \\\"initialize\\\"}, {\\\"path\\\": \\\"/work/tornado/ioloop.py\\\", \\\"line\\\": 664, \\\"function\\\": \\\"initialize\\\"}, {\\\"path\\\": \\\"/work/tornado/ioloop.py\\\", \\\"line\\\": 253, \\\"function\\\": \\\"initialize\\\"}]}], \\\"target_lines\\\": [207, 208, 210, 229, 233, 237, 238, 239, 248, 251, 252, 253, 664], \\\"target_calls\\\": [[\\\"clear_current\\\", 227], [\\\"configurable_base\\\", 231], [\\\"configurable_default\\\", 235], [\\\"current\\\", 188], [\\\"initialize\\\", 247], [\\\"initialize\\\", 663]], \\\"target_trace_scope\\\": \\\"test_execution\\\"}\\n\",\n        \"log_sha256\": \"a201f28699e96d14fe99b3c982c4657608b9917e7926558b5f373ab4cde8d74b\",\n        \"verdict\": \"failure_observed\",\n        \"plan_version\": 0,\n        \"test_sha256\": \"a6664563d91e07a007379cee5a7627bc180712e918ba8d1e77da791be19c11b0\",\n        \"execution_snapshot_sha256\": \"355f01d43a5ee2fc19d4c0b5c95764746c83ca2bfe66aa0ce8f7fb039ae1086b\"\n      }\n    ],\n    \"generation_attempts\": [\n      {\n        \"response\": \"{\\\"applicable\\\": true, \\\"reason\\\": \\\"initialize 的 make_current=True 分支条件与语义相反：当线程中尚无 current IOLoop 时（正常可设置的情况）反而抛出 RuntimeError，而当已存在 current IOLoop 时却静默覆盖。这与 make_current 文档（“An IOLoop created while there is no current IOLoop will automatically become current”）以及 make_current=None 分支的逻辑相矛盾。\\\", \\\"contract\\\": {\\\"path\\\": \\\"tornado/ioloop.py\\\", \\\"start\\\": 212, \\\"end\\\": 225, \\\"quote\\\": \\\"    def make_current(self):\\\\n        \\\\\\\"\\\\\\\"\\\\\\\"Makes this the `IOLoop` for the current thread.\\\\n\\\\n        An `IOLoop` automatically becomes current for its thread\\\\n        when it is started, but it is sometimes useful to call\\\\n        `make_current` explicitly before starting the `IOLoop`,\\\\n        so that code run at startup time can find the right\\\\n        instance.\\\\n\\\\n        .. versionchanged:: 4.1\\\\n           An `IOLoop` created while there is no current `IOLoop`\\\\n           will automatically become current.\\\\n        \\\\\\\"\\\\\\\"\\\\\\\"\\\\n        IOLoop._current.instance = self\\\", \\\"kind\\\": \\\"documented_behavior\\\", \\\"rationale\\\": \\\"文档说明 make_current 使该 IOLoop 成为当前线程的 current，且在没有 current IOLoop 时创建会自动成为 current。因此 make_current=True 在无线程 current 时应成功设置而非抛异常；异常消息“current IOLoop already exists”也表明仅在已存在时才应报错。\\\", \\\"expected_outcome\\\": \\\"state_change\\\", \\\"precondition\\\": \\\"在无 current IOLoop 的线程中调用 IOLoop(make_current=True)，属于文档支持的显式 make_current 用法。\\\", \\\"assumptions\\\": [\\\"IOLoop 的具体子类（如 EPollIOLoop）可在此环境构造\\\", \\\"IOLoop.current(instance=False) 在 clear_current 后返回 None\\\"]}, \\\"expected_behavior\\\": \\\"在无 current IOLoop 的线程中构造 IOLoop(make_current=True) 应成功，并使 IOLoop.current(instance=False) 返回该实例；不应抛出 RuntimeError。\\\", \\\"test_code\\\": \\\"import unittest\\\\nfrom tornado.ioloop import IOLoop\\\\n\\\\n\\\\nclass ReproductionTest(unittest.TestCase):\\\\n    def test_reproduction(self):\\\\n        IOLoop.clear_current()\\\\n        self.assertIsNone(IOLoop.current(instance=False))\\\\n        loop = IOLoop(make_current=True)\\\\n        try:\\\\n            self.assertIs(IOLoop.current(instance=False), loop)\\\\n        finally:\\\\n            IOLoop.clear_current()\\\\n            loop.close(all_fds=True)\\\\n\\\"}\"\n      }\n    ],\n    \"plan\": {\n      \"applicable\": true,\n      \"reason\": \"initialize 的 make_current=True 分支条件与语义相反：当线程中尚无 current IOLoop 时（正常可设置的情况）反而抛出 RuntimeError，而当已存在 current IOLoop 时却静默覆盖。这与 make_current 文档（“An IOLoop created while there is no current IOLoop will automatically become current”）以及 make_current=None 分支的逻辑相矛盾。\",\n      \"contract\": {\n        \"path\": \"tornado/ioloop.py\",\n        \"start\": 212,\n        \"end\": 225,\n        \"quote\": \"    def make_current(self):\\n        \\\"\\\"\\\"Makes this the `IOLoop` for the current thread.\\n\\n        An `IOLoop` automatically becomes current for its thread\\n        when it is started, but it is sometimes useful to call\\n        `make_current` explicitly before starting the `IOLoop`,\\n        so that code run at startup time can find the right\\n        instance.\\n\\n        .. versionchanged:: 4.1\\n           An `IOLoop` created while there is no current `IOLoop`\\n           will automatically become current.\\n        \\\"\\\"\\\"\\n        IOLoop._current.instance = self\",\n        \"kind\": \"documented_behavior\",\n        \"rationale\": \"文档说明 make_current 使该 IOLoop 成为当前线程的 current，且在没有 current IOLoop 时创建会自动成为 current。因此 make_current=True 在无线程 current 时应成功设置而非抛异常；异常消息“current IOLoop already exists”也表明仅在已存在时才应报错。\",\n        \"expected_outcome\": \"state_change\",\n        \"expected_exception\": \"\",\n        \"precondition\": \"在无 current IOLoop 的线程中调用 IOLoop(make_current=True)，属于文档支持的显式 make_current 用法。\",\n        \"assumptions\": [\n          \"IOLoop 的具体子类（如 EPollIOLoop）可在此环境构造\",\n          \"IOLoop.current(instance=False) 在 clear_current 后返回 None\"\n        ]\n      },\n      \"test_code\": \"import unittest\\nfrom tornado.ioloop import IOLoop\\n\\n\\nclass ReproductionTest(unittest.TestCase):\\n    def test_reproduction(self):\\n        IOLoop.clear_current()\\n        self.assertIsNone(IOLoop.current(instance=False))\\n        loop = IOLoop(make_current=True)\\n        try:\\n            self.assertIs(IOLoop.current(instance=False), loop)\\n        finally:\\n            IOLoop.clear_current()\\n            loop.close(all_fds=True)\\n\",\n      \"expected_behavior\": \"在无 current IOLoop 的线程中构造 IOLoop(make_current=True) 应成功，并使 IOLoop.current(instance=False) 返回该实例；不应抛出 RuntimeError。\"\n    },\n    \"plan_history\": [\n      {\n        \"applicable\": true,\n        \"reason\": \"initialize 的 make_current=True 分支条件与语义相反：当线程中尚无 current IOLoop 时（正常可设置的情况）反而抛出 RuntimeError，而当已存在 current IOLoop 时却静默覆盖。这与 make_current 文档（“An IOLoop created while there is no current IOLoop will automatically become current”）以及 make_current=None 分支的逻辑相矛盾。\",\n        \"contract\": {\n          \"path\": \"tornado/ioloop.py\",\n          \"start\": 212,\n          \"end\": 225,\n          \"quote\": \"    def make_current(self):\\n        \\\"\\\"\\\"Makes this the `IOLoop` for the current thread.\\n\\n        An `IOLoop` automatically becomes current for its thread\\n        when it is started, but it is sometimes useful to call\\n        `make_current` explicitly before starting the `IOLoop`,\\n        so that code run at startup time can find the right\\n        instance.\\n\\n        .. versionchanged:: 4.1\\n           An `IOLoop` created while there is no current `IOLoop`\\n           will automatically become current.\\n        \\\"\\\"\\\"\\n        IOLoop._current.instance = self\",\n          \"kind\": \"documented_behavior\",\n          \"rationale\": \"文档说明 make_current 使该 IOLoop 成为当前线程的 current，且在没有 current IOLoop 时创建会自动成为 current。因此 make_current=True 在无线程 current 时应成功设置而非抛异常；异常消息“current IOLoop already exists”也表明仅在已存在时才应报错。\",\n          \"expected_outcome\": \"state_change\",\n          \"expected_exception\": \"\",\n          \"precondition\": \"在无 current IOLoop 的线程中调用 IOLoop(make_current=True)，属于文档支持的显式 make_current 用法。\",\n          \"assumptions\": [\n            \"IOLoop 的具体子类（如 EPollIOLoop）可在此环境构造\",\n            \"IOLoop.current(instance=False) 在 clear_current 后返回 None\"\n          ]\n        },\n        \"test_code\": \"import unittest\\nfrom tornado.ioloop import IOLoop\\n\\n\\nclass ReproductionTest(unittest.TestCase):\\n    def test_reproduction(self):\\n        IOLoop.clear_current()\\n        self.assertIsNone(IOLoop.current(instance=False))\\n        loop = IOLoop(make_current=True)\\n        try:\\n            self.assertIs(IOLoop.current(instance=False), loop)\\n        finally:\\n            IOLoop.clear_current()\\n            loop.close(all_fds=True)\\n\",\n        \"expected_behavior\": \"在无 current IOLoop 的线程中构造 IOLoop(make_current=True) 应成功，并使 IOLoop.current(instance=False) 返回该实例；不应抛出 RuntimeError。\"\n      }\n    ],\n    \"feedback\": [],\n    \"active_attempt_indexes\": [\n      0,\n      1\n    ],\n    \"admission\": {\n      \"enforced\": true,\n      \"requirement\": {\n        \"accepted\": true,\n        \"reason\": \"\"\n      },\n      \"audit\": {\n        \"accepted\": true,\n        \"checks\": {\n          \"model_accepted\": true,\n          \"input_supported\": true,\n          \"requirement_supported\": true,\n          \"failure_matches_candidate\": true,\n          \"behavior_class\": true,\n          \"no_unresolved_assumptions\": true\n        },\n        \"failed\": []\n      },\n      \"accepted\": true\n    },\n    \"audit\": {\n      \"accepted\": true,\n      \"reason\": \"测试在 clear_current 后确认 current(instance=False) 为 None，再构造 IOLoop(make_current=True)，实际调用到 ioloop.py:253 并抛出 RuntimeError('current IOLoop already exists')，与候选描述一致。make_current 文档明确说明显式调用 make_current 可使该 IOLoop 成为当前线程的 current，且 4.1 起无 current 时创建会自动成为 current；因此无 current 时 make_current=True 应成功设置而非报错。条件 `is None` 与异常语义相反，属行为缺陷。\",\n      \"input_supported\": true,\n      \"requirement_supported\": true,\n      \"failure_matches_candidate\": true,\n      \"requirement_class\": \"behavior\",\n      \"unresolved_assumptions\": []\n    },\n    \"execution_snapshot_sha256\": \"355f01d43a5ee2fc19d4c0b5c95764746c83ca2bfe66aa0ce8f7fb039ae1086b\",\n    \"snapshot_policy\": \"only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests\",\n    \"max_file_bytes\": 1000000,\n    \"scope\": \"\",\n    \"review_scope\": \"\",\n    \"production_only\": true,\n    \"artifact\": \"evidence/37b96dbfb16c/evidence.json\"\n  }\n}"
+  },
+  "findings": [
+    {
+      "path": "tornado/ioloop.py",
+      "line": 251,
+      "end_line": 254,
+      "severity": "high",
+      "category": "bug",
+      "title": "initialize 的 make_current=True 分支条件取反，导致总是抛异常或从不抛异常",
+      "explanation": "initialize 中 make_current 为真时，本意是“若已存在 current IOLoop 则报错，否则把自己设为 current”。但代码写的是 `if IOLoop.current(instance=False) is None: raise RuntimeError(...)`，条件与语义相反：当当前线程没有 current IOLoop（正常可设置的情况）时反而抛 RuntimeError；当已经存在 current IOLoop 时却静默覆盖它。这与 make_current=None 分支（current 为 None 时才 make_current）的逻辑也不一致。",
+      "trigger": "IOLoop(make_current=True) 在尚无 current IOLoop 的线程中构造：current(instance=False) 返回 None，进入 raise 分支，抛出 RuntimeError(\"current IOLoop already exists\")，尽管实际上并不存在冲突。",
+      "evidence": "248-250 行：`if make_current is None: if IOLoop.current(instance=False) is None: self.make_current()`；251-254 行：`elif make_current: if IOLoop.current(instance=False) is None: raise RuntimeError(\"current IOLoop already exists\"); self.make_current()`。两分支对同一条件 `is None` 的处理相反，且异常消息与触发条件矛盾。",
+      "suggestion": "将条件改为 `if IOLoop.current(instance=False) is not None: raise RuntimeError(\"current IOLoop already exists\")`，再调用 self.make_current()。",
+      "id": "37b96dbfb16c",
+      "source": "llm",
+      "rule": "",
+      "snippet": "249:             if IOLoop.current(instance=False) is None:\n250:                 self.make_current()\n251:         elif make_current:\n252:             if IOLoop.current(instance=False) is None:\n253:                 raise RuntimeError(\"current IOLoop already exists\")\n254:             self.make_current()\n255: \n256:     def close(self, all_fds=False):",
+      "status": "reproduced",
+      "verification": "测试在 clear_current 后确认 current(instance=False) 为 None，再构造 IOLoop(make_current=True)，实际调用到 ioloop.py:253 并抛出 RuntimeError('current IOLoop already exists')，与候选描述一致。make_current 文档明确说明显式调用 make_current 可使该 IOLoop 成为当前线程的 current，且 4.1 起无 current 时创建会自动成为 current；因此无 current 时 make_current=True 应成功设置而非报错。条件 `is None` 与异常语义相反，属行为缺陷。",
+      "validation": "两次独立隔离执行出现同类型失败并触达目标代码；预期依据通过结构化准入检查与模型对照引用原文核验，仍供维护者复查。",
+      "related_diagnostics": [],
+      "reproduction": {
+        "status": "reproduced",
+        "reason": "测试在 clear_current 后确认 current(instance=False) 为 None，再构造 IOLoop(make_current=True)，实际调用到 ioloop.py:253 并抛出 RuntimeError('current IOLoop already exists')，与候选描述一致。make_current 文档明确说明显式调用 make_current 可使该 IOLoop 成为当前线程的 current，且 4.1 起无 current 时创建会自动成为 current；因此无 current 时 make_current=True 应成功设置而非报错。条件 `is None` 与异常语义相反，属行为缺陷。",
+        "attempts": [
+          {
+            "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+            "image_reference": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+            "exit_code": 0,
+            "stop_reason": null,
+            "seconds": 0.621,
+            "execution": {
+              "python": "3.7.17",
+              "tests_run": 1,
+              "failures": 0,
+              "errors": 1,
+              "skipped": 0,
+              "load_error": null,
+              "observations": [
+                {
+                  "test": "generated_reproduction.ReproductionTest.test_reproduction",
+                  "outcome": "error",
+                  "exception_type": "RuntimeError",
+                  "message": "current IOLoop already exists",
+                  "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 59, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 628, in run\n    testMethod()\n  File \"/harness/test_reproduction.py\", line 9, in test_reproduction\n    loop = IOLoop(make_current=True)\n  File \"/work/tornado/util.py\", line 221, in __new__\n    instance.initialize(*args, **init_kwargs)\n  File \"/work/tornado/platform/epoll.py\", line 26, in initialize\n    super(EPollIOLoop, self).initialize(impl=select.epoll(), **kwargs)\n  File \"/work/tornado/ioloop.py\", line 664, in initialize\n    super(PollIOLoop, self).initialize(**kwargs)\n  File \"/work/tornado/ioloop.py\", line 253, in initialize\n    raise RuntimeError(\"current IOLoop already exists\")\nRuntimeError: current IOLoop already exists\n",
+                  "traceback_frames": [
+                    {
+                      "path": "/usr/local/lib/python3.7/unittest/case.py",
+                      "line": 59,
+                      "function": "testPartExecutor"
+                    },
+                    {
+                      "path": "/usr/local/lib/python3.7/unittest/case.py",
+                      "line": 628,
+                      "function": "run"
+                    },
+                    {
+                      "path": "/harness/test_reproduction.py",
+                      "line": 9,
+                      "function": "test_reproduction"
+                    },
+                    {
+                      "path": "/work/tornado/util.py",
+                      "line": 221,
+                      "function": "__new__"
+                    },
+                    {
+                      "path": "/work/tornado/platform/epoll.py",
+                      "line": 26,
+                      "function": "initialize"
+                    },
+                    {
+                      "path": "/work/tornado/ioloop.py",
+                      "line": 664,
+                      "function": "initialize"
+                    },
+                    {
+                      "path": "/work/tornado/ioloop.py",
+                      "line": 253,
+                      "function": "initialize"
+                    }
+                  ]
+                }
+              ],
+              "target_lines": [
+                207,
+                208,
+                210,
+                229,
+                233,
+                237,
+                238,
+                239,
+                248,
+                251,
+                252,
+                253,
+                664
+              ],
+              "target_calls": [
+                [
+                  "clear_current",
+                  227
+                ],
+                [
+                  "configurable_base",
+                  231
+                ],
+                [
+                  "configurable_default",
+                  235
+                ],
+                [
+                  "current",
+                  188
+                ],
+                [
+                  "initialize",
+                  247
+                ],
+                [
+                  "initialize",
+                  663
+                ]
+              ],
+              "target_trace_scope": "test_execution"
+            },
+            "log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.7.17\", \"tests_run\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"error\", \"exception_type\": \"RuntimeError\", \"message\": \"current IOLoop already exists\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 59, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 628, in run\\n    testMethod()\\n  File \\\"/harness/test_reproduction.py\\\", line 9, in test_reproduction\\n    loop = IOLoop(make_current=True)\\n  File \\\"/work/tornado/util.py\\\", line 221, in __new__\\n    instance.initialize(*args, **init_kwargs)\\n  File \\\"/work/tornado/platform/epoll.py\\\", line 26, in initialize\\n    super(EPollIOLoop, self).initialize(impl=select.epoll(), **kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 664, in initialize\\n    super(PollIOLoop, self).initialize(**kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 253, in initialize\\n    raise RuntimeError(\\\"current IOLoop already exists\\\")\\nRuntimeError: current IOLoop already exists\\n\", \"traceback_frames\": [{\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 59, \"function\": \"testPartExecutor\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 628, \"function\": \"run\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 9, \"function\": \"test_reproduction\"}, {\"path\": \"/work/tornado/util.py\", \"line\": 221, \"function\": \"__new__\"}, {\"path\": \"/work/tornado/platform/epoll.py\", \"line\": 26, \"function\": \"initialize\"}, {\"path\": \"/work/tornado/ioloop.py\", \"line\": 664, \"function\": \"initialize\"}, {\"path\": \"/work/tornado/ioloop.py\", \"line\": 253, \"function\": \"initialize\"}]}], \"target_lines\": [207, 208, 210, 229, 233, 237, 238, 239, 248, 251, 252, 253, 664], \"target_calls\": [[\"clear_current\", 227], [\"configurable_base\", 231], [\"configurable_default\", 235], [\"current\", 188], [\"initialize\", 247], [\"initialize\", 663]], \"target_trace_scope\": \"test_execution\"}\n",
+            "log_sha256": "a201f28699e96d14fe99b3c982c4657608b9917e7926558b5f373ab4cde8d74b",
+            "verdict": "failure_observed",
+            "plan_version": 0,
+            "test_sha256": "a6664563d91e07a007379cee5a7627bc180712e918ba8d1e77da791be19c11b0",
+            "execution_snapshot_sha256": "355f01d43a5ee2fc19d4c0b5c95764746c83ca2bfe66aa0ce8f7fb039ae1086b"
+          },
+          {
+            "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+            "image_reference": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+            "exit_code": 0,
+            "stop_reason": null,
+            "seconds": 0.501,
+            "execution": {
+              "python": "3.7.17",
+              "tests_run": 1,
+              "failures": 0,
+              "errors": 1,
+              "skipped": 0,
+              "load_error": null,
+              "observations": [
+                {
+                  "test": "generated_reproduction.ReproductionTest.test_reproduction",
+                  "outcome": "error",
+                  "exception_type": "RuntimeError",
+                  "message": "current IOLoop already exists",
+                  "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 59, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 628, in run\n    testMethod()\n  File \"/harness/test_reproduction.py\", line 9, in test_reproduction\n    loop = IOLoop(make_current=True)\n  File \"/work/tornado/util.py\", line 221, in __new__\n    instance.initialize(*args, **init_kwargs)\n  File \"/work/tornado/platform/epoll.py\", line 26, in initialize\n    super(EPollIOLoop, self).initialize(impl=select.epoll(), **kwargs)\n  File \"/work/tornado/ioloop.py\", line 664, in initialize\n    super(PollIOLoop, self).initialize(**kwargs)\n  File \"/work/tornado/ioloop.py\", line 253, in initialize\n    raise RuntimeError(\"current IOLoop already exists\")\nRuntimeError: current IOLoop already exists\n",
+                  "traceback_frames": [
+                    {
+                      "path": "/usr/local/lib/python3.7/unittest/case.py",
+                      "line": 59,
+                      "function": "testPartExecutor"
+                    },
+                    {
+                      "path": "/usr/local/lib/python3.7/unittest/case.py",
+                      "line": 628,
+                      "function": "run"
+                    },
+                    {
+                      "path": "/harness/test_reproduction.py",
+                      "line": 9,
+                      "function": "test_reproduction"
+                    },
+                    {
+                      "path": "/work/tornado/util.py",
+                      "line": 221,
+                      "function": "__new__"
+                    },
+                    {
+                      "path": "/work/tornado/platform/epoll.py",
+                      "line": 26,
+                      "function": "initialize"
+                    },
+                    {
+                      "path": "/work/tornado/ioloop.py",
+                      "line": 664,
+                      "function": "initialize"
+                    },
+                    {
+                      "path": "/work/tornado/ioloop.py",
+                      "line": 253,
+                      "function": "initialize"
+                    }
+                  ]
+                }
+              ],
+              "target_lines": [
+                207,
+                208,
+                210,
+                229,
+                233,
+                237,
+                238,
+                239,
+                248,
+                251,
+                252,
+                253,
+                664
+              ],
+              "target_calls": [
+                [
+                  "clear_current",
+                  227
+                ],
+                [
+                  "configurable_base",
+                  231
+                ],
+                [
+                  "configurable_default",
+                  235
+                ],
+                [
+                  "current",
+                  188
+                ],
+                [
+                  "initialize",
+                  247
+                ],
+                [
+                  "initialize",
+                  663
+                ]
+              ],
+              "target_trace_scope": "test_execution"
+            },
+            "log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.7.17\", \"tests_run\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"error\", \"exception_type\": \"RuntimeError\", \"message\": \"current IOLoop already exists\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 59, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 628, in run\\n    testMethod()\\n  File \\\"/harness/test_reproduction.py\\\", line 9, in test_reproduction\\n    loop = IOLoop(make_current=True)\\n  File \\\"/work/tornado/util.py\\\", line 221, in __new__\\n    instance.initialize(*args, **init_kwargs)\\n  File \\\"/work/tornado/platform/epoll.py\\\", line 26, in initialize\\n    super(EPollIOLoop, self).initialize(impl=select.epoll(), **kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 664, in initialize\\n    super(PollIOLoop, self).initialize(**kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 253, in initialize\\n    raise RuntimeError(\\\"current IOLoop already exists\\\")\\nRuntimeError: current IOLoop already exists\\n\", \"traceback_frames\": [{\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 59, \"function\": \"testPartExecutor\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 628, \"function\": \"run\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 9, \"function\": \"test_reproduction\"}, {\"path\": \"/work/tornado/util.py\", \"line\": 221, \"function\": \"__new__\"}, {\"path\": \"/work/tornado/platform/epoll.py\", \"line\": 26, \"function\": \"initialize\"}, {\"path\": \"/work/tornado/ioloop.py\", \"line\": 664, \"function\": \"initialize\"}, {\"path\": \"/work/tornado/ioloop.py\", \"line\": 253, \"function\": \"initialize\"}]}], \"target_lines\": [207, 208, 210, 229, 233, 237, 238, 239, 248, 251, 252, 253, 664], \"target_calls\": [[\"clear_current\", 227], [\"configurable_base\", 231], [\"configurable_default\", 235], [\"current\", 188], [\"initialize\", 247], [\"initialize\", 663]], \"target_trace_scope\": \"test_execution\"}\n",
+            "log_sha256": "a201f28699e96d14fe99b3c982c4657608b9917e7926558b5f373ab4cde8d74b",
+            "verdict": "failure_observed",
+            "plan_version": 0,
+            "test_sha256": "a6664563d91e07a007379cee5a7627bc180712e918ba8d1e77da791be19c11b0",
+            "execution_snapshot_sha256": "355f01d43a5ee2fc19d4c0b5c95764746c83ca2bfe66aa0ce8f7fb039ae1086b"
+          }
+        ],
+        "generation_attempts": [
+          {
+            "response": "{\"applicable\": true, \"reason\": \"initialize 的 make_current=True 分支条件与语义相反：当线程中尚无 current IOLoop 时（正常可设置的情况）反而抛出 RuntimeError，而当已存在 current IOLoop 时却静默覆盖。这与 make_current 文档（“An IOLoop created while there is no current IOLoop will automatically become current”）以及 make_current=None 分支的逻辑相矛盾。\", \"contract\": {\"path\": \"tornado/ioloop.py\", \"start\": 212, \"end\": 225, \"quote\": \"    def make_current(self):\\n        \\\"\\\"\\\"Makes this the `IOLoop` for the current thread.\\n\\n        An `IOLoop` automatically becomes current for its thread\\n        when it is started, but it is sometimes useful to call\\n        `make_current` explicitly before starting the `IOLoop`,\\n        so that code run at startup time can find the right\\n        instance.\\n\\n        .. versionchanged:: 4.1\\n           An `IOLoop` created while there is no current `IOLoop`\\n           will automatically become current.\\n        \\\"\\\"\\\"\\n        IOLoop._current.instance = self\", \"kind\": \"documented_behavior\", \"rationale\": \"文档说明 make_current 使该 IOLoop 成为当前线程的 current，且在没有 current IOLoop 时创建会自动成为 current。因此 make_current=True 在无线程 current 时应成功设置而非抛异常；异常消息“current IOLoop already exists”也表明仅在已存在时才应报错。\", \"expected_outcome\": \"state_change\", \"precondition\": \"在无 current IOLoop 的线程中调用 IOLoop(make_current=True)，属于文档支持的显式 make_current 用法。\", \"assumptions\": [\"IOLoop 的具体子类（如 EPollIOLoop）可在此环境构造\", \"IOLoop.current(instance=False) 在 clear_current 后返回 None\"]}, \"expected_behavior\": \"在无 current IOLoop 的线程中构造 IOLoop(make_current=True) 应成功，并使 IOLoop.current(instance=False) 返回该实例；不应抛出 RuntimeError。\", \"test_code\": \"import unittest\\nfrom tornado.ioloop import IOLoop\\n\\n\\nclass ReproductionTest(unittest.TestCase):\\n    def test_reproduction(self):\\n        IOLoop.clear_current()\\n        self.assertIsNone(IOLoop.current(instance=False))\\n        loop = IOLoop(make_current=True)\\n        try:\\n            self.assertIs(IOLoop.current(instance=False), loop)\\n        finally:\\n            IOLoop.clear_current()\\n            loop.close(all_fds=True)\\n\"}"
+          }
+        ],
+        "plan": {
+          "applicable": true,
+          "reason": "initialize 的 make_current=True 分支条件与语义相反：当线程中尚无 current IOLoop 时（正常可设置的情况）反而抛出 RuntimeError，而当已存在 current IOLoop 时却静默覆盖。这与 make_current 文档（“An IOLoop created while there is no current IOLoop will automatically become current”）以及 make_current=None 分支的逻辑相矛盾。",
+          "contract": {
+            "path": "tornado/ioloop.py",
+            "start": 212,
+            "end": 225,
+            "quote": "    def make_current(self):\n        \"\"\"Makes this the `IOLoop` for the current thread.\n\n        An `IOLoop` automatically becomes current for its thread\n        when it is started, but it is sometimes useful to call\n        `make_current` explicitly before starting the `IOLoop`,\n        so that code run at startup time can find the right\n        instance.\n\n        .. versionchanged:: 4.1\n           An `IOLoop` created while there is no current `IOLoop`\n           will automatically become current.\n        \"\"\"\n        IOLoop._current.instance = self",
+            "kind": "documented_behavior",
+            "rationale": "文档说明 make_current 使该 IOLoop 成为当前线程的 current，且在没有 current IOLoop 时创建会自动成为 current。因此 make_current=True 在无线程 current 时应成功设置而非抛异常；异常消息“current IOLoop already exists”也表明仅在已存在时才应报错。",
+            "expected_outcome": "state_change",
+            "expected_exception": "",
+            "precondition": "在无 current IOLoop 的线程中调用 IOLoop(make_current=True)，属于文档支持的显式 make_current 用法。",
+            "assumptions": [
+              "IOLoop 的具体子类（如 EPollIOLoop）可在此环境构造",
+              "IOLoop.current(instance=False) 在 clear_current 后返回 None"
+            ]
+          },
+          "test_code": "import unittest\nfrom tornado.ioloop import IOLoop\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        IOLoop.clear_current()\n        self.assertIsNone(IOLoop.current(instance=False))\n        loop = IOLoop(make_current=True)\n        try:\n            self.assertIs(IOLoop.current(instance=False), loop)\n        finally:\n            IOLoop.clear_current()\n            loop.close(all_fds=True)\n",
+          "expected_behavior": "在无 current IOLoop 的线程中构造 IOLoop(make_current=True) 应成功，并使 IOLoop.current(instance=False) 返回该实例；不应抛出 RuntimeError。"
+        },
+        "plan_history": [
+          {
+            "applicable": true,
+            "reason": "initialize 的 make_current=True 分支条件与语义相反：当线程中尚无 current IOLoop 时（正常可设置的情况）反而抛出 RuntimeError，而当已存在 current IOLoop 时却静默覆盖。这与 make_current 文档（“An IOLoop created while there is no current IOLoop will automatically become current”）以及 make_current=None 分支的逻辑相矛盾。",
+            "contract": {
+              "path": "tornado/ioloop.py",
+              "start": 212,
+              "end": 225,
+              "quote": "    def make_current(self):\n        \"\"\"Makes this the `IOLoop` for the current thread.\n\n        An `IOLoop` automatically becomes current for its thread\n        when it is started, but it is sometimes useful to call\n        `make_current` explicitly before starting the `IOLoop`,\n        so that code run at startup time can find the right\n        instance.\n\n        .. versionchanged:: 4.1\n           An `IOLoop` created while there is no current `IOLoop`\n           will automatically become current.\n        \"\"\"\n        IOLoop._current.instance = self",
+              "kind": "documented_behavior",
+              "rationale": "文档说明 make_current 使该 IOLoop 成为当前线程的 current，且在没有 current IOLoop 时创建会自动成为 current。因此 make_current=True 在无线程 current 时应成功设置而非抛异常；异常消息“current IOLoop already exists”也表明仅在已存在时才应报错。",
+              "expected_outcome": "state_change",
+              "expected_exception": "",
+              "precondition": "在无 current IOLoop 的线程中调用 IOLoop(make_current=True)，属于文档支持的显式 make_current 用法。",
+              "assumptions": [
+                "IOLoop 的具体子类（如 EPollIOLoop）可在此环境构造",
+                "IOLoop.current(instance=False) 在 clear_current 后返回 None"
+              ]
+            },
+            "test_code": "import unittest\nfrom tornado.ioloop import IOLoop\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        IOLoop.clear_current()\n        self.assertIsNone(IOLoop.current(instance=False))\n        loop = IOLoop(make_current=True)\n        try:\n            self.assertIs(IOLoop.current(instance=False), loop)\n        finally:\n            IOLoop.clear_current()\n            loop.close(all_fds=True)\n",
+            "expected_behavior": "在无 current IOLoop 的线程中构造 IOLoop(make_current=True) 应成功，并使 IOLoop.current(instance=False) 返回该实例；不应抛出 RuntimeError。"
+          }
+        ],
+        "feedback": [],
+        "active_attempt_indexes": [
+          0,
+          1
+        ],
+        "admission": {
+          "enforced": true,
+          "requirement": {
+            "accepted": true,
+            "reason": ""
+          },
+          "audit": {
+            "accepted": true,
+            "checks": {
+              "model_accepted": true,
+              "input_supported": true,
+              "requirement_supported": true,
+              "failure_matches_candidate": true,
+              "behavior_class": true,
+              "no_unresolved_assumptions": true
+            },
+            "failed": []
+          },
+          "accepted": true
+        },
+        "audit": {
+          "accepted": true,
+          "reason": "测试在 clear_current 后确认 current(instance=False) 为 None，再构造 IOLoop(make_current=True)，实际调用到 ioloop.py:253 并抛出 RuntimeError('current IOLoop already exists')，与候选描述一致。make_current 文档明确说明显式调用 make_current 可使该 IOLoop 成为当前线程的 current，且 4.1 起无 current 时创建会自动成为 current；因此无 current 时 make_current=True 应成功设置而非报错。条件 `is None` 与异常语义相反，属行为缺陷。",
+          "input_supported": true,
+          "requirement_supported": true,
+          "failure_matches_candidate": true,
+          "requirement_class": "behavior",
+          "unresolved_assumptions": []
+        },
+        "execution_snapshot_sha256": "355f01d43a5ee2fc19d4c0b5c95764746c83ca2bfe66aa0ce8f7fb039ae1086b",
+        "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+        "max_file_bytes": 1000000,
+        "scope": "",
+        "review_scope": "",
+        "production_only": true,
+        "artifact": "evidence/37b96dbfb16c/evidence.json"
+      }
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "evidence模式使用Agent自行生成的测试与隔离执行，契约语义仍由模型核验；官方回归测试不提供给Agent。"
+  ]
+}

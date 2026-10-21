@@ -1,0 +1,46 @@
+{
+  "finding": {
+    "path": "youtube_dl/extractor/youtube.py",
+    "line": 1670,
+    "end_line": 1679,
+    "severity": "medium",
+    "category": "bug",
+    "title": "章节解析在跳过无效时间点时使用错误的索引计算结束时间",
+    "explanation": "_extract_chapters 用 enumerate(chapter_lines, start=1) 的 next_num 判断是否为最后一行，并用 chapter_lines[next_num][1] 取下一行时间。但循环中遇到 parse_duration 返回 None 时会 continue，此时 next_num 仍按原始行号递增，而 chapters 列表并未同步增长。更关键的是，当某一行 start_time 无效被 continue 后，下一行的 next_num 指向的是它自己的下一行，逻辑上仍正确；真正的问题在于 end_time 取的是 chapter_lines[next_num][1]，即下一原始行的时间，而若下一行时间无效（parse_duration 为 None），当前章节会 continue 被丢弃，而不是把结束时间顺延到再下一有效时间点。这会导致有效章节因相邻无效行而丢失。",
+    "trigger": "description 中包含两个章节行，第一行时间有效（如 0:10），第二行时间格式无法被 parse_duration 解析（如 1:2:3:4 或非数字），第三行时间有效（如 0:30）。",
+    "evidence": "第1665-1673行：for next_num, (chapter_line, time_point) in enumerate(chapter_lines, start=1)；end_time = (duration if next_num == len(chapter_lines) else parse_duration(chapter_lines[next_num][1]))；第1674-1675行 if end_time is None: continue。当 chapter_lines[next_num][1] 无法解析时，当前有效章节被 continue 丢弃，而不是跳过无效的下一行继续寻找有效结束时间。",
+    "suggestion": "在计算 end_time 时向后查找第一个可解析的时间点，或在遇到无效下一行时不要丢弃当前章节，而是继续向后扫描；同时用实际已添加章节数而非原始行号判断是否为最后一行。",
+    "id": "1c18198ca00f",
+    "source": "llm",
+    "rule": "",
+    "snippet": "1668:             if start_time is None:\n1669:                 continue\n1670:             if start_time > duration:\n1671:                 break\n1672:             end_time = (duration if next_num == len(chapter_lines)\n1673:                         else parse_duration(chapter_lines[next_num][1]))\n1674:             if end_time is None:\n1675:                 continue\n1676:             if end_time > duration:\n1677:                 end_time = duration\n1678:             if start_time > end_time:\n1679:                 break\n1680:             chapter_title = re.sub(\n1681:                 r'<a[^>]+>[^<]+</a>', '', chapter_line).strip(' \\t-')",
+    "status": "pending_evidence",
+    "verification": "尚未复核；未运行待审代码。",
+    "validation": "候选缺陷声称有效章节会因相邻无效时间行而被丢弃，但该行为缺乏可定位的契约依据。_extract_chapters 是私有静态方法，仓库中没有针对它的文档或测试规定“遇到无法解析的下一行时间时应顺延到再下一个有效时间点”。正则本身只匹配形如 \\d{1,2}:\\d{1,2}(?::\\d{1,2})? 的时间，因此候选触发条件中的“1:2:3:4 或非数字”根本无法进入 chapter_lines，无法构造出所述输入。此外，代码现有实现（遇到 end_time 为 None 就 continue）不能单独证明期望返回值，属于对未约定边界行为的主观期望，不构成可复现的行为缺陷。",
+    "related_diagnostics": []
+  },
+  "reproduction": {
+    "status": "unsupported",
+    "reason": "候选缺陷声称有效章节会因相邻无效时间行而被丢弃，但该行为缺乏可定位的契约依据。_extract_chapters 是私有静态方法，仓库中没有针对它的文档或测试规定“遇到无法解析的下一行时间时应顺延到再下一个有效时间点”。正则本身只匹配形如 \\d{1,2}:\\d{1,2}(?::\\d{1,2})? 的时间，因此候选触发条件中的“1:2:3:4 或非数字”根本无法进入 chapter_lines，无法构造出所述输入。此外，代码现有实现（遇到 end_time 为 None 就 continue）不能单独证明期望返回值，属于对未约定边界行为的主观期望，不构成可复现的行为缺陷。",
+    "attempts": [],
+    "generation_attempts": [
+      {
+        "response": "{\"applicable\": false, \"reason\": \"候选缺陷声称有效章节会因相邻无效时间行而被丢弃，但该行为缺乏可定位的契约依据。_extract_chapters 是私有静态方法，仓库中没有针对它的文档或测试规定“遇到无法解析的下一行时间时应顺延到再下一个有效时间点”。正则本身只匹配形如 \\\\d{1,2}:\\\\d{1,2}(?::\\\\d{1,2})? 的时间，因此候选触发条件中的“1:2:3:4 或非数字”根本无法进入 chapter_lines，无法构造出所述输入。此外，代码现有实现（遇到 end_time 为 None 就 continue）不能单独证明期望返回值，属于对未约定边界行为的主观期望，不构成可复现的行为缺陷。\"}"
+      }
+    ],
+    "plan": {
+      "applicable": false,
+      "reason": "候选缺陷声称有效章节会因相邻无效时间行而被丢弃，但该行为缺乏可定位的契约依据。_extract_chapters 是私有静态方法，仓库中没有针对它的文档或测试规定“遇到无法解析的下一行时间时应顺延到再下一个有效时间点”。正则本身只匹配形如 \\d{1,2}:\\d{1,2}(?::\\d{1,2})? 的时间，因此候选触发条件中的“1:2:3:4 或非数字”根本无法进入 chapter_lines，无法构造出所述输入。此外，代码现有实现（遇到 end_time 为 None 就 continue）不能单独证明期望返回值，属于对未约定边界行为的主观期望，不构成可复现的行为缺陷。",
+      "contract": null,
+      "test_code": "",
+      "expected_behavior": ""
+    },
+    "execution_snapshot_sha256": "ae6dab79ae9d30cb372e597a10476989b27e8a14c88a4102d0727b8bdc04b4cc",
+    "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+    "max_file_bytes": 1000000,
+    "scope": "",
+    "review_scope": "",
+    "production_only": true,
+    "artifact": "evidence/1c18198ca00f/evidence.json"
+  }
+}

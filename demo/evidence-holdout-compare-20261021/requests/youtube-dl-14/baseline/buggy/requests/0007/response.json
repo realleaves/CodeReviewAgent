@@ -1,0 +1,34 @@
+{
+  "reservation": {
+    "id": 7,
+    "phase": "evidence-holdout-compare",
+    "label": {
+      "case": "youtube-dl-14",
+      "arm": "baseline",
+      "side": "buggy"
+    },
+    "reserved_at": "2026-10-21T13:06:44.829917+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":1670,\"end_line\":1679,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"章节时长缺失时比较 None 与 int 导致 TypeError\",\"explanation\":\"_extract_chapters 中 duration 可能为 None：主片段 2300-2306 行依次从 video_info、video_details、meta 获取时长，三者都取不到时 video_duration 为 None，随后 2327 行直接传入 _extract_chapters。函数内 1670 行 `if start_time > duration` 在 duration 为 None 时抛 TypeError（Python 3），而 1676 行 `if end_time > duration` 同样会崩溃。函数开头只检查了 description，没有对 duration 做空值保护。\",\"trigger\":\"视频页面包含带 seekTo 链接的章节描述（chapter_lines 非空），但页面/播放器数据中没有任何时长信息，使 video_duration 为 None。\",\"evidence\":\"2300-2306 行：video_duration 依次尝试 try_get(video_info,...)、int_or_none(video_details.get('lengthSeconds'))、parse_duration(_html_search_meta(...))，均可能返回 None；2327 行 `chapters = self._extract_chapters(description_original, video_duration)` 未判空；1656-1679 行函数内直接 `if start_time > duration` 与 `if end_time > duration`。\",\"suggestion\":\"在 _extract_chapters 开头增加 `if duration is None: return None`，或在调用处仅在 video_duration 非 None 时提取章节。\"},{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":2340,\"end_line\":2358,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"DASH 签名解密异常未被捕获，导致整个提取失败\",\"explanation\":\"decrypt_sig 回调调用 self._decrypt_signature，而 _decrypt_signature 在 player_url 为 None 时抛 ExtractorError，在签名提取失败时也抛 ExtractorError（1408-1430 行）。re.sub 在 2340 行执行该回调，异常会从 re.sub 抛出。外层 try 只捕获 (ExtractorError, KeyError) 并 report_warning，看似覆盖，但注意 dash_mpd_fatal 初始为 True 且 _extract_mpd_formats 的 fatal 参数只影响其内部；re.sub 抛出的 ExtractorError 确实会被 2356 行捕获。真正的问题是：当第一个 manifest 解密失败被捕获后，dash_mpd_fatal 仍为 True，后续 manifest 的 _extract_mpd_formats 失败会以 fatal 方式抛出，但该异常同样被捕获。因此此处不构成崩溃。\",\"trigger\":\"mpd_url 含 /s/<sig> 且 player_url 为 None。\",\"evidence\":\"2335-2340 行 decrypt_sig 调用 _decrypt_signature；1408-1409 行 player_url 为 None 时 raise ExtractorError；2356 行 except (ExtractorError, KeyError) 捕获。\",\"suggestion\":\"无需修改；异常已被捕获并降级为警告。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 11854,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 718,
+      "prompt_tokens": 3605,
+      "total_tokens": 4323,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 2304
+      },
+      "prompt_cache_hit_tokens": 2304,
+      "prompt_cache_miss_tokens": 1301
+    },
+    "elapsed_seconds": 4.177
+  }
+}

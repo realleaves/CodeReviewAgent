@@ -1,0 +1,1035 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "snapshot",
+    "ref": "blinded-snapshot",
+    "commit": "snapshot",
+    "indexed_snapshot_sha256": "0cd02f74bd2d9c4e201236637f998dc483cc5a5267883db3b446895ba970e535"
+  },
+  "run": {
+    "started_at": "2026-10-21T13:06:37.410131+00:00",
+    "status": "completed",
+    "mode": "evidence",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "window_review_completed": true,
+    "options": {
+      "mode": "evidence",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 8,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": "",
+      "repro_image": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+      "repro_timeout": 15,
+      "max_reproductions": 2,
+      "max_repro_repairs": 0,
+      "context_strategy": "legacy",
+      "enforce_admission": false
+    },
+    "elapsed_seconds": 1.105,
+    "api_calls": 1,
+    "usage": {
+      "prompt_tokens": 2905,
+      "completion_tokens": 6
+    },
+    "indexed_python_files": 63,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 0,
+    "candidate_findings": 0,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "low": 1
+    },
+    "status_counts": {
+      "unverified": 1
+    }
+  },
+  "coverage": [
+    {
+      "path": "tornado/http1connection.py",
+      "lines": 724,
+      "windows": [
+        [
+          436,
+          534
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".coveragerc",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "appveyor.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "runtests.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/app.yaml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/static/blog.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/archive.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/base.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/compose.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/feed.xml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/appengine/templates/modules/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/Dockerfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/docker-compose.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/schema.sql",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/static/blog.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/archive.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/base.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/compose.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/create_author.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/feed.xml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/login.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/blog/templates/modules/entry.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/static/chat.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/static/chat.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/templates/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/chat/templates/message.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/static/facebook.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/static/facebook.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/templates/stream.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/facebook/templates/modules/post.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/twitter/home.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/static/chat.css",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/static/chat.js",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/templates/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "demos/websocket/templates/message.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/asyncio.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/auth.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/autoreload.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/caresresolver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/concurrent.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/coroutine.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/escape.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/faq.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/favicon.ico",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/gen.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/http.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/http1connection.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httpclient.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httpserver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/httputil.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/integration.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/ioloop.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/iostream.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/locale.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/locks.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/log.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/netutil.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/networking.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/options.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/process.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/queues.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/stack_context.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tcpclient.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tcpserver.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/template.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/testing.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/tornado.png",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/twisted.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/util.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/utilities.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/web.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/webframework.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/websocket.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/wsgi.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/async.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/coroutines.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/intro.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/queues.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/running.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/security.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/structure.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/guide/templates.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v1.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.3.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.4.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v2.4.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.0.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.1.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v3.2.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.0.2.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.1.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.2.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.2.1.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/releases/v4.3.0.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/scripts/run_autopep8.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/appengine/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/appengine/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/appengine/py27/app.yaml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/cythonapp.pyx",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/cython/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/pyuv/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/redbot/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/redbot/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/fuzzingclient.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/fuzzingserver.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/run-client.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/run-server.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/test/websocket/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/README",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/shared-setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/freebsd/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu10.04/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu10.04/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu10.04/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu12.04/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/Vagrantfile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/setup.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/ubuntu14.04/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "maint/vm/windows/tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/speedups.c",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/speedups.pyi",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/platform/auto.pyi",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/options_test.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static_foo.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/test.crt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/test.key",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "tornado/test/csv_translations/fr_FR.csv",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/gettext_translations/fr_FR/LC_MESSAGES/tornado_test.mo",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/gettext_translations/fr_FR/LC_MESSAGES/tornado_test.po",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/robots.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/sample.xml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/sample.xml.bz2",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/sample.xml.gz",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/static/dir/index.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tornado/test/templates/utf8.html",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/scripts/test_resolvers.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/appengine/setup.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/appengine/common/cgi_runtests.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/appengine/common/runtests.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/cython/cythonapp_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/cython/pythonmodule.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/cython/setup.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/redbot/red_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/websocket/client.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "maint/test/websocket/server.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/__main__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/asyncio_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/auth_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/concurrent_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/curl_httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/escape_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/gen_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/http1connection_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httpserver_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/httputil_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/import_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/ioloop_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/iostream_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/locale_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/locks_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/log_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/netutil_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/options_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/process_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/queues_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/resolve_test_helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/runtests.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/simple_httpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/stack_context_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/tcpclient_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/tcpserver_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/template_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/testing_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/twisted_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/util.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/util_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/web_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/websocket_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/wsgi_test.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tornado/test/gettext_translations/extract_me.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 4
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 3
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 10079,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 2905,
+        "total_tokens": 2911,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 2688
+        },
+        "prompt_cache_hit_tokens": 2688,
+        "prompt_cache_miss_tokens": 217
+      },
+      "elapsed_seconds": 0.814
+    }
+  ],
+  "tool_reads": [],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "evidence模式使用Agent自行生成的测试与隔离执行，契约语义仍由模型核验；官方回归测试不提供给Agent。"
+  ]
+}

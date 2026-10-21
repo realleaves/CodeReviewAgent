@@ -1,0 +1,34 @@
+{
+  "reservation": {
+    "id": 8,
+    "phase": "evidence-holdout-compare",
+    "label": {
+      "case": "youtube-dl-14",
+      "arm": "baseline",
+      "side": "buggy"
+    },
+    "reserved_at": "2026-10-21T13:06:49.034849+00:00"
+  },
+  "raw_response": "{\"applicable\": false, \"reason\": \"候选缺陷自身结论即为“无需修改；异常已被捕获并降级为警告”。静态检查确认：第2340行 re.sub 回调抛出的 ExtractorError 会被第2356行 except (ExtractorError, KeyError) 捕获并 report_warning，不会导致整个提取失败。因此不存在可复现的行为缺陷，无法构造有契约依据的失败测试。\"}",
+  "error_type": null,
+  "call": {
+    "stage": "reproduction_plan",
+    "status": "completed",
+    "input_chars": 17216,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 91,
+      "prompt_tokens": 5181,
+      "total_tokens": 5272,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1024
+      },
+      "prompt_cache_hit_tokens": 1024,
+      "prompt_cache_miss_tokens": 4157
+    },
+    "elapsed_seconds": 1.19
+  }
+}

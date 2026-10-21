@@ -1,0 +1,34 @@
+{
+  "reservation": {
+    "id": 9,
+    "phase": "evidence-holdout-compare",
+    "label": {
+      "case": "youtube-dl-14",
+      "arm": "admission",
+      "side": "buggy"
+    },
+    "reserved_at": "2026-10-21T13:06:51.270743+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":1670,\"end_line\":1679,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"章节解析在跳过无效时间点时使用错误的索引计算结束时间\",\"explanation\":\"_extract_chapters 用 enumerate(chapter_lines, start=1) 的 next_num 判断是否为最后一行，并用 chapter_lines[next_num][1] 取下一行时间。但循环中遇到 parse_duration 返回 None 时会 continue，此时 next_num 仍按原始行号递增，而 chapters 列表并未同步增长。更关键的是，当某一行 start_time 无效被 continue 后，下一行的 next_num 指向的是它自己的下一行，逻辑上仍正确；真正的问题在于 end_time 取的是 chapter_lines[next_num][1]，即下一原始行的时间，而若下一行时间无效（parse_duration 为 None），当前章节会 continue 被丢弃，而不是把结束时间顺延到再下一有效时间点。这会导致有效章节因相邻无效行而丢失。\",\"trigger\":\"description 中包含两个章节行，第一行时间有效（如 0:10），第二行时间格式无法被 parse_duration 解析（如 1:2:3:4 或非数字），第三行时间有效（如 0:30）。\",\"evidence\":\"第1665-1673行：for next_num, (chapter_line, time_point) in enumerate(chapter_lines, start=1)；end_time = (duration if next_num == len(chapter_lines) else parse_duration(chapter_lines[next_num][1]))；第1674-1675行 if end_time is None: continue。当 chapter_lines[next_num][1] 无法解析时，当前有效章节被 continue 丢弃，而不是跳过无效的下一行继续寻找有效结束时间。\",\"suggestion\":\"在计算 end_time 时向后查找第一个可解析的时间点，或在遇到无效下一行时不要丢弃当前章节，而是继续向后扫描；同时用实际已添加章节数而非原始行号判断是否为最后一行。\"},{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":1670,\"end_line\":1671,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"duration 为 None 时章节时间比较抛 TypeError\",\"explanation\":\"_extract_chapters 的 duration 参数若为 None（调用方未提供时长），第1670行 start_time > duration 会触发 TypeError: '>' not supported between instances of 'int' and 'NoneType'。函数签名未声明 duration 必填，且第1657行只对 description 做了空值保护，未对 duration 做保护。\",\"trigger\":\"调用 _extract_chapters(description, None)，其中 description 含至少一个可解析的章节行。\",\"evidence\":\"第1656行 def _extract_chapters(description, duration):；第1667行 start_time = parse_duration(time_point)；第1670行 if start_time > duration:。duration 为 None 时比较抛 TypeError。\",\"suggestion\":\"在函数开头对 duration 为 None 的情况做处理（如直接返回 None 或使用无穷大），或在比较前判断 duration is not None。\"},{\"path\":\"youtube_dl/extractor/youtube.py\",\"line\":1672,\"end_line\":1673,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"最后一章 end_time 使用 duration 可能为 None 导致输出 None 结束时间\",\"explanation\":\"当 next_num == len(chapter_lines) 时 end_time 直接取 duration。若 duration 为 None，则最后一章的 end_time 为 None，随后第1676行 end_time > duration 再次触发 TypeError；即使绕过，也会把 end_time=None 写入章节字典，违反章节 end_time 应为数值的契约。\",\"trigger\":\"调用 _extract_chapters(description, None)，description 仅含一个可解析章节行。\",\"evidence\":\"第1672-1673行 end_time = (duration if next_num == len(chapter_lines) else parse_duration(...))；第1676行 if end_time > duration:。duration 为 None 时 end_time 为 None，比较抛 TypeError。\",\"suggestion\":\"同上一项，对 duration 为 None 做统一保护，确保 end_time 始终为数值或省略该字段。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 11805,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 929,
+      "prompt_tokens": 3930,
+      "total_tokens": 4859,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 3712
+      },
+      "prompt_cache_hit_tokens": 3712,
+      "prompt_cache_miss_tokens": 218
+    },
+    "elapsed_seconds": 4.937
+  }
+}

@@ -1,0 +1,842 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "local-benchmark",
+    "name": "snapshot",
+    "ref": "blinded-snapshot",
+    "commit": "snapshot",
+    "indexed_snapshot_sha256": "ae6dab79ae9d30cb372e597a10476989b27e8a14c88a4102d0727b8bdc04b4cc"
+  },
+  "run": {
+    "started_at": "2026-10-21T13:06:38.567313+00:00",
+    "status": "partial",
+    "mode": "evidence",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "window_review_completed": true,
+    "options": {
+      "mode": "evidence",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 8,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": "",
+      "repro_image": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+      "repro_timeout": 15,
+      "max_reproductions": 2,
+      "max_repro_repairs": 0,
+      "context_strategy": "legacy",
+      "enforce_admission": false
+    },
+    "elapsed_seconds": 11.674,
+    "api_calls": 4,
+    "usage": {
+      "prompt_tokens": 17074,
+      "completion_tokens": 1385
+    },
+    "indexed_python_files": 819,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 2,
+    "total_window_chunks": 2,
+    "active_findings": 0,
+    "candidate_findings": 2,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "medium": 2
+    },
+    "status_counts": {
+      "pending_evidence": 2
+    }
+  },
+  "coverage": [
+    {
+      "path": "youtube_dl/extractor/youtube.py",
+      "lines": 3323,
+      "windows": [
+        [
+          1607,
+          1737
+        ],
+        [
+          2279,
+          2375
+        ]
+      ],
+      "total_chunks": 2,
+      "reviewed_chunks": 2,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "AUTHORS",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "ChangeLog",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "MANIFEST.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "setup.cfg",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tox.ini",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "youtube-dl.plugin.zsh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/1_broken_site.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/2_site_support_request.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/3_site_feature_request.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/4_bug_report.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/5_feature_request.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/6_question.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl/1_broken_site.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl/2_site_support_request.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl/3_site_feature_request.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl/4_bug_report.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE_tmpl/5_feature_request.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "bin/youtube-dl",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/SizeOfImage_w.patch",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/bash-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/fish-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/install_jython.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/posix-locale.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/run_tests.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/wine-py2exe.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "devscripts/zsh-completion.in",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/Makefile",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/index.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/module_guide.rst",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/supportedsites.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/parameters.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testcert.pem",
+      "reason": "sensitive_file"
+    },
+    {
+      "path": "test/versions.json",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/.gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ClassConstruction.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstArrayAccess.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/ConstantInt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/DictCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/EqualsOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/LocalVars.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/MemberAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/NeOperator.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/PrivateVoidCall.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticAssignment.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StaticRetrieval.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringBasics.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringCharCodeAt.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/swftests/StringConversion.as",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/cookies/httponly_cookies.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/cookies/malformed_cookies.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/cookies/session_cookies.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/f4m/custom_base_url.f4m",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/pluzz_francetv_11507.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/teamcoco_11995.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/ted_18923.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/toggle_mobile_12211.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/twitch_vod.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/m3u8/vidio.m3u8",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/mpd/float_duration.mpd",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/mpd/unfragmented.mpd",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/mpd/urls_only.mpd",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test/testdata/xspf/foo_xspf.xspf",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "docs/conf.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/helper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_InfoExtractor.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDL.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_YoutubeDLCookieJar.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_aes.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_age_restriction.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_all_urls.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_cache.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_compat.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_download.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_downloader_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_execution.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_http.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_iqiyi_sdk_interpreter.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_jsinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_netrc.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_options.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_postprocessors.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_socks.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_subtitles.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_swfinterp.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_unicode_literals.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_update.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_utils.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_verbose_output.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_write_annotations.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_chapters.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_lists.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "test/test_youtube_signature.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 7
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 3
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 11805,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 462,
+        "prompt_tokens": 3930,
+        "total_tokens": 4392,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 2560
+        },
+        "prompt_cache_hit_tokens": 2560,
+        "prompt_cache_miss_tokens": 1370
+      },
+      "elapsed_seconds": 3.385
+    },
+    {
+      "stage": "reproduction_plan",
+      "status": "completed",
+      "input_chars": 12667,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 114,
+        "prompt_tokens": 4358,
+        "total_tokens": 4472,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 1024
+        },
+        "prompt_cache_hit_tokens": 1024,
+        "prompt_cache_miss_tokens": 3334
+      },
+      "elapsed_seconds": 1.376
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 11854,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 718,
+        "prompt_tokens": 3605,
+        "total_tokens": 4323,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 2304
+        },
+        "prompt_cache_hit_tokens": 2304,
+        "prompt_cache_miss_tokens": 1301
+      },
+      "elapsed_seconds": 4.177
+    },
+    {
+      "stage": "reproduction_plan",
+      "status": "completed",
+      "input_chars": 17216,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 91,
+        "prompt_tokens": 5181,
+        "total_tokens": 5272,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 1024
+        },
+        "prompt_cache_hit_tokens": 1024,
+        "prompt_cache_miss_tokens": 4157
+      },
+      "elapsed_seconds": 1.19
+    }
+  ],
+  "tool_reads": [],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "youtube_dl/extractor/youtube.py",
+      "start": 1607,
+      "end": 1737,
+      "strategy": "legacy",
+      "payload_sha256": "2a9265a9990fccd8eca9780ee2b59105d1a47af2553cfdb3ef44c09d47a19050",
+      "supplemental_chars": 3793,
+      "sources": [
+        {
+          "path": "youtube_dl/extractor/youtube.py",
+          "name": "_download_webpage_handle",
+          "line": 267,
+          "end": 272
+        },
+        {
+          "path": "youtube_dl/extractor/xiami.py",
+          "name": "_download_webpage_handle",
+          "line": 12,
+          "end": 16
+        },
+        {
+          "path": "youtube_dl/extractor/tunein.py",
+          "name": "_extract_urls",
+          "line": 15,
+          "end": 18
+        },
+        {
+          "path": "youtube_dl/extractor/limelight.py",
+          "name": "_extract_urls",
+          "line": 23,
+          "end": 63
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "youtube_dl/extractor/youtube.py",
+      "start": 1607,
+      "end": 1737,
+      "findings": [
+        {
+          "path": "youtube_dl/extractor/youtube.py",
+          "line": 1672,
+          "end_line": 1673,
+          "severity": "medium",
+          "category": "bug",
+          "title": "章节结束时间使用原始索引而非过滤后的上一章节",
+          "explanation": "循环用 enumerate(chapter_lines, start=1) 的 next_num 判断是否为最后一行，但循环体内存在 continue（start_time 为 None、end_time 为 None）和 break。当某个中间章节因 parse_duration 返回 None 被 continue 跳过时，后续章节的 end_time 仍取 chapter_lines[next_num][1]，即原始列表的下一行，而不是实际被加入的下一章节。这本身与“下一行”语义一致，但若被跳过的行恰是最后一行，则 next_num == len(chapter_lines) 成立，end_time 取 duration，而实际最后加入的章节的 end_time 应为被跳过行的解析结果（None 则跳过该章节）。更明确的问题：当某章节 start_time > duration 触发 break 时，前面已加入的最后一个章节的 end_time 已被设为该越界章节的 start_time（因为 next_num 指向它），随后被 clamp 到 duration，行为可接受。真正缺陷在于 continue 分支：若 chapter_lines[next_num][1] 解析失败，当前章节被 continue 跳过，但其 start_time 已用于前一章节的 end_time，导致前一章节 end_time 指向一个未加入章节的时间点，章节区间出现空洞或重叠。",
+          "trigger": "description 含三行章节，第二行时间点无法被 parse_duration 解析（如 '1:2:3:4' 或空），第一行 start_time 有效。",
+          "evidence": "1667-1675：start_time 解析失败 continue；end_time = parse_duration(chapter_lines[next_num][1])，next_num 为原始索引；若该值为 None 则当前章节 continue，但前一章节已用该值作为 end_time。",
+          "suggestion": "先过滤出可解析的章节列表，再基于过滤后的相邻元素计算 end_time，或解析失败时回退到 duration/下一有效时间点。",
+          "id": "7e441a16cb1b",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1670:             if start_time > duration:\n1671:                 break\n1672:             end_time = (duration if next_num == len(chapter_lines)\n1673:                         else parse_duration(chapter_lines[next_num][1]))\n1674:             if end_time is None:\n1675:                 continue",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ]
+    },
+    {
+      "stage": "review_context",
+      "path": "youtube_dl/extractor/youtube.py",
+      "start": 2279,
+      "end": 2375,
+      "strategy": "legacy",
+      "payload_sha256": "59e11aa4b35cb22e49a1ad83062b7b12301ad81ab8871cd497c9037509f8a3e9",
+      "supplemental_chars": 3929,
+      "sources": [
+        {
+          "path": "youtube_dl/extractor/youtube.py",
+          "name": "_decrypt_signature",
+          "line": 1405,
+          "end": 1430
+        },
+        {
+          "path": "youtube_dl/extractor/youtube.py",
+          "name": "_extract_chapters",
+          "line": 1656,
+          "end": 1688
+        },
+        {
+          "path": "youtube_dl/extractor/youtube.py",
+          "name": "_extract_filesize",
+          "line": 1921,
+          "end": 1923
+        },
+        {
+          "path": "youtube_dl/extractor/youtube.py",
+          "name": "_extract_count",
+          "line": 2278,
+          "end": 2282
+        }
+      ]
+    },
+    {
+      "stage": "validation",
+      "status": "rejected",
+      "reason": "invalid_location",
+      "path": "youtube_dl/extractor/youtube.py",
+      "line": 1670
+    },
+    {
+      "stage": "review",
+      "path": "youtube_dl/extractor/youtube.py",
+      "start": 2279,
+      "end": 2375,
+      "findings": [
+        {
+          "path": "youtube_dl/extractor/youtube.py",
+          "line": 2340,
+          "end_line": 2358,
+          "severity": "medium",
+          "category": "bug",
+          "title": "DASH 签名解密异常未被捕获，导致整个提取失败",
+          "explanation": "decrypt_sig 回调调用 self._decrypt_signature，而 _decrypt_signature 在 player_url 为 None 时抛 ExtractorError，在签名提取失败时也抛 ExtractorError（1408-1430 行）。re.sub 在 2340 行执行该回调，异常会从 re.sub 抛出。外层 try 只捕获 (ExtractorError, KeyError) 并 report_warning，看似覆盖，但注意 dash_mpd_fatal 初始为 True 且 _extract_mpd_formats 的 fatal 参数只影响其内部；re.sub 抛出的 ExtractorError 确实会被 2356 行捕获。真正的问题是：当第一个 manifest 解密失败被捕获后，dash_mpd_fatal 仍为 True，后续 manifest 的 _extract_mpd_formats 失败会以 fatal 方式抛出，但该异常同样被捕获。因此此处不构成崩溃。",
+          "trigger": "mpd_url 含 /s/<sig> 且 player_url 为 None。",
+          "evidence": "2335-2340 行 decrypt_sig 调用 _decrypt_signature；1408-1409 行 player_url 为 None 时 raise ExtractorError；2356 行 except (ExtractorError, KeyError) 捕获。",
+          "suggestion": "无需修改；异常已被捕获并降级为警告。",
+          "id": "7337254b3642",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2338:                         return '/signature/%s' % dec_s\n2339: \n2340:                     mpd_url = re.sub(r'/s/([a-fA-F0-9\\.]+)', decrypt_sig, mpd_url)\n2341: \n2342:                     for df in self._extract_mpd_formats(\n2343:                             mpd_url, video_id, fatal=dash_mpd_fatal,\n2344:                             formats_dict=self._formats):\n2345:                         if not df.get('filesize'):\n2346:                             df['filesize'] = _extract_filesize(df['url'])\n2347:                         # Do not overwrite DASH format found in some previous DASH manifest\n2348:                         if df['format_id'] not in dash_formats:\n2349:                             dash_formats[df['format_id']] = df\n2350:                         # Additional DASH manifests may end up in HTTP Error 403 therefore\n2351:                         # allow them to fail without bug report message if we already have\n2352:                         # some DASH manifest succeeded. This is temporary workaround to reduce\n2353:                         # burst of bug reports until we figure out the reason and whether it\n2354:                         # can be fixed at all.\n2355:                         dash_mpd_fatal = False",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ]
+    }
+  ],
+  "evidence_artifacts": {
+    "evidence/7e441a16cb1b/evidence.json": "{\n  \"finding\": {\n    \"path\": \"youtube_dl/extractor/youtube.py\",\n    \"line\": 1672,\n    \"end_line\": 1673,\n    \"severity\": \"medium\",\n    \"category\": \"bug\",\n    \"title\": \"章节结束时间使用原始索引而非过滤后的上一章节\",\n    \"explanation\": \"循环用 enumerate(chapter_lines, start=1) 的 next_num 判断是否为最后一行，但循环体内存在 continue（start_time 为 None、end_time 为 None）和 break。当某个中间章节因 parse_duration 返回 None 被 continue 跳过时，后续章节的 end_time 仍取 chapter_lines[next_num][1]，即原始列表的下一行，而不是实际被加入的下一章节。这本身与“下一行”语义一致，但若被跳过的行恰是最后一行，则 next_num == len(chapter_lines) 成立，end_time 取 duration，而实际最后加入的章节的 end_time 应为被跳过行的解析结果（None 则跳过该章节）。更明确的问题：当某章节 start_time > duration 触发 break 时，前面已加入的最后一个章节的 end_time 已被设为该越界章节的 start_time（因为 next_num 指向它），随后被 clamp 到 duration，行为可接受。真正缺陷在于 continue 分支：若 chapter_lines[next_num][1] 解析失败，当前章节被 continue 跳过，但其 start_time 已用于前一章节的 end_time，导致前一章节 end_time 指向一个未加入章节的时间点，章节区间出现空洞或重叠。\",\n    \"trigger\": \"description 含三行章节，第二行时间点无法被 parse_duration 解析（如 '1:2:3:4' 或空），第一行 start_time 有效。\",\n    \"evidence\": \"1667-1675：start_time 解析失败 continue；end_time = parse_duration(chapter_lines[next_num][1])，next_num 为原始索引；若该值为 None 则当前章节 continue，但前一章节已用该值作为 end_time。\",\n    \"suggestion\": \"先过滤出可解析的章节列表，再基于过滤后的相邻元素计算 end_time，或解析失败时回退到 duration/下一有效时间点。\",\n    \"id\": \"7e441a16cb1b\",\n    \"source\": \"llm\",\n    \"rule\": \"\",\n    \"snippet\": \"1670:             if start_time > duration:\\n1671:                 break\\n1672:             end_time = (duration if next_num == len(chapter_lines)\\n1673:                         else parse_duration(chapter_lines[next_num][1]))\\n1674:             if end_time is None:\\n1675:                 continue\",\n    \"status\": \"pending_evidence\",\n    \"verification\": \"尚未复核；未运行待审代码。\",\n    \"validation\": \"候选缺陷描述的是章节区间在解析失败时可能出现空洞/重叠，但代码中没有任何文档、测试或语言规则约定 _extract_chapters 在中间章节时间点无法解析时必须如何计算相邻章节的 end_time。现有实现（跳过无法解析的章节、用原始下一行时间点作为 end_time）本身不能证明期望行为；候选建议的“先过滤再计算”只是改进建议，不是可定位的契约。因此无法构造有来源断言的复现测试。\",\n    \"related_diagnostics\": []\n  },\n  \"reproduction\": {\n    \"status\": \"unsupported\",\n    \"reason\": \"候选缺陷描述的是章节区间在解析失败时可能出现空洞/重叠，但代码中没有任何文档、测试或语言规则约定 _extract_chapters 在中间章节时间点无法解析时必须如何计算相邻章节的 end_time。现有实现（跳过无法解析的章节、用原始下一行时间点作为 end_time）本身不能证明期望行为；候选建议的“先过滤再计算”只是改进建议，不是可定位的契约。因此无法构造有来源断言的复现测试。\",\n    \"attempts\": [],\n    \"generation_attempts\": [\n      {\n        \"response\": \"{\\\"applicable\\\": false, \\\"reason\\\": \\\"候选缺陷描述的是章节区间在解析失败时可能出现空洞/重叠，但代码中没有任何文档、测试或语言规则约定 _extract_chapters 在中间章节时间点无法解析时必须如何计算相邻章节的 end_time。现有实现（跳过无法解析的章节、用原始下一行时间点作为 end_time）本身不能证明期望行为；候选建议的“先过滤再计算”只是改进建议，不是可定位的契约。因此无法构造有来源断言的复现测试。\\\"}\"\n      }\n    ],\n    \"plan\": {\n      \"applicable\": false,\n      \"reason\": \"候选缺陷描述的是章节区间在解析失败时可能出现空洞/重叠，但代码中没有任何文档、测试或语言规则约定 _extract_chapters 在中间章节时间点无法解析时必须如何计算相邻章节的 end_time。现有实现（跳过无法解析的章节、用原始下一行时间点作为 end_time）本身不能证明期望行为；候选建议的“先过滤再计算”只是改进建议，不是可定位的契约。因此无法构造有来源断言的复现测试。\",\n      \"contract\": null,\n      \"test_code\": \"\",\n      \"expected_behavior\": \"\"\n    },\n    \"execution_snapshot_sha256\": \"ae6dab79ae9d30cb372e597a10476989b27e8a14c88a4102d0727b8bdc04b4cc\",\n    \"snapshot_policy\": \"only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests\",\n    \"max_file_bytes\": 1000000,\n    \"scope\": \"\",\n    \"review_scope\": \"\",\n    \"production_only\": true,\n    \"artifact\": \"evidence/7e441a16cb1b/evidence.json\"\n  }\n}",
+    "evidence/7337254b3642/evidence.json": "{\n  \"finding\": {\n    \"path\": \"youtube_dl/extractor/youtube.py\",\n    \"line\": 2340,\n    \"end_line\": 2358,\n    \"severity\": \"medium\",\n    \"category\": \"bug\",\n    \"title\": \"DASH 签名解密异常未被捕获，导致整个提取失败\",\n    \"explanation\": \"decrypt_sig 回调调用 self._decrypt_signature，而 _decrypt_signature 在 player_url 为 None 时抛 ExtractorError，在签名提取失败时也抛 ExtractorError（1408-1430 行）。re.sub 在 2340 行执行该回调，异常会从 re.sub 抛出。外层 try 只捕获 (ExtractorError, KeyError) 并 report_warning，看似覆盖，但注意 dash_mpd_fatal 初始为 True 且 _extract_mpd_formats 的 fatal 参数只影响其内部；re.sub 抛出的 ExtractorError 确实会被 2356 行捕获。真正的问题是：当第一个 manifest 解密失败被捕获后，dash_mpd_fatal 仍为 True，后续 manifest 的 _extract_mpd_formats 失败会以 fatal 方式抛出，但该异常同样被捕获。因此此处不构成崩溃。\",\n    \"trigger\": \"mpd_url 含 /s/<sig> 且 player_url 为 None。\",\n    \"evidence\": \"2335-2340 行 decrypt_sig 调用 _decrypt_signature；1408-1409 行 player_url 为 None 时 raise ExtractorError；2356 行 except (ExtractorError, KeyError) 捕获。\",\n    \"suggestion\": \"无需修改；异常已被捕获并降级为警告。\",\n    \"id\": \"7337254b3642\",\n    \"source\": \"llm\",\n    \"rule\": \"\",\n    \"snippet\": \"2338:                         return '/signature/%s' % dec_s\\n2339: \\n2340:                     mpd_url = re.sub(r'/s/([a-fA-F0-9\\\\.]+)', decrypt_sig, mpd_url)\\n2341: \\n2342:                     for df in self._extract_mpd_formats(\\n2343:                             mpd_url, video_id, fatal=dash_mpd_fatal,\\n2344:                             formats_dict=self._formats):\\n2345:                         if not df.get('filesize'):\\n2346:                             df['filesize'] = _extract_filesize(df['url'])\\n2347:                         # Do not overwrite DASH format found in some previous DASH manifest\\n2348:                         if df['format_id'] not in dash_formats:\\n2349:                             dash_formats[df['format_id']] = df\\n2350:                         # Additional DASH manifests may end up in HTTP Error 403 therefore\\n2351:                         # allow them to fail without bug report message if we already have\\n2352:                         # some DASH manifest succeeded. This is temporary workaround to reduce\\n2353:                         # burst of bug reports until we figure out the reason and whether it\\n2354:                         # can be fixed at all.\\n2355:                         dash_mpd_fatal = False\",\n    \"status\": \"pending_evidence\",\n    \"verification\": \"尚未复核；未运行待审代码。\",\n    \"validation\": \"候选缺陷自身结论即为“无需修改；异常已被捕获并降级为警告”。静态检查确认：第2340行 re.sub 回调抛出的 ExtractorError 会被第2356行 except (ExtractorError, KeyError) 捕获并 report_warning，不会导致整个提取失败。因此不存在可复现的行为缺陷，无法构造有契约依据的失败测试。\",\n    \"related_diagnostics\": []\n  },\n  \"reproduction\": {\n    \"status\": \"unsupported\",\n    \"reason\": \"候选缺陷自身结论即为“无需修改；异常已被捕获并降级为警告”。静态检查确认：第2340行 re.sub 回调抛出的 ExtractorError 会被第2356行 except (ExtractorError, KeyError) 捕获并 report_warning，不会导致整个提取失败。因此不存在可复现的行为缺陷，无法构造有契约依据的失败测试。\",\n    \"attempts\": [],\n    \"generation_attempts\": [\n      {\n        \"response\": \"{\\\"applicable\\\": false, \\\"reason\\\": \\\"候选缺陷自身结论即为“无需修改；异常已被捕获并降级为警告”。静态检查确认：第2340行 re.sub 回调抛出的 ExtractorError 会被第2356行 except (ExtractorError, KeyError) 捕获并 report_warning，不会导致整个提取失败。因此不存在可复现的行为缺陷，无法构造有契约依据的失败测试。\\\"}\"\n      }\n    ],\n    \"plan\": {\n      \"applicable\": false,\n      \"reason\": \"候选缺陷自身结论即为“无需修改；异常已被捕获并降级为警告”。静态检查确认：第2340行 re.sub 回调抛出的 ExtractorError 会被第2356行 except (ExtractorError, KeyError) 捕获并 report_warning，不会导致整个提取失败。因此不存在可复现的行为缺陷，无法构造有契约依据的失败测试。\",\n      \"contract\": null,\n      \"test_code\": \"\",\n      \"expected_behavior\": \"\"\n    },\n    \"execution_snapshot_sha256\": \"ae6dab79ae9d30cb372e597a10476989b27e8a14c88a4102d0727b8bdc04b4cc\",\n    \"snapshot_policy\": \"only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests\",\n    \"max_file_bytes\": 1000000,\n    \"scope\": \"\",\n    \"review_scope\": \"\",\n    \"production_only\": true,\n    \"artifact\": \"evidence/7337254b3642/evidence.json\"\n  }\n}"
+  },
+  "findings": [
+    {
+      "path": "youtube_dl/extractor/youtube.py",
+      "line": 1672,
+      "end_line": 1673,
+      "severity": "medium",
+      "category": "bug",
+      "title": "章节结束时间使用原始索引而非过滤后的上一章节",
+      "explanation": "循环用 enumerate(chapter_lines, start=1) 的 next_num 判断是否为最后一行，但循环体内存在 continue（start_time 为 None、end_time 为 None）和 break。当某个中间章节因 parse_duration 返回 None 被 continue 跳过时，后续章节的 end_time 仍取 chapter_lines[next_num][1]，即原始列表的下一行，而不是实际被加入的下一章节。这本身与“下一行”语义一致，但若被跳过的行恰是最后一行，则 next_num == len(chapter_lines) 成立，end_time 取 duration，而实际最后加入的章节的 end_time 应为被跳过行的解析结果（None 则跳过该章节）。更明确的问题：当某章节 start_time > duration 触发 break 时，前面已加入的最后一个章节的 end_time 已被设为该越界章节的 start_time（因为 next_num 指向它），随后被 clamp 到 duration，行为可接受。真正缺陷在于 continue 分支：若 chapter_lines[next_num][1] 解析失败，当前章节被 continue 跳过，但其 start_time 已用于前一章节的 end_time，导致前一章节 end_time 指向一个未加入章节的时间点，章节区间出现空洞或重叠。",
+      "trigger": "description 含三行章节，第二行时间点无法被 parse_duration 解析（如 '1:2:3:4' 或空），第一行 start_time 有效。",
+      "evidence": "1667-1675：start_time 解析失败 continue；end_time = parse_duration(chapter_lines[next_num][1])，next_num 为原始索引；若该值为 None 则当前章节 continue，但前一章节已用该值作为 end_time。",
+      "suggestion": "先过滤出可解析的章节列表，再基于过滤后的相邻元素计算 end_time，或解析失败时回退到 duration/下一有效时间点。",
+      "id": "7e441a16cb1b",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1670:             if start_time > duration:\n1671:                 break\n1672:             end_time = (duration if next_num == len(chapter_lines)\n1673:                         else parse_duration(chapter_lines[next_num][1]))\n1674:             if end_time is None:\n1675:                 continue",
+      "status": "pending_evidence",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "候选缺陷描述的是章节区间在解析失败时可能出现空洞/重叠，但代码中没有任何文档、测试或语言规则约定 _extract_chapters 在中间章节时间点无法解析时必须如何计算相邻章节的 end_time。现有实现（跳过无法解析的章节、用原始下一行时间点作为 end_time）本身不能证明期望行为；候选建议的“先过滤再计算”只是改进建议，不是可定位的契约。因此无法构造有来源断言的复现测试。",
+      "related_diagnostics": [],
+      "reproduction": {
+        "status": "unsupported",
+        "reason": "候选缺陷描述的是章节区间在解析失败时可能出现空洞/重叠，但代码中没有任何文档、测试或语言规则约定 _extract_chapters 在中间章节时间点无法解析时必须如何计算相邻章节的 end_time。现有实现（跳过无法解析的章节、用原始下一行时间点作为 end_time）本身不能证明期望行为；候选建议的“先过滤再计算”只是改进建议，不是可定位的契约。因此无法构造有来源断言的复现测试。",
+        "attempts": [],
+        "generation_attempts": [
+          {
+            "response": "{\"applicable\": false, \"reason\": \"候选缺陷描述的是章节区间在解析失败时可能出现空洞/重叠，但代码中没有任何文档、测试或语言规则约定 _extract_chapters 在中间章节时间点无法解析时必须如何计算相邻章节的 end_time。现有实现（跳过无法解析的章节、用原始下一行时间点作为 end_time）本身不能证明期望行为；候选建议的“先过滤再计算”只是改进建议，不是可定位的契约。因此无法构造有来源断言的复现测试。\"}"
+          }
+        ],
+        "plan": {
+          "applicable": false,
+          "reason": "候选缺陷描述的是章节区间在解析失败时可能出现空洞/重叠，但代码中没有任何文档、测试或语言规则约定 _extract_chapters 在中间章节时间点无法解析时必须如何计算相邻章节的 end_time。现有实现（跳过无法解析的章节、用原始下一行时间点作为 end_time）本身不能证明期望行为；候选建议的“先过滤再计算”只是改进建议，不是可定位的契约。因此无法构造有来源断言的复现测试。",
+          "contract": null,
+          "test_code": "",
+          "expected_behavior": ""
+        },
+        "execution_snapshot_sha256": "ae6dab79ae9d30cb372e597a10476989b27e8a14c88a4102d0727b8bdc04b4cc",
+        "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+        "max_file_bytes": 1000000,
+        "scope": "",
+        "review_scope": "",
+        "production_only": true,
+        "artifact": "evidence/7e441a16cb1b/evidence.json"
+      }
+    },
+    {
+      "path": "youtube_dl/extractor/youtube.py",
+      "line": 2340,
+      "end_line": 2358,
+      "severity": "medium",
+      "category": "bug",
+      "title": "DASH 签名解密异常未被捕获，导致整个提取失败",
+      "explanation": "decrypt_sig 回调调用 self._decrypt_signature，而 _decrypt_signature 在 player_url 为 None 时抛 ExtractorError，在签名提取失败时也抛 ExtractorError（1408-1430 行）。re.sub 在 2340 行执行该回调，异常会从 re.sub 抛出。外层 try 只捕获 (ExtractorError, KeyError) 并 report_warning，看似覆盖，但注意 dash_mpd_fatal 初始为 True 且 _extract_mpd_formats 的 fatal 参数只影响其内部；re.sub 抛出的 ExtractorError 确实会被 2356 行捕获。真正的问题是：当第一个 manifest 解密失败被捕获后，dash_mpd_fatal 仍为 True，后续 manifest 的 _extract_mpd_formats 失败会以 fatal 方式抛出，但该异常同样被捕获。因此此处不构成崩溃。",
+      "trigger": "mpd_url 含 /s/<sig> 且 player_url 为 None。",
+      "evidence": "2335-2340 行 decrypt_sig 调用 _decrypt_signature；1408-1409 行 player_url 为 None 时 raise ExtractorError；2356 行 except (ExtractorError, KeyError) 捕获。",
+      "suggestion": "无需修改；异常已被捕获并降级为警告。",
+      "id": "7337254b3642",
+      "source": "llm",
+      "rule": "",
+      "snippet": "2338:                         return '/signature/%s' % dec_s\n2339: \n2340:                     mpd_url = re.sub(r'/s/([a-fA-F0-9\\.]+)', decrypt_sig, mpd_url)\n2341: \n2342:                     for df in self._extract_mpd_formats(\n2343:                             mpd_url, video_id, fatal=dash_mpd_fatal,\n2344:                             formats_dict=self._formats):\n2345:                         if not df.get('filesize'):\n2346:                             df['filesize'] = _extract_filesize(df['url'])\n2347:                         # Do not overwrite DASH format found in some previous DASH manifest\n2348:                         if df['format_id'] not in dash_formats:\n2349:                             dash_formats[df['format_id']] = df\n2350:                         # Additional DASH manifests may end up in HTTP Error 403 therefore\n2351:                         # allow them to fail without bug report message if we already have\n2352:                         # some DASH manifest succeeded. This is temporary workaround to reduce\n2353:                         # burst of bug reports until we figure out the reason and whether it\n2354:                         # can be fixed at all.\n2355:                         dash_mpd_fatal = False",
+      "status": "pending_evidence",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "候选缺陷自身结论即为“无需修改；异常已被捕获并降级为警告”。静态检查确认：第2340行 re.sub 回调抛出的 ExtractorError 会被第2356行 except (ExtractorError, KeyError) 捕获并 report_warning，不会导致整个提取失败。因此不存在可复现的行为缺陷，无法构造有契约依据的失败测试。",
+      "related_diagnostics": [],
+      "reproduction": {
+        "status": "unsupported",
+        "reason": "候选缺陷自身结论即为“无需修改；异常已被捕获并降级为警告”。静态检查确认：第2340行 re.sub 回调抛出的 ExtractorError 会被第2356行 except (ExtractorError, KeyError) 捕获并 report_warning，不会导致整个提取失败。因此不存在可复现的行为缺陷，无法构造有契约依据的失败测试。",
+        "attempts": [],
+        "generation_attempts": [
+          {
+            "response": "{\"applicable\": false, \"reason\": \"候选缺陷自身结论即为“无需修改；异常已被捕获并降级为警告”。静态检查确认：第2340行 re.sub 回调抛出的 ExtractorError 会被第2356行 except (ExtractorError, KeyError) 捕获并 report_warning，不会导致整个提取失败。因此不存在可复现的行为缺陷，无法构造有契约依据的失败测试。\"}"
+          }
+        ],
+        "plan": {
+          "applicable": false,
+          "reason": "候选缺陷自身结论即为“无需修改；异常已被捕获并降级为警告”。静态检查确认：第2340行 re.sub 回调抛出的 ExtractorError 会被第2356行 except (ExtractorError, KeyError) 捕获并 report_warning，不会导致整个提取失败。因此不存在可复现的行为缺陷，无法构造有契约依据的失败测试。",
+          "contract": null,
+          "test_code": "",
+          "expected_behavior": ""
+        },
+        "execution_snapshot_sha256": "ae6dab79ae9d30cb372e597a10476989b27e8a14c88a4102d0727b8bdc04b4cc",
+        "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+        "max_file_bytes": 1000000,
+        "scope": "",
+        "review_scope": "",
+        "production_only": true,
+        "artifact": "evidence/7337254b3642/evidence.json"
+      }
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "evidence模式使用Agent自行生成的测试与隔离执行，契约语义仍由模型核验；官方回归测试不提供给Agent。"
+  ]
+}

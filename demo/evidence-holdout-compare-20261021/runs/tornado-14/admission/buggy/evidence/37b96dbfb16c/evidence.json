@@ -1,0 +1,336 @@
+{
+  "finding": {
+    "path": "tornado/ioloop.py",
+    "line": 251,
+    "end_line": 254,
+    "severity": "high",
+    "category": "bug",
+    "title": "initialize 的 make_current=True 分支条件取反，导致总是抛异常或从不抛异常",
+    "explanation": "initialize 中 make_current 为真时，本意是“若已存在 current IOLoop 则报错，否则把自己设为 current”。但代码写的是 `if IOLoop.current(instance=False) is None: raise RuntimeError(...)`，条件与语义相反：当当前线程没有 current IOLoop（正常可设置的情况）时反而抛 RuntimeError；当已经存在 current IOLoop 时却静默覆盖它。这与 make_current=None 分支（current 为 None 时才 make_current）的逻辑也不一致。",
+    "trigger": "IOLoop(make_current=True) 在尚无 current IOLoop 的线程中构造：current(instance=False) 返回 None，进入 raise 分支，抛出 RuntimeError(\"current IOLoop already exists\")，尽管实际上并不存在冲突。",
+    "evidence": "248-250 行：`if make_current is None: if IOLoop.current(instance=False) is None: self.make_current()`；251-254 行：`elif make_current: if IOLoop.current(instance=False) is None: raise RuntimeError(\"current IOLoop already exists\"); self.make_current()`。两分支对同一条件 `is None` 的处理相反，且异常消息与触发条件矛盾。",
+    "suggestion": "将条件改为 `if IOLoop.current(instance=False) is not None: raise RuntimeError(\"current IOLoop already exists\")`，再调用 self.make_current()。",
+    "id": "37b96dbfb16c",
+    "source": "llm",
+    "rule": "",
+    "snippet": "249:             if IOLoop.current(instance=False) is None:\n250:                 self.make_current()\n251:         elif make_current:\n252:             if IOLoop.current(instance=False) is None:\n253:                 raise RuntimeError(\"current IOLoop already exists\")\n254:             self.make_current()\n255: \n256:     def close(self, all_fds=False):",
+    "status": "reproduced",
+    "verification": "测试在 clear_current 后确认 current(instance=False) 为 None，再构造 IOLoop(make_current=True)，实际调用到 ioloop.py:253 并抛出 RuntimeError('current IOLoop already exists')，与候选描述一致。make_current 文档明确说明显式调用 make_current 可使该 IOLoop 成为当前线程的 current，且 4.1 起无 current 时创建会自动成为 current；因此无 current 时 make_current=True 应成功设置而非报错。条件 `is None` 与异常语义相反，属行为缺陷。",
+    "validation": "两次独立隔离执行出现同类型失败并触达目标代码；预期依据通过结构化准入检查与模型对照引用原文核验，仍供维护者复查。",
+    "related_diagnostics": []
+  },
+  "reproduction": {
+    "status": "reproduced",
+    "reason": "测试在 clear_current 后确认 current(instance=False) 为 None，再构造 IOLoop(make_current=True)，实际调用到 ioloop.py:253 并抛出 RuntimeError('current IOLoop already exists')，与候选描述一致。make_current 文档明确说明显式调用 make_current 可使该 IOLoop 成为当前线程的 current，且 4.1 起无 current 时创建会自动成为 current；因此无 current 时 make_current=True 应成功设置而非报错。条件 `is None` 与异常语义相反，属行为缺陷。",
+    "attempts": [
+      {
+        "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "image_reference": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "exit_code": 0,
+        "stop_reason": null,
+        "seconds": 0.621,
+        "execution": {
+          "python": "3.7.17",
+          "tests_run": 1,
+          "failures": 0,
+          "errors": 1,
+          "skipped": 0,
+          "load_error": null,
+          "observations": [
+            {
+              "test": "generated_reproduction.ReproductionTest.test_reproduction",
+              "outcome": "error",
+              "exception_type": "RuntimeError",
+              "message": "current IOLoop already exists",
+              "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 59, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 628, in run\n    testMethod()\n  File \"/harness/test_reproduction.py\", line 9, in test_reproduction\n    loop = IOLoop(make_current=True)\n  File \"/work/tornado/util.py\", line 221, in __new__\n    instance.initialize(*args, **init_kwargs)\n  File \"/work/tornado/platform/epoll.py\", line 26, in initialize\n    super(EPollIOLoop, self).initialize(impl=select.epoll(), **kwargs)\n  File \"/work/tornado/ioloop.py\", line 664, in initialize\n    super(PollIOLoop, self).initialize(**kwargs)\n  File \"/work/tornado/ioloop.py\", line 253, in initialize\n    raise RuntimeError(\"current IOLoop already exists\")\nRuntimeError: current IOLoop already exists\n",
+              "traceback_frames": [
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 59,
+                  "function": "testPartExecutor"
+                },
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 628,
+                  "function": "run"
+                },
+                {
+                  "path": "/harness/test_reproduction.py",
+                  "line": 9,
+                  "function": "test_reproduction"
+                },
+                {
+                  "path": "/work/tornado/util.py",
+                  "line": 221,
+                  "function": "__new__"
+                },
+                {
+                  "path": "/work/tornado/platform/epoll.py",
+                  "line": 26,
+                  "function": "initialize"
+                },
+                {
+                  "path": "/work/tornado/ioloop.py",
+                  "line": 664,
+                  "function": "initialize"
+                },
+                {
+                  "path": "/work/tornado/ioloop.py",
+                  "line": 253,
+                  "function": "initialize"
+                }
+              ]
+            }
+          ],
+          "target_lines": [
+            207,
+            208,
+            210,
+            229,
+            233,
+            237,
+            238,
+            239,
+            248,
+            251,
+            252,
+            253,
+            664
+          ],
+          "target_calls": [
+            [
+              "clear_current",
+              227
+            ],
+            [
+              "configurable_base",
+              231
+            ],
+            [
+              "configurable_default",
+              235
+            ],
+            [
+              "current",
+              188
+            ],
+            [
+              "initialize",
+              247
+            ],
+            [
+              "initialize",
+              663
+            ]
+          ],
+          "target_trace_scope": "test_execution"
+        },
+        "log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.7.17\", \"tests_run\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"error\", \"exception_type\": \"RuntimeError\", \"message\": \"current IOLoop already exists\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 59, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 628, in run\\n    testMethod()\\n  File \\\"/harness/test_reproduction.py\\\", line 9, in test_reproduction\\n    loop = IOLoop(make_current=True)\\n  File \\\"/work/tornado/util.py\\\", line 221, in __new__\\n    instance.initialize(*args, **init_kwargs)\\n  File \\\"/work/tornado/platform/epoll.py\\\", line 26, in initialize\\n    super(EPollIOLoop, self).initialize(impl=select.epoll(), **kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 664, in initialize\\n    super(PollIOLoop, self).initialize(**kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 253, in initialize\\n    raise RuntimeError(\\\"current IOLoop already exists\\\")\\nRuntimeError: current IOLoop already exists\\n\", \"traceback_frames\": [{\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 59, \"function\": \"testPartExecutor\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 628, \"function\": \"run\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 9, \"function\": \"test_reproduction\"}, {\"path\": \"/work/tornado/util.py\", \"line\": 221, \"function\": \"__new__\"}, {\"path\": \"/work/tornado/platform/epoll.py\", \"line\": 26, \"function\": \"initialize\"}, {\"path\": \"/work/tornado/ioloop.py\", \"line\": 664, \"function\": \"initialize\"}, {\"path\": \"/work/tornado/ioloop.py\", \"line\": 253, \"function\": \"initialize\"}]}], \"target_lines\": [207, 208, 210, 229, 233, 237, 238, 239, 248, 251, 252, 253, 664], \"target_calls\": [[\"clear_current\", 227], [\"configurable_base\", 231], [\"configurable_default\", 235], [\"current\", 188], [\"initialize\", 247], [\"initialize\", 663]], \"target_trace_scope\": \"test_execution\"}\n",
+        "log_sha256": "a201f28699e96d14fe99b3c982c4657608b9917e7926558b5f373ab4cde8d74b",
+        "verdict": "failure_observed",
+        "plan_version": 0,
+        "test_sha256": "a6664563d91e07a007379cee5a7627bc180712e918ba8d1e77da791be19c11b0",
+        "execution_snapshot_sha256": "355f01d43a5ee2fc19d4c0b5c95764746c83ca2bfe66aa0ce8f7fb039ae1086b"
+      },
+      {
+        "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "image_reference": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "exit_code": 0,
+        "stop_reason": null,
+        "seconds": 0.501,
+        "execution": {
+          "python": "3.7.17",
+          "tests_run": 1,
+          "failures": 0,
+          "errors": 1,
+          "skipped": 0,
+          "load_error": null,
+          "observations": [
+            {
+              "test": "generated_reproduction.ReproductionTest.test_reproduction",
+              "outcome": "error",
+              "exception_type": "RuntimeError",
+              "message": "current IOLoop already exists",
+              "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 59, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 628, in run\n    testMethod()\n  File \"/harness/test_reproduction.py\", line 9, in test_reproduction\n    loop = IOLoop(make_current=True)\n  File \"/work/tornado/util.py\", line 221, in __new__\n    instance.initialize(*args, **init_kwargs)\n  File \"/work/tornado/platform/epoll.py\", line 26, in initialize\n    super(EPollIOLoop, self).initialize(impl=select.epoll(), **kwargs)\n  File \"/work/tornado/ioloop.py\", line 664, in initialize\n    super(PollIOLoop, self).initialize(**kwargs)\n  File \"/work/tornado/ioloop.py\", line 253, in initialize\n    raise RuntimeError(\"current IOLoop already exists\")\nRuntimeError: current IOLoop already exists\n",
+              "traceback_frames": [
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 59,
+                  "function": "testPartExecutor"
+                },
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 628,
+                  "function": "run"
+                },
+                {
+                  "path": "/harness/test_reproduction.py",
+                  "line": 9,
+                  "function": "test_reproduction"
+                },
+                {
+                  "path": "/work/tornado/util.py",
+                  "line": 221,
+                  "function": "__new__"
+                },
+                {
+                  "path": "/work/tornado/platform/epoll.py",
+                  "line": 26,
+                  "function": "initialize"
+                },
+                {
+                  "path": "/work/tornado/ioloop.py",
+                  "line": 664,
+                  "function": "initialize"
+                },
+                {
+                  "path": "/work/tornado/ioloop.py",
+                  "line": 253,
+                  "function": "initialize"
+                }
+              ]
+            }
+          ],
+          "target_lines": [
+            207,
+            208,
+            210,
+            229,
+            233,
+            237,
+            238,
+            239,
+            248,
+            251,
+            252,
+            253,
+            664
+          ],
+          "target_calls": [
+            [
+              "clear_current",
+              227
+            ],
+            [
+              "configurable_base",
+              231
+            ],
+            [
+              "configurable_default",
+              235
+            ],
+            [
+              "current",
+              188
+            ],
+            [
+              "initialize",
+              247
+            ],
+            [
+              "initialize",
+              663
+            ]
+          ],
+          "target_trace_scope": "test_execution"
+        },
+        "log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.7.17\", \"tests_run\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"error\", \"exception_type\": \"RuntimeError\", \"message\": \"current IOLoop already exists\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 59, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 628, in run\\n    testMethod()\\n  File \\\"/harness/test_reproduction.py\\\", line 9, in test_reproduction\\n    loop = IOLoop(make_current=True)\\n  File \\\"/work/tornado/util.py\\\", line 221, in __new__\\n    instance.initialize(*args, **init_kwargs)\\n  File \\\"/work/tornado/platform/epoll.py\\\", line 26, in initialize\\n    super(EPollIOLoop, self).initialize(impl=select.epoll(), **kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 664, in initialize\\n    super(PollIOLoop, self).initialize(**kwargs)\\n  File \\\"/work/tornado/ioloop.py\\\", line 253, in initialize\\n    raise RuntimeError(\\\"current IOLoop already exists\\\")\\nRuntimeError: current IOLoop already exists\\n\", \"traceback_frames\": [{\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 59, \"function\": \"testPartExecutor\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 628, \"function\": \"run\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 9, \"function\": \"test_reproduction\"}, {\"path\": \"/work/tornado/util.py\", \"line\": 221, \"function\": \"__new__\"}, {\"path\": \"/work/tornado/platform/epoll.py\", \"line\": 26, \"function\": \"initialize\"}, {\"path\": \"/work/tornado/ioloop.py\", \"line\": 664, \"function\": \"initialize\"}, {\"path\": \"/work/tornado/ioloop.py\", \"line\": 253, \"function\": \"initialize\"}]}], \"target_lines\": [207, 208, 210, 229, 233, 237, 238, 239, 248, 251, 252, 253, 664], \"target_calls\": [[\"clear_current\", 227], [\"configurable_base\", 231], [\"configurable_default\", 235], [\"current\", 188], [\"initialize\", 247], [\"initialize\", 663]], \"target_trace_scope\": \"test_execution\"}\n",
+        "log_sha256": "a201f28699e96d14fe99b3c982c4657608b9917e7926558b5f373ab4cde8d74b",
+        "verdict": "failure_observed",
+        "plan_version": 0,
+        "test_sha256": "a6664563d91e07a007379cee5a7627bc180712e918ba8d1e77da791be19c11b0",
+        "execution_snapshot_sha256": "355f01d43a5ee2fc19d4c0b5c95764746c83ca2bfe66aa0ce8f7fb039ae1086b"
+      }
+    ],
+    "generation_attempts": [
+      {
+        "response": "{\"applicable\": true, \"reason\": \"initialize 的 make_current=True 分支条件与语义相反：当线程中尚无 current IOLoop 时（正常可设置的情况）反而抛出 RuntimeError，而当已存在 current IOLoop 时却静默覆盖。这与 make_current 文档（“An IOLoop created while there is no current IOLoop will automatically become current”）以及 make_current=None 分支的逻辑相矛盾。\", \"contract\": {\"path\": \"tornado/ioloop.py\", \"start\": 212, \"end\": 225, \"quote\": \"    def make_current(self):\\n        \\\"\\\"\\\"Makes this the `IOLoop` for the current thread.\\n\\n        An `IOLoop` automatically becomes current for its thread\\n        when it is started, but it is sometimes useful to call\\n        `make_current` explicitly before starting the `IOLoop`,\\n        so that code run at startup time can find the right\\n        instance.\\n\\n        .. versionchanged:: 4.1\\n           An `IOLoop` created while there is no current `IOLoop`\\n           will automatically become current.\\n        \\\"\\\"\\\"\\n        IOLoop._current.instance = self\", \"kind\": \"documented_behavior\", \"rationale\": \"文档说明 make_current 使该 IOLoop 成为当前线程的 current，且在没有 current IOLoop 时创建会自动成为 current。因此 make_current=True 在无线程 current 时应成功设置而非抛异常；异常消息“current IOLoop already exists”也表明仅在已存在时才应报错。\", \"expected_outcome\": \"state_change\", \"precondition\": \"在无 current IOLoop 的线程中调用 IOLoop(make_current=True)，属于文档支持的显式 make_current 用法。\", \"assumptions\": [\"IOLoop 的具体子类（如 EPollIOLoop）可在此环境构造\", \"IOLoop.current(instance=False) 在 clear_current 后返回 None\"]}, \"expected_behavior\": \"在无 current IOLoop 的线程中构造 IOLoop(make_current=True) 应成功，并使 IOLoop.current(instance=False) 返回该实例；不应抛出 RuntimeError。\", \"test_code\": \"import unittest\\nfrom tornado.ioloop import IOLoop\\n\\n\\nclass ReproductionTest(unittest.TestCase):\\n    def test_reproduction(self):\\n        IOLoop.clear_current()\\n        self.assertIsNone(IOLoop.current(instance=False))\\n        loop = IOLoop(make_current=True)\\n        try:\\n            self.assertIs(IOLoop.current(instance=False), loop)\\n        finally:\\n            IOLoop.clear_current()\\n            loop.close(all_fds=True)\\n\"}"
+      }
+    ],
+    "plan": {
+      "applicable": true,
+      "reason": "initialize 的 make_current=True 分支条件与语义相反：当线程中尚无 current IOLoop 时（正常可设置的情况）反而抛出 RuntimeError，而当已存在 current IOLoop 时却静默覆盖。这与 make_current 文档（“An IOLoop created while there is no current IOLoop will automatically become current”）以及 make_current=None 分支的逻辑相矛盾。",
+      "contract": {
+        "path": "tornado/ioloop.py",
+        "start": 212,
+        "end": 225,
+        "quote": "    def make_current(self):\n        \"\"\"Makes this the `IOLoop` for the current thread.\n\n        An `IOLoop` automatically becomes current for its thread\n        when it is started, but it is sometimes useful to call\n        `make_current` explicitly before starting the `IOLoop`,\n        so that code run at startup time can find the right\n        instance.\n\n        .. versionchanged:: 4.1\n           An `IOLoop` created while there is no current `IOLoop`\n           will automatically become current.\n        \"\"\"\n        IOLoop._current.instance = self",
+        "kind": "documented_behavior",
+        "rationale": "文档说明 make_current 使该 IOLoop 成为当前线程的 current，且在没有 current IOLoop 时创建会自动成为 current。因此 make_current=True 在无线程 current 时应成功设置而非抛异常；异常消息“current IOLoop already exists”也表明仅在已存在时才应报错。",
+        "expected_outcome": "state_change",
+        "expected_exception": "",
+        "precondition": "在无 current IOLoop 的线程中调用 IOLoop(make_current=True)，属于文档支持的显式 make_current 用法。",
+        "assumptions": [
+          "IOLoop 的具体子类（如 EPollIOLoop）可在此环境构造",
+          "IOLoop.current(instance=False) 在 clear_current 后返回 None"
+        ]
+      },
+      "test_code": "import unittest\nfrom tornado.ioloop import IOLoop\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        IOLoop.clear_current()\n        self.assertIsNone(IOLoop.current(instance=False))\n        loop = IOLoop(make_current=True)\n        try:\n            self.assertIs(IOLoop.current(instance=False), loop)\n        finally:\n            IOLoop.clear_current()\n            loop.close(all_fds=True)\n",
+      "expected_behavior": "在无 current IOLoop 的线程中构造 IOLoop(make_current=True) 应成功，并使 IOLoop.current(instance=False) 返回该实例；不应抛出 RuntimeError。"
+    },
+    "plan_history": [
+      {
+        "applicable": true,
+        "reason": "initialize 的 make_current=True 分支条件与语义相反：当线程中尚无 current IOLoop 时（正常可设置的情况）反而抛出 RuntimeError，而当已存在 current IOLoop 时却静默覆盖。这与 make_current 文档（“An IOLoop created while there is no current IOLoop will automatically become current”）以及 make_current=None 分支的逻辑相矛盾。",
+        "contract": {
+          "path": "tornado/ioloop.py",
+          "start": 212,
+          "end": 225,
+          "quote": "    def make_current(self):\n        \"\"\"Makes this the `IOLoop` for the current thread.\n\n        An `IOLoop` automatically becomes current for its thread\n        when it is started, but it is sometimes useful to call\n        `make_current` explicitly before starting the `IOLoop`,\n        so that code run at startup time can find the right\n        instance.\n\n        .. versionchanged:: 4.1\n           An `IOLoop` created while there is no current `IOLoop`\n           will automatically become current.\n        \"\"\"\n        IOLoop._current.instance = self",
+          "kind": "documented_behavior",
+          "rationale": "文档说明 make_current 使该 IOLoop 成为当前线程的 current，且在没有 current IOLoop 时创建会自动成为 current。因此 make_current=True 在无线程 current 时应成功设置而非抛异常；异常消息“current IOLoop already exists”也表明仅在已存在时才应报错。",
+          "expected_outcome": "state_change",
+          "expected_exception": "",
+          "precondition": "在无 current IOLoop 的线程中调用 IOLoop(make_current=True)，属于文档支持的显式 make_current 用法。",
+          "assumptions": [
+            "IOLoop 的具体子类（如 EPollIOLoop）可在此环境构造",
+            "IOLoop.current(instance=False) 在 clear_current 后返回 None"
+          ]
+        },
+        "test_code": "import unittest\nfrom tornado.ioloop import IOLoop\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        IOLoop.clear_current()\n        self.assertIsNone(IOLoop.current(instance=False))\n        loop = IOLoop(make_current=True)\n        try:\n            self.assertIs(IOLoop.current(instance=False), loop)\n        finally:\n            IOLoop.clear_current()\n            loop.close(all_fds=True)\n",
+        "expected_behavior": "在无 current IOLoop 的线程中构造 IOLoop(make_current=True) 应成功，并使 IOLoop.current(instance=False) 返回该实例；不应抛出 RuntimeError。"
+      }
+    ],
+    "feedback": [],
+    "active_attempt_indexes": [
+      0,
+      1
+    ],
+    "admission": {
+      "enforced": true,
+      "requirement": {
+        "accepted": true,
+        "reason": ""
+      },
+      "audit": {
+        "accepted": true,
+        "checks": {
+          "model_accepted": true,
+          "input_supported": true,
+          "requirement_supported": true,
+          "failure_matches_candidate": true,
+          "behavior_class": true,
+          "no_unresolved_assumptions": true
+        },
+        "failed": []
+      },
+      "accepted": true
+    },
+    "audit": {
+      "accepted": true,
+      "reason": "测试在 clear_current 后确认 current(instance=False) 为 None，再构造 IOLoop(make_current=True)，实际调用到 ioloop.py:253 并抛出 RuntimeError('current IOLoop already exists')，与候选描述一致。make_current 文档明确说明显式调用 make_current 可使该 IOLoop 成为当前线程的 current，且 4.1 起无 current 时创建会自动成为 current；因此无 current 时 make_current=True 应成功设置而非报错。条件 `is None` 与异常语义相反，属行为缺陷。",
+      "input_supported": true,
+      "requirement_supported": true,
+      "failure_matches_candidate": true,
+      "requirement_class": "behavior",
+      "unresolved_assumptions": []
+    },
+    "execution_snapshot_sha256": "355f01d43a5ee2fc19d4c0b5c95764746c83ca2bfe66aa0ce8f7fb039ae1086b",
+    "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+    "max_file_bytes": 1000000,
+    "scope": "",
+    "review_scope": "",
+    "production_only": true,
+    "artifact": "evidence/37b96dbfb16c/evidence.json"
+  }
+}

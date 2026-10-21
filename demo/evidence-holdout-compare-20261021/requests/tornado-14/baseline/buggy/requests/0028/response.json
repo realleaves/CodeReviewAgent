@@ -1,0 +1,34 @@
+{
+  "reservation": {
+    "id": 28,
+    "phase": "evidence-holdout-compare",
+    "label": {
+      "case": "tornado-14",
+      "arm": "baseline",
+      "side": "buggy"
+    },
+    "reserved_at": "2026-10-21T13:07:55.618992+00:00"
+  },
+  "raw_response": "{\"accepted\": true, \"reason\": \"测试确实调用了原目标代码 initialize(make_current=True)，并在 clear_current 后构造实例、再次 clear_current，使前置条件（当前线程无 IOLoop）有效。观察到的 RuntimeError('current IOLoop already exists') 正是候选所述问题：当 current(instance=False) is None（无当前实例）时错误地抛出“已存在”。make_current 文档明确说明显式调用用于在启动前把本实例设为当前线程的 IOLoop，因此无当前实例时应成功设为当前，而非报错。失败与候选一致，属行为缺陷。\", \"input_supported\": true, \"requirement_supported\": true, \"failure_matches_candidate\": true, \"requirement_class\": \"behavior\", \"unresolved_assumptions\": []}",
+  "error_type": null,
+  "call": {
+    "stage": "evidence_audit",
+    "status": "completed",
+    "input_chars": 16845,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 174,
+      "prompt_tokens": 5307,
+      "total_tokens": 5481,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 640
+      },
+      "prompt_cache_hit_tokens": 640,
+      "prompt_cache_miss_tokens": 4667
+    },
+    "elapsed_seconds": 1.7
+  }
+}
