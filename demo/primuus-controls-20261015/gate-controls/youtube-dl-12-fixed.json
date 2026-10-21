@@ -1,0 +1,172 @@
+{
+  "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+  "image_reference": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+  "exit_code": 0,
+  "stop_reason": null,
+  "seconds": 1.614,
+  "execution": {
+    "python": "3.7.17",
+    "tests_run": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "load_error": null,
+    "observations": [
+      {
+        "test": "generated_reproduction.ReproductionTest.test_reproduction",
+        "outcome": "failure",
+        "exception_type": "AssertionError",
+        "message": "True is not false",
+        "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 59, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 628, in run\n    testMethod()\n  File \"/harness/test_reproduction.py\", line 9, in test_reproduction\n    self.assertFalse(f({'ext': 'mp4'}))\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 699, in assertFalse\n    raise self.failureException(msg)\nAssertionError: True is not false\n",
+        "traceback_frames": [
+          {
+            "path": "/usr/local/lib/python3.7/unittest/case.py",
+            "line": 59,
+            "function": "testPartExecutor"
+          },
+          {
+            "path": "/usr/local/lib/python3.7/unittest/case.py",
+            "line": 628,
+            "function": "run"
+          },
+          {
+            "path": "/harness/test_reproduction.py",
+            "line": 9,
+            "function": "test_reproduction"
+          },
+          {
+            "path": "/usr/local/lib/python3.7/unittest/case.py",
+            "line": 699,
+            "function": "assertFalse"
+          }
+        ]
+      }
+    ],
+    "target_lines": [
+      341,
+      343,
+      344,
+      345,
+      346,
+      347,
+      348,
+      349,
+      350,
+      353,
+      355,
+      356,
+      358,
+      359,
+      363,
+      365,
+      369,
+      370,
+      371,
+      373,
+      400,
+      401,
+      410,
+      415,
+      417,
+      418,
+      419,
+      421,
+      428,
+      431,
+      451,
+      452,
+      472,
+      473,
+      1036,
+      1037,
+      1038,
+      1039,
+      1040,
+      1041,
+      1043,
+      1048,
+      1049,
+      1050,
+      1063,
+      1065,
+      1066,
+      1067,
+      1068,
+      1070,
+      1075,
+      1076,
+      1077,
+      1078,
+      1079,
+      1080,
+      1083,
+      1085,
+      1088,
+      1089,
+      1090,
+      1092,
+      1093,
+      2218,
+      2219,
+      2294,
+      2295,
+      2297,
+      2298,
+      2300,
+      2301,
+      2308,
+      2309,
+      2315,
+      2317,
+      2319,
+      2321,
+      2322,
+      2323,
+      2324,
+      2330,
+      2332,
+      2334,
+      2336,
+      2337,
+      2342,
+      2343
+    ],
+    "target_calls": [
+      [
+        "__init__",
+        339
+      ],
+      [
+        "_build_format_filter",
+        1032
+      ],
+      [
+        "_filter",
+        1088
+      ],
+      [
+        "_setup_opener",
+        2293
+      ],
+      [
+        "add_default_info_extractors",
+        468
+      ],
+      [
+        "add_info_extractor",
+        449
+      ],
+      [
+        "check_deprecated",
+        358
+      ],
+      [
+        "print_debug_header",
+        2217
+      ]
+    ],
+    "target_trace_scope": "test_execution"
+  },
+  "log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.7.17\", \"tests_run\": 1, \"failures\": 1, \"errors\": 0, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"failure\", \"exception_type\": \"AssertionError\", \"message\": \"True is not false\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 59, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 628, in run\\n    testMethod()\\n  File \\\"/harness/test_reproduction.py\\\", line 9, in test_reproduction\\n    self.assertFalse(f({'ext': 'mp4'}))\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 699, in assertFalse\\n    raise self.failureException(msg)\\nAssertionError: True is not false\\n\", \"traceback_frames\": [{\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 59, \"function\": \"testPartExecutor\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 628, \"function\": \"run\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 9, \"function\": \"test_reproduction\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 699, \"function\": \"assertFalse\"}]}], \"target_lines\": [341, 343, 344, 345, 346, 347, 348, 349, 350, 353, 355, 356, 358, 359, 363, 365, 369, 370, 371, 373, 400, 401, 410, 415, 417, 418, 419, 421, 428, 431, 451, 452, 472, 473, 1036, 1037, 1038, 1039, 1040, 1041, 1043, 1048, 1049, 1050, 1063, 1065, 1066, 1067, 1068, 1070, 1075, 1076, 1077, 1078, 1079, 1080, 1083, 1085, 1088, 1089, 1090, 1092, 1093, 2218, 2219, 2294, 2295, 2297, 2298, 2300, 2301, 2308, 2309, 2315, 2317, 2319, 2321, 2322, 2323, 2324, 2330, 2332, 2334, 2336, 2337, 2342, 2343], \"target_calls\": [[\"__init__\", 339], [\"_build_format_filter\", 1032], [\"_filter\", 1088], [\"_setup_opener\", 2293], [\"add_default_info_extractors\", 468], [\"add_info_extractor\", 449], [\"check_deprecated\", 358], [\"print_debug_header\", 2217]], \"target_trace_scope\": \"test_execution\"}\n",
+  "log_sha256": "5c8aae3f72844e585e48d8eb4ed23122f66b244749ab8eacb81efc406c42e909"
+}

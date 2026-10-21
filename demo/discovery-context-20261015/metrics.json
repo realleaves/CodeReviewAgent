@@ -1,0 +1,665 @@
+{
+  "generated_at": "2026-10-21T10:05:45.891723+00:00",
+  "budget": {
+    "limit": 600,
+    "reserved": 436,
+    "phases": {
+      "r0-context": 99,
+      "r1-preflight": 1,
+      "r1-thinking": 119,
+      "r2-output-budget": 146,
+      "v-holdout": 71
+    },
+    "started_at": "2026-10-15T13:02:17.916164+00:00"
+  },
+  "windows": 260,
+  "additional_improvement_rounds": 2,
+  "phase_summaries": {
+    "r0-context": {
+      "arms": {
+        "legacy": {
+          "windows": 36,
+          "completed_windows": 33,
+          "reserved_attempts": 60,
+          "candidate_rows": 47,
+          "window_errors": {
+            "RuntimeError": 3
+          },
+          "call_errors": {
+            "success": 57,
+            "APIConnectionError": 3
+          },
+          "reported_prompt_tokens": 220834,
+          "reported_completion_tokens": 20378
+        },
+        "callgraph": {
+          "windows": 36,
+          "completed_windows": 33,
+          "reserved_attempts": 39,
+          "candidate_rows": 39,
+          "window_errors": {
+            "RuntimeError": 3
+          },
+          "call_errors": {
+            "APIConnectionError": 3,
+            "success": 36
+          },
+          "reported_prompt_tokens": 135572,
+          "reported_completion_tokens": 12343
+        }
+      },
+      "scores": [
+        {
+          "mode": "callgraph/rep1",
+          "planned_pairs": 6,
+          "eligible_pairs": 5,
+          "detected_known_bugs": 0,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 0,
+          "known_bug_detection_rate": 0.0,
+          "fixed_target_alarm_rate": 0.0,
+          "paired_discrimination_rate": 0.0,
+          "exclusions": [
+            {
+              "case": "tornado-1",
+              "reason": "review_incomplete"
+            }
+          ]
+        },
+        {
+          "mode": "callgraph/rep2",
+          "planned_pairs": 6,
+          "eligible_pairs": 6,
+          "detected_known_bugs": 0,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 0,
+          "known_bug_detection_rate": 0.0,
+          "fixed_target_alarm_rate": 0.0,
+          "paired_discrimination_rate": 0.0,
+          "exclusions": []
+        },
+        {
+          "mode": "legacy/rep1",
+          "planned_pairs": 6,
+          "eligible_pairs": 3,
+          "detected_known_bugs": 0,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 0,
+          "known_bug_detection_rate": 0.0,
+          "fixed_target_alarm_rate": 0.0,
+          "paired_discrimination_rate": 0.0,
+          "exclusions": [
+            {
+              "case": "tornado-1",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "tornado-3",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "tornado-7",
+              "reason": "review_incomplete"
+            }
+          ]
+        },
+        {
+          "mode": "legacy/rep2",
+          "planned_pairs": 6,
+          "eligible_pairs": 6,
+          "detected_known_bugs": 0,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 0,
+          "known_bug_detection_rate": 0.0,
+          "fixed_target_alarm_rate": 0.0,
+          "paired_discrimination_rate": 0.0,
+          "exclusions": []
+        }
+      ]
+    },
+    "r1-thinking": {
+      "arms": {
+        "callgraph": {
+          "windows": 36,
+          "completed_windows": 31,
+          "reserved_attempts": 38,
+          "candidate_rows": 41,
+          "window_errors": {
+            "RuntimeError": 5
+          },
+          "call_errors": {
+            "success": 33,
+            "APIConnectionError": 5
+          },
+          "reported_prompt_tokens": 126868,
+          "reported_completion_tokens": 11324
+        },
+        "thinking": {
+          "windows": 36,
+          "completed_windows": 17,
+          "reserved_attempts": 81,
+          "candidate_rows": 13,
+          "window_errors": {
+            "JSONDecodeError": 2,
+            "ModelResponseError": 16,
+            "RuntimeError": 1
+          },
+          "call_errors": {
+            "success": 64,
+            "ModelResponseError": 16,
+            "APIConnectionError": 1
+          },
+          "reported_prompt_tokens": 439458,
+          "reported_completion_tokens": 236207
+        }
+      },
+      "scores": [
+        {
+          "mode": "callgraph/rep1",
+          "planned_pairs": 6,
+          "eligible_pairs": 4,
+          "detected_known_bugs": 0,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 0,
+          "known_bug_detection_rate": 0.0,
+          "fixed_target_alarm_rate": 0.0,
+          "paired_discrimination_rate": 0.0,
+          "exclusions": [
+            {
+              "case": "tornado-3",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "tornado-7",
+              "reason": "review_incomplete"
+            }
+          ]
+        },
+        {
+          "mode": "callgraph/rep2",
+          "planned_pairs": 6,
+          "eligible_pairs": 5,
+          "detected_known_bugs": 0,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 0,
+          "known_bug_detection_rate": 0.0,
+          "fixed_target_alarm_rate": 0.0,
+          "paired_discrimination_rate": 0.0,
+          "exclusions": [
+            {
+              "case": "tornado-1",
+              "reason": "review_incomplete"
+            }
+          ]
+        },
+        {
+          "mode": "thinking/rep1",
+          "planned_pairs": 6,
+          "eligible_pairs": 0,
+          "detected_known_bugs": 0,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 0,
+          "known_bug_detection_rate": null,
+          "fixed_target_alarm_rate": null,
+          "paired_discrimination_rate": null,
+          "exclusions": [
+            {
+              "case": "tornado-1",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "tornado-3",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "tornado-7",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-2",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-4",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-8",
+              "reason": "review_incomplete"
+            }
+          ]
+        },
+        {
+          "mode": "thinking/rep2",
+          "planned_pairs": 6,
+          "eligible_pairs": 1,
+          "detected_known_bugs": 0,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 0,
+          "known_bug_detection_rate": 0.0,
+          "fixed_target_alarm_rate": 0.0,
+          "paired_discrimination_rate": 0.0,
+          "exclusions": [
+            {
+              "case": "tornado-1",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "tornado-3",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-2",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-4",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-8",
+              "reason": "review_incomplete"
+            }
+          ]
+        }
+      ]
+    },
+    "r2-output-budget": {
+      "arms": {
+        "thinking6000": {
+          "windows": 36,
+          "completed_windows": 14,
+          "reserved_attempts": 72,
+          "candidate_rows": 10,
+          "window_errors": {
+            "ModelResponseError": 12,
+            "RuntimeError": 8,
+            "JSONDecodeError": 1,
+            "ValidationError": 1
+          },
+          "call_errors": {
+            "success": 52,
+            "ModelResponseError": 12,
+            "APIConnectionError": 8
+          },
+          "reported_prompt_tokens": 351582,
+          "reported_completion_tokens": 194251
+        },
+        "thinking12000": {
+          "windows": 36,
+          "completed_windows": 13,
+          "reserved_attempts": 74,
+          "candidate_rows": 18,
+          "window_errors": {
+            "RuntimeError": 18,
+            "JSONDecodeError": 3,
+            "ValidationError": 1,
+            "ProcessInterrupted": 1
+          },
+          "call_errors": {
+            "success": 55,
+            "APIConnectionError": 12,
+            "APITimeoutError": 6,
+            "ProcessInterrupted": 1
+          },
+          "reported_prompt_tokens": 324273,
+          "reported_completion_tokens": 162794
+        }
+      },
+      "scores": [
+        {
+          "mode": "thinking12000/rep1",
+          "planned_pairs": 6,
+          "eligible_pairs": 0,
+          "detected_known_bugs": 0,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 0,
+          "known_bug_detection_rate": null,
+          "fixed_target_alarm_rate": null,
+          "paired_discrimination_rate": null,
+          "exclusions": [
+            {
+              "case": "tornado-1",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "tornado-3",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "tornado-7",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-2",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-4",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-8",
+              "reason": "review_incomplete"
+            }
+          ]
+        },
+        {
+          "mode": "thinking12000/rep2",
+          "planned_pairs": 6,
+          "eligible_pairs": 0,
+          "detected_known_bugs": 0,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 0,
+          "known_bug_detection_rate": null,
+          "fixed_target_alarm_rate": null,
+          "paired_discrimination_rate": null,
+          "exclusions": [
+            {
+              "case": "tornado-1",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "tornado-3",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "tornado-7",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-2",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-4",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-8",
+              "reason": "review_incomplete"
+            }
+          ]
+        },
+        {
+          "mode": "thinking6000/rep1",
+          "planned_pairs": 6,
+          "eligible_pairs": 1,
+          "detected_known_bugs": 0,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 0,
+          "known_bug_detection_rate": 0.0,
+          "fixed_target_alarm_rate": 0.0,
+          "paired_discrimination_rate": 0.0,
+          "exclusions": [
+            {
+              "case": "tornado-1",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "tornado-3",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-2",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-4",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-8",
+              "reason": "review_incomplete"
+            }
+          ]
+        },
+        {
+          "mode": "thinking6000/rep2",
+          "planned_pairs": 6,
+          "eligible_pairs": 0,
+          "detected_known_bugs": 0,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 0,
+          "known_bug_detection_rate": null,
+          "fixed_target_alarm_rate": null,
+          "paired_discrimination_rate": null,
+          "exclusions": [
+            {
+              "case": "tornado-1",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "tornado-3",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "tornado-7",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-2",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-4",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-8",
+              "reason": "review_incomplete"
+            }
+          ]
+        }
+      ]
+    },
+    "v-holdout": {
+      "arms": {
+        "disabled": {
+          "windows": 22,
+          "completed_windows": 22,
+          "reserved_attempts": 22,
+          "candidate_rows": 34,
+          "window_errors": {},
+          "call_errors": {
+            "success": 22
+          },
+          "reported_prompt_tokens": 93954,
+          "reported_completion_tokens": 10692
+        },
+        "enabled": {
+          "windows": 22,
+          "completed_windows": 11,
+          "reserved_attempts": 49,
+          "candidate_rows": 7,
+          "window_errors": {
+            "ModelResponseError": 8,
+            "JSONDecodeError": 2,
+            "ValidationError": 1
+          },
+          "call_errors": {
+            "success": 41,
+            "ModelResponseError": 8
+          },
+          "reported_prompt_tokens": 323203,
+          "reported_completion_tokens": 136545
+        }
+      },
+      "scores": [
+        {
+          "mode": "disabled/rep1",
+          "planned_pairs": 4,
+          "eligible_pairs": 4,
+          "detected_known_bugs": 2,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 2,
+          "known_bug_detection_rate": 0.5,
+          "fixed_target_alarm_rate": 0.0,
+          "paired_discrimination_rate": 0.5,
+          "exclusions": []
+        },
+        {
+          "mode": "disabled/rep2",
+          "planned_pairs": 4,
+          "eligible_pairs": 4,
+          "detected_known_bugs": 1,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 1,
+          "known_bug_detection_rate": 0.25,
+          "fixed_target_alarm_rate": 0.0,
+          "paired_discrimination_rate": 0.25,
+          "exclusions": []
+        },
+        {
+          "mode": "enabled/rep1",
+          "planned_pairs": 4,
+          "eligible_pairs": 1,
+          "detected_known_bugs": 1,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 1,
+          "known_bug_detection_rate": 1.0,
+          "fixed_target_alarm_rate": 0.0,
+          "paired_discrimination_rate": 1.0,
+          "exclusions": [
+            {
+              "case": "tornado-13",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-14",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-15",
+              "reason": "review_incomplete"
+            }
+          ]
+        },
+        {
+          "mode": "enabled/rep2",
+          "planned_pairs": 4,
+          "eligible_pairs": 1,
+          "detected_known_bugs": 1,
+          "same_issue_alarms_on_fixed": 0,
+          "correctly_discriminated_pairs": 1,
+          "known_bug_detection_rate": 1.0,
+          "fixed_target_alarm_rate": 0.0,
+          "paired_discrimination_rate": 1.0,
+          "exclusions": [
+            {
+              "case": "tornado-13",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-14",
+              "reason": "review_incomplete"
+            },
+            {
+              "case": "youtube-dl-15",
+              "reason": "review_incomplete"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "common_eligible_pairs": {
+    "r0-context": [
+      {
+        "repetition": 1,
+        "cases": [
+          "youtube-dl-2",
+          "youtube-dl-4",
+          "youtube-dl-8"
+        ],
+        "correctly_discriminated": {
+          "legacy": 0,
+          "callgraph": 0
+        }
+      },
+      {
+        "repetition": 2,
+        "cases": [
+          "tornado-1",
+          "tornado-3",
+          "tornado-7",
+          "youtube-dl-2",
+          "youtube-dl-4",
+          "youtube-dl-8"
+        ],
+        "correctly_discriminated": {
+          "legacy": 0,
+          "callgraph": 0
+        }
+      }
+    ],
+    "r1-thinking": [
+      {
+        "repetition": 1,
+        "cases": [],
+        "correctly_discriminated": {
+          "callgraph": 0,
+          "thinking": 0
+        }
+      },
+      {
+        "repetition": 2,
+        "cases": [
+          "tornado-7"
+        ],
+        "correctly_discriminated": {
+          "callgraph": 0,
+          "thinking": 0
+        }
+      }
+    ],
+    "r2-output-budget": [
+      {
+        "repetition": 1,
+        "cases": [],
+        "correctly_discriminated": {
+          "thinking6000": 0,
+          "thinking12000": 0
+        }
+      },
+      {
+        "repetition": 2,
+        "cases": [],
+        "correctly_discriminated": {
+          "thinking6000": 0,
+          "thinking12000": 0
+        }
+      }
+    ],
+    "v-holdout": [
+      {
+        "repetition": 1,
+        "cases": [
+          "tornado-14"
+        ],
+        "correctly_discriminated": {
+          "disabled": 1,
+          "enabled": 1
+        }
+      },
+      {
+        "repetition": 2,
+        "cases": [
+          "tornado-14"
+        ],
+        "correctly_discriminated": {
+          "disabled": 1,
+          "enabled": 1
+        }
+      }
+    ]
+  },
+  "stage": "Candidate discovery only; does not replace historical 1/26 generated-proof result",
+  "additional_origin_issue": "Evaluator-supported separate behavior issue, human review pending; not a reference hit or Agent-generated proof",
+  "human_verified": false,
+  "adoption": "Keep legacy context, thinking disabled, max output6000; no established discovery improvement",
+  "token_accounting": "Only returned usage is available. Requests without usage and the unknown response cannot be billed accurately from these records.",
+  "unknown_response_attempts_charged": [
+    365
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "case": "youtube-dl-12",
+  "finding_id": "9758e8ca5215",
+  "test_label": "evaluator-corrected-input-diagnostic",
+  "api_calls": 0,
+  "counts_as_agent_detection": false,
+  "runs": {
+    "buggy": {
+      "verdict": "failure_observed",
+      "execution_snapshot_sha256": "8c29eecf290d811985c2642b01e3a64fcba118070ecd38fa1d5a694fd6dab360",
+      "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+      "tests_run": 1,
+      "failures": 1,
+      "errors": 0,
+      "observations": [
+        {
+          "test": "generated_reproduction.ReproductionTest.test_reproduction",
+          "outcome": "failure",
+          "exception_type": "AssertionError",
+          "message": "False is not true",
+          "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 59, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 628, in run\n    testMethod()\n  File \"/harness/test_reproduction.py\", line 10, in test_reproduction\n    self.assertTrue(f({'ext': 'webm'}))\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 705, in assertTrue\n    raise self.failureException(msg)\nAssertionError: False is not true\n"
+        }
+      ]
+    },
+    "fixed": {
+      "verdict": "not_reproduced",
+      "execution_snapshot_sha256": "80c18fbc207e23e69b4b6cef016153b56274c57b58a6bee28a7bed490035e50e",
+      "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+      "tests_run": 1,
+      "failures": 0,
+      "errors": 0,
+      "observations": []
+    }
+  }
+}

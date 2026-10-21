@@ -1,0 +1,32 @@
+{
+  "thinking6000": {
+    "windows": 36,
+    "completed_windows": 14,
+    "api_calls": 72,
+    "candidate_rows": 10,
+    "window_error_types": {
+      "ModelResponseError": 12,
+      "RuntimeError": 8,
+      "JSONDecodeError": 1,
+      "ValidationError": 1
+    },
+    "prompt_tokens": 351582,
+    "completion_tokens": 194251,
+    "response_unknown_attempts": 0
+  },
+  "thinking12000": {
+    "windows": 36,
+    "completed_windows": 13,
+    "api_calls": 74,
+    "candidate_rows": 18,
+    "window_error_types": {
+      "RuntimeError": 18,
+      "JSONDecodeError": 3,
+      "ValidationError": 1,
+      "ProcessInterrupted": 1
+    },
+    "prompt_tokens": 324273,
+    "completion_tokens": 162794,
+    "response_unknown_attempts": 1
+  }
+}

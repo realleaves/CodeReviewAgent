@@ -1,0 +1,104 @@
+{
+  "scope": "Fixed development examples; not end-to-end recall or independent precision.",
+  "gate": {
+    "saved_accepted_examples": 13,
+    "retained_by_new_gate": 12,
+    "known_invalid_example_rejected": "youtube-dl-12 / 9758e8ca5215",
+    "fresh_docker_controls": [
+      {
+        "case": "PySnooper-3",
+        "side": "buggy",
+        "verdict": "failure_observed",
+        "tests_run": 1
+      },
+      {
+        "case": "PySnooper-3",
+        "side": "fixed",
+        "verdict": "not_reproduced",
+        "tests_run": 1
+      },
+      {
+        "case": "youtube-dl-12",
+        "side": "buggy",
+        "verdict": "unrelated_failure",
+        "tests_run": 1
+      },
+      {
+        "case": "youtube-dl-12",
+        "side": "fixed",
+        "verdict": "unrelated_failure",
+        "tests_run": 1
+      }
+    ],
+    "generic_boundaries": [
+      {
+        "case": "import-is-not-a-call",
+        "verdict": "unrelated_failure",
+        "api_calls": 0
+      },
+      {
+        "case": "adjacent-branch",
+        "verdict": "unrelated_failure",
+        "api_calls": 0
+      }
+    ],
+    "model_calls": 0,
+    "known_valid_example_preserved": "PySnooper-3 / 9261f543fc85"
+  },
+  "feedback": {
+    "case": "tornado-4",
+    "repeats_per_variant": 3,
+    "model_calls": 5,
+    "off_valid_evidence": 0,
+    "on_valid_evidence": 0,
+    "on_terminal_statuses": {
+      "invalid_plan": 1,
+      "unrelated_failure": 2
+    },
+    "decision": "No demonstrated gain; keep max_repro_repairs=0 by default."
+  },
+  "tests": {
+    "pytest_passed": 65,
+    "ruff_F_E9": "passed",
+    "cli_help": "passed"
+  },
+  "implementation_note": "Core source hashes match the frozen experiment. Driver report-template metadata was corrected after sampling; executed driver and original reports remain preserved.",
+  "presentation_derivations": [
+    {
+      "source": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/primuus-controlled-20261015/trial-1-feedback-off/report.json",
+      "source_sha256": "9f2714af8dad6562864124d47bb667c8db17c32317a64113281956109494cba3",
+      "derived_report": "trial-1-feedback-off/report.json"
+    },
+    {
+      "source": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/primuus-controlled-20261015/trial-1-feedback-on/report.json",
+      "source_sha256": "97f1770ed9c7783bbd980938a5dec25f46f917323c9889fa416e058083412494",
+      "derived_report": "trial-1-feedback-on/report.json"
+    },
+    {
+      "source": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/primuus-controlled-20261015/trial-2-feedback-on/report.json",
+      "source_sha256": "f40d0fd4839ef30d6e615764f0b4295c30aa00173a9b0341ea16fcdc2e0097c6",
+      "derived_report": "trial-2-feedback-on/report.json"
+    },
+    {
+      "source": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/primuus-controlled-20261015/trial-2-feedback-off/report.json",
+      "source_sha256": "1bac892771cf8ebdf1a9c634f2c7ed88a315a8560dc5b5484464328795104eed",
+      "derived_report": "trial-2-feedback-off/report.json"
+    },
+    {
+      "source": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/primuus-controlled-20261015/trial-3-feedback-off/report.json",
+      "source_sha256": "7bb4ef8417c7f29bf014e26d29675ac325a952802c92f6fd23fa976769227bc2",
+      "derived_report": "trial-3-feedback-off/report.json"
+    },
+    {
+      "source": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/primuus-controlled-20261015/trial-3-feedback-on/report.json",
+      "source_sha256": "1c188a8eff238e48d10c9ab8e65277ff78055ccfa024980275b33e2abea51eb6",
+      "derived_report": "trial-3-feedback-on/report.json"
+    }
+  ],
+  "limitations": [
+    "One known wrong-branch acceptance was fixed; other accepted candidates remain unadjudicated.",
+    "No new blind benchmark or candidate discovery improvement was measured.",
+    "Runtime-only line tracing is conservative about import-time defects; downstream exceptions outside the target remain conservatively rejected.",
+    "Contract/expected text is immutable during repair; assertion semantics and input validity still need audit."
+  ]
+}

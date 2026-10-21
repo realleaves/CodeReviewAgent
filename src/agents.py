@@ -1,5 +1,6 @@
 """Two HelloAgents agents sharing a bounded LLM client and read-only tools."""
 
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -283,8 +284,12 @@ class BoundedAgent(SimpleAgent):
 
 
 class ReviewAgents:
-    def __init__(self, index: CodeIndex, llm: MeteredLLM):
+    def __init__(self, index: CodeIndex, llm: MeteredLLM, context_strategy="legacy"):
+        if context_strategy not in {"legacy", "callgraph"}:
+            raise ValueError("未知的审查上下文策略。")
         self.index, self.llm = index, llm
+        self.context_strategy = context_strategy
+        self._call_context = None
         registry = ToolRegistry()
         registry.register_tool(ReadCodeTool(index))
         registry.register_tool(SearchSymbolTool(index))
@@ -300,13 +305,7 @@ class ReviewAgents:
         )
         return agent.run(json.dumps(payload, ensure_ascii=False), max_tool_iterations=2)
 
-    def review(
-        self,
-        chunk: Chunk,
-        diagnostics: list[Finding],
-        direct: bool = False,
-        evidence: bool = False,
-    ) -> list[Finding]:
+    def review_payload(self, chunk, diagnostics, direct=False, evidence=False):
         payload = {
             "primary_path": chunk.path,
             "start": chunk.start,
@@ -314,13 +313,22 @@ class ReviewAgents:
             "code": chunk.text,
         }
         if evidence:
-            payload.update(
-                context=self.index.context(chunk.path, chunk.start, chunk.end),
-                documents=[
-                    {"path": p, "code": numbered(s, 1, 80)}
-                    for p, s in list(self.index.resources.items())[:2]
-                ],
-            )
+            if self.context_strategy == "callgraph":
+                from .review_context import CallContext
+
+                if self._call_context is None:
+                    self._call_context = CallContext(self.index)
+                payload.update(
+                    self._call_context.supplement(chunk.path, chunk.start, chunk.end)
+                )
+            else:
+                payload.update(
+                    context=self.index.context(chunk.path, chunk.start, chunk.end),
+                    documents=[
+                        {"path": p, "code": numbered(s, 1, 80)}
+                        for p, s in list(self.index.resources.items())[:2]
+                    ],
+                )
         elif not direct:
             payload.update(
                 outline=self.index.outline(chunk.path),
@@ -336,6 +344,38 @@ class ReviewAgents:
                     for f in diagnostics
                     if f.path == chunk.path and chunk.start <= f.line <= chunk.end
                 ][:15],
+            )
+        return payload
+
+    def review(
+        self,
+        chunk: Chunk,
+        diagnostics: list[Finding],
+        direct: bool = False,
+        evidence: bool = False,
+    ) -> list[Finding]:
+        payload = self.review_payload(chunk, diagnostics, direct, evidence)
+        if evidence:
+            supplemental = {k: payload[k] for k in ["context", "documents"]}
+            self.trace.append(
+                {
+                    "stage": "review_context",
+                    "path": chunk.path,
+                    "start": chunk.start,
+                    "end": chunk.end,
+                    "strategy": self.context_strategy,
+                    "payload_sha256": hashlib.sha256(
+                        json.dumps(payload, ensure_ascii=False).encode()
+                    ).hexdigest(),
+                    "supplemental_chars": len(
+                        json.dumps(supplemental, ensure_ascii=False)
+                    ),
+                    "sources": [
+                        {k: v for k, v in item.items() if k != "code"}
+                        for entries in supplemental.values()
+                        for item in entries
+                    ],
+                }
             )
         # Direct baseline has identical output schema but receives no static data, index or tools.
         if direct:

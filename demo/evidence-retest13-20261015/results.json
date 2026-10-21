@@ -1,0 +1,1187 @@
+{
+  "records": [
+    {
+      "case": "PySnooper-1",
+      "variant": "buggy",
+      "finding_id": "65bac8b9d901",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0001/A",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/PySnooper-1/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null,
+      "output": "01-PySnooper-1-buggy-65bac8b9d901",
+      "test_sha256": "0b299fb7f1b6540e311215b2a3ba10654f44ed6d9411de391b3b3a77e2d75c3d",
+      "snapshot_sha256": "0309e2bf3b0914d3ca5f8a19ee4c18db5a9255920f3cd3bea7d46d7787b755f7",
+      "trials": [
+        {
+          "implementation": "old",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "IndexError"
+          ],
+          "messages": [
+            "list index out of range"
+          ],
+          "image_id": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+          "seconds": 0.358
+        },
+        {
+          "implementation": "new",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "IndexError"
+          ],
+          "messages": [
+            "list index out of range"
+          ],
+          "image_id": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+          "seconds": 0.365
+        },
+        {
+          "implementation": "new",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "IndexError"
+          ],
+          "messages": [
+            "list index out of range"
+          ],
+          "image_id": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+          "seconds": 0.368
+        },
+        {
+          "implementation": "old",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "IndexError"
+          ],
+          "messages": [
+            "list index out of range"
+          ],
+          "image_id": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+          "seconds": 0.351
+        }
+      ],
+      "old_execution_gate_pass": true,
+      "new_execution_gate_pass": true,
+      "counterpart": {
+        "variant": "fixed",
+        "snapshot_sha256": "76bb6fa3e49122304d333b8adc4f7bcfc06fbaf8edcbf24fae1a541fa2f3c44d",
+        "new_gate": "failure_observed",
+        "tests_run": 1,
+        "failures": 0,
+        "errors": 1,
+        "failure_types": [
+          "IndexError"
+        ],
+        "messages": [
+          "list index out of range"
+        ]
+      }
+    },
+    {
+      "case": "tornado-1",
+      "variant": "buggy",
+      "finding_id": "9c3894d4b559",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0002/B",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/tornado-1/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null,
+      "output": "02-tornado-1-buggy-9c3894d4b559",
+      "test_sha256": "ab0da1fa23f00d8f13f1bd9e365b7998c26ee2ea66b8f7d58c010e4c51ab9b29",
+      "snapshot_sha256": "3efdb89f1b593a1b0ca8675f237f200fba2f44357c27003727ebb7f7d9d1f06d",
+      "trials": [
+        {
+          "implementation": "old",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AssertionError"
+          ],
+          "messages": [
+            "'%r' unexpectedly found in \"('Invalid max_wbits value %r; allowed range 8-%d', 7, 15)\""
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 0.675
+        },
+        {
+          "implementation": "new",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AssertionError"
+          ],
+          "messages": [
+            "'%r' unexpectedly found in \"('Invalid max_wbits value %r; allowed range 8-%d', 7, 15)\""
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 0.702
+        },
+        {
+          "implementation": "new",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AssertionError"
+          ],
+          "messages": [
+            "'%r' unexpectedly found in \"('Invalid max_wbits value %r; allowed range 8-%d', 7, 15)\""
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 0.706
+        },
+        {
+          "implementation": "old",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AssertionError"
+          ],
+          "messages": [
+            "'%r' unexpectedly found in \"('Invalid max_wbits value %r; allowed range 8-%d', 7, 15)\""
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 0.697
+        }
+      ],
+      "old_execution_gate_pass": true,
+      "new_execution_gate_pass": true,
+      "counterpart": {
+        "variant": "fixed",
+        "snapshot_sha256": "dd886d54de41e9b477fd649cce75a9552f48839db54de89dfe79b45088cfb3cc",
+        "new_gate": "failure_observed",
+        "tests_run": 1,
+        "failures": 1,
+        "errors": 0,
+        "failure_types": [
+          "AssertionError"
+        ],
+        "messages": [
+          "'%r' unexpectedly found in \"('Invalid max_wbits value %r; allowed range 8-%d', 7, 15)\""
+        ]
+      }
+    },
+    {
+      "case": "tornado-1",
+      "variant": "fixed",
+      "finding_id": "2cd97d34b1a2",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0002/A",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/tornado-1/evidence/fixed/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null,
+      "output": "03-tornado-1-fixed-2cd97d34b1a2",
+      "test_sha256": "b2eefec702787fa4d7063aadd268dd16aa495d8b21834bc43a5e18d6e507951c",
+      "snapshot_sha256": "dd886d54de41e9b477fd649cce75a9552f48839db54de89dfe79b45088cfb3cc",
+      "trials": [
+        {
+          "implementation": "old",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "KeyError"
+          ],
+          "messages": [
+            "'http'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 0.687
+        },
+        {
+          "implementation": "new",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "KeyError"
+          ],
+          "messages": [
+            "'http'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 0.696
+        },
+        {
+          "implementation": "new",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "KeyError"
+          ],
+          "messages": [
+            "'http'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 0.7
+        },
+        {
+          "implementation": "old",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "KeyError"
+          ],
+          "messages": [
+            "'http'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 0.7
+        }
+      ],
+      "old_execution_gate_pass": true,
+      "new_execution_gate_pass": true,
+      "counterpart": {
+        "variant": "buggy",
+        "snapshot_sha256": "3efdb89f1b593a1b0ca8675f237f200fba2f44357c27003727ebb7f7d9d1f06d",
+        "new_gate": "unrelated_failure",
+        "tests_run": 1,
+        "failures": 0,
+        "errors": 1,
+        "failure_types": [
+          "KeyError"
+        ],
+        "messages": [
+          "'http'"
+        ]
+      }
+    },
+    {
+      "case": "PySnooper-3",
+      "variant": "buggy",
+      "finding_id": "9261f543fc85",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0007/A",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/PySnooper-3/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": true,
+      "output": "04-PySnooper-3-buggy-9261f543fc85",
+      "test_sha256": "73dda053b390f3ceb752e895c0dfd98b70d54aa448e51f04125e4a0178905441",
+      "snapshot_sha256": "9ae6f4f828588525cd059d0cf5ea5ff88f1221b85e4fea9cd9d78ae55c12ab91",
+      "trials": [
+        {
+          "implementation": "old",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "NameError"
+          ],
+          "messages": [
+            "name 'output_path' is not defined"
+          ],
+          "image_id": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+          "seconds": 0.351
+        },
+        {
+          "implementation": "new",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "NameError"
+          ],
+          "messages": [
+            "name 'output_path' is not defined"
+          ],
+          "image_id": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+          "seconds": 0.349
+        },
+        {
+          "implementation": "new",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "NameError"
+          ],
+          "messages": [
+            "name 'output_path' is not defined"
+          ],
+          "image_id": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+          "seconds": 0.336
+        },
+        {
+          "implementation": "old",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "NameError"
+          ],
+          "messages": [
+            "name 'output_path' is not defined"
+          ],
+          "image_id": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+          "seconds": 0.355
+        }
+      ],
+      "old_execution_gate_pass": true,
+      "new_execution_gate_pass": true,
+      "counterpart": {
+        "variant": "fixed",
+        "snapshot_sha256": "bd540042007451c27171148d080ff169b3d71209b5df3ce2ba564e11d07f2e53",
+        "new_gate": "not_reproduced",
+        "tests_run": 1,
+        "failures": 0,
+        "errors": 0,
+        "failure_types": [],
+        "messages": []
+      }
+    },
+    {
+      "case": "youtube-dl-4",
+      "variant": "fixed",
+      "finding_id": "791eec547d5f",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0011/B",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-4/evidence/fixed/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null,
+      "output": "05-youtube-dl-4-fixed-791eec547d5f",
+      "test_sha256": "6ac5402bf876da4f6724647c400403be472e6eb4d96647b07893b4914c831f09",
+      "snapshot_sha256": "b2ce8f8c2309a77b57961cddeeee3f8b3f9ed74be9904eea0a4582074a6f2171",
+      "trials": [
+        {
+          "implementation": "old",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "ValueError"
+          ],
+          "messages": [
+            "invalid literal for int() with base 10: '²'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.379
+        },
+        {
+          "implementation": "new",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "ValueError"
+          ],
+          "messages": [
+            "invalid literal for int() with base 10: '²'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.357
+        },
+        {
+          "implementation": "new",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "ValueError"
+          ],
+          "messages": [
+            "invalid literal for int() with base 10: '²'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.338
+        },
+        {
+          "implementation": "old",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "ValueError"
+          ],
+          "messages": [
+            "invalid literal for int() with base 10: '²'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.326
+        }
+      ],
+      "old_execution_gate_pass": true,
+      "new_execution_gate_pass": true,
+      "counterpart": {
+        "variant": "buggy",
+        "snapshot_sha256": "814db4e472b1fe8493603662631acff46e1c6053677d4fc2aeda3bdd7ccfa093",
+        "new_gate": "failure_observed",
+        "tests_run": 1,
+        "failures": 0,
+        "errors": 1,
+        "failure_types": [
+          "ValueError"
+        ],
+        "messages": [
+          "invalid literal for int() with base 10: '²'"
+        ]
+      }
+    },
+    {
+      "case": "youtube-dl-6",
+      "variant": "fixed",
+      "finding_id": "b8651e68a886",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0015/B",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-6/evidence/fixed/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null,
+      "output": "06-youtube-dl-6-fixed-b8651e68a886",
+      "test_sha256": "f2a8a8e6dc30cc0fc799b0f7569416ff98be14dc181ca93b8071ea317b09322b",
+      "snapshot_sha256": "59502e2f2db28900711832634834cc10fb13d29ee1e4c537e6bf6f29c9b7be4e",
+      "trials": [
+        {
+          "implementation": "old",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AssertionError"
+          ],
+          "messages": [
+            "'00:00:00,000 --> 00:00:00,000' not found in ''"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.069
+        },
+        {
+          "implementation": "new",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AssertionError"
+          ],
+          "messages": [
+            "'00:00:00,000 --> 00:00:00,000' not found in ''"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.08
+        },
+        {
+          "implementation": "new",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AssertionError"
+          ],
+          "messages": [
+            "'00:00:00,000 --> 00:00:00,000' not found in ''"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.077
+        },
+        {
+          "implementation": "old",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AssertionError"
+          ],
+          "messages": [
+            "'00:00:00,000 --> 00:00:00,000' not found in ''"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.076
+        }
+      ],
+      "old_execution_gate_pass": true,
+      "new_execution_gate_pass": true,
+      "counterpart": {
+        "variant": "buggy",
+        "snapshot_sha256": "2235936d7983b842bb09b32cd463d67a8e3088feb30640421255d7dbb4eb275a",
+        "new_gate": "unrelated_failure",
+        "tests_run": 1,
+        "failures": 0,
+        "errors": 1,
+        "failure_types": [
+          "KeyError"
+        ],
+        "messages": [
+          "'dur'"
+        ]
+      }
+    },
+    {
+      "case": "youtube-dl-8",
+      "variant": "buggy",
+      "finding_id": "248543bf3d91",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0019/A",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-8/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null,
+      "output": "07-youtube-dl-8-buggy-248543bf3d91",
+      "test_sha256": "0c6e80ea61ebf478b86706d7d85cb4496e227c8c66aeded3f946d5b9cc003334",
+      "snapshot_sha256": "7d5583e6ca81ff6f499d4fece0b758080b1328090e8d8c6ac85a9950a01f8524",
+      "trials": [
+        {
+          "implementation": "old",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.101
+        },
+        {
+          "implementation": "new",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.091
+        },
+        {
+          "implementation": "new",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.078
+        },
+        {
+          "implementation": "old",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.091
+        }
+      ],
+      "old_execution_gate_pass": true,
+      "new_execution_gate_pass": true,
+      "counterpart": {
+        "variant": "fixed",
+        "snapshot_sha256": "a4b7bd8352dc7d103a8c9b23dae9cb6fdede352fcdb8e5fa364b89f8add84705",
+        "new_gate": "failure_observed",
+        "tests_run": 1,
+        "failures": 0,
+        "errors": 1,
+        "failure_types": [
+          "AttributeError"
+        ],
+        "messages": [
+          "'NoneType' object has no attribute 'type'"
+        ]
+      }
+    },
+    {
+      "case": "youtube-dl-8",
+      "variant": "buggy",
+      "finding_id": "328973b86f3e",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0019/A",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-8/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null,
+      "output": "08-youtube-dl-8-buggy-328973b86f3e",
+      "test_sha256": "9915478b56f676a596951ad631229ed0e1315aa3d8aa8a0562b2efb3b8ded60b",
+      "snapshot_sha256": "7d5583e6ca81ff6f499d4fece0b758080b1328090e8d8c6ac85a9950a01f8524",
+      "trials": [
+        {
+          "implementation": "old",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.1
+        },
+        {
+          "implementation": "new",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.09
+        },
+        {
+          "implementation": "new",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.106
+        },
+        {
+          "implementation": "old",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.087
+        }
+      ],
+      "old_execution_gate_pass": true,
+      "new_execution_gate_pass": true,
+      "counterpart": {
+        "variant": "fixed",
+        "snapshot_sha256": "a4b7bd8352dc7d103a8c9b23dae9cb6fdede352fcdb8e5fa364b89f8add84705",
+        "new_gate": "failure_observed",
+        "tests_run": 1,
+        "failures": 0,
+        "errors": 1,
+        "failure_types": [
+          "AttributeError"
+        ],
+        "messages": [
+          "'NoneType' object has no attribute 'type'"
+        ]
+      }
+    },
+    {
+      "case": "youtube-dl-8",
+      "variant": "buggy",
+      "finding_id": "49a68ceac4ab",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0019/A",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-8/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null,
+      "output": "09-youtube-dl-8-buggy-49a68ceac4ab",
+      "test_sha256": "dd67143d3efcd12e2d2c2c364369607711e3ff50c854a2c8fb45f89f4ee4d796",
+      "snapshot_sha256": "7d5583e6ca81ff6f499d4fece0b758080b1328090e8d8c6ac85a9950a01f8524",
+      "trials": [
+        {
+          "implementation": "old",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.097
+        },
+        {
+          "implementation": "new",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.099
+        },
+        {
+          "implementation": "new",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.088
+        },
+        {
+          "implementation": "old",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.236
+        }
+      ],
+      "old_execution_gate_pass": true,
+      "new_execution_gate_pass": true,
+      "counterpart": {
+        "variant": "fixed",
+        "snapshot_sha256": "a4b7bd8352dc7d103a8c9b23dae9cb6fdede352fcdb8e5fa364b89f8add84705",
+        "new_gate": "failure_observed",
+        "tests_run": 1,
+        "failures": 0,
+        "errors": 1,
+        "failure_types": [
+          "AttributeError"
+        ],
+        "messages": [
+          "'NoneType' object has no attribute 'type'"
+        ]
+      }
+    },
+    {
+      "case": "youtube-dl-8",
+      "variant": "fixed",
+      "finding_id": "617648cc5081",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0019/B",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-8/evidence/fixed/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null,
+      "output": "10-youtube-dl-8-fixed-617648cc5081",
+      "test_sha256": "f86fe118e8c3d9efa6d354481ae7a68b949282ab3deb761ccc885e5d1b0a8959",
+      "snapshot_sha256": "a4b7bd8352dc7d103a8c9b23dae9cb6fdede352fcdb8e5fa364b89f8add84705",
+      "trials": [
+        {
+          "implementation": "old",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.324
+        },
+        {
+          "implementation": "new",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.325
+        },
+        {
+          "implementation": "new",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.476
+        },
+        {
+          "implementation": "old",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.245
+        }
+      ],
+      "old_execution_gate_pass": true,
+      "new_execution_gate_pass": true,
+      "counterpart": {
+        "variant": "buggy",
+        "snapshot_sha256": "7d5583e6ca81ff6f499d4fece0b758080b1328090e8d8c6ac85a9950a01f8524",
+        "new_gate": "failure_observed",
+        "tests_run": 1,
+        "failures": 0,
+        "errors": 1,
+        "failure_types": [
+          "AttributeError"
+        ],
+        "messages": [
+          "'NoneType' object has no attribute 'type'"
+        ]
+      }
+    },
+    {
+      "case": "youtube-dl-8",
+      "variant": "fixed",
+      "finding_id": "e7aa719b31af",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0019/B",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-8/evidence/fixed/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null,
+      "output": "11-youtube-dl-8-fixed-e7aa719b31af",
+      "test_sha256": "f36cb776463c6e02541059db420bf7f4aa4645fa9638476f5491cc5cda4f7d19",
+      "snapshot_sha256": "a4b7bd8352dc7d103a8c9b23dae9cb6fdede352fcdb8e5fa364b89f8add84705",
+      "trials": [
+        {
+          "implementation": "old",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.073
+        },
+        {
+          "implementation": "new",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.252
+        },
+        {
+          "implementation": "new",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.248
+        },
+        {
+          "implementation": "old",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "AttributeError"
+          ],
+          "messages": [
+            "'NoneType' object has no attribute 'type'"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.33
+        }
+      ],
+      "old_execution_gate_pass": true,
+      "new_execution_gate_pass": true,
+      "counterpart": {
+        "variant": "buggy",
+        "snapshot_sha256": "7d5583e6ca81ff6f499d4fece0b758080b1328090e8d8c6ac85a9950a01f8524",
+        "new_gate": "failure_observed",
+        "tests_run": 1,
+        "failures": 0,
+        "errors": 1,
+        "failure_types": [
+          "AttributeError"
+        ],
+        "messages": [
+          "'NoneType' object has no attribute 'type'"
+        ]
+      }
+    },
+    {
+      "case": "youtube-dl-9",
+      "variant": "buggy",
+      "finding_id": "9f669fbbebd2",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0020/B",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-9/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null,
+      "output": "12-youtube-dl-9-buggy-9f669fbbebd2",
+      "test_sha256": "25b29eaf28aa7448c7a6132fb92f122374e7cb19c16c34ea4ae57f3c30acad47",
+      "snapshot_sha256": "4f53227cdfdf13354ba606ab2c97694a40d3b10179329690ac5021983b86ce42",
+      "trials": [
+        {
+          "implementation": "old",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "IndexError"
+          ],
+          "messages": [
+            "list index out of range"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.196
+        },
+        {
+          "implementation": "new",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "IndexError"
+          ],
+          "messages": [
+            "list index out of range"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.276
+        },
+        {
+          "implementation": "new",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "IndexError"
+          ],
+          "messages": [
+            "list index out of range"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.229
+        },
+        {
+          "implementation": "old",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "failure_observed",
+          "tests_run": 1,
+          "failure_types": [
+            "IndexError"
+          ],
+          "messages": [
+            "list index out of range"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.548
+        }
+      ],
+      "old_execution_gate_pass": true,
+      "new_execution_gate_pass": true,
+      "counterpart": {
+        "variant": "fixed",
+        "snapshot_sha256": "7d5583e6ca81ff6f499d4fece0b758080b1328090e8d8c6ac85a9950a01f8524",
+        "new_gate": "failure_observed",
+        "tests_run": 1,
+        "failures": 0,
+        "errors": 1,
+        "failure_types": [
+          "IndexError"
+        ],
+        "messages": [
+          "list index out of range"
+        ]
+      }
+    },
+    {
+      "case": "youtube-dl-12",
+      "variant": "buggy",
+      "finding_id": "9758e8ca5215",
+      "batch": "evidence-new8-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-holdout-work/snapshots/0006/B",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-new8-20261014/reviews/youtube-dl-12/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": false,
+      "output": "13-youtube-dl-12-buggy-9758e8ca5215",
+      "test_sha256": "b7d9e039f350dac267c1c96d5faa118dc784a09289d00280f159bf5faf2cbe72",
+      "snapshot_sha256": "8c29eecf290d811985c2642b01e3a64fcba118070ecd38fa1d5a694fd6dab360",
+      "trials": [
+        {
+          "implementation": "old",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "unrelated_failure",
+          "tests_run": 1,
+          "failure_types": [
+            "AssertionError"
+          ],
+          "messages": [
+            "True is not false"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.823
+        },
+        {
+          "implementation": "new",
+          "repetition": 1,
+          "old_gate": "failure_observed",
+          "new_gate": "unrelated_failure",
+          "tests_run": 1,
+          "failure_types": [
+            "AssertionError"
+          ],
+          "messages": [
+            "True is not false"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.527
+        },
+        {
+          "implementation": "new",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "unrelated_failure",
+          "tests_run": 1,
+          "failure_types": [
+            "AssertionError"
+          ],
+          "messages": [
+            "True is not false"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.465
+        },
+        {
+          "implementation": "old",
+          "repetition": 2,
+          "old_gate": "failure_observed",
+          "new_gate": "unrelated_failure",
+          "tests_run": 1,
+          "failure_types": [
+            "AssertionError"
+          ],
+          "messages": [
+            "True is not false"
+          ],
+          "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+          "seconds": 1.533
+        }
+      ],
+      "old_execution_gate_pass": true,
+      "new_execution_gate_pass": false,
+      "counterpart": {
+        "variant": "fixed",
+        "snapshot_sha256": "80c18fbc207e23e69b4b6cef016153b56274c57b58a6bee28a7bed490035e50e",
+        "new_gate": "unrelated_failure",
+        "tests_run": 1,
+        "failures": 1,
+        "errors": 0,
+        "failure_types": [
+          "AssertionError"
+        ],
+        "messages": [
+          "True is not false"
+        ]
+      }
+    }
+  ],
+  "api_calls": 0,
+  "primary_containers": 52,
+  "counterpart_containers": 13,
+  "source_frozen": true
+}

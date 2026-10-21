@@ -1,0 +1,268 @@
+[
+  {
+    "finding_id": "65bac8b9d901",
+    "path": "pysnooper/tracer.py",
+    "source": "raw-results.zip/01-PySnooper-1-buggy-65bac8b9d901/target-source.json",
+    "excerpts": [
+      {
+        "start": 43,
+        "end": 99,
+        "text": "43: def get_source_from_frame(frame):\n44:     globs = frame.f_globals or {}\n45:     module_name = globs.get('__name__')\n46:     file_name = frame.f_code.co_filename\n47:     cache_key = (module_name, file_name)\n48:     try:\n49:         return source_cache[cache_key]\n50:     except KeyError:\n51:         pass\n52:     loader = globs.get('__loader__')\n53: \n54:     source = None\n55:     if hasattr(loader, 'get_source'):\n56:         try:\n57:             source = loader.get_source(module_name)\n58:         except ImportError:\n59:             pass\n60:         if source is not None:\n61:             source = source.splitlines()\n62:     if source is None:\n63:         ipython_filename_match = ipython_filename_pattern.match(file_name)\n64:         if ipython_filename_match:\n65:             entry_number = int(ipython_filename_match.group(1))\n66:             try:\n67:                 import IPython\n68:                 ipython_shell = IPython.get_ipython()\n69:                 ((_, _, source_chunk),) = ipython_shell.history_manager. \\\n70:                                   get_range(0, entry_number, entry_number + 1)\n71:                 source = source_chunk.splitlines()\n72:             except Exception:\n73:                 pass\n74:         else:\n75:             try:\n76:                 with open(file_name, 'rb') as fp:\n77:                     source = fp.read().splitlines()\n78:             except utils.file_reading_errors:\n79:                 pass\n80:     if source is None:\n81:         source = UnavailableSource()\n82: \n83:     # If we just read the source from a file, or if the loader did not\n84:     # apply tokenize.detect_encoding to decode the source into a\n85:     # string, then we should do that ourselves.\n86:     if isinstance(source[0], bytes):\n87:         encoding = 'ascii'\n88:         for line in source[:2]:\n89:             # File coding may be specified. Match pattern from PEP-263\n90:             # (https://www.python.org/dev/peps/pep-0263/)\n91:             match = re.search(br'coding[:=]\\s*([-\\w.]+)', line)\n92:             if match:\n93:                 encoding = match.group(1).decode('ascii')\n94:                 break\n95:         source = [pycompat.text_type(sline, encoding, 'replace') for sline in\n96:                   source]\n97: \n98:     source_cache[cache_key] = source\n99:     return source"
+      },
+      {
+        "start": 320,
+        "end": 331,
+        "text": "320:                 self.write('{indent}Modified var:.. {name} = {value_repr}'.format(\n321:                                                                    **locals()))\n322: \n323:         #                                                                     #\n324:         ### Finished newish and modified variables. ###########################\n325: \n326:         now_string = datetime_module.datetime.now().time().isoformat()\n327:         line_no = frame.f_lineno\n328:         source_line = get_source_from_frame(frame)[line_no - 1]\n329:         thread_info = \"\"\n330:         if self.thread_info:\n331:             current_thread = threading.current_thread()"
+      }
+    ]
+  },
+  {
+    "finding_id": "9c3894d4b559",
+    "path": "tornado/websocket.py",
+    "source": "raw-results.zip/02-tornado-1-buggy-9c3894d4b559/target-source.json",
+    "excerpts": [
+      {
+        "start": 719,
+        "end": 738,
+        "text": "719:     def __init__(\n720:         self,\n721:         persistent: bool,\n722:         max_wbits: Optional[int],\n723:         compression_options: Dict[str, Any] = None,\n724:     ) -> None:\n725:         if max_wbits is None:\n726:             max_wbits = zlib.MAX_WBITS\n727:         # There is no symbolic constant for the minimum wbits value.\n728:         if not (8 <= max_wbits <= zlib.MAX_WBITS):\n729:             raise ValueError(\n730:                 \"Invalid max_wbits value %r; allowed range 8-%d\",\n731:                 max_wbits,\n732:                 zlib.MAX_WBITS,\n733:             )\n734:         self._max_wbits = max_wbits\n735: \n736:         if (\n737:             compression_options is None\n738:             or \"compression_level\" not in compression_options"
+      }
+    ]
+  },
+  {
+    "finding_id": "2cd97d34b1a2",
+    "path": "tornado/websocket.py",
+    "source": "raw-results.zip/03-tornado-1-fixed-2cd97d34b1a2/target-source.json",
+    "excerpts": [
+      {
+        "start": 1354,
+        "end": 1361,
+        "text": "1354: \n1355: \n1356: class WebSocketClientConnection(simple_httpclient._HTTPConnection):\n1357:     \"\"\"WebSocket client connection.\n1358: \n1359:     This class should not be instantiated directly; use the\n1360:     `websocket_connect` function instead.\n1361:     \"\"\""
+      },
+      {
+        "start": 1388,
+        "end": 1390,
+        "text": "1388:         scheme, sep, rest = request.url.partition(\":\")\n1389:         scheme = {\"ws\": \"http\", \"wss\": \"https\"}[scheme]\n1390:         request.url = scheme + sep + rest"
+      },
+      {
+        "start": 1596,
+        "end": 1606,
+        "text": "1596: ) -> \"Awaitable[WebSocketClientConnection]\":\n1597:     \"\"\"Client-side websocket support.\n1598: \n1599:     Takes a url and returns a Future whose result is a\n1600:     `WebSocketClientConnection`.\n1601: \n1602:     ``compression_options`` is interpreted in the same way as the\n1603:     return value of `.WebSocketHandler.get_compression_options`.\n1604: \n1605:     The connection supports two styles of operation. In the coroutine\n1606:     style, the application typically calls"
+      }
+    ]
+  },
+  {
+    "finding_id": "9261f543fc85",
+    "path": "pysnooper/pysnooper.py",
+    "source": "raw-results.zip/04-PySnooper-3-buggy-9261f543fc85/target-source.json",
+    "excerpts": [
+      {
+        "start": 18,
+        "end": 30,
+        "text": "18: \n19: def get_write_function(output):\n20:     if output is None:\n21:         def write(s):\n22:             stderr = sys.stderr\n23:             stderr.write(s)\n24:     elif isinstance(output, (pycompat.PathLike, str)):\n25:         def write(s):\n26:             with open(output_path, 'a') as output_file:\n27:                 output_file.write(s)\n28:     else:\n29:         assert isinstance(output, utils.WritableStream)\n30:         def write(s):"
+      },
+      {
+        "start": 38,
+        "end": 54,
+        "text": "38:     '''\n39:     Snoop on the function, writing everything it's doing to stderr.\n40: \n41:     This is useful for debugging.\n42: \n43:     When you decorate a function with `@pysnooper.snoop()`, you'll get a log of\n44:     every line that ran in the function and a play-by-play of every local\n45:     variable that changed.\n46: \n47:     If stderr is not easily accessible for you, you can redirect the output to\n48:     a file::\n49: \n50:         @pysnooper.snoop('/my/log/file.log')\n51: \n52:     See values of some variables that aren't local variables::\n53: \n54:         @pysnooper.snoop(variables=('foo.bar', 'self.whatever'))"
+      }
+    ]
+  },
+  {
+    "finding_id": "791eec547d5f",
+    "path": "youtube_dl/jsinterp.py",
+    "source": "raw-results.zip/05-youtube-dl-4-fixed-791eec547d5f/target-source.json",
+    "excerpts": [
+      {
+        "start": 90,
+        "end": 120,
+        "text": "90:                 continue\n91:             right_val = self.interpret_expression(\n92:                 m.group('expr'), local_vars, allow_recursion - 1)\n93: \n94:             if m.groupdict().get('index'):\n95:                 lvar = local_vars[m.group('out')]\n96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]\n100:                 val = opfunc(cur, right_val)\n101:                 lvar[idx] = val\n102:                 return val\n103:             else:\n104:                 cur = local_vars.get(m.group('out'))\n105:                 val = opfunc(cur, right_val)\n106:                 local_vars[m.group('out')] = val\n107:                 return val\n108: \n109:         if expr.isdigit():\n110:             return int(expr)\n111: \n112:         var_m = re.match(\n113:             r'(?!if|return|true|false)(?P<name>%s)$' % _NAME_RE,\n114:             expr)\n115:         if var_m:\n116:             return local_vars[var_m.group('name')]\n117: \n118:         try:\n119:             return json.loads(expr)\n120:         except ValueError:"
+      }
+    ]
+  },
+  {
+    "finding_id": "b8651e68a886",
+    "path": "youtube_dl/utils.py",
+    "source": "raw-results.zip/06-youtube-dl-6-fixed-b8651e68a886/target-source.json",
+    "excerpts": [
+      {
+        "start": 1977,
+        "end": 1984,
+        "text": "1977: def parse_dfxp_time_expr(time_expr):\n1978:     if not time_expr:\n1979:         return\n1980: \n1981:     mobj = re.match(r'^(?P<time_offset>\\d+(?:\\.\\d+)?)s?$', time_expr)\n1982:     if mobj:\n1983:         return float(mobj.group('time_offset'))\n1984: "
+      },
+      {
+        "start": 2015,
+        "end": 2040,
+        "text": "2015:     dfxp = compat_etree_fromstring(dfxp_data.encode('utf-8'))\n2016:     out = []\n2017:     paras = dfxp.findall(_x('.//ttml:p')) or dfxp.findall(_x('.//ttaf1:p')) or dfxp.findall('.//p')\n2018: \n2019:     if not paras:\n2020:         raise ValueError('Invalid dfxp/TTML subtitle')\n2021: \n2022:     for para, index in zip(paras, itertools.count(1)):\n2023:         begin_time = parse_dfxp_time_expr(para.attrib.get('begin'))\n2024:         end_time = parse_dfxp_time_expr(para.attrib.get('end'))\n2025:         dur = parse_dfxp_time_expr(para.attrib.get('dur'))\n2026:         if begin_time is None:\n2027:             continue\n2028:         if not end_time:\n2029:             if not dur:\n2030:                 continue\n2031:             end_time = begin_time + dur\n2032:         out.append('%d\\n%s --> %s\\n%s\\n\\n' % (\n2033:             index,\n2034:             srt_subtitles_timecode(begin_time),\n2035:             srt_subtitles_timecode(end_time),\n2036:             parse_node(para)))\n2037: \n2038:     return ''.join(out)\n2039: \n2040: "
+      }
+    ]
+  },
+  {
+    "finding_id": "248543bf3d91",
+    "path": "youtube_dl/YoutubeDL.py",
+    "source": "raw-results.zip/07-youtube-dl-8-buggy-248543bf3d91/target-source.json",
+    "excerpts": [
+      {
+        "start": 913,
+        "end": 918,
+        "text": "913:     def build_format_selector(self, format_spec):\n914:         def syntax_error(note, start):\n915:             message = (\n916:                 'Invalid format specification: '\n917:                 '{0}\\n\\t{1}\\n\\t{2}^'.format(note, format_spec, ' ' * start[1]))\n918:             return SyntaxError(message)"
+      },
+      {
+        "start": 934,
+        "end": 983,
+        "text": "934:         def _parse_format_selection(tokens, inside_merge=False, inside_choice=False, inside_group=False):\n935:             selectors = []\n936:             current_selector = None\n937:             for type, string, start, _, _ in tokens:\n938:                 # ENCODING is only defined in python 3.x\n939:                 if type == getattr(tokenize, 'ENCODING', None):\n940:                     continue\n941:                 elif type in [tokenize.NAME, tokenize.NUMBER]:\n942:                     current_selector = FormatSelector(SINGLE, string, [])\n943:                 elif type == tokenize.OP:\n944:                     if string == ')':\n945:                         if not inside_group:\n946:                             # ')' will be handled by the parentheses group\n947:                             tokens.restore_last_token()\n948:                         break\n949:                     elif inside_merge and string in ['/', ',']:\n950:                         tokens.restore_last_token()\n951:                         break\n952:                     elif inside_choice and string == ',':\n953:                         tokens.restore_last_token()\n954:                         break\n955:                     elif string == ',':\n956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector\n960:                         second_choice = _parse_format_selection(tokens, inside_choice=True)\n961:                         current_selector = None\n962:                         selectors.append(FormatSelector(PICKFIRST, (first_choice, second_choice), []))\n963:                     elif string == '[':\n964:                         if not current_selector:\n965:                             current_selector = FormatSelector(SINGLE, 'best', [])\n966:                         format_filter = _parse_filter(tokens)\n967:                         current_selector.filters.append(format_filter)\n968:                     elif string == '(':\n969:                         if current_selector:\n970:                             raise syntax_error('Unexpected \"(\"', start)\n971:                         group = _parse_format_selection(tokens, inside_group=True)\n972:                         current_selector = FormatSelector(GROUP, group, [])\n973:                     elif string == '+':\n974:                         video_selector = current_selector\n975:                         audio_selector = _parse_format_selection(tokens, inside_merge=True)\n976:                         current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\n977:                     else:\n978:                         raise syntax_error('Operator not recognized: \"{0}\"'.format(string), start)\n979:                 elif type == tokenize.ENDMARKER:\n980:                     break\n981:             if current_selector:\n982:                 selectors.append(current_selector)\n983:             return selectors"
+      },
+      {
+        "start": 985,
+        "end": 1000,
+        "text": "985:         def _build_selector_function(selector):\n986:             if isinstance(selector, list):\n987:                 fs = [_build_selector_function(s) for s in selector]\n988: \n989:                 def selector_function(formats):\n990:                     for f in fs:\n991:                         for format in f(formats):\n992:                             yield format\n993:                 return selector_function\n994:             elif selector.type == GROUP:\n995:                 selector_function = _build_selector_function(selector.selector)\n996:             elif selector.type == PICKFIRST:\n997:                 fs = [_build_selector_function(s) for s in selector.selector]\n998: \n999:                 def selector_function(formats):\n1000:                     for f in fs:"
+      },
+      {
+        "start": 1262,
+        "end": 1276,
+        "text": "1262:         req_format = self.params.get('format')\n1263:         if req_format is None:\n1264:             req_format_list = []\n1265:             if (self.params.get('outtmpl', DEFAULT_OUTTMPL) != '-' and\n1266:                     info_dict['extractor'] in ['youtube', 'ted']):\n1267:                 merger = FFmpegMergerPP(self)\n1268:                 if merger.available and merger.can_merge():\n1269:                     req_format_list.append('bestvideo+bestaudio')\n1270:             req_format_list.append('best')\n1271:             req_format = '/'.join(req_format_list)\n1272:         format_selector = self.build_format_selector(req_format)\n1273:         formats_to_download = list(format_selector(formats))\n1274:         if not formats_to_download:\n1275:             raise ExtractorError('requested format not available',\n1276:                                  expected=True)"
+      }
+    ]
+  },
+  {
+    "finding_id": "328973b86f3e",
+    "path": "youtube_dl/YoutubeDL.py",
+    "source": "raw-results.zip/08-youtube-dl-8-buggy-328973b86f3e/target-source.json",
+    "excerpts": [
+      {
+        "start": 913,
+        "end": 918,
+        "text": "913:     def build_format_selector(self, format_spec):\n914:         def syntax_error(note, start):\n915:             message = (\n916:                 'Invalid format specification: '\n917:                 '{0}\\n\\t{1}\\n\\t{2}^'.format(note, format_spec, ' ' * start[1]))\n918:             return SyntaxError(message)"
+      },
+      {
+        "start": 958,
+        "end": 962,
+        "text": "958:                     elif string == '/':\n959:                         first_choice = current_selector\n960:                         second_choice = _parse_format_selection(tokens, inside_choice=True)\n961:                         current_selector = None\n962:                         selectors.append(FormatSelector(PICKFIRST, (first_choice, second_choice), []))"
+      },
+      {
+        "start": 985,
+        "end": 1006,
+        "text": "985:         def _build_selector_function(selector):\n986:             if isinstance(selector, list):\n987:                 fs = [_build_selector_function(s) for s in selector]\n988: \n989:                 def selector_function(formats):\n990:                     for f in fs:\n991:                         for format in f(formats):\n992:                             yield format\n993:                 return selector_function\n994:             elif selector.type == GROUP:\n995:                 selector_function = _build_selector_function(selector.selector)\n996:             elif selector.type == PICKFIRST:\n997:                 fs = [_build_selector_function(s) for s in selector.selector]\n998: \n999:                 def selector_function(formats):\n1000:                     for f in fs:\n1001:                         picked_formats = list(f(formats))\n1002:                         if picked_formats:\n1003:                             return picked_formats\n1004:                     return []\n1005:             elif selector.type == SINGLE:\n1006:                 format_spec = selector.selector"
+      },
+      {
+        "start": 1262,
+        "end": 1276,
+        "text": "1262:         req_format = self.params.get('format')\n1263:         if req_format is None:\n1264:             req_format_list = []\n1265:             if (self.params.get('outtmpl', DEFAULT_OUTTMPL) != '-' and\n1266:                     info_dict['extractor'] in ['youtube', 'ted']):\n1267:                 merger = FFmpegMergerPP(self)\n1268:                 if merger.available and merger.can_merge():\n1269:                     req_format_list.append('bestvideo+bestaudio')\n1270:             req_format_list.append('best')\n1271:             req_format = '/'.join(req_format_list)\n1272:         format_selector = self.build_format_selector(req_format)\n1273:         formats_to_download = list(format_selector(formats))\n1274:         if not formats_to_download:\n1275:             raise ExtractorError('requested format not available',\n1276:                                  expected=True)"
+      }
+    ]
+  },
+  {
+    "finding_id": "49a68ceac4ab",
+    "path": "youtube_dl/YoutubeDL.py",
+    "source": "raw-results.zip/09-youtube-dl-8-buggy-49a68ceac4ab/target-source.json",
+    "excerpts": [
+      {
+        "start": 913,
+        "end": 918,
+        "text": "913:     def build_format_selector(self, format_spec):\n914:         def syntax_error(note, start):\n915:             message = (\n916:                 'Invalid format specification: '\n917:                 '{0}\\n\\t{1}\\n\\t{2}^'.format(note, format_spec, ' ' * start[1]))\n918:             return SyntaxError(message)"
+      },
+      {
+        "start": 973,
+        "end": 976,
+        "text": "973:                     elif string == '+':\n974:                         video_selector = current_selector\n975:                         audio_selector = _parse_format_selection(tokens, inside_merge=True)\n976:                         current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])"
+      },
+      {
+        "start": 1055,
+        "end": 1063,
+        "text": "1055:                             yield matches[-1]\n1056:             elif selector.type == MERGE:\n1057:                 def _merge(formats_info):\n1058:                     format_1, format_2 = [f['format_id'] for f in formats_info]\n1059:                     # The first format must contain the video and the\n1060:                     # second the audio\n1061:                     if formats_info[0].get('vcodec') == 'none':\n1062:                         self.report_error('The first format must '\n1063:                                           'contain the video, try using '"
+      },
+      {
+        "start": 1085,
+        "end": 1095,
+        "text": "1085:                         'ext': output_ext,\n1086:                     }\n1087:                 video_selector, audio_selector = map(_build_selector_function, selector.selector)\n1088: \n1089:                 def selector_function(formats):\n1090:                     formats = list(formats)\n1091:                     for pair in itertools.product(video_selector(formats), audio_selector(formats)):\n1092:                         yield _merge(pair)\n1093: \n1094:             filters = [self._build_format_filter(f) for f in selector.filters]\n1095: "
+      },
+      {
+        "start": 1262,
+        "end": 1276,
+        "text": "1262:         req_format = self.params.get('format')\n1263:         if req_format is None:\n1264:             req_format_list = []\n1265:             if (self.params.get('outtmpl', DEFAULT_OUTTMPL) != '-' and\n1266:                     info_dict['extractor'] in ['youtube', 'ted']):\n1267:                 merger = FFmpegMergerPP(self)\n1268:                 if merger.available and merger.can_merge():\n1269:                     req_format_list.append('bestvideo+bestaudio')\n1270:             req_format_list.append('best')\n1271:             req_format = '/'.join(req_format_list)\n1272:         format_selector = self.build_format_selector(req_format)\n1273:         formats_to_download = list(format_selector(formats))\n1274:         if not formats_to_download:\n1275:             raise ExtractorError('requested format not available',\n1276:                                  expected=True)"
+      }
+    ]
+  },
+  {
+    "finding_id": "617648cc5081",
+    "path": "youtube_dl/YoutubeDL.py",
+    "source": "raw-results.zip/10-youtube-dl-8-fixed-617648cc5081/target-source.json",
+    "excerpts": [
+      {
+        "start": 913,
+        "end": 918,
+        "text": "913:     def build_format_selector(self, format_spec):\n914:         def syntax_error(note, start):\n915:             message = (\n916:                 'Invalid format specification: '\n917:                 '{0}\\n\\t{1}\\n\\t{2}^'.format(note, format_spec, ' ' * start[1]))\n918:             return SyntaxError(message)"
+      },
+      {
+        "start": 950,
+        "end": 960,
+        "text": "950:                         tokens.restore_last_token()\n951:                         break\n952:                     elif inside_choice and string == ',':\n953:                         tokens.restore_last_token()\n954:                         break\n955:                     elif string == ',':\n956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector\n960:                         second_choice = _parse_format_selection(tokens, inside_choice=True)"
+      },
+      {
+        "start": 985,
+        "end": 1000,
+        "text": "985:             if isinstance(selector, list):\n986:                 fs = [_build_selector_function(s) for s in selector]\n987: \n988:                 def selector_function(formats):\n989:                     for f in fs:\n990:                         for format in f(formats):\n991:                             yield format\n992:                 return selector_function\n993:             elif selector.type == GROUP:\n994:                 selector_function = _build_selector_function(selector.selector)\n995:             elif selector.type == PICKFIRST:\n996:                 fs = [_build_selector_function(s) for s in selector.selector]\n997: \n998:                 def selector_function(formats):\n999:                     for f in fs:\n1000:                         picked_formats = list(f(formats))"
+      }
+    ]
+  },
+  {
+    "finding_id": "e7aa719b31af",
+    "path": "youtube_dl/YoutubeDL.py",
+    "source": "raw-results.zip/11-youtube-dl-8-fixed-e7aa719b31af/target-source.json",
+    "excerpts": [
+      {
+        "start": 913,
+        "end": 918,
+        "text": "913:     def build_format_selector(self, format_spec):\n914:         def syntax_error(note, start):\n915:             message = (\n916:                 'Invalid format specification: '\n917:                 '{0}\\n\\t{1}\\n\\t{2}^'.format(note, format_spec, ' ' * start[1]))\n918:             return SyntaxError(message)"
+      },
+      {
+        "start": 970,
+        "end": 978,
+        "text": "970:                         group = _parse_format_selection(tokens, inside_group=True)\n971:                         current_selector = FormatSelector(GROUP, group, [])\n972:                     elif string == '+':\n973:                         video_selector = current_selector\n974:                         audio_selector = _parse_format_selection(tokens, inside_merge=True)\n975:                         current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\n976:                     else:\n977:                         raise syntax_error('Operator not recognized: \"{0}\"'.format(string), start)\n978:                 elif type == tokenize.ENDMARKER:"
+      },
+      {
+        "start": 1085,
+        "end": 1095,
+        "text": "1085:                     }\n1086:                 video_selector, audio_selector = map(_build_selector_function, selector.selector)\n1087: \n1088:                 def selector_function(formats):\n1089:                     formats = list(formats)\n1090:                     for pair in itertools.product(video_selector(formats), audio_selector(formats)):\n1091:                         yield _merge(pair)\n1092: \n1093:             filters = [self._build_format_filter(f) for f in selector.filters]\n1094: \n1095:             def final_selector(formats):"
+      }
+    ]
+  },
+  {
+    "finding_id": "9f669fbbebd2",
+    "path": "youtube_dl/YoutubeDL.py",
+    "source": "raw-results.zip/12-youtube-dl-9-buggy-9f669fbbebd2/target-source.json",
+    "excerpts": [
+      {
+        "start": 1006,
+        "end": 1018,
+        "text": "1006:                             yield f\n1007:                     elif format_spec in ['best', 'worst', None]:\n1008:                         format_idx = 0 if format_spec == 'worst' else -1\n1009:                         audiovideo_formats = [\n1010:                             f for f in formats\n1011:                             if f.get('vcodec') != 'none' and f.get('acodec') != 'none']\n1012:                         if audiovideo_formats:\n1013:                             yield audiovideo_formats[format_idx]\n1014:                         # for audio only (soundcloud) or video only (imgur) urls, select the best/worst audio format\n1015:                         elif (all(f.get('acodec') != 'none' for f in formats) or\n1016:                               all(f.get('vcodec') != 'none' for f in formats)):\n1017:                             yield formats[format_idx]\n1018:                     elif format_spec == 'bestaudio':"
+      },
+      {
+        "start": 1088,
+        "end": 1098,
+        "text": "1088: \n1089:             filters = [self._build_format_filter(f) for f in selector.filters]\n1090: \n1091:             def final_selector(formats):\n1092:                 for _filter in filters:\n1093:                     formats = list(filter(_filter, formats))\n1094:                 return selector_function(formats)\n1095:             return final_selector\n1096: \n1097:         stream = io.BytesIO(format_spec.encode('utf-8'))\n1098:         try:"
+      },
+      {
+        "start": 1197,
+        "end": 1207,
+        "text": "1197:         if info_dict.get('formats') is None:\n1198:             # There's only one format available\n1199:             formats = [info_dict]\n1200:         else:\n1201:             formats = info_dict['formats']\n1202: \n1203:         if not formats:\n1204:             raise ExtractorError('No video formats found!')\n1205: \n1206:         formats_dict = {}\n1207: "
+      },
+      {
+        "start": 1260,
+        "end": 1274,
+        "text": "1260:             if (self.params.get('outtmpl', DEFAULT_OUTTMPL) != '-' and\n1261:                     info_dict['extractor'] in ['youtube', 'ted']):\n1262:                 merger = FFmpegMergerPP(self)\n1263:                 if merger.available and merger.can_merge():\n1264:                     req_format_list.append('bestvideo+bestaudio')\n1265:             req_format_list.append('best')\n1266:             req_format = '/'.join(req_format_list)\n1267:         format_selector = self.build_format_selector(req_format)\n1268:         formats_to_download = list(format_selector(formats))\n1269:         if not formats_to_download:\n1270:             raise ExtractorError('requested format not available',\n1271:                                  expected=True)\n1272: \n1273:         if download:\n1274:             if len(formats_to_download) > 1:"
+      }
+    ]
+  },
+  {
+    "finding_id": "9758e8ca5215",
+    "path": "youtube_dl/YoutubeDL.py",
+    "source": "raw-results.zip/13-youtube-dl-12-buggy-9758e8ca5215/target-source.json",
+    "excerpts": [
+      {
+        "start": 1050,
+        "end": 1092,
+        "text": "1050:         if m:\n1051:             try:\n1052:                 comparison_value = int(m.group('value'))\n1053:             except ValueError:\n1054:                 comparison_value = parse_filesize(m.group('value'))\n1055:                 if comparison_value is None:\n1056:                     comparison_value = parse_filesize(m.group('value') + 'B')\n1057:                 if comparison_value is None:\n1058:                     raise ValueError(\n1059:                         'Invalid value %r in format specification %r' % (\n1060:                             m.group('value'), filter_spec))\n1061:             op = OPERATORS[m.group('op')]\n1062: \n1063:         if not m:\n1064:             STR_OPERATORS = {\n1065:                 '=': operator.eq,\n1066:                 '^=': lambda attr, value: attr.startswith(value),\n1067:                 '$=': lambda attr, value: attr.endswith(value),\n1068:                 '*=': lambda attr, value: value in attr,\n1069:             }\n1070:             str_operator_rex = re.compile(r'''(?x)\n1071:                 \\s*(?P<key>ext|acodec|vcodec|container|protocol|format_id)\n1072:                 \\s*(?P<negation>!\\s*)?(?P<op>%s)(?P<none_inclusive>\\s*\\?)?\n1073:                 \\s*(?P<value>[a-zA-Z0-9._-]+)\n1074:                 \\s*$\n1075:                 ''' % '|'.join(map(re.escape, STR_OPERATORS.keys())))\n1076:             m = str_operator_rex.search(filter_spec)\n1077:             if m:\n1078:                 comparison_value = m.group('value')\n1079:                 str_op = STR_OPERATORS[m.group('op')]\n1080:                 if m.group('negation'):\n1081:                     op = lambda attr, value: not str_op\n1082:                 else:\n1083:                     op = str_op\n1084: \n1085:         if not m:\n1086:             raise ValueError('Invalid filter specification %r' % filter_spec)\n1087: \n1088:         def _filter(f):\n1089:             actual_value = f.get(m.group('key'))\n1090:             if actual_value is None:\n1091:                 return m.group('none_inclusive')\n1092:             return op(actual_value, comparison_value)"
+      }
+    ]
+  }
+]

@@ -36,6 +36,14 @@ def main():
                     "exception_type": err[0].__name__,
                     "message": str(err[1])[:3000],
                     "traceback": "".join(traceback.format_exception(*err))[-10000:],
+                    "traceback_frames": [
+                        {
+                            "path": frame.filename,
+                            "line": frame.lineno,
+                            "function": frame.name,
+                        }
+                        for frame in traceback.extract_tb(err[2])[-40:]
+                    ],
                 }
             )
 
@@ -59,6 +67,9 @@ def main():
         suite = unittest.defaultTestLoader.loadTestsFromTestCase(
             namespace["ReproductionTest"]
         )
+        # Import-time definitions do not establish that the test exercised them.
+        visited.clear()
+        calls.clear()
         suite.run(result)
     except BaseException as error:
         load_error = {
@@ -77,6 +88,7 @@ def main():
         "observations": result.observations,
         "target_lines": sorted(visited),
         "target_calls": sorted(calls),
+        "target_trace_scope": "test_execution",
     }
     print(
         "\nCODE_REVIEW_EXECUTION=" + json.dumps(record, ensure_ascii=True), flush=True

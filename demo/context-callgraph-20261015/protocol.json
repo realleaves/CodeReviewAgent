@@ -1,0 +1,30 @@
+{
+  "hypothesis": "Replacing short-name callees with bounded static caller/callee/definition/document context helps identify missed defects without changing model, prompts, tools, candidate limit, execution or scoring.",
+  "baseline_sha256": {
+    "src/__init__.py": "9d9e33ea9b0988a621a891305c15f6822aeb887e062c209110de3a43b263ddb4",
+    "src/agents.py": "6b260571728a6127ebe94c3191c688804aa16d82eb557c92a3ab8336b35fa846",
+    "src/code_index.py": "39330b46f887021b2aeabf0c292cf5fe5a5e3b5cfde3d701be66beadcd0c208d",
+    "src/deduplication.py": "3071efab768fe7cc9e32073b04ad906af5cc66ffd8d145f61bcb3cfecd48788c",
+    "src/pipeline.py": "751063b7a44b387cedca54be528cf0429400fbb5f9b89f64b176d0a1e9b55118",
+    "src/report.py": "a05cb3f5e455b407c1ee9acc421603e40b9e1261847aabf9f1a696799fdd6f46",
+    "src/repository.py": "360f9e5f492f98780632c68197a8c72abf0b36d876b6b2c2368d8d99a0fbda4c",
+    "src/reproduction.py": "7f19205eb73f35d0c259fa3bd3419ae27aedb58acd4f2b32708c988f2ff18baa",
+    "src/reproduction_runner.py": "a64da9832eda9154d518ea49636ca927750d6264ddba2a0ccad135e629b7798a",
+    "src/schemas.py": "b7be574d7c4b10c4118a62164c0dda972383fba3ea60892336b1e0d660837987",
+    "src/static_analysis.py": "c094e31f91c91916c8db62e5350617e8b3a77a2f930b6063c9d4eec33cf60d2d",
+    "main.py": "3ad251ae7a0af637e8116538f85bbe91e0d7486891504abae79b0067aa920fc5",
+    "evaluation/bugsinpy_review.py": "964989cb542c212dd4731edc8cd3667fe9c60af75f27edcae5bc1ec786d260ce"
+  },
+  "development_cases": [
+    "tornado-1",
+    "tornado-3",
+    "tornado-7",
+    "youtube-dl-2",
+    "youtube-dl-4",
+    "youtube-dl-8"
+  ],
+  "selection_reason": "Previously missed, official-test verified; covers receiver state, cache lifecycle, Future compatibility, format identity, expression parsing, and nested selector parsing. Selected before implementation, not an unseen holdout.",
+  "limits": "Bounded supplement <=10000 serialized characters; existing 90000 total input and model/tool/call limits retained. Report actual tokens rather than assuming equal cost. No provider experiment launched by this manifest.",
+  "adoption": "Experimental opt-in, legacy remains default until a frozen paired discovery experiment shows stable benefit without increased incorrect known-issue alarms. No performance claim from offline coverage or unit tests.",
+  "api_calls": 0
+}

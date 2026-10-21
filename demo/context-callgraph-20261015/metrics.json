@@ -1,0 +1,20 @@
+{
+  "cases": 6,
+  "windows": 18,
+  "payloads": 36,
+  "model_api_calls": 0,
+  "project_tests_passed": 86,
+  "new_regression_tests": 21,
+  "original_prompt_preserved": true,
+  "legacy_payloads_equal_frozen_baseline": 18,
+  "primary_code_preserved": 18,
+  "source_spans_and_budget_checked": 18,
+  "windows_with_static_caller_context": 12,
+  "legacy_total_supplemental_chars": 48057,
+  "callgraph_total_supplemental_chars": 97519,
+  "max_callgraph_supplemental_chars": 8838,
+  "source_frozen_during_preview": true,
+  "candidate_recall_measured": false,
+  "proof_success_measured": false,
+  "default_strategy": "legacy"
+}

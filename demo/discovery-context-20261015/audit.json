@@ -1,0 +1,16 @@
+{
+  "provider_attempts": 436,
+  "limit": 600,
+  "phases": {
+    "r0-context": 99,
+    "r1-preflight": 1,
+    "r1-thinking": 119,
+    "r2-output-budget": 146,
+    "v-holdout": 71
+  },
+  "audited_windows": 260,
+  "unknown_response_attempts_charged": [
+    365
+  ],
+  "original_reference_rubric_and_scorer_unchanged": true
+}

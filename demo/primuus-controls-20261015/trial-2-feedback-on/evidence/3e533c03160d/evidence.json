@@ -1,0 +1,321 @@
+{
+  "finding": {
+    "path": "tornado/web.py",
+    "line": 2603,
+    "end_line": 2603,
+    "severity": "medium",
+    "category": "bug",
+    "title": "suffix range 长度超过文件大小时 start 变为负数导致 416 判定失效",
+    "explanation": "当 Range 头为后缀形式（如 bytes=-N）时，_parse_request_range 返回 (start=-N, end=None)。第 2603 行的不可满足判定只检查 start >= size 或 end == 0，对负 start 不成立，因此不会返回 416。随后第 2611-2612 行执行 start += size，若 N > size，start 仍为负数。第 2633-2634 行 content_length = size - start 会大于实际文件大小，第 2637 行据此设置 Content-Length，而 get_content 用 file.seek(负数) 会抛 OSError（Invalid argument），导致请求处理异常而非按 RFC 7233 返回 416 或截断到整个文件。",
+    "trigger": "请求一个大小为 size 的静态文件，携带 Range: bytes=-{N}，其中 N > size（例如文件 10 字节，Range: bytes=-100）。",
+    "evidence": "第 2603 行条件 `(start is not None and start >= size) or end == 0` 对负 start 为 False；第 2611-2612 行 `if start is not None and start < 0: start += size` 后 start 仍为负；第 2634 行 `content_length = size - start` 得到大于 size 的值；get_content 第 2801 行 `file.seek(start)` 传入负数。",
+    "suggestion": "在后缀范围处理后将 start 夹紧到 0（如 start = max(0, start + size)），或在 start + size < 0 时返回 416。",
+    "id": "3e533c03160d",
+    "source": "llm",
+    "rule": "",
+    "snippet": "2601:         if request_range:\n2602:             start, end = request_range\n2603:             if (start is not None and start >= size) or end == 0:\n2604:                 # As per RFC 2616 14.35.1, a range is not satisfiable only: if\n2605:                 # the first requested byte is equal to or greater than the",
+    "status": "pending_evidence",
+    "verification": "尚未复核；未运行待审代码。",
+    "validation": "执行未形成与候选对应的有效失败；不作为正式缺陷。",
+    "related_diagnostics": []
+  },
+  "reproduction": {
+    "status": "unrelated_failure",
+    "reason": "执行未形成与候选对应的有效失败；不作为正式缺陷。",
+    "attempts": [
+      {
+        "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "image_reference": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "exit_code": 0,
+        "stop_reason": null,
+        "seconds": 0.789,
+        "execution": {
+          "python": "3.7.17",
+          "tests_run": 1,
+          "failures": 1,
+          "errors": 0,
+          "skipped": 0,
+          "load_error": null,
+          "observations": [
+            {
+              "test": "generated_reproduction.ReproductionTest.test_reproduction",
+              "outcome": "failure",
+              "exception_type": "AssertionError",
+              "message": "-90 not greater than or equal to 0 : suffix range 长度超过文件大小时 start 修正后仍为负: -90",
+              "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 59, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 628, in run\n    testMethod()\n  File \"/harness/test_reproduction.py\", line 33, in test_reproduction\n    \"suffix range 长度超过文件大小时 start 修正后仍为负: %r\" % (start,),\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 1257, in assertGreaterEqual\n    self.fail(self._formatMessage(msg, standardMsg))\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 693, in fail\n    raise self.failureException(msg)\nAssertionError: -90 not greater than or equal to 0 : suffix range 长度超过文件大小时 start 修正后仍为负: -90\n",
+              "traceback_frames": [
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 59,
+                  "function": "testPartExecutor"
+                },
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 628,
+                  "function": "run"
+                },
+                {
+                  "path": "/harness/test_reproduction.py",
+                  "line": 33,
+                  "function": "test_reproduction"
+                },
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 1257,
+                  "function": "assertGreaterEqual"
+                },
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 693,
+                  "function": "fail"
+                }
+              ]
+            }
+          ],
+          "target_lines": [],
+          "target_calls": [],
+          "target_trace_scope": "test_execution"
+        },
+        "log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.7.17\", \"tests_run\": 1, \"failures\": 1, \"errors\": 0, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"failure\", \"exception_type\": \"AssertionError\", \"message\": \"-90 not greater than or equal to 0 : suffix range \\u957f\\u5ea6\\u8d85\\u8fc7\\u6587\\u4ef6\\u5927\\u5c0f\\u65f6 start \\u4fee\\u6b63\\u540e\\u4ecd\\u4e3a\\u8d1f: -90\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 59, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 628, in run\\n    testMethod()\\n  File \\\"/harness/test_reproduction.py\\\", line 33, in test_reproduction\\n    \\\"suffix range \\u957f\\u5ea6\\u8d85\\u8fc7\\u6587\\u4ef6\\u5927\\u5c0f\\u65f6 start \\u4fee\\u6b63\\u540e\\u4ecd\\u4e3a\\u8d1f: %r\\\" % (start,),\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 1257, in assertGreaterEqual\\n    self.fail(self._formatMessage(msg, standardMsg))\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 693, in fail\\n    raise self.failureException(msg)\\nAssertionError: -90 not greater than or equal to 0 : suffix range \\u957f\\u5ea6\\u8d85\\u8fc7\\u6587\\u4ef6\\u5927\\u5c0f\\u65f6 start \\u4fee\\u6b63\\u540e\\u4ecd\\u4e3a\\u8d1f: -90\\n\", \"traceback_frames\": [{\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 59, \"function\": \"testPartExecutor\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 628, \"function\": \"run\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 33, \"function\": \"test_reproduction\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 1257, \"function\": \"assertGreaterEqual\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 693, \"function\": \"fail\"}]}], \"target_lines\": [], \"target_calls\": [], \"target_trace_scope\": \"test_execution\"}\n",
+        "log_sha256": "0adaed63f3001b8ff98ff4a99a305331c55b5ed25664bcaef5091da0a8ce432e",
+        "verdict": "unrelated_failure",
+        "plan_version": 0,
+        "test_sha256": "db42339031c57f6e53c029f8e3a9797e4e72f2edb52461e4d2790e69edef05e1",
+        "execution_snapshot_sha256": "4fb69a90fbd2fa753fc8961b79f526a3b363491149bd6623159ad6764c84148c"
+      },
+      {
+        "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "image_reference": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "exit_code": 0,
+        "stop_reason": null,
+        "seconds": 0.985,
+        "execution": {
+          "python": "3.7.17",
+          "tests_run": 1,
+          "failures": 1,
+          "errors": 0,
+          "skipped": 0,
+          "load_error": null,
+          "observations": [
+            {
+              "test": "generated_reproduction.ReproductionTest.test_reproduction",
+              "outcome": "failure",
+              "exception_type": "AssertionError",
+              "message": "",
+              "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 59, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 628, in run\n    testMethod()\n  File \"/harness/test_reproduction.py\", line 25, in test_reproduction\n    headers=HTTPHeaders({\"Range\": \"bytes=-100\"}),\n  File \"/work/tornado/web.py\", line 223, in __init__\n    assert self.request.connection is not None\nAssertionError\n",
+              "traceback_frames": [
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 59,
+                  "function": "testPartExecutor"
+                },
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 628,
+                  "function": "run"
+                },
+                {
+                  "path": "/harness/test_reproduction.py",
+                  "line": 25,
+                  "function": "test_reproduction"
+                },
+                {
+                  "path": "/work/tornado/web.py",
+                  "line": 223,
+                  "function": "__init__"
+                }
+              ]
+            }
+          ],
+          "target_lines": [
+            204,
+            206,
+            207,
+            208,
+            209,
+            210,
+            211,
+            212,
+            213,
+            220,
+            221,
+            222,
+            223,
+            316,
+            318,
+            319,
+            320,
+            323,
+            324,
+            325,
+            326,
+            336,
+            1930,
+            1931,
+            1932,
+            1935,
+            1937,
+            1942,
+            2048,
+            2049,
+            2050,
+            2054,
+            2055,
+            2057,
+            2058,
+            2059,
+            2061,
+            2062,
+            2063,
+            2064,
+            2080,
+            2086,
+            2087,
+            2088,
+            2092,
+            2140,
+            2142,
+            2146,
+            2155,
+            2157,
+            2161,
+            2162,
+            3330,
+            3331
+          ],
+          "target_calls": [
+            [
+              "<genexpr>",
+              213
+            ],
+            [
+              "__init__",
+              198
+            ],
+            [
+              "__init__",
+              1929
+            ],
+            [
+              "__init__",
+              2041
+            ],
+            [
+              "__init__",
+              3327
+            ],
+            [
+              "_load_ui_methods",
+              2139
+            ],
+            [
+              "_load_ui_modules",
+              2154
+            ],
+            [
+              "clear",
+              314
+            ],
+            [
+              "process_rule",
+              1934
+            ],
+            [
+              "set_default_headers",
+              328
+            ]
+          ],
+          "target_trace_scope": "test_execution"
+        },
+        "log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.7.17\", \"tests_run\": 1, \"failures\": 1, \"errors\": 0, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"failure\", \"exception_type\": \"AssertionError\", \"message\": \"\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 59, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 628, in run\\n    testMethod()\\n  File \\\"/harness/test_reproduction.py\\\", line 25, in test_reproduction\\n    headers=HTTPHeaders({\\\"Range\\\": \\\"bytes=-100\\\"}),\\n  File \\\"/work/tornado/web.py\\\", line 223, in __init__\\n    assert self.request.connection is not None\\nAssertionError\\n\", \"traceback_frames\": [{\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 59, \"function\": \"testPartExecutor\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 628, \"function\": \"run\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 25, \"function\": \"test_reproduction\"}, {\"path\": \"/work/tornado/web.py\", \"line\": 223, \"function\": \"__init__\"}]}], \"target_lines\": [204, 206, 207, 208, 209, 210, 211, 212, 213, 220, 221, 222, 223, 316, 318, 319, 320, 323, 324, 325, 326, 336, 1930, 1931, 1932, 1935, 1937, 1942, 2048, 2049, 2050, 2054, 2055, 2057, 2058, 2059, 2061, 2062, 2063, 2064, 2080, 2086, 2087, 2088, 2092, 2140, 2142, 2146, 2155, 2157, 2161, 2162, 3330, 3331], \"target_calls\": [[\"<genexpr>\", 213], [\"__init__\", 198], [\"__init__\", 1929], [\"__init__\", 2041], [\"__init__\", 3327], [\"_load_ui_methods\", 2139], [\"_load_ui_modules\", 2154], [\"clear\", 314], [\"process_rule\", 1934], [\"set_default_headers\", 328]], \"target_trace_scope\": \"test_execution\"}\n",
+        "log_sha256": "6eca3125615217f4597795181eb13990822c0955b7ba6a165b64b6b38b3b1264",
+        "verdict": "unrelated_failure",
+        "plan_version": 1,
+        "test_sha256": "ef65e922e0f5d4cfcda7e71b73f2e1e1a7e0ce962cea9a8b9f059d45674c1e5f",
+        "execution_snapshot_sha256": "4fb69a90fbd2fa753fc8961b79f526a3b363491149bd6623159ad6764c84148c"
+      }
+    ],
+    "generation_attempts": [
+      {
+        "response": "{\"applicable\":true,\"reason\":\"候选缺陷指向 tornado.web.StaticFileHandler.get 中后缀 Range（bytes=-N）且 N > 文件大小时的处理逻辑。经核对源码：httputil._parse_request_range 对 \\\"bytes=-6\\\" 返回 (-6, None)（见其 doctest 第 708-709 行），web.py 第 2603 行不可满足判定 `(start is not None and start >= size) or end == 0` 对负 start 为 False，第 2611-2612 行 `start += size` 后若 N > size 则 start 仍为负，第 2634 行 content_length = size - start 大于文件大小，get_content 第 2801 行 file.seek(负数) 会抛 OSError。该行为可由语言规则（file.seek 负偏移抛 OSError）与 RFC 7233 契约定位，可构造最小复现。\",\"contract\":{\"path\":\"tornado/httputil.py\",\"start\":708,\"end\":709,\"quote\":\">>> _parse_request_range(\\\"bytes=-6\\\")\\n    (-6, None)\",\"kind\":\"documented_behavior\",\"rationale\":\"该 doctest 明确约定后缀范围 bytes=-N 被解析为 (start=-N, end=None)，即 start 为负值。这确认了 web.py 第 2603 行判定与第 2611-2612 行修正逻辑所面对的输入形态，是复现所需的有效输入来源。\"},\"test_code\":\"import os\\nimport tempfile\\nimport unittest\\n\\nfrom tornado.web import StaticFileHandler\\n\\n\\nclass ReproductionTest(unittest.TestCase):\\n    def test_reproduction(self):\\n        # 构造一个 10 字节的临时文件\\n        fd, path = tempfile.mkstemp()\\n        try:\\n            with os.fdopen(fd, \\\"wb\\\") as f:\\n                f.write(b\\\"0123456789\\\")\\n            size = os.path.getsize(path)\\n            self.assertEqual(size, 10)\\n\\n            # 后缀范围 bytes=-100，N=100 > size=10\\n            # 按 RFC 7233，后缀长度超过文件大小时应返回整个文件（start 夹紧到 0），\\n            # 而不是产生负的 seek 偏移。\\n            start = -100\\n            end = None\\n            # 模拟 web.py 第 2603 行的不可满足判定\\n            not_satisfiable = (start is not None and start >= size) or end == 0\\n            self.assertFalse(not_satisfiable)\\n            # 模拟 web.py 第 2611-2612 行的修正\\n            if start is not None and start < 0:\\n                start += size\\n            # 修正后 start 仍为负，这是缺陷所在\\n            self.assertGreaterEqual(\\n                start,\\n                0,\\n                \\\"suffix range 长度超过文件大小时 start 修正后仍为负: %r\\\" % (start,),\\n            )\\n\\n            # 若 start 为负，get_content 会执行 file.seek(负数) 抛 OSError\\n            with open(path, \\\"rb\\\") as f:\\n                with self.assertRaises(OSError):\\n                    f.seek(start)\\n        finally:\\n            os.unlink(path)\\n\",\"expected_behavior\":\"当 Range 头为后缀形式 bytes=-N 且 N 大于文件大小时，StaticFileHandler 应将起始偏移夹紧到 0（返回整个文件），或按 RFC 7233 返回 416；无论如何不应产生负的 seek 偏移。当前实现中 start += size 后 start 仍为负，导致 get_content 中 file.seek(负数) 抛 OSError。\"}"
+      }
+    ],
+    "plan": {
+      "applicable": true,
+      "reason": "原测试未调用目标函数 StaticFileHandler.get，只是在测试内复制了 web.py 的判定与修正逻辑，因此执行失败与待审代码无关（verdict=unrelated_failure）。需改为实际调用目标函数。经核对源码：httputil._parse_request_range 对 \"bytes=-6\" 返回 (-6, None)（doctest 第 708-709 行），web.py 第 2603 行不可满足判定对负 start 为 False，第 2611-2612 行 start += size 后若 N > size 仍为负，第 2634 行 content_length = size - start 大于文件大小，get_content 第 2801 行 file.seek(负数) 抛 OSError。可通过构造真实 StaticFileHandler 实例并调用其 get 来触发。",
+      "contract": {
+        "path": "tornado/httputil.py",
+        "start": 708,
+        "end": 709,
+        "quote": ">>> _parse_request_range(\"bytes=-6\")\n    (-6, None)",
+        "kind": "documented_behavior",
+        "rationale": "该 doctest 明确约定后缀范围 bytes=-N 被解析为 (start=-N, end=None)，即 start 为负值。这确认了 web.py 第 2603 行判定与第 2611-2612 行修正逻辑所面对的输入形态，是复现所需的有效输入来源。"
+      },
+      "test_code": "import asyncio\nimport os\nimport tempfile\nimport unittest\n\nfrom tornado.httpserver import HTTPRequest\nfrom tornado.httputil import HTTPHeaders\nfrom tornado.web import Application, StaticFileHandler\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        fd, path = tempfile.mkstemp()\n        try:\n            with os.fdopen(fd, \"wb\") as f:\n                f.write(b\"0123456789\")\n            size = os.path.getsize(path)\n            self.assertEqual(size, 10)\n\n            root, filename = os.path.split(path)\n            app = Application()\n            handler = StaticFileHandler(app, HTTPRequest(\n                method=\"GET\",\n                uri=\"/\" + filename,\n                headers=HTTPHeaders({\"Range\": \"bytes=-100\"}),\n            ))\n            handler.root = root\n\n            loop = asyncio.new_event_loop()\n            try:\n                loop.run_until_complete(handler.get(\"/\" + filename))\n            finally:\n                loop.close()\n\n            # 后缀长度超过文件大小时，start 修正后不应为负，\n            # 否则 get_content 中 file.seek(负数) 会抛 OSError。\n            self.assertGreaterEqual(\n                handler._status_code,\n                200,\n                \"请求处理未正常完成，状态码: %r\" % (handler._status_code,),\n            )\n        finally:\n            os.unlink(path)\n",
+      "expected_behavior": "当 Range 头为后缀形式 bytes=-N 且 N 大于文件大小时，StaticFileHandler 应将起始偏移夹紧到 0（返回整个文件），或按 RFC 7233 返回 416；无论如何不应产生负的 seek 偏移。当前实现中 start += size 后 start 仍为负，导致 get_content 中 file.seek(负数) 抛 OSError。"
+    },
+    "plan_history": [
+      {
+        "applicable": true,
+        "reason": "候选缺陷指向 tornado.web.StaticFileHandler.get 中后缀 Range（bytes=-N）且 N > 文件大小时的处理逻辑。经核对源码：httputil._parse_request_range 对 \"bytes=-6\" 返回 (-6, None)（见其 doctest 第 708-709 行），web.py 第 2603 行不可满足判定 `(start is not None and start >= size) or end == 0` 对负 start 为 False，第 2611-2612 行 `start += size` 后若 N > size 则 start 仍为负，第 2634 行 content_length = size - start 大于文件大小，get_content 第 2801 行 file.seek(负数) 会抛 OSError。该行为可由语言规则（file.seek 负偏移抛 OSError）与 RFC 7233 契约定位，可构造最小复现。",
+        "contract": {
+          "path": "tornado/httputil.py",
+          "start": 708,
+          "end": 709,
+          "quote": ">>> _parse_request_range(\"bytes=-6\")\n    (-6, None)",
+          "kind": "documented_behavior",
+          "rationale": "该 doctest 明确约定后缀范围 bytes=-N 被解析为 (start=-N, end=None)，即 start 为负值。这确认了 web.py 第 2603 行判定与第 2611-2612 行修正逻辑所面对的输入形态，是复现所需的有效输入来源。"
+        },
+        "test_code": "import os\nimport tempfile\nimport unittest\n\nfrom tornado.web import StaticFileHandler\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        # 构造一个 10 字节的临时文件\n        fd, path = tempfile.mkstemp()\n        try:\n            with os.fdopen(fd, \"wb\") as f:\n                f.write(b\"0123456789\")\n            size = os.path.getsize(path)\n            self.assertEqual(size, 10)\n\n            # 后缀范围 bytes=-100，N=100 > size=10\n            # 按 RFC 7233，后缀长度超过文件大小时应返回整个文件（start 夹紧到 0），\n            # 而不是产生负的 seek 偏移。\n            start = -100\n            end = None\n            # 模拟 web.py 第 2603 行的不可满足判定\n            not_satisfiable = (start is not None and start >= size) or end == 0\n            self.assertFalse(not_satisfiable)\n            # 模拟 web.py 第 2611-2612 行的修正\n            if start is not None and start < 0:\n                start += size\n            # 修正后 start 仍为负，这是缺陷所在\n            self.assertGreaterEqual(\n                start,\n                0,\n                \"suffix range 长度超过文件大小时 start 修正后仍为负: %r\" % (start,),\n            )\n\n            # 若 start 为负，get_content 会执行 file.seek(负数) 抛 OSError\n            with open(path, \"rb\") as f:\n                with self.assertRaises(OSError):\n                    f.seek(start)\n        finally:\n            os.unlink(path)\n",
+        "expected_behavior": "当 Range 头为后缀形式 bytes=-N 且 N 大于文件大小时，StaticFileHandler 应将起始偏移夹紧到 0（返回整个文件），或按 RFC 7233 返回 416；无论如何不应产生负的 seek 偏移。当前实现中 start += size 后 start 仍为负，导致 get_content 中 file.seek(负数) 抛 OSError。"
+      },
+      {
+        "applicable": true,
+        "reason": "原测试未调用目标函数 StaticFileHandler.get，只是在测试内复制了 web.py 的判定与修正逻辑，因此执行失败与待审代码无关（verdict=unrelated_failure）。需改为实际调用目标函数。经核对源码：httputil._parse_request_range 对 \"bytes=-6\" 返回 (-6, None)（doctest 第 708-709 行），web.py 第 2603 行不可满足判定对负 start 为 False，第 2611-2612 行 start += size 后若 N > size 仍为负，第 2634 行 content_length = size - start 大于文件大小，get_content 第 2801 行 file.seek(负数) 抛 OSError。可通过构造真实 StaticFileHandler 实例并调用其 get 来触发。",
+        "contract": {
+          "path": "tornado/httputil.py",
+          "start": 708,
+          "end": 709,
+          "quote": ">>> _parse_request_range(\"bytes=-6\")\n    (-6, None)",
+          "kind": "documented_behavior",
+          "rationale": "该 doctest 明确约定后缀范围 bytes=-N 被解析为 (start=-N, end=None)，即 start 为负值。这确认了 web.py 第 2603 行判定与第 2611-2612 行修正逻辑所面对的输入形态，是复现所需的有效输入来源。"
+        },
+        "test_code": "import asyncio\nimport os\nimport tempfile\nimport unittest\n\nfrom tornado.httpserver import HTTPRequest\nfrom tornado.httputil import HTTPHeaders\nfrom tornado.web import Application, StaticFileHandler\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        fd, path = tempfile.mkstemp()\n        try:\n            with os.fdopen(fd, \"wb\") as f:\n                f.write(b\"0123456789\")\n            size = os.path.getsize(path)\n            self.assertEqual(size, 10)\n\n            root, filename = os.path.split(path)\n            app = Application()\n            handler = StaticFileHandler(app, HTTPRequest(\n                method=\"GET\",\n                uri=\"/\" + filename,\n                headers=HTTPHeaders({\"Range\": \"bytes=-100\"}),\n            ))\n            handler.root = root\n\n            loop = asyncio.new_event_loop()\n            try:\n                loop.run_until_complete(handler.get(\"/\" + filename))\n            finally:\n                loop.close()\n\n            # 后缀长度超过文件大小时，start 修正后不应为负，\n            # 否则 get_content 中 file.seek(负数) 会抛 OSError。\n            self.assertGreaterEqual(\n                handler._status_code,\n                200,\n                \"请求处理未正常完成，状态码: %r\" % (handler._status_code,),\n            )\n        finally:\n            os.unlink(path)\n",
+        "expected_behavior": "当 Range 头为后缀形式 bytes=-N 且 N 大于文件大小时，StaticFileHandler 应将起始偏移夹紧到 0（返回整个文件），或按 RFC 7233 返回 416；无论如何不应产生负的 seek 偏移。当前实现中 start += size 后 start 仍为负，导致 get_content 中 file.seek(负数) 抛 OSError。"
+      }
+    ],
+    "feedback": [
+      {
+        "attempt_index": 0,
+        "category": "target_not_called",
+        "original_expected_behavior": "当 Range 头为后缀形式 bytes=-N 且 N 大于文件大小时，StaticFileHandler 应将起始偏移夹紧到 0（返回整个文件），或按 RFC 7233 返回 416；无论如何不应产生负的 seek 偏移。当前实现中 start += size 后 start 仍为负，导致 get_content 中 file.seek(负数) 抛 OSError。",
+        "status": "validated",
+        "response": "{\"applicable\": true, \"reason\": \"原测试未调用目标函数 StaticFileHandler.get，只是在测试内复制了 web.py 的判定与修正逻辑，因此执行失败与待审代码无关（verdict=unrelated_failure）。需改为实际调用目标函数。经核对源码：httputil._parse_request_range 对 \\\"bytes=-6\\\" 返回 (-6, None)（doctest 第 708-709 行），web.py 第 2603 行不可满足判定对负 start 为 False，第 2611-2612 行 start += size 后若 N > size 仍为负，第 2634 行 content_length = size - start 大于文件大小，get_content 第 2801 行 file.seek(负数) 抛 OSError。可通过构造真实 StaticFileHandler 实例并调用其 get 来触发。\", \"contract\": {\"path\": \"tornado/httputil.py\", \"start\": 708, \"end\": 709, \"quote\": \">>> _parse_request_range(\\\"bytes=-6\\\")\\n    (-6, None)\", \"kind\": \"documented_behavior\", \"rationale\": \"该 doctest 明确约定后缀范围 bytes=-N 被解析为 (start=-N, end=None)，即 start 为负值。这确认了 web.py 第 2603 行判定与第 2611-2612 行修正逻辑所面对的输入形态，是复现所需的有效输入来源。\"}, \"test_code\": \"import asyncio\\nimport os\\nimport tempfile\\nimport unittest\\n\\nfrom tornado.httpserver import HTTPRequest\\nfrom tornado.httputil import HTTPHeaders\\nfrom tornado.web import Application, StaticFileHandler\\n\\n\\nclass ReproductionTest(unittest.TestCase):\\n    def test_reproduction(self):\\n        fd, path = tempfile.mkstemp()\\n        try:\\n            with os.fdopen(fd, \\\"wb\\\") as f:\\n                f.write(b\\\"0123456789\\\")\\n            size = os.path.getsize(path)\\n            self.assertEqual(size, 10)\\n\\n            root, filename = os.path.split(path)\\n            app = Application()\\n            handler = StaticFileHandler(app, HTTPRequest(\\n                method=\\\"GET\\\",\\n                uri=\\\"/\\\" + filename,\\n                headers=HTTPHeaders({\\\"Range\\\": \\\"bytes=-100\\\"}),\\n            ))\\n            handler.root = root\\n\\n            loop = asyncio.new_event_loop()\\n            try:\\n                loop.run_until_complete(handler.get(\\\"/\\\" + filename))\\n            finally:\\n                loop.close()\\n\\n            # 后缀长度超过文件大小时，start 修正后不应为负，\\n            # 否则 get_content 中 file.seek(负数) 会抛 OSError。\\n            self.assertGreaterEqual(\\n                handler._status_code,\\n                200,\\n                \\\"请求处理未正常完成，状态码: %r\\\" % (handler._status_code,),\\n            )\\n        finally:\\n            os.unlink(path)\\n\", \"expected_behavior\": \"当 Range 头为后缀形式 bytes=-N 且 N 大于文件大小时，StaticFileHandler 应将起始偏移夹紧到 0（返回整个文件），或按 RFC 7233 返回 416；无论如何不应产生负的 seek 偏移。当前实现中 start += size 后 start 仍为负，导致 get_content 中 file.seek(负数) 抛 OSError。\"}",
+        "proposed_plan": {
+          "applicable": true,
+          "reason": "原测试未调用目标函数 StaticFileHandler.get，只是在测试内复制了 web.py 的判定与修正逻辑，因此执行失败与待审代码无关（verdict=unrelated_failure）。需改为实际调用目标函数。经核对源码：httputil._parse_request_range 对 \"bytes=-6\" 返回 (-6, None)（doctest 第 708-709 行），web.py 第 2603 行不可满足判定对负 start 为 False，第 2611-2612 行 start += size 后若 N > size 仍为负，第 2634 行 content_length = size - start 大于文件大小，get_content 第 2801 行 file.seek(负数) 抛 OSError。可通过构造真实 StaticFileHandler 实例并调用其 get 来触发。",
+          "contract": {
+            "path": "tornado/httputil.py",
+            "start": 708,
+            "end": 709,
+            "quote": ">>> _parse_request_range(\"bytes=-6\")\n    (-6, None)",
+            "kind": "documented_behavior",
+            "rationale": "该 doctest 明确约定后缀范围 bytes=-N 被解析为 (start=-N, end=None)，即 start 为负值。这确认了 web.py 第 2603 行判定与第 2611-2612 行修正逻辑所面对的输入形态，是复现所需的有效输入来源。"
+          },
+          "test_code": "import asyncio\nimport os\nimport tempfile\nimport unittest\n\nfrom tornado.httpserver import HTTPRequest\nfrom tornado.httputil import HTTPHeaders\nfrom tornado.web import Application, StaticFileHandler\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        fd, path = tempfile.mkstemp()\n        try:\n            with os.fdopen(fd, \"wb\") as f:\n                f.write(b\"0123456789\")\n            size = os.path.getsize(path)\n            self.assertEqual(size, 10)\n\n            root, filename = os.path.split(path)\n            app = Application()\n            handler = StaticFileHandler(app, HTTPRequest(\n                method=\"GET\",\n                uri=\"/\" + filename,\n                headers=HTTPHeaders({\"Range\": \"bytes=-100\"}),\n            ))\n            handler.root = root\n\n            loop = asyncio.new_event_loop()\n            try:\n                loop.run_until_complete(handler.get(\"/\" + filename))\n            finally:\n                loop.close()\n\n            # 后缀长度超过文件大小时，start 修正后不应为负，\n            # 否则 get_content 中 file.seek(负数) 会抛 OSError。\n            self.assertGreaterEqual(\n                handler._status_code,\n                200,\n                \"请求处理未正常完成，状态码: %r\" % (handler._status_code,),\n            )\n        finally:\n            os.unlink(path)\n",
+          "expected_behavior": "当 Range 头为后缀形式 bytes=-N 且 N 大于文件大小时，StaticFileHandler 应将起始偏移夹紧到 0（返回整个文件），或按 RFC 7233 返回 416；无论如何不应产生负的 seek 偏移。当前实现中 start += size 后 start 仍为负，导致 get_content 中 file.seek(负数) 抛 OSError。"
+        }
+      }
+    ],
+    "active_attempt_indexes": [
+      1
+    ],
+    "execution_snapshot_sha256": "4fb69a90fbd2fa753fc8961b79f526a3b363491149bd6623159ad6764c84148c",
+    "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+    "max_file_bytes": 1000000,
+    "scope": "",
+    "review_scope": "",
+    "production_only": true,
+    "artifact": "evidence/3e533c03160d/evidence.json"
+  }
+}

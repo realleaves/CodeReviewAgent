@@ -1,0 +1,160 @@
+{
+  "source": "demo/evidence-retest13-20261015/raw-results.zip",
+  "api_calls": 0,
+  "docker_executions": 0,
+  "scope": "fixed 13 previously accepted evidence records; deterministic expectation gate only",
+  "mapping_note": "expected_outcome/expected_exception are fixed evaluator annotations taken from each frozen plan text and the 2026-10-15 adjudication, not new model output.",
+  "records": [
+    {
+      "folder": "01-PySnooper-1-buggy-65bac8b9d901",
+      "case": "PySnooper-1",
+      "finding_id": "65bac8b9d901",
+      "title": "source 为空列表时 source[0] 触发 IndexError",
+      "contract_kind": "language_rule",
+      "expected_outcome": "return_value",
+      "expected_exception": "",
+      "admitted_to_audit": false,
+      "reason": "语言规则只能证明应抛出某异常，不能单独证明返回值/状态变化/输出；需要文档或既有测试。"
+    },
+    {
+      "folder": "02-tornado-1-buggy-9c3894d4b559",
+      "case": "tornado-1",
+      "finding_id": "9c3894d4b559",
+      "title": "ValueError 使用 %r 占位符但未做格式化",
+      "contract_kind": "language_rule",
+      "expected_outcome": "error_message",
+      "expected_exception": "",
+      "admitted_to_audit": false,
+      "reason": "仅错误消息措辞/文案不是行为缺陷。"
+    },
+    {
+      "folder": "03-tornado-1-fixed-2cd97d34b1a2",
+      "case": "tornado-1",
+      "finding_id": "2cd97d34b1a2",
+      "title": "非 ws/wss 协议 URL 触发 KeyError",
+      "contract_kind": "language_rule",
+      "expected_outcome": "exception",
+      "expected_exception": "ValueError",
+      "admitted_to_audit": false,
+      "reason": "语言规则只能解释实际异常(KeyError)，不能据此要求另一种异常(ValueError)；需要文档或既有测试。"
+    },
+    {
+      "folder": "04-PySnooper-3-buggy-9261f543fc85",
+      "case": "PySnooper-3",
+      "finding_id": "9261f543fc85",
+      "title": "write 闭包引用未定义的 output_path 导致 NameError",
+      "contract_kind": "documented_behavior",
+      "expected_outcome": "output",
+      "expected_exception": "",
+      "admitted_to_audit": true,
+      "reason": ""
+    },
+    {
+      "folder": "05-youtube-dl-4-fixed-791eec547d5f",
+      "case": "youtube-dl-4",
+      "finding_id": "791eec547d5f",
+      "title": "isdigit 对 Unicode 数字返回 True 但 int() 可能失败或语义不符",
+      "contract_kind": "language_rule",
+      "expected_outcome": "exception",
+      "expected_exception": "ExtractorError",
+      "admitted_to_audit": false,
+      "reason": "语言规则只能解释实际异常(ValueError)，不能据此要求另一种异常(ExtractorError)；需要文档或既有测试。"
+    },
+    {
+      "folder": "06-youtube-dl-6-fixed-b8651e68a886",
+      "case": "youtube-dl-6",
+      "finding_id": "b8651e68a886",
+      "title": "dfxp2srt 中 end_time 为 0 时被误判为缺失",
+      "contract_kind": "language_rule",
+      "expected_outcome": "output",
+      "expected_exception": "",
+      "admitted_to_audit": false,
+      "reason": "语言规则只能证明应抛出某异常，不能单独证明返回值/状态变化/输出；需要文档或既有测试。"
+    },
+    {
+      "folder": "07-youtube-dl-8-buggy-248543bf3d91",
+      "case": "youtube-dl-8",
+      "finding_id": "248543bf3d91",
+      "title": "逗号分隔时 current_selector 为 None 会被追加进 selectors",
+      "contract_kind": "language_rule",
+      "expected_outcome": "exception",
+      "expected_exception": "SyntaxError",
+      "admitted_to_audit": false,
+      "reason": "语言规则只能解释实际异常(AttributeError)，不能据此要求另一种异常(SyntaxError)；需要文档或既有测试。"
+    },
+    {
+      "folder": "08-youtube-dl-8-buggy-328973b86f3e",
+      "case": "youtube-dl-8",
+      "finding_id": "328973b86f3e",
+      "title": "斜杠 '/' 左侧缺少选择器时 first_choice 为 None",
+      "contract_kind": "language_rule",
+      "expected_outcome": "exception",
+      "expected_exception": "SyntaxError",
+      "admitted_to_audit": false,
+      "reason": "语言规则只能解释实际异常(AttributeError)，不能据此要求另一种异常(SyntaxError)；需要文档或既有测试。"
+    },
+    {
+      "folder": "09-youtube-dl-8-buggy-49a68ceac4ab",
+      "case": "youtube-dl-8",
+      "finding_id": "49a68ceac4ab",
+      "title": "加号 '+' 左侧缺少选择器时 video_selector 为 None",
+      "contract_kind": "language_rule",
+      "expected_outcome": "exception",
+      "expected_exception": "SyntaxError",
+      "admitted_to_audit": false,
+      "reason": "语言规则只能解释实际异常(AttributeError)，不能据此要求另一种异常(SyntaxError)；需要文档或既有测试。"
+    },
+    {
+      "folder": "10-youtube-dl-8-fixed-617648cc5081",
+      "case": "youtube-dl-8",
+      "finding_id": "617648cc5081",
+      "title": "逗号分隔时可能将 None 追加进 selectors",
+      "contract_kind": "language_rule",
+      "expected_outcome": "exception",
+      "expected_exception": "SyntaxError",
+      "admitted_to_audit": false,
+      "reason": "语言规则只能解释实际异常(AttributeError)，不能据此要求另一种异常(SyntaxError)；需要文档或既有测试。"
+    },
+    {
+      "folder": "11-youtube-dl-8-fixed-e7aa719b31af",
+      "case": "youtube-dl-8",
+      "finding_id": "e7aa719b31af",
+      "title": "加号左侧缺少选择器时 video_selector 为 None",
+      "contract_kind": "language_rule",
+      "expected_outcome": "exception",
+      "expected_exception": "SyntaxError",
+      "admitted_to_audit": false,
+      "reason": "语言规则只能解释实际异常(AttributeError)，不能据此要求另一种异常(SyntaxError)；需要文档或既有测试。"
+    },
+    {
+      "folder": "12-youtube-dl-9-buggy-9f669fbbebd2",
+      "case": "youtube-dl-9",
+      "finding_id": "9f669fbbebd2",
+      "title": "best/worst 在 formats 为空时索引越界",
+      "contract_kind": "language_rule",
+      "expected_outcome": "return_value",
+      "expected_exception": "",
+      "admitted_to_audit": false,
+      "reason": "语言规则只能证明应抛出某异常，不能单独证明返回值/状态变化/输出；需要文档或既有测试。"
+    },
+    {
+      "folder": "13-youtube-dl-12-buggy-9758e8ca5215",
+      "case": "youtube-dl-12",
+      "finding_id": "9758e8ca5215",
+      "title": "字符串过滤器取反逻辑错误：对函数对象取非而非调用结果",
+      "contract_kind": "language_rule",
+      "expected_outcome": "return_value",
+      "expected_exception": "",
+      "admitted_to_audit": false,
+      "reason": "语言规则只能证明应抛出某异常，不能单独证明返回值/状态变化/输出；需要文档或既有测试。"
+    }
+  ],
+  "admitted": 1,
+  "rejected": 12,
+  "admitted_ids": [
+    "9261f543fc85"
+  ],
+  "expected_admitted_ids": [
+    "9261f543fc85"
+  ]
+}

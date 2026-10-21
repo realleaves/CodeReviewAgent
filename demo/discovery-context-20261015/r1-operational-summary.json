@@ -1,0 +1,26 @@
+{
+  "callgraph": {
+    "windows": 36,
+    "completed_windows": 31,
+    "api_calls": 38,
+    "candidate_rows": 41,
+    "window_error_types": {
+      "RuntimeError": 5
+    },
+    "prompt_tokens": 126868,
+    "completion_tokens": 11324
+  },
+  "thinking": {
+    "windows": 36,
+    "completed_windows": 17,
+    "api_calls": 81,
+    "candidate_rows": 13,
+    "window_error_types": {
+      "JSONDecodeError": 2,
+      "ModelResponseError": 16,
+      "RuntimeError": 1
+    },
+    "prompt_tokens": 439458,
+    "completion_tokens": 236207
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "metrics": [
+    {
+      "mode": "disabled/rep1",
+      "planned_pairs": 4,
+      "eligible_pairs": 4,
+      "detected_known_bugs": 2,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 2,
+      "known_bug_detection_rate": 0.5,
+      "fixed_target_alarm_rate": 0.0,
+      "paired_discrimination_rate": 0.5,
+      "exclusions": []
+    },
+    {
+      "mode": "disabled/rep2",
+      "planned_pairs": 4,
+      "eligible_pairs": 4,
+      "detected_known_bugs": 1,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 1,
+      "known_bug_detection_rate": 0.25,
+      "fixed_target_alarm_rate": 0.0,
+      "paired_discrimination_rate": 0.25,
+      "exclusions": []
+    },
+    {
+      "mode": "enabled/rep1",
+      "planned_pairs": 4,
+      "eligible_pairs": 1,
+      "detected_known_bugs": 1,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 1,
+      "known_bug_detection_rate": 1.0,
+      "fixed_target_alarm_rate": 0.0,
+      "paired_discrimination_rate": 1.0,
+      "exclusions": [
+        {
+          "case": "tornado-13",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-14",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-15",
+          "reason": "review_incomplete"
+        }
+      ]
+    },
+    {
+      "mode": "enabled/rep2",
+      "planned_pairs": 4,
+      "eligible_pairs": 1,
+      "detected_known_bugs": 1,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 1,
+      "known_bug_detection_rate": 1.0,
+      "fixed_target_alarm_rate": 0.0,
+      "paired_discrimination_rate": 1.0,
+      "exclusions": [
+        {
+          "case": "tornado-13",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-14",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-15",
+          "reason": "review_incomplete"
+        }
+      ]
+    }
+  ],
+  "scoring_scope": "Only the known reference issue; extra findings are not automatically false positives.",
+  "adjudicators": [
+    "Codex frozen-reference source and trigger review; human review pending"
+  ],
+  "stage": "Discovery only; no new Agent-generated proof score",
+  "decisions_sha256": "45881653e25e16fcc830bbf7dda491d18911b6075927a7603860483b80345c22",
+  "all_planned_groups_retained": true
+}

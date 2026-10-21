@@ -1,0 +1,36 @@
+{
+  "status": "preregistered_before_source_changes",
+  "source_commit": "40034c2dd8e7a948f267218e272486be8cbc874e",
+  "source_sha256": {
+    "src/__init__.py": "9d9e33ea9b0988a621a891305c15f6822aeb887e062c209110de3a43b263ddb4",
+    "src/agents.py": "6b260571728a6127ebe94c3191c688804aa16d82eb557c92a3ab8336b35fa846",
+    "src/code_index.py": "39330b46f887021b2aeabf0c292cf5fe5a5e3b5cfde3d701be66beadcd0c208d",
+    "src/deduplication.py": "3071efab768fe7cc9e32073b04ad906af5cc66ffd8d145f61bcb3cfecd48788c",
+    "src/pipeline.py": "751063b7a44b387cedca54be528cf0429400fbb5f9b89f64b176d0a1e9b55118",
+    "src/report.py": "cc3ce2a458deaebcab9733b252b75baaa65894e4edb4723b94add2478cc1e80e",
+    "src/repository.py": "360f9e5f492f98780632c68197a8c72abf0b36d876b6b2c2368d8d99a0fbda4c",
+    "src/reproduction.py": "bbe9ad3970cc890af98e5a02b5d76a83d27acffe9248e19df06601fb2580ec0c",
+    "src/reproduction_runner.py": "23118d3e6f39301affbf63c44fa0da2395ee8bd849879a3a1cb2f6b420ab74aa",
+    "src/schemas.py": "6c1bf6d9393112fc20487866116d25e12fba43cfa4ca044adadf4b64013d07c8",
+    "src/static_analysis.py": "c094e31f91c91916c8db62e5350617e8b3a77a2f930b6063c9d4eec33cf60d2d",
+    "main.py": "796376b97ddd7f65ed670feed19a311f54119c5496cc503f0179ca06f1529df8"
+  },
+  "gate_experiment": {
+    "input": "13 saved accepted candidates and their original first executions; repeat actual PySnooper-3 and youtube-dl-12 controls in immutable Docker images",
+    "acceptance": "Reject wrong-branch youtube-dl-12; preserve PySnooper-3 via real candidate-line traceback; report other candidates as unadjudicated."
+  },
+  "feedback_experiment": {
+    "case": "tornado-4",
+    "initial_plan": "Frozen saved original generated plan; source and expected_behavior/contract fixed in both variants",
+    "variants": [
+      "new_gate_feedback_off",
+      "new_gate_feedback_on"
+    ],
+    "repeats": 3,
+    "order": "off/on, on/off, off/on",
+    "max_model_calls_total": 24,
+    "max_repairs_per_candidate": 1,
+    "acceptance": "Improved valid target evidence with unchanged contract; evaluator-only fixed-snapshot control passes; otherwise keep feedback disabled by default."
+  },
+  "exclusions": "No changes to original scores, rubrics, held-out answers or denominators. Development diagnostics, not a new end-to-end detection score."
+}

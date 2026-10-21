@@ -1,0 +1,501 @@
+{
+  "api_calls": 0,
+  "cases": 6,
+  "windows": 18,
+  "records": [
+    {
+      "case": "tornado-1",
+      "side": "buggy",
+      "path": "tornado/websocket.py",
+      "start": 513,
+      "end": 609,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 4890,
+      "callgraph_supplemental_chars": 7940,
+      "relations": {
+        "callee": 3,
+        "caller": 2,
+        "enclosing_definition": 1,
+        "import_binding": 4,
+        "preceding_code": 1,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "_WebSocketParams",
+        "get",
+        "get_compression_options",
+        "on_close"
+      ],
+      "retrieval_seconds": 0.1327,
+      "folder": "tornado-1-buggy-1",
+      "payload_sha256": {
+        "legacy": "ae4430ce096c09d291cd30ed656ad7a8c9e16bc856955b7341e49cc46445cdc5",
+        "callgraph": "00f5db4991e21be31fb7058aa3e219756f48d95fdebfbf015f79fc2aaf748736"
+      }
+    },
+    {
+      "case": "tornado-1",
+      "side": "buggy",
+      "path": "tornado/websocket.py",
+      "start": 669,
+      "end": 763,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 2890,
+      "callgraph_supplemental_chars": 1456,
+      "relations": {
+        "import_binding": 4,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "compress",
+        "flush",
+        "close",
+        "close"
+      ],
+      "retrieval_seconds": 0.0091,
+      "folder": "tornado-1-buggy-2",
+      "payload_sha256": {
+        "legacy": "801c7ee8a25074bce0cb6ad8cd448b99b5c277b03737234b10bf9228d70e0770",
+        "callgraph": "bd19fedf04ae72e332b5105d8c7d0b1783ff784f1dd74bf35a1b8ce4678b6524"
+      }
+    },
+    {
+      "case": "tornado-1",
+      "side": "buggy",
+      "path": "tornado/websocket.py",
+      "start": 1300,
+      "end": 1395,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 2011,
+      "callgraph_supplemental_chars": 6844,
+      "relations": {
+        "callee": 3,
+        "caller": 1,
+        "following_code": 1,
+        "import_binding": 4,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "_WebSocketParams",
+        "close",
+        "close",
+        "is_closing"
+      ],
+      "retrieval_seconds": 0.0135,
+      "folder": "tornado-1-buggy-3",
+      "payload_sha256": {
+        "legacy": "d99def02d5a77e9060ff9dca3e64fa9d1fe6c0454602de067a6a4a8175cb3166",
+        "callgraph": "9e93f5a33956da73c8c395f1bc8ee841a9cfc4ae0eee12dc4a1100a7b757a085"
+      }
+    },
+    {
+      "case": "tornado-1",
+      "side": "fixed",
+      "path": "tornado/websocket.py",
+      "start": 513,
+      "end": 609,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 4890,
+      "callgraph_supplemental_chars": 7947,
+      "relations": {
+        "callee": 3,
+        "caller": 2,
+        "enclosing_definition": 1,
+        "import_binding": 4,
+        "preceding_code": 1,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "_WebSocketParams",
+        "get",
+        "get_compression_options",
+        "on_close"
+      ],
+      "retrieval_seconds": 0.1025,
+      "folder": "tornado-1-fixed-1",
+      "payload_sha256": {
+        "legacy": "5e71ce5af8c16f2ddfa9ab50ba2cd7318f78458e5a99e9ab68f138f9c5eb93f6",
+        "callgraph": "6da05f7f0d077a717eb523b430febafcc085d3298cf8b18fb5c1c2ddb7fafaa9"
+      }
+    },
+    {
+      "case": "tornado-1",
+      "side": "fixed",
+      "path": "tornado/websocket.py",
+      "start": 669,
+      "end": 767,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 2890,
+      "callgraph_supplemental_chars": 1456,
+      "relations": {
+        "import_binding": 4,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "compress",
+        "flush",
+        "close",
+        "close"
+      ],
+      "retrieval_seconds": 0.0094,
+      "folder": "tornado-1-fixed-2",
+      "payload_sha256": {
+        "legacy": "460137ca3709b7872caf1b1fdaaae00109f4d33abb5551d2630dfa067474027c",
+        "callgraph": "1fbf9fd1bc6afb19f11ad51daf828d2b1aa73325442cf93f0504974531430a3c"
+      }
+    },
+    {
+      "case": "tornado-1",
+      "side": "fixed",
+      "path": "tornado/websocket.py",
+      "start": 1304,
+      "end": 1402,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 2748,
+      "callgraph_supplemental_chars": 6861,
+      "relations": {
+        "callee": 3,
+        "caller": 1,
+        "following_code": 1,
+        "import_binding": 4,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "_WebSocketParams",
+        "close",
+        "set_nodelay",
+        "close"
+      ],
+      "retrieval_seconds": 0.0142,
+      "folder": "tornado-1-fixed-3",
+      "payload_sha256": {
+        "legacy": "2762ac61be59483d1bdb8502c9803316f00698e04f6668051e9c5b4e5d62791e",
+        "callgraph": "a52596fbc17b30672dc4119408a6e99c056f29d4abe48df00548e9033ed05167"
+      }
+    },
+    {
+      "case": "tornado-3",
+      "side": "buggy",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 4776,
+      "callgraph_supplemental_chars": 5996,
+      "relations": {
+        "callee": 2,
+        "following_code": 1,
+        "import_binding": 4,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "HTTPRequest",
+        "get",
+        "get",
+        "get"
+      ],
+      "retrieval_seconds": 0.2303,
+      "folder": "tornado-3-buggy-1",
+      "payload_sha256": {
+        "legacy": "1529c7fe78c56776b66894f1fb1c0d04452b1db6a305449f9d5c02b90b0b5a97",
+        "callgraph": "67de7c8d6a069f63ea6a7fd274840ef56a3d5e9c9427a1c33b9fb89d86854a1e"
+      }
+    },
+    {
+      "case": "tornado-3",
+      "side": "fixed",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 291,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 7648,
+      "callgraph_supplemental_chars": 5996,
+      "relations": {
+        "callee": 2,
+        "following_code": 1,
+        "import_binding": 4,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "HTTPRequest",
+        "HTTPHeaders",
+        "current",
+        "current"
+      ],
+      "retrieval_seconds": 0.0935,
+      "folder": "tornado-3-fixed-1",
+      "payload_sha256": {
+        "legacy": "9934c5e579f95bd5bdd79d9c6e0e500ad1c95bf4e354d09ef5d5d1f7468bab01",
+        "callgraph": "9d3f94fd28b91d36b4acf099ffb83550e4d6b284381be57b5a40bd41d35a5aac"
+      }
+    },
+    {
+      "case": "tornado-7",
+      "side": "buggy",
+      "path": "tornado/ioloop.py",
+      "start": 1,
+      "end": 95,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 32,
+      "callgraph_supplemental_chars": 32,
+      "relations": {},
+      "legacy_context_symbols": [],
+      "retrieval_seconds": 0.2456,
+      "folder": "tornado-7-buggy-1",
+      "payload_sha256": {
+        "legacy": "8aa58fa534019811409a721484af7414260becfc3cd73bb112e0b41f03951d54",
+        "callgraph": "8aa58fa534019811409a721484af7414260becfc3cd73bb112e0b41f03951d54"
+      }
+    },
+    {
+      "case": "tornado-7",
+      "side": "buggy",
+      "path": "tornado/ioloop.py",
+      "start": 610,
+      "end": 707,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 2726,
+      "callgraph_supplemental_chars": 6035,
+      "relations": {
+        "callee": 3,
+        "caller": 1,
+        "import_binding": 4,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "add_callback",
+        "add_callback",
+        "callback",
+        "cpu_count"
+      ],
+      "retrieval_seconds": 0.0062,
+      "folder": "tornado-7-buggy-2",
+      "payload_sha256": {
+        "legacy": "da5dd6779858059189b97131a762c1610f0a18dc0fccc152224e869427066d0d",
+        "callgraph": "88bc4bb4a82bfb5879f6152df3bfa88d728c6f8d6eb87ba84f0001abdd4cce75"
+      }
+    },
+    {
+      "case": "tornado-7",
+      "side": "fixed",
+      "path": "tornado/ioloop.py",
+      "start": 1,
+      "end": 95,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 32,
+      "callgraph_supplemental_chars": 32,
+      "relations": {},
+      "legacy_context_symbols": [],
+      "retrieval_seconds": 0.0981,
+      "folder": "tornado-7-fixed-1",
+      "payload_sha256": {
+        "legacy": "ec36f1a853736e9ef439937b9e796919e7d13148886a7bca6ae0c56cb9b3f268",
+        "callgraph": "ec36f1a853736e9ef439937b9e796919e7d13148886a7bca6ae0c56cb9b3f268"
+      }
+    },
+    {
+      "case": "tornado-7",
+      "side": "fixed",
+      "path": "tornado/ioloop.py",
+      "start": 610,
+      "end": 711,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 2726,
+      "callgraph_supplemental_chars": 6045,
+      "relations": {
+        "callee": 3,
+        "caller": 1,
+        "import_binding": 4,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "add_callback",
+        "add_callback",
+        "callback",
+        "cpu_count"
+      ],
+      "retrieval_seconds": 0.0066,
+      "folder": "tornado-7-fixed-2",
+      "payload_sha256": {
+        "legacy": "1c6cdf7f0e0d7ac65c789dede44b932b717e8107a87653698cf99400d65819fe",
+        "callgraph": "4ab8d7697f5194d10d7905a309a273184f2f6cada3099eabddd8e33a13e20496"
+      }
+    },
+    {
+      "case": "youtube-dl-2",
+      "side": "buggy",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2067,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 1748,
+      "callgraph_supplemental_chars": 8838,
+      "relations": {
+        "callee": 3,
+        "caller": 1,
+        "enclosing_definition": 1,
+        "following_code": 1,
+        "import_binding": 5,
+        "preceding_code": 1,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "_download_webpage_handle",
+        "report_warning",
+        "location_key",
+        "get"
+      ],
+      "retrieval_seconds": 0.8847,
+      "folder": "youtube-dl-2-buggy-1",
+      "payload_sha256": {
+        "legacy": "59f013d09e9ff355ede4f37bb91968fb33da1a5e2073d98011690347243bb2f4",
+        "callgraph": "40f3eb771388f2a05f975cc41bf18ed0d4925229bd679af1bab3fa134d47e0f7"
+      }
+    },
+    {
+      "case": "youtube-dl-2",
+      "side": "fixed",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2065,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 1748,
+      "callgraph_supplemental_chars": 8838,
+      "relations": {
+        "callee": 3,
+        "caller": 1,
+        "enclosing_definition": 1,
+        "following_code": 1,
+        "import_binding": 5,
+        "preceding_code": 1,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "_download_webpage_handle",
+        "report_warning",
+        "location_key",
+        "get"
+      ],
+      "retrieval_seconds": 1.146,
+      "folder": "youtube-dl-2-fixed-1",
+      "payload_sha256": {
+        "legacy": "c0e2b49c44b6b2e86c4fa4ad431dfd5fbc2ae225daade1caa0343be6da55b550",
+        "callgraph": "54bd547d09b321d0c4a873e7fa36d9f6fcc199406034666ae22c1a11ec29bfab"
+      }
+    },
+    {
+      "case": "youtube-dl-4",
+      "side": "buggy",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 2565,
+      "callgraph_supplemental_chars": 4140,
+      "relations": {
+        "callee": 1,
+        "caller": 1,
+        "enclosing_definition": 2,
+        "import_binding": 3,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "interpret_statement",
+        "extract_function",
+        "get",
+        "split"
+      ],
+      "retrieval_seconds": 1.0806,
+      "folder": "youtube-dl-4-buggy-1",
+      "payload_sha256": {
+        "legacy": "4b3e292e115e4751d1447d21c137da7d21d0f1a80a3526825666bc09969f46fa",
+        "callgraph": "e7911d427a2cf1c0c37af8c16914d57c5215bd454d553d6e2614ee0dd91fae05"
+      }
+    },
+    {
+      "case": "youtube-dl-4",
+      "side": "fixed",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 2565,
+      "callgraph_supplemental_chars": 4140,
+      "relations": {
+        "callee": 1,
+        "caller": 1,
+        "enclosing_definition": 2,
+        "import_binding": 3,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "interpret_statement",
+        "extract_function",
+        "get",
+        "split"
+      ],
+      "retrieval_seconds": 1.0826,
+      "folder": "youtube-dl-4-fixed-1",
+      "payload_sha256": {
+        "legacy": "bdb4c78608a90c8c0b04e04014e41e60ccf042ad48819c47ab9710eb6e9a3271",
+        "callgraph": "7fd041b41c63676d01a2c0729407cdb8bc86f75279cecbeaa0346f698c7ddcb9"
+      }
+    },
+    {
+      "case": "youtube-dl-8",
+      "side": "buggy",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 991,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 586,
+      "callgraph_supplemental_chars": 7462,
+      "relations": {
+        "caller": 3,
+        "enclosing_definition": 1,
+        "following_code": 1,
+        "import_binding": 1,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "syntax_error",
+        "restore_last_token"
+      ],
+      "retrieval_seconds": 0.7335,
+      "folder": "youtube-dl-8-buggy-1",
+      "payload_sha256": {
+        "legacy": "4b84ca63b2e6bca3efc67817e607d2f138357f3796cbdf845b1bd4ca689bfe18",
+        "callgraph": "e10f4ef35f02980d127efad01fb7e9975824d20c3e71259325848baf5d093e49"
+      }
+    },
+    {
+      "case": "youtube-dl-8",
+      "side": "fixed",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 990,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 586,
+      "callgraph_supplemental_chars": 7461,
+      "relations": {
+        "caller": 3,
+        "enclosing_definition": 1,
+        "following_code": 1,
+        "import_binding": 1,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "syntax_error",
+        "restore_last_token"
+      ],
+      "retrieval_seconds": 0.616,
+      "folder": "youtube-dl-8-fixed-1",
+      "payload_sha256": {
+        "legacy": "fc86bcc32ca0a128d03e9aab11bfddfc0f6b060d74474f3559e54f0b3099f5eb",
+        "callgraph": "3bdb71654d7071e339ae2fa13fcf9205a9dab89f7a3bfebd39c1e0f711fc7b8e"
+      }
+    }
+  ],
+  "source_frozen": true,
+  "recall_or_precision_measured": false
+}

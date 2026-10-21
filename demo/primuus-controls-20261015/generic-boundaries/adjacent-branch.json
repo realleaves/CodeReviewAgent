@@ -1,0 +1,64 @@
+{
+  "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+  "image_reference": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+  "exit_code": 0,
+  "stop_reason": null,
+  "seconds": 0.566,
+  "execution": {
+    "python": "3.7.17",
+    "tests_run": 1,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 0,
+    "load_error": null,
+    "observations": [
+      {
+        "test": "generated_reproduction.ReproductionTest.test_reproduction",
+        "outcome": "failure",
+        "exception_type": "AssertionError",
+        "message": "0 != 99",
+        "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 59, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 628, in run\n    testMethod()\n  File \"/harness/test_reproduction.py\", line 5, in test_reproduction\n    self.assertEqual(target(0), 99)\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 852, in assertEqual\n    assertion_func(first, second, msg=msg)\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 845, in _baseAssertEqual\n    raise self.failureException(msg)\nAssertionError: 0 != 99\n",
+        "traceback_frames": [
+          {
+            "path": "/usr/local/lib/python3.7/unittest/case.py",
+            "line": 59,
+            "function": "testPartExecutor"
+          },
+          {
+            "path": "/usr/local/lib/python3.7/unittest/case.py",
+            "line": 628,
+            "function": "run"
+          },
+          {
+            "path": "/harness/test_reproduction.py",
+            "line": 5,
+            "function": "test_reproduction"
+          },
+          {
+            "path": "/usr/local/lib/python3.7/unittest/case.py",
+            "line": 852,
+            "function": "assertEqual"
+          },
+          {
+            "path": "/usr/local/lib/python3.7/unittest/case.py",
+            "line": 845,
+            "function": "_baseAssertEqual"
+          }
+        ]
+      }
+    ],
+    "target_lines": [
+      2,
+      4
+    ],
+    "target_calls": [
+      [
+        "target",
+        1
+      ]
+    ],
+    "target_trace_scope": "test_execution"
+  },
+  "log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.7.17\", \"tests_run\": 1, \"failures\": 1, \"errors\": 0, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"failure\", \"exception_type\": \"AssertionError\", \"message\": \"0 != 99\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 59, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 628, in run\\n    testMethod()\\n  File \\\"/harness/test_reproduction.py\\\", line 5, in test_reproduction\\n    self.assertEqual(target(0), 99)\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 852, in assertEqual\\n    assertion_func(first, second, msg=msg)\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 845, in _baseAssertEqual\\n    raise self.failureException(msg)\\nAssertionError: 0 != 99\\n\", \"traceback_frames\": [{\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 59, \"function\": \"testPartExecutor\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 628, \"function\": \"run\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 5, \"function\": \"test_reproduction\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 852, \"function\": \"assertEqual\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 845, \"function\": \"_baseAssertEqual\"}]}], \"target_lines\": [2, 4], \"target_calls\": [[\"target\", 1]], \"target_trace_scope\": \"test_execution\"}\n",
+  "log_sha256": "ffe832a17476934c9ab31b205de98b90aab0e2989b17867ff3d3365b168c7672"
+}

@@ -1,0 +1,176 @@
+{
+  "status": "frozen_before_execution",
+  "api_calls": 0,
+  "source_sha256": {
+    "src/__init__.py": "9d9e33ea9b0988a621a891305c15f6822aeb887e062c209110de3a43b263ddb4",
+    "src/agents.py": "6b260571728a6127ebe94c3191c688804aa16d82eb557c92a3ab8336b35fa846",
+    "src/code_index.py": "39330b46f887021b2aeabf0c292cf5fe5a5e3b5cfde3d701be66beadcd0c208d",
+    "src/deduplication.py": "3071efab768fe7cc9e32073b04ad906af5cc66ffd8d145f61bcb3cfecd48788c",
+    "src/pipeline.py": "751063b7a44b387cedca54be528cf0429400fbb5f9b89f64b176d0a1e9b55118",
+    "src/report.py": "a05cb3f5e455b407c1ee9acc421603e40b9e1261847aabf9f1a696799fdd6f46",
+    "src/repository.py": "360f9e5f492f98780632c68197a8c72abf0b36d876b6b2c2368d8d99a0fbda4c",
+    "src/reproduction.py": "7f19205eb73f35d0c259fa3bd3419ae27aedb58acd4f2b32708c988f2ff18baa",
+    "src/reproduction_runner.py": "a64da9832eda9154d518ea49636ca927750d6264ddba2a0ccad135e629b7798a",
+    "src/schemas.py": "b7be574d7c4b10c4118a62164c0dda972383fba3ea60892336b1e0d660837987",
+    "src/static_analysis.py": "c094e31f91c91916c8db62e5350617e8b3a77a2f930b6063c9d4eec33cf60d2d",
+    "main.py": "3ad251ae7a0af637e8116538f85bbe91e0d7486891504abae79b0067aa920fc5",
+    "outputs/primuus-controlled-20261015/baseline/src/__init__.py": "9d9e33ea9b0988a621a891305c15f6822aeb887e062c209110de3a43b263ddb4",
+    "outputs/primuus-controlled-20261015/baseline/src/agents.py": "6b260571728a6127ebe94c3191c688804aa16d82eb557c92a3ab8336b35fa846",
+    "outputs/primuus-controlled-20261015/baseline/src/code_index.py": "39330b46f887021b2aeabf0c292cf5fe5a5e3b5cfde3d701be66beadcd0c208d",
+    "outputs/primuus-controlled-20261015/baseline/src/deduplication.py": "3071efab768fe7cc9e32073b04ad906af5cc66ffd8d145f61bcb3cfecd48788c",
+    "outputs/primuus-controlled-20261015/baseline/src/pipeline.py": "751063b7a44b387cedca54be528cf0429400fbb5f9b89f64b176d0a1e9b55118",
+    "outputs/primuus-controlled-20261015/baseline/src/report.py": "cc3ce2a458deaebcab9733b252b75baaa65894e4edb4723b94add2478cc1e80e",
+    "outputs/primuus-controlled-20261015/baseline/src/repository.py": "360f9e5f492f98780632c68197a8c72abf0b36d876b6b2c2368d8d99a0fbda4c",
+    "outputs/primuus-controlled-20261015/baseline/src/reproduction.py": "bbe9ad3970cc890af98e5a02b5d76a83d27acffe9248e19df06601fb2580ec0c",
+    "outputs/primuus-controlled-20261015/baseline/src/reproduction_runner.py": "23118d3e6f39301affbf63c44fa0da2395ee8bd849879a3a1cb2f6b420ab74aa",
+    "outputs/primuus-controlled-20261015/baseline/src/schemas.py": "6c1bf6d9393112fc20487866116d25e12fba43cfa4ca044adadf4b64013d07c8",
+    "outputs/primuus-controlled-20261015/baseline/src/static_analysis.py": "c094e31f91c91916c8db62e5350617e8b3a77a2f930b6063c9d4eec33cf60d2d"
+  },
+  "input_records": [
+    {
+      "case": "PySnooper-1",
+      "variant": "buggy",
+      "finding_id": "65bac8b9d901",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0001/A",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/PySnooper-1/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null
+    },
+    {
+      "case": "tornado-1",
+      "variant": "buggy",
+      "finding_id": "9c3894d4b559",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0002/B",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/tornado-1/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null
+    },
+    {
+      "case": "tornado-1",
+      "variant": "fixed",
+      "finding_id": "2cd97d34b1a2",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0002/A",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/tornado-1/evidence/fixed/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null
+    },
+    {
+      "case": "PySnooper-3",
+      "variant": "buggy",
+      "finding_id": "9261f543fc85",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0007/A",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/PySnooper-3/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": true
+    },
+    {
+      "case": "youtube-dl-4",
+      "variant": "fixed",
+      "finding_id": "791eec547d5f",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0011/B",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-4/evidence/fixed/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null
+    },
+    {
+      "case": "youtube-dl-6",
+      "variant": "fixed",
+      "finding_id": "b8651e68a886",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0015/B",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-6/evidence/fixed/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null
+    },
+    {
+      "case": "youtube-dl-8",
+      "variant": "buggy",
+      "finding_id": "248543bf3d91",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0019/A",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-8/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null
+    },
+    {
+      "case": "youtube-dl-8",
+      "variant": "buggy",
+      "finding_id": "328973b86f3e",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0019/A",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-8/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null
+    },
+    {
+      "case": "youtube-dl-8",
+      "variant": "buggy",
+      "finding_id": "49a68ceac4ab",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0019/A",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-8/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null
+    },
+    {
+      "case": "youtube-dl-8",
+      "variant": "fixed",
+      "finding_id": "617648cc5081",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0019/B",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-8/evidence/fixed/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null
+    },
+    {
+      "case": "youtube-dl-8",
+      "variant": "fixed",
+      "finding_id": "e7aa719b31af",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0019/B",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-8/evidence/fixed/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null
+    },
+    {
+      "case": "youtube-dl-9",
+      "variant": "buggy",
+      "finding_id": "9f669fbbebd2",
+      "batch": "evidence-original20-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0020/B",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-9/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": null
+    },
+    {
+      "case": "youtube-dl-12",
+      "variant": "buggy",
+      "finding_id": "9758e8ca5215",
+      "batch": "evidence-new8-20261014",
+      "snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-holdout-work/snapshots/0006/B",
+      "report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-new8-20261014/reviews/youtube-dl-12/evidence/buggy/report.json",
+      "baseline_verdict": "failure_observed",
+      "reference_gate_label": false
+    }
+  ],
+  "protocol": "Unchanged saved test and same image ID/source snapshot; old runner+old gate vs new runner+new gate. Original model audit frozen; no new inference.",
+  "primary_runs_per_record_per_implementation": 2,
+  "counterpart_runs_per_record": 1,
+  "planned_primary_containers": 52,
+  "planned_counterpart_containers": 13,
+  "all_records_retained": true,
+  "semantic_categories": [
+    "supported",
+    "unsupported_expectation",
+    "quality_only",
+    "invalid_trigger",
+    "inconclusive"
+  ],
+  "semantic_review": "Codex source/contract/runtime adjudication; not independent human confirmation. Counterpart failure alone does not invalidate a different remaining defect.",
+  "no_production_or_scoring_changes": true
+}

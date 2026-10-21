@@ -1,0 +1,18 @@
+{
+  "legacy": {
+    "windows": 36,
+    "completed": 33,
+    "calls": 60,
+    "candidates": 47,
+    "prompt_tokens": 220834,
+    "completion_tokens": 20378
+  },
+  "callgraph": {
+    "windows": 36,
+    "completed": 33,
+    "calls": 39,
+    "candidates": 39,
+    "prompt_tokens": 135572,
+    "completion_tokens": 12343
+  }
+}

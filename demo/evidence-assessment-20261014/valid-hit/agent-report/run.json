@@ -1,0 +1,285 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "https://github.com/cool-RR/PySnooper",
+    "name": "PySnooper",
+    "ref": "blinded-snapshot",
+    "commit": "6e3d797be3fa0a746fb5b1b7c7fea78eb926c208",
+    "indexed_snapshot_sha256": "9ae6f4f828588525cd059d0cf5ea5ff88f1221b85e4fea9cd9d78ae55c12ab91"
+  },
+  "run": {
+    "started_at": "2026-10-14T03:15:55.897174+00:00",
+    "status": "completed",
+    "mode": "evidence",
+    "model": "deepseek-flash",
+    "scope_kind": "known_location_windows",
+    "window_review_completed": true,
+    "options": {
+      "mode": "evidence",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 24,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": "",
+      "repro_image": "code-review-bugsinpy:py38-complete",
+      "repro_timeout": 15,
+      "max_reproductions": 3
+    },
+    "elapsed_seconds": 12.526,
+    "api_calls": 6,
+    "usage": {
+      "prompt_tokens": 17465,
+      "completion_tokens": 1171
+    },
+    "indexed_python_files": 6,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 1,
+    "total_window_chunks": 1,
+    "active_findings": 1,
+    "candidate_findings": 0,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "high": 1,
+      "medium": 1,
+      "low": 1
+    },
+    "status_counts": {
+      "reproduced": 1,
+      "unverified": 2
+    }
+  },
+  "coverage": [
+    {
+      "path": "pysnooper/pysnooper.py",
+      "lines": 76,
+      "windows": [
+        [
+          11,
+          41
+        ]
+      ],
+      "total_chunks": 1,
+      "reviewed_chunks": 1,
+      "semantic_status": "window_completed",
+      "static_status": "completed"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".gitignore",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": ".travis.yml",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "LICENSE",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "README.md",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "make_release.sh",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "test_requirements.txt",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "misc/IDE files/PySnooper.wpr",
+      "reason": "unsupported_language_or_resource"
+    },
+    {
+      "path": "tests/__init__.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/test_pysnooper.py",
+      "reason": "benchmark_tests_hidden"
+    },
+    {
+      "path": "tests/utils.py",
+      "reason": "benchmark_tests_hidden"
+    }
+  ],
+  "stages": [
+    {
+      "stage": "ast",
+      "status": "completed",
+      "files": 1
+    },
+    {
+      "stage": "ruff",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 7
+    },
+    {
+      "stage": "bandit",
+      "status": "completed",
+      "files": 1,
+      "diagnostics": 1
+    }
+  ],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 3369,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 103,
+        "prompt_tokens": 1219,
+        "total_tokens": 1322,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 1024
+        },
+        "prompt_cache_hit_tokens": 1024,
+        "prompt_cache_miss_tokens": 195
+      },
+      "elapsed_seconds": 1.401
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 5658,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 51,
+        "prompt_tokens": 1981,
+        "total_tokens": 2032,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 1792
+        },
+        "prompt_cache_hit_tokens": 1792,
+        "prompt_cache_miss_tokens": 189
+      },
+      "elapsed_seconds": 1.184
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 5989,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 297,
+        "prompt_tokens": 2129,
+        "total_tokens": 2426,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 1920
+        },
+        "prompt_cache_hit_tokens": 1920,
+        "prompt_cache_miss_tokens": 209
+      },
+      "elapsed_seconds": 2.458
+    },
+    {
+      "stage": "reproduction_plan",
+      "status": "completed",
+      "input_chars": 10763,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 55,
+        "prompt_tokens": 3324,
+        "total_tokens": 3379,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 768
+        },
+        "prompt_cache_hit_tokens": 768,
+        "prompt_cache_miss_tokens": 2556
+      },
+      "elapsed_seconds": 1.112
+    },
+    {
+      "stage": "reproduction_plan",
+      "status": "completed",
+      "input_chars": 14038,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 503,
+        "prompt_tokens": 4384,
+        "total_tokens": 4887,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 3328
+        },
+        "prompt_cache_hit_tokens": 3328,
+        "prompt_cache_miss_tokens": 1056
+      },
+      "elapsed_seconds": 3.378
+    },
+    {
+      "stage": "evidence_audit",
+      "status": "completed",
+      "input_chars": 13760,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 162,
+        "prompt_tokens": 4428,
+        "total_tokens": 4590,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 4172
+      },
+      "elapsed_seconds": 1.67
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "pysnooper/pysnooper.py",
+      "start": 1,
+      "end": 60
+    },
+    {
+      "path": "pysnooper/pysnooper.py",
+      "start": 1,
+      "end": 76
+    }
+  ],
+  "limitations": [
+    "BugsInPy定范围评测：使用参考补丁选择代码窗口，Agent未看到补丁、测试、标签或另一版本。",
+    "completed仅表示所选窗口及复核完成；完整文件审查数为0，不表示全仓库或全文件审查。",
+    "修复版本可能含其他缺陷；额外发现不自动计为误报。",
+    "evidence模式使用Agent自行生成的测试与隔离执行，契约语义仍由模型核验；官方回归测试不提供给Agent。"
+  ],
+  "benchmark_provenance": {
+    "case": "PySnooper-3",
+    "variant": "buggy",
+    "buggy_commit": "6e3d797be3fa0a746fb5b1b7c7fea78eb926c208",
+    "fixed_commit": "15555ed760000b049aff8fecc79d29339c1224c3",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  }
+}

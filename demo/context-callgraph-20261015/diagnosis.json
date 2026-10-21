@@ -1,0 +1,32 @@
+[
+  {
+    "case": "tornado-1",
+    "reviewer": "Codex source/payload inspection; human review pending",
+    "assessment": "原主片段已有set_nodelay文档与self.stream调用。新版补WebSocketHandler.get等调用片段，但未做完整实例状态写入分析，不能声称补齐了出错流对象的全部前提。"
+  },
+  {
+    "case": "tornado-3",
+    "reviewer": "Codex source/payload inspection; human review pending",
+    "assessment": "原片段已有close和缓存检查，模型此前还读取后续代码。新策略未检索出close的静态调用方；对象析构、动态类配置和弱引用生命周期不是目前静态子集能完整解析的关系。此项不能简单归因为缺上下文。"
+  },
+  {
+    "case": "tornado-7",
+    "reviewer": "Codex source/payload inspection; human review pending",
+    "assessment": "原参考问题相关的executor.submit返回语句已在主片段；初始输入没有自动附上外部executor的完整返回类型/可await约定。新版补相关导入和可解析辅助定义，动态executor.submit仍标为未解析，尚不能据此确定类型推理能改善。"
+  },
+  {
+    "case": "youtube-dl-2",
+    "reviewer": "Codex source/payload inspection; human review pending",
+    "assessment": "原片段已包含按format_id合并的逻辑。新版补外层解析函数签名、调用入口和局部辅助函数，但完整Representation遍历远大于片段预算，不能认为所有身份/去重前提均已包含。"
+  },
+  {
+    "case": "youtube-dl-4",
+    "reviewer": "Codex source/payload inspection; human review pending",
+    "assessment": "原主片段已经含函数调用正则、参数拆分和实际调用，历史审查也读过build_function。新版补静态调用者与extract_function定义；此项是信息较充分仍漏检的对照，不能承诺靠扩充输入解决。"
+  },
+  {
+    "case": "youtube-dl-8",
+    "reviewer": "Codex source/payload inspection; human review pending",
+    "assessment": "原初始补充只有短名命中的syntax_error附近信息，历史工具读取后还看过下游实现。新版初始输入增加build_format_selector外层起点和process_video_result调用处，剩余深层过滤逻辑仍需按需读代码。仅证明初始输入变化，不说明模型一定新增正确发现。"
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "purpose": "Evaluator-only legal filter caller reachability, not Agent-generated evidence or reference-bug hit",
+  "api_calls": 0,
+  "containers": 2,
+  "test_sha256": "fa0579b1db4c010b78f8b27dab27354ff409b1436cd63dd7808139e94cae7895",
+  "records": [
+    {
+      "side": "buggy",
+      "tests_run": 1,
+      "exceptions": [
+        "IndexError"
+      ],
+      "messages": [
+        "list index out of range"
+      ]
+    },
+    {
+      "side": "fixed",
+      "tests_run": 1,
+      "exceptions": [
+        "IndexError"
+      ],
+      "messages": [
+        "list index out of range"
+      ]
+    }
+  ]
+}

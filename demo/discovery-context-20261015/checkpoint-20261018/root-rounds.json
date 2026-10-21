@@ -1,0 +1,26 @@
+{
+  "r0": {
+    "variable": "context strategy",
+    "status": "complete",
+    "attempts": 99,
+    "decision": "No reference candidate gain; keep default legacy. Callgraph used only as the lower-cost fixed context for next experiment."
+  },
+  "r1": {
+    "variable": "thinking mode",
+    "status": "complete",
+    "attempts": 119,
+    "hypothesis": "With initial code already exposing reference implementations, additional reasoning may reduce unsupported/style candidates and identify normal-input behavioral bugs. Same payload, prompt, output cap and tools.",
+    "decision": "Enabled thinking completed 17/36 windows vs 31/36 disabled and hit 0 reference pairs; keep thinking disabled. Most failures were 6000-token output limits, not semantic gains."
+  },
+  "r2": {
+    "variable": "output token budget",
+    "status": "complete_with_interruption",
+    "attempts": 146,
+    "hypothesis": "The 6000 completion-token cap, shared by reasoning and answer, was the main runtime bottleneck. Raise it to 12000 with thinking enabled.",
+    "decision": "12000 completed 13/36 windows vs 14/36 at 6000 and hit 0 reference pairs; output cap did not restore completeness. Stop tuning. Final planned window was interrupted after budget reservation; retained as failed, no retry or fabricated response."
+  },
+  "additional_rounds_started": 2,
+  "additional_round_limit": 2,
+  "final": "No discovery gain in any single-variable round. Defaults remain legacy context and thinking disabled. No new-sample validation was started because the predeclared gain condition was not met.",
+  "report": "demo/discovery-context-20261015/README.md"
+}

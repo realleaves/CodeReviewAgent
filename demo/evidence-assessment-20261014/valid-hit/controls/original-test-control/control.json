@@ -1,0 +1,35 @@
+{
+  "case": "PySnooper-3",
+  "finding_id": "9261f543fc85",
+  "test_label": "original-test-control",
+  "api_calls": 0,
+  "counts_as_agent_detection": false,
+  "runs": {
+    "buggy": {
+      "verdict": "failure_observed",
+      "execution_snapshot_sha256": "9ae6f4f828588525cd059d0cf5ea5ff88f1221b85e4fea9cd9d78ae55c12ab91",
+      "image_id": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+      "tests_run": 1,
+      "failures": 0,
+      "errors": 1,
+      "observations": [
+        {
+          "test": "generated_reproduction.ReproductionTest.test_reproduction",
+          "outcome": "error",
+          "exception_type": "NameError",
+          "message": "name 'output_path' is not defined",
+          "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.8/unittest/case.py\", line 60, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.8/unittest/case.py\", line 676, in run\n    self._callTestMethod(testMethod)\n  File \"/usr/local/lib/python3.8/unittest/case.py\", line 633, in _callTestMethod\n    method()\n  File \"/harness/test_reproduction.py\", line 18, in test_reproduction\n    f()\n  File \"<decorator-gen-2>\", line 2, in f\n  File \"/work/pysnooper/pysnooper.py\", line 72, in decorate\n    return function(*args, **kwargs)\n  File \"/harness/test_reproduction.py\", line 13, in f\n    @pysnooper.snoop(path)\n  File \"/work/pysnooper/tracer.py\", line 183, in trace\n    self.write('{indent}{now_string} {event:9} '\n  File \"/work/pysnooper/tracer.py\", line 114, in write\n    self._write(s)\n  File \"/work/pysnooper/pysnooper.py\", line 26, in write\n    with open(output_path, 'a') as output_file:\nNameError: name 'output_path' is not defined\n"
+        }
+      ]
+    },
+    "fixed": {
+      "verdict": "not_reproduced",
+      "execution_snapshot_sha256": "bd540042007451c27171148d080ff169b3d71209b5df3ce2ba564e11d07f2e53",
+      "image_id": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+      "tests_run": 1,
+      "failures": 0,
+      "errors": 0,
+      "observations": []
+    }
+  }
+}

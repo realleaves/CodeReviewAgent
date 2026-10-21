@@ -102,8 +102,10 @@ def markdown(report: dict) -> str:
                     "",
                 ]
             for i, attempt in enumerate(reproduction.get("attempts", []), 1):
+                version = attempt.get("plan_version")
+                test_note = f"；测试版本 {version + 1}" if version is not None else ""
                 lines += [
-                    f"执行{i}：镜像 `{attempt['image_id']}`；Python `{(attempt.get('execution') or {}).get('python', 'unknown')}`；状态 `{attempt.get('verdict')}`。",
+                    f"执行{i}：镜像 `{attempt['image_id']}`；Python `{(attempt.get('execution') or {}).get('python', 'unknown')}`；状态 `{attempt.get('verdict')}`{test_note}。",
                     "",
                     "```text",
                     attempt["log"],
@@ -188,7 +190,9 @@ def html_report(report: dict) -> str:
             if reproduction.get("plan", {}).get("test_code"):
                 evidence_html += f"<details><summary>复现测试与预期行为</summary><p>{e(reproduction['plan']['expected_behavior'])}</p><pre><code>{e(reproduction['plan']['test_code'])}</code></pre></details>"
             for i, attempt in enumerate(reproduction.get("attempts", []), 1):
-                evidence_html += f"<details><summary>执行{i} · {e(attempt.get('verdict'))} · Python {e((attempt.get('execution') or {}).get('python', 'unknown'))}</summary><p>镜像 {e(attempt['image_id'])}</p><pre>{e(attempt['log'])}</pre></details>"
+                version = attempt.get("plan_version")
+                test_note = f" · 测试版本 {version + 1}" if version is not None else ""
+                evidence_html += f"<details><summary>执行{i} · {e(attempt.get('verdict'))} · Python {e((attempt.get('execution') or {}).get('python', 'unknown'))}{test_note}</summary><p>镜像 {e(attempt['image_id'])}</p><pre>{e(attempt['log'])}</pre></details>"
         cards.append(f'''<article class="finding" data-severity="{e(f["severity"])}" data-status="{e(f["status"])}">
           <div class="tags"><span class="badge {e(f["severity"])}">{LABELS[f["severity"]]}风险</span>
           <span class="badge">{LABELS[f["status"]]}</span><span class="origin">{e(source_label(f))}</span></div>

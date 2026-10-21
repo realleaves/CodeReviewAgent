@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "repository": {
+    "url": "https://github.com/tornadoweb/tornado",
+    "name": "tornado",
+    "ref": "blinded-snapshot",
+    "commit": "a8420fc681c5423d072978f00eab4d0645057d16",
+    "indexed_snapshot_sha256": "4fb69a90fbd2fa753fc8961b79f526a3b363491149bd6623159ad6764c84148c"
+  },
+  "run": {
+    "started_at": "2026-10-14T03:16:41.360361+00:00",
+    "status": "partial",
+    "mode": "evidence",
+    "model": "deepseek-flash",
+    "scope_kind": "fixed_candidate_diagnostic",
+    "window_review_completed": false,
+    "options": {
+      "mode": "evidence",
+      "max_files": 12,
+      "max_file_bytes": 1000000,
+      "max_calls": 8,
+      "chunk_lines": 180,
+      "chunk_chars": 20000,
+      "timeout": 45,
+      "model": null,
+      "scope": "",
+      "repro_image": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+      "repro_timeout": 15,
+      "max_reproductions": 4,
+      "max_repro_repairs": 1
+    },
+    "elapsed_seconds": 4.717,
+    "api_calls": 1,
+    "usage": {
+      "prompt_tokens": 7646,
+      "completion_tokens": 962
+    },
+    "indexed_python_files": 62,
+    "selected_files": 1,
+    "fully_reviewed_files": 0,
+    "semantic_coverage_percent": 0,
+    "reviewed_window_chunks": 0,
+    "total_window_chunks": 0,
+    "active_findings": 0,
+    "candidate_findings": 1,
+    "rejected_findings": 0,
+    "severity_counts": {
+      "medium": 1
+    },
+    "status_counts": {
+      "pending_evidence": 1
+    }
+  },
+  "coverage": [],
+  "excluded": [],
+  "stages": [],
+  "failures": [],
+  "calls": [
+    {
+      "stage": "reproduction_repair",
+      "status": "completed",
+      "input_chars": 23908,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 962,
+        "prompt_tokens": 7646,
+        "total_tokens": 8608,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 512
+        },
+        "prompt_cache_hit_tokens": 512,
+        "prompt_cache_miss_tokens": 7134
+      },
+      "elapsed_seconds": 3.982
+    }
+  ],
+  "tool_reads": [],
+  "limitations": [
+    "固定已知候选与原始生成计划的开发集诊断，不是Agent独立发现或全仓库审查。",
+    "模型调用只包含本轮修正/核验，原始计划由2026-10-14记录重放。",
+    "两种条件使用同一新执行判定，仅切换一次反馈修正；参考修复仅由评测侧对照。"
+  ],
+  "benchmark_provenance": {
+    "case": "tornado-4",
+    "variant": "buggy",
+    "buggy_commit": "a8420fc681c5423d072978f00eab4d0645057d16",
+    "fixed_commit": "db529031a1e1a6e951826aba0b7d0b18f05cd4c7",
+    "snapshot_protocol": "buggy baseline plus fixed-commit changed files"
+  },
+  "diagnostic_options": {
+    "mode": "evidence",
+    "max_files": 12,
+    "max_file_bytes": 1000000,
+    "max_calls": 8,
+    "chunk_lines": 180,
+    "chunk_chars": 20000,
+    "timeout": 45,
+    "model": null,
+    "scope": "",
+    "repro_image": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+    "repro_timeout": 15,
+    "max_reproductions": 4,
+    "max_repro_repairs": 1
+  },
+  "presentation_source_sha256": "97f1770ed9c7783bbd980938a5dec25f46f917323c9889fa416e058083412494",
+  "presentation_note": "Offline presentation correction of inherited scope/options/counts; no model resampling or change to candidate, calls, tests, executions, trace or verdict."
+}

@@ -41,6 +41,19 @@ def main() -> int:
     )
     review.add_argument("--repro-timeout", type=int, default=15)
     review.add_argument("--max-reproductions", type=int, default=4)
+    review.add_argument(
+        "--context-strategy",
+        choices=["legacy", "callgraph"],
+        default="legacy",
+        help="evidence模式的上下文选择；callgraph为调用链检索实验，尚无检出率提升结论",
+    )
+    review.add_argument(
+        "--max-repro-repairs",
+        type=int,
+        choices=[0, 1],
+        default=0,
+        help="测试未调用目标时的反馈修正次数，实验功能，仍计入模型预算",
+    )
     replay = sub.add_parser("reproduce", help="从保存证据复跑测试，不调用模型")
     replay.add_argument("evidence")
     replay.add_argument("repository", help="与证据源码哈希相同的本地目录")

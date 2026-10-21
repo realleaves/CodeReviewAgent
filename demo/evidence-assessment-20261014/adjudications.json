@@ -1,0 +1,2178 @@
+[
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "PySnooper-1",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/PySnooper-1/evidence/buggy/report.json",
+    "report_sha256": "500f6e05562dd1e9cd464bffc3abc303670cacfb678e0610f7810934a184ce81",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Non-ASCII traced output/source fails under non-UTF-8 default encoding: FileWriter.write lacks explicit UTF-8 and/or byte source defaults to ASCII. The paired test reproduces a UnicodeEncodeError under an ASCII locale.",
+    "reason": "候选是空 source、PathLike 或变量顺序问题，没有识别 ASCII locale 下的非 ASCII 编码失败；Agent 容器默认 UTF-8 也无法触发参考编码场景。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [
+      "65bac8b9d901"
+    ],
+    "active_llm_findings": [
+      {
+        "id": "308352ebe1d3",
+        "title": "PathLike.__subclasshook__ 对非类对象调用 hasattr 可能误判/异常",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "22492ed99a1e",
+        "title": "iscoroutinefunction 回退实现忽略参数，可能掩盖真实协程",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "65bac8b9d901",
+        "title": "source 为空列表时 source[0] 触发 IndexError",
+        "status": "reproduced",
+        "reproduction_status": "reproduced"
+      }
+    ],
+    "static_diagnostics_count": 4
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "PySnooper-1",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/PySnooper-1/evidence/fixed/report.json",
+    "report_sha256": "08bee45f14b93417b260cf10658f284d3ed1e266c7ca35d377d6ce095eb7149a",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Non-ASCII traced output/source fails under non-UTF-8 default encoding: FileWriter.write lacks explicit UTF-8 and/or byte source defaults to ASCII. The paired test reproduces a UnicodeEncodeError under an ASCII locale.",
+    "reason": "候选是空 source、PathLike 或变量顺序问题，没有识别 ASCII locale 下的非 ASCII 编码失败；Agent 容器默认 UTF-8 也无法触发参考编码场景。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "6aa1d60d588d",
+        "title": "source 为空列表时 source[0] 抛 IndexError",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      },
+      {
+        "id": "83c6f9c2aa26",
+        "title": "vars_order.index 对不在列表中的局部变量抛 ValueError",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      }
+    ],
+    "static_diagnostics_count": 4
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-1",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/tornado-1/evidence/buggy/report.json",
+    "report_sha256": "ed548f471986d55c7f5a16e51d43a26c46c40b7776c7e1c4717bae5939955ed1",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "WebSocketHandler.set_nodelay uses self.stream although the upgraded connection is held by ws_connection; valid calls from open fail the assertion or use the wrong stream. Generic assert-removal advice is not a match.",
+    "reason": "候选关注压缩参数异常文案或非 ws/wss URL；未识别有效 WebSocket set_nodelay 调用了错误 stream。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [
+      "9c3894d4b559"
+    ],
+    "active_llm_findings": [
+      {
+        "id": "9c3894d4b559",
+        "title": "ValueError 使用 %r 占位符但未做格式化",
+        "status": "reproduced",
+        "reproduction_status": "reproduced"
+      }
+    ],
+    "static_diagnostics_count": 7
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-1",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/tornado-1/evidence/fixed/report.json",
+    "report_sha256": "34d16c82172978c8548f39e531488553eed85746140cbb47b477da40af8a422e",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "WebSocketHandler.set_nodelay uses self.stream although the upgraded connection is held by ws_connection; valid calls from open fail the assertion or use the wrong stream. Generic assert-removal advice is not a match.",
+    "reason": "候选关注压缩参数异常文案或非 ws/wss URL；未识别有效 WebSocket set_nodelay 调用了错误 stream。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [
+      "2cd97d34b1a2"
+    ],
+    "active_llm_findings": [
+      {
+        "id": "53ebe93cb238",
+        "title": "ValueError 使用 %r 格式化占位符但未做 % 格式化",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      },
+      {
+        "id": "31cc9f2d1709",
+        "title": "可变默认参数 subprotocols=[] 在实例间共享",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "2cd97d34b1a2",
+        "title": "非 ws/wss 协议 URL 触发 KeyError",
+        "status": "reproduced",
+        "reproduction_status": "reproduced"
+      }
+    ],
+    "static_diagnostics_count": 7
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-1",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-1/evidence/buggy/report.json",
+    "report_sha256": "47840fdd0aa3c517938b6d68b435fa0f0803fbdd6f1385b931a2dfebd4d56c7e",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Unary match filters treat a present boolean False as true because they only test None; positive/negated boolean filters must distinguish True from False.",
+    "reason": "没有模型候选；没有识别布尔 False 的正向/反向过滤错误。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 2
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-1",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-1/evidence/fixed/report.json",
+    "report_sha256": "26a3654190b73b054190e57fcf17b75586ba21665d449d912e8b84a3437b1d16",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Unary match filters treat a present boolean False as true because they only test None; positive/negated boolean filters must distinguish True from False.",
+    "reason": "没有模型候选；没有识别布尔 False 的正向/反向过滤错误。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 2
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "PySnooper-2",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/PySnooper-2/evidence/buggy/report.json",
+    "report_sha256": "8ad0f04a4de4cfaca584975a3a921000734a46b1daf3b50d7d7ad4a1d655d9a3",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "The documented/requested custom_repr option is not accepted by Tracer.__init__ and not propagated into local/return value rendering. custom_repr invocation fails or its representation is not applied. Other encoding defects in the same broad patch are not this target.",
+    "reason": "没有识别 custom_repr 参数与渲染链缺失；官方测试在重建环境无法收集，此对单列排除。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "a82a2771e3c4",
+        "title": "空源文件导致 IndexError",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "5ac7784966b8",
+        "title": "f_locals 键不在 vars_order 中导致 ValueError",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      },
+      {
+        "id": "ae2707b460f0",
+        "title": "__exit__ 中 original_trace_functions 可能不存在",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "0a47206fb966",
+        "title": "depth 检查循环中 f_back 为 None 时提前返回",
+        "status": "pending_evidence",
+        "reproduction_status": "budget_exhausted"
+      },
+      {
+        "id": "df3211eb6996",
+        "title": "get_source_from_frame 返回 UnavailableSource 时按行号索引会返回占位字符串而非报错，但源码行号越界会 IndexError",
+        "status": "pending_evidence",
+        "reproduction_status": "budget_exhausted"
+      },
+      {
+        "id": "545c40ea26a0",
+        "title": "frame.f_lasti 可能越界或指向无效位置导致 co_code 索引错误",
+        "status": "pending_evidence",
+        "reproduction_status": "budget_exhausted"
+      },
+      {
+        "id": "641ccb292fa5",
+        "title": "exception 事件中 arg 可能为 None 导致 arg[:2] 抛 TypeError",
+        "status": "pending_evidence",
+        "reproduction_status": "budget_exhausted"
+      },
+      {
+        "id": "195fe6ecb168",
+        "title": "return 事件中 frame_to_local_reprs 删除与 depth 递减可能不匹配",
+        "status": "pending_evidence",
+        "reproduction_status": "budget_exhausted"
+      }
+    ],
+    "static_diagnostics_count": 4
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "PySnooper-2",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/PySnooper-2/evidence/fixed/report.json",
+    "report_sha256": "f2f444e6203d59d0a99c28353cce6c1e985856a4aef189904934e60f7f39d430",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "The documented/requested custom_repr option is not accepted by Tracer.__init__ and not propagated into local/return value rendering. custom_repr invocation fails or its representation is not applied. Other encoding defects in the same broad patch are not this target.",
+    "reason": "没有识别 custom_repr 参数与渲染链缺失；官方测试在重建环境无法收集，此对单列排除。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "0e36e7cab0bb",
+        "title": "空源文件导致 IndexError 崩溃",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      },
+      {
+        "id": "1ad3ca57a680",
+        "title": "__exit__ 在未成功进入时访问 original_trace_functions 抛 AttributeError",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "331c905fb5e2",
+        "title": "thread_global.depth 在 'return' 事件时未递减，导致缩进持续增长",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "2c47f831e68b",
+        "title": "get_source_from_frame 返回空列表时索引 [line_no-1] 抛 IndexError",
+        "status": "pending_evidence",
+        "reproduction_status": "budget_exhausted"
+      },
+      {
+        "id": "5a4eeeefe994",
+        "title": "f_lasti 可能越界或指向无效字节导致 co_code 索引错误",
+        "status": "pending_evidence",
+        "reproduction_status": "budget_exhausted"
+      },
+      {
+        "id": "1324773f80a1",
+        "title": "return 事件删除 frame_to_local_reprs 与 depth 递减可能不匹配",
+        "status": "pending_evidence",
+        "reproduction_status": "budget_exhausted"
+      }
+    ],
+    "static_diagnostics_count": 4
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-2",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/tornado-2/evidence/buggy/report.json",
+    "report_sha256": "7a8a01147223351dd36a3d54a94bdd144458a2fb5396b46580075be17f316597",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "An existing Transfer-Encoding: chunked header disables _chunking_output, so write_headers/body handling can emit an invalid unchunked body or fail a redirected PUT without a body.",
+    "reason": "候选讨论 HEAD body、非法 Content-Length 和通用 _format_chunk 行为；没有指出已有 Transfer-Encoding: chunked 导致关闭分块输出。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "ebdd75b655fd",
+        "title": "HEAD 响应仍可能设置 _expected_content_remaining 为 Content-Length 值",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "4d06a2fd2469",
+        "title": "Content-Length 头值非数字时 int() 抛出未捕获的 ValueError",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "20341ca22690",
+        "title": "write_headers 中 chunk 参数在 chunking 关闭时仍被 _format_chunk 处理",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      }
+    ],
+    "static_diagnostics_count": 4
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-2",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/tornado-2/evidence/fixed/report.json",
+    "report_sha256": "0d41eb5bf7d9af75b4eefd19b1eb95f46c686c1408c49a2761c20ba62e8417f6",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "An existing Transfer-Encoding: chunked header disables _chunking_output, so write_headers/body handling can emit an invalid unchunked body or fail a redirected PUT without a body.",
+    "reason": "候选讨论 HEAD body、非法 Content-Length 和通用 _format_chunk 行为；没有指出已有 Transfer-Encoding: chunked 导致关闭分块输出。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "06f5d9c1e9d4",
+        "title": "Content-Length 头解析未捕获非法值导致 ValueError 崩溃",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "5c773d539ff2",
+        "title": "HEAD/304 分支忽略显式 Content-Length 导致后续写入被误判",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      }
+    ],
+    "static_diagnostics_count": 4
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-2",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-2/evidence/buggy/report.json",
+    "report_sha256": "1294b9ee211b5ad743fdcc59ab51900a76ac87df4cc24f3701f0aee5f0e4d4c5",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "DASH Representation format_id is not necessarily unique: merging/replacing entries solely by representation_id discards distinct formats or their media fragments.",
+    "reason": "缺陷版没有模型候选；修复版 SegmentTimeline 越界/零 duration 不对应按非唯一 format_id 丢失 DASH 格式。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 1
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-2",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-2/evidence/fixed/report.json",
+    "report_sha256": "663b497a8401084f1a49b377f4a2f23f88e1d44832173ecf2f8ef48edc0ba646",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "DASH Representation format_id is not necessarily unique: merging/replacing entries solely by representation_id discards distinct formats or their media fragments.",
+    "reason": "缺陷版没有模型候选；修复版 SegmentTimeline 越界/零 duration 不对应按非唯一 format_id 丢失 DASH 格式。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "19280bb13146",
+        "title": "segment_urls 与 SegmentTimeline 数量不匹配时 IndexError",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      },
+      {
+        "id": "e2c5a7b28a00",
+        "title": "segment_duration 为 0 时被当作缺失而丢弃 duration",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      }
+    ],
+    "static_diagnostics_count": 1
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "PySnooper-3",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/PySnooper-3/evidence/buggy/report.json",
+    "report_sha256": "bbd68a5c34b2663fc2034a73829a49ed47e887c35bfae2210ee1cf2640da82f5",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "get_write_function's path writer references undefined output_path instead of the supplied output, raising NameError when tracing to a file.",
+    "reason": "缺陷版明确识别 output_path 未定义；生成测试实际执行 @snoop(path) 后抛 NameError，两次失败且独立对照在修复版通过。修复版候选均不再报告该引用错误。",
+    "candidate_match_ids": [
+      "9261f543fc85"
+    ],
+    "valid_reproduced_match_ids": [
+      "9261f543fc85"
+    ],
+    "agent_reported_reproduced_ids": [
+      "9261f543fc85"
+    ],
+    "active_llm_findings": [
+      {
+        "id": "9261f543fc85",
+        "title": "write 闭包引用未定义的 output_path 导致 NameError",
+        "status": "reproduced",
+        "reproduction_status": "reproduced"
+      }
+    ],
+    "static_diagnostics_count": 2
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "PySnooper-3",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/PySnooper-3/evidence/fixed/report.json",
+    "report_sha256": "f3cee6a8ea777dc70e33597f05800bd14f09d392da22490d6315b58454679671",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "get_write_function's path writer references undefined output_path instead of the supplied output, raising NameError when tracing to a file.",
+    "reason": "缺陷版明确识别 output_path 未定义；生成测试实际执行 @snoop(path) 后抛 NameError，两次失败且独立对照在修复版通过。修复版候选均不再报告该引用错误。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "fc25b41936e7",
+        "title": "assert 校验输出流在 -O 下被移除，非法 output 导致延迟 AttributeError",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      },
+      {
+        "id": "3f031d36610c",
+        "title": "PathLike 输出路径在写入时未转换为字符串",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      }
+    ],
+    "static_diagnostics_count": 1
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-3",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/tornado-3/evidence/buggy/report.json",
+    "report_sha256": "ce9c4dfc3711af51d5f966bdee48744e5d0a9da13a6414e422a778442f044816",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "AsyncHTTPClient.close assumes a weak instance-cache entry still exists during HTTPClient destruction; an already-cleared entry causes inconsistent-cache RuntimeError/KeyError. Do not count intentional errors for another live client.",
+    "reason": "没有模型候选；没有识别 weak cache 已清理后的 close 异常。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-3",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/tornado-3/evidence/fixed/report.json",
+    "report_sha256": "97ef6c31e9a9ed5c41e789fe4a0bbe7bb227a82be2924505e36cd7d7846f6abf",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "AsyncHTTPClient.close assumes a weak instance-cache entry still exists during HTTPClient destruction; an already-cleared entry causes inconsistent-cache RuntimeError/KeyError. Do not count intentional errors for another live client.",
+    "reason": "没有模型候选；没有识别 weak cache 已清理后的 close 异常。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-3",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-3/evidence/buggy/report.json",
+    "report_sha256": "774b7b8306cfb6c986e2661c182e136467b4f301992d48d1e63e5625cf04d880",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "unescapeHTML's entity regex allows an ampersand inside the entity body and consumes adjacent/nested entity starts, preventing the intended HTML entity from being decoded.",
+    "reason": "只有静态 assert 建议，没有识别 entity body 中 ampersand 吞并相邻实体。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 2
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-3",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-3/evidence/fixed/report.json",
+    "report_sha256": "c79b730c9dc18099199e8b175c0e27b623d511c418ff1e7f9c9eda13a6005d07",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "unescapeHTML's entity regex allows an ampersand inside the entity body and consumes adjacent/nested entity starts, preventing the intended HTML entity from being decoded.",
+    "reason": "只有静态 assert 建议，没有识别 entity body 中 ampersand 吞并相邻实体。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 2
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-4",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/tornado-4/evidence/buggy/report.json",
+    "report_sha256": "015ae3603f3d72607fea0df50606844e34c61c475539eff86673583a45a5aeb8",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "StaticFileHandler mishandles HTTP byte ranges: oversized suffix ranges leave a negative start rather than clamping to zero, or reversed end/start ranges are not rejected with 416. Either concrete failing condition counts as a case-level hit; report which was found.",
+    "reason": "缺陷版 3e533c03160d 正确识别 bytes=-100、size=10 导致负 start；生成测试复制了处理逻辑，没有实际调用目标方法，被判 unrelated_failure。修复版叙述承认夹紧和 reversed-range 检查正确。",
+    "candidate_match_ids": [
+      "3e533c03160d"
+    ],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "3e533c03160d",
+        "title": "suffix range 长度超过文件大小时 start 变为负数导致 416 判定失效",
+        "status": "pending_evidence",
+        "reproduction_status": "unrelated_failure"
+      },
+      {
+        "id": "81ca7a4a1965",
+        "title": "后缀范围恰好覆盖整个文件时错误返回 206 而非 200",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      }
+    ],
+    "static_diagnostics_count": 1
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-4",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/tornado-4/evidence/fixed/report.json",
+    "report_sha256": "b1112d081523344508bec81697f06171be6876b6274291e33012d45a17e96c87",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "StaticFileHandler mishandles HTTP byte ranges: oversized suffix ranges leave a negative start rather than clamping to zero, or reversed end/start ranges are not rejected with 416. Either concrete failing condition counts as a case-level hit; report which was found.",
+    "reason": "缺陷版 3e533c03160d 正确识别 bytes=-100、size=10 导致负 start；生成测试复制了处理逻辑，没有实际调用目标方法，被判 unrelated_failure。修复版叙述承认夹紧和 reversed-range 检查正确。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "ff56883f59a9",
+        "title": "Range 请求 size 为 0 时 Content-Range 计算错误",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "fb073da41436",
+        "title": "suffix range 与 start 为 None 时 Content-Length 计算依赖 end",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "6499c25ee067",
+        "title": "get_content 返回 bytes 时被包装为单元素列表，但迭代器路径未处理",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "cc21f30fea59",
+        "title": "include_body=False 时 assert 依赖 request.method 为 HEAD",
+        "status": "pending_evidence",
+        "reproduction_status": "budget_exhausted"
+      }
+    ],
+    "static_diagnostics_count": 1
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-4",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-4/evidence/buggy/report.json",
+    "report_sha256": "aa91f136622bea0e4bf989d4ae8da07555597dfaac9ad09e61ddb995744d72d2",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "JSInterpreter's function-call regex requires nonempty arguments and/or splits an empty argument string, so a valid zero-argument JavaScript call fails.",
+    "reason": "split() 限制、未定义变量、splice 和 Unicode isdigit 均不对应函数调用 regex 不允许有效零参数 f()。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "c85369cd2e2d",
+        "title": "splice 循环中 pop(index) 使用固定索引导致结果错误",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "c4194cfe7884",
+        "title": "索引赋值断言 isinstance(idx, int) 在 -O 下失效且类型不匹配时崩溃",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "eed2c7e956d8",
+        "title": "split 断言 argvals == ('',) 对无参 split() 调用失败",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "3ef7bd4a3b59",
+        "title": "函数调用参数解析对非数字标识符直接索引 local_vars 可能 KeyError",
+        "status": "pending_evidence",
+        "reproduction_status": "budget_exhausted"
+      }
+    ],
+    "static_diagnostics_count": 8
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-4",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-4/evidence/fixed/report.json",
+    "report_sha256": "49af310d2f80f4e2d794d0e83ffb0f0cb4a0e0fc62da7b33495467ac05eb8d6d",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "JSInterpreter's function-call regex requires nonempty arguments and/or splits an empty argument string, so a valid zero-argument JavaScript call fails.",
+    "reason": "split() 限制、未定义变量、splice 和 Unicode isdigit 均不对应函数调用 regex 不允许有效零参数 f()。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [
+      "791eec547d5f"
+    ],
+    "active_llm_findings": [
+      {
+        "id": "791eec547d5f",
+        "title": "isdigit 对 Unicode 数字返回 True 但 int() 可能失败或语义不符",
+        "status": "reproduced",
+        "reproduction_status": "reproduced"
+      },
+      {
+        "id": "e7c921485397",
+        "title": "索引赋值断言 idx 为 int 在 -O 下失效并可能产生错误行为",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "1bdebf495255",
+        "title": "splice 实现使用 pop(index) 导致结果顺序与 JS 语义不符",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "f8c22e56ab61",
+        "title": "成员函数调用将参数作为单个元组传递",
+        "status": "pending_evidence",
+        "reproduction_status": "budget_exhausted"
+      }
+    ],
+    "static_diagnostics_count": 8
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-5",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/tornado-5/evidence/buggy/report.json",
+    "report_sha256": "90af19789c03f8bc66c467f268c060475bab49471f388c558206b6c6d9379f26",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "PeriodicCallback._update_next fails to advance _next_timeout when the clock moves backwards/current_time is less than _next_timeout, causing repeated scheduling or callback delays.",
+    "reason": "没有模型候选；没有识别时钟回拨时 _next_timeout 不推进。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-5",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/tornado-5/evidence/fixed/report.json",
+    "report_sha256": "f486f9fc72f8a0bae84b45f1d0c405a21365e2e351a49c5b74c1829b87bf411d",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "PeriodicCallback._update_next fails to advance _next_timeout when the clock moves backwards/current_time is less than _next_timeout, causing repeated scheduling or callback delays.",
+    "reason": "没有模型候选；没有识别时钟回拨时 _next_timeout 不推进。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-5",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-5/evidence/buggy/report.json",
+    "report_sha256": "54d33e54d80fb429d5790185e55789a050564f7e5ac0d4cbefe8cde6111a273d",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "unified_timestamp fallback receives a tuple from email.utils.parsedate_tz but calls its nonexistent timetuple(), raising AttributeError; or it fails to apply the PM offset in that fallback. Generic PM/12-hour concerns outside this fallback do not count.",
+    "reason": "日期解析退出、隐藏文件名与一般 PM 偏移候选均没有定位 parsedate_tz fallback 的 tuple.timetuple() 或该分支 PM 偏移缺失。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "27b2f7f11e32",
+        "title": "unified_strdate 循环未在匹配后 break，可能被后续格式覆盖",
+        "status": "pending_evidence",
+        "reproduction_status": "not_reproduced"
+      },
+      {
+        "id": "9b981bcc1b1c",
+        "title": "unified_timestamp 在循环内 return，但异常路径下可能返回 None 而非回退",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "6224d710111e",
+        "title": "subtitles_filename 对无扩展名文件名处理不当",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "ff460532cc71",
+        "title": "date_from_str 对非法输入抛出未捕获异常",
+        "status": "pending_evidence",
+        "reproduction_status": "budget_exhausted"
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-5",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-5/evidence/fixed/report.json",
+    "report_sha256": "37e0a49c54ab10d472d364dc8ec64263f2d68df09bd56d429b2d03a257e607d9",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "unified_timestamp fallback receives a tuple from email.utils.parsedate_tz but calls its nonexistent timetuple(), raising AttributeError; or it fails to apply the PM offset in that fallback. Generic PM/12-hour concerns outside this fallback do not count.",
+    "reason": "日期解析退出、隐藏文件名与一般 PM 偏移候选均没有定位 parsedate_tz fallback 的 tuple.timetuple() 或该分支 PM 偏移缺失。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "40523aa1f1a8",
+        "title": "unified_timestamp 在 parsedate_tz 分支重复应用 PM 偏移",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      },
+      {
+        "id": "12b508315e78",
+        "title": "unified_strdate 循环未在首次匹配后 break，可能被后续格式覆盖",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "a032cfa52e9a",
+        "title": "determine_ext 对带查询串的路径扩展名判断可能返回错误扩展",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-6",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/tornado-6/evidence/buggy/report.json",
+    "report_sha256": "32df6e4d8d0d493015b0a5dc64fc0608c604cb8b67da6dc561b2e433f583f960",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "IOLoop's asyncio-to-IOLoop registry retains closed loops: weak keys do not help when values keep the loop alive, and close/external close lacks appropriate deletion/cleanup, leaking loops.",
+    "reason": "configure 类型校验、重复 close 和假设未来扩展均不对应关闭 loop 后映射保留与泄漏。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "5f6ea6a814c0",
+        "title": "configure() 在 asyncio 可用时对非字符串 impl 调用 issubclass 可能抛 TypeError",
+        "status": "pending_evidence",
+        "reproduction_status": "not_reproduced"
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-6",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/tornado-6/evidence/fixed/report.json",
+    "report_sha256": "b318d3a5b526e1ca9309381771b0590ec1fec76bdbe0c23d0cd6a9353106aa4a",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "IOLoop's asyncio-to-IOLoop registry retains closed loops: weak keys do not help when values keep the loop alive, and close/external close lacks appropriate deletion/cleanup, leaking loops.",
+    "reason": "configure 类型校验、重复 close 和假设未来扩展均不对应关闭 loop 后映射保留与泄漏。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "b8b855574e67",
+        "title": "initialize 中遍历 _ioloop_for_asyncio 时对已关闭 loop 调用 is_closed 可能抛异常",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "ce2de28b8dcb",
+        "title": "close() 中 del 映射项在重复关闭或映射已被清理时抛 KeyError",
+        "status": "pending_evidence",
+        "reproduction_status": "unrelated_failure"
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-6",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-6/evidence/buggy/report.json",
+    "report_sha256": "ba55fa3261a57107c3fc1b3809086714761307746b3c91f182408a89c6e453b6",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "parse_dfxp_time_expr returns numeric zero for absent time rather than None, or dfxp2srt accesses missing begin/dur attributes without skipping invalid entries, leading to incorrect subtitle timing or KeyError. Either reference-patch failure mode counts, with trigger evidence.",
+    "reason": "缺陷版 b16c1ed38deb 和 32a91644c156 分别识别缺 dur、缺 begin 的 KeyError；生成格式/契约失败未形成有效证据。修复版显式 end=0 的候选不等同于缺失 begin/dur 或 parse(None) 的参考条件。",
+    "candidate_match_ids": [
+      "b16c1ed38deb",
+      "32a91644c156"
+    ],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "9ca55c806e9e",
+        "title": "srt_subtitles_timecode 在 Python 3 下使用浮点除法导致 %d 格式化报错",
+        "status": "pending_evidence",
+        "reproduction_status": "not_reproduced"
+      },
+      {
+        "id": "b16c1ed38deb",
+        "title": "dfxp2srt 对缺少 end 且缺少 dur 的段落抛出 KeyError",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      },
+      {
+        "id": "32a91644c156",
+        "title": "dfxp2srt 对缺少 begin 属性的段落抛出 KeyError",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      }
+    ],
+    "static_diagnostics_count": 1
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-6",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-6/evidence/fixed/report.json",
+    "report_sha256": "02fab5751494e3b4e7f894e80e4ffbdd653e9aa1743ccb138f4a25adc53cf9cc",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "parse_dfxp_time_expr returns numeric zero for absent time rather than None, or dfxp2srt accesses missing begin/dur attributes without skipping invalid entries, leading to incorrect subtitle timing or KeyError. Either reference-patch failure mode counts, with trigger evidence.",
+    "reason": "缺陷版 b16c1ed38deb 和 32a91644c156 分别识别缺 dur、缺 begin 的 KeyError；生成格式/契约失败未形成有效证据。修复版显式 end=0 的候选不等同于缺失 begin/dur 或 parse(None) 的参考条件。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [
+      "b8651e68a886"
+    ],
+    "active_llm_findings": [
+      {
+        "id": "f2a95e34648d",
+        "title": "srt_subtitles_timecode 使用浮点除法导致时间码格式错误",
+        "status": "pending_evidence",
+        "reproduction_status": "contract_unconfirmed"
+      },
+      {
+        "id": "b8651e68a886",
+        "title": "dfxp2srt 中 end_time 为 0 时被误判为缺失",
+        "status": "reproduced",
+        "reproduction_status": "reproduced"
+      },
+      {
+        "id": "13d8286588db",
+        "title": "_match_one 中 none_inclusive 返回字符串而非布尔值",
+        "status": "pending_evidence",
+        "reproduction_status": "contract_unconfirmed"
+      }
+    ],
+    "static_diagnostics_count": 1
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-7",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/tornado-7/evidence/buggy/report.json",
+    "report_sha256": "f4115e751b49602ce5a84082af40aa633d6a48e80118304af812dabeee96ac83",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "run_in_executor directly returns concurrent.futures.Future, which cannot be awaited by native async coroutines; it must bridge into a Tornado/asyncio-compatible Future.",
+    "reason": "没有模型候选；没有识别 concurrent.futures.Future 不可原生 await。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 1
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-7",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/tornado-7/evidence/fixed/report.json",
+    "report_sha256": "0ea67aefe3af7541f0062ce8e1e544def47f696a3fa5d3b040fba85cc3a27205",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "run_in_executor directly returns concurrent.futures.Future, which cannot be awaited by native async coroutines; it must bridge into a Tornado/asyncio-compatible Future.",
+    "reason": "没有模型候选；没有识别 concurrent.futures.Future 不可原生 await。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 1
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-7",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-7/evidence/buggy/report.json",
+    "report_sha256": "c081d51be6fbf150fc021368ab58ec4f8eb1148f90b4665db5435cf2b400e623",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "js_to_json returns double-quoted JavaScript strings unchanged, preserving escaped single quotes (\\') that are invalid JSON escapes; these strings must be normalized and re-encoded.",
+    "reason": "缺陷版反斜杠数量与 tab 等 regex 转义候选不是双引号字符串保留单个 escaped apostrophe 的参考错误；修复版讨论双反斜杠计数，是另一输入条件。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "8d927993aec7",
+        "title": "js_to_json 单引号字符串中反斜杠转义处理错误",
+        "status": "pending_evidence",
+        "reproduction_status": "not_reproduced"
+      },
+      {
+        "id": "71e852871ac0",
+        "title": "js_to_json 正则未匹配含转义引号的字符串边界",
+        "status": "pending_evidence",
+        "reproduction_status": "unrelated_failure"
+      },
+      {
+        "id": "cc7fb1a4415a",
+        "title": "strip_jsonp 贪婪匹配可能吞掉多余内容",
+        "status": "pending_evidence",
+        "reproduction_status": "not_reproduced"
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-7",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-7/evidence/fixed/report.json",
+    "report_sha256": "28780fefe25b2f718fd75996501ff57949d0cbc8cb79d8970ea931e7abf0eca7",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "js_to_json returns double-quoted JavaScript strings unchanged, preserving escaped single quotes (\\') that are invalid JSON escapes; these strings must be normalized and re-encoded.",
+    "reason": "缺陷版反斜杠数量与 tab 等 regex 转义候选不是双引号字符串保留单个 escaped apostrophe 的参考错误；修复版讨论双反斜杠计数，是另一输入条件。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "b894bdf79952",
+        "title": "js_to_json 对双引号字符串中的转义单引号处理错误",
+        "status": "pending_evidence",
+        "reproduction_status": "unrelated_failure"
+      },
+      {
+        "id": "848dd746f196",
+        "title": "js_to_json 正则未匹配数字字面量导致数字键值被错误加引号",
+        "status": "pending_evidence",
+        "reproduction_status": "contract_unconfirmed"
+      },
+      {
+        "id": "9fae10c5af50",
+        "title": "单引号字符串转义映射中反斜杠替换为自身导致双重转义",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-8",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/tornado-8/evidence/buggy/report.json",
+    "report_sha256": "039036ec657a44ee679b4040b0b4f3d6a7659cff1c04c54d343d096cbc11e5ab",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "accept_connection calls _handle_websocket_headers outside its ValueError handler, so missing/invalid WebSocket headers escape instead of returning a controlled HTTP 400.",
+    "reason": "没有模型候选；没有识别 WebSocket 头 ValueError 位于捕获块之外。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "tornado-8",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/tornado-8/evidence/fixed/report.json",
+    "report_sha256": "59020a5a227a4cca8139716eba37c1edd3b3ddea286c5e7ee47a06c80cc3ef08",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "accept_connection calls _handle_websocket_headers outside its ValueError handler, so missing/invalid WebSocket headers escape instead of returning a controlled HTTP 400.",
+    "reason": "没有模型候选；没有识别 WebSocket 头 ValueError 位于捕获块之外。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-8",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-8/evidence/buggy/report.json",
+    "report_sha256": "415ffac63300dce6165349314649d3b6e727abc1b8c1cc55efc5c44c044991cd",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Format selection '/' appends a PICKFIRST selector immediately and clears current_selector, so following filters cannot attach to the fallback choice and parsing/selection becomes wrong.",
+    "reason": "候选都是缺选择器或缺右括号的非法表达式诊断，未识别有效 fallback 选择器后 filters 丢失。额外 reproduced 不自动算参考命中。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [
+      "248543bf3d91",
+      "328973b86f3e",
+      "49a68ceac4ab"
+    ],
+    "active_llm_findings": [
+      {
+        "id": "248543bf3d91",
+        "title": "逗号分隔时 current_selector 为 None 会被追加进 selectors",
+        "status": "reproduced",
+        "reproduction_status": "reproduced"
+      },
+      {
+        "id": "328973b86f3e",
+        "title": "斜杠 '/' 左侧缺少选择器时 first_choice 为 None",
+        "status": "reproduced",
+        "reproduction_status": "reproduced"
+      },
+      {
+        "id": "49a68ceac4ab",
+        "title": "加号 '+' 左侧缺少选择器时 video_selector 为 None",
+        "status": "reproduced",
+        "reproduction_status": "reproduced"
+      },
+      {
+        "id": "ab397268f56e",
+        "title": "_parse_filter 在缺少 ']' 时静默返回不完整过滤器",
+        "status": "pending_evidence",
+        "reproduction_status": "budget_exhausted"
+      }
+    ],
+    "static_diagnostics_count": 1
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-8",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-8/evidence/fixed/report.json",
+    "report_sha256": "afdee213602d2532f465c5b07c764e1bf71e6c3b78bb35ea22c2b863fe96c0db",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Format selection '/' appends a PICKFIRST selector immediately and clears current_selector, so following filters cannot attach to the fallback choice and parsing/selection becomes wrong.",
+    "reason": "候选都是缺选择器或缺右括号的非法表达式诊断，未识别有效 fallback 选择器后 filters 丢失。额外 reproduced 不自动算参考命中。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [
+      "617648cc5081",
+      "e7aa719b31af"
+    ],
+    "active_llm_findings": [
+      {
+        "id": "617648cc5081",
+        "title": "逗号分隔时可能将 None 追加进 selectors",
+        "status": "reproduced",
+        "reproduction_status": "reproduced"
+      },
+      {
+        "id": "c986d482799a",
+        "title": "斜杠左侧缺少选择器时 first_choice 为 None",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      },
+      {
+        "id": "e7aa719b31af",
+        "title": "加号左侧缺少选择器时 video_selector 为 None",
+        "status": "reproduced",
+        "reproduction_status": "reproduced"
+      },
+      {
+        "id": "ab397268f56e",
+        "title": "_parse_filter 在缺少 ']' 时静默返回不完整过滤器",
+        "status": "pending_evidence",
+        "reproduction_status": "budget_exhausted"
+      }
+    ],
+    "static_diagnostics_count": 1
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-9",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-9/evidence/buggy/report.json",
+    "report_sha256": "24b34b6a5441c886efe35a4cb4990e0d14923d173db729f18f5d79aba3e40f16",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Format selection fails to respect precedence and grouping across '+', '/', ',' and parentheses; immediate append/clearing and endwith handling attach subsequent tokens to the wrong selector. Mere mutable default endwith=[] advice is not a match.",
+    "reason": "空 formats、缺键、merge 返回 None 与返回类型建议不对应操作符优先级/括号分组；两侧模型 APIStatusError 导致窗口不完整。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [
+      "9f669fbbebd2"
+    ],
+    "active_llm_findings": [
+      {
+        "id": "d57750f84115",
+        "title": "none_inclusive 返回字符串而非布尔值，导致过滤结果错误",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "63d9e0aab170",
+        "title": "_merge 解包 formats_info 假定恰好两个元素，且 report_error 后返回 None 导致下游崩溃",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "9f669fbbebd2",
+        "title": "best/worst 在 formats 为空时索引越界",
+        "status": "reproduced",
+        "reproduction_status": "reproduced"
+      },
+      {
+        "id": "e613e312170e",
+        "title": "按扩展名或 format_id 过滤时使用 f['ext']/f['format_id'] 直接下标，缺失键会 KeyError",
+        "status": "pending_evidence",
+        "reproduction_status": "budget_exhausted"
+      }
+    ],
+    "static_diagnostics_count": 3
+  },
+  {
+    "batch": "evidence-original20-20261014",
+    "case": "youtube-dl-9",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-9/evidence/fixed/report.json",
+    "report_sha256": "a268027b5406c143e8e0811b18d4149c517a6915bf1267f1c000483f25b0e201",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Format selection fails to respect precedence and grouping across '+', '/', ',' and parentheses; immediate append/clearing and endwith handling attach subsequent tokens to the wrong selector. Mere mutable default endwith=[] advice is not a match.",
+    "reason": "空 formats、缺键、merge 返回 None 与返回类型建议不对应操作符优先级/括号分组；两侧模型 APIStatusError 导致窗口不完整。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 2
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-9",
+    "mode": "direct",
+    "variant": "buggy",
+    "report": "reviews/tornado-9/direct/buggy/report.json",
+    "report_sha256": "f3821c57aa22fca7065fbc21df1d558e2c2f7488e8b318d78adcef7839dc4f8e",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "url_concat(url, None) should return url, rather than raising TypeError.",
+    "reason": "没有指出 args=None；多值参数、拼接边界候选均不是官方 None 参数触发条件。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "950ed3539279",
+        "title": "url_concat 对 dict 参数使用 items() 会丢失多值语义且顺序依赖",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "a20fcc0d1948",
+        "title": "isinstance 判断可用元组形式简化",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "c6fd5e432e3b",
+        "title": "url_concat 会丢弃 URL 中的 fragment 之外的空查询语义",
+        "status": "unverified",
+        "reproduction_status": null
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-9",
+    "mode": "direct",
+    "variant": "fixed",
+    "report": "reviews/tornado-9/direct/fixed/report.json",
+    "report_sha256": "bdbbf22b86c751afbe2a4a21ee974ed250b21de535220d4af963f114a91ef4ca",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "url_concat(url, None) should return url, rather than raising TypeError.",
+    "reason": "没有指出 args=None；多值参数、拼接边界候选均不是官方 None 参数触发条件。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "7058438e99fe",
+        "title": "url_concat 对 dict 参数使用 items() 会丢失多值键",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "330da6e63bb7",
+        "title": "url_concat 使用 urlencode 默认 quote_plus 会改变已有查询串编码",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "4ee98da0a117",
+        "title": "url_concat 对 list/tuple 元素未做结构校验",
+        "status": "unverified",
+        "reproduction_status": null
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-9",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/tornado-9/evidence/buggy/report.json",
+    "report_sha256": "058a43f696980c8461316772a1435ae292f3e2b3957f5ecdb139886f41916070",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "url_concat(url, None) should return url, rather than raising TypeError.",
+    "reason": "没有指出 args=None；多值参数、拼接边界候选均不是官方 None 参数触发条件。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-9",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/tornado-9/evidence/fixed/report.json",
+    "report_sha256": "36cbb4a7aad8a3e1826bada6f66bf485a8e68caa0862bcd9955db0d27f263d73",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "url_concat(url, None) should return url, rather than raising TypeError.",
+    "reason": "没有指出 args=None；多值参数、拼接边界候选均不是官方 None 参数触发条件。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-10",
+    "mode": "direct",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-10/direct/buggy/report.json",
+    "report_sha256": "9011af775010865469c8e384ca8fe1d4baf4eb0419b862fc32b3d13a591e9ecc",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "js_to_json string token regex omits escaped n/u, partially matches valid JS strings and corrupts the converted JSON.",
+    "reason": "候选误解 fix_kv 中保留反斜杠的含义，或讨论尾随逗号；未识别 escaped n/u 在字符串 token regex 中缺失的参考根因。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "61288e082dbe",
+        "title": "js_to_json 单引号字符串转义处理不完整",
+        "status": "unverified",
+        "reproduction_status": null
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-10",
+    "mode": "direct",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-10/direct/fixed/report.json",
+    "report_sha256": "58d7c2f9a1e3ebbda01e260bca06a4a84ddb16cdec922fcccd87acab5934cdf2",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "js_to_json string token regex omits escaped n/u, partially matches valid JS strings and corrupts the converted JSON.",
+    "reason": "候选误解 fix_kv 中保留反斜杠的含义，或讨论尾随逗号；未识别 escaped n/u 在字符串 token regex 中缺失的参考根因。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "61288e082dbe",
+        "title": "js_to_json 单引号字符串转义处理不完整",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "ffa0b2fa83f9",
+        "title": "strip_jsonp 正则可能无法匹配含换行的 JSONP 回调",
+        "status": "unverified",
+        "reproduction_status": null
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-10",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-10/evidence/buggy/report.json",
+    "report_sha256": "69c6faff5e6d29fe717d034abf7e0736102a01c838ae72f05e711854bcf235ff",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "js_to_json string token regex omits escaped n/u, partially matches valid JS strings and corrupts the converted JSON.",
+    "reason": "候选误解 fix_kv 中保留反斜杠的含义，或讨论尾随逗号；未识别 escaped n/u 在字符串 token regex 中缺失的参考根因。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "aa6fad22fe66",
+        "title": "js_to_json 单引号字符串转义处理错误：反斜杠转义被破坏",
+        "status": "pending_evidence",
+        "reproduction_status": "not_reproduced"
+      },
+      {
+        "id": "f6130b059b32",
+        "title": "js_to_json 仅移除数组尾逗号，对象尾逗号未处理",
+        "status": "pending_evidence",
+        "reproduction_status": "unrelated_failure"
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-10",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-10/evidence/fixed/report.json",
+    "report_sha256": "6d5aaebd93f2166ee3764a1859fbd02cff89ce4a2a22689fb3107d3c209ead72",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "js_to_json string token regex omits escaped n/u, partially matches valid JS strings and corrupts the converted JSON.",
+    "reason": "候选误解 fix_kv 中保留反斜杠的含义，或讨论尾随逗号；未识别 escaped n/u 在字符串 token regex 中缺失的参考根因。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "1b068241bc37",
+        "title": "js_to_json 单引号字符串转义处理错误：反斜杠被重复转义",
+        "status": "pending_evidence",
+        "reproduction_status": "not_reproduced"
+      },
+      {
+        "id": "4fb7761f6647",
+        "title": "js_to_json 去除尾随逗号的正则仅处理数组，遗漏对象",
+        "status": "pending_evidence",
+        "reproduction_status": "unrelated_failure"
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-10",
+    "mode": "direct",
+    "variant": "buggy",
+    "report": "reviews/tornado-10/direct/buggy/report.json",
+    "report_sha256": "b773969665ef3921beab92b3dc5c572ed02da09668b74b079e4176339f0e729b",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "WebSocket finish clears ui helpers before the connection actually closes, breaking render_string while open.",
+    "reason": "ETag、204/304、Content-Length 与 origin 候选不对应 WebSocket 在真正关闭前过早清理 ui helpers。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "a4780f0f4c50",
+        "title": "ETag 头检查使用大小写敏感的 \"Etag\" 键，可能重复设置 ETag",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "497d8e112f80",
+        "title": "Content-Length 按字节长度计算，但 write_buffer 可能包含非字节对象",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "fc3bd459875e",
+        "title": "204/304 响应断言在优化模式下被移除，可能发送非法 body",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "c999ea359f7d",
+        "title": "set_close_callback(None) 可能覆盖连接上已有的关闭回调",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "a12d72df508f",
+        "title": "check_etag_header 命中后未清除 Content-Length 相关头，可能残留旧头",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "26a31733fd46",
+        "title": "check_origin 在缺少 Host 头时可能被绕过",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "1b3a8a50cc73",
+        "title": "get_websocket_protocol 对不支持的版本静默返回 None",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "9059718acba3",
+        "title": "_attach_stream 通过实例属性覆盖方法，可能影响子类与调试",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "e34987b10832",
+        "title": "on_connection_close 可能重复触发 on_close 的边界",
+        "status": "unverified",
+        "reproduction_status": null
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-10",
+    "mode": "direct",
+    "variant": "fixed",
+    "report": "reviews/tornado-10/direct/fixed/report.json",
+    "report_sha256": "09ac6923c21554ecc6259bb2bd455ac8d27f6f302efe06800abca06d07bfad10",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "WebSocket finish clears ui helpers before the connection actually closes, breaking render_string while open.",
+    "reason": "ETag、204/304、Content-Length 与 origin 候选不对应 WebSocket 在真正关闭前过早清理 ui helpers。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-10",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/tornado-10/evidence/buggy/report.json",
+    "report_sha256": "9db38a69dba029c5168e20904162951048fb123c2fd67c1bcf69cf30bc97858c",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "WebSocket finish clears ui helpers before the connection actually closes, breaking render_string while open.",
+    "reason": "ETag、204/304、Content-Length 与 origin 候选不对应 WebSocket 在真正关闭前过早清理 ui helpers。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "1ef9feb3fcf1",
+        "title": "finish() 中 204/304 断言在 -O 下被移除，可能发送非法响应体",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "e3438c0130fe",
+        "title": "ETag 自动生成检查使用 'Etag' 而非规范大小写，可能覆盖用户设置的 ETag",
+        "status": "pending_evidence",
+        "reproduction_status": "not_reproduced"
+      }
+    ],
+    "static_diagnostics_count": 1
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-10",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/tornado-10/evidence/fixed/report.json",
+    "report_sha256": "c880486b4c79aaf41c63b76937b96d706c272473420a3f931ddf53dbef89a8e0",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "WebSocket finish clears ui helpers before the connection actually closes, breaking render_string while open.",
+    "reason": "ETag、204/304、Content-Length 与 origin 候选不对应 WebSocket 在真正关闭前过早清理 ui helpers。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 1
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-11",
+    "mode": "direct",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-11/direct/buggy/report.json",
+    "report_sha256": "17aa6758d1c9005ae481fce4eea9e4339d507e0260442e7bbb750f5116521c35",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "str_to_int applies re.sub to non-string inputs and raises TypeError; fixed implementation returns these inputs unchanged.",
+    "reason": "evidence 缺陷版 1f94bb5c2092 找到了有效整数输入触发 re.sub TypeError；但声称预期返回 None，与参考修复返回输入本身不同。只计症状识别，unsupported 不计证据命中。direct 两侧均未报告。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-11",
+    "mode": "direct",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-11/direct/fixed/report.json",
+    "report_sha256": "f995c7f196188e32f61be2f943c35097458b11b1ffb7db3819e70405f5de13c1",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "str_to_int applies re.sub to non-string inputs and raises TypeError; fixed implementation returns these inputs unchanged.",
+    "reason": "evidence 缺陷版 1f94bb5c2092 找到了有效整数输入触发 re.sub TypeError；但声称预期返回 None，与参考修复返回输入本身不同。只计症状识别，unsupported 不计证据命中。direct 两侧均未报告。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-11",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-11/evidence/buggy/report.json",
+    "report_sha256": "b98abd18c9a4517c025f4020e20ca72a834c9dd3916becf51711a6fdf449153f",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "str_to_int applies re.sub to non-string inputs and raises TypeError; fixed implementation returns these inputs unchanged.",
+    "reason": "evidence 缺陷版 1f94bb5c2092 找到了有效整数输入触发 re.sub TypeError；但声称预期返回 None，与参考修复返回输入本身不同。只计症状识别，unsupported 不计证据命中。direct 两侧均未报告。",
+    "candidate_match_ids": [
+      "1f94bb5c2092"
+    ],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "1f94bb5c2092",
+        "title": "str_to_int 对非字符串输入抛出 TypeError 而非返回 None",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "b4a2ea4f37f2",
+        "title": "int_or_none 对布尔值 True/False 返回 1/0 而非 default",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "a9d812286810",
+        "title": "url_or_none 对仅含空白的字符串返回 None 但未处理 strip 后为空的情况",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-11",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-11/evidence/fixed/report.json",
+    "report_sha256": "3ce051c5992f4bb2003e8a74050b07e11db9ee9ea057307967c097f1314e1e5b",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "str_to_int applies re.sub to non-string inputs and raises TypeError; fixed implementation returns these inputs unchanged.",
+    "reason": "evidence 缺陷版 1f94bb5c2092 找到了有效整数输入触发 re.sub TypeError；但声称预期返回 None，与参考修复返回输入本身不同。只计症状识别，unsupported 不计证据命中。direct 两侧均未报告。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-11",
+    "mode": "direct",
+    "variant": "buggy",
+    "report": "reviews/tornado-11/direct/buggy/report.json",
+    "report_sha256": "2118ab303e7e165e085f32fc3f836b1b774bfd8fd82a26d60d42e2c66251d5d2",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Transfer-Encoding chunked matching is case sensitive; a valid Chunked header fails to select chunked parsing.",
+    "reason": "direct 缺陷版 61a457a1641f 正确给出合法 Chunked 大小写输入；fixed 的多值 Transfer-Encoding 候选是另一条件。evidence 只讨论负长度与空白，未找到已知问题。",
+    "candidate_match_ids": [
+      "61a457a1641f"
+    ],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "0f3b6add395c",
+        "title": "Content-Length 为负数时未校验，导致读取行为异常",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "0b1f299bd5b6",
+        "title": "重复 Content-Length 比较使用字符串而非数值，可能接受不等价的值",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "61a457a1641f",
+        "title": "Transfer-Encoding 仅精确匹配 \"chunked\"，大小写或带参数时被忽略",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "09e643c46f41",
+        "title": "204 响应校验未覆盖 1xx 与 304 等无 body 状态码",
+        "status": "unverified",
+        "reproduction_status": null
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-11",
+    "mode": "direct",
+    "variant": "fixed",
+    "report": "reviews/tornado-11/direct/fixed/report.json",
+    "report_sha256": "a2c417dd1bbb981e8b42ac357ec94677f955be1fbbde47f2c96838dffa849a7d",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Transfer-Encoding chunked matching is case sensitive; a valid Chunked header fails to select chunked parsing.",
+    "reason": "direct 缺陷版 61a457a1641f 正确给出合法 Chunked 大小写输入；fixed 的多值 Transfer-Encoding 候选是另一条件。evidence 只讨论负长度与空白，未找到已知问题。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "96127e517a04",
+        "title": "Content-Length 解析未拒绝负数",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "8f02c3ade282",
+        "title": "Transfer-Encoding 仅精确匹配 chunked，其他取值被忽略",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "316e7b1eadab",
+        "title": "重复 Content-Length 比较未去除空白，可能误判不等",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "ffc1779020ce",
+        "title": "204 响应体校验未覆盖 1xx 与 304 等无体状态码",
+        "status": "unverified",
+        "reproduction_status": null
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-11",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/tornado-11/evidence/buggy/report.json",
+    "report_sha256": "7d1240ec7a79d454bd64bdab59090706ec1321420e54742d447e4dd2bedc2132",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Transfer-Encoding chunked matching is case sensitive; a valid Chunked header fails to select chunked parsing.",
+    "reason": "direct 缺陷版 61a457a1641f 正确给出合法 Chunked 大小写输入；fixed 的多值 Transfer-Encoding 候选是另一条件。evidence 只讨论负长度与空白，未找到已知问题。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "f555c00d7d01",
+        "title": "负数 Content-Length 绕过长度校验并导致读取异常",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      }
+    ],
+    "static_diagnostics_count": 2
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-11",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/tornado-11/evidence/fixed/report.json",
+    "report_sha256": "c115d839f72545082183273fb1fab6a7bb34fe004fa644ffaf69c21e53fb842c",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Transfer-Encoding chunked matching is case sensitive; a valid Chunked header fails to select chunked parsing.",
+    "reason": "direct 缺陷版 61a457a1641f 正确给出合法 Chunked 大小写输入；fixed 的多值 Transfer-Encoding 候选是另一条件。evidence 只讨论负长度与空白，未找到已知问题。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "2d317dba5d82",
+        "title": "Content-Length 重复值比较未去除首尾空白，可能误判不等",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      }
+    ],
+    "static_diagnostics_count": 2
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-12",
+    "mode": "direct",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-12/direct/buggy/report.json",
+    "report_sha256": "83313f8a50d1c3e31ee059aea898c77456884bc1a26297e461dcb179fa40d923",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Negated string filter uses not str_op rather than not str_op(attr, value). Valid negation syntax is ext!=mp4.",
+    "reason": "direct 缺陷版 093ccfb690a3 正确描述 not str_op 的根因和 ext!=\"mp4\" 输入；但 fixed API 超时导致对照不完整。evidence 根因线索正确却使用 !ext=mp4，这会匹配普通相等运算，未进入否定分支。原测试在修复版同样 True is not false；不计严格候选或证据命中。",
+    "candidate_match_ids": [
+      "093ccfb690a3"
+    ],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "093ccfb690a3",
+        "title": "字符串过滤器取反逻辑错误：lambda 忽略 attr/value 且对函数对象取反",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "42dafc47042d",
+        "title": "数值过滤器对带单位/小数的值先 int() 再 parse_filesize，导致解析错误或异常",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "70a21c8dfd6c",
+        "title": "_filter 闭包捕获循环/后续变量，且对 None 值返回字符串而非布尔",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "44548cbe7b90",
+        "title": "数值过滤器正则未锚定开头，可能匹配到 filter_spec 中间片段",
+        "status": "unverified",
+        "reproduction_status": null
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-12",
+    "mode": "direct",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-12/direct/fixed/report.json",
+    "report_sha256": "4fb4cd07d55b4b01eee3a69c9e0720d6dcb97ec07c25510ed7a2e0e2c0c6bd55",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Negated string filter uses not str_op rather than not str_op(attr, value). Valid negation syntax is ext!=mp4.",
+    "reason": "direct 缺陷版 093ccfb690a3 正确描述 not str_op 的根因和 ext!=\"mp4\" 输入；但 fixed API 超时导致对照不完整。evidence 根因线索正确却使用 !ext=mp4，这会匹配普通相等运算，未进入否定分支。原测试在修复版同样 True is not false；不计严格候选或证据命中。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-12",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-12/evidence/buggy/report.json",
+    "report_sha256": "0b2f489a17f87900fa81ab5c002d506f5532c5ce4b31e8f131228826f4a7a376",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Negated string filter uses not str_op rather than not str_op(attr, value). Valid negation syntax is ext!=mp4.",
+    "reason": "direct 缺陷版 093ccfb690a3 正确描述 not str_op 的根因和 ext!=\"mp4\" 输入；但 fixed API 超时导致对照不完整。evidence 根因线索正确却使用 !ext=mp4，这会匹配普通相等运算，未进入否定分支。原测试在修复版同样 True is not false；不计严格候选或证据命中。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [
+      "9758e8ca5215"
+    ],
+    "active_llm_findings": [
+      {
+        "id": "9758e8ca5215",
+        "title": "字符串过滤器取反逻辑错误：对函数对象取非而非调用结果",
+        "status": "reproduced",
+        "reproduction_status": "reproduced"
+      }
+    ],
+    "static_diagnostics_count": 1
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-12",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-12/evidence/fixed/report.json",
+    "report_sha256": "d359a3ab35228db82f75e313a43274281eec69cac3b3dd78efb88e53a7df6745",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Negated string filter uses not str_op rather than not str_op(attr, value). Valid negation syntax is ext!=mp4.",
+    "reason": "direct 缺陷版 093ccfb690a3 正确描述 not str_op 的根因和 ext!=\"mp4\" 输入；但 fixed API 超时导致对照不完整。evidence 根因线索正确却使用 !ext=mp4，这会匹配普通相等运算，未进入否定分支。原测试在修复版同样 True is not false；不计严格候选或证据命中。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "6f515a57920f",
+        "title": "none_inclusive 返回字符串而非布尔值，导致 filter 结果真值语义错误",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      },
+      {
+        "id": "1fbc08fab046",
+        "title": "数值比较值可能为浮点字符串导致 int() 失败后 parse_filesize 处理不一致",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      }
+    ],
+    "static_diagnostics_count": 1
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-12",
+    "mode": "direct",
+    "variant": "buggy",
+    "report": "reviews/tornado-12/direct/buggy/report.json",
+    "report_sha256": "06bda18eb0819568c64a995c5becd4e426b41489dc7f59b6980dbefaa382044c",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Facebook access-token response parsing mishandles bytes/string token values; callback propagation also passes a Future as a callback.",
+    "reason": "缺 access_token、expires 形态、OAuth 签名和字典顺序候选均不对应字节 token 解析或 Future/callback 传递错误。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "cd993ce8ebfd",
+        "title": "缺少 access_token 时抛出未处理的 KeyError",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "d213e8504f8a",
+        "title": "expires 字段未转换为整数",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "1c10aa40308d",
+        "title": "fields 参数可能包含空字符串导致请求异常",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "9a99c457fe7f",
+        "title": "OAuth 签名参数未对键名进行转义",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "41b5b5ed74c3",
+        "title": "参数排序基于未转义的原始键名",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "417bb2a6ceae",
+        "title": "OAuth 1.0 签名密钥未对 secret 进行百分号编码",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "3ec8ddabdb98",
+        "title": "可变默认参数 parameters={}",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "a89880bf2193",
+        "title": "签名返回 bytes 而非 str",
+        "status": "unverified",
+        "reproduction_status": null
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-12",
+    "mode": "direct",
+    "variant": "fixed",
+    "report": "reviews/tornado-12/direct/fixed/report.json",
+    "report_sha256": "c048b2e2891c0cc87ac6a796d44b247d618a2a837c75db4950820932970e2541",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Facebook access-token response parsing mishandles bytes/string token values; callback propagation also passes a Future as a callback.",
+    "reason": "缺 access_token、expires 形态、OAuth 签名和字典顺序候选均不对应字节 token 解析或 Future/callback 传递错误。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "f6973b9a9fa2",
+        "title": "OAuth 回调解析缺少错误响应校验，可能抛出 KeyError",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "588f6c70480a",
+        "title": "expires 字段未转换为整数，类型不一致",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "3e5a96a4f1ee",
+        "title": "fields 拼接未做 URL 编码，特殊字符可能破坏请求",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "cac678da261e",
+        "title": "可变默认参数 parameters={}",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "22dad6ba1b00",
+        "title": "_oauth10a_signature 同样使用可变默认参数",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "d7ffd3b5b0ba",
+        "title": "OAuth 1.0 签名参数未按 RFC 排序/编码",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "b7da10a74523",
+        "title": "OAuth 1.0a 签名参数排序与编码不符合规范",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "017ead2c88e7",
+        "title": "签名返回 bytes 而非 str",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "e258377f2b00",
+        "title": "_oauth10a_signature 返回 bytes 而非 str",
+        "status": "unverified",
+        "reproduction_status": null
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-12",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/tornado-12/evidence/buggy/report.json",
+    "report_sha256": "a6ba7062f9d3557218f699b29c314a2b696e7aa6767c2f1c875a1be9936b8649",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Facebook access-token response parsing mishandles bytes/string token values; callback propagation also passes a Future as a callback.",
+    "reason": "缺 access_token、expires 形态、OAuth 签名和字典顺序候选均不对应字节 token 解析或 Future/callback 传递错误。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "871f4f45fdfa",
+        "title": "缺少 access_token 时 KeyError 导致回调异常而非 AuthError",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      },
+      {
+        "id": "68ae7af4c617",
+        "title": "expires 取值为列表而非标量",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      }
+    ],
+    "static_diagnostics_count": 3
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "tornado-12",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/tornado-12/evidence/fixed/report.json",
+    "report_sha256": "06b67d2879699ce497c17ee0d77a1729dc85221f57730ca8f4fd438dacac75fe",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "Facebook access-token response parsing mishandles bytes/string token values; callback propagation also passes a Future as a callback.",
+    "reason": "缺 access_token、expires 形态、OAuth 签名和字典顺序候选均不对应字节 token 解析或 Future/callback 传递错误。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "cd0da3ba5fb9",
+        "title": "缺少 access_token 时 KeyError 而非 AuthError",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      },
+      {
+        "id": "8071d7804e86",
+        "title": "fields 为 set，join 顺序不确定",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      }
+    ],
+    "static_diagnostics_count": 3
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-13",
+    "mode": "direct",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-13/direct/buggy/report.json",
+    "report_sha256": "cb8704263f2e5b815c3ed8c644227ff6026c5e5d645fd6c2af3c6c4095ce9f51",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "urljoin does not recognize arbitrary absolute URI schemes in path, incorrectly joining/dropping already absolute non-http URLs.",
+    "reason": "候选关注 base_url 有效性、空白、bytes 和 //path；参考问题是 path 本身已为 ftp 等绝对 URI 却未被保留。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "99a9b0b0a106",
+        "title": "base_url 在无匹配时抛出 AttributeError",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "394befef7dc8",
+        "title": "urljoin 对协议相对路径直接返回，未与 base 合并",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "9db5ff0ca50e",
+        "title": "bytes 解码使用固定 utf-8 且未处理解码错误",
+        "status": "unverified",
+        "reproduction_status": null
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-13",
+    "mode": "direct",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-13/direct/fixed/report.json",
+    "report_sha256": "186a58c12c44a1133fd7cf25a1507736d2b2d593391ba70747a1d7e929128ad7",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "urljoin does not recognize arbitrary absolute URI schemes in path, incorrectly joining/dropping already absolute non-http URLs.",
+    "reason": "候选关注 base_url 有效性、空白、bytes 和 //path；参考问题是 path 本身已为 ftp 等绝对 URI 却未被保留。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "99a9b0b0a106",
+        "title": "base_url 在无匹配时抛出 AttributeError",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "68a1f1a7c412",
+        "title": "urljoin 对协议相对 URL 直接返回，未与 base 合并",
+        "status": "unverified",
+        "reproduction_status": null
+      },
+      {
+        "id": "b5c3ad261b62",
+        "title": "urljoin 对 base 的校验过于严格，拒绝无 scheme 的合法 base",
+        "status": "unverified",
+        "reproduction_status": null
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-13",
+    "mode": "evidence",
+    "variant": "buggy",
+    "report": "reviews/youtube-dl-13/evidence/buggy/report.json",
+    "report_sha256": "8abddcafad815e5210263a77ccafbb457b57c7a738b97ef45446291aec67acf2",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "urljoin does not recognize arbitrary absolute URI schemes in path, incorrectly joining/dropping already absolute non-http URLs.",
+    "reason": "候选关注 base_url 有效性、空白、bytes 和 //path；参考问题是 path 本身已为 ftp 等绝对 URI 却未被保留。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "ca8cd54d850a",
+        "title": "base_url 对不匹配的 URL 调用 .group() 触发 AttributeError",
+        "status": "pending_evidence",
+        "reproduction_status": "invalid_plan"
+      },
+      {
+        "id": "75cbf335bb78",
+        "title": "urljoin 对非 UTF-8 字节 path 解码抛 UnicodeDecodeError",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      }
+    ],
+    "static_diagnostics_count": 0
+  },
+  {
+    "batch": "evidence-new8-20261014",
+    "case": "youtube-dl-13",
+    "mode": "evidence",
+    "variant": "fixed",
+    "report": "reviews/youtube-dl-13/evidence/fixed/report.json",
+    "report_sha256": "843498426c6157cc129fda39da495761fe7218b1444524b3d8b2cf624e2de550",
+    "adjudicator": "Codex model-assisted reference adjudication; human review pending",
+    "reference_issue": "urljoin does not recognize arbitrary absolute URI schemes in path, incorrectly joining/dropping already absolute non-http URLs.",
+    "reason": "候选关注 base_url 有效性、空白、bytes 和 //path；参考问题是 path 本身已为 ftp 等绝对 URI 却未被保留。",
+    "candidate_match_ids": [],
+    "valid_reproduced_match_ids": [],
+    "agent_reported_reproduced_ids": [],
+    "active_llm_findings": [
+      {
+        "id": "314e6c0ded0c",
+        "title": "base_url 对不匹配的 URL 抛出 AttributeError",
+        "status": "pending_evidence",
+        "reproduction_status": "not_reproduced"
+      },
+      {
+        "id": "e18bad3d7b14",
+        "title": "urljoin 对非 UTF-8 的 bytes path 解码抛异常",
+        "status": "pending_evidence",
+        "reproduction_status": "unsupported"
+      }
+    ],
+    "static_diagnostics_count": 0
+  }
+]

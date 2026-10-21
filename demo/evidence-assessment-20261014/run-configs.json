@@ -1,0 +1,53 @@
+{
+  "evidence-original20-20261014": {
+    "created_at": "2026-10-14T03:10:28.919588+00:00",
+    "dataset_commit": "11c5f1eea954a42132cfd06bf257766a7963e0fd",
+    "max_calls": 24,
+    "max_total_calls": 480,
+    "max_reproductions": 3,
+    "modes": [
+      "evidence"
+    ],
+    "source_sha256": {
+      "src/__init__.py": "9d9e33ea9b0988a621a891305c15f6822aeb887e062c209110de3a43b263ddb4",
+      "src/agents.py": "6b260571728a6127ebe94c3191c688804aa16d82eb557c92a3ab8336b35fa846",
+      "src/code_index.py": "39330b46f887021b2aeabf0c292cf5fe5a5e3b5cfde3d701be66beadcd0c208d",
+      "src/deduplication.py": "3071efab768fe7cc9e32073b04ad906af5cc66ffd8d145f61bcb3cfecd48788c",
+      "src/pipeline.py": "751063b7a44b387cedca54be528cf0429400fbb5f9b89f64b176d0a1e9b55118",
+      "src/report.py": "cc3ce2a458deaebcab9733b252b75baaa65894e4edb4723b94add2478cc1e80e",
+      "src/repository.py": "360f9e5f492f98780632c68197a8c72abf0b36d876b6b2c2368d8d99a0fbda4c",
+      "src/reproduction.py": "bbe9ad3970cc890af98e5a02b5d76a83d27acffe9248e19df06601fb2580ec0c",
+      "src/reproduction_runner.py": "23118d3e6f39301affbf63c44fa0da2395ee8bd849879a3a1cb2f6b420ab74aa",
+      "src/schemas.py": "6c1bf6d9393112fc20487866116d25e12fba43cfa4ca044adadf4b64013d07c8",
+      "src/static_analysis.py": "c094e31f91c91916c8db62e5350617e8b3a77a2f930b6063c9d4eec33cf60d2d"
+    },
+    "protocol": "Known-location windows; target tests/patches/variant hidden. Only indexed production source is mounted in agent containers. Official tests are evaluator-only.",
+    "scoring": "Score all window-complete, official-test-verified pairs; unconfirmed or failed agent reproductions count as misses, not excluded successful runs."
+  },
+  "evidence-new8-20261014": {
+    "created_at": "2026-10-14T03:10:33.982220+00:00",
+    "dataset_commit": "11c5f1eea954a42132cfd06bf257766a7963e0fd",
+    "max_calls": 24,
+    "max_total_calls": 320,
+    "max_reproductions": 3,
+    "modes": [
+      "direct",
+      "evidence"
+    ],
+    "source_sha256": {
+      "src/__init__.py": "9d9e33ea9b0988a621a891305c15f6822aeb887e062c209110de3a43b263ddb4",
+      "src/agents.py": "6b260571728a6127ebe94c3191c688804aa16d82eb557c92a3ab8336b35fa846",
+      "src/code_index.py": "39330b46f887021b2aeabf0c292cf5fe5a5e3b5cfde3d701be66beadcd0c208d",
+      "src/deduplication.py": "3071efab768fe7cc9e32073b04ad906af5cc66ffd8d145f61bcb3cfecd48788c",
+      "src/pipeline.py": "751063b7a44b387cedca54be528cf0429400fbb5f9b89f64b176d0a1e9b55118",
+      "src/report.py": "cc3ce2a458deaebcab9733b252b75baaa65894e4edb4723b94add2478cc1e80e",
+      "src/repository.py": "360f9e5f492f98780632c68197a8c72abf0b36d876b6b2c2368d8d99a0fbda4c",
+      "src/reproduction.py": "bbe9ad3970cc890af98e5a02b5d76a83d27acffe9248e19df06601fb2580ec0c",
+      "src/reproduction_runner.py": "23118d3e6f39301affbf63c44fa0da2395ee8bd849879a3a1cb2f6b420ab74aa",
+      "src/schemas.py": "6c1bf6d9393112fc20487866116d25e12fba43cfa4ca044adadf4b64013d07c8",
+      "src/static_analysis.py": "c094e31f91c91916c8db62e5350617e8b3a77a2f930b6063c9d4eec33cf60d2d"
+    },
+    "protocol": "Known-location windows; target tests/patches/variant hidden. Only indexed production source is mounted in agent containers. Official tests are evaluator-only.",
+    "scoring": "Score all window-complete, official-test-verified pairs; unconfirmed or failed agent reproductions count as misses, not excluded successful runs."
+  }
+}

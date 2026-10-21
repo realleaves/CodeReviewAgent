@@ -1,0 +1,8 @@
+{
+  "model": "deepseek-flash",
+  "thinking_mode": "disabled",
+  "temperature": 0.1,
+  "max_output_tokens": 6000,
+  "max_calls_total": 24,
+  "timeout": 45
+}

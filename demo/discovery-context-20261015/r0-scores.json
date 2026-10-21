@@ -1,0 +1,77 @@
+{
+  "metrics": [
+    {
+      "mode": "callgraph/rep1",
+      "planned_pairs": 6,
+      "eligible_pairs": 5,
+      "detected_known_bugs": 0,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 0,
+      "known_bug_detection_rate": 0.0,
+      "fixed_target_alarm_rate": 0.0,
+      "paired_discrimination_rate": 0.0,
+      "exclusions": [
+        {
+          "case": "tornado-1",
+          "reason": "review_incomplete"
+        }
+      ]
+    },
+    {
+      "mode": "callgraph/rep2",
+      "planned_pairs": 6,
+      "eligible_pairs": 6,
+      "detected_known_bugs": 0,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 0,
+      "known_bug_detection_rate": 0.0,
+      "fixed_target_alarm_rate": 0.0,
+      "paired_discrimination_rate": 0.0,
+      "exclusions": []
+    },
+    {
+      "mode": "legacy/rep1",
+      "planned_pairs": 6,
+      "eligible_pairs": 3,
+      "detected_known_bugs": 0,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 0,
+      "known_bug_detection_rate": 0.0,
+      "fixed_target_alarm_rate": 0.0,
+      "paired_discrimination_rate": 0.0,
+      "exclusions": [
+        {
+          "case": "tornado-1",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "tornado-3",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "tornado-7",
+          "reason": "review_incomplete"
+        }
+      ]
+    },
+    {
+      "mode": "legacy/rep2",
+      "planned_pairs": 6,
+      "eligible_pairs": 6,
+      "detected_known_bugs": 0,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 0,
+      "known_bug_detection_rate": 0.0,
+      "fixed_target_alarm_rate": 0.0,
+      "paired_discrimination_rate": 0.0,
+      "exclusions": []
+    }
+  ],
+  "scoring_scope": "Only the known reference issue; extra findings are not automatically false positives.",
+  "adjudicators": [
+    "Codex source and frozen reference-rubric review; human review pending"
+  ],
+  "stage": "discovery only; does not measure Agent-generated proof or change the historical 1/26 score",
+  "decisions_sha256": "fb56327d703d30054e4741d56957fa8d8b4970625ae1b0ca3805024db117f76f",
+  "all_planned_groups_retained": true
+}

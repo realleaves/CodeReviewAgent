@@ -1,0 +1,155 @@
+{
+  "metrics": [
+    {
+      "mode": "thinking12000/rep1",
+      "planned_pairs": 6,
+      "eligible_pairs": 0,
+      "detected_known_bugs": 0,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 0,
+      "known_bug_detection_rate": null,
+      "fixed_target_alarm_rate": null,
+      "paired_discrimination_rate": null,
+      "exclusions": [
+        {
+          "case": "tornado-1",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "tornado-3",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "tornado-7",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-2",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-4",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-8",
+          "reason": "review_incomplete"
+        }
+      ]
+    },
+    {
+      "mode": "thinking12000/rep2",
+      "planned_pairs": 6,
+      "eligible_pairs": 0,
+      "detected_known_bugs": 0,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 0,
+      "known_bug_detection_rate": null,
+      "fixed_target_alarm_rate": null,
+      "paired_discrimination_rate": null,
+      "exclusions": [
+        {
+          "case": "tornado-1",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "tornado-3",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "tornado-7",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-2",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-4",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-8",
+          "reason": "review_incomplete"
+        }
+      ]
+    },
+    {
+      "mode": "thinking6000/rep1",
+      "planned_pairs": 6,
+      "eligible_pairs": 1,
+      "detected_known_bugs": 0,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 0,
+      "known_bug_detection_rate": 0.0,
+      "fixed_target_alarm_rate": 0.0,
+      "paired_discrimination_rate": 0.0,
+      "exclusions": [
+        {
+          "case": "tornado-1",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "tornado-3",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-2",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-4",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-8",
+          "reason": "review_incomplete"
+        }
+      ]
+    },
+    {
+      "mode": "thinking6000/rep2",
+      "planned_pairs": 6,
+      "eligible_pairs": 0,
+      "detected_known_bugs": 0,
+      "same_issue_alarms_on_fixed": 0,
+      "correctly_discriminated_pairs": 0,
+      "known_bug_detection_rate": null,
+      "fixed_target_alarm_rate": null,
+      "paired_discrimination_rate": null,
+      "exclusions": [
+        {
+          "case": "tornado-1",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "tornado-3",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "tornado-7",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-2",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-4",
+          "reason": "review_incomplete"
+        },
+        {
+          "case": "youtube-dl-8",
+          "reason": "review_incomplete"
+        }
+      ]
+    }
+  ],
+  "scoring_scope": "Only the known reference issue; extra findings are not automatically false positives.",
+  "adjudicators": [
+    "Codex source and frozen reference-rubric review; human review pending"
+  ],
+  "stage": "discovery only; does not measure Agent-generated proof or change the historical 1/26 score",
+  "decisions_sha256": "be713809a28e18d98b98f6b8e6c4cc2023138af10cc52eedfab22a760b6c3160",
+  "all_planned_groups_retained": true
+}

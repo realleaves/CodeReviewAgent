@@ -1,0 +1,176 @@
+{
+  "evaluated_source_commit": "40034c2dd8e7a948f267218e272486be8cbc874e",
+  "dataset_commit": "11c5f1eea954a42132cfd06bf257766a7963e0fd",
+  "adjudication": "Model-assisted, human review pending. No full-repository detection or leaderboard claim.",
+  "denominator": "Predeclared: official-test-reproduced and both windows complete; proof failures stay in denominator.",
+  "candidate_match_definition": "Concrete known root cause/symptom plus a valid reference-trigger input. A mistaken expected return may still identify a symptom, but never qualifies as valid evidence. Wrong-branch triggers are not strict candidate hits.",
+  "scores": [
+    {
+      "batch": "evidence-original20-20261014",
+      "mode": "evidence",
+      "planned_pairs": 20,
+      "eligible_pairs": 18,
+      "eligible_case_ids": [
+        "PySnooper-1",
+        "PySnooper-3",
+        "tornado-1",
+        "tornado-2",
+        "tornado-3",
+        "tornado-4",
+        "tornado-5",
+        "tornado-6",
+        "tornado-7",
+        "tornado-8",
+        "youtube-dl-1",
+        "youtube-dl-2",
+        "youtube-dl-3",
+        "youtube-dl-4",
+        "youtube-dl-5",
+        "youtube-dl-6",
+        "youtube-dl-7",
+        "youtube-dl-8"
+      ],
+      "excluded_pairs": [
+        {
+          "case": "PySnooper-2",
+          "reasons": [
+            "official_reproduction_not_verified"
+          ]
+        },
+        {
+          "case": "youtube-dl-9",
+          "reasons": [
+            "window_review_incomplete"
+          ]
+        }
+      ],
+      "candidate_known_issue_hits": 3,
+      "valid_reproduced_known_issue_hits": 1,
+      "candidate_detection_rate": 0.16666666666666666,
+      "evidence_detection_rate": 0.05555555555555555,
+      "same_known_issue_alarms_on_fixed": 0
+    },
+    {
+      "batch": "evidence-new8-20261014",
+      "mode": "direct",
+      "planned_pairs": 8,
+      "eligible_pairs": 7,
+      "eligible_case_ids": [
+        "tornado-10",
+        "tornado-11",
+        "tornado-12",
+        "tornado-9",
+        "youtube-dl-10",
+        "youtube-dl-11",
+        "youtube-dl-13"
+      ],
+      "excluded_pairs": [
+        {
+          "case": "youtube-dl-12",
+          "reasons": [
+            "window_review_incomplete"
+          ]
+        }
+      ],
+      "candidate_known_issue_hits": 1,
+      "valid_reproduced_known_issue_hits": null,
+      "candidate_detection_rate": 0.14285714285714285,
+      "evidence_detection_rate": null,
+      "same_known_issue_alarms_on_fixed": 0
+    },
+    {
+      "batch": "evidence-new8-20261014",
+      "mode": "evidence",
+      "planned_pairs": 8,
+      "eligible_pairs": 8,
+      "eligible_case_ids": [
+        "tornado-10",
+        "tornado-11",
+        "tornado-12",
+        "tornado-9",
+        "youtube-dl-10",
+        "youtube-dl-11",
+        "youtube-dl-12",
+        "youtube-dl-13"
+      ],
+      "excluded_pairs": [],
+      "candidate_known_issue_hits": 1,
+      "valid_reproduced_known_issue_hits": 0,
+      "candidate_detection_rate": 0.125,
+      "evidence_detection_rate": 0.0,
+      "same_known_issue_alarms_on_fixed": 0
+    }
+  ],
+  "evidence_combined": {
+    "planned_pairs": 28,
+    "eligible_pairs": 26,
+    "known_issue_candidate_hits": 4,
+    "valid_reproduced_known_issue_hits": 1,
+    "evidence_detection_rate": 0.038461538461538464,
+    "planned_pair_coverage_with_valid_evidence": 0.03571428571428571
+  },
+  "agent_reported_reproduced_candidates": 13,
+  "confirmed_invalid_evidence_examples": [
+    {
+      "case": "youtube-dl-12",
+      "finding_id": "9758e8ca5215",
+      "reason": "Wrong negation syntax exercises equality; identical failure on reference-fixed snapshot. Evaluator correction is diagnostic only."
+    }
+  ],
+  "other_extra_findings": "Not counted as target matches or automatically classified as false positives; global precision not adjudicated.",
+  "proof_status_counts_all_evidence_candidates": {
+    "unsupported": 41,
+    "reproduced": 13,
+    "invalid_plan": 16,
+    "budget_exhausted": 15,
+    "unrelated_failure": 6,
+    "not_reproduced": 9,
+    "contract_unconfirmed": 3
+  },
+  "execution": [
+    {
+      "batch": "evidence-original20-20261014",
+      "mode": "evidence",
+      "reviews": 40,
+      "calls": 313,
+      "window_complete": 38,
+      "status_completed": 15,
+      "sum_review_seconds": 807.085,
+      "usage": {
+        "prompt_tokens": 1356710,
+        "completion_tokens": 82396
+      }
+    },
+    {
+      "batch": "evidence-new8-20261014",
+      "mode": "direct",
+      "reviews": 16,
+      "calls": 22,
+      "window_complete": 15,
+      "status_completed": 15,
+      "sum_review_seconds": 180.948,
+      "usage": {
+        "prompt_tokens": 31769,
+        "completion_tokens": 14760
+      }
+    },
+    {
+      "batch": "evidence-new8-20261014",
+      "mode": "evidence",
+      "reviews": 16,
+      "calls": 99,
+      "window_complete": 16,
+      "status_completed": 5,
+      "sum_review_seconds": 225.804,
+      "usage": {
+        "prompt_tokens": 403533,
+        "completion_tokens": 25742
+      }
+    }
+  ],
+  "reviews": 72,
+  "calls": 434,
+  "window_complete": 69,
+  "status_completed": 35,
+  "source_frozen_verified": true
+}

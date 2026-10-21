@@ -1,0 +1,31 @@
+{
+  "disabled": {
+    "windows": 22,
+    "completed_windows": 22,
+    "api_calls": 22,
+    "candidate_rows": 34,
+    "window_error_types": {},
+    "provider_call_error_types": {
+      "success": 22
+    },
+    "prompt_tokens": 93954,
+    "completion_tokens": 10692
+  },
+  "enabled": {
+    "windows": 22,
+    "completed_windows": 11,
+    "api_calls": 49,
+    "candidate_rows": 7,
+    "window_error_types": {
+      "ModelResponseError": 8,
+      "JSONDecodeError": 2,
+      "ValidationError": 1
+    },
+    "provider_call_error_types": {
+      "success": 41,
+      "ModelResponseError": 8
+    },
+    "prompt_tokens": 323203,
+    "completion_tokens": 136545
+  }
+}

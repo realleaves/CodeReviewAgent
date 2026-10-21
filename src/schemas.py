@@ -65,6 +65,8 @@ class ReviewOptions(BaseModel):
     repro_image: str = "python:3.13-slim"
     repro_timeout: int = Field(default=15, ge=2, le=60)
     max_reproductions: int = Field(default=4, ge=1, le=20)
+    max_repro_repairs: int = Field(default=0, ge=0, le=1)
+    context_strategy: Literal["legacy", "callgraph"] = "legacy"
 
 
 class ContractReference(BaseModel):
@@ -75,6 +77,19 @@ class ContractReference(BaseModel):
     quote: str = Field(min_length=1, max_length=3000)
     kind: Literal["documented_behavior", "existing_test", "language_rule"]
     rationale: str = Field(min_length=15, max_length=2000)
+    # Older saved evidence omits these fields. New plans must fill them; the
+    # admission gate rejects "unspecified" instead of guessing a requirement.
+    expected_outcome: Literal[
+        "exception",
+        "return_value",
+        "state_change",
+        "output",
+        "error_message",
+        "unspecified",
+    ] = "unspecified"
+    expected_exception: str = Field(default="", max_length=120)
+    precondition: str = Field(default="", max_length=1000)
+    assumptions: list[str] = Field(default_factory=list, max_length=8)
 
 
 class ReproductionPlan(BaseModel):
@@ -90,6 +105,14 @@ class EvidenceDecision(BaseModel):
     model_config = ConfigDict(extra="forbid")
     accepted: bool
     reason: str = Field(min_length=15, max_length=2000)
+    # Structured verdicts let code re-check an acceptance instead of trusting a
+    # free-form reason. None means the model omitted the judgment, which cannot
+    # support a formal defect.
+    input_supported: bool | None = None
+    requirement_supported: bool | None = None
+    failure_matches_candidate: bool | None = None
+    requirement_class: Literal["behavior", "diagnostic_quality"] | None = None
+    unresolved_assumptions: list[str] = Field(default_factory=list, max_length=8)
 
 
 def public_options(options: ReviewOptions) -> dict:

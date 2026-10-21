@@ -36,6 +36,9 @@ def main():
     parser.add_argument("--max-calls", type=int, default=20)
     parser.add_argument("--max-total-calls", type=int, default=320)
     parser.add_argument("--max-reproductions", type=int, default=3)
+    parser.add_argument(
+        "--context-strategy", choices=["legacy", "callgraph"], default="legacy"
+    )
     parser.add_argument("--python37-image", default="python:3.7-slim")
     parser.add_argument(
         "--python38-image", default="code-review-bugsinpy:py38-complete"
@@ -75,6 +78,7 @@ def main():
             "max_calls": args.max_calls,
             "max_total_calls": args.max_total_calls,
             "max_reproductions": args.max_reproductions,
+            "context_strategy": args.context_strategy,
             "modes": args.modes,
             "source_sha256": {
                 str(p.relative_to(project)): hashlib.sha256(p.read_bytes()).hexdigest()
@@ -128,6 +132,7 @@ def main():
                         max_file_bytes=1_000_000,
                         repro_image=image,
                         max_reproductions=args.max_reproductions,
+                        context_strategy=args.context_strategy,
                     )
                     regions = {p: h[side] for p, h in case["production_hunks"].items()}
                     report = run_scoped_review(

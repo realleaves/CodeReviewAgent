@@ -1,0 +1,95 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>CodeReview · tornado</title>
+<style>
+:root{--bg:#f4f6fa;--ink:#182635;--muted:#526376;--line:#dbe3ed;--accent:#126b65}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 system-ui,sans-serif}
+header{background:#112e38;color:#fff;padding:38px max(24px,calc((100vw - 1100px)/2))}
+.eyebrow{letter-spacing:2px;font-size:12px;color:#94d9cc}h1{font-size:32px;margin:10px 0}header p{margin:6px 0;color:#c7d8df;overflow-wrap:anywhere}
+main{max-width:1150px;margin:auto;padding:28px 24px 60px}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.stat,.panel,.finding{background:white;border:1px solid var(--line);border-radius:12px;padding:22px}
+.stat strong{display:block;font-size:30px;color:var(--accent)}.stat span{color:var(--muted)}
+.panel{margin:22px 0}h2{font-size:20px;margin:0 0 14px}.filters{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}
+select,input{font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:7px;background:white}input{min-width:220px;flex:1}
+.finding{margin:14px 0}.finding[hidden]{display:none}h3{font-size:19px;margin:12px 0 5px}.tags{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.badge{border-radius:5px;padding:3px 9px;background:#edf2f7;font-size:12px}.badge.high{color:#a12f37;background:#ffebed}
+.badge.medium{color:#96590c;background:#fff1dc}.badge.low{color:#176467;background:#e7f5f3}.origin,.location{color:var(--muted);font-size:13px}
+a{color:var(--accent)}dl{margin:18px 0}.detail{display:grid;grid-template-columns:90px 1fr;gap:12px;margin:9px 0}dt{font-weight:600}dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+pre{background:#122b37;color:#e0edf2;padding:17px;border-radius:8px;overflow:auto;font:13px/1.7 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line)}td{overflow-wrap:anywhere}
+.note{color:var(--muted)}summary{cursor:pointer;font-weight:600}footer{color:var(--muted);margin-top:25px}#empty{padding:30px;text-align:center;color:var(--muted)}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}header{padding:25px 20px}main{padding:20px 14px}.detail{grid-template-columns:1fr;gap:2px}h1{font-size:25px}}
+</style></head><body><header><div class="eyebrow">CODE REVIEW AGENT / REPOSITORY REPORT</div>
+<h1>tornado</h1><p>https://github.com/tornadoweb/tornado · blinded-snapshot</p>
+<p>Commit a8420fc681c5423d072978f00eab4d0645057d16 · 运行状态 partial</p></header><main>
+<div class="stats"><div class="stat"><strong>0</strong><span>已复现缺陷</span></div>
+<div class="stat"><strong>0%</strong><span>已索引 Python 文件语义覆盖</span></div>
+<div class="stat"><strong>0</strong><span>模型调用</span></div>
+<div class="stat"><strong>0.982s</strong><span>运行耗时</span></div></div>
+<section class="panel"><h2>审查范围与证据</h2><p>模式 evidence · 模型 deepseek-flash · 完整语义审查 0/62 个文件</p>
+<ul class="note"><li>固定已知候选与原始生成计划的开发集诊断，不是Agent独立发现或全仓库审查。</li><li>模型调用只包含本轮修正/核验，原始计划由2026-10-14记录重放。</li><li>两种条件使用同一新执行判定，仅切换一次反馈修正；参考修复仅由评测侧对照。</li></ul></section>
+<h2>审查发现</h2><div class="filters"><input id="search" aria-label="搜索问题或文件" placeholder="搜索问题、文件路径或依据…">
+<select id="severity" aria-label="风险程度"><option value="">全部风险</option><option value="high">高</option><option value="medium">中</option><option value="low">低</option></select>
+<select id="status" aria-label="复核状态"><option value="reproduced">已复现缺陷</option><option value="pending">待验证候选与静态建议</option><option value="all">全部含驳回</option><option value="supported">有代码依据</option><option value="needs_context">待确认</option><option value="unverified">未复核</option><option value="rejected">已驳回</option></select></div>
+<div id="findings"><article class="finding" data-severity="medium" data-status="pending_evidence">
+          <div class="tags"><span class="badge medium">中风险</span>
+          <span class="badge">待验证</span><span class="origin">llm</span></div>
+          <h3>suffix range 长度超过文件大小时 start 变为负数导致 416 判定失效</h3><div class="location"><a href="https://github.com/tornadoweb/tornado/blob/a8420fc681c5423d072978f00eab4d0645057d16/tornado/web.py#L2603" target="_blank" rel="noopener noreferrer">tornado/web.py:2603</a></div><dl><div class="detail"><dt>问题说明</dt><dd>当 Range 头为后缀形式（如 bytes=-N）时，_parse_request_range 返回 (start=-N, end=None)。第 2603 行的不可满足判定只检查 start &gt;= size 或 end == 0，对负 start 不成立，因此不会返回 416。随后第 2611-2612 行执行 start += size，若 N &gt; size，start 仍为负数。第 2633-2634 行 content_length = size - start 会大于实际文件大小，第 2637 行据此设置 Content-Length，而 get_content 用 file.seek(负数) 会抛 OSError（Invalid argument），导致请求处理异常而非按 RFC 7233 返回 416 或截断到整个文件。</dd></div><div class="detail"><dt>触发条件</dt><dd>请求一个大小为 size 的静态文件，携带 Range: bytes=-{N}，其中 N &gt; size（例如文件 10 字节，Range: bytes=-100）。</dd></div><div class="detail"><dt>代码依据</dt><dd>第 2603 行条件 `(start is not None and start &gt;= size) or end == 0` 对负 start 为 False；第 2611-2612 行 `if start is not None and start &lt; 0: start += size` 后 start 仍为负；第 2634 行 `content_length = size - start` 得到大于 size 的值；get_content 第 2801 行 `file.seek(start)` 传入负数。</dd></div><div class="detail"><dt>修复建议</dt><dd>在后缀范围处理后将 start 夹紧到 0（如 start = max(0, start + size)），或在 start + size &lt; 0 时返回 416。</dd></div><div class="detail"><dt>复核理由</dt><dd>尚未复核；未运行待审代码。</dd></div><div class="detail"><dt>验证方式</dt><dd>执行未形成与候选对应的有效失败；不作为正式缺陷。</dd></div></dl>
+          <pre><code>2601:         if request_range:
+2602:             start, end = request_range
+2603:             if (start is not None and start &gt;= size) or end == 0:
+2604:                 # As per RFC 2616 14.35.1, a range is not satisfiable only: if
+2605:                 # the first requested byte is equal to or greater than the</code></pre><p>复现：unrelated_failure · 执行未形成与候选对应的有效失败；不作为正式缺陷。</p><p><a href="evidence/3e533c03160d/evidence.json">完整运行证据</a></p><details><summary>复现测试与预期行为</summary><p>当 Range 头为后缀形式 bytes=-N 且 N 大于文件大小时，StaticFileHandler 应将起始偏移夹紧到 0（返回整个文件），或按 RFC 7233 返回 416；无论如何不应产生负的 seek 偏移。当前实现中 start += size 后 start 仍为负，导致 get_content 中 file.seek(负数) 抛 OSError。</p><pre><code>import os
+import tempfile
+import unittest
+
+from tornado.web import StaticFileHandler
+
+
+class ReproductionTest(unittest.TestCase):
+    def test_reproduction(self):
+        # 构造一个 10 字节的临时文件
+        fd, path = tempfile.mkstemp()
+        try:
+            with os.fdopen(fd, &quot;wb&quot;) as f:
+                f.write(b&quot;0123456789&quot;)
+            size = os.path.getsize(path)
+            self.assertEqual(size, 10)
+
+            # 后缀范围 bytes=-100，N=100 &gt; size=10
+            # 按 RFC 7233，后缀长度超过文件大小时应返回整个文件（start 夹紧到 0），
+            # 而不是产生负的 seek 偏移。
+            start = -100
+            end = None
+            # 模拟 web.py 第 2603 行的不可满足判定
+            not_satisfiable = (start is not None and start &gt;= size) or end == 0
+            self.assertFalse(not_satisfiable)
+            # 模拟 web.py 第 2611-2612 行的修正
+            if start is not None and start &lt; 0:
+                start += size
+            # 修正后 start 仍为负，这是缺陷所在
+            self.assertGreaterEqual(
+                start,
+                0,
+                &quot;suffix range 长度超过文件大小时 start 修正后仍为负: %r&quot; % (start,),
+            )
+
+            # 若 start 为负，get_content 会执行 file.seek(负数) 抛 OSError
+            with open(path, &quot;rb&quot;) as f:
+                with self.assertRaises(OSError):
+                    f.seek(start)
+        finally:
+            os.unlink(path)
+</code></pre></details><details><summary>执行1 · unrelated_failure · Python 3.7.17 · 测试版本 1</summary><p>镜像 sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8</p><pre>
+CODE_REVIEW_EXECUTION={&quot;python&quot;: &quot;3.7.17&quot;, &quot;tests_run&quot;: 1, &quot;failures&quot;: 1, &quot;errors&quot;: 0, &quot;skipped&quot;: 0, &quot;load_error&quot;: null, &quot;observations&quot;: [{&quot;test&quot;: &quot;generated_reproduction.ReproductionTest.test_reproduction&quot;, &quot;outcome&quot;: &quot;failure&quot;, &quot;exception_type&quot;: &quot;AssertionError&quot;, &quot;message&quot;: &quot;-90 not greater than or equal to 0 : suffix range \u957f\u5ea6\u8d85\u8fc7\u6587\u4ef6\u5927\u5c0f\u65f6 start \u4fee\u6b63\u540e\u4ecd\u4e3a\u8d1f: -90&quot;, &quot;traceback&quot;: &quot;Traceback (most recent call last):\n  File \&quot;/usr/local/lib/python3.7/unittest/case.py\&quot;, line 59, in testPartExecutor\n    yield\n  File \&quot;/usr/local/lib/python3.7/unittest/case.py\&quot;, line 628, in run\n    testMethod()\n  File \&quot;/harness/test_reproduction.py\&quot;, line 33, in test_reproduction\n    \&quot;suffix range \u957f\u5ea6\u8d85\u8fc7\u6587\u4ef6\u5927\u5c0f\u65f6 start \u4fee\u6b63\u540e\u4ecd\u4e3a\u8d1f: %r\&quot; % (start,),\n  File \&quot;/usr/local/lib/python3.7/unittest/case.py\&quot;, line 1257, in assertGreaterEqual\n    self.fail(self._formatMessage(msg, standardMsg))\n  File \&quot;/usr/local/lib/python3.7/unittest/case.py\&quot;, line 693, in fail\n    raise self.failureException(msg)\nAssertionError: -90 not greater than or equal to 0 : suffix range \u957f\u5ea6\u8d85\u8fc7\u6587\u4ef6\u5927\u5c0f\u65f6 start \u4fee\u6b63\u540e\u4ecd\u4e3a\u8d1f: -90\n&quot;, &quot;traceback_frames&quot;: [{&quot;path&quot;: &quot;/usr/local/lib/python3.7/unittest/case.py&quot;, &quot;line&quot;: 59, &quot;function&quot;: &quot;testPartExecutor&quot;}, {&quot;path&quot;: &quot;/usr/local/lib/python3.7/unittest/case.py&quot;, &quot;line&quot;: 628, &quot;function&quot;: &quot;run&quot;}, {&quot;path&quot;: &quot;/harness/test_reproduction.py&quot;, &quot;line&quot;: 33, &quot;function&quot;: &quot;test_reproduction&quot;}, {&quot;path&quot;: &quot;/usr/local/lib/python3.7/unittest/case.py&quot;, &quot;line&quot;: 1257, &quot;function&quot;: &quot;assertGreaterEqual&quot;}, {&quot;path&quot;: &quot;/usr/local/lib/python3.7/unittest/case.py&quot;, &quot;line&quot;: 693, &quot;function&quot;: &quot;fail&quot;}]}], &quot;target_lines&quot;: [], &quot;target_calls&quot;: [], &quot;target_trace_scope&quot;: &quot;test_execution&quot;}
+</pre></details></article></div><p id="empty" hidden>当前筛选没有候选问题；请结合覆盖范围和失败记录解读。</p>
+<section class="panel"><h2>文件覆盖</h2><div class="table-wrap"><table><thead><tr><th>文件</th><th>静态检查</th><th>语义审查</th><th>完成分块</th></tr></thead><tbody></tbody></table></div></section>
+<section class="panel"><h2>失败记录</h2><p>没有执行失败记录。</p></section>
+<section class="panel"><details><summary>跳过文件（0）</summary><div class="table-wrap"><table><thead><tr><th>文件</th><th>原因</th></tr></thead><tbody></tbody></table></div></details></section>
+<footer>Token 用量：输入 0 / 输出 0。完整结构化结果及复核轨迹见 report.json。</footer>
+</main><script>
+const search=document.getElementById('search'),severity=document.getElementById('severity'),status=document.getElementById('status');
+function filter(){let count=0;for(const card of document.querySelectorAll('.finding')){const s=status.value;
+const show=(!severity.value||card.dataset.severity===severity.value)&&(s==='all'||(s==='pending'?!['reproduced','rejected'].includes(card.dataset.status):(s==='active'?card.dataset.status!=='rejected':card.dataset.status===s)))&&card.textContent.toLowerCase().includes(search.value.toLowerCase());
+card.hidden=!show;if(show)count++;}document.getElementById('empty').hidden=count!==0;}
+for(const control of [search,severity,status])control.addEventListener('input',filter);filter();
+</script></body></html>

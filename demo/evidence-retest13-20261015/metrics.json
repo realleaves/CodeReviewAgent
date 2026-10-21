@@ -1,0 +1,24 @@
+{
+  "records": 13,
+  "primary_containers": 52,
+  "opposite_snapshot_containers": 13,
+  "supplemental_evaluator_containers": 2,
+  "total_containers": 67,
+  "deepseek_api_calls": 0,
+  "old_execution_gate_accepted": 13,
+  "new_execution_gate_accepted": 12,
+  "implementation_frozen": true,
+  "semantic_categories": {
+    "inconclusive": 3,
+    "quality_only": 1,
+    "unsupported_expectation": 1,
+    "supported": 7,
+    "invalid_trigger": 1
+  },
+  "reference_confirmed_records": 1,
+  "additional_source_supported_records_pending_human_review": 6,
+  "inconclusive_records": 3,
+  "known_invalid_trigger_blocked": 1,
+  "new_discovery_or_recall_measured": false,
+  "historical_known_target_score_changed": false
+}

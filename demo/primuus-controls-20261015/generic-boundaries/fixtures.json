@@ -1,0 +1,18 @@
+[
+  {
+    "case": "import-is-not-a-call",
+    "path": "a.py",
+    "line": 1,
+    "end_line": 1,
+    "source": "def target():\n    return 7\n",
+    "test_code": "import unittest\nfrom a import target\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        value = 1\n        self.assertEqual(value, 2)\n"
+  },
+  {
+    "case": "adjacent-branch",
+    "path": "a.py",
+    "line": 3,
+    "end_line": 3,
+    "source": "def target(value):\n    if value > 0:\n        return 7\n    return 0\n",
+    "test_code": "import unittest\nfrom a import target\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        self.assertEqual(target(0), 99)\n"
+  }
+]

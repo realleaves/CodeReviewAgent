@@ -79,7 +79,9 @@ def run_scoped_review(
     if own_llm:
         load_config(env_file)
         llm = MeteredLLM(max_calls, timeout)
-    agent = ReviewAgents(index, llm)
+    agent = ReviewAgents(
+        index, llm, evidence_options.context_strategy if evidence_options else "legacy"
+    )
     engine = (
         EvidenceEngine(
             index,
