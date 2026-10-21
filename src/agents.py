@@ -273,6 +273,17 @@ HYPOTHESIS_AUDIT_PROMPT = (
     + json.dumps(HypothesisCandidates.model_json_schema(), ensure_ascii=False)
 )
 
+MECHANISM_AUDIT_PROMPT = (
+    COMMON
+    + """以下是第一轮假设阶段的 checked/hypotheses/findings。请做“候选机制/排序审计”：
+1. 对每条 initial finding，指出它对应哪条 hypothesis、具体反例和契约违反；
+2. 比较所有 hypothesis：如果另一条 hypothesis 的反例更具体、契约违反更直接，而当前 finding 只是邻近问题或较弱机制，用更强的 hypothesis 替换较弱/邻近的 finding；
+3. 最终 findings 只保留机制依据最强的候选，最多4条；不要为了数量保留邻近问题；
+4. 不要编造 initial hypotheses 中没有的反例；如果现有 findings 已经是最强集合，原样返回。
+只返回同结构 JSON，不要解释审计过程。结构必须符合："""
+    + json.dumps(HypothesisCandidates.model_json_schema(), ensure_ascii=False)
+)
+
 
 def parse_json(text: str) -> dict:
     stripped = text.strip()
@@ -355,6 +366,7 @@ class ReviewAgents:
             "tool_first",
             "tool_first_external",
             "hypothesis_audit",
+            "mechanism_audit",
         }:
             raise ValueError("未知的发现策略。")
         self.index, self.llm = index, llm
@@ -664,6 +676,69 @@ class ReviewAgents:
                     }
                 )
                 candidates = parsed.findings
+        elif evidence and self.review_strategy == "mechanism_audit":
+            raw = self._run("review_hypothesis", HYPOTHESIS_REVIEW_PROMPT, payload)
+            parsed = HypothesisCandidates.model_validate(parse_json(raw))
+            audit_payload = {
+                **payload,
+                "initial_checked": parsed.checked,
+                "initial_hypotheses": [
+                    hypothesis.model_dump() for hypothesis in parsed.hypotheses
+                ],
+                "initial_findings": [
+                    finding.model_dump() for finding in parsed.findings
+                ],
+            }
+            raw_audit = self._run(
+                "review_mechanism_audit", MECHANISM_AUDIT_PROMPT, audit_payload
+            )
+            audited = HypothesisCandidates.model_validate(parse_json(raw_audit))
+            initial = [
+                (finding.path, finding.line, finding.category, finding.title)
+                for finding in parsed.findings
+            ]
+            final = [
+                (finding.path, finding.line, finding.category, finding.title)
+                for finding in audited.findings
+            ]
+            removed = [
+                {"path": path, "line": line, "title": title}
+                for path, line, category, title in initial
+                if (path, line, category, title) not in final
+            ]
+            added = [
+                {"path": path, "line": line, "title": title}
+                for path, line, category, title in final
+                if (path, line, category, title) not in initial
+            ]
+            fallback = not audited.findings
+            if fallback:
+                removed = []
+                added = []
+            candidates = audited.findings if audited.findings else parsed.findings
+            self.trace.append(
+                {
+                    "stage": "mechanism_audit",
+                    "path": chunk.path,
+                    "start": chunk.start,
+                    "end": chunk.end,
+                    "initial_findings": [
+                        {"line": finding.line, "title": finding.title}
+                        for finding in parsed.findings
+                    ],
+                    "audit_findings": [
+                        {"line": finding.line, "title": finding.title}
+                        for finding in audited.findings
+                    ],
+                    "removed": removed,
+                    "added": added,
+                    "fallback_initial": fallback,
+                    "checked": audited.checked,
+                    "hypotheses": [
+                        hypothesis.model_dump() for hypothesis in audited.hypotheses
+                    ],
+                }
+            )
         elif evidence and self.review_strategy == "hypothesis_audit":
             raw = self._run("review_hypothesis", HYPOTHESIS_REVIEW_PROMPT, payload)
             parsed = HypothesisCandidates.model_validate(parse_json(raw))

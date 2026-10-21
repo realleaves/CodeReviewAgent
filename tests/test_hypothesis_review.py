@@ -229,3 +229,51 @@ def test_hypothesis_audit_keeps_findings_when_nothing_is_missing():
     assert len(findings) == 1
     trace = next(t for t in agents.trace if t["stage"] == "hypothesis_audit")
     assert trace["added"] == []
+
+
+def mechanism_answer(replace=True):
+    if not replace:
+        return json.dumps(
+            {"checked": ["审计：保持原 findings"], "hypotheses": [], "findings": []}
+        )
+    return json.dumps(
+        {
+            "checked": ["审计：选择机制更强的假设"],
+            "hypotheses": [],
+            "findings": [
+                {
+                    **candidate("a.py", 2),
+                    "title": "更强机制：空输入路径直接除零",
+                    "explanation": "空输入路径比邻近候选更直接。",
+                }
+            ],
+        }
+    )
+
+
+def test_mechanism_audit_can_replace_an_adjacent_finding():
+    index = CodeIndex({"a.py": SOURCE})
+    llm = FakeLLM([hypothesis_answer(), mechanism_answer(True)])
+    agents = ReviewAgents(index, llm, review_strategy="mechanism_audit")
+    findings = agents.review(chunk(), [], evidence=True)
+    assert len(findings) == 1
+    assert findings[0].title == "更强机制：空输入路径直接除零"
+    trace = next(t for t in agents.trace if t["stage"] == "mechanism_audit")
+    assert len(trace["removed"]) == 1
+    assert len(trace["added"]) == 1
+    assert trace["fallback_initial"] is False
+    assert llm.calls[0]["stage"] == "review_hypothesis"
+    assert llm.calls[1]["stage"] == "review_mechanism_audit"
+
+
+def test_mechanism_audit_falls_back_to_initial_when_audit_is_empty():
+    index = CodeIndex({"a.py": SOURCE})
+    llm = FakeLLM([hypothesis_answer(), mechanism_answer(False)])
+    agents = ReviewAgents(index, llm, review_strategy="mechanism_audit")
+    findings = agents.review(chunk(), [], evidence=True)
+    assert len(findings) == 1
+    assert findings[0].title == "空列表除零"
+    trace = next(t for t in agents.trace if t["stage"] == "mechanism_audit")
+    assert trace["fallback_initial"] is True
+    assert trace["removed"] == []
+    assert trace["added"] == []

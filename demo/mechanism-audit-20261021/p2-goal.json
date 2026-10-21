@@ -1,0 +1,39 @@
+{
+  "title": "P2 smoke: candidate mechanism/ranking audit",
+  "date": "2026-10-21",
+  "kind": "P2 single-variable candidate replacement audit; discovery only",
+  "hypothesis": "The P1 trace analysis found 1 promotion gap and 3 precision gaps: the reference concept was already in the reasoning/findings, but the model selected a weaker or adjacent mechanism. A second audit that maps each finding to a hypothesis and replaces it with a more specific mechanism should improve candidate precision without adding tools or reference labels.",
+  "selection": [
+    "youtube-dl-2",
+    "tornado-3"
+  ],
+  "selection_reason": "youtube-dl-2 is the clearest promotion gap (duplicate representation_id overwrites fragments was already hypothesized but not emitted); tornado-3 is a precision gap (cache/close present, but the candidate chose __new__). Both sides, one r0 window per side.",
+  "arms": {
+    "baseline": {
+      "context_strategy": "legacy",
+      "thinking_mode": "disabled",
+      "review_strategy": "baseline"
+    },
+    "mechanism_audit": {
+      "context_strategy": "legacy",
+      "thinking_mode": "disabled",
+      "review_strategy": "mechanism_audit"
+    }
+  },
+  "variable": "review_strategy",
+  "repetitions": 1,
+  "window_call_limit": 3,
+  "budget": {
+    "phase_limit": 20,
+    "total_limit": 20,
+    "per_window": 3
+  },
+  "metrics": [
+    "reference candidate hit on the two cases",
+    "findings replaced/added by the audit",
+    "fixed-side same-issue alarms",
+    "completed/failed windows, calls and tokens"
+  ],
+  "adoption": "At least one reference candidate hit in mechanism_audit on youtube-dl-2 or tornado-3, with no fixed-side alarm; a four-window smoke only, not a general improvement claim.",
+  "scope": "Discovery only; no evidence engine, official tests/labels/opposite version in the Agent input. One repetition; all requests, failures, replacements and fallbacks retained. The audit prompt contains no reference labels."
+}

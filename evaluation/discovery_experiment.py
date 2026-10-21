@@ -173,6 +173,7 @@ def fingerprint():
         "discovery_tool_first.py",
         "discovery_tool_external.py",
         "discovery_hypothesis_audit.py",
+        "discovery_mechanism_audit.py",
     ]:
         runner = ROOT / "evaluation" / name
         if runner.exists():
@@ -190,6 +191,7 @@ def run(
     variable="context_strategy",
     case_ids=None,
     max_windows_per_side=None,
+    stop_on_provider_error=False,
 ):
     budget = AttemptBudget(root)
     phase = root / phase_name
@@ -232,6 +234,7 @@ def run(
             "tool_first",
             "tool_first_external",
             "hypothesis_audit",
+            "mechanism_audit",
         }
         assert (
             1
@@ -291,7 +294,7 @@ def run(
             "model": model_config,
             "source_sha256": frozen,
             "phase_call_limit": phase_limit,
-            "global_limit": 600,
+            "global_limit": budget.state()["limit"],
             "repetitions": repetitions,
             "strategies": strategies,
             "arms": configs,
@@ -414,6 +417,25 @@ def run(
                     ),
                     flush=True,
                 )
+                if stop_on_provider_error and any(
+                    call.get("status") == "failed"
+                    and call.get("error_type") != "ModelResponseError"
+                    for call in llm.calls
+                ):
+                    save(
+                        phase / "results.json",
+                        {
+                            "records": records,
+                            "status": "stopped_provider_error",
+                            "budget": budget.state(),
+                            "source_frozen": fingerprint() == frozen,
+                            "semantic_adjudication": "pending",
+                        },
+                    )
+                    raise SystemExit(
+                        "Provider unavailable: stopped after the first failed "
+                        "request; reservation and failure retained."
+                    )
     assert fingerprint() == frozen
     save(
         phase / "results.json",

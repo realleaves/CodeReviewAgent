@@ -1,0 +1,174 @@
+{
+  "windows": 4,
+  "selection": [
+    "youtube-dl-2",
+    "tornado-3"
+  ],
+  "window_records": [
+    {
+      "case": "tornado-3",
+      "side": "buggy",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 4776,
+      "callgraph_supplemental_chars": 5996,
+      "relations": {
+        "callee": 2,
+        "following_code": 1,
+        "import_binding": 4,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "HTTPRequest",
+        "get",
+        "get",
+        "get"
+      ],
+      "retrieval_seconds": 0.2303,
+      "folder": "tornado-3-buggy-1",
+      "payload_sha256": {
+        "legacy": "1529c7fe78c56776b66894f1fb1c0d04452b1db6a305449f9d5c02b90b0b5a97",
+        "callgraph": "67de7c8d6a069f63ea6a7fd274840ef56a3d5e9c9427a1c33b9fb89d86854a1e"
+      }
+    },
+    {
+      "case": "tornado-3",
+      "side": "fixed",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 291,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 7648,
+      "callgraph_supplemental_chars": 5996,
+      "relations": {
+        "callee": 2,
+        "following_code": 1,
+        "import_binding": 4,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "HTTPRequest",
+        "HTTPHeaders",
+        "current",
+        "current"
+      ],
+      "retrieval_seconds": 0.0935,
+      "folder": "tornado-3-fixed-1",
+      "payload_sha256": {
+        "legacy": "9934c5e579f95bd5bdd79d9c6e0e500ad1c95bf4e354d09ef5d5d1f7468bab01",
+        "callgraph": "9d3f94fd28b91d36b4acf099ffb83550e4d6b284381be57b5a40bd41d35a5aac"
+      }
+    },
+    {
+      "case": "youtube-dl-2",
+      "side": "buggy",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2067,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 1748,
+      "callgraph_supplemental_chars": 8838,
+      "relations": {
+        "callee": 3,
+        "caller": 1,
+        "enclosing_definition": 1,
+        "following_code": 1,
+        "import_binding": 5,
+        "preceding_code": 1,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "_download_webpage_handle",
+        "report_warning",
+        "location_key",
+        "get"
+      ],
+      "retrieval_seconds": 0.8847,
+      "folder": "youtube-dl-2-buggy-1",
+      "payload_sha256": {
+        "legacy": "59f013d09e9ff355ede4f37bb91968fb33da1a5e2073d98011690347243bb2f4",
+        "callgraph": "40f3eb771388f2a05f975cc41bf18ed0d4925229bd679af1bab3fa134d47e0f7"
+      }
+    },
+    {
+      "case": "youtube-dl-2",
+      "side": "fixed",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2065,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 1748,
+      "callgraph_supplemental_chars": 8838,
+      "relations": {
+        "callee": 3,
+        "caller": 1,
+        "enclosing_definition": 1,
+        "following_code": 1,
+        "import_binding": 5,
+        "preceding_code": 1,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "_download_webpage_handle",
+        "report_warning",
+        "location_key",
+        "get"
+      ],
+      "retrieval_seconds": 1.146,
+      "folder": "youtube-dl-2-fixed-1",
+      "payload_sha256": {
+        "legacy": "c0e2b49c44b6b2e86c4fa4ad431dfd5fbc2ae225daade1caa0343be6da55b550",
+        "callgraph": "54bd547d09b321d0c4a873e7fa36d9f6fcc199406034666ae22c1a11ec29bfab"
+      }
+    }
+  ],
+  "snapshots": {
+    "youtube-dl-2/buggy": {
+      "files": 801,
+      "snapshot_sha256": "de101f03962a0ec970eeecb6df177e6f3570d405f0d18f974ec595b5ff9bde2f"
+    },
+    "youtube-dl-2/fixed": {
+      "files": 801,
+      "snapshot_sha256": "6d8afdad248fb88963e4aa4bd2df4727379e39d788c26caef25356d6968b0b1d"
+    },
+    "tornado-3/buggy": {
+      "files": 62,
+      "snapshot_sha256": "cdd87cf1e32de1921805161e8f0fd7d2f1d3be4904aae6f4b6aa890d68d1d5f4"
+    },
+    "tornado-3/fixed": {
+      "files": 62,
+      "snapshot_sha256": "39397b1cf57453a239e3ee1003a908d64a245a179044f20bb55e218330cf4247"
+    }
+  },
+  "source_sha256": {
+    "src/__init__.py": "9d9e33ea9b0988a621a891305c15f6822aeb887e062c209110de3a43b263ddb4",
+    "src/agents.py": "c0fdd918430c4180f1c20a722298c4352929889a0fe0b1cd2435f77ce58ca6ce",
+    "src/code_index.py": "39330b46f887021b2aeabf0c292cf5fe5a5e3b5cfde3d701be66beadcd0c208d",
+    "src/deduplication.py": "3071efab768fe7cc9e32073b04ad906af5cc66ffd8d145f61bcb3cfecd48788c",
+    "src/pipeline.py": "8ce65a6ce45c488a2738980b6008a3a7d78ad9d3d3ecabf3cf8c29293c95ab29",
+    "src/report.py": "a05cb3f5e455b407c1ee9acc421603e40b9e1261847aabf9f1a696799fdd6f46",
+    "src/repository.py": "360f9e5f492f98780632c68197a8c72abf0b36d876b6b2c2368d8d99a0fbda4c",
+    "src/reproduction.py": "7acf8c5374813ecc540547967aa1ff2897bc7fee75eb2ed9602552c2ca07348a",
+    "src/reproduction_runner.py": "a64da9832eda9154d518ea49636ca927750d6264ddba2a0ccad135e629b7798a",
+    "src/review_context.py": "6c49b9f6b3daef53d926f5b609563696919ff506984dfc592f0a2ea5581b70dc",
+    "src/schemas.py": "99f39f259f3f208d5a7bec5e296be0532756f49098bb44953cf2ae262539a668",
+    "src/static_analysis.py": "c094e31f91c91916c8db62e5350617e8b3a77a2f930b6063c9d4eec33cf60d2d",
+    "main.py": "80f43849085d5af4b3fb378ec5228199fdab596915057ea3e3162a6603d1f2a8",
+    "evaluation/discovery_experiment.py": "9e1ef4afdde23ea75ed315b9c6f1017dc2fe340d384578346307b49c0e978830",
+    "evaluation/discovery_hypothesis.py": "faceb925abcb49e274f27987c48f05fba4bfffa50346c735c488e1d453fa4af4",
+    "evaluation/discovery_hypothesis_tools.py": "148500234d97f8f84193273789f3fecf697ff977064672ad2961ff2ef7b99f72",
+    "evaluation/discovery_tool_first.py": "4f7a096a70c86dff5a465b2a1b55fb16aea40d3873468adcd882d31d58a7cb75",
+    "evaluation/discovery_tool_external.py": "053d208e2dff0525f47d0e6bffe427b593fa772a7b4e5b2af6822e2e2fd3751f",
+    "evaluation/discovery_hypothesis_audit.py": "c1a985388a7e1b029ce00692b21dc457cceec04c349ecf7c053239682a42bfe9",
+    "evaluation/discovery_mechanism_audit.py": "534bbb5d1ef4ef78707e4bdf9866f707aa412adda2ac6173f8fd4b2c2b6f69fa"
+  },
+  "model": {
+    "model": "deepseek-flash",
+    "thinking_mode": "disabled",
+    "temperature": 0.1,
+    "max_output_tokens": 6000,
+    "provider_is_deepseek": true
+  }
+}
