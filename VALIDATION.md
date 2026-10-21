@@ -172,3 +172,11 @@ P1 的 hypothesis 臂 0 次真实工具读取，`checked` 是自报。P1b 新增
 结果：baseline 0/3、hypothesis_tools 0/3，修复侧告警均0；baseline完成6/6、工具读取2、调用7、候选16；hypothesis_tools完成4/6、失败2、工具读取4、重试4、丢弃findings2、调用12、候选3。工具强制确实增加了读取（tornado-3 buggy、youtube-dl-8 fixed），但在关键youtube-dl-4 buggy窗口重试后仍无工具调用，findings被丢弃；P1b的baseline也未复现P1的youtube-dl-4命中（生成的是`f( )`空白参数候选而非`f()` regex），说明单次采样波动明显。两个失败窗口是`expected_behavior`最短10字符的schema过严；该限制已放宽到1，避免未来无意义失败。
 
 决定：P1b当前实现不采用。不是“工具读取没增加”，而是强制后仍无法让模型在关键窗口真正读工具，严格丢弃findings反而降低召回。下一轮若继续工具证据方向，需要tool-first流程或原生tool calling，而不是再加一次同样的文字重试。P1b资料见[demo/discovery-hypothesis-20261021](demo/discovery-hypothesis-20261021/README.md)，离线校验`python demo/discovery-hypothesis-20261021/verify-p1b.py`；当前119项测试通过，Ruff F/E9通过。
+
+## P1c tool-first smoke（2026-10-21）
+
+P1b的文字重试仍可能被忽略，P1c改为两阶段：第一阶段只允许`[TOOL_CALL:...]`，由代码执行，不允许JSON/候选；没有工具调用直接记录`no_tool_call`，不进入第二阶段。第二阶段把真实`tool_calls`/`tool_results`交给假设提示，再返回`checked`/`hypotheses`/`findings`。样本为tornado-3、youtube-dl-4两侧各1窗口，每臂4窗口，共8次运行；P1账本58/80，P1c上限22，实际12，总70/80。
+
+结果：tool_first机械目标达成——4/4窗口执行了3个真实工具调用（共12次，含read_code/search_symbol/search_code），6次read_code，0个no-tool窗口，8/8完成；baseline完成4/4、0工具调用、4次调用、5候选。两臂严格参考命中都是0/2，修复侧告警0；tool_first候选12、调用8、completion tokens 6,813，baseline候选5、调用4、1,372。没有召回收益，成本明显增加。
+
+关键结论：工具执行问题已经解决，剩下的瓶颈是“读什么/如何形成正确假设”。tool_first读取仍集中在主片段附近/同文件局部范围，没有真正读取调用方、测试或契约来源。决定：tool_first作为实验开关保留，不作为默认/检出提升；下一轮若继续，应改变“读什么”（强制调用方/测试/契约来源或静态调用图选定外部片段），而不是继续改“是否调用工具”。资料见[demo/discovery-hypothesis-20261021](demo/discovery-hypothesis-20261021/README.md)，离线校验`python demo/discovery-hypothesis-20261021/verify-p1c.py`；当前122项测试通过，Ruff F/E9通过。

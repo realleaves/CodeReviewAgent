@@ -240,6 +240,28 @@ HYPOTHESIS_TOOL_RETRY_PROMPT = (
     + json.dumps(HypothesisCandidates.model_json_schema(), ensure_ascii=False)
 )
 
+TOOL_FIRST_READ_PROMPT = (
+    COMMON
+    + """这是tool-first读取阶段。你只能返回只读工具调用，不要返回JSON、候选或解释。
+选择1-3个最有价值的读取，核对主片段之外的调用方、被调用定义、文档或测试；
+优先读取能验证输入/状态/协议/regex假设的代码。至少使用一次read_code读取相关源码。
+格式示例：[TOOL_CALL:read_code:path=src/a.py,start=1,end=80]
+或 [TOOL_CALL:search_symbol:symbol=function_name] / [TOOL_CALL:search_code:query=text]。
+不要重复读取主片段已提供的内容。"""
+)
+
+HYPOTHESIS_TOOL_FIRST_PROMPT = (
+    COMMON
+    + """以下是代码已经执行过的真实工具读取结果（tool_results）。只能基于主片段和这些结果提出假设。
+不要声称读过未出现在主片段或tool_results中的文件或行号。按理解→枚举→反例→候选返回JSON：
+1. 理解：契约、前置条件、不变量、输入域、错误路径、状态/资源生命周期。
+2. 枚举：3-5个可能违反契约的假设，优先输入变体、状态/生命周期、协议/头部、regex/编码、跨文件数据来源。
+3. 反例：每个假设写最小输入/序列 + 预期 vs 当前可能行为；没有具体反例的不升级为候选。
+4. 候选：只输出有具体反例和可定位契约的findings，最多4条；没有就返回空findings。
+不要报告风格建议或未来修改风险。结构必须符合："""
+    + json.dumps(HypothesisCandidates.model_json_schema(), ensure_ascii=False)
+)
+
 
 def parse_json(text: str) -> dict:
     stripped = text.strip()
@@ -315,7 +337,12 @@ class ReviewAgents:
     ):
         if context_strategy not in {"legacy", "callgraph"}:
             raise ValueError("未知的审查上下文策略。")
-        if review_strategy not in {"baseline", "hypothesis", "hypothesis_tools"}:
+        if review_strategy not in {
+            "baseline",
+            "hypothesis",
+            "hypothesis_tools",
+            "tool_first",
+        }:
             raise ValueError("未知的发现策略。")
         self.index, self.llm = index, llm
         self.context_strategy = context_strategy
@@ -335,6 +362,30 @@ class ReviewAgents:
             name=stage, llm=self.llm, system_prompt=prompt, tool_registry=self.registry
         )
         return agent.run(json.dumps(payload, ensure_ascii=False), max_tool_iterations=2)
+
+    def _tool_first_read(self, payload):
+        """Run a tool-only stage; never accept prose or JSON as a read."""
+        self.llm.current_stage = "review_tool_first"
+        agent = BoundedAgent(
+            name="review_tool_first",
+            llm=self.llm,
+            system_prompt=TOOL_FIRST_READ_PROMPT,
+            tool_registry=self.registry,
+        )
+        messages = [
+            {"role": "system", "content": agent._get_enhanced_system_prompt()},
+            {"role": "user", "content": json.dumps(payload, ensure_ascii=False)},
+        ]
+        response = self.llm.invoke(messages)
+        calls = agent._parse_tool_calls(response)
+        if not calls:
+            return [], [], response
+        calls = calls[:3]
+        results = [
+            agent._execute_tool_call(call["tool_name"], call["parameters"])
+            for call in calls
+        ]
+        return calls, results, response
 
     def review_payload(self, chunk, diagnostics, direct=False, evidence=False):
         payload = {
@@ -422,6 +473,60 @@ class ReviewAgents:
                 response_format={"type": "json_object"},
             )
             candidates = Candidates.model_validate(parse_json(raw)).findings
+        elif evidence and self.review_strategy == "tool_first":
+            calls, results, response = self._tool_first_read(payload)
+            if not calls:
+                self.trace.append(
+                    {
+                        "stage": "tool_first",
+                        "path": chunk.path,
+                        "start": chunk.start,
+                        "end": chunk.end,
+                        "status": "no_tool_call",
+                        "response": response[:500],
+                    }
+                )
+                candidates = []
+            else:
+                self.trace.append(
+                    {
+                        "stage": "tool_first",
+                        "path": chunk.path,
+                        "start": chunk.start,
+                        "end": chunk.end,
+                        "status": "executed",
+                        "calls": calls,
+                        "result_chars": sum(len(str(result)) for result in results),
+                    }
+                )
+                second_payload = {
+                    **payload,
+                    "tool_calls": calls,
+                    "tool_results": results,
+                }
+                raw = self._run(
+                    "review_hypothesis",
+                    HYPOTHESIS_TOOL_FIRST_PROMPT,
+                    second_payload,
+                )
+                parsed = HypothesisCandidates.model_validate(parse_json(raw))
+                self.trace.append(
+                    {
+                        "stage": "hypothesis_review",
+                        "path": chunk.path,
+                        "start": chunk.start,
+                        "end": chunk.end,
+                        "checked": parsed.checked,
+                        "hypotheses": [
+                            hypothesis.model_dump() for hypothesis in parsed.hypotheses
+                        ],
+                        "tool_evidence": True,
+                        "tool_calls_from_first_stage": len(calls),
+                        "tool_reads_after": len(self.index.reads),
+                        "tool_retry": False,
+                    }
+                )
+                candidates = parsed.findings
         elif evidence and self.review_strategy in {"hypothesis", "hypothesis_tools"}:
             reads_before = len(self.index.reads)
             raw = self._run("review_hypothesis", HYPOTHESIS_REVIEW_PROMPT, payload)

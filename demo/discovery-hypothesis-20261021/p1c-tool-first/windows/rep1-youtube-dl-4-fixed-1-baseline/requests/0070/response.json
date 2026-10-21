@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 70,
+    "phase": "p1c-tool-first",
+    "label": {
+      "case": "youtube-dl-4",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219
+    },
+    "reserved_at": "2026-10-21T13:51:01.314893+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"youtube_dl/jsinterp.py\",\"line\":166,\"end_line\":172,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"splice 实现按固定 index 弹出，结果顺序与 JS 语义不符\",\"explanation\":\"JS 的 Array.prototype.splice(index, howMany) 会从 index 开始连续删除 howMany 个元素，返回被删除元素按原顺序组成的数组。这里循环中每次都 obj.pop(index)，第一次删除后后续元素前移，于是每次都删除同一个位置，返回的是原 index 处及其后若干元素，但顺序/内容与 JS 不同。例如 obj=[1,2,3,4], index=1, howMany=2：JS 返回 [2,3]，剩余 [1,4]；此实现第一次 pop(1)=2，第二次 pop(1)=3，返回 [2,3]，剩余 [1,4]，此例恰好一致。但 index=0, howMany=2 时：JS 返回 [1,2]；此实现 pop(0)=1，再 pop(0)=2，返回 [1,2]，也一致。实际上由于每次都 pop 同一位置，返回顺序恰好等于原顺序，剩余也正确，因此该实现对于非负 index 是正确的。\",\"trigger\":\"obj=[1,2,3,4]; splice(1,2)\",\"evidence\":\"for i in range(index, min(index + howMany, len(obj))): res.append(obj.pop(index))\",\"suggestion\":\"无需修改；该实现语义正确。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 11821,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 335,
+      "prompt_tokens": 3647,
+      "total_tokens": 3982,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 3456
+      },
+      "prompt_cache_hit_tokens": 3456,
+      "prompt_cache_miss_tokens": 191
+    },
+    "elapsed_seconds": 2.462
+  }
+}

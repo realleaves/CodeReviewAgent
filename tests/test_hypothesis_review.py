@@ -125,3 +125,33 @@ def test_short_expected_behavior_is_accepted():
         contract="语言规则",
     )
     assert hypothesis.expected_behavior == "应报错"
+
+
+def test_tool_first_requires_a_real_tool_call_before_the_hypothesis_stage():
+    index = CodeIndex({"a.py": SOURCE})
+    llm = FakeLLM([tool_call(), hypothesis_answer()])
+    agents = ReviewAgents(index, llm, review_strategy="tool_first")
+    findings = agents.review(chunk(), [], evidence=True)
+    assert len(findings) == 1
+    first = next(t for t in agents.trace if t["stage"] == "tool_first")
+    assert first["status"] == "executed"
+    assert first["calls"]
+    assert index.reads
+    second = next(t for t in agents.trace if t["stage"] == "hypothesis_review")
+    assert second["tool_evidence"] is True
+    assert second["tool_calls_from_first_stage"] == 1
+    assert llm.calls[0]["stage"] == "review_tool_first"
+    assert llm.calls[1]["stage"] == "review_hypothesis"
+
+
+def test_tool_first_without_a_tool_call_returns_no_findings():
+    index = CodeIndex({"a.py": SOURCE})
+    llm = FakeLLM([hypothesis_answer()])
+    agents = ReviewAgents(index, llm, review_strategy="tool_first")
+    findings = agents.review(chunk(), [], evidence=True)
+    assert findings == []
+    first = next(t for t in agents.trace if t["stage"] == "tool_first")
+    assert first["status"] == "no_tool_call"
+    assert not index.reads
+    assert len(llm.calls) == 1
+    assert not any(t["stage"] == "hypothesis_review" for t in agents.trace)

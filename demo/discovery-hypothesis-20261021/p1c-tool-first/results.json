@@ -1,0 +1,1834 @@
+{
+  "records": [
+    {
+      "case": "tornado-3",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286,
+      "name": "rep1-tornado-3-buggy-1-baseline",
+      "status": "completed",
+      "error": null,
+      "api_calls": 1,
+      "calls": [
+        {
+          "stage": "review",
+          "status": "completed",
+          "input_chars": 11781,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 6,
+            "prompt_tokens": 3460,
+            "total_tokens": 3466,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 3326
+            },
+            "prompt_cache_hit_tokens": 3326,
+            "prompt_cache_miss_tokens": 134
+          },
+          "elapsed_seconds": 1.726
+        }
+      ],
+      "findings": [],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 286,
+          "strategy": "legacy",
+          "payload_sha256": "43e81c23e616bc390d332b673a979c0ff1cd5dde88af7a5ce8cf69d1c15e5ddc",
+          "supplemental_chars": 4776,
+          "sources": [
+            {
+              "path": "tornado/httpclient.py",
+              "name": "HTTPRequest",
+              "line": 330,
+              "end": 558
+            },
+            {
+              "path": "maint/benchmark/chunk_benchmark.py",
+              "name": "get",
+              "line": 23,
+              "end": 27
+            },
+            {
+              "path": "demos/helloworld/helloworld.py",
+              "name": "get",
+              "line": 28,
+              "end": 29
+            },
+            {
+              "path": "demos/websocket/chatdemo.py",
+              "name": "get",
+              "line": 48,
+              "end": 49
+            }
+          ]
+        },
+        {
+          "stage": "review",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 286,
+          "strategy": "baseline",
+          "findings": []
+        }
+      ],
+      "tool_reads": [],
+      "elapsed_seconds": 1.733,
+      "folder": "windows/rep1-tornado-3-buggy-1-baseline"
+    },
+    {
+      "case": "tornado-3",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "tool_first",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286,
+      "name": "rep1-tornado-3-buggy-1-tool_first",
+      "status": "completed",
+      "error": null,
+      "api_calls": 2,
+      "calls": [
+        {
+          "stage": "review_tool_first",
+          "status": "completed",
+          "input_chars": 10554,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 53,
+            "prompt_tokens": 3039,
+            "total_tokens": 3092,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 0
+            },
+            "prompt_cache_hit_tokens": 0,
+            "prompt_cache_miss_tokens": 3039
+          },
+          "elapsed_seconds": 1.162
+        },
+        {
+          "stage": "review_hypothesis",
+          "status": "completed",
+          "input_chars": 17149,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1043,
+            "prompt_tokens": 5005,
+            "total_tokens": 6048,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 0
+            },
+            "prompt_cache_hit_tokens": 0,
+            "prompt_cache_miss_tokens": 5005
+          },
+          "elapsed_seconds": 5.809
+        }
+      ],
+      "findings": [
+        {
+          "path": "tornado/httpclient.py",
+          "line": 283,
+          "end_line": 286,
+          "severity": "medium",
+          "category": "bug",
+          "title": "fetch 直接修改调用方传入的 HTTPRequest.headers，违背“不修改调用方对象”注释",
+          "explanation": "注释声称不修改调用方对象，但对传入的 HTTPRequest 实例直接执行 request.headers = httputil.HTTPHeaders(request.headers)，把调用方对象的 headers 字段替换为新对象。若同一 HTTPRequest 被复用或并发 fetch，后续实现添加的 Host/Accept-Encoding 等头会写入共享对象，可能相互覆盖或污染调用方数据。",
+          "trigger": "req = HTTPRequest(url=...); client.fetch(req); 再次 client.fetch(req) 或并发 fetch 同一 req",
+          "evidence": "283-286 行注释“make sure we don't modify the caller's object”，但 286 行 request.headers = httputil.HTTPHeaders(request.headers) 直接改写传入对象字段；request 为 HTTPRequest 时未做拷贝。",
+          "suggestion": "对传入的 HTTPRequest 做浅拷贝（如 copy.copy）后再替换 headers，或仅在字符串 URL 构造的新对象上修改 headers。",
+          "id": "d79851c3c32a",
+          "source": "llm",
+          "rule": "",
+          "snippet": "281:                     \"kwargs can't be used if request is an HTTPRequest object\"\n282:                 )\n283:         # We may modify this (to add Host, Accept-Encoding, etc),\n284:         # so make sure we don't modify the caller's object.  This is also\n285:         # where normal dicts get converted to HTTPHeaders objects.\n286:         request.headers = httputil.HTTPHeaders(request.headers)\n287:         request_proxy = _RequestProxy(request, self.defaults)\n288:         future = Future()  # type: Future[HTTPResponse]",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "tornado/httpclient.py",
+          "line": 200,
+          "end_line": 209,
+          "severity": "low",
+          "category": "bug",
+          "title": "缓存键使用 IOLoop.current() 而实例 io_loop 在 initialize 中重新获取，可能不一致",
+          "explanation": "__new__ 用局部 io_loop = IOLoop.current() 判断缓存命中，但写入缓存时用 instance.io_loop（initialize 中再次调用 IOLoop.current()）。若子类 initialize 改变 io_loop 或在构造期间 IOLoop.current() 变化，缓存键与查询键不同，导致同一 IOLoop 重复创建实例，close 时 get(self.io_loop) 也可能不匹配而抛 RuntimeError。",
+          "trigger": "子类 initialize 将 self.io_loop 设为与 __new__ 时 IOLoop.current() 不同的 loop",
+          "evidence": "195 行 io_loop = IOLoop.current() 用于 200 行命中判断；209 行 instance_cache[instance.io_loop] = instance 使用 initialize 中 213 行重新获取的 self.io_loop。",
+          "suggestion": "写入缓存时使用 __new__ 中已确定的 io_loop，或在 initialize 后校验两者一致。",
+          "id": "125ec028f4f5",
+          "source": "llm",
+          "rule": "",
+          "snippet": "198:         else:\n199:             instance_cache = cls._async_clients()\n200:         if instance_cache is not None and io_loop in instance_cache:\n201:             return instance_cache[io_loop]\n202:         instance = super(AsyncHTTPClient, cls).__new__(cls, **kwargs)  # type: ignore\n203:         # Make sure the instance knows which cache to remove itself from.\n204:         # It can't simply call _async_clients() because we may be in\n205:         # __new__(AsyncHTTPClient) but instance.__class__ may be\n206:         # SimpleAsyncHTTPClient.\n207:         instance._instance_cache = instance_cache\n208:         if instance_cache is not None:\n209:             instance_cache[instance.io_loop] = instance\n210:         return instance\n211: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 286,
+          "strategy": "legacy",
+          "payload_sha256": "43e81c23e616bc390d332b673a979c0ff1cd5dde88af7a5ce8cf69d1c15e5ddc",
+          "supplemental_chars": 4776,
+          "sources": [
+            {
+              "path": "tornado/httpclient.py",
+              "name": "HTTPRequest",
+              "line": 330,
+              "end": 558
+            },
+            {
+              "path": "maint/benchmark/chunk_benchmark.py",
+              "name": "get",
+              "line": 23,
+              "end": 27
+            },
+            {
+              "path": "demos/helloworld/helloworld.py",
+              "name": "get",
+              "line": 28,
+              "end": 29
+            },
+            {
+              "path": "demos/websocket/chatdemo.py",
+              "name": "get",
+              "line": 48,
+              "end": 49
+            }
+          ]
+        },
+        {
+          "stage": "tool_first",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 286,
+          "status": "executed",
+          "calls": [
+            {
+              "tool_name": "read_code",
+              "parameters": "path=tornado/httpclient.py,start=286,end=330",
+              "original": "[TOOL_CALL:read_code:path=tornado/httpclient.py,start=286,end=330]"
+            },
+            {
+              "tool_name": "search_symbol",
+              "parameters": "symbol=_async_clients",
+              "original": "[TOOL_CALL:search_symbol:symbol=_async_clients]"
+            },
+            {
+              "tool_name": "search_code",
+              "parameters": "query=_instance_cache",
+              "original": "[TOOL_CALL:search_code:query=_instance_cache]"
+            }
+          ],
+          "result_chars": 3839
+        },
+        {
+          "stage": "hypothesis_review",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 286,
+          "checked": [
+            "tornado/httpclient.py 188-330 主片段",
+            "read_code 286-330 返回的 fetch 实现",
+            "search_symbol _async_clients 仅定义于 188",
+            "search_code _instance_cache 命中 175/207/235-238"
+          ],
+          "hypotheses": [
+            {
+              "claim": "__new__ 用 IOLoop.current() 查缓存，但 initialize 中 self.io_loop 可能与之不同，导致缓存键与实例 io_loop 不一致",
+              "expected_behavior": "缓存键与实例 io_loop 一致，close 时能正确删除",
+              "counterexample": "若子类 initialize 在非当前 IOLoop 上设置 io_loop，则 instance_cache[instance.io_loop] 与查询键 io_loop 不同，close 时 get(self.io_loop) 可能命中另一实例或 KeyError",
+              "contract": "__new__ 缓存键应与实例 io_loop 相同，close 的 del 应成功"
+            },
+            {
+              "claim": "close 中 del self._instance_cache[self.io_loop] 在键不存在时抛 KeyError 而非 RuntimeError",
+              "expected_behavior": "缓存不一致时抛 RuntimeError",
+              "counterexample": "若缓存条目已被外部删除但 get 返回 None（is not self 成立）会先抛 RuntimeError；但若 get 返回 self 而键实际不存在不可能。此假设不成立",
+              "contract": "close 对不一致缓存抛 RuntimeError"
+            },
+            {
+              "claim": "force_instance=True 时 _instance_cache=None，close 不清理，符合文档；但若同一 IOLoop 上先有缓存实例再 force_instance，两者并存",
+              "expected_behavior": "force_instance 实例独立，不进入缓存",
+              "counterexample": "AsyncHTTPClient() 得缓存实例 A；AsyncHTTPClient(force_instance=True) 得 B；B.close() 不影响 A，符合预期，非缺陷",
+              "contract": "force_instance 实例不共享缓存"
+            },
+            {
+              "claim": "fetch 中 request.headers 被替换为 HTTPHeaders，若调用方传入 HTTPRequest 且复用同一对象并发 fetch，会共享/竞争 headers 修改",
+              "expected_behavior": "不修改调用方对象或并发安全",
+              "counterexample": "同一 HTTPRequest 对象被两个协程同时 fetch，均执行 request.headers = HTTPHeaders(...)，第二次覆盖第一次添加的 Host 等头，可能导致请求头丢失",
+              "contract": "注释称不修改调用方对象，但实际对传入的 HTTPRequest 直接赋值 headers 字段"
+            }
+          ],
+          "tool_evidence": true,
+          "tool_calls_from_first_stage": 3,
+          "tool_reads_after": 1,
+          "tool_retry": false
+        },
+        {
+          "stage": "review",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 286,
+          "strategy": "tool_first",
+          "findings": [
+            {
+              "path": "tornado/httpclient.py",
+              "line": 283,
+              "end_line": 286,
+              "severity": "medium",
+              "category": "bug",
+              "title": "fetch 直接修改调用方传入的 HTTPRequest.headers，违背“不修改调用方对象”注释",
+              "explanation": "注释声称不修改调用方对象，但对传入的 HTTPRequest 实例直接执行 request.headers = httputil.HTTPHeaders(request.headers)，把调用方对象的 headers 字段替换为新对象。若同一 HTTPRequest 被复用或并发 fetch，后续实现添加的 Host/Accept-Encoding 等头会写入共享对象，可能相互覆盖或污染调用方数据。",
+              "trigger": "req = HTTPRequest(url=...); client.fetch(req); 再次 client.fetch(req) 或并发 fetch 同一 req",
+              "evidence": "283-286 行注释“make sure we don't modify the caller's object”，但 286 行 request.headers = httputil.HTTPHeaders(request.headers) 直接改写传入对象字段；request 为 HTTPRequest 时未做拷贝。",
+              "suggestion": "对传入的 HTTPRequest 做浅拷贝（如 copy.copy）后再替换 headers，或仅在字符串 URL 构造的新对象上修改 headers。",
+              "id": "d79851c3c32a",
+              "source": "llm",
+              "rule": "",
+              "snippet": "281:                     \"kwargs can't be used if request is an HTTPRequest object\"\n282:                 )\n283:         # We may modify this (to add Host, Accept-Encoding, etc),\n284:         # so make sure we don't modify the caller's object.  This is also\n285:         # where normal dicts get converted to HTTPHeaders objects.\n286:         request.headers = httputil.HTTPHeaders(request.headers)\n287:         request_proxy = _RequestProxy(request, self.defaults)\n288:         future = Future()  # type: Future[HTTPResponse]",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "tornado/httpclient.py",
+              "line": 200,
+              "end_line": 209,
+              "severity": "low",
+              "category": "bug",
+              "title": "缓存键使用 IOLoop.current() 而实例 io_loop 在 initialize 中重新获取，可能不一致",
+              "explanation": "__new__ 用局部 io_loop = IOLoop.current() 判断缓存命中，但写入缓存时用 instance.io_loop（initialize 中再次调用 IOLoop.current()）。若子类 initialize 改变 io_loop 或在构造期间 IOLoop.current() 变化，缓存键与查询键不同，导致同一 IOLoop 重复创建实例，close 时 get(self.io_loop) 也可能不匹配而抛 RuntimeError。",
+              "trigger": "子类 initialize 将 self.io_loop 设为与 __new__ 时 IOLoop.current() 不同的 loop",
+              "evidence": "195 行 io_loop = IOLoop.current() 用于 200 行命中判断；209 行 instance_cache[instance.io_loop] = instance 使用 initialize 中 213 行重新获取的 self.io_loop。",
+              "suggestion": "写入缓存时使用 __new__ 中已确定的 io_loop，或在 initialize 后校验两者一致。",
+              "id": "125ec028f4f5",
+              "source": "llm",
+              "rule": "",
+              "snippet": "198:         else:\n199:             instance_cache = cls._async_clients()\n200:         if instance_cache is not None and io_loop in instance_cache:\n201:             return instance_cache[io_loop]\n202:         instance = super(AsyncHTTPClient, cls).__new__(cls, **kwargs)  # type: ignore\n203:         # Make sure the instance knows which cache to remove itself from.\n204:         # It can't simply call _async_clients() because we may be in\n205:         # __new__(AsyncHTTPClient) but instance.__class__ may be\n206:         # SimpleAsyncHTTPClient.\n207:         instance._instance_cache = instance_cache\n208:         if instance_cache is not None:\n209:             instance_cache[instance.io_loop] = instance\n210:         return instance\n211: ",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [
+        {
+          "path": "tornado/httpclient.py",
+          "start": 286,
+          "end": 330
+        }
+      ],
+      "elapsed_seconds": 6.993,
+      "folder": "windows/rep1-tornado-3-buggy-1-tool_first"
+    },
+    {
+      "case": "tornado-3",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "tool_first",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 291,
+      "name": "rep1-tornado-3-fixed-1-tool_first",
+      "status": "completed",
+      "error": null,
+      "api_calls": 2,
+      "calls": [
+        {
+          "stage": "review_tool_first",
+          "status": "completed",
+          "input_chars": 13804,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 53,
+            "prompt_tokens": 4050,
+            "total_tokens": 4103,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 128
+            },
+            "prompt_cache_hit_tokens": 128,
+            "prompt_cache_miss_tokens": 3922
+          },
+          "elapsed_seconds": 1.264
+        },
+        {
+          "stage": "review_hypothesis",
+          "status": "completed",
+          "input_chars": 20084,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1690,
+            "prompt_tokens": 5930,
+            "total_tokens": 7620,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 896
+            },
+            "prompt_cache_hit_tokens": 896,
+            "prompt_cache_miss_tokens": 5034
+          },
+          "elapsed_seconds": 7.942
+        }
+      ],
+      "findings": [
+        {
+          "path": "tornado/httpclient.py",
+          "line": 200,
+          "end_line": 210,
+          "severity": "medium",
+          "category": "bug",
+          "title": "缓存命中时忽略构造 kwargs",
+          "explanation": "__new__ 在 instance_cache 命中时直接 return 已有实例，传入的 kwargs（例如 defaults、max_clients 等）被静默丢弃。调用方无法感知配置未生效，可能以错误超时/代理等默认值发起请求。",
+          "trigger": "先 AsyncHTTPClient(defaults={'request_timeout': 1}) 创建并缓存；再 AsyncHTTPClient(defaults={'request_timeout': 99})，返回同一实例，defaults 仍为 1。",
+          "evidence": "第200-201行 `if instance_cache is not None and io_loop in instance_cache: return instance_cache[io_loop]`，未比较或应用 kwargs；initialize 仅在新建实例时执行。",
+          "suggestion": "缓存命中且 kwargs 非空时，要么抛出明确错误，要么将 kwargs 合并/应用到已有实例（需定义语义），避免静默忽略。",
+          "id": "4d48bd08f080",
+          "source": "llm",
+          "rule": "",
+          "snippet": "198:         else:\n199:             instance_cache = cls._async_clients()\n200:         if instance_cache is not None and io_loop in instance_cache:\n201:             return instance_cache[io_loop]\n202:         instance = super(AsyncHTTPClient, cls).__new__(cls, **kwargs)  # type: ignore\n203:         # Make sure the instance knows which cache to remove itself from.\n204:         # It can't simply call _async_clients() because we may be in\n205:         # __new__(AsyncHTTPClient) but instance.__class__ may be\n206:         # SimpleAsyncHTTPClient.\n207:         instance._instance_cache = instance_cache\n208:         if instance_cache is not None:\n209:             instance_cache[instance.io_loop] = instance\n210:         return instance\n211: \n212:     def initialize(self, defaults: Dict[str, Any] = None) -> None:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "tornado/httpclient.py",
+          "line": 291,
+          "end_line": 291,
+          "severity": "medium",
+          "category": "bug",
+          "title": "headers 为 None 时 HTTPHeaders(None) 可能失败",
+          "explanation": "HTTPRequest 的 headers 参数默认 None，类属性 _headers=None。fetch 无条件执行 httputil.HTTPHeaders(request.headers)，而 HTTPHeaders.__init__ 在非 HTTPHeaders 单参数时调用 update(*args)，update(None) 会触发 TypeError（MutableMapping.update 期望映射或可迭代键值对）。",
+          "trigger": "client.fetch(HTTPRequest(url='http://example.com'))，其中 headers 未设置（None）。",
+          "evidence": "主片段第291行 `request.headers = httputil.HTTPHeaders(request.headers)`；HTTPRequest.__init__ 第358行 headers 默认 None；HTTPHeaders.__init__ 第156-158行 else 分支 `self.update(*args, **kwargs)`。",
+          "suggestion": "在构造前将 None 归一化为 {} 或空 HTTPHeaders，例如 `httputil.HTTPHeaders(request.headers or {})`。",
+          "id": "a04422b19e62",
+          "source": "llm",
+          "rule": "",
+          "snippet": "289:         # so make sure we don't modify the caller's object.  This is also\n290:         # where normal dicts get converted to HTTPHeaders objects.\n291:         request.headers = httputil.HTTPHeaders(request.headers)\n292:         request_proxy = _RequestProxy(request, self.defaults)\n293:         future = Future()  # type: Future[HTTPResponse]",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "tornado/httpclient.py",
+          "line": 235,
+          "end_line": 243,
+          "severity": "low",
+          "category": "bug",
+          "title": "close 检测到缓存不一致时已移除条目",
+          "explanation": "close 先 pop 再从缓存移除，然后才校验 cached_val is self。若缓存中该 IOLoop 对应的是其他实例，抛 RuntimeError 时该其他实例已被移出缓存，缓存状态被破坏，后续创建会新建实例而非复用。",
+          "trigger": "缓存字典被替换为 other 实例（例如并发/错误配置）；self.close() 执行 pop 得到 other，抛 RuntimeError，other 从缓存消失。",
+          "evidence": "第236行 `cached_val = self._instance_cache.pop(self.io_loop, None)` 先移除；第242-243行再判断 `cached_val is not None and cached_val is not self: raise RuntimeError`。",
+          "suggestion": "先读取并校验 `self._instance_cache.get(self.io_loop)`，确认是 self 后再 pop；或在抛错前恢复原条目。",
+          "id": "987a42f2649a",
+          "source": "llm",
+          "rule": "",
+          "snippet": "233:             return\n234:         self._closed = True\n235:         if self._instance_cache is not None:\n236:             cached_val = self._instance_cache.pop(self.io_loop, None)\n237:             # If there's an object other than self in the instance\n238:             # cache for our IOLoop, something has gotten mixed up. A\n239:             # value of None appears to be possible when this is called\n240:             # from a destructor (HTTPClient.__del__) as the weakref\n241:             # gets cleared before the destructor runs.\n242:             if cached_val is not None and cached_val is not self:\n243:                 raise RuntimeError(\"inconsistent AsyncHTTPClient cache\")\n244: \n245:     def fetch(",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 291,
+          "strategy": "legacy",
+          "payload_sha256": "470f945578ab5ad5c80fd0cec5a622f8cbb9cd3b7ed21c013e72d505fe29663d",
+          "supplemental_chars": 7648,
+          "sources": [
+            {
+              "path": "tornado/httpclient.py",
+              "name": "HTTPRequest",
+              "line": 335,
+              "end": 563
+            },
+            {
+              "path": "tornado/httputil.py",
+              "name": "HTTPHeaders",
+              "line": 103,
+              "end": 267
+            },
+            {
+              "path": "tornado/ioloop.py",
+              "name": "current",
+              "line": 238,
+              "end": 239
+            },
+            {
+              "path": "tornado/ioloop.py",
+              "name": "current",
+              "line": 243,
+              "end": 244
+            }
+          ]
+        },
+        {
+          "stage": "tool_first",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 291,
+          "status": "executed",
+          "calls": [
+            {
+              "tool_name": "read_code",
+              "parameters": "path=tornado/httpclient.py,start=291,end=335",
+              "original": "[TOOL_CALL:read_code:path=tornado/httpclient.py,start=291,end=335]"
+            },
+            {
+              "tool_name": "search_symbol",
+              "parameters": "symbol=_async_clients",
+              "original": "[TOOL_CALL:search_symbol:symbol=_async_clients]"
+            },
+            {
+              "tool_name": "search_code",
+              "parameters": "query=_instance_cache",
+              "original": "[TOOL_CALL:search_code:query=_instance_cache]"
+            }
+          ],
+          "result_chars": 3550
+        },
+        {
+          "stage": "hypothesis_review",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 291,
+          "checked": [
+            "tornado/httpclient.py:188-291 主片段",
+            "tornado/httpclient.py:291-335 fetch 尾部与 fetch_impl",
+            "tornado/httpclient.py:175 _instance_cache 类属性",
+            "tornado/httputil.py:103-182 HTTPHeaders 构造与 add",
+            "tornado/ioloop.py:238-244 IOLoop.current 签名"
+          ],
+          "hypotheses": [
+            {
+              "claim": "__new__ 在缓存命中时直接返回已有实例，但传入的 kwargs（如 defaults）被静默忽略",
+              "expected_behavior": "若缓存实例已存在，构造参数应被应用或至少报错提示，避免调用方误以为配置生效",
+              "counterexample": "AsyncHTTPClient(defaults={'request_timeout':1}) 先创建；随后 AsyncHTTPClient(defaults={'request_timeout':99}) 返回同一缓存实例，defaults 仍为 1",
+              "contract": "构造函数参数应影响返回实例的配置"
+            },
+            {
+              "claim": "force_instance=True 时 _instance_cache=None，close() 不会从缓存移除，但实例仍被缓存字典弱引用持有；若同一 IOLoop 上先有缓存实例再 force_instance，两者并存",
+              "expected_behavior": "force_instance 实例独立于缓存，close 后不应影响缓存实例",
+              "counterexample": "c1=AsyncHTTPClient(); c2=AsyncHTTPClient(force_instance=True); c2.close(); c1 仍可用——行为符合预期，不构成反例",
+              "contract": "close 后不得再调用 fetch"
+            },
+            {
+              "claim": "fetch 中 request.headers 被替换为新的 HTTPHeaders，但若传入的 HTTPRequest 的 headers 为 None，HTTPHeaders(None) 可能抛异常",
+              "expected_behavior": "headers 缺省时应视为空头",
+              "counterexample": "HTTPRequest(url='http://x') 的 headers 为 None；fetch 执行 httputil.HTTPHeaders(None)，update(None) 可能 TypeError",
+              "contract": "HTTPRequest.headers 可为 None（类属性 _headers=None）"
+            },
+            {
+              "claim": "close() 中 pop 后若 cached_val 非 self 抛 RuntimeError，但此时已从缓存移除，缓存状态被破坏",
+              "expected_behavior": "检测到不一致时应保持缓存可恢复或先校验再移除",
+              "counterexample": "缓存被外部替换为 other 实例；self.close() pop 得到 other，抛 RuntimeError，缓存中 other 被移除，后续 AsyncHTTPClient() 新建实例",
+              "contract": "close 不应破坏其他实例的缓存条目"
+            },
+            {
+              "claim": "fetch 的 raise_error=False 仅对响应码错误生效，但 handle_response 中 response.error 为 None 时正常返回；若 fetch_impl 同步抛异常则 future 永不完成",
+              "expected_behavior": "fetch_impl 抛出的异常应传播到返回的 Future",
+              "counterexample": "自定义 fetch_impl 直接 raise ValueError；fetch() 中 self.fetch_impl(...) 未包裹 try，异常直接抛出而非设置到 future",
+              "contract": "fetch 返回 Future，错误应通过 Future 传递"
+            }
+          ],
+          "tool_evidence": true,
+          "tool_calls_from_first_stage": 3,
+          "tool_reads_after": 1,
+          "tool_retry": false
+        },
+        {
+          "stage": "validation",
+          "status": "rejected",
+          "reason": "invalid_location",
+          "path": "tornado/httpclient.py",
+          "line": 302
+        },
+        {
+          "stage": "review",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 291,
+          "strategy": "tool_first",
+          "findings": [
+            {
+              "path": "tornado/httpclient.py",
+              "line": 200,
+              "end_line": 210,
+              "severity": "medium",
+              "category": "bug",
+              "title": "缓存命中时忽略构造 kwargs",
+              "explanation": "__new__ 在 instance_cache 命中时直接 return 已有实例，传入的 kwargs（例如 defaults、max_clients 等）被静默丢弃。调用方无法感知配置未生效，可能以错误超时/代理等默认值发起请求。",
+              "trigger": "先 AsyncHTTPClient(defaults={'request_timeout': 1}) 创建并缓存；再 AsyncHTTPClient(defaults={'request_timeout': 99})，返回同一实例，defaults 仍为 1。",
+              "evidence": "第200-201行 `if instance_cache is not None and io_loop in instance_cache: return instance_cache[io_loop]`，未比较或应用 kwargs；initialize 仅在新建实例时执行。",
+              "suggestion": "缓存命中且 kwargs 非空时，要么抛出明确错误，要么将 kwargs 合并/应用到已有实例（需定义语义），避免静默忽略。",
+              "id": "4d48bd08f080",
+              "source": "llm",
+              "rule": "",
+              "snippet": "198:         else:\n199:             instance_cache = cls._async_clients()\n200:         if instance_cache is not None and io_loop in instance_cache:\n201:             return instance_cache[io_loop]\n202:         instance = super(AsyncHTTPClient, cls).__new__(cls, **kwargs)  # type: ignore\n203:         # Make sure the instance knows which cache to remove itself from.\n204:         # It can't simply call _async_clients() because we may be in\n205:         # __new__(AsyncHTTPClient) but instance.__class__ may be\n206:         # SimpleAsyncHTTPClient.\n207:         instance._instance_cache = instance_cache\n208:         if instance_cache is not None:\n209:             instance_cache[instance.io_loop] = instance\n210:         return instance\n211: \n212:     def initialize(self, defaults: Dict[str, Any] = None) -> None:",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "tornado/httpclient.py",
+              "line": 291,
+              "end_line": 291,
+              "severity": "medium",
+              "category": "bug",
+              "title": "headers 为 None 时 HTTPHeaders(None) 可能失败",
+              "explanation": "HTTPRequest 的 headers 参数默认 None，类属性 _headers=None。fetch 无条件执行 httputil.HTTPHeaders(request.headers)，而 HTTPHeaders.__init__ 在非 HTTPHeaders 单参数时调用 update(*args)，update(None) 会触发 TypeError（MutableMapping.update 期望映射或可迭代键值对）。",
+              "trigger": "client.fetch(HTTPRequest(url='http://example.com'))，其中 headers 未设置（None）。",
+              "evidence": "主片段第291行 `request.headers = httputil.HTTPHeaders(request.headers)`；HTTPRequest.__init__ 第358行 headers 默认 None；HTTPHeaders.__init__ 第156-158行 else 分支 `self.update(*args, **kwargs)`。",
+              "suggestion": "在构造前将 None 归一化为 {} 或空 HTTPHeaders，例如 `httputil.HTTPHeaders(request.headers or {})`。",
+              "id": "a04422b19e62",
+              "source": "llm",
+              "rule": "",
+              "snippet": "289:         # so make sure we don't modify the caller's object.  This is also\n290:         # where normal dicts get converted to HTTPHeaders objects.\n291:         request.headers = httputil.HTTPHeaders(request.headers)\n292:         request_proxy = _RequestProxy(request, self.defaults)\n293:         future = Future()  # type: Future[HTTPResponse]",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "tornado/httpclient.py",
+              "line": 235,
+              "end_line": 243,
+              "severity": "low",
+              "category": "bug",
+              "title": "close 检测到缓存不一致时已移除条目",
+              "explanation": "close 先 pop 再从缓存移除，然后才校验 cached_val is self。若缓存中该 IOLoop 对应的是其他实例，抛 RuntimeError 时该其他实例已被移出缓存，缓存状态被破坏，后续创建会新建实例而非复用。",
+              "trigger": "缓存字典被替换为 other 实例（例如并发/错误配置）；self.close() 执行 pop 得到 other，抛 RuntimeError，other 从缓存消失。",
+              "evidence": "第236行 `cached_val = self._instance_cache.pop(self.io_loop, None)` 先移除；第242-243行再判断 `cached_val is not None and cached_val is not self: raise RuntimeError`。",
+              "suggestion": "先读取并校验 `self._instance_cache.get(self.io_loop)`，确认是 self 后再 pop；或在抛错前恢复原条目。",
+              "id": "987a42f2649a",
+              "source": "llm",
+              "rule": "",
+              "snippet": "233:             return\n234:         self._closed = True\n235:         if self._instance_cache is not None:\n236:             cached_val = self._instance_cache.pop(self.io_loop, None)\n237:             # If there's an object other than self in the instance\n238:             # cache for our IOLoop, something has gotten mixed up. A\n239:             # value of None appears to be possible when this is called\n240:             # from a destructor (HTTPClient.__del__) as the weakref\n241:             # gets cleared before the destructor runs.\n242:             if cached_val is not None and cached_val is not self:\n243:                 raise RuntimeError(\"inconsistent AsyncHTTPClient cache\")\n244: \n245:     def fetch(",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [
+        {
+          "path": "tornado/httpclient.py",
+          "start": 291,
+          "end": 335
+        }
+      ],
+      "elapsed_seconds": 9.223,
+      "folder": "windows/rep1-tornado-3-fixed-1-tool_first"
+    },
+    {
+      "case": "tornado-3",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 291,
+      "name": "rep1-tornado-3-fixed-1-baseline",
+      "status": "completed",
+      "error": null,
+      "api_calls": 1,
+      "calls": [
+        {
+          "stage": "review",
+          "status": "completed",
+          "input_chars": 15031,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 6,
+            "prompt_tokens": 4471,
+            "total_tokens": 4477,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 4224
+            },
+            "prompt_cache_hit_tokens": 4224,
+            "prompt_cache_miss_tokens": 247
+          },
+          "elapsed_seconds": 0.977
+        }
+      ],
+      "findings": [],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 291,
+          "strategy": "legacy",
+          "payload_sha256": "470f945578ab5ad5c80fd0cec5a622f8cbb9cd3b7ed21c013e72d505fe29663d",
+          "supplemental_chars": 7648,
+          "sources": [
+            {
+              "path": "tornado/httpclient.py",
+              "name": "HTTPRequest",
+              "line": 335,
+              "end": 563
+            },
+            {
+              "path": "tornado/httputil.py",
+              "name": "HTTPHeaders",
+              "line": 103,
+              "end": 267
+            },
+            {
+              "path": "tornado/ioloop.py",
+              "name": "current",
+              "line": 238,
+              "end": 239
+            },
+            {
+              "path": "tornado/ioloop.py",
+              "name": "current",
+              "line": 243,
+              "end": 244
+            }
+          ]
+        },
+        {
+          "stage": "review",
+          "path": "tornado/httpclient.py",
+          "start": 188,
+          "end": 291,
+          "strategy": "baseline",
+          "findings": []
+        }
+      ],
+      "tool_reads": [],
+      "elapsed_seconds": 0.982,
+      "folder": "windows/rep1-tornado-3-fixed-1-baseline"
+    },
+    {
+      "case": "youtube-dl-4",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "name": "rep1-youtube-dl-4-buggy-1-baseline",
+      "status": "completed",
+      "error": null,
+      "api_calls": 1,
+      "calls": [
+        {
+          "stage": "review",
+          "status": "completed",
+          "input_chars": 11780,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1025,
+            "prompt_tokens": 3634,
+            "total_tokens": 4659,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 3456
+            },
+            "prompt_cache_hit_tokens": 3456,
+            "prompt_cache_miss_tokens": 178
+          },
+          "elapsed_seconds": 5.832
+        }
+      ],
+      "findings": [
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 166,
+          "end_line": 172,
+          "severity": "medium",
+          "category": "bug",
+          "title": "splice 实现使用 pop(index) 导致元素顺序错误",
+          "explanation": "JS 的 Array.prototype.splice(index, howMany) 应删除从 index 开始的连续 howMany 个元素，并返回被删除元素按原顺序组成的数组。这里循环中每次都执行 obj.pop(index)，即删除当前 index 位置元素，删除后后续元素前移，因此每次删除的都是原 index 之后的下一个元素，返回的 res 顺序也正确但删除范围正确；然而当 howMany 大于剩余长度时 min 已处理。真正问题在于：循环条件 range(index, min(index+howMany, len(obj))) 在每次 pop 后 len(obj) 会变化，但 range 的终点在循环开始时已固定，因此当 howMany 超过剩余元素数时，min 已用初始 len 计算，仍可能越界？例如 obj=[1,2,3], index=1, howMany=5：min(6,3)=3，range(1,3) 两次 pop(1)，得到 [2,3]，obj 变 [1]，正确。若 index=0, howMany=5, len=3：range(0,3) 三次 pop(0)，正确。因此删除数量正确。但返回顺序：pop(index) 每次取当前 index 元素，由于前移，取到的依次是原 index, index+1, ...，顺序正确。所以 splice 实际行为正确。",
+          "trigger": "obj=[1,2,3], index=1, howMany=1",
+          "evidence": "range(index, min(index+howMany, len(obj))) 固定终点，pop(index) 每次删除当前 index，前移后取到下一个原元素，顺序正确。",
+          "suggestion": "无需修改。",
+          "id": "5eca1a85a143",
+          "source": "llm",
+          "rule": "",
+          "snippet": "164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 98,
+          "end_line": 99,
+          "severity": "medium",
+          "category": "bug",
+          "title": "索引赋值对非 int 索引使用 assert，-O 下失效且类型错误",
+          "explanation": "当 index 表达式求值结果不是 int（例如字符串变量或浮点），assert isinstance(idx, int) 在正常模式下抛 AssertionError（非 ExtractorError），在 -O 下被移除后 lvar[idx] 可能用字符串索引 list 抛 TypeError。契约上索引应为整数，但错误处理不一致。",
+          "trigger": "local_vars 中 a=[1,2,3]，表达式 'a[\"x\"] = 5' 或 index 求值为字符串",
+          "evidence": "第 96-99 行：idx = interpret_expression(...); assert isinstance(idx, int); cur = lvar[idx]",
+          "suggestion": "改为显式检查并抛 ExtractorError，或按契约允许的索引类型处理。",
+          "id": "f188df32cc33",
+          "source": "llm",
+          "rule": "",
+          "snippet": "96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]\n100:                 val = opfunc(cur, right_val)\n101:                 lvar[idx] = val",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 144,
+          "end_line": 144,
+          "severity": "low",
+          "category": "bug",
+          "title": "函数调用分支 assert expr.endswith(')') 在 -O 下失效",
+          "explanation": "正则 (?:\\(+(?P<args>[^()]*)\\))?$ 允许没有右括号的情况（args 为 None 时是成员访问，已提前返回；但 args 非 None 时正则要求 \\)+ 结尾，因此 expr 必以 ) 结尾）。实际上 args 非 None 时正则已保证结尾有 )，assert 恒真，不构成缺陷。",
+          "trigger": "无",
+          "evidence": "正则中 (?:\\(+(?P<args>[^()]*)\\))?$ 的 args 组只在有 \\)+ 时匹配。",
+          "suggestion": "无需修改。",
+          "id": "58fff650ca07",
+          "source": "llm",
+          "rule": "",
+          "snippet": "142:                 return obj[member]\n143: \n144:             assert expr.endswith(')')\n145:             # Function call\n146:             if arg_str == '':",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 153,
+          "end_line": 165,
+          "severity": "low",
+          "category": "bug",
+          "title": "split/join/reverse/slice 使用 assert 校验参数，-O 下失效",
+          "explanation": "这些 assert 用于校验参数个数/值，在 python -O 下被移除。例如 'a.split(\"x\")' 时 argvals=('x',)，assert argvals==('',) 被移除后仍执行 list(obj)，静默忽略参数而非报错；'a.slice()' 时 argvals=()，assert len==1 被移除后 obj[argvals[0]:] 抛 IndexError。错误类型不一致。",
+          "trigger": "表达式 'a.slice()' 在 -O 模式下运行",
+          "evidence": "第 163-165 行：assert len(argvals) == 1; return obj[argvals[0]:]",
+          "suggestion": "用显式 if 检查并抛 ExtractorError。",
+          "id": "d7a5f98ff8ac",
+          "source": "llm",
+          "rule": "",
+          "snippet": "151:                     for v in arg_str.split(',')])\n152: \n153:             if member == 'split':\n154:                 assert argvals == ('',)\n155:                 return list(obj)\n156:             if member == 'join':\n157:                 assert len(argvals) == 1\n158:                 return argvals[0].join(obj)\n159:             if member == 'reverse':\n160:                 assert len(argvals) == 0\n161:                 obj.reverse()\n162:                 return obj\n163:             if member == 'slice':\n164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "strategy": "legacy",
+          "payload_sha256": "c11974d5a0c33fa7ed39b156ad4c9ef169a4235836b0d46025ff5e7f1715b799",
+          "supplemental_chars": 2565,
+          "sources": [
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "interpret_statement",
+              "line": 37,
+              "end": 56
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "extract_function",
+              "line": 232,
+              "end": 244
+            },
+            {
+              "path": "youtube_dl/extractor/huajiao.py",
+              "name": "get",
+              "line": 42,
+              "end": 43
+            },
+            {
+              "path": "youtube_dl/extractor/iqiyi.py",
+              "name": "split",
+              "line": 63,
+              "end": 78
+            }
+          ]
+        },
+        {
+          "stage": "review",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "strategy": "baseline",
+          "findings": [
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 166,
+              "end_line": 172,
+              "severity": "medium",
+              "category": "bug",
+              "title": "splice 实现使用 pop(index) 导致元素顺序错误",
+              "explanation": "JS 的 Array.prototype.splice(index, howMany) 应删除从 index 开始的连续 howMany 个元素，并返回被删除元素按原顺序组成的数组。这里循环中每次都执行 obj.pop(index)，即删除当前 index 位置元素，删除后后续元素前移，因此每次删除的都是原 index 之后的下一个元素，返回的 res 顺序也正确但删除范围正确；然而当 howMany 大于剩余长度时 min 已处理。真正问题在于：循环条件 range(index, min(index+howMany, len(obj))) 在每次 pop 后 len(obj) 会变化，但 range 的终点在循环开始时已固定，因此当 howMany 超过剩余元素数时，min 已用初始 len 计算，仍可能越界？例如 obj=[1,2,3], index=1, howMany=5：min(6,3)=3，range(1,3) 两次 pop(1)，得到 [2,3]，obj 变 [1]，正确。若 index=0, howMany=5, len=3：range(0,3) 三次 pop(0)，正确。因此删除数量正确。但返回顺序：pop(index) 每次取当前 index 元素，由于前移，取到的依次是原 index, index+1, ...，顺序正确。所以 splice 实际行为正确。",
+              "trigger": "obj=[1,2,3], index=1, howMany=1",
+              "evidence": "range(index, min(index+howMany, len(obj))) 固定终点，pop(index) 每次删除当前 index，前移后取到下一个原元素，顺序正确。",
+              "suggestion": "无需修改。",
+              "id": "5eca1a85a143",
+              "source": "llm",
+              "rule": "",
+              "snippet": "164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 98,
+              "end_line": 99,
+              "severity": "medium",
+              "category": "bug",
+              "title": "索引赋值对非 int 索引使用 assert，-O 下失效且类型错误",
+              "explanation": "当 index 表达式求值结果不是 int（例如字符串变量或浮点），assert isinstance(idx, int) 在正常模式下抛 AssertionError（非 ExtractorError），在 -O 下被移除后 lvar[idx] 可能用字符串索引 list 抛 TypeError。契约上索引应为整数，但错误处理不一致。",
+              "trigger": "local_vars 中 a=[1,2,3]，表达式 'a[\"x\"] = 5' 或 index 求值为字符串",
+              "evidence": "第 96-99 行：idx = interpret_expression(...); assert isinstance(idx, int); cur = lvar[idx]",
+              "suggestion": "改为显式检查并抛 ExtractorError，或按契约允许的索引类型处理。",
+              "id": "f188df32cc33",
+              "source": "llm",
+              "rule": "",
+              "snippet": "96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]\n100:                 val = opfunc(cur, right_val)\n101:                 lvar[idx] = val",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 144,
+              "end_line": 144,
+              "severity": "low",
+              "category": "bug",
+              "title": "函数调用分支 assert expr.endswith(')') 在 -O 下失效",
+              "explanation": "正则 (?:\\(+(?P<args>[^()]*)\\))?$ 允许没有右括号的情况（args 为 None 时是成员访问，已提前返回；但 args 非 None 时正则要求 \\)+ 结尾，因此 expr 必以 ) 结尾）。实际上 args 非 None 时正则已保证结尾有 )，assert 恒真，不构成缺陷。",
+              "trigger": "无",
+              "evidence": "正则中 (?:\\(+(?P<args>[^()]*)\\))?$ 的 args 组只在有 \\)+ 时匹配。",
+              "suggestion": "无需修改。",
+              "id": "58fff650ca07",
+              "source": "llm",
+              "rule": "",
+              "snippet": "142:                 return obj[member]\n143: \n144:             assert expr.endswith(')')\n145:             # Function call\n146:             if arg_str == '':",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 153,
+              "end_line": 165,
+              "severity": "low",
+              "category": "bug",
+              "title": "split/join/reverse/slice 使用 assert 校验参数，-O 下失效",
+              "explanation": "这些 assert 用于校验参数个数/值，在 python -O 下被移除。例如 'a.split(\"x\")' 时 argvals=('x',)，assert argvals==('',) 被移除后仍执行 list(obj)，静默忽略参数而非报错；'a.slice()' 时 argvals=()，assert len==1 被移除后 obj[argvals[0]:] 抛 IndexError。错误类型不一致。",
+              "trigger": "表达式 'a.slice()' 在 -O 模式下运行",
+              "evidence": "第 163-165 行：assert len(argvals) == 1; return obj[argvals[0]:]",
+              "suggestion": "用显式 if 检查并抛 ExtractorError。",
+              "id": "d7a5f98ff8ac",
+              "source": "llm",
+              "rule": "",
+              "snippet": "151:                     for v in arg_str.split(',')])\n152: \n153:             if member == 'split':\n154:                 assert argvals == ('',)\n155:                 return list(obj)\n156:             if member == 'join':\n157:                 assert len(argvals) == 1\n158:                 return argvals[0].join(obj)\n159:             if member == 'reverse':\n160:                 assert len(argvals) == 0\n161:                 obj.reverse()\n162:                 return obj\n163:             if member == 'slice':\n164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [],
+      "elapsed_seconds": 5.838,
+      "folder": "windows/rep1-youtube-dl-4-buggy-1-baseline"
+    },
+    {
+      "case": "youtube-dl-4",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "tool_first",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "name": "rep1-youtube-dl-4-buggy-1-tool_first",
+      "status": "completed",
+      "error": null,
+      "api_calls": 2,
+      "calls": [
+        {
+          "stage": "review_tool_first",
+          "status": "completed",
+          "input_chars": 10553,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 85,
+            "prompt_tokens": 3213,
+            "total_tokens": 3298,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 128
+            },
+            "prompt_cache_hit_tokens": 128,
+            "prompt_cache_miss_tokens": 3085
+          },
+          "elapsed_seconds": 1.093
+        },
+        {
+          "stage": "review_hypothesis",
+          "status": "completed",
+          "input_chars": 19276,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 2003,
+            "prompt_tokens": 6213,
+            "total_tokens": 8216,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 896
+            },
+            "prompt_cache_hit_tokens": 896,
+            "prompt_cache_miss_tokens": 5317
+          },
+          "elapsed_seconds": 10.125
+        }
+      ],
+      "findings": [
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 84,
+          "end_line": 107,
+          "severity": "medium",
+          "category": "bug",
+          "title": "赋值运算符 '=' 会误匹配 '==' 比较表达式",
+          "explanation": "_ASSIGN_OPERATORS 包含 '='，第 85-88 行正则用 \\s*%s 匹配运算符，对 '=' 而言会匹配 '==' 的第一个等号，把比较表达式当作赋值处理，右侧以 '=b' 形式进入 interpret_expression，通常导致 Unsupported JS expression 或错误赋值，而非按比较语义求值。",
+          "trigger": "interpret_expression('a==b', {'a':1,'b':1}, 100)",
+          "evidence": "第 23-24 行 _ASSIGN_OPERATORS 由 _OPERATORS 派生并追加 ('=', ...)；第 84-88 行对每个赋值运算符用 re.match 匹配 (?P<out>NAME)...\\s*OP，'=' 会命中 '==' 的首字符。",
+          "suggestion": "在匹配 '=' 时排除后随 '=' 的情况（如使用负向前瞻 (?!\\s*=)），或先处理比较运算符再处理赋值。",
+          "id": "5809b2b842a4",
+          "source": "llm",
+          "rule": "",
+          "snippet": "82:                 raise ExtractorError('Premature end of parens in %r' % expr)\n83: \n84:         for op, opfunc in _ASSIGN_OPERATORS:\n85:             m = re.match(r'''(?x)\n86:                 (?P<out>%s)(?:\\[(?P<index>[^\\]]+?)\\])?\n87:                 \\s*%s\n88:                 (?P<expr>.*)$''' % (_NAME_RE, re.escape(op)), expr)\n89:             if not m:\n90:                 continue\n91:             right_val = self.interpret_expression(\n92:                 m.group('expr'), local_vars, allow_recursion - 1)\n93: \n94:             if m.groupdict().get('index'):\n95:                 lvar = local_vars[m.group('out')]\n96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 166,
+          "end_line": 172,
+          "severity": "medium",
+          "category": "bug",
+          "title": "splice 对负索引处理与 JS 语义不符",
+          "explanation": "splice 分支直接用 range(index, min(index+howMany, len(obj))) 并反复 obj.pop(index)。当 index 为负数时，range 从负值开始，pop(index) 按 Python 负索引从末尾取元素，删除位置与 JS 的从末尾计数语义不一致，且循环中索引含义随删除变化。",
+          "trigger": "obj=[1,2,3,4]; interpret_expression('a.splice(-1,1)', {'a':obj}, 100)",
+          "evidence": "第 168-171 行 index, howMany = argvals；for i in range(index, min(index+howMany, len(obj))): res.append(obj.pop(index))，未对负 index 做归一化。",
+          "suggestion": "按 JS 规范将负 index 归一化为 max(len+index,0)，并一次性切片删除而非循环 pop 同一索引。",
+          "id": "f46c8c62b591",
+          "source": "llm",
+          "rule": "",
+          "snippet": "164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 174,
+          "end_line": 174,
+          "severity": "low",
+          "category": "bug",
+          "title": "成员方法调用把参数元组作为单个实参传入",
+          "explanation": "第 149-151 行把参数解析为 tuple，第 174 行 return obj[member](argvals) 将整个元组作为唯一位置参数传给底层函数。对于期望多个位置参数的 Python 函数（如字符串方法），会因参数个数不符而抛 TypeError，与 JS 的 obj.method(a,b) 语义不符。",
+          "trigger": "expr='s.substring(1,2)'，其中 obj 为 Python str，argvals=(1,2)",
+          "evidence": "第 149-151 行 argvals = tuple([...])；第 174 行 return obj[member](argvals)。",
+          "suggestion": "改为 obj[member](*argvals) 以展开参数。",
+          "id": "058c9e62d63c",
+          "source": "llm",
+          "rule": "",
+          "snippet": "172:                 return res\n173: \n174:             return obj[member](argvals)\n175: \n176:         m = re.match(",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 200,
+          "end_line": 209,
+          "severity": "low",
+          "category": "quality",
+          "title": "函数调用实参正则过窄，含空格或表达式的调用无法解析",
+          "explanation": "第 200-201 行函数调用正则的 args 仅允许 [a-zA-Z0-9_$,]+，不含空格与运算符。像 f(a + 1) 或 f( a ) 这类合法 JS 调用不会匹配，最终落到第 211 行抛 Unsupported JS expression，限制了可解释的脚本范围。",
+          "trigger": "interpret_expression('f(a + 1)', {'a':1}, 100)",
+          "evidence": "第 200-201 行 r'^(?P<func>%s)\\((?P<args>[a-zA-Z0-9_$,]+)\\)$'；第 204-206 行按逗号切分并对每项仅做 isdigit 或 local_vars 查找。",
+          "suggestion": "放宽 args 正则允许空白，并对每个实参递归调用 interpret_expression 而非仅支持标识符/数字。",
+          "id": "1758b115860b",
+          "source": "llm",
+          "rule": "",
+          "snippet": "198:             return opfunc(x, y)\n199: \n200:         m = re.match(\n201:             r'^(?P<func>%s)\\((?P<args>[a-zA-Z0-9_$,]+)\\)$' % _NAME_RE, expr)\n202:         if m:\n203:             fname = m.group('func')\n204:             argvals = tuple([\n205:                 int(v) if v.isdigit() else local_vars[v]\n206:                 for v in m.group('args').split(',')])\n207:             if fname not in self._functions:\n208:                 self._functions[fname] = self.extract_function(fname)\n209:             return self._functions[fname](argvals)\n210: \n211:         raise ExtractorError('Unsupported JS expression %r' % expr)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "strategy": "legacy",
+          "payload_sha256": "c11974d5a0c33fa7ed39b156ad4c9ef169a4235836b0d46025ff5e7f1715b799",
+          "supplemental_chars": 2565,
+          "sources": [
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "interpret_statement",
+              "line": 37,
+              "end": 56
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "extract_function",
+              "line": 232,
+              "end": 244
+            },
+            {
+              "path": "youtube_dl/extractor/huajiao.py",
+              "name": "get",
+              "line": 42,
+              "end": 43
+            },
+            {
+              "path": "youtube_dl/extractor/iqiyi.py",
+              "name": "split",
+              "line": 63,
+              "end": 78
+            }
+          ]
+        },
+        {
+          "stage": "tool_first",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "status": "executed",
+          "calls": [
+            {
+              "tool_name": "read_code",
+              "parameters": "path=youtube_dl/jsinterp.py,start=1,end=36",
+              "original": "[TOOL_CALL:read_code:path=youtube_dl/jsinterp.py,start=1,end=36]"
+            },
+            {
+              "tool_name": "read_code",
+              "parameters": "path=youtube_dl/jsinterp.py,start=219,end=280",
+              "original": "[TOOL_CALL:read_code:path=youtube_dl/jsinterp.py,start=219,end=280]"
+            },
+            {
+              "tool_name": "search_code",
+              "parameters": "query=_OPERATORS",
+              "original": "[TOOL_CALL:search_code:query=_OPERATORS]"
+            }
+          ],
+          "result_chars": 5815
+        },
+        {
+          "stage": "hypothesis_review",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "checked": [
+            "jsinterp.py 1-36 行：导入、_OPERATORS、_ASSIGN_OPERATORS、_NAME_RE、构造函数",
+            "jsinterp.py 37-56 行：interpret_statement 的 var/return/表达式分支",
+            "jsinterp.py 58-211 行：interpret_expression 的括号、赋值、数字、变量、JSON、成员/方法调用、索引、二元运算、函数调用分支",
+            "jsinterp.py 213-230 行：extract_object 的正则与字段解析",
+            "jsinterp.py 232-258 行：extract_function、call_function、build_function",
+            "search_code _OPERATORS：确认运算符表与赋值运算符表来源"
+          ],
+          "hypotheses": [
+            {
+              "claim": "括号剥离逻辑在遇到不配对的 ')' 时不会报错，而是把 parens_count 减为负数后继续，导致子表达式切分错误",
+              "expected_behavior": "遇到多余的 ')' 应抛出 ExtractorError 或明确失败",
+              "counterexample": "expr = 'a) + b' 不以 '(' 开头，不触发；expr = '(a)) + b'：第一个 '(' 计数到 1，遇到第一个 ')' 归零，sub_expr='a'，remaining=') + b'，随后 expr=json.dumps(a)+') + b'，继续解析可能产生 Unsupported JS expression 而非明确括号错误",
+              "contract": "括号匹配应保证每个 ')' 都有对应 '('；第 64-82 行只处理以 '(' 开头的情况，未校验剩余表达式中的多余 ')'"
+            },
+            {
+              "claim": "赋值运算符正则 (?P<out>NAME)(?:\\[(?P<index>[^\\]]+?)\\])?\\s*OP 未锚定左侧边界，可能把 'a+b=c' 中的 'b=' 误识别为赋值",
+              "expected_behavior": "赋值目标应是完整左值，不应在表达式中间匹配到子串",
+              "counterexample": "expr='a+b=c'：re.match 从位置 0 开始，out 需匹配 NAME，'a' 后需紧跟 '=' 或 '\\s*='，但 'a' 后是 '+'，不匹配；然而 expr='x + y = 1' 中 re.match 从 0 开始 'x' 后是空格再 '+'，不匹配 '='；需构造 'a =b' 之类。实际风险在于 'a==b' 会被 '=' 赋值匹配：out='a'，expr='=b'，right_val 解析 '=b' 失败。",
+              "contract": "赋值运算符应区分 '=' 与 '=='；_ASSIGN_OPERATORS 含 '='，正则 \\s*%s 对 '=' 会匹配 '==' 的第一个 '='"
+            },
+            {
+              "claim": "成员方法调用 obj[member](argvals) 把 argvals 元组作为单个参数传入，与 JS 多参数语义不符",
+              "expected_behavior": "obj[member](a, b) 应展开为 obj[member](a, b)",
+              "counterexample": "expr='s.substring(1,2)'：argvals=(1,2)，调用 obj['substring']((1,2))，若底层函数期望两个位置参数则 TypeError",
+              "contract": "第 174 行 return obj[member](argvals) 将参数打包为元组；第 149-151 行已把参数解析为 tuple"
+            },
+            {
+              "claim": "splice 实现用 obj.pop(index) 在循环中重复弹出同一索引，结果与 JS splice 语义不符",
+              "expected_behavior": "splice(index, howMany) 应删除从 index 开始的 howMany 个元素并返回它们",
+              "counterexample": "obj=[1,2,3,4], index=1, howMany=2：循环 i=1 时 pop(1)=2，i=2 时 pop(1)=3，返回 [2,3]，obj=[1,4]，此例正确；但 howMany 超过剩余长度时 min 保护；若 index 为负，range(-1, min(1,len)) 从 -1 开始，pop(-1) 弹出末尾元素，与 JS 负索引语义不同",
+              "contract": "第 166-172 行 splice 未处理负 index，且 pop(index) 在每次迭代后索引含义变化"
+            },
+            {
+              "claim": "函数调用正则只允许参数为 [a-zA-Z0-9_$,]+，无法解析含空格或表达式的实参，导致合法 JS 调用落到 Unsupported",
+              "expected_behavior": "f(a + 1) 或 f( a ) 应可解析",
+              "counterexample": "expr='f(a + 1)'：第 200-201 行正则 args 不允许空格和 '+'，不匹配，最终抛 Unsupported JS expression",
+              "contract": "第 200-209 行函数调用仅支持简单标识符/数字参数"
+            }
+          ],
+          "tool_evidence": true,
+          "tool_calls_from_first_stage": 3,
+          "tool_reads_after": 2,
+          "tool_retry": false
+        },
+        {
+          "stage": "review",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "strategy": "tool_first",
+          "findings": [
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 84,
+              "end_line": 107,
+              "severity": "medium",
+              "category": "bug",
+              "title": "赋值运算符 '=' 会误匹配 '==' 比较表达式",
+              "explanation": "_ASSIGN_OPERATORS 包含 '='，第 85-88 行正则用 \\s*%s 匹配运算符，对 '=' 而言会匹配 '==' 的第一个等号，把比较表达式当作赋值处理，右侧以 '=b' 形式进入 interpret_expression，通常导致 Unsupported JS expression 或错误赋值，而非按比较语义求值。",
+              "trigger": "interpret_expression('a==b', {'a':1,'b':1}, 100)",
+              "evidence": "第 23-24 行 _ASSIGN_OPERATORS 由 _OPERATORS 派生并追加 ('=', ...)；第 84-88 行对每个赋值运算符用 re.match 匹配 (?P<out>NAME)...\\s*OP，'=' 会命中 '==' 的首字符。",
+              "suggestion": "在匹配 '=' 时排除后随 '=' 的情况（如使用负向前瞻 (?!\\s*=)），或先处理比较运算符再处理赋值。",
+              "id": "5809b2b842a4",
+              "source": "llm",
+              "rule": "",
+              "snippet": "82:                 raise ExtractorError('Premature end of parens in %r' % expr)\n83: \n84:         for op, opfunc in _ASSIGN_OPERATORS:\n85:             m = re.match(r'''(?x)\n86:                 (?P<out>%s)(?:\\[(?P<index>[^\\]]+?)\\])?\n87:                 \\s*%s\n88:                 (?P<expr>.*)$''' % (_NAME_RE, re.escape(op)), expr)\n89:             if not m:\n90:                 continue\n91:             right_val = self.interpret_expression(\n92:                 m.group('expr'), local_vars, allow_recursion - 1)\n93: \n94:             if m.groupdict().get('index'):\n95:                 lvar = local_vars[m.group('out')]\n96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 166,
+              "end_line": 172,
+              "severity": "medium",
+              "category": "bug",
+              "title": "splice 对负索引处理与 JS 语义不符",
+              "explanation": "splice 分支直接用 range(index, min(index+howMany, len(obj))) 并反复 obj.pop(index)。当 index 为负数时，range 从负值开始，pop(index) 按 Python 负索引从末尾取元素，删除位置与 JS 的从末尾计数语义不一致，且循环中索引含义随删除变化。",
+              "trigger": "obj=[1,2,3,4]; interpret_expression('a.splice(-1,1)', {'a':obj}, 100)",
+              "evidence": "第 168-171 行 index, howMany = argvals；for i in range(index, min(index+howMany, len(obj))): res.append(obj.pop(index))，未对负 index 做归一化。",
+              "suggestion": "按 JS 规范将负 index 归一化为 max(len+index,0)，并一次性切片删除而非循环 pop 同一索引。",
+              "id": "f46c8c62b591",
+              "source": "llm",
+              "rule": "",
+              "snippet": "164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 174,
+              "end_line": 174,
+              "severity": "low",
+              "category": "bug",
+              "title": "成员方法调用把参数元组作为单个实参传入",
+              "explanation": "第 149-151 行把参数解析为 tuple，第 174 行 return obj[member](argvals) 将整个元组作为唯一位置参数传给底层函数。对于期望多个位置参数的 Python 函数（如字符串方法），会因参数个数不符而抛 TypeError，与 JS 的 obj.method(a,b) 语义不符。",
+              "trigger": "expr='s.substring(1,2)'，其中 obj 为 Python str，argvals=(1,2)",
+              "evidence": "第 149-151 行 argvals = tuple([...])；第 174 行 return obj[member](argvals)。",
+              "suggestion": "改为 obj[member](*argvals) 以展开参数。",
+              "id": "058c9e62d63c",
+              "source": "llm",
+              "rule": "",
+              "snippet": "172:                 return res\n173: \n174:             return obj[member](argvals)\n175: \n176:         m = re.match(",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 200,
+              "end_line": 209,
+              "severity": "low",
+              "category": "quality",
+              "title": "函数调用实参正则过窄，含空格或表达式的调用无法解析",
+              "explanation": "第 200-201 行函数调用正则的 args 仅允许 [a-zA-Z0-9_$,]+，不含空格与运算符。像 f(a + 1) 或 f( a ) 这类合法 JS 调用不会匹配，最终落到第 211 行抛 Unsupported JS expression，限制了可解释的脚本范围。",
+              "trigger": "interpret_expression('f(a + 1)', {'a':1}, 100)",
+              "evidence": "第 200-201 行 r'^(?P<func>%s)\\((?P<args>[a-zA-Z0-9_$,]+)\\)$'；第 204-206 行按逗号切分并对每项仅做 isdigit 或 local_vars 查找。",
+              "suggestion": "放宽 args 正则允许空白，并对每个实参递归调用 interpret_expression 而非仅支持标识符/数字。",
+              "id": "1758b115860b",
+              "source": "llm",
+              "rule": "",
+              "snippet": "198:             return opfunc(x, y)\n199: \n200:         m = re.match(\n201:             r'^(?P<func>%s)\\((?P<args>[a-zA-Z0-9_$,]+)\\)$' % _NAME_RE, expr)\n202:         if m:\n203:             fname = m.group('func')\n204:             argvals = tuple([\n205:                 int(v) if v.isdigit() else local_vars[v]\n206:                 for v in m.group('args').split(',')])\n207:             if fname not in self._functions:\n208:                 self._functions[fname] = self.extract_function(fname)\n209:             return self._functions[fname](argvals)\n210: \n211:         raise ExtractorError('Unsupported JS expression %r' % expr)",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "start": 1,
+          "end": 36
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "start": 219,
+          "end": 258
+        }
+      ],
+      "elapsed_seconds": 11.238,
+      "folder": "windows/rep1-youtube-dl-4-buggy-1-tool_first"
+    },
+    {
+      "case": "youtube-dl-4",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "tool_first",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "name": "rep1-youtube-dl-4-fixed-1-tool_first",
+      "status": "completed",
+      "error": null,
+      "api_calls": 2,
+      "calls": [
+        {
+          "stage": "review_tool_first",
+          "status": "completed",
+          "input_chars": 10594,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 85,
+            "prompt_tokens": 3226,
+            "total_tokens": 3311,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 1920
+            },
+            "prompt_cache_hit_tokens": 1920,
+            "prompt_cache_miss_tokens": 1306
+          },
+          "elapsed_seconds": 1.045
+        },
+        {
+          "stage": "review_hypothesis",
+          "status": "completed",
+          "input_chars": 19287,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1801,
+            "prompt_tokens": 6219,
+            "total_tokens": 8020,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 2560
+            },
+            "prompt_cache_hit_tokens": 2560,
+            "prompt_cache_miss_tokens": 3659
+          },
+          "elapsed_seconds": 8.585
+        }
+      ],
+      "findings": [
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 84,
+          "end_line": 107,
+          "severity": "high",
+          "category": "bug",
+          "title": "赋值运算符正则未锚定导致 '==' 等比较被误判为赋值",
+          "explanation": "_ASSIGN_OPERATORS 中 '=' 的正则为 (?P<out>NAME)(?:\\[(?P<index>[^\\]]+?)\\])?\\s*=\\s*(?P<expr>.*)$，未要求 '=' 前不是另一个 '='。对表达式 'a==b'，re.match 会以 out='a'、expr='=b' 匹配成功，进入赋值分支，把 '=b' 当作右值递归解释，最终抛 Unsupported 或产生错误赋值，而不是按比较/原样处理。",
+          "trigger": "interpret_expression('a==b', {'a':1,'b':2}, 100)",
+          "evidence": "第85-88行正则 (?P<out>%s)(?:\\[(?P<index>[^\\]]+?)\\])?\\s*%s\\s*(?P<expr>.*)$ 对 '=' 无负向前瞻；第91行递归解释 m.group('expr') 得到 '=b'。",
+          "suggestion": "在 '=' 分支前加负向前瞻排除 '=='，或先匹配 '=='/'!=' 等比较运算符再匹配赋值。",
+          "id": "0d16bfd8dc33",
+          "source": "llm",
+          "rule": "",
+          "snippet": "82:                 raise ExtractorError('Premature end of parens in %r' % expr)\n83: \n84:         for op, opfunc in _ASSIGN_OPERATORS:\n85:             m = re.match(r'''(?x)\n86:                 (?P<out>%s)(?:\\[(?P<index>[^\\]]+?)\\])?\n87:                 \\s*%s\n88:                 (?P<expr>.*)$''' % (_NAME_RE, re.escape(op)), expr)\n89:             if not m:\n90:                 continue\n91:             right_val = self.interpret_expression(\n92:                 m.group('expr'), local_vars, allow_recursion - 1)\n93: \n94:             if m.groupdict().get('index'):\n95:                 lvar = local_vars[m.group('out')]\n96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 166,
+          "end_line": 172,
+          "severity": "medium",
+          "category": "bug",
+          "title": "splice 循环上界在 pop 后失效，删除数量可能不符",
+          "explanation": "splice 用 for i in range(index, min(index+howMany, len(obj))) 并在循环内 obj.pop(index)。len(obj) 在每次 pop 后减少，但 range 上界在循环开始时已固定，当 howMany 较大时可能越界或删除数量与 howMany 不一致。",
+          "trigger": "obj=[1,2,3], index=1, howMany=5：range(1, min(6,3))=range(1,3)，pop 两次后 obj 长度 1，第三次不会执行，返回 [2,3]，但 JS 语义应删除到末尾返回 [2,3]（此处恰好一致）；obj=[1,2,3,4,5], index=0, howMany=3 时 range(0,3) 三次 pop(0) 返回 [1,2,3] 正确。需构造 howMany 使 min 上界大于实际可删数。",
+          "evidence": "第170-171行 for i in range(index, min(index + howMany, len(obj))): res.append(obj.pop(index))，len(obj) 在循环中变化。",
+          "suggestion": "先计算实际删除数量 n=min(howMany, len(obj)-index)，再循环 n 次 pop(index)。",
+          "id": "f450eac93ccb",
+          "source": "llm",
+          "rule": "",
+          "snippet": "164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 174,
+          "end_line": 174,
+          "severity": "medium",
+          "category": "bug",
+          "title": "成员函数调用把参数 tuple 作为单个参数传入",
+          "explanation": "函数调用分支对 obj.member(a,b) 构造 argvals=tuple(...)，然后 return obj[member](argvals)，即把整个 tuple 作为一个位置参数传给 Python 方法，而 JS 语义是逐个参数传入。对需要多个参数的方法（如 replace）会抛 TypeError。",
+          "trigger": "expr='s.replace(a,b)'，local_vars={'s':'xax','a':'a','b':'b'}：调用 'xax'.replace(('a','b')) 抛 TypeError。",
+          "evidence": "第149-151行构造 argvals tuple；第174行 return obj[member](argvals) 未用 *argvals。",
+          "suggestion": "改为 obj[member](*argvals)，并对 split/join 等特殊分支保持现有处理。",
+          "id": "66f57a577276",
+          "source": "llm",
+          "rule": "",
+          "snippet": "172:                 return res\n173: \n174:             return obj[member](argvals)\n175: \n176:         m = re.match(",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "strategy": "legacy",
+          "payload_sha256": "7e9432b3dbba72b5dfe88057c0b1d7fc4d2d71873436cde4608964fc4e8dd7eb",
+          "supplemental_chars": 2565,
+          "sources": [
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "interpret_statement",
+              "line": 37,
+              "end": 56
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "extract_function",
+              "line": 232,
+              "end": 244
+            },
+            {
+              "path": "youtube_dl/extractor/huajiao.py",
+              "name": "get",
+              "line": 42,
+              "end": 43
+            },
+            {
+              "path": "youtube_dl/extractor/iqiyi.py",
+              "name": "split",
+              "line": 63,
+              "end": 78
+            }
+          ]
+        },
+        {
+          "stage": "tool_first",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "status": "executed",
+          "calls": [
+            {
+              "tool_name": "read_code",
+              "parameters": "path=youtube_dl/jsinterp.py,start=1,end=36",
+              "original": "[TOOL_CALL:read_code:path=youtube_dl/jsinterp.py,start=1,end=36]"
+            },
+            {
+              "tool_name": "read_code",
+              "parameters": "path=youtube_dl/jsinterp.py,start=220,end=320",
+              "original": "[TOOL_CALL:read_code:path=youtube_dl/jsinterp.py,start=220,end=320]"
+            },
+            {
+              "tool_name": "search_code",
+              "parameters": "query=_OPERATORS",
+              "original": "[TOOL_CALL:search_code:query=_OPERATORS]"
+            }
+          ],
+          "result_chars": 5786
+        },
+        {
+          "stage": "hypothesis_review",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "checked": [
+            "youtube_dl/jsinterp.py:1-36 导入与运算符表",
+            "youtube_dl/jsinterp.py:37-56 interpret_statement",
+            "youtube_dl/jsinterp.py:58-211 interpret_expression",
+            "youtube_dl/jsinterp.py:213-230 extract_object",
+            "youtube_dl/jsinterp.py:232-258 extract_function/build_function",
+            "search_code _OPERATORS 结果"
+          ],
+          "hypotheses": [
+            {
+              "claim": "赋值运算符正则未锚定，可能把比较表达式或含 '=' 的表达式误判为赋值",
+              "expected_behavior": "仅当整个表达式形如 name=expr 或 name[idx]=expr 时才按赋值处理",
+              "counterexample": "expr='a==b'：_ASSIGN_OPERATORS 中 '=' 的正则 (?P<out>NAME)(?:\\[...\\])?\\s*=\\s*(?P<expr>.*)$ 会匹配 out='a', expr='=b'，随后递归解释 '=b' 失败或产生错误赋值",
+              "contract": "interpret_expression 对非赋值表达式应返回其值或抛 Unsupported，不应把 '==' 拆成赋值"
+            },
+            {
+              "claim": "splice 实现使用 obj.pop(index) 且循环上界用 index+howMany，删除数量与返回元素可能不符",
+              "expected_behavior": "splice(index, howMany) 应删除 howMany 个元素并返回被删除元素",
+              "counterexample": "obj=[1,2,3,4], index=1, howMany=2：循环 i in range(1, min(3,4)) 执行两次 pop(1)，返回 [2,3]，结果正确；但 howMany 大于剩余长度时 min(index+howMany,len(obj)) 在 pop 后 len 变化，可能少删/多删",
+              "contract": "JS splice 语义：从 index 起删除 howMany 个元素"
+            },
+            {
+              "claim": "函数调用分支 obj[member](argvals) 把整个 tuple 作为单个参数传入，与 JS 多参数调用不符",
+              "expected_behavior": "obj.method(a,b) 应以 a,b 两个参数调用",
+              "counterexample": "expr='s.replace(a,b)'：argvals=('a','b')，调用 obj['replace'](('a','b')) 即传一个 tuple 参数，Python str.replace 期望两个参数会报 TypeError",
+              "contract": "JS 函数调用参数应逐个展开"
+            },
+            {
+              "claim": "extract_function 的 code 正则 [^}]+ 无法处理函数体内嵌套花括号（如 if/对象字面量），会截断函数体",
+              "expected_behavior": "应提取完整函数体",
+              "counterexample": "function f(){ if(x){return 1;} return 2; }：正则 \\{(?P<code>[^}]+)\\} 在第一个 '}' 处停止，code=' if(x){return 1;'，后续解释失败",
+              "contract": "extract_function 应返回完整函数体代码"
+            },
+            {
+              "claim": "interpret_expression 中 var_m 使用 local_vars[name] 直接索引，未定义变量抛 KeyError 而非 ExtractorError",
+              "expected_behavior": "未定义变量应给出可读错误",
+              "counterexample": "expr='undefinedVar'：var_m 匹配，local_vars['undefinedVar'] 抛 KeyError，未被捕获",
+              "contract": "解释器错误路径应抛 ExtractorError"
+            }
+          ],
+          "tool_evidence": true,
+          "tool_calls_from_first_stage": 3,
+          "tool_reads_after": 2,
+          "tool_retry": false
+        },
+        {
+          "stage": "validation",
+          "status": "rejected",
+          "reason": "invalid_location",
+          "path": "youtube_dl/jsinterp.py",
+          "line": 233
+        },
+        {
+          "stage": "review",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "strategy": "tool_first",
+          "findings": [
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 84,
+              "end_line": 107,
+              "severity": "high",
+              "category": "bug",
+              "title": "赋值运算符正则未锚定导致 '==' 等比较被误判为赋值",
+              "explanation": "_ASSIGN_OPERATORS 中 '=' 的正则为 (?P<out>NAME)(?:\\[(?P<index>[^\\]]+?)\\])?\\s*=\\s*(?P<expr>.*)$，未要求 '=' 前不是另一个 '='。对表达式 'a==b'，re.match 会以 out='a'、expr='=b' 匹配成功，进入赋值分支，把 '=b' 当作右值递归解释，最终抛 Unsupported 或产生错误赋值，而不是按比较/原样处理。",
+              "trigger": "interpret_expression('a==b', {'a':1,'b':2}, 100)",
+              "evidence": "第85-88行正则 (?P<out>%s)(?:\\[(?P<index>[^\\]]+?)\\])?\\s*%s\\s*(?P<expr>.*)$ 对 '=' 无负向前瞻；第91行递归解释 m.group('expr') 得到 '=b'。",
+              "suggestion": "在 '=' 分支前加负向前瞻排除 '=='，或先匹配 '=='/'!=' 等比较运算符再匹配赋值。",
+              "id": "0d16bfd8dc33",
+              "source": "llm",
+              "rule": "",
+              "snippet": "82:                 raise ExtractorError('Premature end of parens in %r' % expr)\n83: \n84:         for op, opfunc in _ASSIGN_OPERATORS:\n85:             m = re.match(r'''(?x)\n86:                 (?P<out>%s)(?:\\[(?P<index>[^\\]]+?)\\])?\n87:                 \\s*%s\n88:                 (?P<expr>.*)$''' % (_NAME_RE, re.escape(op)), expr)\n89:             if not m:\n90:                 continue\n91:             right_val = self.interpret_expression(\n92:                 m.group('expr'), local_vars, allow_recursion - 1)\n93: \n94:             if m.groupdict().get('index'):\n95:                 lvar = local_vars[m.group('out')]\n96:                 idx = self.interpret_expression(\n97:                     m.group('index'), local_vars, allow_recursion)\n98:                 assert isinstance(idx, int)\n99:                 cur = lvar[idx]",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 166,
+              "end_line": 172,
+              "severity": "medium",
+              "category": "bug",
+              "title": "splice 循环上界在 pop 后失效，删除数量可能不符",
+              "explanation": "splice 用 for i in range(index, min(index+howMany, len(obj))) 并在循环内 obj.pop(index)。len(obj) 在每次 pop 后减少，但 range 上界在循环开始时已固定，当 howMany 较大时可能越界或删除数量与 howMany 不一致。",
+              "trigger": "obj=[1,2,3], index=1, howMany=5：range(1, min(6,3))=range(1,3)，pop 两次后 obj 长度 1，第三次不会执行，返回 [2,3]，但 JS 语义应删除到末尾返回 [2,3]（此处恰好一致）；obj=[1,2,3,4,5], index=0, howMany=3 时 range(0,3) 三次 pop(0) 返回 [1,2,3] 正确。需构造 howMany 使 min 上界大于实际可删数。",
+              "evidence": "第170-171行 for i in range(index, min(index + howMany, len(obj))): res.append(obj.pop(index))，len(obj) 在循环中变化。",
+              "suggestion": "先计算实际删除数量 n=min(howMany, len(obj)-index)，再循环 n 次 pop(index)。",
+              "id": "f450eac93ccb",
+              "source": "llm",
+              "rule": "",
+              "snippet": "164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 174,
+              "end_line": 174,
+              "severity": "medium",
+              "category": "bug",
+              "title": "成员函数调用把参数 tuple 作为单个参数传入",
+              "explanation": "函数调用分支对 obj.member(a,b) 构造 argvals=tuple(...)，然后 return obj[member](argvals)，即把整个 tuple 作为一个位置参数传给 Python 方法，而 JS 语义是逐个参数传入。对需要多个参数的方法（如 replace）会抛 TypeError。",
+              "trigger": "expr='s.replace(a,b)'，local_vars={'s':'xax','a':'a','b':'b'}：调用 'xax'.replace(('a','b')) 抛 TypeError。",
+              "evidence": "第149-151行构造 argvals tuple；第174行 return obj[member](argvals) 未用 *argvals。",
+              "suggestion": "改为 obj[member](*argvals)，并对 split/join 等特殊分支保持现有处理。",
+              "id": "66f57a577276",
+              "source": "llm",
+              "rule": "",
+              "snippet": "172:                 return res\n173: \n174:             return obj[member](argvals)\n175: \n176:         m = re.match(",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "start": 1,
+          "end": 36
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "start": 220,
+          "end": 258
+        }
+      ],
+      "elapsed_seconds": 9.653,
+      "folder": "windows/rep1-youtube-dl-4-fixed-1-tool_first"
+    },
+    {
+      "case": "youtube-dl-4",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "name": "rep1-youtube-dl-4-fixed-1-baseline",
+      "status": "completed",
+      "error": null,
+      "api_calls": 1,
+      "calls": [
+        {
+          "stage": "review",
+          "status": "completed",
+          "input_chars": 11821,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 335,
+            "prompt_tokens": 3647,
+            "total_tokens": 3982,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 3456
+            },
+            "prompt_cache_hit_tokens": 3456,
+            "prompt_cache_miss_tokens": 191
+          },
+          "elapsed_seconds": 2.462
+        }
+      ],
+      "findings": [
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 166,
+          "end_line": 172,
+          "severity": "medium",
+          "category": "bug",
+          "title": "splice 实现按固定 index 弹出，结果顺序与 JS 语义不符",
+          "explanation": "JS 的 Array.prototype.splice(index, howMany) 会从 index 开始连续删除 howMany 个元素，返回被删除元素按原顺序组成的数组。这里循环中每次都 obj.pop(index)，第一次删除后后续元素前移，于是每次都删除同一个位置，返回的是原 index 处及其后若干元素，但顺序/内容与 JS 不同。例如 obj=[1,2,3,4], index=1, howMany=2：JS 返回 [2,3]，剩余 [1,4]；此实现第一次 pop(1)=2，第二次 pop(1)=3，返回 [2,3]，剩余 [1,4]，此例恰好一致。但 index=0, howMany=2 时：JS 返回 [1,2]；此实现 pop(0)=1，再 pop(0)=2，返回 [1,2]，也一致。实际上由于每次都 pop 同一位置，返回顺序恰好等于原顺序，剩余也正确，因此该实现对于非负 index 是正确的。",
+          "trigger": "obj=[1,2,3,4]; splice(1,2)",
+          "evidence": "for i in range(index, min(index + howMany, len(obj))): res.append(obj.pop(index))",
+          "suggestion": "无需修改；该实现语义正确。",
+          "id": "11345934c201",
+          "source": "llm",
+          "rule": "",
+          "snippet": "164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "strategy": "legacy",
+          "payload_sha256": "7e9432b3dbba72b5dfe88057c0b1d7fc4d2d71873436cde4608964fc4e8dd7eb",
+          "supplemental_chars": 2565,
+          "sources": [
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "interpret_statement",
+              "line": 37,
+              "end": 56
+            },
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "name": "extract_function",
+              "line": 232,
+              "end": 244
+            },
+            {
+              "path": "youtube_dl/extractor/huajiao.py",
+              "name": "get",
+              "line": 42,
+              "end": 43
+            },
+            {
+              "path": "youtube_dl/extractor/iqiyi.py",
+              "name": "split",
+              "line": 63,
+              "end": 78
+            }
+          ]
+        },
+        {
+          "stage": "review",
+          "path": "youtube_dl/jsinterp.py",
+          "start": 50,
+          "end": 219,
+          "strategy": "baseline",
+          "findings": [
+            {
+              "path": "youtube_dl/jsinterp.py",
+              "line": 166,
+              "end_line": 172,
+              "severity": "medium",
+              "category": "bug",
+              "title": "splice 实现按固定 index 弹出，结果顺序与 JS 语义不符",
+              "explanation": "JS 的 Array.prototype.splice(index, howMany) 会从 index 开始连续删除 howMany 个元素，返回被删除元素按原顺序组成的数组。这里循环中每次都 obj.pop(index)，第一次删除后后续元素前移，于是每次都删除同一个位置，返回的是原 index 处及其后若干元素，但顺序/内容与 JS 不同。例如 obj=[1,2,3,4], index=1, howMany=2：JS 返回 [2,3]，剩余 [1,4]；此实现第一次 pop(1)=2，第二次 pop(1)=3，返回 [2,3]，剩余 [1,4]，此例恰好一致。但 index=0, howMany=2 时：JS 返回 [1,2]；此实现 pop(0)=1，再 pop(0)=2，返回 [1,2]，也一致。实际上由于每次都 pop 同一位置，返回顺序恰好等于原顺序，剩余也正确，因此该实现对于非负 index 是正确的。",
+              "trigger": "obj=[1,2,3,4]; splice(1,2)",
+              "evidence": "for i in range(index, min(index + howMany, len(obj))): res.append(obj.pop(index))",
+              "suggestion": "无需修改；该实现语义正确。",
+              "id": "11345934c201",
+              "source": "llm",
+              "rule": "",
+              "snippet": "164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [],
+      "elapsed_seconds": 2.473,
+      "folder": "windows/rep1-youtube-dl-4-fixed-1-baseline"
+    }
+  ],
+  "status": "sampled",
+  "budget": {
+    "limit": 80,
+    "reserved": 70,
+    "phases": {
+      "p1-hypothesis": 39,
+      "p1b-tools": 19,
+      "p1c-tool-first": 12
+    },
+    "started_at": "2026-10-21T13:33:39.838850+00:00"
+  },
+  "source_frozen": true,
+  "semantic_adjudication": "pending"
+}

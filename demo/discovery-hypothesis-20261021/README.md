@@ -87,6 +87,31 @@ P1 的 `checked` 是自报；P1b 新增 `hypothesis_tools`：首轮没有任何�
 
 P1b 资料：[结果](p1b-tools/results.json)、[判读](p1b-tools/adjudications.json)、[评分](p1b-tools/scores.json)、[离线校验](verify-p1b.py)。
 
+## P1c smoke：tool-first（已运行，机械成功、性能未提升）
+
+P1b 的“文字重试”仍可能被忽略，所以 P1c 改成两阶段：
+
+1. **只读阶段**：模型只能返回 `[TOOL_CALL:...]`，不能返回 JSON/候选；代码执行工具。没有工具调用就直接记录 `no_tool_call`，不再进入第二阶段。
+2. **假设阶段**：把真实 `tool_calls`/`tool_results` 交给假设提示，再返回 `checked`/`hypotheses`/`findings`。
+
+样本：tornado-3、youtube-dl-4 两侧各 1 个 r0 窗口，每臂 4 窗口，共 8 次运行。P1 账本 58/80，P1c 上限 22，实际 12，总 70/80。
+
+| 臂 | 有效对 | 候选命中 | 修复侧告警 | 完成/失败 | 工具调用 | read_code | no-tool 窗口 | 调用 | 候选数 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| baseline | 2/2 | 0/2 | 0 | 4/0 | 0 | 0 | 0 | 4 | 5 |
+| tool_first | 2/2 | 0/2 | 0 | 4/0 | 12 | 6 | 0 | 8 | 12 |
+
+关键观察：
+
+- **机械目标达成**：4/4 个 tool_first 窗口都在第一阶段执行了 3 个真实工具调用（read_code + search_symbol/search_code），0 个 no-tool 窗口；2 阶段总计每窗口 2 次模型调用，8/8 完成。
+- **性能目标未达成**：两臂严格参考命中都是 0/2；修复侧告警 0。tool_first 候选更多（12 vs 5），但没有打中参考根因。
+- 工具读取仍集中在主片段附近/同文件局部范围（如 `httpclient.py:286-330`、`jsinterp.py:1-36/219-280`）；没有真正去读调用方、测试或契约来源。即使强制了“调用工具”，模型仍然选择局部读码，假设仍偏邻近问题。
+- 调用从 4→8，completion tokens 1,372→6,813；没有召回收益，成本明显增加。
+
+**决定：tool-first 作为实验开关保留，但不作为默认/检出提升。** 这轮排除了“模型只是不肯用工具”的单一解释：工具执行问题已经解决，剩下的瓶颈是**读什么、如何形成正确假设**。下一轮如果继续，应改变“读什么”（例如强制读取调用方/测试/契约来源或使用静态调用图选定外部片段），而不是继续改“是否调用工具”。
+
+P1c 资料：[结果](p1c-tool-first/results.json)、[判读](p1c-tool-first/adjudications.json)、[评分](p1c-tool-first/scores.json)、[离线校验](verify-p1c.py)。
+
 ## 指标
 
 - buggy 侧参考候选识别率（主指标）；

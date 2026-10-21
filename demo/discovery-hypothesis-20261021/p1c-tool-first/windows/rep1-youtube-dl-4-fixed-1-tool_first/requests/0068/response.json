@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 68,
+    "phase": "p1c-tool-first",
+    "label": {
+      "case": "youtube-dl-4",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "tool_first",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219
+    },
+    "reserved_at": "2026-10-21T13:50:51.134660+00:00"
+  },
+  "raw_response": "[TOOL_CALL:read_code:path=youtube_dl/jsinterp.py,start=1,end=36]\n[TOOL_CALL:read_code:path=youtube_dl/jsinterp.py,start=220,end=320]\n[TOOL_CALL:search_code:query=_OPERATORS]\n[TOOL_CALL:search_code:query=_ASSIGN_OPERATORS]",
+  "error_type": null,
+  "call": {
+    "stage": "review_tool_first",
+    "status": "completed",
+    "input_chars": 10594,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 85,
+      "prompt_tokens": 3226,
+      "total_tokens": 3311,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1920
+      },
+      "prompt_cache_hit_tokens": 1920,
+      "prompt_cache_miss_tokens": 1306
+    },
+    "elapsed_seconds": 1.045
+  }
+}

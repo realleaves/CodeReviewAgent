@@ -1,0 +1,47 @@
+{
+  "metrics": [
+    {
+      "arm": "baseline",
+      "planned_cases": 2,
+      "eligible_pairs": 2,
+      "candidate_hits": 0,
+      "fixed_side_alarms": 0,
+      "candidate_findings": 5,
+      "completed_windows": 4,
+      "failed_windows": 0,
+      "calls": 4,
+      "usage": {
+        "prompt_tokens": 15212,
+        "completion_tokens": 1372
+      },
+      "tool_reads": 0,
+      "tool_calls": 0,
+      "no_tool_call": 0
+    },
+    {
+      "arm": "tool_first",
+      "planned_cases": 2,
+      "eligible_pairs": 2,
+      "candidate_hits": 0,
+      "fixed_side_alarms": 0,
+      "candidate_findings": 12,
+      "completed_windows": 4,
+      "failed_windows": 0,
+      "calls": 8,
+      "usage": {
+        "prompt_tokens": 36895,
+        "completion_tokens": 6813
+      },
+      "tool_reads": 6,
+      "tool_calls": 12,
+      "no_tool_call": 0
+    }
+  ],
+  "mechanical_result": "tool_first executed real tool calls on every window (12 total, zero no-tool-call windows) and completed 4/4 windows per arm.",
+  "detection_result": "Neither arm has a strict reference candidate hit in this two-case smoke; tool use was achieved without a recall gain.",
+  "adoption": "Not adopted as a detection improvement. The tool-first mechanism is mechanically valid and can remain an experiment switch, but there is no candidate-recall gain and no evidence to change the default.",
+  "scope": "2 development cases, one r0 window per side, four windows per arm, one repetition; smoke only, not a full development/holdout score.",
+  "adjudicators": [
+    "DeepSeek frozen-reference review; human review pending"
+  ]
+}

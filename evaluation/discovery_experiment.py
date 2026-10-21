@@ -167,7 +167,11 @@ def initialize(root):
 
 def fingerprint():
     paths = [*sorted((ROOT / "src").glob("*.py")), ROOT / "main.py", Path(__file__)]
-    for name in ["discovery_hypothesis.py", "discovery_hypothesis_tools.py"]:
+    for name in [
+        "discovery_hypothesis.py",
+        "discovery_hypothesis_tools.py",
+        "discovery_tool_first.py",
+    ]:
         runner = ROOT / "evaluation" / name
         if runner.exists():
             paths.append(runner)
@@ -223,6 +227,7 @@ def run(
             "baseline",
             "hypothesis",
             "hypothesis_tools",
+            "tool_first",
         }
         assert (
             1

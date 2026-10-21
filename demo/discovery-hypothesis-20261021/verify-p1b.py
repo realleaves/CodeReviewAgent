@@ -28,7 +28,8 @@ def main():
     assert goal["selection"] == ["tornado-3", "youtube-dl-4", "youtube-dl-8"]
     assert set(arms) == {"baseline", "hypothesis_tools"}
     assert setup["windows"] == 6 and len(setup["window_records"]) == 6
-    assert budget["reserved"] == 58 and budget["limit"] == 80
+    assert budget["phases"]["p1b-tools"] == 19 and budget["limit"] == 80
+    assert budget["reserved"] >= 58
     assert budget["phases"]["p1b-tools"] == 19
     assert results["status"] == "sampled" and len(results["records"]) == 12
     assert len(manifest["input_windows"]) == 6

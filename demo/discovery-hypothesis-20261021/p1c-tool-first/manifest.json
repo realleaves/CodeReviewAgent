@@ -1,0 +1,171 @@
+{
+  "created_at": "2026-10-21T13:50:12.851800+00:00",
+  "model": {
+    "model": "deepseek-flash",
+    "thinking_mode": "disabled",
+    "temperature": 0.1,
+    "max_output_tokens": 6000,
+    "timeout": 45,
+    "provider_is_deepseek": true
+  },
+  "source_sha256": {
+    "src/__init__.py": "9d9e33ea9b0988a621a891305c15f6822aeb887e062c209110de3a43b263ddb4",
+    "src/agents.py": "55fbea39538800947b114a92acbed23217e902097a760fea80294b544fd65509",
+    "src/code_index.py": "39330b46f887021b2aeabf0c292cf5fe5a5e3b5cfde3d701be66beadcd0c208d",
+    "src/deduplication.py": "3071efab768fe7cc9e32073b04ad906af5cc66ffd8d145f61bcb3cfecd48788c",
+    "src/pipeline.py": "8ce65a6ce45c488a2738980b6008a3a7d78ad9d3d3ecabf3cf8c29293c95ab29",
+    "src/report.py": "a05cb3f5e455b407c1ee9acc421603e40b9e1261847aabf9f1a696799fdd6f46",
+    "src/repository.py": "360f9e5f492f98780632c68197a8c72abf0b36d876b6b2c2368d8d99a0fbda4c",
+    "src/reproduction.py": "7acf8c5374813ecc540547967aa1ff2897bc7fee75eb2ed9602552c2ca07348a",
+    "src/reproduction_runner.py": "a64da9832eda9154d518ea49636ca927750d6264ddba2a0ccad135e629b7798a",
+    "src/review_context.py": "6c49b9f6b3daef53d926f5b609563696919ff506984dfc592f0a2ea5581b70dc",
+    "src/schemas.py": "3125a87c9f6d9851aaf642b645ab74c5bba7e28fb2b26e8928c611b2109572ba",
+    "src/static_analysis.py": "c094e31f91c91916c8db62e5350617e8b3a77a2f930b6063c9d4eec33cf60d2d",
+    "main.py": "f78e3e5e6b2cddf5bf9465192cb7dab1a84bc0c2632dfaedf59a577a5998b8a3",
+    "evaluation/discovery_experiment.py": "131683ad4a215035e19e9d0cb13d1d07adec2e454fd1bb2ee482140d1d2cad45",
+    "evaluation/discovery_hypothesis.py": "faceb925abcb49e274f27987c48f05fba4bfffa50346c735c488e1d453fa4af4",
+    "evaluation/discovery_hypothesis_tools.py": "148500234d97f8f84193273789f3fecf697ff977064672ad2961ff2ef7b99f72",
+    "evaluation/discovery_tool_first.py": "4f7a096a70c86dff5a465b2a1b55fb16aea40d3873468adcd882d31d58a7cb75"
+  },
+  "phase_call_limit": 22,
+  "global_limit": 600,
+  "repetitions": 1,
+  "strategies": [
+    "baseline",
+    "tool_first"
+  ],
+  "arms": {
+    "baseline": {
+      "context_strategy": "legacy",
+      "thinking_mode": "disabled",
+      "review_strategy": "baseline"
+    },
+    "tool_first": {
+      "context_strategy": "legacy",
+      "thinking_mode": "disabled",
+      "review_strategy": "tool_first"
+    }
+  },
+  "comparison_variable": "review_strategy",
+  "window_call_limit": 3,
+  "window_count_per_strategy_per_repetition": 4,
+  "protocol": "Fresh independent discovery only, same original production-only sources and windows; no official tests, labels, reference rubric or opposite version in agent inputs. Arms alternate by window and reverse each repetition. No candidate reproduction stage. All planned records retained.",
+  "scoring": "Existing reference rubric frozen in parent; score known-issue candidates separately from generated proof. No unconfirmed extra finding is automatically a false positive.",
+  "adoption": "More correctly discriminated known-issue pairs in each repetition, no increase in same-issue fixed alarms, no lower completeness. Extra findings audited separately and tokens/calls reported. An exploratory gain requires unseen validation before default adoption.",
+  "input_windows": [
+    {
+      "case": "tornado-3",
+      "side": "buggy",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 4776,
+      "callgraph_supplemental_chars": 5996,
+      "relations": {
+        "callee": 2,
+        "following_code": 1,
+        "import_binding": 4,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "HTTPRequest",
+        "get",
+        "get",
+        "get"
+      ],
+      "retrieval_seconds": 0.2303,
+      "folder": "tornado-3-buggy-1",
+      "payload_sha256": {
+        "legacy": "1529c7fe78c56776b66894f1fb1c0d04452b1db6a305449f9d5c02b90b0b5a97",
+        "callgraph": "67de7c8d6a069f63ea6a7fd274840ef56a3d5e9c9427a1c33b9fb89d86854a1e"
+      }
+    },
+    {
+      "case": "tornado-3",
+      "side": "fixed",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 291,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 7648,
+      "callgraph_supplemental_chars": 5996,
+      "relations": {
+        "callee": 2,
+        "following_code": 1,
+        "import_binding": 4,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "HTTPRequest",
+        "HTTPHeaders",
+        "current",
+        "current"
+      ],
+      "retrieval_seconds": 0.0935,
+      "folder": "tornado-3-fixed-1",
+      "payload_sha256": {
+        "legacy": "9934c5e579f95bd5bdd79d9c6e0e500ad1c95bf4e354d09ef5d5d1f7468bab01",
+        "callgraph": "9d3f94fd28b91d36b4acf099ffb83550e4d6b284381be57b5a40bd41d35a5aac"
+      }
+    },
+    {
+      "case": "youtube-dl-4",
+      "side": "buggy",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 2565,
+      "callgraph_supplemental_chars": 4140,
+      "relations": {
+        "callee": 1,
+        "caller": 1,
+        "enclosing_definition": 2,
+        "import_binding": 3,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "interpret_statement",
+        "extract_function",
+        "get",
+        "split"
+      ],
+      "retrieval_seconds": 1.0806,
+      "folder": "youtube-dl-4-buggy-1",
+      "payload_sha256": {
+        "legacy": "4b3e292e115e4751d1447d21c137da7d21d0f1a80a3526825666bc09969f46fa",
+        "callgraph": "e7911d427a2cf1c0c37af8c16914d57c5215bd454d553d6e2614ee0dd91fae05"
+      }
+    },
+    {
+      "case": "youtube-dl-4",
+      "side": "fixed",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 2565,
+      "callgraph_supplemental_chars": 4140,
+      "relations": {
+        "callee": 1,
+        "caller": 1,
+        "enclosing_definition": 2,
+        "import_binding": 3,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "interpret_statement",
+        "extract_function",
+        "get",
+        "split"
+      ],
+      "retrieval_seconds": 1.0826,
+      "folder": "youtube-dl-4-fixed-1",
+      "payload_sha256": {
+        "legacy": "bdb4c78608a90c8c0b04e04014e41e60ccf042ad48819c47ab9710eb6e9a3271",
+        "callgraph": "7fd041b41c63676d01a2c0729407cdb8bc86f75279cecbeaa0346f698c7ddcb9"
+      }
+    }
+  ]
+}
