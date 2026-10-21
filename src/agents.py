@@ -262,6 +262,17 @@ HYPOTHESIS_TOOL_FIRST_PROMPT = (
     + json.dumps(HypothesisCandidates.model_json_schema(), ensure_ascii=False)
 )
 
+HYPOTHESIS_AUDIT_PROMPT = (
+    COMMON
+    + """以下是第一轮假设阶段的 checked/hypotheses/findings。请做一次“假设→候选”完整性审计：
+1. 逐条检查每个 hypothesis 是否已有具体反例 + 可定位的契约违反；
+2. 如果某个 hypothesis 已满足条件，但不在 initial_findings 中，把它补成 finding；
+3. 不要重复已有 findings；不要添加没有具体反例的假设；最多4条；
+4. 如果所有满足条件的假设都已在 findings 中，原样返回 findings。
+只返回同结构 JSON，不要解释审计过程。结构必须符合："""
+    + json.dumps(HypothesisCandidates.model_json_schema(), ensure_ascii=False)
+)
+
 
 def parse_json(text: str) -> dict:
     stripped = text.strip()
@@ -343,6 +354,7 @@ class ReviewAgents:
             "hypothesis_tools",
             "tool_first",
             "tool_first_external",
+            "hypothesis_audit",
         }:
             raise ValueError("未知的发现策略。")
         self.index, self.llm = index, llm
@@ -652,6 +664,62 @@ class ReviewAgents:
                     }
                 )
                 candidates = parsed.findings
+        elif evidence and self.review_strategy == "hypothesis_audit":
+            raw = self._run("review_hypothesis", HYPOTHESIS_REVIEW_PROMPT, payload)
+            parsed = HypothesisCandidates.model_validate(parse_json(raw))
+            audit_payload = {
+                **payload,
+                "initial_checked": parsed.checked,
+                "initial_hypotheses": [
+                    hypothesis.model_dump() for hypothesis in parsed.hypotheses
+                ],
+                "initial_findings": [
+                    finding.model_dump() for finding in parsed.findings
+                ],
+            }
+            raw_audit = self._run(
+                "review_hypothesis_audit", HYPOTHESIS_AUDIT_PROMPT, audit_payload
+            )
+            audited = HypothesisCandidates.model_validate(parse_json(raw_audit))
+            merged = {}
+            for finding in parsed.findings:
+                key = (finding.path, finding.line, finding.category, finding.title)
+                merged[key] = finding
+            added = []
+            for finding in audited.findings:
+                key = (finding.path, finding.line, finding.category, finding.title)
+                if key in merged:
+                    continue
+                merged[key] = finding
+                added.append(
+                    {
+                        "path": finding.path,
+                        "line": finding.line,
+                        "title": finding.title,
+                    }
+                )
+            self.trace.append(
+                {
+                    "stage": "hypothesis_audit",
+                    "path": chunk.path,
+                    "start": chunk.start,
+                    "end": chunk.end,
+                    "initial_findings": [
+                        {"line": finding.line, "title": finding.title}
+                        for finding in parsed.findings
+                    ],
+                    "audit_findings": [
+                        {"line": finding.line, "title": finding.title}
+                        for finding in audited.findings
+                    ],
+                    "added": added,
+                    "checked": audited.checked,
+                    "hypotheses": [
+                        hypothesis.model_dump() for hypothesis in audited.hypotheses
+                    ],
+                }
+            )
+            candidates = list(merged.values())
         elif evidence and self.review_strategy in {"hypothesis", "hypothesis_tools"}:
             reads_before = len(self.index.reads)
             raw = self._run("review_hypothesis", HYPOTHESIS_REVIEW_PROMPT, payload)

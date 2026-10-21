@@ -188,3 +188,11 @@ P1c证明工具会被执行，但模型仍选主片段附近的局部读码。P1
 结果：tool_first_external每窗口读取3个外部span（caller `_extract_mpd_formats`、callee `report_warning`/`location_key`），共6次真实read_code，0个no-external窗口，2/2完成；baseline 2/2完成、0外部调用。两臂严格参考命中都是0/1，修复侧告警0；tool_first_external候选5（baseline 6），prompt/completion tokens 5,844/1,665→7,804/2,593。外部读取后模型仍报SegmentTimeline越界/segment_duration=0，没有识别DASH format_id唯一性/合并的参考关系。
 
 决定：P1d不采用。P1系列（prompt、工具重试、tool-first、外部读取）都没有候选召回收益，P1账本只剩6次（74/80），不再同方向追加采样。下一步换假设：模型能力、任务形式（diff/PR、测试引导）或更强外部知识，而不是继续改读取协议/提示措辞。资料见[demo/discovery-hypothesis-20261021](demo/discovery-hypothesis-20261021/README.md)，离线校验`python demo/discovery-hypothesis-20261021/verify-p1d.py`；当前125项测试通过，Ruff F/E9通过。
+
+## P1e 假设→候选审计 smoke（2026-10-21，P1账本80/80）
+
+离线轨迹分析发现：P1的youtube-dl-2 hypothesis已写出参考假设（`existing_format.update(f)`在重复`representation_id`时覆盖fragments，并有具体反例），但最终只输出SegmentTimeline/ISM两条finding。P1e加一次完整性审计：第一轮用P1假设提示，第二轮把`checked`/`hypotheses`/`findings`交给审计提示，要求补入“已有具体反例但未列入findings”的假设，不重复、不添加空泛候选。样本youtube-dl-2两侧各1窗口，每臂2窗口，共4次运行；P1账本74/80，P1e上限6，实际6，总80/80。
+
+结果：两臂0/1参考命中、修复侧告警0、4/4完成；baseline 2次调用、5候选，hypothesis_audit 4次调用、6候选、2个audit窗口、audit_added=0。关键前提没有复现：这次初始假设只输出SegmentTimeline越界、ISM Bitrate/Duration、segment_duration=0，trace中没有`representation_id`/`format_id`/duplicate概念；审计没有对象可晋升，原样返回初始findings。因此P1e对审计机制是“不确定”，不是“审计无效”的强结论；单次采样没有复现必要前提。
+
+决定：P1e不采用；P1账本用满80/80，P1系列（prompt、工具重试、tool-first、外部读取、假设审计）结束，均无候选召回收益。下一步需要新账本和新假设：模型能力、diff/PR+测试引导、或单候选/强制选择；不在P1内继续采样。资料见[demo/discovery-hypothesis-20261021](demo/discovery-hypothesis-20261021/README.md)，离线校验`python demo/discovery-hypothesis-20261021/verify-p1e.py`；当前128项测试通过，Ruff F/E9通过。

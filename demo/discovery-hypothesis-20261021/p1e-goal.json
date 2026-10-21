@@ -1,0 +1,38 @@
+{
+  "title": "P1e smoke: hypothesis-to-candidate completeness audit",
+  "date": "2026-10-21",
+  "kind": "P1e single-variable hypothesis audit; discovery only",
+  "hypothesis": "P1's youtube-dl-2 trace formed the reference hypothesis (duplicate representation_id overwrites fragments) with a concrete counterexample but did not emit it as a finding. A second completeness audit should promote that omitted hypothesis without adding vague candidates.",
+  "selection": [
+    "youtube-dl-2"
+  ],
+  "selection_reason": "The P1 trace contains the reference-adjacent hypothesis at the merge by representation_id; the case has a known DASH format_id uniqueness reference. Both sides, one r0 window per side.",
+  "arms": {
+    "baseline": {
+      "context_strategy": "legacy",
+      "thinking_mode": "disabled",
+      "review_strategy": "baseline"
+    },
+    "hypothesis_audit": {
+      "context_strategy": "legacy",
+      "thinking_mode": "disabled",
+      "review_strategy": "hypothesis_audit"
+    }
+  },
+  "variable": "review_strategy",
+  "repetitions": 1,
+  "window_call_limit": 3,
+  "budget": {
+    "phase_limit": 6,
+    "remaining_after_p1d": 6,
+    "per_window": 3
+  },
+  "metrics": [
+    "initial vs audit findings and added candidates",
+    "reference candidate hit on youtube-dl-2",
+    "fixed-side same-issue alarms",
+    "completed windows, calls and tokens"
+  ],
+  "adoption": "The audit adds a concrete DASH format_id/representation_id candidate on the buggy side, with no fixed-side alarm; otherwise reject. One-case/two-window smoke is exploratory.",
+  "scope": "Discovery only; no evidence engine, official tests/labels/opposite version in the Agent input. One repetition; all requests, failures and audit additions retained."
+}

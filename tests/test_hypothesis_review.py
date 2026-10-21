@@ -187,3 +187,45 @@ def test_tool_first_external_without_an_external_span_returns_no_findings():
     first = next(t for t in agents.trace if t["stage"] == "tool_first_external")
     assert first["status"] == "no_external_span"
     assert not llm.calls
+
+
+def audit_answer(extra=True):
+    findings = [candidate("a.py", 2)]
+    if extra:
+        findings.append(
+            {
+                **candidate("a.py", 2),
+                "title": "审计补充：越界路径",
+                "category": "security",
+            }
+        )
+    return json.dumps(
+        {
+            "checked": ["审计第一轮假设"],
+            "hypotheses": [],
+            "findings": findings,
+        }
+    )
+
+
+def test_hypothesis_audit_adds_an_omitted_candidate():
+    index = CodeIndex({"a.py": SOURCE})
+    llm = FakeLLM([hypothesis_answer(), audit_answer(True)])
+    agents = ReviewAgents(index, llm, review_strategy="hypothesis_audit")
+    findings = agents.review(chunk(), [], evidence=True)
+    assert len(findings) == 2
+    trace = next(t for t in agents.trace if t["stage"] == "hypothesis_audit")
+    assert len(trace["added"]) == 1
+    assert trace["added"][0]["title"] == "审计补充：越界路径"
+    assert llm.calls[0]["stage"] == "review_hypothesis"
+    assert llm.calls[1]["stage"] == "review_hypothesis_audit"
+
+
+def test_hypothesis_audit_keeps_findings_when_nothing_is_missing():
+    index = CodeIndex({"a.py": SOURCE})
+    llm = FakeLLM([hypothesis_answer(), audit_answer(False)])
+    agents = ReviewAgents(index, llm, review_strategy="hypothesis_audit")
+    findings = agents.review(chunk(), [], evidence=True)
+    assert len(findings) == 1
+    trace = next(t for t in agents.trace if t["stage"] == "hypothesis_audit")
+    assert trace["added"] == []

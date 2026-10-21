@@ -29,7 +29,8 @@ def main():
     assert set(arms) == {"baseline", "tool_first_external"}
     assert setup["windows"] == 2 and len(setup["window_records"]) == 2
     assert budget["phases"]["p1d-tool-external"] == 4
-    assert budget["reserved"] == 74 and budget["limit"] == 80
+    assert budget["phases"]["p1d-tool-external"] == 4 and budget["limit"] == 80
+    assert budget["reserved"] >= 74
     assert results["status"] == "sampled" and len(results["records"]) == 4
     assert len(manifest["input_windows"]) == 2
     assert manifest["comparison_variable"] == "review_strategy"

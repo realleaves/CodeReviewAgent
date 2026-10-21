@@ -55,9 +55,10 @@ def main() -> int:
             "hypothesis_tools",
             "tool_first",
             "tool_first_external",
+            "hypothesis_audit",
         ],
         default="baseline",
-        help="evidence发现策略；hypothesis/hypothesis_tools/tool_first/tool_first_external为实验，尚无检出率提升结论",
+        help="evidence发现策略；hypothesis/hypothesis_tools/tool_first/tool_first_external/hypothesis_audit为实验，尚无检出率提升结论",
     )
     review.add_argument(
         "--enforce-admission",

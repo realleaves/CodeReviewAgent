@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 78,
+    "phase": "p1e-hypothesis-audit",
+    "label": {
+      "case": "youtube-dl-2",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "hypothesis_audit",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2065
+    },
+    "reserved_at": "2026-10-21T13:59:13.714698+00:00"
+  },
+  "raw_response": "{\"checked\":[\"读取主片段 youtube_dl/extractor/common.py:1962-2065，确认 DASH SegmentTimeline/segment_urls 分支与 ISM 解析入口\",\"读取上下文 _download_webpage_handle(531-542)，确认 fatal=False 时返回 False 而非元组\",\"读取上下文 location_key(1909-1910)，确认按 http(s) 前缀区分 url/path 键\",\"读取上下文 report_warning(696-699)，确认告警不抛异常\",\"未取得 _parse_ism_formats 后续行(2065 之后)与 _extract_ism_formats 调用方，ISM 部分结论受限\"],\"hypotheses\":[{\"claim\":\"SegmentTimeline 分支中 segment_urls 数量少于 sum(r+1) 时，segment_index 越界访问会抛 IndexError\",\"expected_behavior\":\"对不完整清单应跳过或告警，返回已解析片段\",\"counterexample\":\"representation_ms_info={'segment_urls':['a'],'s':[{'d':1,'r':1}],'timescale':1}：循环两次，第二次 segment_urls[1] 抛 IndexError\",\"contract\":\"segment_urls 长度应覆盖 SegmentTimeline 展开后的片段总数；否则不应崩溃\"},{\"claim\":\"'s' 存在但缺少 'd' 时 float_or_none(None) 返回 None，duration 为 None 仍被写入片段\",\"expected_behavior\":\"缺失时长应省略 duration 或按 timescale 推断\",\"counterexample\":\"s=[{'r':0}] 无 'd'：duration=None，fragment['duration']=None\",\"contract\":\"片段 duration 应为数值或不存在，不应为 None\"},{\"claim\":\"'segment_urls' 与 's' 同时存在但 timescale 缺失时 KeyError\",\"expected_behavior\":\"timescale 缺省应回退默认值\",\"counterexample\":\"representation_ms_info={'segment_urls':['a'],'s':[{'d':1}]} 无 'timescale'：第1969行 KeyError\",\"contract\":\"timescale 缺失时应有默认值或跳过该分支\"},{\"claim\":\"ISM 清单 IsLive 属性大小写敏感，'true' 小写不会被识别为直播\",\"expected_behavior\":\"按协议大小写不敏感比较 IsLive\",\"counterexample\":\"ism_doc.get('IsLive')=='true'：条件为假，继续解析直播清单\",\"contract\":\"IsLive 为布尔语义属性，应大小写不敏感\"},{\"claim\":\"ISM Duration 缺失时 attrib['Duration'] 抛 KeyError\",\"expected_behavior\":\"缺失 Duration 应告警或返回空\",\"counterexample\":\"ism_doc 无 Duration 属性：第2045行 KeyError\",\"contract\":\"Duration 为必需属性，缺失应走错误路径而非未捕获异常\"}],\"findings\":[{\"path\":\"youtube_dl/extractor/common.py\",\"line\":1973,\"end_line\":1978,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"SegmentTimeline 展开片段数超过 segment_urls 长度时 IndexError\",\"explanation\":\"第1970-1978行按 s 的 r 重复次数展开片段，直接用 segment_index 索引 segment_urls，未校验长度。清单中 segment_urls 少于 sum(r+1) 时（不完整或恶意清单）会抛未捕获 IndexError，导致整个 DASH 解析失败而非跳过该 representation。\",\"trigger\":\"representation_ms_info={'segment_urls':['seg0'],'s':[{'d':1000,'r':1}],'timescale':1000}，循环第二次访问 segment_urls[1]\",\"evidence\":\"1972: for r in range(s.get('r', 0) + 1): 1973: segment_uri = representation_ms_info['segment_urls'][segment_index]；无长度检查\",\"suggestion\":\"在索引前检查 segment_index < len(segment_urls)，越界时告警并 break/continue，或预先校验总片段数\"},{\"path\":\"youtube_dl/extractor/common.py\",\"line\":1969,\"end_line\":1971,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"SegmentTimeline 分支缺少 timescale 时 KeyError\",\"explanation\":\"第1969行直接读取 representation_ms_info['timescale']，而第1985-1987行的无时间线分支对 segment_duration 做了存在性判断。若清单的 SegmentTemplate 未提供 timescale，此分支抛 KeyError 而非回退默认值。\",\"trigger\":\"representation_ms_info={'segment_urls':['a'],'s':[{'d':1}]}（无 'timescale' 键）\",\"evidence\":\"1969: timescale = representation_ms_info['timescale']；对比1985-1987行使用条件表达式处理缺失\",\"suggestion\":\"改为 representation_ms_info.get('timescale') 并在缺失时使用默认 timescale 或跳过该分支\"},{\"path\":\"youtube_dl/extractor/common.py\",\"line\":2042,\"end_line\":2045,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"ISM 清单 IsLive 大小写敏感且 Duration 缺失抛 KeyError\",\"explanation\":\"第2042行用 == 'TRUE' 精确比较 IsLive，小写 'true' 的直播清单不会被过滤而继续解析；第2045行直接 attrib['Duration']，缺失时抛 KeyError 而非走错误路径。两者都使异常清单导致未捕获异常或错误解析。\",\"trigger\":\"ism_doc 属性 IsLive='true' 或缺少 Duration 属性\",\"evidence\":\"2042: if ism_doc.get('IsLive') == 'TRUE' or ...；2045: duration = int(ism_doc.attrib['Duration'])\",\"suggestion\":\"IsLive 比较前统一大小写；Duration 用 attrib.get 并缺失时告警返回空列表\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review_hypothesis",
+    "status": "completed",
+    "input_chars": 11612,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1266,
+      "prompt_tokens": 3312,
+      "total_tokens": 4578,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1024
+      },
+      "prompt_cache_hit_tokens": 1024,
+      "prompt_cache_miss_tokens": 2288
+    },
+    "elapsed_seconds": 6.805
+  }
+}

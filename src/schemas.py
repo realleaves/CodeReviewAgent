@@ -88,6 +88,7 @@ class ReviewOptions(BaseModel):
         "hypothesis_tools",
         "tool_first",
         "tool_first_external",
+        "hypothesis_audit",
     ] = "baseline"
     # Experiment switch: the prompt stays the same; only the structured
     # admission checks and audit re-check are disabled when False.

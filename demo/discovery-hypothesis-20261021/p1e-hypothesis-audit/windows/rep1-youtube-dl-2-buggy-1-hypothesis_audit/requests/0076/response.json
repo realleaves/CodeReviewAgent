@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 76,
+    "phase": "p1e-hypothesis-audit",
+    "label": {
+      "case": "youtube-dl-2",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "hypothesis_audit",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2067
+    },
+    "reserved_at": "2026-10-21T13:59:02.543391+00:00"
+  },
+  "raw_response": "{\"checked\":[\"读取主片段 youtube_dl/extractor/common.py:1962-2067，确认 DASH 分片组装与 ISM 解析逻辑\",\"读取上下文 _download_webpage_handle(531-542)：fatal=False 时返回 False，_extract_ism_formats 已处理\",\"读取 location_key(1909-1910)：按 ^https?:// 决定 'url' 或 'path' 键\",\"读取 report_warning(696-699)：仅格式化输出，无副作用契约\",\"检查 segment_urls 与 's' 分支中 segment_index 越界可能性\",\"检查 ISM 分支 fourcc 过滤与 Duration/Bitrate 强制属性访问\"],\"hypotheses\":[{\"claim\":\"当 SegmentTimeline 的 s 条目 r 展开总数超过 segment_urls 长度时，segment_index 会越界访问列表\",\"expected_behavior\":\"应跳过缺失分片或报错，而不是抛出 IndexError 中断整个格式解析\",\"counterexample\":\"representation_ms_info['s']=[{'d':1000,'r':2}] 但 segment_urls 只有 2 个元素：第三次循环访问 segment_urls[2] 抛 IndexError\",\"contract\":\"segment_urls 数量应覆盖所有 s 条目展开后的分片数；代码未校验\"},{\"claim\":\"ISM 中 QualityLevel 缺少 Bitrate 属性时 int(track.attrib['Bitrate']) 抛 KeyError\",\"expected_behavior\":\"对缺失可选属性应使用 int_or_none 并跳过或告警\",\"counterexample\":\"<QualityLevel FourCC=\\\"H264\\\"/> 无 Bitrate 属性，访问 attrib['Bitrate'] 抛 KeyError\",\"contract\":\"MS-SSTR 中 Bitrate 为必需属性，但代码对 Duration 用 attrib 直接访问同样假设必需\"},{\"claim\":\"ISM 中 StreamIndex 缺少 Url 属性时 stream.attrib['Url'] 抛 KeyError\",\"expected_behavior\":\"应跳过该流或告警\",\"counterexample\":\"<StreamIndex Type=\\\"video\\\"> 无 Url 属性，访问 attrib['Url'] 抛 KeyError\",\"contract\":\"Url 在 MS-SSTR 中为必需属性，但代码未防御\"},{\"claim\":\"segment_duration 为 0 时因 if segment_duration 判断为假，分片不设置 duration\",\"expected_behavior\":\"duration 为 0 是合法值，应写入 fragment['duration']=0\",\"counterexample\":\"segment_duration=0.0，fragment 不含 'duration' 键，下游可能误判为未知时长\",\"contract\":\"float_or_none 返回 0.0 表示有效零时长，if 判断将其当作缺失\"}],\"findings\":[{\"path\":\"youtube_dl/extractor/common.py\",\"line\":1972,\"end_line\":1978,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"SegmentTimeline 展开数超过 segment_urls 长度时 IndexError\",\"explanation\":\"在 'segment_urls' 且 's' 分支中，代码按每个 s 条目的 r+1 次循环递增 segment_index 并直接索引 representation_ms_info['segment_urls'][segment_index]，未校验 segment_index 是否小于列表长度。若清单中 SegmentTimeline 声明的重复次数与 SegmentURL 数量不一致（恶意或损坏清单），会抛出 IndexError 使整个 _parse_mpd_formats 失败，而非跳过该 representation。\",\"trigger\":\"构造 MPD：representation_ms_info['s']=[{'d':1000,'r':2}]（展开 3 个分片），但 segment_urls 仅含 2 个 URL。\",\"evidence\":\"1972-1978 行：for r in range(s.get('r', 0) + 1): segment_uri = representation_ms_info['segment_urls'][segment_index]；无长度检查。\",\"suggestion\":\"在索引前检查 segment_index < len(segment_urls)，越界时 break 或 report_warning 并跳过该 representation。\"},{\"path\":\"youtube_dl/extractor/common.py\",\"line\":2064,\"end_line\":2064,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"ISM QualityLevel 缺少 Bitrate 属性时 KeyError\",\"explanation\":\"_parse_ism_formats 对每个受支持 fourcc 的 QualityLevel 直接访问 track.attrib['Bitrate'] 并 int()。若清单中该属性缺失（非规范但可能出现的损坏清单），会抛 KeyError 中断整个 ISM 解析，而不是跳过该轨道。\",\"trigger\":\"ISM 文档含 <QualityLevel FourCC=\\\"H264\\\"/> 且无 Bitrate 属性。\",\"evidence\":\"2064 行：tbr = int(track.attrib['Bitrate']) // 1000，无 get 或 int_or_none 保护。\",\"suggestion\":\"改用 int_or_none(track.get('Bitrate'))，为 None 时 report_warning 并 continue。\"},{\"path\":\"youtube_dl/extractor/common.py\",\"line\":1992,\"end_line\":1993,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"segment_duration 为 0 时分片不写入 duration\",\"explanation\":\"无 SegmentTimeline 分支用 if segment_duration: 判断是否写入 fragment['duration']。float_or_none 返回 0.0 是合法零时长，但被当作缺失，导致分片缺少 duration 键，下游可能误判为未知时长。\",\"trigger\":\"representation_ms_info['segment_duration']='0'，timescale 非零，float_or_none 返回 0.0。\",\"evidence\":\"1985-1993 行：segment_duration = float_or_none(...)；if segment_duration: fragment['duration'] = segment_duration。\",\"suggestion\":\"改为 if segment_duration is not None: 以区分缺失与零值。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review_hypothesis",
+    "status": "completed",
+    "input_chars": 11531,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1268,
+      "prompt_tokens": 3264,
+      "total_tokens": 4532,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 640
+      },
+      "prompt_cache_hit_tokens": 640,
+      "prompt_cache_miss_tokens": 2624
+    },
+    "elapsed_seconds": 6.131
+  }
+}

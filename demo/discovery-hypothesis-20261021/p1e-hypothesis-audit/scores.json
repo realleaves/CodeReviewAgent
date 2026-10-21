@@ -1,0 +1,48 @@
+{
+  "metrics": [
+    {
+      "arm": "baseline",
+      "planned_cases": 1,
+      "eligible_pairs": 1,
+      "candidate_hits": 0,
+      "fixed_side_alarms": 0,
+      "candidate_findings": 5,
+      "completed_windows": 2,
+      "calls": 2,
+      "usage": {
+        "prompt_tokens": 5844,
+        "completion_tokens": 1355
+      },
+      "tool_reads": 0,
+      "audit_windows": 0,
+      "audit_added": 0,
+      "target_concept_mentioned": false
+    },
+    {
+      "arm": "hypothesis_audit",
+      "planned_cases": 1,
+      "eligible_pairs": 1,
+      "candidate_hits": 0,
+      "fixed_side_alarms": 0,
+      "candidate_findings": 6,
+      "completed_windows": 2,
+      "calls": 4,
+      "usage": {
+        "prompt_tokens": 15612,
+        "completion_tokens": 5068
+      },
+      "tool_reads": 0,
+      "audit_windows": 2,
+      "audit_added": 0,
+      "target_concept_mentioned": false
+    }
+  ],
+  "premise_result": "P1's duplicate representation_id hypothesis was not reproduced in this sample: no target concept appeared in either arm's trace, so the audit had no omitted reference hypothesis to promote.",
+  "mechanical_result": "The audit ran on both windows and returned the initial findings unchanged; audit_added=0 on both sides.",
+  "detection_result": "Neither arm matched the DASH format_id uniqueness/merge reference; findings remained SegmentTimeline/ISM/segment_duration issues.",
+  "adoption": "Not met and inconclusive for the audit mechanism: the smoke did not reproduce the necessary premise (the omitted reference hypothesis).",
+  "scope": "1 development case, one r0 window per side, two windows per arm, one repetition; P1 ledger exhausted at 80/80.",
+  "adjudicators": [
+    "DeepSeek frozen-reference review; human review pending"
+  ]
+}

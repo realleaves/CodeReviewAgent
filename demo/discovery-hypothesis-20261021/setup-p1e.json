@@ -1,0 +1,119 @@
+{
+  "windows": 2,
+  "selection": [
+    "youtube-dl-2"
+  ],
+  "window_records": [
+    {
+      "case": "youtube-dl-2",
+      "side": "buggy",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2067,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 1748,
+      "callgraph_supplemental_chars": 8838,
+      "relations": {
+        "callee": 3,
+        "caller": 1,
+        "enclosing_definition": 1,
+        "following_code": 1,
+        "import_binding": 5,
+        "preceding_code": 1,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "_download_webpage_handle",
+        "report_warning",
+        "location_key",
+        "get"
+      ],
+      "retrieval_seconds": 0.8847,
+      "folder": "youtube-dl-2-buggy-1",
+      "payload_sha256": {
+        "legacy": "59f013d09e9ff355ede4f37bb91968fb33da1a5e2073d98011690347243bb2f4",
+        "callgraph": "40f3eb771388f2a05f975cc41bf18ed0d4925229bd679af1bab3fa134d47e0f7"
+      }
+    },
+    {
+      "case": "youtube-dl-2",
+      "side": "fixed",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2065,
+      "original_prompt_and_legacy_payload_preserved": true,
+      "legacy_supplemental_chars": 1748,
+      "callgraph_supplemental_chars": 8838,
+      "relations": {
+        "callee": 3,
+        "caller": 1,
+        "enclosing_definition": 1,
+        "following_code": 1,
+        "import_binding": 5,
+        "preceding_code": 1,
+        "unresolved_calls": 1
+      },
+      "legacy_context_symbols": [
+        "_download_webpage_handle",
+        "report_warning",
+        "location_key",
+        "get"
+      ],
+      "retrieval_seconds": 1.146,
+      "folder": "youtube-dl-2-fixed-1",
+      "payload_sha256": {
+        "legacy": "c0e2b49c44b6b2e86c4fa4ad431dfd5fbc2ae225daade1caa0343be6da55b550",
+        "callgraph": "54bd547d09b321d0c4a873e7fa36d9f6fcc199406034666ae22c1a11ec29bfab"
+      }
+    }
+  ],
+  "snapshots": {
+    "youtube-dl-2/buggy": {
+      "files": 801,
+      "snapshot_sha256": "de101f03962a0ec970eeecb6df177e6f3570d405f0d18f974ec595b5ff9bde2f"
+    },
+    "youtube-dl-2/fixed": {
+      "files": 801,
+      "snapshot_sha256": "6d8afdad248fb88963e4aa4bd2df4727379e39d788c26caef25356d6968b0b1d"
+    }
+  },
+  "budget_before": {
+    "limit": 80,
+    "reserved": 74,
+    "phases": {
+      "p1-hypothesis": 39,
+      "p1b-tools": 19,
+      "p1c-tool-first": 12,
+      "p1d-tool-external": 4
+    },
+    "started_at": "2026-10-21T13:33:39.838850+00:00"
+  },
+  "source_sha256": {
+    "src/__init__.py": "9d9e33ea9b0988a621a891305c15f6822aeb887e062c209110de3a43b263ddb4",
+    "src/agents.py": "34f2251b61c0e1f10110991066c44f3870d8aeed59713e7911efa4085f3dd7a6",
+    "src/code_index.py": "39330b46f887021b2aeabf0c292cf5fe5a5e3b5cfde3d701be66beadcd0c208d",
+    "src/deduplication.py": "3071efab768fe7cc9e32073b04ad906af5cc66ffd8d145f61bcb3cfecd48788c",
+    "src/pipeline.py": "8ce65a6ce45c488a2738980b6008a3a7d78ad9d3d3ecabf3cf8c29293c95ab29",
+    "src/report.py": "a05cb3f5e455b407c1ee9acc421603e40b9e1261847aabf9f1a696799fdd6f46",
+    "src/repository.py": "360f9e5f492f98780632c68197a8c72abf0b36d876b6b2c2368d8d99a0fbda4c",
+    "src/reproduction.py": "7acf8c5374813ecc540547967aa1ff2897bc7fee75eb2ed9602552c2ca07348a",
+    "src/reproduction_runner.py": "a64da9832eda9154d518ea49636ca927750d6264ddba2a0ccad135e629b7798a",
+    "src/review_context.py": "6c49b9f6b3daef53d926f5b609563696919ff506984dfc592f0a2ea5581b70dc",
+    "src/schemas.py": "db57b42f9c3a29eb8f52fb2302ac788cc33532d2ec97d89d2f4591aa65d9ae16",
+    "src/static_analysis.py": "c094e31f91c91916c8db62e5350617e8b3a77a2f930b6063c9d4eec33cf60d2d",
+    "main.py": "3ef92bc6b75dfea441d1697e58a977050a9690012d4a9fbfeb333c330a111b1b",
+    "evaluation/discovery_experiment.py": "1b782c120b679c42c445cd407027878f5bf69c27dddc8b66f1836fda5af3b07e",
+    "evaluation/discovery_hypothesis.py": "faceb925abcb49e274f27987c48f05fba4bfffa50346c735c488e1d453fa4af4",
+    "evaluation/discovery_hypothesis_tools.py": "148500234d97f8f84193273789f3fecf697ff977064672ad2961ff2ef7b99f72",
+    "evaluation/discovery_tool_first.py": "4f7a096a70c86dff5a465b2a1b55fb16aea40d3873468adcd882d31d58a7cb75",
+    "evaluation/discovery_tool_external.py": "053d208e2dff0525f47d0e6bffe427b593fa772a7b4e5b2af6822e2e2fd3751f",
+    "evaluation/discovery_hypothesis_audit.py": "c1a985388a7e1b029ce00692b21dc457cceec04c349ecf7c053239682a42bfe9"
+  },
+  "model": {
+    "model": "deepseek-flash",
+    "thinking_mode": "disabled",
+    "temperature": 0.1,
+    "max_output_tokens": 6000,
+    "provider_is_deepseek": true
+  }
+}

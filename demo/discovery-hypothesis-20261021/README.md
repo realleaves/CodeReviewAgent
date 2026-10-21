@@ -134,6 +134,31 @@ P1c 证明工具会被执行，但模型仍选主片段附近的局部读码。P
 
 P1d 资料：[结果](p1d-tool-external/results.json)、[判读](p1d-tool-external/adjudications.json)、[评分](p1d-tool-external/scores.json)、[离线校验](verify-p1d.py)。
 
+## P1e smoke：假设→候选审计（已运行，前提未复现，结论不确定）
+
+离线轨迹分析发现：P1 的 youtube-dl-2 hypothesis 已经写出参考假设——`existing_format.update(f)` 在重复 `representation_id` 时覆盖 fragments，并给出具体反例——但最终只输出 SegmentTimeline/ISM 两条 finding。P1e 因此只加一次“假设→候选完整性审计”：
+
+1. 第一轮仍用 P1 的假设提示；
+2. 第二轮把 `checked`/`hypotheses`/`findings` 交给审计提示，要求把“已有具体反例但未列入 findings”的假设补入，不重复、不添加空泛候选。
+
+样本：youtube-dl-2 两侧各 1 个 r0 窗口，每臂 2 窗口，共 4 次运行。P1 账本 74/80，P1e 上限 6，实际 6，总 **80/80**。
+
+| 臂 | 有效对 | 候选命中 | 修复侧告警 | 完成 | 调用 | audit 窗口 | audit 新增 | target concept | 候选数 |
+|---|---:|---:|---:|---:|---:|---:|---:|---|---:|
+| baseline | 1/1 | 0/1 | 0 | 2/2 | 2 | 0 | 0 | 未出现 | 5 |
+| hypothesis_audit | 1/1 | 0/1 | 0 | 2/2 | 4 | 2 | 0 | 未出现 | 6 |
+
+关键观察：
+
+- **前提没有复现**：这次初始假设只输出 SegmentTimeline 越界、ISM Bitrate/Duration、segment_duration=0；没有再次形成 P1 里的 `representation_id`/`format_id` 覆盖假设。审计没有对象可晋升，`audit_added=0`。
+- 审计原样返回初始 findings，没有凭空添加候选；这是安全属性，但不能证明审计在“有遗漏假设”时有效。
+- 两臂仍 0/1 参考命中，修复侧告警 0；调用 2→4，completion tokens 1,355→5,068。
+- 因此 P1e 对审计机制是**不确定**，不是“审计无效”的强结论；单次采样没有复现必要前提。
+
+**决定：P1e 不采用，P1 账本用满 80/80，P1 系列结束。** P1/P1b/P1c/P1d/P1e 都没有候选召回收益；下一步需要新账本和新假设（模型能力、diff/PR + 测试引导，或单候选/强制选择），不能在 P1 里继续采样。
+
+P1e 资料：[结果](p1e-hypothesis-audit/results.json)、[判读](p1e-hypothesis-audit/adjudications.json)、[评分](p1e-hypothesis-audit/scores.json)、[离线校验](verify-p1e.py)。
+
 ## 指标
 
 - buggy 侧参考候选识别率（主指标）；
