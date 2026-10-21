@@ -1,0 +1,8 @@
+{
+  "limit": 24,
+  "reserved": 5,
+  "phases": {
+    "admission-controls": 5
+  },
+  "started_at": "2026-10-21T12:58:27.004741+00:00"
+}

@@ -132,3 +132,11 @@ legacy/callgraph与两轮单变量改进均结束，另完成预选4新样本、
 额外Host大小写问题由评测者3容器对照支持，未计入参考命中或Agent生成证据；原1/26成绩不变。新4样本官方双版本均复现，8个容器；另保留2个r0额外候选反证。新样本42窗口后退出，只续跑2个未启动窗口，已有失败不重试。
 
 当前项目107项测试通过，Ruff F/E9通过。完整逐组判读（待人工复查）、冻结配置、原始请求/错误、运行日志与标准库独立校验见[最终资料](demo/discovery-context-20261015/README.md)。预期准入生产改动与发现实验成绩分开陈述。没有GitHub推送。
+
+## 准入固定案例验证（2026-10-21）
+
+用4个已见固定候选做真实模型对照：PySnooper-3文档正例、tornado-1 fixed、youtube-dl-4 fixed、youtube-dl-8 buggy。模型重新生成计划，两次隔离Docker后先过确定性`requirement_gate`，通过后再做结构化审计。最终干净运行5次provider调用、4次容器执行：PySnooper-3两次NameError触达目标，requirement与audit 6项检查全部通过，保持`reproduced`；tornado-1 fixed和youtube-dl-4 fixed由模型直接返回`applicable=false`，状态`unsupported`，未执行容器；youtube-dl-8 buggy实际两次AttributeError，但计划要求SyntaxError，确定性门控拒绝为`contract_unconfirmed`，未花审计调用。
+
+本轮同时发现当前沙箱的Docker daemon看不到`/tmp` bind mount，前两次诊断运行因此出现`environment_failed`；把`TMPDIR`指到工作区内后挂载正常。三轮诊断尝试合计12次请求，均有记录；最终干净运行5次。该验证只证明固定正反例行为，不是新样本检出率或全局精确率；历史旧判定（4个都曾reproduced）只作参考，不是重新采样的成对基线。youtube-dl-8的底层AttributeError看起来真实，但SyntaxError预期无文档/测试依据，降级是保守取舍，可能误杀真实问题。
+
+离线校验：`python demo/admission-validation-20261021/verify.py`，核对4个案例、5次请求/响应配对、预算、正负例状态、审计字段、附件哈希与源码冻结哈希，不调用模型或Docker。资料见[固定案例验证](demo/admission-validation-20261021/README.md)。

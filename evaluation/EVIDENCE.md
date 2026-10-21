@@ -78,3 +78,9 @@ Docker 无外网、只读根文件系统和源代码、普通用户、移除 cap
 用2026-10-15复测的13条历史自动接受记录做离线固定对照：只有PySnooper-3（文档明确承诺output_path输出）进入审计，12条被降级为待确认，其中1条仅错误消息文案、7条用语言规则要求实际未发生的另一种异常、4条用语言规则证明返回值/状态/输出。这里不是把12条判成误报；原测试、日志和执行记录保留，只是不进入正式`reproduced`。0次模型调用、0次Docker执行，未改历史1/26得分、评分器或参考rubric。
 
 `replay_evidence`仍只校验旧证据结构和源码哈希，不会因旧计划缺少新字段拒绝复跑。新增测试覆盖结构化字段、语言规则正反例、审计字段不一致、旧格式接受和13条固定对照。当前107项项目测试通过，Ruff F/E9与格式检查通过。限制：该结果只证明准入策略在固定历史记录上的行为，不能证明模型在新提示下稳定填写字段，也不能证明新样本检出或误接受改善；仍需未参与修改的新样本成对运行。详见[预期准入对照](../demo/expectation-admission-20261018/README.md)。
+
+## 2026-10-21 准入固定案例模型验证
+
+用4个已见固定候选做真实模型验证：PySnooper-3文档正例、tornado-1 fixed、youtube-dl-4 fixed、youtube-dl-8 buggy。模型重新生成计划，两次隔离Docker后先过`requirement_gate`，通过后再做结构化审计。干净运行5次provider调用、4次容器执行：PySnooper-3两次NameError触达目标，准入与审计6项检查全部通过，保持`reproduced`；tornado-1 fixed和youtube-dl-4 fixed由模型直接返回`applicable=false`，状态`unsupported`，未执行容器；youtube-dl-8 buggy实际两次AttributeError，但计划要求SyntaxError，确定性门控拒绝为`contract_unconfirmed`，未花审计调用。
+
+这证明固定正反例上的提示与门控行为，不是新样本检出率或全局精确率；历史旧判定只作参考，不是重新采样的成对基线。youtube-dl-8的AttributeError看起来真实，但SyntaxError预期无文档/测试依据，降级是保守取舍，可能误杀真实问题。当前沙箱Docker看不到`/tmp` bind mount，需把`TMPDIR`指到工作区；三轮诊断合计12次请求均有记录，最终干净运行5次。离线校验：`python demo/admission-validation-20261021/verify.py`。详见[固定案例验证](../demo/admission-validation-20261021/README.md)。

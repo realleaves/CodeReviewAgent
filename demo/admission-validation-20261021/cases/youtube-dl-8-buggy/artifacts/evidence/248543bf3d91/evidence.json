@@ -1,0 +1,536 @@
+{
+  "finding": {
+    "path": "youtube_dl/YoutubeDL.py",
+    "line": 955,
+    "end_line": 957,
+    "severity": "medium",
+    "category": "bug",
+    "title": "逗号分隔时 current_selector 为 None 会被追加进 selectors",
+    "explanation": "在 _parse_format_selection 中，遇到 ',' 时无条件执行 selectors.append(current_selector)。若输入以逗号开头或出现连续逗号（如 '-f ,best' 或 '-f best,,worst'），此时 current_selector 仍为 None，None 会被追加到 selectors 列表。后续 _build_selector_function 对 selectors 列表逐项调用 _build_selector_function(s)，而该函数对 None 会走到 isinstance(selector, list) 为 False、selector.type 访问 None.type，抛出 AttributeError，而非给出可读的语法错误。",
+    "trigger": "format_spec 为 ',best' 或 'best,,worst' 等含前导/连续逗号的字符串，调用 build_format_selector 后执行返回的 selector_function。",
+    "evidence": "第 955-957 行：elif string == ',': selectors.append(current_selector); current_selector = None。此处未校验 current_selector 是否为 None。第 985-987 行 _build_selector_function 对列表元素递归，None 元素会在 selector.type 处崩溃。",
+    "suggestion": "在追加前判断 current_selector 是否为 None，若为 None 则 raise syntax_error('Unexpected \",\"', start)，避免把 None 传入后续构建逻辑。",
+    "id": "248543bf3d91",
+    "source": "llm",
+    "rule": "",
+    "snippet": "953:                         tokens.restore_last_token()\n954:                         break\n955:                     elif string == ',':\n956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector",
+    "status": "pending_evidence",
+    "verification": "运行证据显示测试确实调用了原目标代码 build_format_selector，输入 ',best' 与 'best,,worst' 触发 _parse_format_selection 第955-957行无条件 append(None)，随后 _build_selector_function 第994行访问 None.type 抛出 AttributeError，与候选描述一致。期望行为有语言规则支持：解析阶段遇到非法逗号应抛出 SyntaxError（代码中已有 syntax_error 机制），而非把 None 传入构建阶段导致 AttributeError。测试断言 SyntaxError 合理，未假设未约定语义，也未复制实现。证据充分，接受。",
+    "validation": "预期依据准入未通过：语言规则只能解释实际异常(AttributeError)，不能据此要求另一种异常(SyntaxError)；需要文档或既有测试。",
+    "related_diagnostics": []
+  },
+  "reproduction": {
+    "status": "contract_unconfirmed",
+    "reason": "预期依据准入未通过：语言规则只能解释实际异常(AttributeError)，不能据此要求另一种异常(SyntaxError)；需要文档或既有测试。",
+    "attempts": [
+      {
+        "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "image_reference": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "exit_code": 0,
+        "stop_reason": null,
+        "seconds": 2.381,
+        "execution": {
+          "python": "3.7.17",
+          "tests_run": 1,
+          "failures": 0,
+          "errors": 1,
+          "skipped": 0,
+          "load_error": null,
+          "observations": [
+            {
+              "test": "generated_reproduction.ReproductionTest.test_reproduction",
+              "outcome": "error",
+              "exception_type": "AttributeError",
+              "message": "'NoneType' object has no attribute 'type'",
+              "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 59, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 628, in run\n    testMethod()\n  File \"/harness/test_reproduction.py\", line 10, in test_reproduction\n    ydl.build_format_selector(spec)\n  File \"/work/youtube_dl/YoutubeDL.py\", line 1129, in build_format_selector\n    return _build_selector_function(parsed_selector)\n  File \"/work/youtube_dl/YoutubeDL.py\", line 987, in _build_selector_function\n    fs = [_build_selector_function(s) for s in selector]\n  File \"/work/youtube_dl/YoutubeDL.py\", line 987, in <listcomp>\n    fs = [_build_selector_function(s) for s in selector]\n  File \"/work/youtube_dl/YoutubeDL.py\", line 994, in _build_selector_function\n    elif selector.type == GROUP:\nAttributeError: 'NoneType' object has no attribute 'type'\n",
+              "traceback_frames": [
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 59,
+                  "function": "testPartExecutor"
+                },
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 628,
+                  "function": "run"
+                },
+                {
+                  "path": "/harness/test_reproduction.py",
+                  "line": 10,
+                  "function": "test_reproduction"
+                },
+                {
+                  "path": "/work/youtube_dl/YoutubeDL.py",
+                  "line": 1129,
+                  "function": "build_format_selector"
+                },
+                {
+                  "path": "/work/youtube_dl/YoutubeDL.py",
+                  "line": 987,
+                  "function": "_build_selector_function"
+                },
+                {
+                  "path": "/work/youtube_dl/YoutubeDL.py",
+                  "line": 987,
+                  "function": "<listcomp>"
+                },
+                {
+                  "path": "/work/youtube_dl/YoutubeDL.py",
+                  "line": 994,
+                  "function": "_build_selector_function"
+                }
+              ]
+            }
+          ],
+          "target_lines": [
+            278,
+            280,
+            281,
+            282,
+            283,
+            284,
+            285,
+            286,
+            287,
+            288,
+            289,
+            291,
+            318,
+            319,
+            328,
+            333,
+            335,
+            336,
+            337,
+            339,
+            346,
+            367,
+            368,
+            369,
+            387,
+            388,
+            914,
+            920,
+            921,
+            922,
+            923,
+            924,
+            926,
+            934,
+            935,
+            936,
+            937,
+            939,
+            940,
+            941,
+            942,
+            943,
+            944,
+            949,
+            952,
+            955,
+            956,
+            957,
+            979,
+            980,
+            981,
+            982,
+            983,
+            985,
+            986,
+            987,
+            994,
+            1102,
+            1103,
+            1104,
+            1108,
+            1109,
+            1110,
+            1111,
+            1113,
+            1114,
+            1116,
+            1117,
+            1119,
+            1120,
+            1121,
+            1123,
+            1125,
+            1128,
+            1129,
+            1845,
+            1846,
+            1910,
+            1911,
+            1913,
+            1914,
+            1916,
+            1917,
+            1924,
+            1925,
+            1926,
+            1932,
+            1934,
+            1936,
+            1938,
+            1939,
+            1940,
+            1941,
+            1942,
+            1947,
+            1948
+          ],
+          "target_calls": [
+            [
+              "<listcomp>",
+              987
+            ],
+            [
+              "TokenIterator",
+              1108
+            ],
+            [
+              "__init__",
+              276
+            ],
+            [
+              "__init__",
+              1109
+            ],
+            [
+              "__iter__",
+              1113
+            ],
+            [
+              "__next__",
+              1116
+            ],
+            [
+              "_build_selector_function",
+              985
+            ],
+            [
+              "_parse_format_selection",
+              934
+            ],
+            [
+              "_setup_opener",
+              1909
+            ],
+            [
+              "add_default_info_extractors",
+              383
+            ],
+            [
+              "add_info_extractor",
+              365
+            ],
+            [
+              "build_format_selector",
+              913
+            ],
+            [
+              "print_debug_header",
+              1844
+            ]
+          ],
+          "target_trace_scope": "test_execution"
+        },
+        "log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.7.17\", \"tests_run\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"error\", \"exception_type\": \"AttributeError\", \"message\": \"'NoneType' object has no attribute 'type'\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 59, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 628, in run\\n    testMethod()\\n  File \\\"/harness/test_reproduction.py\\\", line 10, in test_reproduction\\n    ydl.build_format_selector(spec)\\n  File \\\"/work/youtube_dl/YoutubeDL.py\\\", line 1129, in build_format_selector\\n    return _build_selector_function(parsed_selector)\\n  File \\\"/work/youtube_dl/YoutubeDL.py\\\", line 987, in _build_selector_function\\n    fs = [_build_selector_function(s) for s in selector]\\n  File \\\"/work/youtube_dl/YoutubeDL.py\\\", line 987, in <listcomp>\\n    fs = [_build_selector_function(s) for s in selector]\\n  File \\\"/work/youtube_dl/YoutubeDL.py\\\", line 994, in _build_selector_function\\n    elif selector.type == GROUP:\\nAttributeError: 'NoneType' object has no attribute 'type'\\n\", \"traceback_frames\": [{\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 59, \"function\": \"testPartExecutor\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 628, \"function\": \"run\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 10, \"function\": \"test_reproduction\"}, {\"path\": \"/work/youtube_dl/YoutubeDL.py\", \"line\": 1129, \"function\": \"build_format_selector\"}, {\"path\": \"/work/youtube_dl/YoutubeDL.py\", \"line\": 987, \"function\": \"_build_selector_function\"}, {\"path\": \"/work/youtube_dl/YoutubeDL.py\", \"line\": 987, \"function\": \"<listcomp>\"}, {\"path\": \"/work/youtube_dl/YoutubeDL.py\", \"line\": 994, \"function\": \"_build_selector_function\"}]}], \"target_lines\": [278, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 291, 318, 319, 328, 333, 335, 336, 337, 339, 346, 367, 368, 369, 387, 388, 914, 920, 921, 922, 923, 924, 926, 934, 935, 936, 937, 939, 940, 941, 942, 943, 944, 949, 952, 955, 956, 957, 979, 980, 981, 982, 983, 985, 986, 987, 994, 1102, 1103, 1104, 1108, 1109, 1110, 1111, 1113, 1114, 1116, 1117, 1119, 1120, 1121, 1123, 1125, 1128, 1129, 1845, 1846, 1910, 1911, 1913, 1914, 1916, 1917, 1924, 1925, 1926, 1932, 1934, 1936, 1938, 1939, 1940, 1941, 1942, 1947, 1948], \"target_calls\": [[\"<listcomp>\", 987], [\"TokenIterator\", 1108], [\"__init__\", 276], [\"__init__\", 1109], [\"__iter__\", 1113], [\"__next__\", 1116], [\"_build_selector_function\", 985], [\"_parse_format_selection\", 934], [\"_setup_opener\", 1909], [\"add_default_info_extractors\", 383], [\"add_info_extractor\", 365], [\"build_format_selector\", 913], [\"print_debug_header\", 1844]], \"target_trace_scope\": \"test_execution\"}\n",
+        "log_sha256": "0ee7d067ce03e0b2a917376390cb197bc0198878f7c124568c6b9aae868b5cf6",
+        "verdict": "failure_observed",
+        "plan_version": 0,
+        "test_sha256": "f22aa789e2f02a68cb5f843d55768928e41b224bc2e2ec204d94e53b3dbad4e6",
+        "execution_snapshot_sha256": "7d5583e6ca81ff6f499d4fece0b758080b1328090e8d8c6ac85a9950a01f8524"
+      },
+      {
+        "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "image_reference": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+        "exit_code": 0,
+        "stop_reason": null,
+        "seconds": 1.309,
+        "execution": {
+          "python": "3.7.17",
+          "tests_run": 1,
+          "failures": 0,
+          "errors": 1,
+          "skipped": 0,
+          "load_error": null,
+          "observations": [
+            {
+              "test": "generated_reproduction.ReproductionTest.test_reproduction",
+              "outcome": "error",
+              "exception_type": "AttributeError",
+              "message": "'NoneType' object has no attribute 'type'",
+              "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 59, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.7/unittest/case.py\", line 628, in run\n    testMethod()\n  File \"/harness/test_reproduction.py\", line 10, in test_reproduction\n    ydl.build_format_selector(spec)\n  File \"/work/youtube_dl/YoutubeDL.py\", line 1129, in build_format_selector\n    return _build_selector_function(parsed_selector)\n  File \"/work/youtube_dl/YoutubeDL.py\", line 987, in _build_selector_function\n    fs = [_build_selector_function(s) for s in selector]\n  File \"/work/youtube_dl/YoutubeDL.py\", line 987, in <listcomp>\n    fs = [_build_selector_function(s) for s in selector]\n  File \"/work/youtube_dl/YoutubeDL.py\", line 994, in _build_selector_function\n    elif selector.type == GROUP:\nAttributeError: 'NoneType' object has no attribute 'type'\n",
+              "traceback_frames": [
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 59,
+                  "function": "testPartExecutor"
+                },
+                {
+                  "path": "/usr/local/lib/python3.7/unittest/case.py",
+                  "line": 628,
+                  "function": "run"
+                },
+                {
+                  "path": "/harness/test_reproduction.py",
+                  "line": 10,
+                  "function": "test_reproduction"
+                },
+                {
+                  "path": "/work/youtube_dl/YoutubeDL.py",
+                  "line": 1129,
+                  "function": "build_format_selector"
+                },
+                {
+                  "path": "/work/youtube_dl/YoutubeDL.py",
+                  "line": 987,
+                  "function": "_build_selector_function"
+                },
+                {
+                  "path": "/work/youtube_dl/YoutubeDL.py",
+                  "line": 987,
+                  "function": "<listcomp>"
+                },
+                {
+                  "path": "/work/youtube_dl/YoutubeDL.py",
+                  "line": 994,
+                  "function": "_build_selector_function"
+                }
+              ]
+            }
+          ],
+          "target_lines": [
+            278,
+            280,
+            281,
+            282,
+            283,
+            284,
+            285,
+            286,
+            287,
+            288,
+            289,
+            291,
+            318,
+            319,
+            328,
+            333,
+            335,
+            336,
+            337,
+            339,
+            346,
+            367,
+            368,
+            369,
+            387,
+            388,
+            914,
+            920,
+            921,
+            922,
+            923,
+            924,
+            926,
+            934,
+            935,
+            936,
+            937,
+            939,
+            940,
+            941,
+            942,
+            943,
+            944,
+            949,
+            952,
+            955,
+            956,
+            957,
+            979,
+            980,
+            981,
+            982,
+            983,
+            985,
+            986,
+            987,
+            994,
+            1102,
+            1103,
+            1104,
+            1108,
+            1109,
+            1110,
+            1111,
+            1113,
+            1114,
+            1116,
+            1117,
+            1119,
+            1120,
+            1121,
+            1123,
+            1125,
+            1128,
+            1129,
+            1845,
+            1846,
+            1910,
+            1911,
+            1913,
+            1914,
+            1916,
+            1917,
+            1924,
+            1925,
+            1926,
+            1932,
+            1934,
+            1936,
+            1938,
+            1939,
+            1940,
+            1941,
+            1942,
+            1947,
+            1948
+          ],
+          "target_calls": [
+            [
+              "<listcomp>",
+              987
+            ],
+            [
+              "TokenIterator",
+              1108
+            ],
+            [
+              "__init__",
+              276
+            ],
+            [
+              "__init__",
+              1109
+            ],
+            [
+              "__iter__",
+              1113
+            ],
+            [
+              "__next__",
+              1116
+            ],
+            [
+              "_build_selector_function",
+              985
+            ],
+            [
+              "_parse_format_selection",
+              934
+            ],
+            [
+              "_setup_opener",
+              1909
+            ],
+            [
+              "add_default_info_extractors",
+              383
+            ],
+            [
+              "add_info_extractor",
+              365
+            ],
+            [
+              "build_format_selector",
+              913
+            ],
+            [
+              "print_debug_header",
+              1844
+            ]
+          ],
+          "target_trace_scope": "test_execution"
+        },
+        "log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.7.17\", \"tests_run\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"error\", \"exception_type\": \"AttributeError\", \"message\": \"'NoneType' object has no attribute 'type'\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 59, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.7/unittest/case.py\\\", line 628, in run\\n    testMethod()\\n  File \\\"/harness/test_reproduction.py\\\", line 10, in test_reproduction\\n    ydl.build_format_selector(spec)\\n  File \\\"/work/youtube_dl/YoutubeDL.py\\\", line 1129, in build_format_selector\\n    return _build_selector_function(parsed_selector)\\n  File \\\"/work/youtube_dl/YoutubeDL.py\\\", line 987, in _build_selector_function\\n    fs = [_build_selector_function(s) for s in selector]\\n  File \\\"/work/youtube_dl/YoutubeDL.py\\\", line 987, in <listcomp>\\n    fs = [_build_selector_function(s) for s in selector]\\n  File \\\"/work/youtube_dl/YoutubeDL.py\\\", line 994, in _build_selector_function\\n    elif selector.type == GROUP:\\nAttributeError: 'NoneType' object has no attribute 'type'\\n\", \"traceback_frames\": [{\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 59, \"function\": \"testPartExecutor\"}, {\"path\": \"/usr/local/lib/python3.7/unittest/case.py\", \"line\": 628, \"function\": \"run\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 10, \"function\": \"test_reproduction\"}, {\"path\": \"/work/youtube_dl/YoutubeDL.py\", \"line\": 1129, \"function\": \"build_format_selector\"}, {\"path\": \"/work/youtube_dl/YoutubeDL.py\", \"line\": 987, \"function\": \"_build_selector_function\"}, {\"path\": \"/work/youtube_dl/YoutubeDL.py\", \"line\": 987, \"function\": \"<listcomp>\"}, {\"path\": \"/work/youtube_dl/YoutubeDL.py\", \"line\": 994, \"function\": \"_build_selector_function\"}]}], \"target_lines\": [278, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 291, 318, 319, 328, 333, 335, 336, 337, 339, 346, 367, 368, 369, 387, 388, 914, 920, 921, 922, 923, 924, 926, 934, 935, 936, 937, 939, 940, 941, 942, 943, 944, 949, 952, 955, 956, 957, 979, 980, 981, 982, 983, 985, 986, 987, 994, 1102, 1103, 1104, 1108, 1109, 1110, 1111, 1113, 1114, 1116, 1117, 1119, 1120, 1121, 1123, 1125, 1128, 1129, 1845, 1846, 1910, 1911, 1913, 1914, 1916, 1917, 1924, 1925, 1926, 1932, 1934, 1936, 1938, 1939, 1940, 1941, 1942, 1947, 1948], \"target_calls\": [[\"<listcomp>\", 987], [\"TokenIterator\", 1108], [\"__init__\", 276], [\"__init__\", 1109], [\"__iter__\", 1113], [\"__next__\", 1116], [\"_build_selector_function\", 985], [\"_parse_format_selection\", 934], [\"_setup_opener\", 1909], [\"add_default_info_extractors\", 383], [\"add_info_extractor\", 365], [\"build_format_selector\", 913], [\"print_debug_header\", 1844]], \"target_trace_scope\": \"test_execution\"}\n",
+        "log_sha256": "0ee7d067ce03e0b2a917376390cb197bc0198878f7c124568c6b9aae868b5cf6",
+        "verdict": "failure_observed",
+        "plan_version": 0,
+        "test_sha256": "f22aa789e2f02a68cb5f843d55768928e41b224bc2e2ec204d94e53b3dbad4e6",
+        "execution_snapshot_sha256": "7d5583e6ca81ff6f499d4fece0b758080b1328090e8d8c6ac85a9950a01f8524"
+      }
+    ],
+    "generation_attempts": [
+      {
+        "response": "{\"applicable\": true, \"reason\": \"候选缺陷成立：_parse_format_selection 在遇到逗号时无条件 append(current_selector)，前导或连续逗号会把 None 加入 selectors，随后 _build_selector_function 对 None 访问 .type 抛 AttributeError。代码中已有 syntax_error 机制用于非法格式说明，逗号前缺少选择器属于语法错误，应在解析阶段抛出 SyntaxError。\", \"contract\": {\"path\": \"youtube_dl/YoutubeDL.py\", \"start\": 955, \"end\": 957, \"quote\": \"                    elif string == ',':\\n                        selectors.append(current_selector)\\n                        current_selector = None\", \"kind\": \"language_rule\", \"rationale\": \"该分支在逗号处无条件追加 current_selector。当输入以逗号开头或含连续逗号时 current_selector 为 None，None 被加入 selectors 列表，后续 _build_selector_function 递归处理列表元素时对 None 访问 .type，触发 AttributeError。按语言规则，对 None 访问属性必然抛出 AttributeError；而解析器已有 syntax_error 机制用于报告非法格式说明，逗号前缺少选择器属于语法错误，应在解析阶段抛出 SyntaxError 而非在构建阶段崩溃。\", \"expected_outcome\": \"exception\", \"expected_exception\": \"SyntaxError\", \"precondition\": \"调用 build_format_selector 传入含前导逗号或连续逗号的格式说明（如 ',best'、'best,,worst'），这是受支持的格式选择语法入口；非法逗号位置应被解析器识别为语法错误。\", \"assumptions\": [\"build_format_selector 是公开可调用的方法，接受格式说明字符串并返回 selector 函数\", \"解析器对非法格式说明统一使用 syntax_error 抛出 SyntaxError\"]}, \"test_code\": \"import unittest\\nfrom youtube_dl import YoutubeDL\\n\\n\\nclass ReproductionTest(unittest.TestCase):\\n    def test_reproduction(self):\\n        ydl = YoutubeDL({'quiet': True})\\n        for spec in (',best', 'best,,worst'):\\n            with self.assertRaises(SyntaxError):\\n                ydl.build_format_selector(spec)\\n\", \"expected_behavior\": \"对含前导逗号或连续逗号的格式说明，build_format_selector 应在解析阶段抛出 SyntaxError，而不是把 None 传入构建阶段导致 AttributeError。\"}"
+      }
+    ],
+    "plan": {
+      "applicable": true,
+      "reason": "候选缺陷成立：_parse_format_selection 在遇到逗号时无条件 append(current_selector)，前导或连续逗号会把 None 加入 selectors，随后 _build_selector_function 对 None 访问 .type 抛 AttributeError。代码中已有 syntax_error 机制用于非法格式说明，逗号前缺少选择器属于语法错误，应在解析阶段抛出 SyntaxError。",
+      "contract": {
+        "path": "youtube_dl/YoutubeDL.py",
+        "start": 955,
+        "end": 957,
+        "quote": "                    elif string == ',':\n                        selectors.append(current_selector)\n                        current_selector = None",
+        "kind": "language_rule",
+        "rationale": "该分支在逗号处无条件追加 current_selector。当输入以逗号开头或含连续逗号时 current_selector 为 None，None 被加入 selectors 列表，后续 _build_selector_function 递归处理列表元素时对 None 访问 .type，触发 AttributeError。按语言规则，对 None 访问属性必然抛出 AttributeError；而解析器已有 syntax_error 机制用于报告非法格式说明，逗号前缺少选择器属于语法错误，应在解析阶段抛出 SyntaxError 而非在构建阶段崩溃。",
+        "expected_outcome": "exception",
+        "expected_exception": "SyntaxError",
+        "precondition": "调用 build_format_selector 传入含前导逗号或连续逗号的格式说明（如 ',best'、'best,,worst'），这是受支持的格式选择语法入口；非法逗号位置应被解析器识别为语法错误。",
+        "assumptions": [
+          "build_format_selector 是公开可调用的方法，接受格式说明字符串并返回 selector 函数",
+          "解析器对非法格式说明统一使用 syntax_error 抛出 SyntaxError"
+        ]
+      },
+      "test_code": "import unittest\nfrom youtube_dl import YoutubeDL\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        ydl = YoutubeDL({'quiet': True})\n        for spec in (',best', 'best,,worst'):\n            with self.assertRaises(SyntaxError):\n                ydl.build_format_selector(spec)\n",
+      "expected_behavior": "对含前导逗号或连续逗号的格式说明，build_format_selector 应在解析阶段抛出 SyntaxError，而不是把 None 传入构建阶段导致 AttributeError。"
+    },
+    "plan_history": [
+      {
+        "applicable": true,
+        "reason": "候选缺陷成立：_parse_format_selection 在遇到逗号时无条件 append(current_selector)，前导或连续逗号会把 None 加入 selectors，随后 _build_selector_function 对 None 访问 .type 抛 AttributeError。代码中已有 syntax_error 机制用于非法格式说明，逗号前缺少选择器属于语法错误，应在解析阶段抛出 SyntaxError。",
+        "contract": {
+          "path": "youtube_dl/YoutubeDL.py",
+          "start": 955,
+          "end": 957,
+          "quote": "                    elif string == ',':\n                        selectors.append(current_selector)\n                        current_selector = None",
+          "kind": "language_rule",
+          "rationale": "该分支在逗号处无条件追加 current_selector。当输入以逗号开头或含连续逗号时 current_selector 为 None，None 被加入 selectors 列表，后续 _build_selector_function 递归处理列表元素时对 None 访问 .type，触发 AttributeError。按语言规则，对 None 访问属性必然抛出 AttributeError；而解析器已有 syntax_error 机制用于报告非法格式说明，逗号前缺少选择器属于语法错误，应在解析阶段抛出 SyntaxError 而非在构建阶段崩溃。",
+          "expected_outcome": "exception",
+          "expected_exception": "SyntaxError",
+          "precondition": "调用 build_format_selector 传入含前导逗号或连续逗号的格式说明（如 ',best'、'best,,worst'），这是受支持的格式选择语法入口；非法逗号位置应被解析器识别为语法错误。",
+          "assumptions": [
+            "build_format_selector 是公开可调用的方法，接受格式说明字符串并返回 selector 函数",
+            "解析器对非法格式说明统一使用 syntax_error 抛出 SyntaxError"
+          ]
+        },
+        "test_code": "import unittest\nfrom youtube_dl import YoutubeDL\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        ydl = YoutubeDL({'quiet': True})\n        for spec in (',best', 'best,,worst'):\n            with self.assertRaises(SyntaxError):\n                ydl.build_format_selector(spec)\n",
+        "expected_behavior": "对含前导逗号或连续逗号的格式说明，build_format_selector 应在解析阶段抛出 SyntaxError，而不是把 None 传入构建阶段导致 AttributeError。"
+      }
+    ],
+    "feedback": [],
+    "active_attempt_indexes": [
+      0,
+      1
+    ],
+    "admission": {
+      "requirement": {
+        "accepted": false,
+        "reason": "语言规则只能解释实际异常(AttributeError)，不能据此要求另一种异常(SyntaxError)；需要文档或既有测试。"
+      },
+      "accepted": false
+    },
+    "execution_snapshot_sha256": "7d5583e6ca81ff6f499d4fece0b758080b1328090e8d8c6ac85a9950a01f8524",
+    "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+    "max_file_bytes": 1000000,
+    "scope": "",
+    "review_scope": "",
+    "production_only": true,
+    "artifact": "evidence/248543bf3d91/evidence.json"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "case": "tornado-1-fixed",
+  "finding_id": "2cd97d34b1a2",
+  "role": "negative: KeyError observed, ValueError requested by language rule",
+  "historical": {
+    "finding_status": "reproduced",
+    "evidence_status": "reproduced",
+    "plan_kind": "language_rule",
+    "plan_outcome": null
+  },
+  "current": {
+    "finding_status": "pending_evidence",
+    "evidence_status": "unsupported",
+    "reason": "候选主张的是“非 ws/wss 协议应抛出清晰的 ValueError 而非 KeyError”，但仓库中没有任何文档、测试或语言规则约定 WebSocketClientConnection 对非 ws/wss URL 必须抛出 ValueError。类文档明确说明该类不应直接实例化（应使用 websocket_connect），且 websocket_connect 的契约是接受 ws/wss URL；对不受支持的 scheme 抛出 KeyError 属于实现细节而非可定位的契约违反。缺少“应抛出 ValueError”的明确约定，无法构造有来源的断言，故不适用。",
+    "plan_kind": null,
+    "expected_outcome": null,
+    "expected_exception": null,
+    "precondition": null,
+    "admission": null,
+    "audit": null,
+    "attempt_verdicts": [],
+    "generation_attempts": 1
+  },
+  "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+  "api_calls": 1,
+  "usage": {
+    "prompt_tokens": 4558,
+    "completion_tokens": 129
+  },
+  "error": null,
+  "started_at": "2026-10-21T12:58:32.937887+00:00",
+  "finished_at": "2026-10-21T12:58:35.068861+00:00",
+  "artifacts": {
+    "evidence/2cd97d34b1a2/evidence.json": "69a10eec760436c18d3f7c6d60b3d3b5b0bba0cd6a8eee8a3c62a1ae9ac1b4ae"
+  },
+  "record_report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/tornado-1/evidence/fixed/report.json",
+  "record_snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0002/A"
+}

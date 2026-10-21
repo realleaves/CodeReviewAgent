@@ -1,0 +1,33 @@
+{
+  "reservation": {
+    "id": 1,
+    "phase": "admission-controls",
+    "label": {
+      "case": "PySnooper-3",
+      "finding_id": "9261f543fc85"
+    },
+    "reserved_at": "2026-10-21T12:58:27.058605+00:00"
+  },
+  "raw_response": "{\"applicable\": true, \"reason\": \"源码第24-27行确认：当 output 为 str/PathLike 时，write 闭包内调用 open(output_path, 'a')，而 output_path 在函数作用域、闭包或全局中均未定义（参数名为 output）。README 第67-69行明确承诺 @pysnooper.snoop('/my/log/file.log') 可将输出重定向到文件，构成受支持契约。首次写入即抛 NameError，文件输出功能不可用。\", \"contract\": {\"path\": \"README.md\", \"start\": 67, \"end\": 69, \"quote\": \"If stderr is not easily accessible for you, you can redirect the output to a file:\\n\\n    @pysnooper.snoop('/my/log/file.log')\", \"kind\": \"documented_behavior\", \"rationale\": \"README 明确说明可将输出重定向到文件，并以字符串路径作为 snoop 的第一个参数。因此传入临时文件路径并执行被装饰函数属于受支持用法，应正常写入日志而非抛出 NameError。\", \"expected_outcome\": \"state_change\", \"precondition\": \"调用 pysnooper.snoop(临时文件路径) 装饰一个函数并执行该函数，触发 Tracer 调用 write 写入日志；路径为 str，属于文档承诺的受支持用法。\", \"assumptions\": [\"Tracer 在函数执行过程中会调用 write 至少一次（由 tracer.py 第110-114行及 trace 逻辑可见）\", \"pycompat.PathLike 在 Python 3.8 下包含 str 分支，使 isinstance 判断成立\"]}, \"expected_behavior\": \"使用字符串文件路径作为 snoop 输出时，被装饰函数执行后日志应写入该文件，且不抛出 NameError。\", \"test_code\": \"import os\\nimport tempfile\\nimport unittest\\n\\nimport pysnooper\\n\\n\\nclass ReproductionTest(unittest.TestCase):\\n    def test_reproduction(self):\\n        with tempfile.TemporaryDirectory() as tmpdir:\\n            log_path = os.path.join(tmpdir, 'log.txt')\\n\\n            @pysnooper.snoop(log_path)\\n            def target(x):\\n                y = x + 1\\n                return y\\n\\n            result = target(1)\\n            self.assertEqual(result, 2)\\n            self.assertTrue(os.path.exists(log_path))\\n            with open(log_path, 'r') as f:\\n                content = f.read()\\n            self.assertIn('y', content)\\n\"}",
+  "error_type": null,
+  "call": {
+    "stage": "reproduction_plan",
+    "status": "completed",
+    "input_chars": 16341,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 558,
+      "prompt_tokens": 5156,
+      "total_tokens": 5714,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 4992
+      },
+      "prompt_cache_hit_tokens": 4992,
+      "prompt_cache_miss_tokens": 164
+    },
+    "elapsed_seconds": 3.208
+  }
+}

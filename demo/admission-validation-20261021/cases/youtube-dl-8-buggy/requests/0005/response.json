@@ -1,0 +1,33 @@
+{
+  "reservation": {
+    "id": 5,
+    "phase": "admission-controls",
+    "label": {
+      "case": "youtube-dl-8-buggy",
+      "finding_id": "248543bf3d91"
+    },
+    "reserved_at": "2026-10-21T12:58:37.838076+00:00"
+  },
+  "raw_response": "{\"applicable\": true, \"reason\": \"候选缺陷成立：_parse_format_selection 在遇到逗号时无条件 append(current_selector)，前导或连续逗号会把 None 加入 selectors，随后 _build_selector_function 对 None 访问 .type 抛 AttributeError。代码中已有 syntax_error 机制用于非法格式说明，逗号前缺少选择器属于语法错误，应在解析阶段抛出 SyntaxError。\", \"contract\": {\"path\": \"youtube_dl/YoutubeDL.py\", \"start\": 955, \"end\": 957, \"quote\": \"                    elif string == ',':\\n                        selectors.append(current_selector)\\n                        current_selector = None\", \"kind\": \"language_rule\", \"rationale\": \"该分支在逗号处无条件追加 current_selector。当输入以逗号开头或含连续逗号时 current_selector 为 None，None 被加入 selectors 列表，后续 _build_selector_function 递归处理列表元素时对 None 访问 .type，触发 AttributeError。按语言规则，对 None 访问属性必然抛出 AttributeError；而解析器已有 syntax_error 机制用于报告非法格式说明，逗号前缺少选择器属于语法错误，应在解析阶段抛出 SyntaxError 而非在构建阶段崩溃。\", \"expected_outcome\": \"exception\", \"expected_exception\": \"SyntaxError\", \"precondition\": \"调用 build_format_selector 传入含前导逗号或连续逗号的格式说明（如 ',best'、'best,,worst'），这是受支持的格式选择语法入口；非法逗号位置应被解析器识别为语法错误。\", \"assumptions\": [\"build_format_selector 是公开可调用的方法，接受格式说明字符串并返回 selector 函数\", \"解析器对非法格式说明统一使用 syntax_error 抛出 SyntaxError\"]}, \"test_code\": \"import unittest\\nfrom youtube_dl import YoutubeDL\\n\\n\\nclass ReproductionTest(unittest.TestCase):\\n    def test_reproduction(self):\\n        ydl = YoutubeDL({'quiet': True})\\n        for spec in (',best', 'best,,worst'):\\n            with self.assertRaises(SyntaxError):\\n                ydl.build_format_selector(spec)\\n\", \"expected_behavior\": \"对含前导逗号或连续逗号的格式说明，build_format_selector 应在解析阶段抛出 SyntaxError，而不是把 None 传入构建阶段导致 AttributeError。\"}",
+  "error_type": null,
+  "call": {
+    "stage": "reproduction_plan",
+    "status": "completed",
+    "input_chars": 14430,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 527,
+      "prompt_tokens": 4615,
+      "total_tokens": 5142,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 4480
+      },
+      "prompt_cache_hit_tokens": 4480,
+      "prompt_cache_miss_tokens": 135
+    },
+    "elapsed_seconds": 3.321
+  }
+}

@@ -10,6 +10,8 @@
 
 **2026-10-21 发现对照与新样本验证已结束：** 完成legacy/callgraph及两轮单变量改进，再验证预选4新样本，共436/600次保守扣减。没有证实参考发现能力提升，默认配置保持不变；独立复现的1项额外问题单独报告。新样本关闭思考完整22/22窗口、两次参考区分2/4和1/4；开启完整11/22，共同可评分样本没有优势。全部失败、中断与冻结源码保留，见[最终对照与原始归档](demo/discovery-context-20261015/README.md)；[框架说明](docs/ARCHITECTURE.md)。
 
+**2026-10-21 准入固定案例验证：** 用4个已见固定候选做真实模型对照，共5次调用、4次容器执行。PySnooper-3文档正例保留为`reproduced`；tornado-1 fixed和youtube-dl-4 fixed由模型直接`unsupported`；youtube-dl-8 buggy由确定性语言规则门控降级为`contract_unconfirmed`。这验证了固定正反例行为，不是新样本检出率。见[固定案例验证](demo/admission-validation-20261021/README.md)。
+
 **2026-10-15 上下文检索实验：** 已接入`--context-strategy callgraph`，在evidence发现阶段补充静态调用方、被调用定义、相关导入与文档片段；默认仍为`legacy`。86项项目测试通过，6个历史样本两版本共18组初始输入核对通过，0次模型API调用。新增上下文尚未做模型效果对照，不能声称检出率提高；见[实现与离线检查](demo/context-callgraph-20261015/README.md)。
 
 **2026-10-15 历史证据复测：** 冻结实现，旧13条已接受记录用旧/新执行器各重跑两次，并补做相反版本及调用链检查，共67次容器执行、0次模型API调用。新判定接受12条，稳定拦住1条错误触发，保留原有效参考复现；其余仍含预期无依据、质量建议及待定项，不能解释为12个真实缺陷。见[逐条复测报告](demo/evidence-retest13-20261015/README.md)。本轮没有测量新的检出率。
@@ -231,8 +233,9 @@ CLI 退出码：0 为 completed/static_only；2 表示已保存报告但分析�
 - [真实 requests 仓库报告](demo/github-review/report.html)：src/requests 下选定3/19个Python文件，12次模型调用，未发生执行失败，范围受限所以标为partial。
 - [已知缺陷演示](demo/known-defects/report.html)：检出3个已知问题，正常文件无保留问题。
 - [同模型三种方式对比](demo/comparison.md)：4个小样本的实际结果。
-- [发现阶段三轮对照](demo/discovery-context-20261015/README.md)：365次真实DeepSeek尝试，0参考命中，默认配置不变。
+- [发现阶段三轮与新样本对照](demo/discovery-context-20261015/README.md)：436次真实DeepSeek尝试，未证实参考发现增益，默认配置不变。
 - [预期依据准入固定对照](demo/expectation-admission-20261018/README.md)：13条历史接受记录中1条进入审计、12条降级，0次模型调用。
+- [准入固定案例验证](demo/admission-validation-20261021/README.md)：4个已见候选、5次调用，正例保留、3个负例降级。
 
 `tests/` 覆盖真实扫描器、路径与行号校验、只读工具、复核ID对应、调用失败、预算耗尽、语法错误、空文件、HTML转义与报告格式，以及结构化预期准入、语言规则边界和执行位置判定。
 

@@ -1,0 +1,51 @@
+{
+  "case": "youtube-dl-8-buggy",
+  "finding_id": "248543bf3d91",
+  "role": "negative: AttributeError observed, SyntaxError requested by language rule",
+  "historical": {
+    "finding_status": "reproduced",
+    "evidence_status": "reproduced",
+    "plan_kind": "language_rule",
+    "plan_outcome": null
+  },
+  "current": {
+    "finding_status": "pending_evidence",
+    "evidence_status": "contract_unconfirmed",
+    "reason": "预期依据准入未通过：语言规则只能解释实际异常(AttributeError)，不能据此要求另一种异常(SyntaxError)；需要文档或既有测试。",
+    "plan_kind": "language_rule",
+    "expected_outcome": "exception",
+    "expected_exception": "SyntaxError",
+    "precondition": "调用 build_format_selector 传入含前导逗号或连续逗号的格式说明（如 ',best'、'best,,worst'），这是受支持的格式选择语法入口；非法逗号位置应被解析器识别为语法错误。",
+    "admission": {
+      "requirement": {
+        "accepted": false,
+        "reason": "语言规则只能解释实际异常(AttributeError)，不能据此要求另一种异常(SyntaxError)；需要文档或既有测试。"
+      },
+      "accepted": false
+    },
+    "audit": null,
+    "attempt_verdicts": [
+      "failure_observed",
+      "failure_observed"
+    ],
+    "generation_attempts": 1
+  },
+  "image_id": "sha256:a255ffcb469f2ec40f2958a76beb0c2bbebfe92ce9af67a9b48d84b4cb695ac8",
+  "api_calls": 1,
+  "usage": {
+    "prompt_tokens": 4615,
+    "completion_tokens": 527
+  },
+  "error": null,
+  "started_at": "2026-10-21T12:58:37.812262+00:00",
+  "finished_at": "2026-10-21T12:58:45.041276+00:00",
+  "artifacts": {
+    "evidence/248543bf3d91/test_reproduction.py": "f22aa789e2f02a68cb5f843d55768928e41b224bc2e2ec204d94e53b3dbad4e6",
+    "evidence/248543bf3d91/plan-1.py": "f22aa789e2f02a68cb5f843d55768928e41b224bc2e2ec204d94e53b3dbad4e6",
+    "evidence/248543bf3d91/attempt-1.log": "0ee7d067ce03e0b2a917376390cb197bc0198878f7c124568c6b9aae868b5cf6",
+    "evidence/248543bf3d91/attempt-2.log": "0ee7d067ce03e0b2a917376390cb197bc0198878f7c124568c6b9aae868b5cf6",
+    "evidence/248543bf3d91/evidence.json": "d2ce2f8d58de99872af7fa4547d4d5372c47e482f609a8e24c50188a4dd74a0d"
+  },
+  "record_report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/youtube-dl-8/evidence/buggy/report.json",
+  "record_snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0019/A"
+}

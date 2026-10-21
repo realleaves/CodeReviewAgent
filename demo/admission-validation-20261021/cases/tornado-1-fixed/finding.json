@@ -1,0 +1,44 @@
+{
+  "path": "tornado/websocket.py",
+  "line": 1389,
+  "end_line": 1389,
+  "severity": "medium",
+  "category": "bug",
+  "title": "非 ws/wss 协议 URL 触发 KeyError",
+  "explanation": "第1388-1389行用 request.url.partition(\":\") 取 scheme，然后直接以 scheme 为键访问字典 {\"ws\": \"http\", \"wss\": \"https\"}。若传入的 URL 协议不是 ws 或 wss（例如 http、https 或缺少冒号），会抛出 KeyError 而非给出清晰的参数错误。",
+  "trigger": "WebSocketClientConnection(HTTPRequest(\"http://example.com/\")) 或任何非 ws/wss 前缀的 URL。",
+  "evidence": "第1389行：scheme = {\"ws\": \"http\", \"wss\": \"https\"}[scheme]，对未知 scheme 直接 KeyError。",
+  "suggestion": "使用 dict.get 并在缺失时抛出带有明确信息的 ValueError，或先校验 scheme 属于 {ws, wss}。",
+  "id": "2cd97d34b1a2",
+  "source": "llm",
+  "rule": "",
+  "snippet": "1387: \n1388:         scheme, sep, rest = request.url.partition(\":\")\n1389:         scheme = {\"ws\": \"http\", \"wss\": \"https\"}[scheme]\n1390:         request.url = scheme + sep + rest\n1391:         request.headers.update(",
+  "status": "pending_evidence",
+  "verification": "测试确实调用了目标代码 WebSocketClientConnection.__init__，输入 HTTPRequest(\"http://example.com/\") 有效且可达（websocket_connect 文档接受 url 或 HTTPRequest，未限制必须为 ws/wss）。第1388-1389行用 partition(\":\") 取 scheme 后直接以 scheme 为键访问 {\"ws\":\"http\",\"wss\":\"https\"}，对 \"http\" 必然抛 KeyError，这是 Python 语言规则。运行观测到的 KeyError: 'http' 与候选描述一致。候选主张的是应给出清晰参数错误而非 KeyError，属于合理的健壮性缺陷，证据充分。",
+  "validation": "候选主张的是“非 ws/wss 协议应抛出清晰的 ValueError 而非 KeyError”，但仓库中没有任何文档、测试或语言规则约定 WebSocketClientConnection 对非 ws/wss URL 必须抛出 ValueError。类文档明确说明该类不应直接实例化（应使用 websocket_connect），且 websocket_connect 的契约是接受 ws/wss URL；对不受支持的 scheme 抛出 KeyError 属于实现细节而非可定位的契约违反。缺少“应抛出 ValueError”的明确约定，无法构造有来源的断言，故不适用。",
+  "related_diagnostics": [],
+  "reproduction": {
+    "status": "unsupported",
+    "reason": "候选主张的是“非 ws/wss 协议应抛出清晰的 ValueError 而非 KeyError”，但仓库中没有任何文档、测试或语言规则约定 WebSocketClientConnection 对非 ws/wss URL 必须抛出 ValueError。类文档明确说明该类不应直接实例化（应使用 websocket_connect），且 websocket_connect 的契约是接受 ws/wss URL；对不受支持的 scheme 抛出 KeyError 属于实现细节而非可定位的契约违反。缺少“应抛出 ValueError”的明确约定，无法构造有来源的断言，故不适用。",
+    "attempts": [],
+    "generation_attempts": [
+      {
+        "response": "{\"applicable\": false, \"reason\": \"候选主张的是“非 ws/wss 协议应抛出清晰的 ValueError 而非 KeyError”，但仓库中没有任何文档、测试或语言规则约定 WebSocketClientConnection 对非 ws/wss URL 必须抛出 ValueError。类文档明确说明该类不应直接实例化（应使用 websocket_connect），且 websocket_connect 的契约是接受 ws/wss URL；对不受支持的 scheme 抛出 KeyError 属于实现细节而非可定位的契约违反。缺少“应抛出 ValueError”的明确约定，无法构造有来源的断言，故不适用。\"}"
+      }
+    ],
+    "plan": {
+      "applicable": false,
+      "reason": "候选主张的是“非 ws/wss 协议应抛出清晰的 ValueError 而非 KeyError”，但仓库中没有任何文档、测试或语言规则约定 WebSocketClientConnection 对非 ws/wss URL 必须抛出 ValueError。类文档明确说明该类不应直接实例化（应使用 websocket_connect），且 websocket_connect 的契约是接受 ws/wss URL；对不受支持的 scheme 抛出 KeyError 属于实现细节而非可定位的契约违反。缺少“应抛出 ValueError”的明确约定，无法构造有来源的断言，故不适用。",
+      "contract": null,
+      "test_code": "",
+      "expected_behavior": ""
+    },
+    "execution_snapshot_sha256": "dd886d54de41e9b477fd649cce75a9552f48839db54de89dfe79b45088cfb3cc",
+    "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+    "max_file_bytes": 1000000,
+    "scope": "",
+    "review_scope": "",
+    "production_only": true,
+    "artifact": "evidence/2cd97d34b1a2/evidence.json"
+  }
+}

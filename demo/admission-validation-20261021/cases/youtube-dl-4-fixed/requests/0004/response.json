@@ -1,0 +1,33 @@
+{
+  "reservation": {
+    "id": 4,
+    "phase": "admission-controls",
+    "label": {
+      "case": "youtube-dl-4-fixed",
+      "finding_id": "791eec547d5f"
+    },
+    "reserved_at": "2026-10-21T12:58:35.762264+00:00"
+  },
+  "raw_response": "{\"applicable\": false, \"reason\": \"候选缺陷声称 interpret_expression('²', {}, 100) 会因 isdigit 为 True 而 int('²') 抛 ValueError。但该函数对无法识别的表达式没有文档或测试约定必须返回特定值或抛出特定异常；'²' 不是受支持的 JS 数字字面量，其行为属于未定义输入。缺少可定位的契约来证明“应返回某值”或“应抛 ExtractorError”，因此无法构造有依据的复现。此外，Python 3.7 中 '²'.isdigit() 为 True 且 int('²') 抛 ValueError 只是语言事实，不能单独证明该 API 的期望行为。\"}",
+  "error_type": null,
+  "call": {
+    "stage": "reproduction_plan",
+    "status": "completed",
+    "input_chars": 14059,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 157,
+      "prompt_tokens": 4407,
+      "total_tokens": 4564,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 4224
+      },
+      "prompt_cache_hit_tokens": 4224,
+      "prompt_cache_miss_tokens": 183
+    },
+    "elapsed_seconds": 1.665
+  }
+}

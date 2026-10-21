@@ -1,0 +1,71 @@
+{
+  "case": "PySnooper-3",
+  "finding_id": "9261f543fc85",
+  "role": "documented positive: output_path must write the log file",
+  "historical": {
+    "finding_status": "reproduced",
+    "evidence_status": "reproduced",
+    "plan_kind": "documented_behavior",
+    "plan_outcome": null
+  },
+  "current": {
+    "finding_status": "reproduced",
+    "evidence_status": "reproduced",
+    "reason": "源码第24-27行确认：当 output 为 str/PathLike 时，write 闭包内调用 open(output_path, 'a')，而 output_path 在函数作用域、闭包或全局中均未定义（参数名为 output）。README 第67-69行明确承诺 @pysnooper.snoop('/my/log/file.log') 可将输出重定向到文件，构成受支持契约。测试真实调用 snoop(临时文件路径) 并执行被装饰函数，触发 write 时抛出 NameError: name 'output_path' is not defined，与候选描述一致，且非测试自行假设语义或制造无条件失败。",
+    "plan_kind": "documented_behavior",
+    "expected_outcome": "state_change",
+    "expected_exception": "",
+    "precondition": "调用 pysnooper.snoop(临时文件路径) 装饰一个函数并执行该函数，触发 Tracer 调用 write 写入日志；路径为 str，属于文档承诺的受支持用法。",
+    "admission": {
+      "requirement": {
+        "accepted": true,
+        "reason": ""
+      },
+      "audit": {
+        "accepted": true,
+        "checks": {
+          "model_accepted": true,
+          "input_supported": true,
+          "requirement_supported": true,
+          "failure_matches_candidate": true,
+          "behavior_class": true,
+          "no_unresolved_assumptions": true
+        },
+        "failed": []
+      },
+      "accepted": true
+    },
+    "audit": {
+      "accepted": true,
+      "reason": "源码第24-27行确认：当 output 为 str/PathLike 时，write 闭包内调用 open(output_path, 'a')，而 output_path 在函数作用域、闭包或全局中均未定义（参数名为 output）。README 第67-69行明确承诺 @pysnooper.snoop('/my/log/file.log') 可将输出重定向到文件，构成受支持契约。测试真实调用 snoop(临时文件路径) 并执行被装饰函数，触发 write 时抛出 NameError: name 'output_path' is not defined，与候选描述一致，且非测试自行假设语义或制造无条件失败。",
+      "input_supported": true,
+      "requirement_supported": true,
+      "failure_matches_candidate": true,
+      "requirement_class": "behavior",
+      "unresolved_assumptions": []
+    },
+    "attempt_verdicts": [
+      "failure_observed",
+      "failure_observed"
+    ],
+    "generation_attempts": 1
+  },
+  "image_id": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+  "api_calls": 2,
+  "usage": {
+    "prompt_tokens": 10667,
+    "completion_tokens": 751
+  },
+  "error": null,
+  "started_at": "2026-10-21T12:58:27.041501+00:00",
+  "finished_at": "2026-10-21T12:58:32.793060+00:00",
+  "artifacts": {
+    "evidence/9261f543fc85/test_reproduction.py": "c4e98b3021c0ffd12a8cb16bb9c172ff61e387c6e399762acd39913dddcdc670",
+    "evidence/9261f543fc85/plan-1.py": "c4e98b3021c0ffd12a8cb16bb9c172ff61e387c6e399762acd39913dddcdc670",
+    "evidence/9261f543fc85/attempt-1.log": "e48f7ffd958393965ec7e61c5f72b714bd391f7d12332fcc00fbe3c9f5a9c24f",
+    "evidence/9261f543fc85/attempt-2.log": "e48f7ffd958393965ec7e61c5f72b714bd391f7d12332fcc00fbe3c9f5a9c24f",
+    "evidence/9261f543fc85/evidence.json": "0e4963d7ffaca5b49c559faf58a471cef7213af37110cd462d5b9bbab93fe462"
+  },
+  "record_report": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/evidence-original20-20261014/reviews/PySnooper-3/evidence/buggy/report.json",
+  "record_snapshot": "/home/real/Desktop/Agent/CodeReviewAgent/outputs/bugsinpy-work/snapshots/0007/A"
+}

@@ -1,0 +1,33 @@
+{
+  "reservation": {
+    "id": 3,
+    "phase": "admission-controls",
+    "label": {
+      "case": "tornado-1-fixed",
+      "finding_id": "2cd97d34b1a2"
+    },
+    "reserved_at": "2026-10-21T12:58:33.044840+00:00"
+  },
+  "raw_response": "{\"applicable\": false, \"reason\": \"候选主张的是“非 ws/wss 协议应抛出清晰的 ValueError 而非 KeyError”，但仓库中没有任何文档、测试或语言规则约定 WebSocketClientConnection 对非 ws/wss URL 必须抛出 ValueError。类文档明确说明该类不应直接实例化（应使用 websocket_connect），且 websocket_connect 的契约是接受 ws/wss URL；对不受支持的 scheme 抛出 KeyError 属于实现细节而非可定位的契约违反。缺少“应抛出 ValueError”的明确约定，无法构造有来源的断言，故不适用。\"}",
+  "error_type": null,
+  "call": {
+    "stage": "reproduction_plan",
+    "status": "completed",
+    "input_chars": 14172,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 129,
+      "prompt_tokens": 4558,
+      "total_tokens": 4687,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 4352
+      },
+      "prompt_cache_hit_tokens": 4352,
+      "prompt_cache_miss_tokens": 206
+    },
+    "elapsed_seconds": 2.018
+  }
+}

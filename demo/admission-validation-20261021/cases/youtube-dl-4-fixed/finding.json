@@ -1,0 +1,44 @@
+{
+  "path": "youtube_dl/jsinterp.py",
+  "line": 109,
+  "end_line": 110,
+  "severity": "low",
+  "category": "bug",
+  "title": "isdigit 对 Unicode 数字返回 True 但 int() 可能失败或语义不符",
+  "explanation": "expr.isdigit() 对某些 Unicode 数字字符（如上标 '²'、'٣' 阿拉伯数字）返回 True，但 int(expr) 对 '²' 会抛 ValueError，导致未捕获异常而非预期的 ExtractorError。",
+  "trigger": "interpret_expression('²', {}, 100)",
+  "evidence": "'²'.isdigit() 为 True，但 int('²') 抛 ValueError: invalid literal for int()。",
+  "suggestion": "改用 expr.isascii() and expr.isdigit() 或正则 ^\\d+$ 判断。",
+  "id": "791eec547d5f",
+  "source": "llm",
+  "rule": "",
+  "snippet": "107:                 return val\n108: \n109:         if expr.isdigit():\n110:             return int(expr)\n111: \n112:         var_m = re.match(",
+  "status": "pending_evidence",
+  "verification": "测试确实调用了目标代码 interpret_expression('²', {}, 100)，输入有效（公开入口接受任意表达式字符串），Python 语言规则明确：'²'.isdigit() 为 True 但 int('²') 抛 ValueError。运行证据显示在 jsinterp.py:110 处抛出未捕获的 ValueError，与候选描述一致。该路径可达且无前置条件假设，失败与候选相同，证据充分支持正式缺陷报告。",
+  "validation": "候选缺陷声称 interpret_expression('²', {}, 100) 会因 isdigit 为 True 而 int('²') 抛 ValueError。但该函数对无法识别的表达式没有文档或测试约定必须返回特定值或抛出特定异常；'²' 不是受支持的 JS 数字字面量，其行为属于未定义输入。缺少可定位的契约来证明“应返回某值”或“应抛 ExtractorError”，因此无法构造有依据的复现。此外，Python 3.7 中 '²'.isdigit() 为 True 且 int('²') 抛 ValueError 只是语言事实，不能单独证明该 API 的期望行为。",
+  "related_diagnostics": [],
+  "reproduction": {
+    "status": "unsupported",
+    "reason": "候选缺陷声称 interpret_expression('²', {}, 100) 会因 isdigit 为 True 而 int('²') 抛 ValueError。但该函数对无法识别的表达式没有文档或测试约定必须返回特定值或抛出特定异常；'²' 不是受支持的 JS 数字字面量，其行为属于未定义输入。缺少可定位的契约来证明“应返回某值”或“应抛 ExtractorError”，因此无法构造有依据的复现。此外，Python 3.7 中 '²'.isdigit() 为 True 且 int('²') 抛 ValueError 只是语言事实，不能单独证明该 API 的期望行为。",
+    "attempts": [],
+    "generation_attempts": [
+      {
+        "response": "{\"applicable\": false, \"reason\": \"候选缺陷声称 interpret_expression('²', {}, 100) 会因 isdigit 为 True 而 int('²') 抛 ValueError。但该函数对无法识别的表达式没有文档或测试约定必须返回特定值或抛出特定异常；'²' 不是受支持的 JS 数字字面量，其行为属于未定义输入。缺少可定位的契约来证明“应返回某值”或“应抛 ExtractorError”，因此无法构造有依据的复现。此外，Python 3.7 中 '²'.isdigit() 为 True 且 int('²') 抛 ValueError 只是语言事实，不能单独证明该 API 的期望行为。\"}"
+      }
+    ],
+    "plan": {
+      "applicable": false,
+      "reason": "候选缺陷声称 interpret_expression('²', {}, 100) 会因 isdigit 为 True 而 int('²') 抛 ValueError。但该函数对无法识别的表达式没有文档或测试约定必须返回特定值或抛出特定异常；'²' 不是受支持的 JS 数字字面量，其行为属于未定义输入。缺少可定位的契约来证明“应返回某值”或“应抛 ExtractorError”，因此无法构造有依据的复现。此外，Python 3.7 中 '²'.isdigit() 为 True 且 int('²') 抛 ValueError 只是语言事实，不能单独证明该 API 的期望行为。",
+      "contract": null,
+      "test_code": "",
+      "expected_behavior": ""
+    },
+    "execution_snapshot_sha256": "b2ce8f8c2309a77b57961cddeeee3f8b3f9ed74be9904eea0a4582074a6f2171",
+    "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+    "max_file_bytes": 1000000,
+    "scope": "",
+    "review_scope": "",
+    "production_only": true,
+    "artifact": "evidence/791eec547d5f/evidence.json"
+  }
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "stage": "reproduction_plan",
+    "status": "completed",
+    "input_chars": 16341,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 558,
+      "prompt_tokens": 5156,
+      "total_tokens": 5714,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 4992
+      },
+      "prompt_cache_hit_tokens": 4992,
+      "prompt_cache_miss_tokens": 164
+    },
+    "elapsed_seconds": 3.208
+  },
+  {
+    "stage": "evidence_audit",
+    "status": "completed",
+    "input_chars": 17088,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 193,
+      "prompt_tokens": 5511,
+      "total_tokens": 5704,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1280
+      },
+      "prompt_cache_hit_tokens": 1280,
+      "prompt_cache_miss_tokens": 4231
+    },
+    "elapsed_seconds": 1.317
+  }
+]

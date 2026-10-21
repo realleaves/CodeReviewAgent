@@ -1,0 +1,339 @@
+{
+  "path": "pysnooper/pysnooper.py",
+  "line": 26,
+  "end_line": 26,
+  "severity": "high",
+  "category": "bug",
+  "title": "write 闭包引用未定义的 output_path 导致 NameError",
+  "explanation": "当 output 为字符串或 PathLike 时，get_write_function 返回的 write 闭包内部使用 open(output_path, 'a')，但 output_path 从未在函数作用域、闭包或全局中定义（搜索确认仅此一处出现）。函数参数名为 output，闭包捕获的应是 output 而非 output_path。因此任何以文件路径作为输出的调用在首次写入时都会抛出 NameError: name 'output_path' is not defined，文件输出功能完全不可用。",
+  "trigger": "调用 pysnooper.snoop('/tmp/log.txt') 装饰函数并执行被装饰函数，触发 write 被调用。",
+  "evidence": "第 24 行判断 isinstance(output, (pycompat.PathLike, str))，第 26 行 open(output_path, 'a')；search_code 对 output_path 的搜索仅返回第 26 行，无任何定义或赋值。",
+  "suggestion": "将第 26 行改为 open(output, 'a')，使闭包引用传入的 output 参数。",
+  "id": "9261f543fc85",
+  "source": "llm",
+  "rule": "",
+  "snippet": "24:     elif isinstance(output, (pycompat.PathLike, str)):\n25:         def write(s):\n26:             with open(output_path, 'a') as output_file:\n27:                 output_file.write(s)\n28:     else:",
+  "status": "reproduced",
+  "verification": "源码第24-27行确认：当 output 为 str/PathLike 时，write 闭包内调用 open(output_path, 'a')，而 output_path 在函数作用域、闭包或全局中均未定义（参数名为 output）。README 第67-69行明确承诺 @pysnooper.snoop('/my/log/file.log') 可将输出重定向到文件，构成受支持契约。测试真实调用 snoop(临时文件路径) 并执行被装饰函数，触发 write 时抛出 NameError: name 'output_path' is not defined，与候选描述一致，且非测试自行假设语义或制造无条件失败。",
+  "validation": "两次独立隔离执行出现同类型失败并触达目标代码；预期依据通过结构化准入检查与模型对照引用原文核验，仍供维护者复查。",
+  "related_diagnostics": [],
+  "reproduction": {
+    "status": "reproduced",
+    "reason": "源码第24-27行确认：当 output 为 str/PathLike 时，write 闭包内调用 open(output_path, 'a')，而 output_path 在函数作用域、闭包或全局中均未定义（参数名为 output）。README 第67-69行明确承诺 @pysnooper.snoop('/my/log/file.log') 可将输出重定向到文件，构成受支持契约。测试真实调用 snoop(临时文件路径) 并执行被装饰函数，触发 write 时抛出 NameError: name 'output_path' is not defined，与候选描述一致，且非测试自行假设语义或制造无条件失败。",
+    "attempts": [
+      {
+        "image_id": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+        "image_reference": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+        "exit_code": 0,
+        "stop_reason": null,
+        "seconds": 0.659,
+        "execution": {
+          "python": "3.8.20",
+          "tests_run": 1,
+          "failures": 0,
+          "errors": 1,
+          "skipped": 0,
+          "load_error": null,
+          "observations": [
+            {
+              "test": "generated_reproduction.ReproductionTest.test_reproduction",
+              "outcome": "error",
+              "exception_type": "NameError",
+              "message": "name 'output_path' is not defined",
+              "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.8/unittest/case.py\", line 60, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.8/unittest/case.py\", line 676, in run\n    self._callTestMethod(testMethod)\n  File \"/usr/local/lib/python3.8/unittest/case.py\", line 633, in _callTestMethod\n    method()\n  File \"/harness/test_reproduction.py\", line 18, in test_reproduction\n    result = target(1)\n  File \"<decorator-gen-2>\", line 2, in target\n  File \"/work/pysnooper/pysnooper.py\", line 72, in decorate\n    return function(*args, **kwargs)\n  File \"/harness/test_reproduction.py\", line 13, in target\n    @pysnooper.snoop(log_path)\n  File \"/work/pysnooper/tracer.py\", line 173, in trace\n    self.write('{indent}{newish_string}{name} = {value_repr}'.format(\n  File \"/work/pysnooper/tracer.py\", line 114, in write\n    self._write(s)\n  File \"/work/pysnooper/pysnooper.py\", line 26, in write\n    with open(output_path, 'a') as output_file:\nNameError: name 'output_path' is not defined\n",
+              "traceback_frames": [
+                {
+                  "path": "/usr/local/lib/python3.8/unittest/case.py",
+                  "line": 60,
+                  "function": "testPartExecutor"
+                },
+                {
+                  "path": "/usr/local/lib/python3.8/unittest/case.py",
+                  "line": 676,
+                  "function": "run"
+                },
+                {
+                  "path": "/usr/local/lib/python3.8/unittest/case.py",
+                  "line": 633,
+                  "function": "_callTestMethod"
+                },
+                {
+                  "path": "/harness/test_reproduction.py",
+                  "line": 18,
+                  "function": "test_reproduction"
+                },
+                {
+                  "path": "<decorator-gen-2>",
+                  "line": 2,
+                  "function": "target"
+                },
+                {
+                  "path": "/work/pysnooper/pysnooper.py",
+                  "line": 72,
+                  "function": "decorate"
+                },
+                {
+                  "path": "/harness/test_reproduction.py",
+                  "line": 13,
+                  "function": "target"
+                },
+                {
+                  "path": "/work/pysnooper/tracer.py",
+                  "line": 173,
+                  "function": "trace"
+                },
+                {
+                  "path": "/work/pysnooper/tracer.py",
+                  "line": 114,
+                  "function": "write"
+                },
+                {
+                  "path": "/work/pysnooper/pysnooper.py",
+                  "line": 26,
+                  "function": "write"
+                }
+              ]
+            }
+          ],
+          "target_lines": [
+            20,
+            24,
+            25,
+            33,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            74
+          ],
+          "target_calls": [
+            [
+              "decorate",
+              66
+            ],
+            [
+              "get_write_function",
+              19
+            ],
+            [
+              "snoop",
+              37
+            ]
+          ],
+          "target_trace_scope": "test_execution"
+        },
+        "log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.8.20\", \"tests_run\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"error\", \"exception_type\": \"NameError\", \"message\": \"name 'output_path' is not defined\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.8/unittest/case.py\\\", line 60, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.8/unittest/case.py\\\", line 676, in run\\n    self._callTestMethod(testMethod)\\n  File \\\"/usr/local/lib/python3.8/unittest/case.py\\\", line 633, in _callTestMethod\\n    method()\\n  File \\\"/harness/test_reproduction.py\\\", line 18, in test_reproduction\\n    result = target(1)\\n  File \\\"<decorator-gen-2>\\\", line 2, in target\\n  File \\\"/work/pysnooper/pysnooper.py\\\", line 72, in decorate\\n    return function(*args, **kwargs)\\n  File \\\"/harness/test_reproduction.py\\\", line 13, in target\\n    @pysnooper.snoop(log_path)\\n  File \\\"/work/pysnooper/tracer.py\\\", line 173, in trace\\n    self.write('{indent}{newish_string}{name} = {value_repr}'.format(\\n  File \\\"/work/pysnooper/tracer.py\\\", line 114, in write\\n    self._write(s)\\n  File \\\"/work/pysnooper/pysnooper.py\\\", line 26, in write\\n    with open(output_path, 'a') as output_file:\\nNameError: name 'output_path' is not defined\\n\", \"traceback_frames\": [{\"path\": \"/usr/local/lib/python3.8/unittest/case.py\", \"line\": 60, \"function\": \"testPartExecutor\"}, {\"path\": \"/usr/local/lib/python3.8/unittest/case.py\", \"line\": 676, \"function\": \"run\"}, {\"path\": \"/usr/local/lib/python3.8/unittest/case.py\", \"line\": 633, \"function\": \"_callTestMethod\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 18, \"function\": \"test_reproduction\"}, {\"path\": \"<decorator-gen-2>\", \"line\": 2, \"function\": \"target\"}, {\"path\": \"/work/pysnooper/pysnooper.py\", \"line\": 72, \"function\": \"decorate\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 13, \"function\": \"target\"}, {\"path\": \"/work/pysnooper/tracer.py\", \"line\": 173, \"function\": \"trace\"}, {\"path\": \"/work/pysnooper/tracer.py\", \"line\": 114, \"function\": \"write\"}, {\"path\": \"/work/pysnooper/pysnooper.py\", \"line\": 26, \"function\": \"write\"}]}], \"target_lines\": [20, 24, 25, 33, 65, 66, 67, 68, 69, 70, 71, 72, 74], \"target_calls\": [[\"decorate\", 66], [\"get_write_function\", 19], [\"snoop\", 37]], \"target_trace_scope\": \"test_execution\"}\n",
+        "log_sha256": "e48f7ffd958393965ec7e61c5f72b714bd391f7d12332fcc00fbe3c9f5a9c24f",
+        "verdict": "failure_observed",
+        "plan_version": 0,
+        "test_sha256": "c4e98b3021c0ffd12a8cb16bb9c172ff61e387c6e399762acd39913dddcdc670",
+        "execution_snapshot_sha256": "9ae6f4f828588525cd059d0cf5ea5ff88f1221b85e4fea9cd9d78ae55c12ab91"
+      },
+      {
+        "image_id": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+        "image_reference": "sha256:5dfcdcf3a82692a3ca2435c7f1dd6cb359a6a3b8a3486ae4d974afc7b2ffac8c",
+        "exit_code": 0,
+        "stop_reason": null,
+        "seconds": 0.539,
+        "execution": {
+          "python": "3.8.20",
+          "tests_run": 1,
+          "failures": 0,
+          "errors": 1,
+          "skipped": 0,
+          "load_error": null,
+          "observations": [
+            {
+              "test": "generated_reproduction.ReproductionTest.test_reproduction",
+              "outcome": "error",
+              "exception_type": "NameError",
+              "message": "name 'output_path' is not defined",
+              "traceback": "Traceback (most recent call last):\n  File \"/usr/local/lib/python3.8/unittest/case.py\", line 60, in testPartExecutor\n    yield\n  File \"/usr/local/lib/python3.8/unittest/case.py\", line 676, in run\n    self._callTestMethod(testMethod)\n  File \"/usr/local/lib/python3.8/unittest/case.py\", line 633, in _callTestMethod\n    method()\n  File \"/harness/test_reproduction.py\", line 18, in test_reproduction\n    result = target(1)\n  File \"<decorator-gen-2>\", line 2, in target\n  File \"/work/pysnooper/pysnooper.py\", line 72, in decorate\n    return function(*args, **kwargs)\n  File \"/harness/test_reproduction.py\", line 13, in target\n    @pysnooper.snoop(log_path)\n  File \"/work/pysnooper/tracer.py\", line 173, in trace\n    self.write('{indent}{newish_string}{name} = {value_repr}'.format(\n  File \"/work/pysnooper/tracer.py\", line 114, in write\n    self._write(s)\n  File \"/work/pysnooper/pysnooper.py\", line 26, in write\n    with open(output_path, 'a') as output_file:\nNameError: name 'output_path' is not defined\n",
+              "traceback_frames": [
+                {
+                  "path": "/usr/local/lib/python3.8/unittest/case.py",
+                  "line": 60,
+                  "function": "testPartExecutor"
+                },
+                {
+                  "path": "/usr/local/lib/python3.8/unittest/case.py",
+                  "line": 676,
+                  "function": "run"
+                },
+                {
+                  "path": "/usr/local/lib/python3.8/unittest/case.py",
+                  "line": 633,
+                  "function": "_callTestMethod"
+                },
+                {
+                  "path": "/harness/test_reproduction.py",
+                  "line": 18,
+                  "function": "test_reproduction"
+                },
+                {
+                  "path": "<decorator-gen-2>",
+                  "line": 2,
+                  "function": "target"
+                },
+                {
+                  "path": "/work/pysnooper/pysnooper.py",
+                  "line": 72,
+                  "function": "decorate"
+                },
+                {
+                  "path": "/harness/test_reproduction.py",
+                  "line": 13,
+                  "function": "target"
+                },
+                {
+                  "path": "/work/pysnooper/tracer.py",
+                  "line": 173,
+                  "function": "trace"
+                },
+                {
+                  "path": "/work/pysnooper/tracer.py",
+                  "line": 114,
+                  "function": "write"
+                },
+                {
+                  "path": "/work/pysnooper/pysnooper.py",
+                  "line": 26,
+                  "function": "write"
+                }
+              ]
+            }
+          ],
+          "target_lines": [
+            20,
+            24,
+            25,
+            33,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            74
+          ],
+          "target_calls": [
+            [
+              "decorate",
+              66
+            ],
+            [
+              "get_write_function",
+              19
+            ],
+            [
+              "snoop",
+              37
+            ]
+          ],
+          "target_trace_scope": "test_execution"
+        },
+        "log": "\nCODE_REVIEW_EXECUTION={\"python\": \"3.8.20\", \"tests_run\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": 0, \"load_error\": null, \"observations\": [{\"test\": \"generated_reproduction.ReproductionTest.test_reproduction\", \"outcome\": \"error\", \"exception_type\": \"NameError\", \"message\": \"name 'output_path' is not defined\", \"traceback\": \"Traceback (most recent call last):\\n  File \\\"/usr/local/lib/python3.8/unittest/case.py\\\", line 60, in testPartExecutor\\n    yield\\n  File \\\"/usr/local/lib/python3.8/unittest/case.py\\\", line 676, in run\\n    self._callTestMethod(testMethod)\\n  File \\\"/usr/local/lib/python3.8/unittest/case.py\\\", line 633, in _callTestMethod\\n    method()\\n  File \\\"/harness/test_reproduction.py\\\", line 18, in test_reproduction\\n    result = target(1)\\n  File \\\"<decorator-gen-2>\\\", line 2, in target\\n  File \\\"/work/pysnooper/pysnooper.py\\\", line 72, in decorate\\n    return function(*args, **kwargs)\\n  File \\\"/harness/test_reproduction.py\\\", line 13, in target\\n    @pysnooper.snoop(log_path)\\n  File \\\"/work/pysnooper/tracer.py\\\", line 173, in trace\\n    self.write('{indent}{newish_string}{name} = {value_repr}'.format(\\n  File \\\"/work/pysnooper/tracer.py\\\", line 114, in write\\n    self._write(s)\\n  File \\\"/work/pysnooper/pysnooper.py\\\", line 26, in write\\n    with open(output_path, 'a') as output_file:\\nNameError: name 'output_path' is not defined\\n\", \"traceback_frames\": [{\"path\": \"/usr/local/lib/python3.8/unittest/case.py\", \"line\": 60, \"function\": \"testPartExecutor\"}, {\"path\": \"/usr/local/lib/python3.8/unittest/case.py\", \"line\": 676, \"function\": \"run\"}, {\"path\": \"/usr/local/lib/python3.8/unittest/case.py\", \"line\": 633, \"function\": \"_callTestMethod\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 18, \"function\": \"test_reproduction\"}, {\"path\": \"<decorator-gen-2>\", \"line\": 2, \"function\": \"target\"}, {\"path\": \"/work/pysnooper/pysnooper.py\", \"line\": 72, \"function\": \"decorate\"}, {\"path\": \"/harness/test_reproduction.py\", \"line\": 13, \"function\": \"target\"}, {\"path\": \"/work/pysnooper/tracer.py\", \"line\": 173, \"function\": \"trace\"}, {\"path\": \"/work/pysnooper/tracer.py\", \"line\": 114, \"function\": \"write\"}, {\"path\": \"/work/pysnooper/pysnooper.py\", \"line\": 26, \"function\": \"write\"}]}], \"target_lines\": [20, 24, 25, 33, 65, 66, 67, 68, 69, 70, 71, 72, 74], \"target_calls\": [[\"decorate\", 66], [\"get_write_function\", 19], [\"snoop\", 37]], \"target_trace_scope\": \"test_execution\"}\n",
+        "log_sha256": "e48f7ffd958393965ec7e61c5f72b714bd391f7d12332fcc00fbe3c9f5a9c24f",
+        "verdict": "failure_observed",
+        "plan_version": 0,
+        "test_sha256": "c4e98b3021c0ffd12a8cb16bb9c172ff61e387c6e399762acd39913dddcdc670",
+        "execution_snapshot_sha256": "9ae6f4f828588525cd059d0cf5ea5ff88f1221b85e4fea9cd9d78ae55c12ab91"
+      }
+    ],
+    "generation_attempts": [
+      {
+        "response": "{\"applicable\": true, \"reason\": \"源码第24-27行确认：当 output 为 str/PathLike 时，write 闭包内调用 open(output_path, 'a')，而 output_path 在函数作用域、闭包或全局中均未定义（参数名为 output）。README 第67-69行明确承诺 @pysnooper.snoop('/my/log/file.log') 可将输出重定向到文件，构成受支持契约。首次写入即抛 NameError，文件输出功能不可用。\", \"contract\": {\"path\": \"README.md\", \"start\": 67, \"end\": 69, \"quote\": \"If stderr is not easily accessible for you, you can redirect the output to a file:\\n\\n    @pysnooper.snoop('/my/log/file.log')\", \"kind\": \"documented_behavior\", \"rationale\": \"README 明确说明可将输出重定向到文件，并以字符串路径作为 snoop 的第一个参数。因此传入临时文件路径并执行被装饰函数属于受支持用法，应正常写入日志而非抛出 NameError。\", \"expected_outcome\": \"state_change\", \"precondition\": \"调用 pysnooper.snoop(临时文件路径) 装饰一个函数并执行该函数，触发 Tracer 调用 write 写入日志；路径为 str，属于文档承诺的受支持用法。\", \"assumptions\": [\"Tracer 在函数执行过程中会调用 write 至少一次（由 tracer.py 第110-114行及 trace 逻辑可见）\", \"pycompat.PathLike 在 Python 3.8 下包含 str 分支，使 isinstance 判断成立\"]}, \"expected_behavior\": \"使用字符串文件路径作为 snoop 输出时，被装饰函数执行后日志应写入该文件，且不抛出 NameError。\", \"test_code\": \"import os\\nimport tempfile\\nimport unittest\\n\\nimport pysnooper\\n\\n\\nclass ReproductionTest(unittest.TestCase):\\n    def test_reproduction(self):\\n        with tempfile.TemporaryDirectory() as tmpdir:\\n            log_path = os.path.join(tmpdir, 'log.txt')\\n\\n            @pysnooper.snoop(log_path)\\n            def target(x):\\n                y = x + 1\\n                return y\\n\\n            result = target(1)\\n            self.assertEqual(result, 2)\\n            self.assertTrue(os.path.exists(log_path))\\n            with open(log_path, 'r') as f:\\n                content = f.read()\\n            self.assertIn('y', content)\\n\"}"
+      }
+    ],
+    "plan": {
+      "applicable": true,
+      "reason": "源码第24-27行确认：当 output 为 str/PathLike 时，write 闭包内调用 open(output_path, 'a')，而 output_path 在函数作用域、闭包或全局中均未定义（参数名为 output）。README 第67-69行明确承诺 @pysnooper.snoop('/my/log/file.log') 可将输出重定向到文件，构成受支持契约。首次写入即抛 NameError，文件输出功能不可用。",
+      "contract": {
+        "path": "README.md",
+        "start": 67,
+        "end": 69,
+        "quote": "If stderr is not easily accessible for you, you can redirect the output to a file:\n\n    @pysnooper.snoop('/my/log/file.log')",
+        "kind": "documented_behavior",
+        "rationale": "README 明确说明可将输出重定向到文件，并以字符串路径作为 snoop 的第一个参数。因此传入临时文件路径并执行被装饰函数属于受支持用法，应正常写入日志而非抛出 NameError。",
+        "expected_outcome": "state_change",
+        "expected_exception": "",
+        "precondition": "调用 pysnooper.snoop(临时文件路径) 装饰一个函数并执行该函数，触发 Tracer 调用 write 写入日志；路径为 str，属于文档承诺的受支持用法。",
+        "assumptions": [
+          "Tracer 在函数执行过程中会调用 write 至少一次（由 tracer.py 第110-114行及 trace 逻辑可见）",
+          "pycompat.PathLike 在 Python 3.8 下包含 str 分支，使 isinstance 判断成立"
+        ]
+      },
+      "test_code": "import os\nimport tempfile\nimport unittest\n\nimport pysnooper\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        with tempfile.TemporaryDirectory() as tmpdir:\n            log_path = os.path.join(tmpdir, 'log.txt')\n\n            @pysnooper.snoop(log_path)\n            def target(x):\n                y = x + 1\n                return y\n\n            result = target(1)\n            self.assertEqual(result, 2)\n            self.assertTrue(os.path.exists(log_path))\n            with open(log_path, 'r') as f:\n                content = f.read()\n            self.assertIn('y', content)\n",
+      "expected_behavior": "使用字符串文件路径作为 snoop 输出时，被装饰函数执行后日志应写入该文件，且不抛出 NameError。"
+    },
+    "plan_history": [
+      {
+        "applicable": true,
+        "reason": "源码第24-27行确认：当 output 为 str/PathLike 时，write 闭包内调用 open(output_path, 'a')，而 output_path 在函数作用域、闭包或全局中均未定义（参数名为 output）。README 第67-69行明确承诺 @pysnooper.snoop('/my/log/file.log') 可将输出重定向到文件，构成受支持契约。首次写入即抛 NameError，文件输出功能不可用。",
+        "contract": {
+          "path": "README.md",
+          "start": 67,
+          "end": 69,
+          "quote": "If stderr is not easily accessible for you, you can redirect the output to a file:\n\n    @pysnooper.snoop('/my/log/file.log')",
+          "kind": "documented_behavior",
+          "rationale": "README 明确说明可将输出重定向到文件，并以字符串路径作为 snoop 的第一个参数。因此传入临时文件路径并执行被装饰函数属于受支持用法，应正常写入日志而非抛出 NameError。",
+          "expected_outcome": "state_change",
+          "expected_exception": "",
+          "precondition": "调用 pysnooper.snoop(临时文件路径) 装饰一个函数并执行该函数，触发 Tracer 调用 write 写入日志；路径为 str，属于文档承诺的受支持用法。",
+          "assumptions": [
+            "Tracer 在函数执行过程中会调用 write 至少一次（由 tracer.py 第110-114行及 trace 逻辑可见）",
+            "pycompat.PathLike 在 Python 3.8 下包含 str 分支，使 isinstance 判断成立"
+          ]
+        },
+        "test_code": "import os\nimport tempfile\nimport unittest\n\nimport pysnooper\n\n\nclass ReproductionTest(unittest.TestCase):\n    def test_reproduction(self):\n        with tempfile.TemporaryDirectory() as tmpdir:\n            log_path = os.path.join(tmpdir, 'log.txt')\n\n            @pysnooper.snoop(log_path)\n            def target(x):\n                y = x + 1\n                return y\n\n            result = target(1)\n            self.assertEqual(result, 2)\n            self.assertTrue(os.path.exists(log_path))\n            with open(log_path, 'r') as f:\n                content = f.read()\n            self.assertIn('y', content)\n",
+        "expected_behavior": "使用字符串文件路径作为 snoop 输出时，被装饰函数执行后日志应写入该文件，且不抛出 NameError。"
+      }
+    ],
+    "feedback": [],
+    "active_attempt_indexes": [
+      0,
+      1
+    ],
+    "admission": {
+      "requirement": {
+        "accepted": true,
+        "reason": ""
+      },
+      "audit": {
+        "accepted": true,
+        "checks": {
+          "model_accepted": true,
+          "input_supported": true,
+          "requirement_supported": true,
+          "failure_matches_candidate": true,
+          "behavior_class": true,
+          "no_unresolved_assumptions": true
+        },
+        "failed": []
+      },
+      "accepted": true
+    },
+    "audit": {
+      "accepted": true,
+      "reason": "源码第24-27行确认：当 output 为 str/PathLike 时，write 闭包内调用 open(output_path, 'a')，而 output_path 在函数作用域、闭包或全局中均未定义（参数名为 output）。README 第67-69行明确承诺 @pysnooper.snoop('/my/log/file.log') 可将输出重定向到文件，构成受支持契约。测试真实调用 snoop(临时文件路径) 并执行被装饰函数，触发 write 时抛出 NameError: name 'output_path' is not defined，与候选描述一致，且非测试自行假设语义或制造无条件失败。",
+      "input_supported": true,
+      "requirement_supported": true,
+      "failure_matches_candidate": true,
+      "requirement_class": "behavior",
+      "unresolved_assumptions": []
+    },
+    "execution_snapshot_sha256": "9ae6f4f828588525cd059d0cf5ea5ff88f1221b85e4fea9cd9d78ae55c12ab91",
+    "snapshot_policy": "only indexed UTF-8 Python files; no env, symlinks, resources or hidden benchmark tests",
+    "max_file_bytes": 1000000,
+    "scope": "",
+    "review_scope": "",
+    "production_only": true,
+    "artifact": "evidence/9261f543fc85/evidence.json"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "created_at": "2026-10-21T12:58:27.003665+00:00",
+  "kind": "seen-sample admission diagnostic; no fresh baseline arm",
+  "cases": [
+    {
+      "id": "PySnooper-3",
+      "finding_id": "9261f543fc85",
+      "historical": "reproduced",
+      "role": "documented positive: output_path must write the log file"
+    },
+    {
+      "id": "tornado-1-fixed",
+      "finding_id": "2cd97d34b1a2",
+      "historical": "reproduced",
+      "role": "negative: KeyError observed, ValueError requested by language rule"
+    },
+    {
+      "id": "youtube-dl-4-fixed",
+      "finding_id": "791eec547d5f",
+      "historical": "reproduced",
+      "role": "negative: ValueError observed, ExtractorError requested by language rule"
+    },
+    {
+      "id": "youtube-dl-8-buggy",
+      "finding_id": "248543bf3d91",
+      "historical": "reproduced",
+      "role": "negative: AttributeError observed, SyntaxError requested by language rule"
+    }
+  ],
+  "budget": {
+    "limit": 24,
+    "per_case": 6
+  },
+  "model": {
+    "model": "deepseek-flash",
+    "thinking_mode": "disabled",
+    "temperature": 0.1,
+    "max_output_tokens": 6000,
+    "provider_is_deepseek": true
+  },
+  "source_sha256": {
+    "src/__init__.py": "9d9e33ea9b0988a621a891305c15f6822aeb887e062c209110de3a43b263ddb4",
+    "src/agents.py": "396e69628790766b122a6041524659b4b70ba3b7ec6b69b05382e4919c780b8e",
+    "src/code_index.py": "39330b46f887021b2aeabf0c292cf5fe5a5e3b5cfde3d701be66beadcd0c208d",
+    "src/deduplication.py": "3071efab768fe7cc9e32073b04ad906af5cc66ffd8d145f61bcb3cfecd48788c",
+    "src/pipeline.py": "d962cd493da3ace3e4ef0784615ad2241b036c1cc3f743d87d20bc4a6ab0a3ab",
+    "src/report.py": "a05cb3f5e455b407c1ee9acc421603e40b9e1261847aabf9f1a696799fdd6f46",
+    "src/repository.py": "360f9e5f492f98780632c68197a8c72abf0b36d876b6b2c2368d8d99a0fbda4c",
+    "src/reproduction.py": "a944ef5ece367ce559d1e421409f66ce88ac1ef730a02431a16f04bdfe39209a",
+    "src/reproduction_runner.py": "a64da9832eda9154d518ea49636ca927750d6264ddba2a0ccad135e629b7798a",
+    "src/review_context.py": "6c49b9f6b3daef53d926f5b609563696919ff506984dfc592f0a2ea5581b70dc",
+    "src/schemas.py": "26208c3328037128c6bd9c3acd19fb2913dc7665b335c39621afd9dafec12f24",
+    "src/static_analysis.py": "c094e31f91c91916c8db62e5350617e8b3a77a2f930b6063c9d4eec33cf60d2d",
+    "main.py": "ce470cc1c72adbf184bbe70010fd15eb748c686ff1833de25d7c671783b89b2b",
+    "evaluation/admission_validation.py": "b26e4f7d2605b09bb0223da2dc0afd5f7087f53b0ecdd69471856c502ac9e8af",
+    "evaluation/bugsinpy_data.py": "6f9d3335e6dfe70f98ed9beef0b46d3ac127dcdd7fbc283fe09a1db14452dfff",
+    "evaluation/discovery_experiment.py": "947f6a5a5a6353b512f3536653a7e1b373e2205af11964cffed22227c9ab50b9"
+  },
+  "protocol": "Load the frozen 2026-10-14 candidate and snapshot; let the current model generate a fresh plan and test under the current prompt; run two isolated containers; apply requirement_gate then audit_gate. Official tests, reference labels and the opposite version are never given to the Agent. Historical old-gate outcomes are reference only, not a resampled paired baseline. Every provider attempt is reserved before the call and retained.",
+  "reference": "Historical old gate accepted all selected cases; new gate is expected to keep the documented PySnooper-3 positive and downgrade the three language-rule negatives if the same requirement kind is produced."
+}

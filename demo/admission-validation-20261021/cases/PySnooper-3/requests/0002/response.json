@@ -1,0 +1,33 @@
+{
+  "reservation": {
+    "id": 2,
+    "phase": "admission-controls",
+    "label": {
+      "case": "PySnooper-3",
+      "finding_id": "9261f543fc85"
+    },
+    "reserved_at": "2026-10-21T12:58:31.472126+00:00"
+  },
+  "raw_response": "{\"accepted\": true, \"reason\": \"源码第24-27行确认：当 output 为 str/PathLike 时，write 闭包内调用 open(output_path, 'a')，而 output_path 在函数作用域、闭包或全局中均未定义（参数名为 output）。README 第67-69行明确承诺 @pysnooper.snoop('/my/log/file.log') 可将输出重定向到文件，构成受支持契约。测试真实调用 snoop(临时文件路径) 并执行被装饰函数，触发 write 时抛出 NameError: name 'output_path' is not defined，与候选描述一致，且非测试自行假设语义或制造无条件失败。\", \"input_supported\": true, \"requirement_supported\": true, \"failure_matches_candidate\": true, \"requirement_class\": \"behavior\", \"unresolved_assumptions\": []}",
+  "error_type": null,
+  "call": {
+    "stage": "evidence_audit",
+    "status": "completed",
+    "input_chars": 17088,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 193,
+      "prompt_tokens": 5511,
+      "total_tokens": 5704,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1280
+      },
+      "prompt_cache_hit_tokens": 1280,
+      "prompt_cache_miss_tokens": 4231
+    },
+    "elapsed_seconds": 1.317
+  }
+}
