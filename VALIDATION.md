@@ -147,4 +147,10 @@ legacy/callgraph与两轮单变量改进均结束，另完成预选4新样本、
 
 结果：两臂都是参考缺陷有效检出1/4、修复侧同问题告警0、成对区分1/4；唯一有效命中是tornado-14的`initialize(make_current=True)`条件取反，两臂都两次隔离执行并审计通过。tornado-13只有Ruff B904静态建议，无模型候选；youtube-dl-14候选偏离网页JSON章节元数据参考路径；youtube-dl-15无候选。admission相对baseline多1次调用、多5条待确认候选（13 vs 8），没有增加有效证据，也没有破坏唯一正例。判读为DeepSeek对照冻结reference-rubric，人工复查待完成；额外候选不自动算误报。
 
-该对照只隔离门控（两臂共享新提示词），不是旧版vs新版；样本复用discovery holdout，单次重复，不是完全盲测或全仓库成绩。结论：准入在固定案例上拦住了无依据预期，但在这个小样本evidence pilot上没有显示端到端检出/精确率收益；不能据此声称提升，也不足以关闭安全门控。资料见[新样本evidence对照](demo/evidence-holdout-compare-20261021/README.md)；离线校验`python demo/evidence-holdout-compare-20261021/verify.py`，不调用模型/Docker。当前项目109项测试通过，Ruff F/E9通过。
+该对照只隔离门控（两臂共享新提示词），不是旧版vs新版；样本复用discovery holdout，单次重复，不是完全盲测或全仓库成绩。结论：准入在固定案例上拦住了无依据预期，但在这个小样本evidence pilot上没有显示端到端检出/精确率收益；不能据此声称提升，也不足以关闭安全门控。资料见[新样本evidence对照](demo/evidence-holdout-compare-20261021/README.md)；离线校验`python demo/evidence-holdout-compare-20261021/verify.py`，不调用模型/Docker。当前项目111项测试通过，Ruff F/E9通过。
+
+## 漏检失败分类（2026-10-21）
+
+对2026-10-14冻结测评的26个有效参考对做逐条候选阶段分类，0次模型调用、0次Docker。候选命中4个、有效证据1个；22个漏检中8个完全没有候选（buggy侧无任何LLM finding，运行多为completed且1–2次调用）、14个有候选但偏题（其中4个复现了额外问题）、另3个候选命中但证据失败。分类脚本`evaluation/evidence_failure_taxonomy.py`会断言26/4/1/22以及8/14/3分组；结构化结果与逐条参考问题见[失败分类](demo/evidence-failure-taxonomy-20261021/README.md)。
+
+结论：瓶颈在发现阶段，不在取证/准入门控。8个无候选说明当前单次广撒网提示允许模型看一眼就返回空；14个偏题集中在输入变体、状态/生命周期、协议/头部和regex/编码。下一轮按长期目标做“假设—反例式发现流程”的单变量A/B，先写协议和预算，再启动模型调用；不继续加callgraph/thinking/输出上限或收紧准入。当前109项测试通过，Ruff F/E9通过。

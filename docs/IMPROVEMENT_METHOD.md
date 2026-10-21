@@ -6,6 +6,8 @@
 
 2026-10-21进展：发现阶段完成预选4新样本、44窗口holdout，并与开发三轮合计436/600次保守扣减；未证实参考发现增益，默认配置不变，见[最终对照](../demo/discovery-context-20261015/README.md)。准入完成4个已见固定案例的真实模型验证：5次调用，PySnooper-3正例保持`reproduced`，tornado-1/youtube-dl-4负例由模型直接`unsupported`，youtube-dl-8负例由确定性门控降级为`contract_unconfirmed`，见[固定案例验证](../demo/admission-validation-20261021/README.md)。随后在4个holdout样本上做第一次evidence-stage baseline/admission对照：16次运行、37次调用，两臂都是1/4有效检出、0固定侧告警；admission多1次调用、多5条待确认候选，没有显示端到端增益，也没有破坏唯一正例，见[新样本evidence对照](../demo/evidence-holdout-compare-20261021/README.md)。样本复用discovery holdout、单次重复，仍不是完全盲测；不能据此声称准入提升检出率。
 
+2026-10-21 失败分类（P0）：对2026-10-14的26个有效参考对逐条归类，候选命中4个、有效证据1个；22个漏检中8个完全没有候选、14个有候选但偏题；另有3个候选命中但证据失败。8个无候选的运行大多只调用1–2次且已完成，说明不是测试生成失败，而是发现阶段没有提出候选；14个偏题集中在输入变体、状态/生命周期、协议/头部和regex/编码，callgraph扩充没有解决。结论：下一轮应做发现流程的单变量实验，而不是继续加取证门控或上下文。分类见[失败分类](../demo/evidence-failure-taxonomy-20261021/README.md)。
+
 2026-10-15进展：13条历史自动接受记录已完成[执行复测及逐条契约判读](../demo/evidence-retest13-20261015/README.md)，仍待维护者人工确认。调用关系上下文策略已做可选实现，6个开发样本两版本18组[初始输入离线核查](../demo/context-callgraph-20261015/README.md)完成；模型发现阶段成对实验和新样本盲测仍未运行，不能把输入检索覆盖当成检出提升。对照基线为该次修改前工作区快照，保留此前执行判定修复，见归档协议，不再笼统等同40034c2。
 
 ## 目标与已知基线

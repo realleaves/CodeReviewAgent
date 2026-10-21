@@ -1,0 +1,747 @@
+{
+  "source": "demo/evidence-assessment-20261014",
+  "scope": "26 eligible evidence pairs from the frozen 2026-10-14 assessment; buggy-side candidate stage",
+  "api_calls": 0,
+  "docker_executions": 0,
+  "counts": {
+    "eligible_pairs": 26,
+    "candidate_hits": 4,
+    "valid_evidence": 1,
+    "misses": 22,
+    "off_target_reproduced": 4,
+    "off_target_unproven": 10,
+    "no_candidate": 8,
+    "candidate_hit_evidence_failed": 3
+  },
+  "rates": {
+    "candidate_hit_rate": 0.1538,
+    "valid_evidence_rate": 0.0385,
+    "no_candidate_share_of_misses": 0.3636,
+    "off_target_share_of_misses": 0.6364
+  },
+  "records": [
+    {
+      "case": "PySnooper-1",
+      "batch": "evidence-original20-20261014",
+      "category": "off_target_reproduced",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 3,
+      "reproduced_findings": 1,
+      "report_status": "partial",
+      "window_review_completed": true,
+      "calls": 15,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "Non-ASCII traced output/source fails under non-UTF-8 default encoding: FileWriter.write lacks explicit UTF-8 and/or byte source defaults to ASCII. The paired test reproduces a UnicodeEncodeError under an ASCII locale.",
+      "reason": "候选是空 source、PathLike 或变量顺序问题，没有识别 ASCII locale 下的非 ASCII 编码失败；Agent 容器默认 UTF-8 也无法触发参考编码场景。",
+      "findings": [
+        {
+          "id": "308352ebe1d3",
+          "title": "PathLike.__subclasshook__ 对非类对象调用 hasattr 可能误判/异常",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        },
+        {
+          "id": "22492ed99a1e",
+          "title": "iscoroutinefunction 回退实现忽略参数，可能掩盖真实协程",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        },
+        {
+          "id": "65bac8b9d901",
+          "title": "source 为空列表时 source[0] 触发 IndexError",
+          "status": "reproduced",
+          "reproduction_status": "reproduced"
+        }
+      ]
+    },
+    {
+      "case": "PySnooper-3",
+      "batch": "evidence-original20-20261014",
+      "category": "valid_evidence",
+      "candidate_hit": true,
+      "valid_evidence": true,
+      "llm_findings": 1,
+      "reproduced_findings": 1,
+      "report_status": "completed",
+      "window_review_completed": true,
+      "calls": 6,
+      "candidate_match_ids": [
+        "9261f543fc85"
+      ],
+      "valid_match_ids": [
+        "9261f543fc85"
+      ],
+      "reference_issue": "get_write_function's path writer references undefined output_path instead of the supplied output, raising NameError when tracing to a file.",
+      "reason": "缺陷版明确识别 output_path 未定义；生成测试实际执行 @snoop(path) 后抛 NameError，两次失败且独立对照在修复版通过。修复版候选均不再报告该引用错误。",
+      "findings": [
+        {
+          "id": "9261f543fc85",
+          "title": "write 闭包引用未定义的 output_path 导致 NameError",
+          "status": "reproduced",
+          "reproduction_status": "reproduced"
+        }
+      ]
+    },
+    {
+      "case": "tornado-1",
+      "batch": "evidence-original20-20261014",
+      "category": "off_target_reproduced",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 1,
+      "reproduced_findings": 1,
+      "report_status": "completed",
+      "window_review_completed": true,
+      "calls": 8,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "WebSocketHandler.set_nodelay uses self.stream although the upgraded connection is held by ws_connection; valid calls from open fail the assertion or use the wrong stream. Generic assert-removal advice is not a match.",
+      "reason": "候选关注压缩参数异常文案或非 ws/wss URL；未识别有效 WebSocket set_nodelay 调用了错误 stream。",
+      "findings": [
+        {
+          "id": "9c3894d4b559",
+          "title": "ValueError 使用 %r 占位符但未做格式化",
+          "status": "reproduced",
+          "reproduction_status": "reproduced"
+        }
+      ]
+    },
+    {
+      "case": "tornado-10",
+      "batch": "evidence-new8-20261014",
+      "category": "off_target_unproven",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 2,
+      "reproduced_findings": 0,
+      "report_status": "partial",
+      "window_review_completed": true,
+      "calls": 9,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "WebSocket finish clears ui helpers before the connection actually closes, breaking render_string while open.",
+      "reason": "ETag、204/304、Content-Length 与 origin 候选不对应 WebSocket 在真正关闭前过早清理 ui helpers。",
+      "findings": [
+        {
+          "id": "1ef9feb3fcf1",
+          "title": "finish() 中 204/304 断言在 -O 下被移除，可能发送非法响应体",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        },
+        {
+          "id": "e3438c0130fe",
+          "title": "ETag 自动生成检查使用 'Etag' 而非规范大小写，可能覆盖用户设置的 ETag",
+          "status": "pending_evidence",
+          "reproduction_status": "not_reproduced"
+        }
+      ]
+    },
+    {
+      "case": "tornado-11",
+      "batch": "evidence-new8-20261014",
+      "category": "off_target_unproven",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 1,
+      "reproduced_findings": 0,
+      "report_status": "partial",
+      "window_review_completed": true,
+      "calls": 7,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "Transfer-Encoding chunked matching is case sensitive; a valid Chunked header fails to select chunked parsing.",
+      "reason": "direct 缺陷版 61a457a1641f 正确给出合法 Chunked 大小写输入；fixed 的多值 Transfer-Encoding 候选是另一条件。evidence 只讨论负长度与空白，未找到已知问题。",
+      "findings": [
+        {
+          "id": "f555c00d7d01",
+          "title": "负数 Content-Length 绕过长度校验并导致读取异常",
+          "status": "pending_evidence",
+          "reproduction_status": "invalid_plan"
+        }
+      ]
+    },
+    {
+      "case": "tornado-12",
+      "batch": "evidence-new8-20261014",
+      "category": "off_target_unproven",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 2,
+      "reproduced_findings": 0,
+      "report_status": "partial",
+      "window_review_completed": true,
+      "calls": 13,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "Facebook access-token response parsing mishandles bytes/string token values; callback propagation also passes a Future as a callback.",
+      "reason": "缺 access_token、expires 形态、OAuth 签名和字典顺序候选均不对应字节 token 解析或 Future/callback 传递错误。",
+      "findings": [
+        {
+          "id": "871f4f45fdfa",
+          "title": "缺少 access_token 时 KeyError 导致回调异常而非 AuthError",
+          "status": "pending_evidence",
+          "reproduction_status": "invalid_plan"
+        },
+        {
+          "id": "68ae7af4c617",
+          "title": "expires 取值为列表而非标量",
+          "status": "pending_evidence",
+          "reproduction_status": "invalid_plan"
+        }
+      ]
+    },
+    {
+      "case": "tornado-2",
+      "batch": "evidence-original20-20261014",
+      "category": "off_target_unproven",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 3,
+      "reproduced_findings": 0,
+      "report_status": "partial",
+      "window_review_completed": true,
+      "calls": 9,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "An existing Transfer-Encoding: chunked header disables _chunking_output, so write_headers/body handling can emit an invalid unchunked body or fail a redirected PUT without a body.",
+      "reason": "候选讨论 HEAD body、非法 Content-Length 和通用 _format_chunk 行为；没有指出已有 Transfer-Encoding: chunked 导致关闭分块输出。",
+      "findings": [
+        {
+          "id": "ebdd75b655fd",
+          "title": "HEAD 响应仍可能设置 _expected_content_remaining 为 Content-Length 值",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        },
+        {
+          "id": "4d06a2fd2469",
+          "title": "Content-Length 头值非数字时 int() 抛出未捕获的 ValueError",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        },
+        {
+          "id": "20341ca22690",
+          "title": "write_headers 中 chunk 参数在 chunking 关闭时仍被 _format_chunk 处理",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        }
+      ]
+    },
+    {
+      "case": "tornado-3",
+      "batch": "evidence-original20-20261014",
+      "category": "no_candidate",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 0,
+      "reproduced_findings": 0,
+      "report_status": "completed",
+      "window_review_completed": true,
+      "calls": 2,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "AsyncHTTPClient.close assumes a weak instance-cache entry still exists during HTTPClient destruction; an already-cleared entry causes inconsistent-cache RuntimeError/KeyError. Do not count intentional errors for another live client.",
+      "reason": "没有模型候选；没有识别 weak cache 已清理后的 close 异常。",
+      "findings": []
+    },
+    {
+      "case": "tornado-4",
+      "batch": "evidence-original20-20261014",
+      "category": "candidate_hit_evidence_failed",
+      "candidate_hit": true,
+      "valid_evidence": false,
+      "llm_findings": 2,
+      "reproduced_findings": 0,
+      "report_status": "partial",
+      "window_review_completed": true,
+      "calls": 7,
+      "candidate_match_ids": [
+        "3e533c03160d"
+      ],
+      "valid_match_ids": [],
+      "reference_issue": "StaticFileHandler mishandles HTTP byte ranges: oversized suffix ranges leave a negative start rather than clamping to zero, or reversed end/start ranges are not rejected with 416. Either concrete failing condition counts as a case-level hit; report which was found.",
+      "reason": "缺陷版 3e533c03160d 正确识别 bytes=-100、size=10 导致负 start；生成测试复制了处理逻辑，没有实际调用目标方法，被判 unrelated_failure。修复版叙述承认夹紧和 reversed-range 检查正确。",
+      "findings": [
+        {
+          "id": "3e533c03160d",
+          "title": "suffix range 长度超过文件大小时 start 变为负数导致 416 判定失效",
+          "status": "pending_evidence",
+          "reproduction_status": "unrelated_failure"
+        },
+        {
+          "id": "81ca7a4a1965",
+          "title": "后缀范围恰好覆盖整个文件时错误返回 206 而非 200",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        }
+      ]
+    },
+    {
+      "case": "tornado-5",
+      "batch": "evidence-original20-20261014",
+      "category": "no_candidate",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 0,
+      "reproduced_findings": 0,
+      "report_status": "completed",
+      "window_review_completed": true,
+      "calls": 1,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "PeriodicCallback._update_next fails to advance _next_timeout when the clock moves backwards/current_time is less than _next_timeout, causing repeated scheduling or callback delays.",
+      "reason": "没有模型候选；没有识别时钟回拨时 _next_timeout 不推进。",
+      "findings": []
+    },
+    {
+      "case": "tornado-6",
+      "batch": "evidence-original20-20261014",
+      "category": "off_target_unproven",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 1,
+      "reproduced_findings": 0,
+      "report_status": "partial",
+      "window_review_completed": true,
+      "calls": 7,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "IOLoop's asyncio-to-IOLoop registry retains closed loops: weak keys do not help when values keep the loop alive, and close/external close lacks appropriate deletion/cleanup, leaking loops.",
+      "reason": "configure 类型校验、重复 close 和假设未来扩展均不对应关闭 loop 后映射保留与泄漏。",
+      "findings": [
+        {
+          "id": "5f6ea6a814c0",
+          "title": "configure() 在 asyncio 可用时对非字符串 impl 调用 issubclass 可能抛 TypeError",
+          "status": "pending_evidence",
+          "reproduction_status": "not_reproduced"
+        }
+      ]
+    },
+    {
+      "case": "tornado-7",
+      "batch": "evidence-original20-20261014",
+      "category": "no_candidate",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 0,
+      "reproduced_findings": 0,
+      "report_status": "completed",
+      "window_review_completed": true,
+      "calls": 2,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "run_in_executor directly returns concurrent.futures.Future, which cannot be awaited by native async coroutines; it must bridge into a Tornado/asyncio-compatible Future.",
+      "reason": "没有模型候选；没有识别 concurrent.futures.Future 不可原生 await。",
+      "findings": []
+    },
+    {
+      "case": "tornado-8",
+      "batch": "evidence-original20-20261014",
+      "category": "no_candidate",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 0,
+      "reproduced_findings": 0,
+      "report_status": "completed",
+      "window_review_completed": true,
+      "calls": 1,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "accept_connection calls _handle_websocket_headers outside its ValueError handler, so missing/invalid WebSocket headers escape instead of returning a controlled HTTP 400.",
+      "reason": "没有模型候选；没有识别 WebSocket 头 ValueError 位于捕获块之外。",
+      "findings": []
+    },
+    {
+      "case": "tornado-9",
+      "batch": "evidence-new8-20261014",
+      "category": "no_candidate",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 0,
+      "reproduced_findings": 0,
+      "report_status": "completed",
+      "window_review_completed": true,
+      "calls": 1,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "url_concat(url, None) should return url, rather than raising TypeError.",
+      "reason": "没有指出 args=None；多值参数、拼接边界候选均不是官方 None 参数触发条件。",
+      "findings": []
+    },
+    {
+      "case": "youtube-dl-1",
+      "batch": "evidence-original20-20261014",
+      "category": "no_candidate",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 0,
+      "reproduced_findings": 0,
+      "report_status": "completed",
+      "window_review_completed": true,
+      "calls": 1,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "Unary match filters treat a present boolean False as true because they only test None; positive/negated boolean filters must distinguish True from False.",
+      "reason": "没有模型候选；没有识别布尔 False 的正向/反向过滤错误。",
+      "findings": []
+    },
+    {
+      "case": "youtube-dl-10",
+      "batch": "evidence-new8-20261014",
+      "category": "off_target_unproven",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 2,
+      "reproduced_findings": 0,
+      "report_status": "partial",
+      "window_review_completed": true,
+      "calls": 7,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "js_to_json string token regex omits escaped n/u, partially matches valid JS strings and corrupts the converted JSON.",
+      "reason": "候选误解 fix_kv 中保留反斜杠的含义，或讨论尾随逗号；未识别 escaped n/u 在字符串 token regex 中缺失的参考根因。",
+      "findings": [
+        {
+          "id": "aa6fad22fe66",
+          "title": "js_to_json 单引号字符串转义处理错误：反斜杠转义被破坏",
+          "status": "pending_evidence",
+          "reproduction_status": "not_reproduced"
+        },
+        {
+          "id": "f6130b059b32",
+          "title": "js_to_json 仅移除数组尾逗号，对象尾逗号未处理",
+          "status": "pending_evidence",
+          "reproduction_status": "unrelated_failure"
+        }
+      ]
+    },
+    {
+      "case": "youtube-dl-11",
+      "batch": "evidence-new8-20261014",
+      "category": "candidate_hit_evidence_failed",
+      "candidate_hit": true,
+      "valid_evidence": false,
+      "llm_findings": 3,
+      "reproduced_findings": 0,
+      "report_status": "partial",
+      "window_review_completed": true,
+      "calls": 7,
+      "candidate_match_ids": [
+        "1f94bb5c2092"
+      ],
+      "valid_match_ids": [],
+      "reference_issue": "str_to_int applies re.sub to non-string inputs and raises TypeError; fixed implementation returns these inputs unchanged.",
+      "reason": "evidence 缺陷版 1f94bb5c2092 找到了有效整数输入触发 re.sub TypeError；但声称预期返回 None，与参考修复返回输入本身不同。只计症状识别，unsupported 不计证据命中。direct 两侧均未报告。",
+      "findings": [
+        {
+          "id": "1f94bb5c2092",
+          "title": "str_to_int 对非字符串输入抛出 TypeError 而非返回 None",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        },
+        {
+          "id": "b4a2ea4f37f2",
+          "title": "int_or_none 对布尔值 True/False 返回 1/0 而非 default",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        },
+        {
+          "id": "a9d812286810",
+          "title": "url_or_none 对仅含空白的字符串返回 None 但未处理 strip 后为空的情况",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        }
+      ]
+    },
+    {
+      "case": "youtube-dl-12",
+      "batch": "evidence-new8-20261014",
+      "category": "off_target_reproduced",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 1,
+      "reproduced_findings": 1,
+      "report_status": "completed",
+      "window_review_completed": true,
+      "calls": 6,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "Negated string filter uses not str_op rather than not str_op(attr, value). Valid negation syntax is ext!=mp4.",
+      "reason": "direct 缺陷版 093ccfb690a3 正确描述 not str_op 的根因和 ext!=\"mp4\" 输入；但 fixed API 超时导致对照不完整。evidence 根因线索正确却使用 !ext=mp4，这会匹配普通相等运算，未进入否定分支。原测试在修复版同样 True is not false；不计严格候选或证据命中。",
+      "findings": [
+        {
+          "id": "9758e8ca5215",
+          "title": "字符串过滤器取反逻辑错误：对函数对象取非而非调用结果",
+          "status": "reproduced",
+          "reproduction_status": "reproduced"
+        }
+      ]
+    },
+    {
+      "case": "youtube-dl-13",
+      "batch": "evidence-new8-20261014",
+      "category": "off_target_unproven",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 2,
+      "reproduced_findings": 0,
+      "report_status": "partial",
+      "window_review_completed": true,
+      "calls": 8,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "urljoin does not recognize arbitrary absolute URI schemes in path, incorrectly joining/dropping already absolute non-http URLs.",
+      "reason": "候选关注 base_url 有效性、空白、bytes 和 //path；参考问题是 path 本身已为 ftp 等绝对 URI 却未被保留。",
+      "findings": [
+        {
+          "id": "ca8cd54d850a",
+          "title": "base_url 对不匹配的 URL 调用 .group() 触发 AttributeError",
+          "status": "pending_evidence",
+          "reproduction_status": "invalid_plan"
+        },
+        {
+          "id": "75cbf335bb78",
+          "title": "urljoin 对非 UTF-8 字节 path 解码抛 UnicodeDecodeError",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        }
+      ]
+    },
+    {
+      "case": "youtube-dl-2",
+      "batch": "evidence-original20-20261014",
+      "category": "no_candidate",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 0,
+      "reproduced_findings": 0,
+      "report_status": "completed",
+      "window_review_completed": true,
+      "calls": 2,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "DASH Representation format_id is not necessarily unique: merging/replacing entries solely by representation_id discards distinct formats or their media fragments.",
+      "reason": "缺陷版没有模型候选；修复版 SegmentTimeline 越界/零 duration 不对应按非唯一 format_id 丢失 DASH 格式。",
+      "findings": []
+    },
+    {
+      "case": "youtube-dl-3",
+      "batch": "evidence-original20-20261014",
+      "category": "no_candidate",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 0,
+      "reproduced_findings": 0,
+      "report_status": "completed",
+      "window_review_completed": true,
+      "calls": 1,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "unescapeHTML's entity regex allows an ampersand inside the entity body and consumes adjacent/nested entity starts, preventing the intended HTML entity from being decoded.",
+      "reason": "只有静态 assert 建议，没有识别 entity body 中 ampersand 吞并相邻实体。",
+      "findings": []
+    },
+    {
+      "case": "youtube-dl-4",
+      "batch": "evidence-original20-20261014",
+      "category": "off_target_unproven",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 4,
+      "reproduced_findings": 0,
+      "report_status": "partial",
+      "window_review_completed": true,
+      "calls": 8,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "JSInterpreter's function-call regex requires nonempty arguments and/or splits an empty argument string, so a valid zero-argument JavaScript call fails.",
+      "reason": "split() 限制、未定义变量、splice 和 Unicode isdigit 均不对应函数调用 regex 不允许有效零参数 f()。",
+      "findings": [
+        {
+          "id": "c85369cd2e2d",
+          "title": "splice 循环中 pop(index) 使用固定索引导致结果错误",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        },
+        {
+          "id": "c4194cfe7884",
+          "title": "索引赋值断言 isinstance(idx, int) 在 -O 下失效且类型不匹配时崩溃",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        },
+        {
+          "id": "eed2c7e956d8",
+          "title": "split 断言 argvals == ('',) 对无参 split() 调用失败",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        },
+        {
+          "id": "3ef7bd4a3b59",
+          "title": "函数调用参数解析对非数字标识符直接索引 local_vars 可能 KeyError",
+          "status": "pending_evidence",
+          "reproduction_status": "budget_exhausted"
+        }
+      ]
+    },
+    {
+      "case": "youtube-dl-5",
+      "batch": "evidence-original20-20261014",
+      "category": "off_target_unproven",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 4,
+      "reproduced_findings": 0,
+      "report_status": "partial",
+      "window_review_completed": true,
+      "calls": 7,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "unified_timestamp fallback receives a tuple from email.utils.parsedate_tz but calls its nonexistent timetuple(), raising AttributeError; or it fails to apply the PM offset in that fallback. Generic PM/12-hour concerns outside this fallback do not count.",
+      "reason": "日期解析退出、隐藏文件名与一般 PM 偏移候选均没有定位 parsedate_tz fallback 的 tuple.timetuple() 或该分支 PM 偏移缺失。",
+      "findings": [
+        {
+          "id": "27b2f7f11e32",
+          "title": "unified_strdate 循环未在匹配后 break，可能被后续格式覆盖",
+          "status": "pending_evidence",
+          "reproduction_status": "not_reproduced"
+        },
+        {
+          "id": "9b981bcc1b1c",
+          "title": "unified_timestamp 在循环内 return，但异常路径下可能返回 None 而非回退",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        },
+        {
+          "id": "6224d710111e",
+          "title": "subtitles_filename 对无扩展名文件名处理不当",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        },
+        {
+          "id": "ff460532cc71",
+          "title": "date_from_str 对非法输入抛出未捕获异常",
+          "status": "pending_evidence",
+          "reproduction_status": "budget_exhausted"
+        }
+      ]
+    },
+    {
+      "case": "youtube-dl-6",
+      "batch": "evidence-original20-20261014",
+      "category": "candidate_hit_evidence_failed",
+      "candidate_hit": true,
+      "valid_evidence": false,
+      "llm_findings": 3,
+      "reproduced_findings": 0,
+      "report_status": "partial",
+      "window_review_completed": true,
+      "calls": 12,
+      "candidate_match_ids": [
+        "b16c1ed38deb",
+        "32a91644c156"
+      ],
+      "valid_match_ids": [],
+      "reference_issue": "parse_dfxp_time_expr returns numeric zero for absent time rather than None, or dfxp2srt accesses missing begin/dur attributes without skipping invalid entries, leading to incorrect subtitle timing or KeyError. Either reference-patch failure mode counts, with trigger evidence.",
+      "reason": "缺陷版 b16c1ed38deb 和 32a91644c156 分别识别缺 dur、缺 begin 的 KeyError；生成格式/契约失败未形成有效证据。修复版显式 end=0 的候选不等同于缺失 begin/dur 或 parse(None) 的参考条件。",
+      "findings": [
+        {
+          "id": "9ca55c806e9e",
+          "title": "srt_subtitles_timecode 在 Python 3 下使用浮点除法导致 %d 格式化报错",
+          "status": "pending_evidence",
+          "reproduction_status": "not_reproduced"
+        },
+        {
+          "id": "b16c1ed38deb",
+          "title": "dfxp2srt 对缺少 end 且缺少 dur 的段落抛出 KeyError",
+          "status": "pending_evidence",
+          "reproduction_status": "invalid_plan"
+        },
+        {
+          "id": "32a91644c156",
+          "title": "dfxp2srt 对缺少 begin 属性的段落抛出 KeyError",
+          "status": "pending_evidence",
+          "reproduction_status": "unsupported"
+        }
+      ]
+    },
+    {
+      "case": "youtube-dl-7",
+      "batch": "evidence-original20-20261014",
+      "category": "off_target_unproven",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 3,
+      "reproduced_findings": 0,
+      "report_status": "partial",
+      "window_review_completed": true,
+      "calls": 10,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "js_to_json returns double-quoted JavaScript strings unchanged, preserving escaped single quotes (\\') that are invalid JSON escapes; these strings must be normalized and re-encoded.",
+      "reason": "缺陷版反斜杠数量与 tab 等 regex 转义候选不是双引号字符串保留单个 escaped apostrophe 的参考错误；修复版讨论双反斜杠计数，是另一输入条件。",
+      "findings": [
+        {
+          "id": "8d927993aec7",
+          "title": "js_to_json 单引号字符串中反斜杠转义处理错误",
+          "status": "pending_evidence",
+          "reproduction_status": "not_reproduced"
+        },
+        {
+          "id": "71e852871ac0",
+          "title": "js_to_json 正则未匹配含转义引号的字符串边界",
+          "status": "pending_evidence",
+          "reproduction_status": "unrelated_failure"
+        },
+        {
+          "id": "cc7fb1a4415a",
+          "title": "strip_jsonp 贪婪匹配可能吞掉多余内容",
+          "status": "pending_evidence",
+          "reproduction_status": "not_reproduced"
+        }
+      ]
+    },
+    {
+      "case": "youtube-dl-8",
+      "batch": "evidence-original20-20261014",
+      "category": "off_target_reproduced",
+      "candidate_hit": false,
+      "valid_evidence": false,
+      "llm_findings": 4,
+      "reproduced_findings": 3,
+      "report_status": "partial",
+      "window_review_completed": true,
+      "calls": 15,
+      "candidate_match_ids": [],
+      "valid_match_ids": [],
+      "reference_issue": "Format selection '/' appends a PICKFIRST selector immediately and clears current_selector, so following filters cannot attach to the fallback choice and parsing/selection becomes wrong.",
+      "reason": "候选都是缺选择器或缺右括号的非法表达式诊断，未识别有效 fallback 选择器后 filters 丢失。额外 reproduced 不自动算参考命中。",
+      "findings": [
+        {
+          "id": "248543bf3d91",
+          "title": "逗号分隔时 current_selector 为 None 会被追加进 selectors",
+          "status": "reproduced",
+          "reproduction_status": "reproduced"
+        },
+        {
+          "id": "328973b86f3e",
+          "title": "斜杠 '/' 左侧缺少选择器时 first_choice 为 None",
+          "status": "reproduced",
+          "reproduction_status": "reproduced"
+        },
+        {
+          "id": "49a68ceac4ab",
+          "title": "加号 '+' 左侧缺少选择器时 video_selector 为 None",
+          "status": "reproduced",
+          "reproduction_status": "reproduced"
+        },
+        {
+          "id": "ab397268f56e",
+          "title": "_parse_filter 在缺少 ']' 时静默返回不完整过滤器",
+          "status": "pending_evidence",
+          "reproduction_status": "budget_exhausted"
+        }
+      ]
+    }
+  ]
+}
