@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 71,
+    "phase": "p1d-tool-external",
+    "label": {
+      "case": "youtube-dl-2",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2067
+    },
+    "reserved_at": "2026-10-21T13:54:50.809046+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"youtube_dl/extractor/common.py\",\"line\":1973,\"end_line\":1978,\"severity\":\"high\",\"category\":\"bug\",\"title\":\"SegmentTimeline 的 r 重复次数与 segment_urls 长度不匹配时越界\",\"explanation\":\"在 'segment_urls' 与 's' 分支中，代码按每个 s 元素的 r+1 次重复去索引 representation_ms_info['segment_urls'][segment_index]，但没有校验 segment_index 是否小于 segment_urls 的长度。DASH 的 SegmentTimeline 中 r 表示重复次数，实际片段数由 manifest 的 segment_urls 决定；当 manifest 的 r 值大于实际 URL 数（或 segment_urls 少于时间线条目）时，会抛出 IndexError 使整个格式解析崩溃，而不是跳过或告警。\",\"trigger\":\"构造 MPD：representation 含 segment_urls 只有 1 个 URL，SegmentTimeline 中 <S d=\\\"1000\\\" r=\\\"5\\\"/>（r+1=6 次），进入 1963 分支。\",\"evidence\":\"1972: for r in range(s.get('r', 0) + 1):\\n1973:     segment_uri = representation_ms_info['segment_urls'][segment_index]\\n1978:     segment_index += 1\\n未对 segment_index 与 len(segment_urls) 做边界检查。\",\"suggestion\":\"在循环内检查 segment_index < len(representation_ms_info['segment_urls'])，越界时 break 或 report_warning 并停止该 representation 的片段构造。\"},{\"path\":\"youtube_dl/extractor/common.py\",\"line\":2047,\"end_line\":2048,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"ISM manifest 缺少 Duration 属性时 KeyError 崩溃\",\"explanation\":\"_parse_ism_formats 直接使用 ism_doc.attrib['Duration']，而 TimeScale 用 .get 并带默认值。Smooth Streaming manifest 的 Duration 是可选/可能缺失的属性（尤其某些 live 或精简 manifest），缺失时抛 KeyError 导致整个 ISM 解析失败，而不是返回空列表或使用默认值。\",\"trigger\":\"传入 <SmoothStreamingMedia TimeScale=\\\"10000000\\\">（无 Duration 属性）的 ISM 文档调用 _parse_ism_formats。\",\"evidence\":\"2047: duration = int(ism_doc.attrib['Duration'])\\n2048: timescale = int_or_none(ism_doc.get('TimeScale')) or 10000000\\nDuration 用下标访问，TimeScale 用 get。\",\"suggestion\":\"改用 int_or_none(ism_doc.get('Duration'))，缺失时按契约返回 [] 或使用合理默认值，并避免 int(None) 崩溃。\"},{\"path\":\"youtube_dl/extractor/common.py\",\"line\":2064,\"end_line\":2064,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"QualityLevel 缺少 Bitrate 属性时 KeyError 崩溃\",\"explanation\":\"对每个 QualityLevel 直接读取 track.attrib['Bitrate'] 并整除。Bitrate 在部分 ISM manifest 的 QualityLevel 上可能缺失（例如仅含 FourCC/CodecPrivateData 的条目），缺失时抛 KeyError，使整个 ISM 格式解析中断，而不是跳过该 track 或告警。\",\"trigger\":\"ISM 文档中 <QualityLevel FourCC=\\\"H264\\\" Index=\\\"0\\\"/>（无 Bitrate 属性），且 FourCC 通过 2061 的过滤。\",\"evidence\":\"2064: tbr = int(track.attrib['Bitrate']) // 1000\\n未使用 .get 或 int_or_none 做缺失保护。\",\"suggestion\":\"使用 int_or_none(track.get('Bitrate'))，为 None 时不设置 tbr 或跳过该 track，并 report_warning。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 10556,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 856,
+      "prompt_tokens": 2898,
+      "total_tokens": 3754,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 2688
+      },
+      "prompt_cache_hit_tokens": 2688,
+      "prompt_cache_miss_tokens": 210
+    },
+    "elapsed_seconds": 4.764
+  }
+}

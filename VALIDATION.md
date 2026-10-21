@@ -180,3 +180,11 @@ P1b的文字重试仍可能被忽略，P1c改为两阶段：第一阶段只允�
 结果：tool_first机械目标达成——4/4窗口执行了3个真实工具调用（共12次，含read_code/search_symbol/search_code），6次read_code，0个no-tool窗口，8/8完成；baseline完成4/4、0工具调用、4次调用、5候选。两臂严格参考命中都是0/2，修复侧告警0；tool_first候选12、调用8、completion tokens 6,813，baseline候选5、调用4、1,372。没有召回收益，成本明显增加。
 
 关键结论：工具执行问题已经解决，剩下的瓶颈是“读什么/如何形成正确假设”。tool_first读取仍集中在主片段附近/同文件局部范围，没有真正读取调用方、测试或契约来源。决定：tool_first作为实验开关保留，不作为默认/检出提升；下一轮若继续，应改变“读什么”（强制调用方/测试/契约来源或静态调用图选定外部片段），而不是继续改“是否调用工具”。资料见[demo/discovery-hypothesis-20261021](demo/discovery-hypothesis-20261021/README.md)，离线校验`python demo/discovery-hypothesis-20261021/verify-p1c.py`；当前122项测试通过，Ruff F/E9通过。
+
+## P1d 静态外部读取 smoke（2026-10-21）
+
+P1c证明工具会被执行，但模型仍选主片段附近的局部读码。P1d把读取对象改为静态调用图选择：`CallContext.supplement`选caller/callee/enclosing span，代码直接`read_code`，再把真实结果交给假设阶段；不让模型选读取范围。样本youtube-dl-2两侧各1窗口，每臂2窗口，共4次运行；P1账本70/80，P1d上限10，实际4，总74/80。
+
+结果：tool_first_external每窗口读取3个外部span（caller `_extract_mpd_formats`、callee `report_warning`/`location_key`），共6次真实read_code，0个no-external窗口，2/2完成；baseline 2/2完成、0外部调用。两臂严格参考命中都是0/1，修复侧告警0；tool_first_external候选5（baseline 6），prompt/completion tokens 5,844/1,665→7,804/2,593。外部读取后模型仍报SegmentTimeline越界/segment_duration=0，没有识别DASH format_id唯一性/合并的参考关系。
+
+决定：P1d不采用。P1系列（prompt、工具重试、tool-first、外部读取）都没有候选召回收益，P1账本只剩6次（74/80），不再同方向追加采样。下一步换假设：模型能力、任务形式（diff/PR、测试引导）或更强外部知识，而不是继续改读取协议/提示措辞。资料见[demo/discovery-hypothesis-20261021](demo/discovery-hypothesis-20261021/README.md)，离线校验`python demo/discovery-hypothesis-20261021/verify-p1d.py`；当前125项测试通过，Ruff F/E9通过。

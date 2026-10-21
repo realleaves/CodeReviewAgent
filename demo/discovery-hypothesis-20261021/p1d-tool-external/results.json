@@ -1,0 +1,1070 @@
+{
+  "records": [
+    {
+      "case": "youtube-dl-2",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2067,
+      "name": "rep1-youtube-dl-2-buggy-1-baseline",
+      "status": "completed",
+      "error": null,
+      "api_calls": 1,
+      "calls": [
+        {
+          "stage": "review",
+          "status": "completed",
+          "input_chars": 10556,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 856,
+            "prompt_tokens": 2898,
+            "total_tokens": 3754,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 2688
+            },
+            "prompt_cache_hit_tokens": 2688,
+            "prompt_cache_miss_tokens": 210
+          },
+          "elapsed_seconds": 4.764
+        }
+      ],
+      "findings": [
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 1973,
+          "end_line": 1978,
+          "severity": "high",
+          "category": "bug",
+          "title": "SegmentTimeline 的 r 重复次数与 segment_urls 长度不匹配时越界",
+          "explanation": "在 'segment_urls' 与 's' 分支中，代码按每个 s 元素的 r+1 次重复去索引 representation_ms_info['segment_urls'][segment_index]，但没有校验 segment_index 是否小于 segment_urls 的长度。DASH 的 SegmentTimeline 中 r 表示重复次数，实际片段数由 manifest 的 segment_urls 决定；当 manifest 的 r 值大于实际 URL 数（或 segment_urls 少于时间线条目）时，会抛出 IndexError 使整个格式解析崩溃，而不是跳过或告警。",
+          "trigger": "构造 MPD：representation 含 segment_urls 只有 1 个 URL，SegmentTimeline 中 <S d=\"1000\" r=\"5\"/>（r+1=6 次），进入 1963 分支。",
+          "evidence": "1972: for r in range(s.get('r', 0) + 1):\n1973:     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1978:     segment_index += 1\n未对 segment_index 与 len(segment_urls) 做边界检查。",
+          "suggestion": "在循环内检查 segment_index < len(representation_ms_info['segment_urls'])，越界时 break 或 report_warning 并停止该 representation 的片段构造。",
+          "id": "83cf18fecd83",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({\n1975:                                         location_key(segment_uri): segment_uri,\n1976:                                         'duration': duration,\n1977:                                     })\n1978:                                     segment_index += 1\n1979:                             representation_ms_info['fragments'] = fragments\n1980:                         elif 'segment_urls' in representation_ms_info:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 2047,
+          "end_line": 2048,
+          "severity": "medium",
+          "category": "bug",
+          "title": "ISM manifest 缺少 Duration 属性时 KeyError 崩溃",
+          "explanation": "_parse_ism_formats 直接使用 ism_doc.attrib['Duration']，而 TimeScale 用 .get 并带默认值。Smooth Streaming manifest 的 Duration 是可选/可能缺失的属性（尤其某些 live 或精简 manifest），缺失时抛 KeyError 导致整个 ISM 解析失败，而不是返回空列表或使用默认值。",
+          "trigger": "传入 <SmoothStreamingMedia TimeScale=\"10000000\">（无 Duration 属性）的 ISM 文档调用 _parse_ism_formats。",
+          "evidence": "2047: duration = int(ism_doc.attrib['Duration'])\n2048: timescale = int_or_none(ism_doc.get('TimeScale')) or 10000000\nDuration 用下标访问，TimeScale 用 get。",
+          "suggestion": "改用 int_or_none(ism_doc.get('Duration'))，缺失时按契约返回 [] 或使用合理默认值，并避免 int(None) 崩溃。",
+          "id": "2c0f3c3d4ee8",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2045:             return []\n2046: \n2047:         duration = int(ism_doc.attrib['Duration'])\n2048:         timescale = int_or_none(ism_doc.get('TimeScale')) or 10000000\n2049: \n2050:         formats = []",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 2064,
+          "end_line": 2064,
+          "severity": "medium",
+          "category": "bug",
+          "title": "QualityLevel 缺少 Bitrate 属性时 KeyError 崩溃",
+          "explanation": "对每个 QualityLevel 直接读取 track.attrib['Bitrate'] 并整除。Bitrate 在部分 ISM manifest 的 QualityLevel 上可能缺失（例如仅含 FourCC/CodecPrivateData 的条目），缺失时抛 KeyError，使整个 ISM 格式解析中断，而不是跳过该 track 或告警。",
+          "trigger": "ISM 文档中 <QualityLevel FourCC=\"H264\" Index=\"0\"/>（无 Bitrate 属性），且 FourCC 通过 2061 的过滤。",
+          "evidence": "2064: tbr = int(track.attrib['Bitrate']) // 1000\n未使用 .get 或 int_or_none 做缺失保护。",
+          "suggestion": "使用 int_or_none(track.get('Bitrate'))，为 None 时不设置 tbr 或跳过该 track，并 report_warning。",
+          "id": "8b54fa7c5000",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2062:                     self.report_warning('%s is not a supported codec' % fourcc)\n2063:                     continue\n2064:                 tbr = int(track.attrib['Bitrate']) // 1000\n2065:                 # [1] does not mention Width and Height attributes. However,\n2066:                 # they're often present while MaxWidth and MaxHeight are",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1962,
+          "end": 2067,
+          "strategy": "legacy",
+          "payload_sha256": "dabf48ef876f33a9120239711964f8eb7613b1a73143c246b87d92e02be80269",
+          "supplemental_chars": 1748,
+          "sources": [
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "name": "_download_webpage_handle",
+              "line": 531,
+              "end": 542
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "name": "report_warning",
+              "line": 696,
+              "end": 699
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "name": "location_key",
+              "line": 1909,
+              "end": 1910
+            },
+            {
+              "path": "youtube_dl/extractor/huajiao.py",
+              "name": "get",
+              "line": 42,
+              "end": 43
+            }
+          ]
+        },
+        {
+          "stage": "review",
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1962,
+          "end": 2067,
+          "strategy": "baseline",
+          "findings": [
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "line": 1973,
+              "end_line": 1978,
+              "severity": "high",
+              "category": "bug",
+              "title": "SegmentTimeline 的 r 重复次数与 segment_urls 长度不匹配时越界",
+              "explanation": "在 'segment_urls' 与 's' 分支中，代码按每个 s 元素的 r+1 次重复去索引 representation_ms_info['segment_urls'][segment_index]，但没有校验 segment_index 是否小于 segment_urls 的长度。DASH 的 SegmentTimeline 中 r 表示重复次数，实际片段数由 manifest 的 segment_urls 决定；当 manifest 的 r 值大于实际 URL 数（或 segment_urls 少于时间线条目）时，会抛出 IndexError 使整个格式解析崩溃，而不是跳过或告警。",
+              "trigger": "构造 MPD：representation 含 segment_urls 只有 1 个 URL，SegmentTimeline 中 <S d=\"1000\" r=\"5\"/>（r+1=6 次），进入 1963 分支。",
+              "evidence": "1972: for r in range(s.get('r', 0) + 1):\n1973:     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1978:     segment_index += 1\n未对 segment_index 与 len(segment_urls) 做边界检查。",
+              "suggestion": "在循环内检查 segment_index < len(representation_ms_info['segment_urls'])，越界时 break 或 report_warning 并停止该 representation 的片段构造。",
+              "id": "83cf18fecd83",
+              "source": "llm",
+              "rule": "",
+              "snippet": "1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({\n1975:                                         location_key(segment_uri): segment_uri,\n1976:                                         'duration': duration,\n1977:                                     })\n1978:                                     segment_index += 1\n1979:                             representation_ms_info['fragments'] = fragments\n1980:                         elif 'segment_urls' in representation_ms_info:",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "line": 2047,
+              "end_line": 2048,
+              "severity": "medium",
+              "category": "bug",
+              "title": "ISM manifest 缺少 Duration 属性时 KeyError 崩溃",
+              "explanation": "_parse_ism_formats 直接使用 ism_doc.attrib['Duration']，而 TimeScale 用 .get 并带默认值。Smooth Streaming manifest 的 Duration 是可选/可能缺失的属性（尤其某些 live 或精简 manifest），缺失时抛 KeyError 导致整个 ISM 解析失败，而不是返回空列表或使用默认值。",
+              "trigger": "传入 <SmoothStreamingMedia TimeScale=\"10000000\">（无 Duration 属性）的 ISM 文档调用 _parse_ism_formats。",
+              "evidence": "2047: duration = int(ism_doc.attrib['Duration'])\n2048: timescale = int_or_none(ism_doc.get('TimeScale')) or 10000000\nDuration 用下标访问，TimeScale 用 get。",
+              "suggestion": "改用 int_or_none(ism_doc.get('Duration'))，缺失时按契约返回 [] 或使用合理默认值，并避免 int(None) 崩溃。",
+              "id": "2c0f3c3d4ee8",
+              "source": "llm",
+              "rule": "",
+              "snippet": "2045:             return []\n2046: \n2047:         duration = int(ism_doc.attrib['Duration'])\n2048:         timescale = int_or_none(ism_doc.get('TimeScale')) or 10000000\n2049: \n2050:         formats = []",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "line": 2064,
+              "end_line": 2064,
+              "severity": "medium",
+              "category": "bug",
+              "title": "QualityLevel 缺少 Bitrate 属性时 KeyError 崩溃",
+              "explanation": "对每个 QualityLevel 直接读取 track.attrib['Bitrate'] 并整除。Bitrate 在部分 ISM manifest 的 QualityLevel 上可能缺失（例如仅含 FourCC/CodecPrivateData 的条目），缺失时抛 KeyError，使整个 ISM 格式解析中断，而不是跳过该 track 或告警。",
+              "trigger": "ISM 文档中 <QualityLevel FourCC=\"H264\" Index=\"0\"/>（无 Bitrate 属性），且 FourCC 通过 2061 的过滤。",
+              "evidence": "2064: tbr = int(track.attrib['Bitrate']) // 1000\n未使用 .get 或 int_or_none 做缺失保护。",
+              "suggestion": "使用 int_or_none(track.get('Bitrate'))，为 None 时不设置 tbr 或跳过该 track，并 report_warning。",
+              "id": "8b54fa7c5000",
+              "source": "llm",
+              "rule": "",
+              "snippet": "2062:                     self.report_warning('%s is not a supported codec' % fourcc)\n2063:                     continue\n2064:                 tbr = int(track.attrib['Bitrate']) // 1000\n2065:                 # [1] does not mention Width and Height attributes. However,\n2066:                 # they're often present while MaxWidth and MaxHeight are",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [],
+      "elapsed_seconds": 4.782,
+      "folder": "windows/rep1-youtube-dl-2-buggy-1-baseline"
+    },
+    {
+      "case": "youtube-dl-2",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "tool_first_external",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2067,
+      "name": "rep1-youtube-dl-2-buggy-1-tool_first_external",
+      "status": "completed",
+      "error": null,
+      "api_calls": 1,
+      "calls": [
+        {
+          "stage": "review_hypothesis",
+          "status": "completed",
+          "input_chars": 13524,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1476,
+            "prompt_tokens": 3878,
+            "total_tokens": 5354,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 896
+            },
+            "prompt_cache_hit_tokens": 896,
+            "prompt_cache_miss_tokens": 2982
+          },
+          "elapsed_seconds": 7.042
+        }
+      ],
+      "findings": [
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 1972,
+          "end_line": 1978,
+          "severity": "medium",
+          "category": "bug",
+          "title": "SegmentTimeline 重复次数与 segment_urls 数量不匹配时 IndexError",
+          "explanation": "代码按 s 元素的 r+1 展开片段并递增 segment_index，直接以 segment_index 索引 segment_urls，未校验 segment_urls 长度是否覆盖时间线声明的片段总数。清单中两者不一致（常见于截断或错误清单）时会抛 IndexError，导致整个 DASH 解析失败而非跳过该 representation。",
+          "trigger": "representation_ms_info['s']=[{'d':1000,'r':2}] 且 segment_urls 只有 2 个元素",
+          "evidence": "1972: for r in range(s.get('r', 0) + 1):\n1973: segment_uri = representation_ms_info['segment_urls'][segment_index]\n1978: segment_index += 1",
+          "suggestion": "在索引前检查 segment_index < len(segment_urls)，越界时告警并 break/跳过该 representation。",
+          "id": "c51ef0a78947",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1970:                             for s in representation_ms_info['s']:\n1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({\n1975:                                         location_key(segment_uri): segment_uri,\n1976:                                         'duration': duration,\n1977:                                     })\n1978:                                     segment_index += 1\n1979:                             representation_ms_info['fragments'] = fragments\n1980:                         elif 'segment_urls' in representation_ms_info:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 1992,
+          "end_line": 1993,
+          "severity": "low",
+          "category": "bug",
+          "title": "segment_duration 为 0 时被当作缺失而丢弃 duration",
+          "explanation": "使用 `if segment_duration:` 判断，0.0 是合法时长但为假值，导致 fragment 不设置 duration；与清单声明不符，可能影响后续按片段时长计算或合并。",
+          "trigger": "segment_duration='0'，timescale=1000",
+          "evidence": "1985-1987: segment_duration = float_or_none(...) if 'segment_duration' in ... else None\n1992: if segment_duration:\n1993: fragment['duration'] = segment_duration",
+          "suggestion": "改为 `if segment_duration is not None:`。",
+          "id": "31f4d3307e22",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1990:                                     location_key(segment_url): segment_url,\n1991:                                 }\n1992:                                 if segment_duration:\n1993:                                     fragment['duration'] = segment_duration\n1994:                                 fragments.append(fragment)\n1995:                             representation_ms_info['fragments'] = fragments",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1962,
+          "end": 2067,
+          "strategy": "legacy",
+          "payload_sha256": "dabf48ef876f33a9120239711964f8eb7613b1a73143c246b87d92e02be80269",
+          "supplemental_chars": 1748,
+          "sources": [
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "name": "_download_webpage_handle",
+              "line": 531,
+              "end": 542
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "name": "report_warning",
+              "line": 696,
+              "end": 699
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "name": "location_key",
+              "line": 1909,
+              "end": 1910
+            },
+            {
+              "path": "youtube_dl/extractor/huajiao.py",
+              "name": "get",
+              "line": 42,
+              "end": 43
+            }
+          ]
+        },
+        {
+          "stage": "tool_first_external",
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1962,
+          "end": 2067,
+          "status": "executed",
+          "spans": [
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "start": 1738,
+              "end": 1752,
+              "relation": "caller",
+              "symbol": "InfoExtractor._extract_mpd_formats"
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "start": 696,
+              "end": 699,
+              "relation": "callee",
+              "symbol": "InfoExtractor.report_warning"
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "start": 1909,
+              "end": 1910,
+              "relation": "callee",
+              "symbol": "InfoExtractor._parse_mpd_formats.location_key"
+            }
+          ],
+          "calls": [
+            {
+              "tool_name": "read_code",
+              "parameters": "path=youtube_dl/extractor/common.py,start=1738,end=1752",
+              "original": "[TOOL_CALL:read_code:path=youtube_dl/extractor/common.py,start=1738,end=1752]"
+            },
+            {
+              "tool_name": "read_code",
+              "parameters": "path=youtube_dl/extractor/common.py,start=696,end=699",
+              "original": "[TOOL_CALL:read_code:path=youtube_dl/extractor/common.py,start=696,end=699]"
+            },
+            {
+              "tool_name": "read_code",
+              "parameters": "path=youtube_dl/extractor/common.py,start=1909,end=1910",
+              "original": "[TOOL_CALL:read_code:path=youtube_dl/extractor/common.py,start=1909,end=1910]"
+            }
+          ],
+          "result_chars": 1431
+        },
+        {
+          "stage": "hypothesis_review",
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1962,
+          "end": 2067,
+          "checked": [
+            "common.py:1962-1995 DASH SegmentTimeline 与 segment_urls 的索引对应",
+            "common.py:1980-1995 无 SegmentTimeline 时按 segment_duration 生成 fragments",
+            "common.py:1998-2009 fragments/initialization_url 与 protocol 设置",
+            "common.py:2010-2019 按 representation_id 合并已有 format",
+            "common.py:2024-2035 ISM 下载与解析入口",
+            "common.py:2037-2067 ISM StreamIndex/QualityLevel 解析",
+            "common.py:1909-1910 location_key 对 http(s) 与相对路径的判定",
+            "common.py:1738-1751 _extract_mpd_formats 的 formats_dict 默认参数"
+          ],
+          "hypotheses": [
+            {
+              "claim": "SegmentTimeline 的 s 元素 r 重复次数总和可能超过 segment_urls 长度，导致 IndexError",
+              "expected_behavior": "当 segment_urls 数量与时间线声明的片段数不一致时应跳过或告警，而不是崩溃",
+              "counterexample": "representation_ms_info['s']=[{'d':1000,'r':2}]（3 个片段）但 segment_urls 只有 2 个 URL：segment_index=2 时访问 segment_urls[2] 抛 IndexError",
+              "contract": "segment_urls 至少应覆盖 sum(r+1) 个片段；代码未校验"
+            },
+            {
+              "claim": "无 SegmentTimeline 分支中 segment_duration 为 0 时 duration 被静默丢弃",
+              "expected_behavior": "duration 为 0 或缺失时行为应一致，或明确不设置 duration",
+              "counterexample": "segment_duration='0'，timescale=1000：float_or_none 返回 0.0，`if segment_duration:` 为假，fragment 不含 duration；而缺失时同样不含，但 0 是合法值",
+              "contract": "fragment['duration'] 应反映清单声明的片段时长"
+            },
+            {
+              "claim": "formats_dict 默认参数为可变对象，跨调用共享状态",
+              "expected_behavior": "每次调用应使用独立字典，避免上一次解析结果污染下一次",
+              "counterexample": "两次调用 _extract_mpd_formats 不传 formats_dict：第一次写入 formats_dict 的 representation 信息在第二次被 formats_dict.get(representation_id, {}).copy() 读到",
+              "contract": "默认参数不应在调用间共享可变状态"
+            },
+            {
+              "claim": "location_key 仅识别 ^https?://，协议相对 URL（//host/path）被当作 path",
+              "expected_behavior": "协议相对 URL 应作为 url 处理或先补全协议",
+              "counterexample": "segment_uri='//cdn.example.com/seg1.m4s'：location_key 返回 'path'，fragment 变成 {'path': '//cdn...'} 而非 {'url': ...}",
+              "contract": "location_key 应正确区分 URL 与相对路径"
+            },
+            {
+              "claim": "ISM 解析中 Duration 缺失或非整数会抛异常而非返回空",
+              "expected_behavior": "清单缺少 Duration 时应告警并跳过",
+              "counterexample": "ism_doc 无 Duration 属性：int(ism_doc.attrib['Duration']) 抛 KeyError",
+              "contract": "解析器应对不完整清单容错"
+            }
+          ],
+          "tool_evidence": true,
+          "tool_calls_from_first_stage": 3,
+          "tool_reads_after": 3,
+          "tool_retry": false
+        },
+        {
+          "stage": "validation",
+          "status": "rejected",
+          "reason": "invalid_location",
+          "path": "youtube_dl/extractor/common.py",
+          "line": 1738
+        },
+        {
+          "stage": "validation",
+          "status": "rejected",
+          "reason": "invalid_location",
+          "path": "youtube_dl/extractor/common.py",
+          "line": 1909
+        },
+        {
+          "stage": "review",
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1962,
+          "end": 2067,
+          "strategy": "tool_first_external",
+          "findings": [
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "line": 1972,
+              "end_line": 1978,
+              "severity": "medium",
+              "category": "bug",
+              "title": "SegmentTimeline 重复次数与 segment_urls 数量不匹配时 IndexError",
+              "explanation": "代码按 s 元素的 r+1 展开片段并递增 segment_index，直接以 segment_index 索引 segment_urls，未校验 segment_urls 长度是否覆盖时间线声明的片段总数。清单中两者不一致（常见于截断或错误清单）时会抛 IndexError，导致整个 DASH 解析失败而非跳过该 representation。",
+              "trigger": "representation_ms_info['s']=[{'d':1000,'r':2}] 且 segment_urls 只有 2 个元素",
+              "evidence": "1972: for r in range(s.get('r', 0) + 1):\n1973: segment_uri = representation_ms_info['segment_urls'][segment_index]\n1978: segment_index += 1",
+              "suggestion": "在索引前检查 segment_index < len(segment_urls)，越界时告警并 break/跳过该 representation。",
+              "id": "c51ef0a78947",
+              "source": "llm",
+              "rule": "",
+              "snippet": "1970:                             for s in representation_ms_info['s']:\n1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({\n1975:                                         location_key(segment_uri): segment_uri,\n1976:                                         'duration': duration,\n1977:                                     })\n1978:                                     segment_index += 1\n1979:                             representation_ms_info['fragments'] = fragments\n1980:                         elif 'segment_urls' in representation_ms_info:",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "line": 1992,
+              "end_line": 1993,
+              "severity": "low",
+              "category": "bug",
+              "title": "segment_duration 为 0 时被当作缺失而丢弃 duration",
+              "explanation": "使用 `if segment_duration:` 判断，0.0 是合法时长但为假值，导致 fragment 不设置 duration；与清单声明不符，可能影响后续按片段时长计算或合并。",
+              "trigger": "segment_duration='0'，timescale=1000",
+              "evidence": "1985-1987: segment_duration = float_or_none(...) if 'segment_duration' in ... else None\n1992: if segment_duration:\n1993: fragment['duration'] = segment_duration",
+              "suggestion": "改为 `if segment_duration is not None:`。",
+              "id": "31f4d3307e22",
+              "source": "llm",
+              "rule": "",
+              "snippet": "1990:                                     location_key(segment_url): segment_url,\n1991:                                 }\n1992:                                 if segment_duration:\n1993:                                     fragment['duration'] = segment_duration\n1994:                                 fragments.append(fragment)\n1995:                             representation_ms_info['fragments'] = fragments",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1738,
+          "end": 1752
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "start": 696,
+          "end": 699
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1909,
+          "end": 1910
+        }
+      ],
+      "elapsed_seconds": 7.935,
+      "folder": "windows/rep1-youtube-dl-2-buggy-1-tool_first_external"
+    },
+    {
+      "case": "youtube-dl-2",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "tool_first_external",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2065,
+      "name": "rep1-youtube-dl-2-fixed-1-tool_first_external",
+      "status": "completed",
+      "error": null,
+      "api_calls": 1,
+      "calls": [
+        {
+          "stage": "review_hypothesis",
+          "status": "completed",
+          "input_chars": 13605,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 1117,
+            "prompt_tokens": 3926,
+            "total_tokens": 5043,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 896
+            },
+            "prompt_cache_hit_tokens": 896,
+            "prompt_cache_miss_tokens": 3030
+          },
+          "elapsed_seconds": 5.737
+        }
+      ],
+      "findings": [
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 1971,
+          "end_line": 1978,
+          "severity": "medium",
+          "category": "bug",
+          "title": "SegmentTimeline 展开数量与 segment_urls 长度不匹配导致 IndexError",
+          "explanation": "代码按 s['r']+1 展开片段并递增 segment_index，直接以 segment_index 索引 segment_urls，未校验长度。若清单中 r 声明的重复次数使展开总数超过 segment_urls 实际数量，将抛出未捕获的 IndexError，使整个 DASH 解析失败而非跳过该 representation。",
+          "trigger": "构造 MPD：SegmentTimeline 中 <S d=\"1000\" r=\"5\"/>（展开 6 段），但 SegmentURL 仅提供 2 个条目。",
+          "evidence": "1972-1973 行：for r in range(s.get('r', 0) + 1): segment_uri = representation_ms_info['segment_urls'][segment_index]，无边界检查。",
+          "suggestion": "在索引前检查 segment_index < len(segment_urls)，越界时告警并 break/跳过该 representation。",
+          "id": "91bf61cfbeb6",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1969:                             timescale = representation_ms_info['timescale']\n1970:                             for s in representation_ms_info['s']:\n1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({\n1975:                                         location_key(segment_uri): segment_uri,\n1976:                                         'duration': duration,\n1977:                                     })\n1978:                                     segment_index += 1\n1979:                             representation_ms_info['fragments'] = fragments\n1980:                         elif 'segment_urls' in representation_ms_info:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 1971,
+          "end_line": 1971,
+          "severity": "low",
+          "category": "bug",
+          "title": "SegmentTimeline 的 S 元素缺少 d 属性时 KeyError",
+          "explanation": "直接使用 s['d'] 访问，若清单中 S 元素省略 d（畸形或依赖继承），会抛 KeyError 中断解析。float_or_none 本身可处理 None，但下标访问先于其执行。",
+          "trigger": "MPD 中 <S t=\"0\" r=\"1\"/> 不含 d 属性。",
+          "evidence": "1971 行：duration = float_or_none(s['d'], timescale)。",
+          "suggestion": "改用 s.get('d')，缺失时告警或使用默认时长。",
+          "id": "657ce9b33d54",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1969:                             timescale = representation_ms_info['timescale']\n1970:                             for s in representation_ms_info['s']:\n1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 2045,
+          "end_line": 2062,
+          "severity": "low",
+          "category": "bug",
+          "title": "ISM 解析对缺失 Duration/Bitrate 属性无容错",
+          "explanation": "ism_doc.attrib['Duration'] 与 track.attrib['Bitrate'] 使用强制下标访问，畸形或精简的 ISM 清单缺少这些属性时会抛 KeyError，导致 _parse_ism_formats 整体失败而非跳过。",
+          "trigger": "ISM 清单 <SmoothStreamingMedia TimeScale=\"10000000\"> 无 Duration；或 <QualityLevel FourCC=\"H264\"/> 无 Bitrate。",
+          "evidence": "2045 行 int(ism_doc.attrib['Duration'])；2062 行 int(track.attrib['Bitrate']) // 1000。",
+          "suggestion": "使用 .get() 并在缺失时告警跳过，或对 Duration 缺失返回空列表。",
+          "id": "ffb3077a4ee3",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2043:             return []\n2044: \n2045:         duration = int(ism_doc.attrib['Duration'])\n2046:         timescale = int_or_none(ism_doc.get('TimeScale')) or 10000000\n2047: \n2048:         formats = []\n2049:         for stream in ism_doc.findall('StreamIndex'):\n2050:             stream_type = stream.get('Type')\n2051:             if stream_type not in ('video', 'audio'):\n2052:                 continue\n2053:             url_pattern = stream.attrib['Url']\n2054:             stream_timescale = int_or_none(stream.get('TimeScale')) or timescale\n2055:             stream_name = stream.get('Name')\n2056:             for track in stream.findall('QualityLevel'):\n2057:                 fourcc = track.get('FourCC')\n2058:                 # TODO: add support for WVC1 and WMAP\n2059:                 if fourcc not in ('H264', 'AVC1', 'AACL'):\n2060:                     self.report_warning('%s is not a supported codec' % fourcc)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1962,
+          "end": 2065,
+          "strategy": "legacy",
+          "payload_sha256": "3d344a36ab5bc16a29e5bafa00c53f47fd1543313d90025845377d0b47e1d52d",
+          "supplemental_chars": 1748,
+          "sources": [
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "name": "_download_webpage_handle",
+              "line": 531,
+              "end": 542
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "name": "report_warning",
+              "line": 696,
+              "end": 699
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "name": "location_key",
+              "line": 1909,
+              "end": 1910
+            },
+            {
+              "path": "youtube_dl/extractor/huajiao.py",
+              "name": "get",
+              "line": 42,
+              "end": 43
+            }
+          ]
+        },
+        {
+          "stage": "tool_first_external",
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1962,
+          "end": 2065,
+          "status": "executed",
+          "spans": [
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "start": 1738,
+              "end": 1752,
+              "relation": "caller",
+              "symbol": "InfoExtractor._extract_mpd_formats"
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "start": 696,
+              "end": 699,
+              "relation": "callee",
+              "symbol": "InfoExtractor.report_warning"
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "start": 1909,
+              "end": 1910,
+              "relation": "callee",
+              "symbol": "InfoExtractor._parse_mpd_formats.location_key"
+            }
+          ],
+          "calls": [
+            {
+              "tool_name": "read_code",
+              "parameters": "path=youtube_dl/extractor/common.py,start=1738,end=1752",
+              "original": "[TOOL_CALL:read_code:path=youtube_dl/extractor/common.py,start=1738,end=1752]"
+            },
+            {
+              "tool_name": "read_code",
+              "parameters": "path=youtube_dl/extractor/common.py,start=696,end=699",
+              "original": "[TOOL_CALL:read_code:path=youtube_dl/extractor/common.py,start=696,end=699]"
+            },
+            {
+              "tool_name": "read_code",
+              "parameters": "path=youtube_dl/extractor/common.py,start=1909,end=1910",
+              "original": "[TOOL_CALL:read_code:path=youtube_dl/extractor/common.py,start=1909,end=1910]"
+            }
+          ],
+          "result_chars": 1431
+        },
+        {
+          "stage": "hypothesis_review",
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1962,
+          "end": 2065,
+          "checked": [
+            "common.py:1962-1995 DASH SegmentTimeline 与 segment_urls 分支",
+            "common.py:1996-2009 fragments/initialization_url 组装",
+            "common.py:2010-2017 formats_dict 与 format_id 合并",
+            "common.py:2022-2033 ISM 下载与解析入口",
+            "common.py:2035-2065 ISM 解析前置条件与属性访问",
+            "common.py:1909-1910 location_key 判定",
+            "common.py:1738-1752 _extract_mpd_formats 调用链",
+            "common.py:696-699 report_warning"
+          ],
+          "hypotheses": [
+            {
+              "claim": "SegmentTimeline 分支中 s['d'] 缺失会抛 KeyError",
+              "expected_behavior": "缺失 d 时应跳过或使用默认时长",
+              "counterexample": "<S t=\"0\" r=\"1\"/> 无 d 属性",
+              "contract": "DASH SegmentTimeline 的 S 元素 d 属性在规范中为必需，但解析器应对畸形清单容错"
+            },
+            {
+              "claim": "segment_index 越界访问 segment_urls 抛 IndexError",
+              "expected_behavior": "r 展开数量超过 segment_urls 长度时应截断或告警",
+              "counterexample": "s 列表 r=5 但 segment_urls 只有 2 个",
+              "contract": "fragments 数量应与 segment_urls 一致"
+            },
+            {
+              "claim": "ISM 中 Duration 缺失或非整数抛 KeyError/ValueError",
+              "expected_behavior": "缺失 Duration 应返回空或告警",
+              "counterexample": "<SmoothStreamingMedia TimeScale=\"10000000\"> 无 Duration",
+              "contract": "_parse_ism_formats 对畸形 ISM 应容错"
+            },
+            {
+              "claim": "ISM QualityLevel 缺 Bitrate 抛 KeyError",
+              "expected_behavior": "缺失 Bitrate 应跳过该 track",
+              "counterexample": "<QualityLevel FourCC=\"H264\" Index=\"0\"/> 无 Bitrate",
+              "contract": "解析器对缺失可选属性应容错"
+            },
+            {
+              "claim": "formats_dict 默认参数可变对象跨调用共享",
+              "expected_behavior": "每次调用应使用独立字典",
+              "counterexample": "两次调用 _extract_mpd_formats 未传 formats_dict，第二次看到第一次残留",
+              "contract": "默认参数不应在调用间共享状态"
+            }
+          ],
+          "tool_evidence": true,
+          "tool_calls_from_first_stage": 3,
+          "tool_reads_after": 3,
+          "tool_retry": false
+        },
+        {
+          "stage": "review",
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1962,
+          "end": 2065,
+          "strategy": "tool_first_external",
+          "findings": [
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "line": 1971,
+              "end_line": 1978,
+              "severity": "medium",
+              "category": "bug",
+              "title": "SegmentTimeline 展开数量与 segment_urls 长度不匹配导致 IndexError",
+              "explanation": "代码按 s['r']+1 展开片段并递增 segment_index，直接以 segment_index 索引 segment_urls，未校验长度。若清单中 r 声明的重复次数使展开总数超过 segment_urls 实际数量，将抛出未捕获的 IndexError，使整个 DASH 解析失败而非跳过该 representation。",
+              "trigger": "构造 MPD：SegmentTimeline 中 <S d=\"1000\" r=\"5\"/>（展开 6 段），但 SegmentURL 仅提供 2 个条目。",
+              "evidence": "1972-1973 行：for r in range(s.get('r', 0) + 1): segment_uri = representation_ms_info['segment_urls'][segment_index]，无边界检查。",
+              "suggestion": "在索引前检查 segment_index < len(segment_urls)，越界时告警并 break/跳过该 representation。",
+              "id": "91bf61cfbeb6",
+              "source": "llm",
+              "rule": "",
+              "snippet": "1969:                             timescale = representation_ms_info['timescale']\n1970:                             for s in representation_ms_info['s']:\n1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({\n1975:                                         location_key(segment_uri): segment_uri,\n1976:                                         'duration': duration,\n1977:                                     })\n1978:                                     segment_index += 1\n1979:                             representation_ms_info['fragments'] = fragments\n1980:                         elif 'segment_urls' in representation_ms_info:",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "line": 1971,
+              "end_line": 1971,
+              "severity": "low",
+              "category": "bug",
+              "title": "SegmentTimeline 的 S 元素缺少 d 属性时 KeyError",
+              "explanation": "直接使用 s['d'] 访问，若清单中 S 元素省略 d（畸形或依赖继承），会抛 KeyError 中断解析。float_or_none 本身可处理 None，但下标访问先于其执行。",
+              "trigger": "MPD 中 <S t=\"0\" r=\"1\"/> 不含 d 属性。",
+              "evidence": "1971 行：duration = float_or_none(s['d'], timescale)。",
+              "suggestion": "改用 s.get('d')，缺失时告警或使用默认时长。",
+              "id": "657ce9b33d54",
+              "source": "llm",
+              "rule": "",
+              "snippet": "1969:                             timescale = representation_ms_info['timescale']\n1970:                             for s in representation_ms_info['s']:\n1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "line": 2045,
+              "end_line": 2062,
+              "severity": "low",
+              "category": "bug",
+              "title": "ISM 解析对缺失 Duration/Bitrate 属性无容错",
+              "explanation": "ism_doc.attrib['Duration'] 与 track.attrib['Bitrate'] 使用强制下标访问，畸形或精简的 ISM 清单缺少这些属性时会抛 KeyError，导致 _parse_ism_formats 整体失败而非跳过。",
+              "trigger": "ISM 清单 <SmoothStreamingMedia TimeScale=\"10000000\"> 无 Duration；或 <QualityLevel FourCC=\"H264\"/> 无 Bitrate。",
+              "evidence": "2045 行 int(ism_doc.attrib['Duration'])；2062 行 int(track.attrib['Bitrate']) // 1000。",
+              "suggestion": "使用 .get() 并在缺失时告警跳过，或对 Duration 缺失返回空列表。",
+              "id": "ffb3077a4ee3",
+              "source": "llm",
+              "rule": "",
+              "snippet": "2043:             return []\n2044: \n2045:         duration = int(ism_doc.attrib['Duration'])\n2046:         timescale = int_or_none(ism_doc.get('TimeScale')) or 10000000\n2047: \n2048:         formats = []\n2049:         for stream in ism_doc.findall('StreamIndex'):\n2050:             stream_type = stream.get('Type')\n2051:             if stream_type not in ('video', 'audio'):\n2052:                 continue\n2053:             url_pattern = stream.attrib['Url']\n2054:             stream_timescale = int_or_none(stream.get('TimeScale')) or timescale\n2055:             stream_name = stream.get('Name')\n2056:             for track in stream.findall('QualityLevel'):\n2057:                 fourcc = track.get('FourCC')\n2058:                 # TODO: add support for WVC1 and WMAP\n2059:                 if fourcc not in ('H264', 'AVC1', 'AACL'):\n2060:                     self.report_warning('%s is not a supported codec' % fourcc)",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1738,
+          "end": 1752
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "start": 696,
+          "end": 699
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1909,
+          "end": 1910
+        }
+      ],
+      "elapsed_seconds": 6.907,
+      "folder": "windows/rep1-youtube-dl-2-fixed-1-tool_first_external"
+    },
+    {
+      "case": "youtube-dl-2",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2065,
+      "name": "rep1-youtube-dl-2-fixed-1-baseline",
+      "status": "completed",
+      "error": null,
+      "api_calls": 1,
+      "calls": [
+        {
+          "stage": "review",
+          "status": "completed",
+          "input_chars": 10637,
+          "max_output_tokens": 6000,
+          "thinking_mode": "disabled",
+          "usage": {
+            "completion_tokens": 809,
+            "prompt_tokens": 2946,
+            "total_tokens": 3755,
+            "completion_tokens_details": null,
+            "prompt_tokens_details": {
+              "audio_tokens": null,
+              "cached_tokens": 2812
+            },
+            "prompt_cache_hit_tokens": 2812,
+            "prompt_cache_miss_tokens": 134
+          },
+          "elapsed_seconds": 4.226
+        }
+      ],
+      "findings": [
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 1973,
+          "end_line": 1973,
+          "severity": "medium",
+          "category": "bug",
+          "title": "SegmentTimeline 的 r 重复次数可能超出 segment_urls 长度导致 IndexError",
+          "explanation": "在 'segment_urls' 与 's' 分支中，代码按每个 S 元素的 r+1 次重复从 representation_ms_info['segment_urls'] 中按 segment_index 取 URL，但没有校验 segment_index 是否越界。若 MPD 的 SegmentTimeline 声明的重复次数多于实际提供的 SegmentURL 数量（或 segment_urls 为空），会抛出 IndexError 使整个 DASH 解析崩溃，而不是跳过或告警。",
+          "trigger": "构造 MPD：Representation 含 SegmentList 的 SegmentURL 只有 1 个，但 SegmentTimeline 中 S 元素 d=... r=5（即需要 6 个 URL）。解析到第 2 次循环时 segment_index=1 越界。",
+          "evidence": "1972: for r in range(s.get('r', 0) + 1):\n1973:     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1978:     segment_index += 1\n未对 segment_index 与 len(segment_urls) 做任何比较。",
+          "suggestion": "在取 URL 前检查 segment_index < len(representation_ms_info['segment_urls'])，越界时 report_warning 并 break/跳过该 representation，避免未捕获的 IndexError。",
+          "id": "e647193a6f46",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({\n1975:                                         location_key(segment_uri): segment_uri,",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 2045,
+          "end_line": 2045,
+          "severity": "medium",
+          "category": "bug",
+          "title": "ISM 清单缺少 Duration 属性时 KeyError 崩溃",
+          "explanation": "_parse_ism_formats 直接使用 ism_doc.attrib['Duration']，而 TimeScale 使用 int_or_none(ism_doc.get('TimeScale')) 做了容错。若清单根元素没有 Duration 属性（例如某些 live/异常清单或非标准清单），会抛出 KeyError 而非返回空列表或告警，导致提取器崩溃。",
+          "trigger": "传入 <SmoothStreamingMedia TimeScale=\"10000000\">（无 Duration 属性）的 ISM 文档调用 _parse_ism_formats。",
+          "evidence": "2045: duration = int(ism_doc.attrib['Duration'])\n2046: timescale = int_or_none(ism_doc.get('TimeScale')) or 10000000\n同一函数对 TimeScale 用 .get 容错，对 Duration 用下标访问。",
+          "suggestion": "改用 int_or_none(ism_doc.get('Duration'))，为 None 时 report_warning 并 return []，与 IsLive/Protection 的提前返回保持一致。",
+          "id": "c3ee3c9396ec",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2043:             return []\n2044: \n2045:         duration = int(ism_doc.attrib['Duration'])\n2046:         timescale = int_or_none(ism_doc.get('TimeScale')) or 10000000\n2047: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/extractor/common.py",
+          "line": 2053,
+          "end_line": 2053,
+          "severity": "low",
+          "category": "bug",
+          "title": "StreamIndex 缺少 Url 属性时 KeyError",
+          "explanation": "对每个 Type 为 video/audio 的 StreamIndex 直接读取 stream.attrib['Url']。若清单中该 StreamIndex 未提供 Url（例如仅含 QualityLevel 的异常/精简清单），会抛出 KeyError 使整个 ISM 解析失败，而不是跳过该流。",
+          "trigger": "ISM 文档含 <StreamIndex Type=\"video\" Name=\"video\"> 但无 Url 属性。",
+          "evidence": "2053: url_pattern = stream.attrib['Url']\n未使用 .get 或存在性检查。",
+          "suggestion": "使用 stream.get('Url')，为 None 时 report_warning 并 continue。",
+          "id": "65c640a33c8e",
+          "source": "llm",
+          "rule": "",
+          "snippet": "2051:             if stream_type not in ('video', 'audio'):\n2052:                 continue\n2053:             url_pattern = stream.attrib['Url']\n2054:             stream_timescale = int_or_none(stream.get('TimeScale')) or timescale\n2055:             stream_name = stream.get('Name')",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ],
+      "trace": [
+        {
+          "stage": "review_context",
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1962,
+          "end": 2065,
+          "strategy": "legacy",
+          "payload_sha256": "3d344a36ab5bc16a29e5bafa00c53f47fd1543313d90025845377d0b47e1d52d",
+          "supplemental_chars": 1748,
+          "sources": [
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "name": "_download_webpage_handle",
+              "line": 531,
+              "end": 542
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "name": "report_warning",
+              "line": 696,
+              "end": 699
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "name": "location_key",
+              "line": 1909,
+              "end": 1910
+            },
+            {
+              "path": "youtube_dl/extractor/huajiao.py",
+              "name": "get",
+              "line": 42,
+              "end": 43
+            }
+          ]
+        },
+        {
+          "stage": "review",
+          "path": "youtube_dl/extractor/common.py",
+          "start": 1962,
+          "end": 2065,
+          "strategy": "baseline",
+          "findings": [
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "line": 1973,
+              "end_line": 1973,
+              "severity": "medium",
+              "category": "bug",
+              "title": "SegmentTimeline 的 r 重复次数可能超出 segment_urls 长度导致 IndexError",
+              "explanation": "在 'segment_urls' 与 's' 分支中，代码按每个 S 元素的 r+1 次重复从 representation_ms_info['segment_urls'] 中按 segment_index 取 URL，但没有校验 segment_index 是否越界。若 MPD 的 SegmentTimeline 声明的重复次数多于实际提供的 SegmentURL 数量（或 segment_urls 为空），会抛出 IndexError 使整个 DASH 解析崩溃，而不是跳过或告警。",
+              "trigger": "构造 MPD：Representation 含 SegmentList 的 SegmentURL 只有 1 个，但 SegmentTimeline 中 S 元素 d=... r=5（即需要 6 个 URL）。解析到第 2 次循环时 segment_index=1 越界。",
+              "evidence": "1972: for r in range(s.get('r', 0) + 1):\n1973:     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1978:     segment_index += 1\n未对 segment_index 与 len(segment_urls) 做任何比较。",
+              "suggestion": "在取 URL 前检查 segment_index < len(representation_ms_info['segment_urls'])，越界时 report_warning 并 break/跳过该 representation，避免未捕获的 IndexError。",
+              "id": "e647193a6f46",
+              "source": "llm",
+              "rule": "",
+              "snippet": "1971:                                 duration = float_or_none(s['d'], timescale)\n1972:                                 for r in range(s.get('r', 0) + 1):\n1973:                                     segment_uri = representation_ms_info['segment_urls'][segment_index]\n1974:                                     fragments.append({\n1975:                                         location_key(segment_uri): segment_uri,",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "line": 2045,
+              "end_line": 2045,
+              "severity": "medium",
+              "category": "bug",
+              "title": "ISM 清单缺少 Duration 属性时 KeyError 崩溃",
+              "explanation": "_parse_ism_formats 直接使用 ism_doc.attrib['Duration']，而 TimeScale 使用 int_or_none(ism_doc.get('TimeScale')) 做了容错。若清单根元素没有 Duration 属性（例如某些 live/异常清单或非标准清单），会抛出 KeyError 而非返回空列表或告警，导致提取器崩溃。",
+              "trigger": "传入 <SmoothStreamingMedia TimeScale=\"10000000\">（无 Duration 属性）的 ISM 文档调用 _parse_ism_formats。",
+              "evidence": "2045: duration = int(ism_doc.attrib['Duration'])\n2046: timescale = int_or_none(ism_doc.get('TimeScale')) or 10000000\n同一函数对 TimeScale 用 .get 容错，对 Duration 用下标访问。",
+              "suggestion": "改用 int_or_none(ism_doc.get('Duration'))，为 None 时 report_warning 并 return []，与 IsLive/Protection 的提前返回保持一致。",
+              "id": "c3ee3c9396ec",
+              "source": "llm",
+              "rule": "",
+              "snippet": "2043:             return []\n2044: \n2045:         duration = int(ism_doc.attrib['Duration'])\n2046:         timescale = int_or_none(ism_doc.get('TimeScale')) or 10000000\n2047: ",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            },
+            {
+              "path": "youtube_dl/extractor/common.py",
+              "line": 2053,
+              "end_line": 2053,
+              "severity": "low",
+              "category": "bug",
+              "title": "StreamIndex 缺少 Url 属性时 KeyError",
+              "explanation": "对每个 Type 为 video/audio 的 StreamIndex 直接读取 stream.attrib['Url']。若清单中该 StreamIndex 未提供 Url（例如仅含 QualityLevel 的异常/精简清单），会抛出 KeyError 使整个 ISM 解析失败，而不是跳过该流。",
+              "trigger": "ISM 文档含 <StreamIndex Type=\"video\" Name=\"video\"> 但无 Url 属性。",
+              "evidence": "2053: url_pattern = stream.attrib['Url']\n未使用 .get 或存在性检查。",
+              "suggestion": "使用 stream.get('Url')，为 None 时 report_warning 并 continue。",
+              "id": "65c640a33c8e",
+              "source": "llm",
+              "rule": "",
+              "snippet": "2051:             if stream_type not in ('video', 'audio'):\n2052:                 continue\n2053:             url_pattern = stream.attrib['Url']\n2054:             stream_timescale = int_or_none(stream.get('TimeScale')) or timescale\n2055:             stream_name = stream.get('Name')",
+              "status": "unverified",
+              "verification": "尚未复核；未运行待审代码。",
+              "validation": "静态诊断或代码推断；未执行复现测试。",
+              "related_diagnostics": [],
+              "reproduction": null
+            }
+          ]
+        }
+      ],
+      "tool_reads": [],
+      "elapsed_seconds": 4.253,
+      "folder": "windows/rep1-youtube-dl-2-fixed-1-baseline"
+    }
+  ],
+  "status": "sampled",
+  "budget": {
+    "limit": 80,
+    "reserved": 74,
+    "phases": {
+      "p1-hypothesis": 39,
+      "p1b-tools": 19,
+      "p1c-tool-first": 12,
+      "p1d-tool-external": 4
+    },
+    "started_at": "2026-10-21T13:33:39.838850+00:00"
+  },
+  "source_frozen": true,
+  "semantic_adjudication": "pending"
+}

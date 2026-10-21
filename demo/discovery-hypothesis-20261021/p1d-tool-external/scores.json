@@ -1,0 +1,45 @@
+{
+  "metrics": [
+    {
+      "arm": "baseline",
+      "planned_cases": 1,
+      "eligible_pairs": 1,
+      "candidate_hits": 0,
+      "fixed_side_alarms": 0,
+      "candidate_findings": 6,
+      "completed_windows": 2,
+      "calls": 2,
+      "usage": {
+        "prompt_tokens": 5844,
+        "completion_tokens": 1665
+      },
+      "tool_reads": 0,
+      "external_calls": 0,
+      "no_external_span": 0
+    },
+    {
+      "arm": "tool_first_external",
+      "planned_cases": 1,
+      "eligible_pairs": 1,
+      "candidate_hits": 0,
+      "fixed_side_alarms": 0,
+      "candidate_findings": 5,
+      "completed_windows": 2,
+      "calls": 2,
+      "usage": {
+        "prompt_tokens": 7804,
+        "completion_tokens": 2593
+      },
+      "tool_reads": 6,
+      "external_calls": 6,
+      "no_external_span": 0
+    }
+  ],
+  "mechanical_result": "The static call context selected caller/callee spans and the code read them on every external-arm window; no no-external-span window occurred.",
+  "detection_result": "Neither arm matched the DASH format_id uniqueness/merge reference; the external-arm candidates remained SegmentTimeline/duration issues.",
+  "adoption": "Not adopted: external reads were real and cheap, but they did not change the candidate away from the adjacent SegmentTimeline/ISM issues.",
+  "scope": "1 development case, one r0 window per side, two windows per arm, one repetition; smoke only, not a full development/holdout score.",
+  "adjudicators": [
+    "DeepSeek frozen-reference review; human review pending"
+  ]
+}

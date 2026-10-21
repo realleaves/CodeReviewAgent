@@ -112,6 +112,28 @@ P1b 的“文字重试”仍可能被忽略，所以 P1c 改成两阶段：
 
 P1c 资料：[结果](p1c-tool-first/results.json)、[判读](p1c-tool-first/adjudications.json)、[评分](p1c-tool-first/scores.json)、[离线校验](verify-p1c.py)。
 
+## P1d smoke：静态外部读取（已运行，机械成功、性能未提升）
+
+P1c 证明工具会被执行，但模型仍选主片段附近的局部读码。P1d 把“读什么”从模型选择改为**静态调用图选择**：`CallContext.supplement` 选出 caller/callee/enclosing span，代码直接 `read_code`，再把真实结果交给假设阶段。
+
+样本：youtube-dl-2 两侧各 1 个 r0 窗口，每臂 2 窗口，共 4 次运行。P1 账本 70/80，P1d 上限 10，实际 4，总 74/80。
+
+| 臂 | 有效对 | 候选命中 | 修复侧告警 | 完成 | 调用 | 外部调用 | read_code | no-external 窗口 | 候选数 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| baseline | 1/1 | 0/1 | 0 | 2/2 | 2 | 0 | 0 | 0 | 6 |
+| tool_first_external | 1/1 | 0/1 | 0 | 2/2 | 2 | 6 | 6 | 0 | 5 |
+
+关键观察：
+
+- **机械目标达成**：外部读取每窗口 3 个 span（caller `_extract_mpd_formats`、callee `report_warning`/`location_key`），共 6 次真实 read_code；0 个 no-external 窗口；4/4 完成。
+- **性能目标未达成**：两臂仍 0/1 参考命中；模型外部读取后仍报 SegmentTimeline 越界、segment_duration=0，而不是参考的 DASH `format_id` 唯一性/合并问题。
+- 外部读取让 prompt tokens 从 5,844 增到 7,804、completion 从 1,665 增到 2,593；没有召回收益。
+- 这轮排除了“只是没读外部上下文”的单一解释：外部 caller/callee 已经真实读入，模型仍未形成正确假设。
+
+**决定：P1d 不采用；P1 系列（prompt、工具重试、tool-first、外部读取）都没有产生候选召回收益。** P1 账本只剩 6 次（74/80），不再在同一方向追加采样。下一步应换假设：模型能力、任务形式（diff/PR 审查、测试引导）或更强的外部知识，而不是继续改读取协议/提示措辞。
+
+P1d 资料：[结果](p1d-tool-external/results.json)、[判读](p1d-tool-external/adjudications.json)、[评分](p1d-tool-external/scores.json)、[离线校验](verify-p1d.py)。
+
 ## 指标
 
 - buggy 侧参考候选识别率（主指标）；

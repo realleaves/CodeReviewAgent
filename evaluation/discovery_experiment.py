@@ -171,6 +171,7 @@ def fingerprint():
         "discovery_hypothesis.py",
         "discovery_hypothesis_tools.py",
         "discovery_tool_first.py",
+        "discovery_tool_external.py",
     ]:
         runner = ROOT / "evaluation" / name
         if runner.exists():
@@ -228,6 +229,7 @@ def run(
             "hypothesis",
             "hypothesis_tools",
             "tool_first",
+            "tool_first_external",
         }
         assert (
             1

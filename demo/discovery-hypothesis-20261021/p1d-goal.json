@@ -1,0 +1,38 @@
+{
+  "title": "P1d smoke: static external-read plan",
+  "date": "2026-10-21",
+  "kind": "P1d single-variable external-read selection; discovery only",
+  "hypothesis": "P1c achieved real tool use but the model chose local ranges. Selecting external caller/callee/enclosing spans with the static call context, and reading them before the hypothesis stage, should expose the DASH format_id/data-source relation that the model missed. If the candidate still does not match, external read selection is not the bottleneck.",
+  "selection": [
+    "youtube-dl-2"
+  ],
+  "selection_reason": "youtube-dl-2 has a static caller (_extract_mpd_formats), callees and an enclosing definition, and the reference issue is a DASH format_id uniqueness/merge relation rather than a single local line. Both sides, one r0 window per side.",
+  "arms": {
+    "baseline": {
+      "context_strategy": "legacy",
+      "thinking_mode": "disabled",
+      "review_strategy": "baseline"
+    },
+    "tool_first_external": {
+      "context_strategy": "legacy",
+      "thinking_mode": "disabled",
+      "review_strategy": "tool_first_external"
+    }
+  },
+  "variable": "review_strategy",
+  "repetitions": 1,
+  "window_call_limit": 3,
+  "budget": {
+    "phase_limit": 10,
+    "remaining_after_p1c": 10,
+    "per_window": 3
+  },
+  "metrics": [
+    "external spans selected and actually read",
+    "reference candidate recall on youtube-dl-2",
+    "fixed-side same-issue alarms",
+    "completed/failed windows, calls and tokens"
+  ],
+  "adoption": "A strict reference candidate hit, or a clearly closer root-cause candidate with the correct DASH format_id/merge trigger, with no fixed-side alarm; otherwise reject. One-case/two-window smoke is exploratory.",
+  "scope": "Discovery only; no evidence engine, official tests/labels/opposite version in the Agent input. One repetition; all requests, failures and no-span windows retained."
+}

@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 73,
+    "phase": "p1d-tool-external",
+    "label": {
+      "case": "youtube-dl-2",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "tool_first_external",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2065
+    },
+    "reserved_at": "2026-10-21T13:55:05.950682+00:00"
+  },
+  "raw_response": "{\"checked\":[\"common.py:1962-1995 DASH SegmentTimeline 与 segment_urls 分支\",\"common.py:1996-2009 fragments/initialization_url 组装\",\"common.py:2010-2017 formats_dict 与 format_id 合并\",\"common.py:2022-2033 ISM 下载与解析入口\",\"common.py:2035-2065 ISM 解析前置条件与属性访问\",\"common.py:1909-1910 location_key 判定\",\"common.py:1738-1752 _extract_mpd_formats 调用链\",\"common.py:696-699 report_warning\"],\"hypotheses\":[{\"claim\":\"SegmentTimeline 分支中 s['d'] 缺失会抛 KeyError\",\"expected_behavior\":\"缺失 d 时应跳过或使用默认时长\",\"counterexample\":\"<S t=\\\"0\\\" r=\\\"1\\\"/> 无 d 属性\",\"contract\":\"DASH SegmentTimeline 的 S 元素 d 属性在规范中为必需，但解析器应对畸形清单容错\"},{\"claim\":\"segment_index 越界访问 segment_urls 抛 IndexError\",\"expected_behavior\":\"r 展开数量超过 segment_urls 长度时应截断或告警\",\"counterexample\":\"s 列表 r=5 但 segment_urls 只有 2 个\",\"contract\":\"fragments 数量应与 segment_urls 一致\"},{\"claim\":\"ISM 中 Duration 缺失或非整数抛 KeyError/ValueError\",\"expected_behavior\":\"缺失 Duration 应返回空或告警\",\"counterexample\":\"<SmoothStreamingMedia TimeScale=\\\"10000000\\\"> 无 Duration\",\"contract\":\"_parse_ism_formats 对畸形 ISM 应容错\"},{\"claim\":\"ISM QualityLevel 缺 Bitrate 抛 KeyError\",\"expected_behavior\":\"缺失 Bitrate 应跳过该 track\",\"counterexample\":\"<QualityLevel FourCC=\\\"H264\\\" Index=\\\"0\\\"/> 无 Bitrate\",\"contract\":\"解析器对缺失可选属性应容错\"},{\"claim\":\"formats_dict 默认参数可变对象跨调用共享\",\"expected_behavior\":\"每次调用应使用独立字典\",\"counterexample\":\"两次调用 _extract_mpd_formats 未传 formats_dict，第二次看到第一次残留\",\"contract\":\"默认参数不应在调用间共享状态\"}],\"findings\":[{\"path\":\"youtube_dl/extractor/common.py\",\"line\":1971,\"end_line\":1978,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"SegmentTimeline 展开数量与 segment_urls 长度不匹配导致 IndexError\",\"explanation\":\"代码按 s['r']+1 展开片段并递增 segment_index，直接以 segment_index 索引 segment_urls，未校验长度。若清单中 r 声明的重复次数使展开总数超过 segment_urls 实际数量，将抛出未捕获的 IndexError，使整个 DASH 解析失败而非跳过该 representation。\",\"trigger\":\"构造 MPD：SegmentTimeline 中 <S d=\\\"1000\\\" r=\\\"5\\\"/>（展开 6 段），但 SegmentURL 仅提供 2 个条目。\",\"evidence\":\"1972-1973 行：for r in range(s.get('r', 0) + 1): segment_uri = representation_ms_info['segment_urls'][segment_index]，无边界检查。\",\"suggestion\":\"在索引前检查 segment_index < len(segment_urls)，越界时告警并 break/跳过该 representation。\"},{\"path\":\"youtube_dl/extractor/common.py\",\"line\":1971,\"end_line\":1971,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"SegmentTimeline 的 S 元素缺少 d 属性时 KeyError\",\"explanation\":\"直接使用 s['d'] 访问，若清单中 S 元素省略 d（畸形或依赖继承），会抛 KeyError 中断解析。float_or_none 本身可处理 None，但下标访问先于其执行。\",\"trigger\":\"MPD 中 <S t=\\\"0\\\" r=\\\"1\\\"/> 不含 d 属性。\",\"evidence\":\"1971 行：duration = float_or_none(s['d'], timescale)。\",\"suggestion\":\"改用 s.get('d')，缺失时告警或使用默认时长。\"},{\"path\":\"youtube_dl/extractor/common.py\",\"line\":2045,\"end_line\":2062,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"ISM 解析对缺失 Duration/Bitrate 属性无容错\",\"explanation\":\"ism_doc.attrib['Duration'] 与 track.attrib['Bitrate'] 使用强制下标访问，畸形或精简的 ISM 清单缺少这些属性时会抛 KeyError，导致 _parse_ism_formats 整体失败而非跳过。\",\"trigger\":\"ISM 清单 <SmoothStreamingMedia TimeScale=\\\"10000000\\\"> 无 Duration；或 <QualityLevel FourCC=\\\"H264\\\"/> 无 Bitrate。\",\"evidence\":\"2045 行 int(ism_doc.attrib['Duration'])；2062 行 int(track.attrib['Bitrate']) // 1000。\",\"suggestion\":\"使用 .get() 并在缺失时告警跳过，或对 Duration 缺失返回空列表。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review_hypothesis",
+    "status": "completed",
+    "input_chars": 13605,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1117,
+      "prompt_tokens": 3926,
+      "total_tokens": 5043,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 896
+      },
+      "prompt_cache_hit_tokens": 896,
+      "prompt_cache_miss_tokens": 3030
+    },
+    "elapsed_seconds": 5.737
+  }
+}

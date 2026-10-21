@@ -1,10 +1,11 @@
 {
   "limit": 80,
-  "reserved": 70,
+  "reserved": 74,
   "phases": {
     "p1-hypothesis": 39,
     "p1b-tools": 19,
-    "p1c-tool-first": 12
+    "p1c-tool-first": 12,
+    "p1d-tool-external": 4
   },
   "started_at": "2026-10-21T13:33:39.838850+00:00"
 }

@@ -342,6 +342,7 @@ class ReviewAgents:
             "hypothesis",
             "hypothesis_tools",
             "tool_first",
+            "tool_first_external",
         }:
             raise ValueError("未知的发现策略。")
         self.index, self.llm = index, llm
@@ -386,6 +387,57 @@ class ReviewAgents:
             for call in calls
         ]
         return calls, results, response
+
+    def _external_spans(self, chunk, limit=3):
+        """Choose real external source spans via the static call context."""
+        from .review_context import CallContext
+
+        if self._call_context is None:
+            self._call_context = CallContext(self.index)
+        supplement = self._call_context.supplement(chunk.path, chunk.start, chunk.end)
+        priority = {
+            "caller": 0,
+            "callee": 1,
+            "enclosing_definition": 2,
+            "preceding_code": 3,
+            "following_code": 4,
+            "import_binding": 5,
+        }
+        items = supplement.get("context", []) + supplement.get("documents", [])
+        items = [
+            item
+            for item in items
+            if item.get("path") and item.get("start") and item.get("end")
+        ]
+        items.sort(
+            key=lambda item: (
+                priority.get(item.get("relation"), 9),
+                item.get("path") != chunk.path,
+                item.get("start"),
+            )
+        )
+        spans = []
+        for item in items:
+            path, start, end = item["path"], item["start"], item["end"]
+            if path == chunk.path and chunk.start <= start and end <= chunk.end:
+                continue
+            if any(
+                span["path"] == path and span["start"] == start and span["end"] == end
+                for span in spans
+            ):
+                continue
+            spans.append(
+                {
+                    "path": path,
+                    "start": start,
+                    "end": end,
+                    "relation": item.get("relation", ""),
+                    "symbol": item.get("symbol", ""),
+                }
+            )
+            if len(spans) >= limit:
+                break
+        return spans
 
     def review_payload(self, chunk, diagnostics, direct=False, evidence=False):
         payload = {
@@ -473,6 +525,79 @@ class ReviewAgents:
                 response_format={"type": "json_object"},
             )
             candidates = Candidates.model_validate(parse_json(raw)).findings
+        elif evidence and self.review_strategy == "tool_first_external":
+            spans = self._external_spans(chunk)
+            if not spans:
+                self.trace.append(
+                    {
+                        "stage": "tool_first_external",
+                        "path": chunk.path,
+                        "start": chunk.start,
+                        "end": chunk.end,
+                        "status": "no_external_span",
+                    }
+                )
+                candidates = []
+            else:
+                agent = BoundedAgent(
+                    name="tool_first_external",
+                    llm=self.llm,
+                    system_prompt="",
+                    tool_registry=self.registry,
+                )
+                calls, results = [], []
+                for span in spans:
+                    parameters = (
+                        f"path={span['path']},start={span['start']},end={span['end']}"
+                    )
+                    calls.append(
+                        {
+                            "tool_name": "read_code",
+                            "parameters": parameters,
+                            "original": f"[TOOL_CALL:read_code:{parameters}]",
+                        }
+                    )
+                    results.append(agent._execute_tool_call("read_code", parameters))
+                self.trace.append(
+                    {
+                        "stage": "tool_first_external",
+                        "path": chunk.path,
+                        "start": chunk.start,
+                        "end": chunk.end,
+                        "status": "executed",
+                        "spans": spans,
+                        "calls": calls,
+                        "result_chars": sum(len(str(result)) for result in results),
+                    }
+                )
+                second_payload = {
+                    **payload,
+                    "tool_calls": calls,
+                    "tool_results": results,
+                }
+                raw = self._run(
+                    "review_hypothesis",
+                    HYPOTHESIS_TOOL_FIRST_PROMPT,
+                    second_payload,
+                )
+                parsed = HypothesisCandidates.model_validate(parse_json(raw))
+                self.trace.append(
+                    {
+                        "stage": "hypothesis_review",
+                        "path": chunk.path,
+                        "start": chunk.start,
+                        "end": chunk.end,
+                        "checked": parsed.checked,
+                        "hypotheses": [
+                            hypothesis.model_dump() for hypothesis in parsed.hypotheses
+                        ],
+                        "tool_evidence": True,
+                        "tool_calls_from_first_stage": len(calls),
+                        "tool_reads_after": len(self.index.reads),
+                        "tool_retry": False,
+                    }
+                )
+                candidates = parsed.findings
         elif evidence and self.review_strategy == "tool_first":
             calls, results, response = self._tool_first_read(payload)
             if not calls:

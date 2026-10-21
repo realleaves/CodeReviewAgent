@@ -83,7 +83,11 @@ class ReviewOptions(BaseModel):
     max_repro_repairs: int = Field(default=0, ge=0, le=1)
     context_strategy: Literal["legacy", "callgraph"] = "legacy"
     review_strategy: Literal[
-        "baseline", "hypothesis", "hypothesis_tools", "tool_first"
+        "baseline",
+        "hypothesis",
+        "hypothesis_tools",
+        "tool_first",
+        "tool_first_external",
     ] = "baseline"
     # Experiment switch: the prompt stays the same; only the structured
     # admission checks and audit re-check are disabled when False.
