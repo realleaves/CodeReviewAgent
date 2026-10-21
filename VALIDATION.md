@@ -154,3 +154,11 @@ legacy/callgraph与两轮单变量改进均结束，另完成预选4新样本、
 对2026-10-14冻结测评的26个有效参考对做逐条候选阶段分类，0次模型调用、0次Docker。候选命中4个、有效证据1个；22个漏检中8个完全没有候选（buggy侧无任何LLM finding，运行多为completed且1–2次调用）、14个有候选但偏题（其中4个复现了额外问题）、另3个候选命中但证据失败。分类脚本`evaluation/evidence_failure_taxonomy.py`会断言26/4/1/22以及8/14/3分组；结构化结果与逐条参考问题见[失败分类](demo/evidence-failure-taxonomy-20261021/README.md)。
 
 结论：瓶颈在发现阶段，不在取证/准入门控。8个无候选说明当前单次广撒网提示允许模型看一眼就返回空；14个偏题集中在输入变体、状态/生命周期、协议/头部和regex/编码。下一轮按长期目标做“假设—反例式发现流程”的单变量A/B，先写协议和预算，再启动模型调用；不继续加callgraph/thinking/输出上限或收紧准入。当前109项测试通过，Ruff F/E9通过。
+
+## P1 假设—反例式发现协议（2026-10-21，尚未运行）
+
+实现`review_strategy=hypothesis`实验提示：要求模型先输出契约/前置条件/不变量理解、3–5个行为假设、每个假设的最小反例和契约来源、实际核对过的调用方/定义/文档/测试，再输出最多4条有具体反例的候选；零候选时仍须用`checked`/`hypotheses`说明检查过什么。结构化schema为`checked`/`hypotheses`/`findings`，`findings`仍走原有行号校验和去重。默认`review_strategy=baseline`；CLI新增`--review-strategy`，pipeline和BugsInPy入口已接通。
+
+P1协议冻结6个开发样本（tornado-1/3/7、youtube-dl-2/4/8）、两侧、18个r0输入窗口、baseline/hypothesis两臂、1次重复、80次调用上限、每窗口最多3次；两臂只改`review_strategy`，模型/上下文/thinking/输出上限相同。只跑发现阶段，不启动证据引擎；官方测试/标签/相反版本不进入Agent输入。setup校验12个snapshot、18个窗口，预算0/80，provider配置为deepseek-flash/disabled/0.1/6000。
+
+协议与setup见[demo/discovery-hypothesis-20261021](demo/discovery-hypothesis-20261021/README.md)；运行器`evaluation/discovery_hypothesis.py`。本轮0次模型调用；当前114项测试通过，Ruff F/E9通过。等预算确认后执行`run`，逐窗口判读候选识别率和固定侧告警，再决定是否扩到holdout。

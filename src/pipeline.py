@@ -78,7 +78,9 @@ def run_review(
                 load_config(env_file)
                 llm = MeteredLLM(options.max_calls, options.timeout, options.model)
                 own_llm = True
-            agents = ReviewAgents(index, llm, options.context_strategy)
+            agents = ReviewAgents(
+                index, llm, options.context_strategy, options.review_strategy
+            )
             engine = (
                 EvidenceEngine(index, agents, options)
                 if options.mode == "evidence"

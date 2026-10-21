@@ -167,6 +167,9 @@ def initialize(root):
 
 def fingerprint():
     paths = [*sorted((ROOT / "src").glob("*.py")), ROOT / "main.py", Path(__file__)]
+    strategy_runner = ROOT / "evaluation/discovery_hypothesis.py"
+    if strategy_runner.exists():
+        paths.append(strategy_runner)
     return {str(p.relative_to(ROOT)): digest(p) for p in paths}
 
 
@@ -204,6 +207,7 @@ def run(
             name: {
                 "context_strategy": name,
                 "thinking_mode": model_config["thinking_mode"],
+                "review_strategy": "baseline",
             }
             for name in strategies
         }
@@ -212,7 +216,15 @@ def run(
     for config in configs.values():
         assert config["context_strategy"] in {"legacy", "callgraph"}
         assert config["thinking_mode"] in {"enabled", "disabled"}
-        assert 1 <= config.get("max_output_tokens", model_config["max_output_tokens"]) <= 12000
+        assert config.get("review_strategy", "baseline") in {
+            "baseline",
+            "hypothesis",
+        }
+        assert (
+            1
+            <= config.get("max_output_tokens", model_config["max_output_tokens"])
+            <= 12000
+        )
     assert all(
         digest(ROOT / p) == h
         for p, h in json.loads((root / "protected.json").read_text()).items()
@@ -309,7 +321,10 @@ def run(
                 assert llm.model == model_config["model"]
                 with redirect_stdout(io.StringIO()):
                     agent = ReviewAgents(
-                        index, llm, configs[strategy]["context_strategy"]
+                        index,
+                        llm,
+                        configs[strategy]["context_strategy"],
+                        configs[strategy].get("review_strategy", "baseline"),
                     )
                 payload = agent.review_payload(part, [], evidence=True)
                 expected = (

@@ -36,8 +36,11 @@ def verify(root, project=None):
             record = json.loads((path.parents[2] / "record.json").read_text())
             assert record["status"] == "failed" and record["findings"] == []
             assert record["error"]["type"] == "ProcessInterrupted"
-            assert any(c.get("reservation_id") == reservation["id"]
-                       and c.get("response_unknown") for c in record["calls"])
+            assert any(
+                c.get("reservation_id") == reservation["id"]
+                and c.get("response_unknown")
+                for c in record["calls"]
+            )
             unknown_responses.append(reservation["id"])
     assert set(by_id) == set(range(1, state["reserved"] + 1))
     phases = {}
@@ -46,9 +49,14 @@ def verify(root, project=None):
     assert phases == state["phases"]
     windows = 0
     protected = json.loads((root / "protected.json").read_text())
-    project = Path(project) if project is not None else Path(__file__).resolve().parents[1]
+    project = (
+        Path(project) if project is not None else Path(__file__).resolve().parents[1]
+    )
     assert all(digest(project / p) == h for p, h in protected.items())
-    assert digest(root / "reference-rubric.json") == protected["evaluation/bugsinpy-rubric.json"]
+    assert (
+        digest(root / "reference-rubric.json")
+        == protected["evaluation/bugsinpy-rubric.json"]
+    )
     for phase in sorted(root.iterdir()):
         if not phase.is_dir() or not (phase / "manifest.json").exists():
             continue
@@ -63,7 +71,11 @@ def verify(root, project=None):
             assert digest(phase / "reference-rubric.json") == manifest["rubric_sha256"]
         for relative, hashed in manifest.get("protected_sha256", {}).items():
             parts = Path(relative).parts
-            target = root.joinpath(*parts[2:]) if parts[:2] == ("outputs", "discovery-goal-20261015") else project / relative
+            target = (
+                root.joinpath(*parts[2:])
+                if parts[:2] == ("outputs", "discovery-goal-20261015")
+                else project / relative
+            )
             assert digest(target) == hashed
         records = results["records"]
         expected = (
@@ -88,7 +100,10 @@ def verify(root, project=None):
                 first = sorted(calls)[0]
                 messages = json.loads(first.read_text())["messages"]
                 assert json.loads(messages[1]["content"]) == payload
-            assert not {"case", "side", "variant", "reference_issue", "test_command"} & payload.keys()
+            assert (
+                not {"case", "side", "variant", "reference_issue", "test_command"}
+                & payload.keys()
+            )
             for request_path in calls:
                 request = json.loads(request_path.read_text())
                 if "arms" in manifest:
@@ -100,13 +115,20 @@ def verify(root, project=None):
                     # r0 predates per-request generation fields. Its original
                     # model manifest and provider call metadata are retained.
                     assert phase.name == "r0-context"
-                    call = json.loads(request_path.with_name("response.json").read_text())["call"]
+                    call = json.loads(
+                        request_path.with_name("response.json").read_text()
+                    )["call"]
                     assert call["thinking_mode"] == arm["thinking_mode"]
-                    assert call["max_output_tokens"] == manifest["model"]["max_output_tokens"]
+                    assert (
+                        call["max_output_tokens"]
+                        == manifest["model"]["max_output_tokens"]
+                    )
                     continue
                 generation = request["generation"]
                 assert generation["thinking_mode"] == arm["thinking_mode"]
-                assert generation["max_output_tokens"] == arm.get("max_output_tokens", 6000)
+                assert generation["max_output_tokens"] == arm.get(
+                    "max_output_tokens", 6000
+                )
                 assert generation["model"] == manifest["model"]["model"]
             windows += 1
         for window in manifest["input_windows"]:
@@ -131,7 +153,11 @@ def verify(root, project=None):
                 for payload in payloads[1:]:
                     for key in ["primary_path", "start", "end", "code"]:
                         assert payload[key] == payloads[0][key]
-                    if manifest.get("comparison_variable") in {"thinking_mode", "max_output_tokens"}:
+                    if manifest.get("comparison_variable") in {
+                        "thinking_mode",
+                        "max_output_tokens",
+                        "review_strategy",
+                    }:
                         assert payload == payloads[0]
     return {
         "provider_attempts": state["reserved"],

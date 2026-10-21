@@ -1,0 +1,44 @@
+{
+  "title": "baseline vs hypothesis-first discovery",
+  "date": "2026-10-21",
+  "kind": "P1 single-variable prompt/workflow experiment; discovery only",
+  "hypothesis": "The current one-pass broad prompt often returns no candidate or an adjacent issue. A structured understand -> enumerate -> counterexample -> check -> candidates prompt should increase reference candidate recall without increasing fixed-side same-issue alarms or lowering completion.",
+  "selection": [
+    "tornado-1",
+    "tornado-3",
+    "tornado-7",
+    "youtube-dl-2",
+    "youtube-dl-4",
+    "youtube-dl-8"
+  ],
+  "selection_reason": "The six development cases used by r0/r1/r2; frozen before this experiment. Both buggy and fixed sides and all 18 r0 input windows are used.",
+  "arms": {
+    "baseline": {
+      "context_strategy": "legacy",
+      "thinking_mode": "disabled",
+      "review_strategy": "baseline"
+    },
+    "hypothesis": {
+      "context_strategy": "legacy",
+      "thinking_mode": "disabled",
+      "review_strategy": "hypothesis"
+    }
+  },
+  "variable": "review_strategy",
+  "repetitions": 1,
+  "window_call_limit": 3,
+  "budget": {
+    "limit": 80,
+    "per_window": 3
+  },
+  "metrics": [
+    "reference candidate recall on the buggy side",
+    "fixed-side same-issue alarms",
+    "extra candidate count (not automatically false positives)",
+    "completed windows and provider failures",
+    "calls and reported tokens"
+  ],
+  "adoption": "At least two more correctly identified reference pairs than baseline, with no increase in fixed-side same-issue alarms and no lower completed window count. A single repetition is exploratory; repeat before adoption.",
+  "holdout": "Only if the development result meets the adoption condition; use the four prepared holdout cases in a separate phase and budget.",
+  "scope": "Discovery only; no Agent-generated tests, no evidence engine, no official tests/labels/opposite version in the Agent input. Known-location windows; not a full-repo or new-sample score. All failures and requests retained."
+}

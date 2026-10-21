@@ -16,6 +16,8 @@
 
 **2026-10-21 漏检失败分类：** 对2026-10-14的26个有效参考对逐条归类：候选命中4个、有效证据1个；22个漏检中8个完全没有候选、14个有候选但偏题；另有3个候选命中但证据失败。结论是瓶颈在发现阶段，不在Docker/取证/准入门控。见[失败分类与P1依据](demo/evidence-failure-taxonomy-20261021/README.md)。
 
+**2026-10-21 P1 协议（未运行）：** 已实现“理解→枚举→反例→核对→候选”的假设—反例式发现提示和结构化输出，并冻结 6 个开发样本、18 个窗口、baseline/hypothesis 两臂、单次重复、80 次调用上限。只跑发现阶段，不启动证据引擎；尚未发出模型请求。见[P1 协议](demo/discovery-hypothesis-20261021/README.md)。
+
 **2026-10-15 上下文检索实验：** 已接入`--context-strategy callgraph`，在evidence发现阶段补充静态调用方、被调用定义、相关导入与文档片段；默认仍为`legacy`。86项项目测试通过，6个历史样本两版本共18组初始输入核对通过，0次模型API调用。新增上下文尚未做模型效果对照，不能声称检出率提高；见[实现与离线检查](demo/context-callgraph-20261015/README.md)。
 
 **2026-10-15 历史证据复测：** 冻结实现，旧13条已接受记录用旧/新执行器各重跑两次，并补做相反版本及调用链检查，共67次容器执行、0次模型API调用。新判定接受12条，稳定拦住1条错误触发，保留原有效参考复现；其余仍含预期无依据、质量建议及待定项，不能解释为12个真实缺陷。见[逐条复测报告](demo/evidence-retest13-20261015/README.md)。本轮没有测量新的检出率。
@@ -120,6 +122,7 @@ python -m pytest -q tests
 | `--max-reproductions` | `4` | 最多验证几个候选，生成和核验仍计入总模型调用预算 |
 | `--max-repro-repairs` | `0` | 实验功能：未调用到目标函数时，最多允许一次反馈修正；可设为1，仍计入模型预算 |
 | `--context-strategy` | `legacy` | evidence发现阶段上下文；`callgraph`为调用关系检索实验，补充内容含JSON元数据最多10000字符，尚未验证检出收益 |
+| `--review-strategy` | `baseline` | evidence发现策略；`hypothesis`为假设—反例式实验，尚未验证检出收益 |
 | `--enforce-admission` | 开启 | 结构化预期准入；`--no-enforce-admission`仅用于baseline对照实验，不是生产建议 |
 
 `evidence` 优先审查行为缺陷，生成测试、两次隔离执行并核验契约；`direct`、`assisted`、`full` 保留原来的代码推断流程；`static` 仅运行静态工具。后四种模式不将代码推断称为运行证明。
@@ -243,6 +246,7 @@ CLI 退出码：0 为 completed/static_only；2 表示已保存报告但分析�
 - [准入固定案例验证](demo/admission-validation-20261021/README.md)：4个已见候选、5次调用，正例保留、3个负例降级。
 - [新样本evidence对照](demo/evidence-holdout-compare-20261021/README.md)：4个holdout样本、16次运行、37次调用；两臂均1/4检出，admission无端到端增益。
 - [漏检失败分类](demo/evidence-failure-taxonomy-20261021/README.md)：26个有效对中4个候选命中；22个漏检=8个无候选+14个偏题。
+- [P1 假设—反例协议](demo/discovery-hypothesis-20261021/README.md)：6个开发样本、18个窗口、两臂、80次上限；尚未运行。
 
 `tests/` 覆盖真实扫描器、路径与行号校验、只读工具、复核ID对应、调用失败、预算耗尽、语法错误、空文件、HTML转义与报告格式，以及结构化预期准入、语言规则边界和执行位置判定。
 

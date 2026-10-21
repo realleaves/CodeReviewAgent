@@ -48,6 +48,12 @@ def main() -> int:
         help="evidence模式的上下文选择；callgraph为调用链检索实验，尚无检出率提升结论",
     )
     review.add_argument(
+        "--review-strategy",
+        choices=["baseline", "hypothesis"],
+        default="baseline",
+        help="evidence发现策略；hypothesis为假设—反例式实验，尚无检出率提升结论",
+    )
+    review.add_argument(
         "--enforce-admission",
         action=argparse.BooleanOptionalAction,
         default=True,

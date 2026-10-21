@@ -1,0 +1,112 @@
+{
+  "windows": 18,
+  "selection": [
+    "tornado-1",
+    "tornado-3",
+    "tornado-7",
+    "youtube-dl-2",
+    "youtube-dl-4",
+    "youtube-dl-8"
+  ],
+  "snapshots": {
+    "tornado-1/buggy": {
+      "files": 62,
+      "snapshot_sha256": "3efdb89f1b593a1b0ca8675f237f200fba2f44357c27003727ebb7f7d9d1f06d"
+    },
+    "tornado-1/fixed": {
+      "files": 62,
+      "snapshot_sha256": "dd886d54de41e9b477fd649cce75a9552f48839db54de89dfe79b45088cfb3cc"
+    },
+    "youtube-dl-2/buggy": {
+      "files": 801,
+      "snapshot_sha256": "de101f03962a0ec970eeecb6df177e6f3570d405f0d18f974ec595b5ff9bde2f"
+    },
+    "youtube-dl-2/fixed": {
+      "files": 801,
+      "snapshot_sha256": "6d8afdad248fb88963e4aa4bd2df4727379e39d788c26caef25356d6968b0b1d"
+    },
+    "tornado-3/buggy": {
+      "files": 62,
+      "snapshot_sha256": "cdd87cf1e32de1921805161e8f0fd7d2f1d3be4904aae6f4b6aa890d68d1d5f4"
+    },
+    "tornado-3/fixed": {
+      "files": 62,
+      "snapshot_sha256": "39397b1cf57453a239e3ee1003a908d64a245a179044f20bb55e218330cf4247"
+    },
+    "youtube-dl-4/buggy": {
+      "files": 726,
+      "snapshot_sha256": "814db4e472b1fe8493603662631acff46e1c6053677d4fc2aeda3bdd7ccfa093"
+    },
+    "youtube-dl-4/fixed": {
+      "files": 726,
+      "snapshot_sha256": "b2ce8f8c2309a77b57961cddeeee3f8b3f9ed74be9904eea0a4582074a6f2171"
+    },
+    "tornado-7/buggy": {
+      "files": 69,
+      "snapshot_sha256": "6b761570b35086530e7954cd2c072acbecd009f4c9c7e2c9b8d9577a2cf6e2f5"
+    },
+    "tornado-7/fixed": {
+      "files": 69,
+      "snapshot_sha256": "16950d597deb81563b924a4115ea06206c551b113d04fb8a56d3a4b6cb58c25b"
+    },
+    "youtube-dl-8/buggy": {
+      "files": 563,
+      "snapshot_sha256": "7d5583e6ca81ff6f499d4fece0b758080b1328090e8d8c6ac85a9950a01f8524"
+    },
+    "youtube-dl-8/fixed": {
+      "files": 563,
+      "snapshot_sha256": "a4b7bd8352dc7d103a8c9b23dae9cb6fdede352fcdb8e5fa364b89f8add84705"
+    }
+  },
+  "model": {
+    "model": "deepseek-flash",
+    "thinking_mode": "disabled",
+    "temperature": 0.1,
+    "max_output_tokens": 6000,
+    "provider_is_deepseek": true
+  },
+  "protocol": {
+    "title": "baseline vs hypothesis-first discovery",
+    "date": "2026-10-21",
+    "kind": "P1 single-variable prompt/workflow experiment; discovery only",
+    "hypothesis": "The current one-pass broad prompt often returns no candidate or an adjacent issue. A structured understand -> enumerate -> counterexample -> check -> candidates prompt should increase reference candidate recall without increasing fixed-side same-issue alarms or lowering completion.",
+    "selection": [
+      "tornado-1",
+      "tornado-3",
+      "tornado-7",
+      "youtube-dl-2",
+      "youtube-dl-4",
+      "youtube-dl-8"
+    ],
+    "selection_reason": "The six development cases used by r0/r1/r2; frozen before this experiment. Both buggy and fixed sides and all 18 r0 input windows are used.",
+    "arms": {
+      "baseline": {
+        "context_strategy": "legacy",
+        "thinking_mode": "disabled",
+        "review_strategy": "baseline"
+      },
+      "hypothesis": {
+        "context_strategy": "legacy",
+        "thinking_mode": "disabled",
+        "review_strategy": "hypothesis"
+      }
+    },
+    "variable": "review_strategy",
+    "repetitions": 1,
+    "window_call_limit": 3,
+    "budget": {
+      "limit": 80,
+      "per_window": 3
+    },
+    "metrics": [
+      "reference candidate recall on the buggy side",
+      "fixed-side same-issue alarms",
+      "extra candidate count (not automatically false positives)",
+      "completed windows and provider failures",
+      "calls and reported tokens"
+    ],
+    "adoption": "At least two more correctly identified reference pairs than baseline, with no increase in fixed-side same-issue alarms and no lower completed window count. A single repetition is exploratory; repeat before adoption.",
+    "holdout": "Only if the development result meets the adoption condition; use the four prepared holdout cases in a separate phase and budget.",
+    "scope": "Discovery only; no Agent-generated tests, no evidence engine, no official tests/labels/opposite version in the Agent input. Known-location windows; not a full-repo or new-sample score. All failures and requests retained."
+  }
+}

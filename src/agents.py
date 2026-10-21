@@ -12,7 +12,7 @@ from hello_agents import HelloAgentsLLM, SimpleAgent, ToolRegistry
 from hello_agents.tools import Tool, ToolParameter
 
 from .code_index import CodeIndex, Chunk, finding_id, numbered
-from .schemas import Candidates, Decisions, Finding
+from .schemas import Candidates, Decisions, Finding, HypothesisCandidates
 
 
 class BudgetExceeded(RuntimeError):
@@ -218,6 +218,19 @@ EVIDENCE_REVIEW_PROMPT = (
     + json.dumps(Candidates.model_json_schema(), ensure_ascii=False)
 )
 
+HYPOTHESIS_REVIEW_PROMPT = (
+    COMMON
+    + """你在做行为缺陷发现，不是泛泛代码审查。按以下顺序完成，再返回JSON：
+1. 理解：用2-4句话写出主片段的契约、前置条件、不变量、支持的输入域、错误路径和状态/资源生命周期。
+2. 枚举：列出3-5个可能违反契约的行为假设；优先检查 None/False/0/空列表、bytes/str、非法/边界输入、已关闭/已清理状态、协议头大小写、regex/编码、跨文件数据来源。
+3. 反例：为每个假设写最小输入或调用序列，以及“预期行为 vs 当前可能行为”的差异；没有具体反例的假设不要升级为候选。
+4. 核对：每个保留假设至少核对一个调用方、被调用定义、文档或测试；在checked中记录实际读了什么。可用只读工具。
+5. 候选：只输出有具体反例和可定位契约的findings，最多4条；没有就返回空findings，但checked和hypotheses必须说明检查过什么。
+不要报告无实质影响的风格建议、未用变量或未来修改风险；不要为了凑数捏造契约。只在主片段内定位。
+结构必须符合："""
+    + json.dumps(HypothesisCandidates.model_json_schema(), ensure_ascii=False)
+)
+
 
 def parse_json(text: str) -> dict:
     stripped = text.strip()
@@ -284,11 +297,20 @@ class BoundedAgent(SimpleAgent):
 
 
 class ReviewAgents:
-    def __init__(self, index: CodeIndex, llm: MeteredLLM, context_strategy="legacy"):
+    def __init__(
+        self,
+        index: CodeIndex,
+        llm: MeteredLLM,
+        context_strategy="legacy",
+        review_strategy="baseline",
+    ):
         if context_strategy not in {"legacy", "callgraph"}:
             raise ValueError("未知的审查上下文策略。")
+        if review_strategy not in {"baseline", "hypothesis"}:
+            raise ValueError("未知的发现策略。")
         self.index, self.llm = index, llm
         self.context_strategy = context_strategy
+        self.review_strategy = review_strategy
         self._call_context = None
         registry = ToolRegistry()
         registry.register_tool(ReadCodeTool(index))
@@ -390,13 +412,30 @@ class ReviewAgents:
                 json.dumps(payload, ensure_ascii=False),
                 response_format={"type": "json_object"},
             )
+            candidates = Candidates.model_validate(parse_json(raw)).findings
+        elif evidence and self.review_strategy == "hypothesis":
+            raw = self._run("review_hypothesis", HYPOTHESIS_REVIEW_PROMPT, payload)
+            parsed = HypothesisCandidates.model_validate(parse_json(raw))
+            self.trace.append(
+                {
+                    "stage": "hypothesis_review",
+                    "path": chunk.path,
+                    "start": chunk.start,
+                    "end": chunk.end,
+                    "checked": parsed.checked,
+                    "hypotheses": [
+                        hypothesis.model_dump() for hypothesis in parsed.hypotheses
+                    ],
+                }
+            )
+            candidates = parsed.findings
         else:
             raw = self._run(
                 "review", EVIDENCE_REVIEW_PROMPT if evidence else REVIEW_PROMPT, payload
             )
-        parsed = Candidates.model_validate(parse_json(raw))
+            candidates = Candidates.model_validate(parse_json(raw)).findings
         findings = []
-        for candidate in parsed.findings:
+        for candidate in candidates:
             if (
                 candidate.path != chunk.path
                 or not chunk.start <= candidate.line <= candidate.end_line <= chunk.end
@@ -431,6 +470,7 @@ class ReviewAgents:
                 "path": chunk.path,
                 "start": chunk.start,
                 "end": chunk.end,
+                "strategy": self.review_strategy,
                 "findings": [f.model_dump() for f in findings],
             }
         )

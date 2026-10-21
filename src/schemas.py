@@ -21,6 +21,21 @@ class Candidates(BaseModel):
     findings: list[Candidate] = Field(default_factory=list, max_length=12)
 
 
+class Hypothesis(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    claim: str = Field(min_length=1, max_length=1000)
+    expected_behavior: str = Field(min_length=10, max_length=1000)
+    counterexample: str = Field(min_length=1, max_length=1000)
+    contract: str = Field(min_length=1, max_length=1000)
+
+
+class HypothesisCandidates(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    checked: list[str] = Field(default_factory=list, max_length=12)
+    hypotheses: list[Hypothesis] = Field(default_factory=list, max_length=8)
+    findings: list[Candidate] = Field(default_factory=list, max_length=4)
+
+
 class Finding(Candidate):
     id: str
     source: str
@@ -67,6 +82,7 @@ class ReviewOptions(BaseModel):
     max_reproductions: int = Field(default=4, ge=1, le=20)
     max_repro_repairs: int = Field(default=0, ge=0, le=1)
     context_strategy: Literal["legacy", "callgraph"] = "legacy"
+    review_strategy: Literal["baseline", "hypothesis"] = "baseline"
     # Experiment switch: the prompt stays the same; only the structured
     # admission checks and audit re-check are disabled when False.
     enforce_admission: bool = True

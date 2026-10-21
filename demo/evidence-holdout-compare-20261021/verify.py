@@ -7,6 +7,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parent
 PROJECT = ROOT.parents[1]
+SNAPSHOT = ROOT / "implementation"
 sys.path.insert(0, str(PROJECT))
 from evaluation.evidence_holdout_score import score
 
@@ -64,7 +65,7 @@ def main():
     recomputed = score(ROOT, adjudications)
     assert recomputed["metrics"] == scores["metrics"]
     for relative, expected in protocol["source_sha256"].items():
-        assert digest(PROJECT / relative) == expected
+        assert digest(SNAPSHOT / relative) == expected
     print(
         json.dumps(
             {
