@@ -1,0 +1,89 @@
+{
+  "source": "demo/discovery-hypothesis-20261021",
+  "scope": "Offline screen of P1/P1b/P1c/P1d/P1e frozen traces and adjudications; 6 development cases; no model, Docker, or evidence-engine calls.",
+  "api_calls": 0,
+  "docker_executions": 0,
+  "method": "For each window/arm, compare the reference concept against the reasoning trace (checked + hypotheses) and the emitted findings; combine with the frozen candidate-hit adjudication. Keyword matching is a screen, not a substitute for the adjudication.",
+  "source_sha256": {
+    "p1_results": "a43396ea2e8cd5bfb01918b018ff28eba10df64636711cb2e006f8f64f21c967",
+    "p1_adjudications": "e6b956b6ac835f43fb526def02f78e5a484444850945e9a8ea15277617dd9b89",
+    "p1b_results": "56d5f924a75c2a4eb8231e568a51edeb93cd125223fde79529ac300e9d133c95",
+    "p1b_adjudications": "73a59e91a4272b2e3c49f8ee6d5503a73189acf08bcbdb2f570311f2d30586c3",
+    "p1c_results": "541d22940619f011cebd39a850406f54a7a891a3177a6beceea98694fc9b7a0a",
+    "p1c_adjudications": "de87d07f506f7c3e8425ba97a0161fd80897865270060d5e976ee83cd20f1460",
+    "p1d_results": "8f1b57c46ef7cff70ed1bf2f44361ee47da9a995bf6fc9e0510d3b606b57cb58",
+    "p1d_adjudications": "c6fe2623f057040ed4b37560dbae5fe057ebf43ea809547c7b88249695980b9f",
+    "p1e_results": "48a8a00fa4bf38d09759467435c88ce3f4cf142db5fe0c3b55c089699b24c4aa",
+    "p1e_adjudications": "4e7a6f6fc41a596ea9c0a982018fb4f89da34ef549d5122069af0852daf467ba"
+  },
+  "cases": [
+    {
+      "case": "youtube-dl-4",
+      "reference": "JSInterpreter's function-call regex requires nonempty arguments and/or splits an empty argument string, so a valid zero-argument JavaScript call fails.",
+      "category": "hit",
+      "phase": "P1",
+      "arm": "baseline",
+      "evidence": "P1 baseline finding e95589a418cc at line 200 explicitly says the regex requires at least one character and f() does not match; adjudication candidate_hit=true. The P1 hypothesis, P1b/P1c tool arms and later samples did not reproduce this f() candidate.",
+      "candidate_hit": true
+    },
+    {
+      "case": "youtube-dl-2",
+      "reference": "DASH Representation format_id is not necessarily unique: merging/replacing entries solely by representation_id discards distinct formats or their media fragments.",
+      "category": "promotion_gap",
+      "phase": "P1",
+      "arm": "hypothesis",
+      "evidence": "P1 hypothesis #4 says existing_format.update(f) overwrites fragments for duplicate representation_id and gives a concrete two-representation counterexample. The emitted findings are only SegmentTimeline and ISM KeyError; the duplicate-representation finding was not promoted. P1d external reasoning again mentions representation_id but emits SegmentTimeline/segment_duration; P1e did not reproduce the premise. No candidate hit.",
+      "candidate_hit": false
+    },
+    {
+      "case": "tornado-3",
+      "reference": "AsyncHTTPClient.close assumes a weak instance-cache entry still exists during HTTPClient destruction; an already-cleared entry causes inconsistent-cache RuntimeError/KeyError.",
+      "category": "precision_gap",
+      "phase": "P1/P1c",
+      "arm": "hypothesis/tool_first",
+      "evidence": "P1/P1c reasoning and some findings mention instance_cache/close/cache/weak, but the P1 candidates are __new__ initialization and fetch-header mutation; the close/cache mechanism is not matched to an already-cleared weak entry. P1c fixed-side mentions weak/close but the buggy side does not emit the reference mechanism. No candidate hit.",
+      "candidate_hit": false
+    },
+    {
+      "case": "tornado-7",
+      "reference": "run_in_executor directly returns concurrent.futures.Future, which cannot be awaited by native async coroutines; it must bridge into a Tornado/asyncio-compatible Future.",
+      "category": "precision_gap",
+      "phase": "P1",
+      "arm": "hypothesis",
+      "evidence": "P1 reasoning mentions Future/run_in_executor, but the findings are about _discard_future_result raising an exception and set_default_executor(None) producing AttributeError; neither is the concurrent.futures.Future/awaitability contract. No candidate hit.",
+      "candidate_hit": false
+    },
+    {
+      "case": "youtube-dl-8",
+      "reference": "Format selection '/' appends a PICKFIRST selector immediately and clears current_selector, so following filters cannot attach to the fallback choice and parsing/selection becomes wrong.",
+      "category": "precision_gap",
+      "phase": "P1",
+      "arm": "hypothesis",
+      "evidence": "P1 reasoning/findings mention filter/current_selector/pickfirst, but the candidates are an unclosed '[' filter and PICKFIRST/MERGE with a missing left selector; they do not identify the '/' fallback clearing current_selector and dropping following filters. No candidate hit.",
+      "candidate_hit": false
+    },
+    {
+      "case": "tornado-1",
+      "reference": "WebSocketHandler.set_nodelay uses self.stream although the upgraded connection is held by ws_connection; valid calls from open fail the assertion or use the wrong stream.",
+      "category": "discovery_gap",
+      "phase": "P1",
+      "arm": "hypothesis",
+      "evidence": "P1 hypothesis reasoning mentions ws_connection, but no finding connects set_nodelay to self.stream versus ws_connection; the candidate space is compression/URL/parameter adjacent issues. No candidate hit.",
+      "candidate_hit": false
+    }
+  ],
+  "counts": {
+    "cases": 6,
+    "candidate_hits": 1,
+    "promotion_gap": 1,
+    "precision_gap": 3,
+    "discovery_gap": 1
+  },
+  "implication": "The dominant failure is not missing tools or missing external reads. In 4/5 missed cases the reference concept or a close mechanism is already in the reasoning/findings, but the model selects a different mechanism; youtube-dl-2 is the clearest promotion gap. The next experiment should audit candidate mechanism/ranking (replace an adjacent candidate with the stronger hypothesis), not add more read/tool protocol. A new budget is required; this report starts no model calls.",
+  "limits": [
+    "Keyword matching is heuristic; the frozen adjudications remain the authority for candidate hits.",
+    "Only one repetition per window; model variance is large (youtube-dl-2 P1e did not reproduce the P1 premise).",
+    "P1 ledger is exhausted at 80/80; this is an offline analysis, not a new performance result.",
+    "No holdout was run; no claim of recall improvement."
+  ]
+}

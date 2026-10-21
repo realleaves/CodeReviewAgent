@@ -195,4 +195,10 @@ P1c证明工具会被执行，但模型仍选主片段附近的局部读码。P1
 
 结果：两臂0/1参考命中、修复侧告警0、4/4完成；baseline 2次调用、5候选，hypothesis_audit 4次调用、6候选、2个audit窗口、audit_added=0。关键前提没有复现：这次初始假设只输出SegmentTimeline越界、ISM Bitrate/Duration、segment_duration=0，trace中没有`representation_id`/`format_id`/duplicate概念；审计没有对象可晋升，原样返回初始findings。因此P1e对审计机制是“不确定”，不是“审计无效”的强结论；单次采样没有复现必要前提。
 
-决定：P1e不采用；P1账本用满80/80，P1系列（prompt、工具重试、tool-first、外部读取、假设审计）结束，均无候选召回收益。下一步需要新账本和新假设：模型能力、diff/PR+测试引导、或单候选/强制选择；不在P1内继续采样。资料见[demo/discovery-hypothesis-20261021](demo/discovery-hypothesis-20261021/README.md)，离线校验`python demo/discovery-hypothesis-20261021/verify-p1e.py`；当前128项测试通过，Ruff F/E9通过。
+决定：P1e不采用；P1账本用满80/80，P1系列（prompt、工具重试、tool-first、外部读取、假设审计）结束，均无候选召回收益。下一步需要新账本和新假设：模型能力、diff/PR+测试引导、或单候选/强制选择；不在P1内继续采样。资料见[demo/discovery-hypothesis-20261021](demo/discovery-hypothesis-20261021/README.md)，离线校验`python demo/discovery-hypothesis-20261021/verify-p1e.py`；当前129项测试通过，Ruff F/E9通过。
+
+## P1 轨迹分析（2026-10-21，离线0调用）
+
+对P1/P1b/P1c/P1d/P1e的冻结results/adjudications做只读轨迹筛查：对每个窗口/臂比较参考概念是否进入reasoning（checked+hypotheses）和findings，再结合冻结候选判读分类。6个开发样本结果：1个hit（youtube-dl-4 P1 baseline，明确f()/regex）、1个promotion gap（youtube-dl-2 P1 hypothesis已写重复representation_id覆盖fragments并给具体反例，但只输出SegmentTimeline/ISM）、3个precision gap（tornado-3提到weak/cache但选__new__；tornado-7提到Future但选_discard_future_result/set_default_executor(None)；youtube-dl-8提到filter/current_selector但选未闭合'['/缺失左选择器）、1个discovery gap（tornado-1没有把set_nodelay的self.stream与ws_connection冲突写成候选）。P1e没有复现youtube-dl-2前提，未计入有效审计证据。
+
+结论：主要瓶颈是候选机制选择/晋升，不是工具执行或外部读取。P1c/P1d已证明工具和外部caller/callee会真实执行，但候选仍偏。建议下一步做“候选机制/排序审计”（替换邻近候选，而不是追加），需要新账本和新预算；本报告0次模型调用，不启动新实验。资料见[demo/discovery-trace-analysis-20261021](demo/discovery-trace-analysis-20261021/README.md)，离线校验`python demo/discovery-trace-analysis-20261021/verify.py`；当前129项测试通过，Ruff F/E9通过。

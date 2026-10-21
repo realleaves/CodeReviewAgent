@@ -18,6 +18,8 @@
 
 **2026-10-21 P1/P1b/P1c/P1d/P1e 假设—反例实验（已运行，未采用，P1账本80/80）：** P1在6个开发样本、18窗口、36窗口全部完成、39/80次调用；baseline候选命中1/6，hypothesis 0/6，hypothesis候选更多但**0次真实工具读取**，`checked`是自报。P1b对3个样本、6窗口强制真实工具证据并允许一次重试：19次调用，两臂0/3；工具读取2→4、重试4次、2个窗口因schema失败、关键窗口findings被丢弃。P1c改为两阶段tool-first：4窗口全部执行真实工具调用（12次、6次read_code、0个no-tool）、8/8完成，但两臂仍0/2；调用4→8。P1d让静态调用图选caller/callee外部读取：2/2完成、6次外部read_code、0个no-external，但两臂仍0/1。P1e对youtube-dl-2做一次假设→候选审计：4/4完成、audit_added=0，但本样本没有复现P1的`representation_id`参考假设，两臂0/1，结论不确定。机械目标逐轮达成、检出始终未提升，默认仍为baseline；P1预算已用满，下一步需新账本/新假设。见[P1/P1b/P1c/P1d/P1e结果与机制分析](demo/discovery-hypothesis-20261021/README.md)。
 
+**2026-10-21 轨迹分析（离线，0次模型调用）：** 对P1/P1b/P1c/P1d/P1e的冻结轨迹按“参考概念是否进入reasoning/findings”分类：6个开发样本中1个hit、1个promotion gap（youtube-dl-2假设已正确但未输出）、3个precision gap（tornado-3/7、youtube-dl-8选错机制）、1个discovery gap（tornado-1）。主要瓶颈是候选机制选择/晋升，不是工具或外部读取。见[轨迹分析](demo/discovery-trace-analysis-20261021/README.md)。
+
 **2026-10-15 上下文检索实验：** 已接入`--context-strategy callgraph`，在evidence发现阶段补充静态调用方、被调用定义、相关导入与文档片段；默认仍为`legacy`。86项项目测试通过，6个历史样本两版本共18组初始输入核对通过，0次模型API调用。新增上下文尚未做模型效果对照，不能声称检出率提高；见[实现与离线检查](demo/context-callgraph-20261015/README.md)。
 
 **2026-10-15 历史证据复测：** 冻结实现，旧13条已接受记录用旧/新执行器各重跑两次，并补做相反版本及调用链检查，共67次容器执行、0次模型API调用。新判定接受12条，稳定拦住1条错误触发，保留原有效参考复现；其余仍含预期无依据、质量建议及待定项，不能解释为12个真实缺陷。见[逐条复测报告](demo/evidence-retest13-20261015/README.md)。本轮没有测量新的检出率。
