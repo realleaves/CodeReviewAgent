@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 38,
+    "phase": "p1-hypothesis",
+    "label": {
+      "case": "youtube-dl-8",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 990
+    },
+    "reserved_at": "2026-10-21T13:37:47.681572+00:00"
+  },
+  "raw_response": "[TOOL_CALL:read_code:path=youtube_dl/YoutubeDL.py,start=900,end=926]\n[TOOL_CALL:read_code:path=youtube_dl/YoutubeDL.py,start=990,end=1130]",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 6369,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 53,
+      "prompt_tokens": 1787,
+      "total_tokens": 1840,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 640
+      },
+      "prompt_cache_hit_tokens": 640,
+      "prompt_cache_miss_tokens": 1147
+    },
+    "elapsed_seconds": 1.11
+  }
+}

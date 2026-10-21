@@ -1,0 +1,273 @@
+{
+  "case": "youtube-dl-8",
+  "side": "fixed",
+  "repetition": 1,
+  "strategy": "baseline",
+  "path": "youtube_dl/YoutubeDL.py",
+  "start": 926,
+  "end": 990,
+  "name": "rep1-youtube-dl-8-fixed-1-baseline",
+  "status": "completed",
+  "error": null,
+  "api_calls": 2,
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 6369,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 53,
+        "prompt_tokens": 1787,
+        "total_tokens": 1840,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 1147
+      },
+      "elapsed_seconds": 1.11
+    },
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 14921,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1302,
+        "prompt_tokens": 3947,
+        "total_tokens": 5249,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 1792
+        },
+        "prompt_cache_hit_tokens": 1792,
+        "prompt_cache_miss_tokens": 2155
+      },
+      "elapsed_seconds": 5.32
+    }
+  ],
+  "findings": [
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 949,
+      "end_line": 954,
+      "severity": "medium",
+      "category": "bug",
+      "title": "合并/选择分支中 restore_last_token 后未消费分隔符导致解析错位",
+      "explanation": "_parse_format_selection 在 inside_merge 遇到 '/' 或 ','、在 inside_choice 遇到 ',' 时调用 tokens.restore_last_token() 并 break，把该分隔符留给上层。但上层（如 '+' 的 MERGE 分支、'/' 的 PICKFIRST 分支）在递归返回后并不消费这个被恢复的 token，而是继续用同一个 for 循环迭代 tokens。由于 restore_last_token 只是把 counter 减一，下一次迭代会再次读到同一个分隔符，从而在错误层级被当作运算符处理，可能产生错误的 selector 结构或抛出 'Operator not recognized'。",
+      "trigger": "格式串如 'bestvideo+bestaudio/best' 或 'a+b,c'：内层 MERGE 解析在 '/' 处 restore 并 break，外层 PICKFIRST 循环再次读到 '/' 时 current_selector 已被替换为 MERGE selector，于是把 MERGE 当作 first_choice 再递归解析，结构错乱。",
+      "evidence": "949-951: `elif inside_merge and string in ['/', ',']: tokens.restore_last_token(); break`；restore_last_token 仅 `self.counter -= 1`（1124-1125）。上层 958-961 的 '/' 分支与 972-975 的 '+' 分支在递归返回后未显式消费恢复的 token。",
+      "suggestion": "在递归返回后显式消费被恢复的分隔符（例如调用 tokens.next() 跳过），或让内层不 restore 而由上层通过返回值约定处理分隔符，确保每个 token 只被消费一次。",
+      "id": "fc07f037a834",
+      "source": "llm",
+      "rule": "",
+      "snippet": "947:                             tokens.restore_last_token()\n948:                         break\n949:                     elif inside_merge and string in ['/', ',']:\n950:                         tokens.restore_last_token()\n951:                         break\n952:                     elif inside_choice and string == ',':\n953:                         tokens.restore_last_token()\n954:                         break\n955:                     elif string == ',':\n956:                         selectors.append(current_selector)",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 956,
+      "end_line": 957,
+      "severity": "medium",
+      "category": "bug",
+      "title": "逗号分隔时 current_selector 为 None 被 append 进 selectors",
+      "explanation": "在 ',' 分支中无条件执行 selectors.append(current_selector)。若逗号前没有有效 selector（例如格式串以 ',' 开头，或连续 ',,'，或 'a,,b'），current_selector 为 None，会被加入 selectors 列表。后续 _build_selector_function 对 None 调用 isinstance(selector, list) 为 False，再访问 selector.type 触发 AttributeError，而不是给出语法错误。",
+      "trigger": "format_spec = ',best' 或 'best,,worst'：解析到逗号时 current_selector 为 None，selectors 含 None。",
+      "evidence": "955-957: `elif string == ',': selectors.append(current_selector); current_selector = None`，未检查 current_selector 是否为 None。984-993 的 _build_selector_function 直接访问 selector.type。",
+      "suggestion": "在 append 前判断 current_selector 是否为 None，若为 None 则抛出 syntax_error('Unexpected \",\"', start)。",
+      "id": "53779d2e68bc",
+      "source": "llm",
+      "rule": "",
+      "snippet": "954:                         break\n955:                     elif string == ',':\n956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 959,
+      "end_line": 961,
+      "severity": "medium",
+      "category": "bug",
+      "title": "'/' 左侧缺少 selector 时 first_choice 为 None 导致后续崩溃",
+      "explanation": "在 '/' 分支中 first_choice = current_selector，若 '/' 前没有 selector（如格式串以 '/' 开头，或 'a+/b' 中 '+' 后紧跟 '/'），first_choice 为 None，构造 FormatSelector(PICKFIRST, (None, second_choice), [])。_build_selector_function 对 PICKFIRST 的每个子 selector 调用 _build_selector_function，传入 None 时访问 selector.type 抛 AttributeError。",
+      "trigger": "format_spec = '/best' 或 'best+/worst'。",
+      "evidence": "958-961: `elif string == '/': first_choice = current_selector; second_choice = _parse_format_selection(tokens, inside_choice=True); current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])`，未校验 first_choice。",
+      "suggestion": "在构造 PICKFIRST 前检查 first_choice 是否为 None，若为 None 抛出 syntax_error('Unexpected \"/\"', start)。",
+      "id": "8ae0c701a130",
+      "source": "llm",
+      "rule": "",
+      "snippet": "957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector\n960:                         second_choice = _parse_format_selection(tokens, inside_choice=True)\n961:                         current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])\n962:                     elif string == '[':\n963:                         if not current_selector:",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "line": 972,
+      "end_line": 975,
+      "severity": "medium",
+      "category": "bug",
+      "title": "'+' 左侧缺少 selector 时 video_selector 为 None 导致崩溃",
+      "explanation": "在 '+' 分支中 video_selector = current_selector，若 '+' 前没有 selector（如格式串以 '+' 开头，或 'a++b'），video_selector 为 None，构造 FormatSelector(MERGE, (None, audio_selector), [])。_build_selector_function 的 MERGE 分支对 selector.selector 做 map(_build_selector_function, ...)，对 None 调用会访问 selector.type 抛 AttributeError。",
+      "trigger": "format_spec = '+bestaudio' 或 'bestvideo++bestaudio'。",
+      "evidence": "972-975: `elif string == '+': video_selector = current_selector; audio_selector = _parse_format_selection(tokens, inside_merge=True); current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])`，未校验 video_selector。",
+      "suggestion": "在构造 MERGE 前检查 video_selector 是否为 None，若为 None 抛出 syntax_error('Unexpected \"+\"', start)。",
+      "id": "afd11e798dd0",
+      "source": "llm",
+      "rule": "",
+      "snippet": "970:                         group = _parse_format_selection(tokens, inside_group=True)\n971:                         current_selector = FormatSelector(GROUP, group, [])\n972:                     elif string == '+':\n973:                         video_selector = current_selector\n974:                         audio_selector = _parse_format_selection(tokens, inside_merge=True)\n975:                         current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\n976:                     else:\n977:                         raise syntax_error('Operator not recognized: \"{0}\"'.format(string), start)",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 990,
+      "strategy": "legacy",
+      "payload_sha256": "d616021cab70dce35b2a2317d55ea9fd039abc55fb208b4ae970b6805bdbdf71",
+      "supplemental_chars": 586,
+      "sources": [
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "name": "syntax_error",
+          "line": 914,
+          "end": 918
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "name": "restore_last_token",
+          "line": 1124,
+          "end": 1125
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 990,
+      "strategy": "baseline",
+      "findings": [
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 949,
+          "end_line": 954,
+          "severity": "medium",
+          "category": "bug",
+          "title": "合并/选择分支中 restore_last_token 后未消费分隔符导致解析错位",
+          "explanation": "_parse_format_selection 在 inside_merge 遇到 '/' 或 ','、在 inside_choice 遇到 ',' 时调用 tokens.restore_last_token() 并 break，把该分隔符留给上层。但上层（如 '+' 的 MERGE 分支、'/' 的 PICKFIRST 分支）在递归返回后并不消费这个被恢复的 token，而是继续用同一个 for 循环迭代 tokens。由于 restore_last_token 只是把 counter 减一，下一次迭代会再次读到同一个分隔符，从而在错误层级被当作运算符处理，可能产生错误的 selector 结构或抛出 'Operator not recognized'。",
+          "trigger": "格式串如 'bestvideo+bestaudio/best' 或 'a+b,c'：内层 MERGE 解析在 '/' 处 restore 并 break，外层 PICKFIRST 循环再次读到 '/' 时 current_selector 已被替换为 MERGE selector，于是把 MERGE 当作 first_choice 再递归解析，结构错乱。",
+          "evidence": "949-951: `elif inside_merge and string in ['/', ',']: tokens.restore_last_token(); break`；restore_last_token 仅 `self.counter -= 1`（1124-1125）。上层 958-961 的 '/' 分支与 972-975 的 '+' 分支在递归返回后未显式消费恢复的 token。",
+          "suggestion": "在递归返回后显式消费被恢复的分隔符（例如调用 tokens.next() 跳过），或让内层不 restore 而由上层通过返回值约定处理分隔符，确保每个 token 只被消费一次。",
+          "id": "fc07f037a834",
+          "source": "llm",
+          "rule": "",
+          "snippet": "947:                             tokens.restore_last_token()\n948:                         break\n949:                     elif inside_merge and string in ['/', ',']:\n950:                         tokens.restore_last_token()\n951:                         break\n952:                     elif inside_choice and string == ',':\n953:                         tokens.restore_last_token()\n954:                         break\n955:                     elif string == ',':\n956:                         selectors.append(current_selector)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 956,
+          "end_line": 957,
+          "severity": "medium",
+          "category": "bug",
+          "title": "逗号分隔时 current_selector 为 None 被 append 进 selectors",
+          "explanation": "在 ',' 分支中无条件执行 selectors.append(current_selector)。若逗号前没有有效 selector（例如格式串以 ',' 开头，或连续 ',,'，或 'a,,b'），current_selector 为 None，会被加入 selectors 列表。后续 _build_selector_function 对 None 调用 isinstance(selector, list) 为 False，再访问 selector.type 触发 AttributeError，而不是给出语法错误。",
+          "trigger": "format_spec = ',best' 或 'best,,worst'：解析到逗号时 current_selector 为 None，selectors 含 None。",
+          "evidence": "955-957: `elif string == ',': selectors.append(current_selector); current_selector = None`，未检查 current_selector 是否为 None。984-993 的 _build_selector_function 直接访问 selector.type。",
+          "suggestion": "在 append 前判断 current_selector 是否为 None，若为 None 则抛出 syntax_error('Unexpected \",\"', start)。",
+          "id": "53779d2e68bc",
+          "source": "llm",
+          "rule": "",
+          "snippet": "954:                         break\n955:                     elif string == ',':\n956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 959,
+          "end_line": 961,
+          "severity": "medium",
+          "category": "bug",
+          "title": "'/' 左侧缺少 selector 时 first_choice 为 None 导致后续崩溃",
+          "explanation": "在 '/' 分支中 first_choice = current_selector，若 '/' 前没有 selector（如格式串以 '/' 开头，或 'a+/b' 中 '+' 后紧跟 '/'），first_choice 为 None，构造 FormatSelector(PICKFIRST, (None, second_choice), [])。_build_selector_function 对 PICKFIRST 的每个子 selector 调用 _build_selector_function，传入 None 时访问 selector.type 抛 AttributeError。",
+          "trigger": "format_spec = '/best' 或 'best+/worst'。",
+          "evidence": "958-961: `elif string == '/': first_choice = current_selector; second_choice = _parse_format_selection(tokens, inside_choice=True); current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])`，未校验 first_choice。",
+          "suggestion": "在构造 PICKFIRST 前检查 first_choice 是否为 None，若为 None 抛出 syntax_error('Unexpected \"/\"', start)。",
+          "id": "8ae0c701a130",
+          "source": "llm",
+          "rule": "",
+          "snippet": "957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector\n960:                         second_choice = _parse_format_selection(tokens, inside_choice=True)\n961:                         current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])\n962:                     elif string == '[':\n963:                         if not current_selector:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "youtube_dl/YoutubeDL.py",
+          "line": 972,
+          "end_line": 975,
+          "severity": "medium",
+          "category": "bug",
+          "title": "'+' 左侧缺少 selector 时 video_selector 为 None 导致崩溃",
+          "explanation": "在 '+' 分支中 video_selector = current_selector，若 '+' 前没有 selector（如格式串以 '+' 开头，或 'a++b'），video_selector 为 None，构造 FormatSelector(MERGE, (None, audio_selector), [])。_build_selector_function 的 MERGE 分支对 selector.selector 做 map(_build_selector_function, ...)，对 None 调用会访问 selector.type 抛 AttributeError。",
+          "trigger": "format_spec = '+bestaudio' 或 'bestvideo++bestaudio'。",
+          "evidence": "972-975: `elif string == '+': video_selector = current_selector; audio_selector = _parse_format_selection(tokens, inside_merge=True); current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])`，未校验 video_selector。",
+          "suggestion": "在构造 MERGE 前检查 video_selector 是否为 None，若为 None 抛出 syntax_error('Unexpected \"+\"', start)。",
+          "id": "afd11e798dd0",
+          "source": "llm",
+          "rule": "",
+          "snippet": "970:                         group = _parse_format_selection(tokens, inside_group=True)\n971:                         current_selector = FormatSelector(GROUP, group, [])\n972:                     elif string == '+':\n973:                         video_selector = current_selector\n974:                         audio_selector = _parse_format_selection(tokens, inside_merge=True)\n975:                         current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\n976:                     else:\n977:                         raise syntax_error('Operator not recognized: \"{0}\"'.format(string), start)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ]
+    }
+  ],
+  "tool_reads": [
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 900,
+      "end": 926
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 990,
+      "end": 1109
+    }
+  ],
+  "elapsed_seconds": 6.455,
+  "folder": "windows/rep1-youtube-dl-8-fixed-1-baseline"
+}

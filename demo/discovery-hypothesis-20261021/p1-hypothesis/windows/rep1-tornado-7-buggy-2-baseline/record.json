@@ -1,0 +1,84 @@
+{
+  "case": "tornado-7",
+  "side": "buggy",
+  "repetition": 1,
+  "strategy": "baseline",
+  "path": "tornado/ioloop.py",
+  "start": 610,
+  "end": 707,
+  "name": "rep1-tornado-7-buggy-2-baseline",
+  "status": "completed",
+  "error": null,
+  "api_calls": 1,
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 9205,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 2765,
+        "total_tokens": 2771,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 2125
+      },
+      "elapsed_seconds": 0.703
+    }
+  ],
+  "findings": [],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "tornado/ioloop.py",
+      "start": 610,
+      "end": 707,
+      "strategy": "legacy",
+      "payload_sha256": "27ee884facb0af09d7e70eb287558f8772a39fa6a27cd6a577830c259b143254",
+      "supplemental_chars": 2726,
+      "sources": [
+        {
+          "path": "tornado/ioloop.py",
+          "name": "add_callback",
+          "line": 590,
+          "end": 603
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "name": "add_callback",
+          "line": 1020,
+          "end": 1034
+        },
+        {
+          "path": "demos/benchmark/chunk_benchmark.py",
+          "name": "callback",
+          "line": 30,
+          "end": 34
+        },
+        {
+          "path": "tornado/process.py",
+          "name": "cpu_count",
+          "line": 60,
+          "end": 73
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "tornado/ioloop.py",
+      "start": 610,
+      "end": 707,
+      "strategy": "baseline",
+      "findings": []
+    }
+  ],
+  "tool_reads": [],
+  "elapsed_seconds": 0.716,
+  "folder": "windows/rep1-tornado-7-buggy-2-baseline"
+}

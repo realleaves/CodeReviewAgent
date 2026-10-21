@@ -1,0 +1,59 @@
+{
+  "case": "tornado-7",
+  "side": "buggy",
+  "repetition": 1,
+  "strategy": "baseline",
+  "path": "tornado/ioloop.py",
+  "start": 1,
+  "end": 95,
+  "name": "rep1-tornado-7-buggy-1-baseline",
+  "status": "completed",
+  "error": null,
+  "api_calls": 1,
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 5120,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 1706,
+        "total_tokens": 1712,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 1066
+      },
+      "elapsed_seconds": 0.839
+    }
+  ],
+  "findings": [],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "tornado/ioloop.py",
+      "start": 1,
+      "end": 95,
+      "strategy": "legacy",
+      "payload_sha256": "7297d21870cf714181bad9a866813a9f3348e2a9f1de55039532576d8c8011c2",
+      "supplemental_chars": 32,
+      "sources": []
+    },
+    {
+      "stage": "review",
+      "path": "tornado/ioloop.py",
+      "start": 1,
+      "end": 95,
+      "strategy": "baseline",
+      "findings": []
+    }
+  ],
+  "tool_reads": [],
+  "elapsed_seconds": 0.845,
+  "folder": "windows/rep1-tornado-7-buggy-1-baseline"
+}

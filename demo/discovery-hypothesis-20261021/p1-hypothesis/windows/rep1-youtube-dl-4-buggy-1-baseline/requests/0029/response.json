@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 29,
+    "phase": "p1-hypothesis",
+    "label": {
+      "case": "youtube-dl-4",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219
+    },
+    "reserved_at": "2026-10-21T13:37:01.770784+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"youtube_dl/jsinterp.py\",\"line\":166,\"end_line\":172,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"splice 实现错误：pop 索引固定且未校验参数个数\",\"explanation\":\"splice 分支假定 argvals 恰好有两个元素，但未做长度断言；若 JS 代码调用 obj.splice(i) 只传一个参数，解包 `index, howMany = argvals` 会抛 ValueError 而非按 JS 语义处理。更实质的问题是循环体 `res.append(obj.pop(index))` 每次都弹出同一 index，虽然对连续删除恰好等价于删除 index..index+howMany-1，但循环上界 `min(index + howMany, len(obj))` 在 howMany 为负数时 range 为空返回 []，与 JS 中负数 howMany 视为 0 一致，尚可。真正缺陷是未校验 argvals 长度，单参数调用会崩溃。\",\"trigger\":\"解释表达式 `a.splice(1)`，其中 a 为列表且 argvals=('1',) 解释后为 (1,)。\",\"evidence\":\"第 168 行 `index, howMany = argvals` 对长度为 1 的 tuple 解包会抛 ValueError: not enough values to unpack，未被捕获，导致解释器崩溃而非给出受控的 ExtractorError。\",\"suggestion\":\"在解包前断言或校验 len(argvals)==2，不满足时抛出 ExtractorError 或按 JS 语义将 howMany 默认为 len(obj)-index。\"},{\"path\":\"youtube_dl/jsinterp.py\",\"line\":109,\"end_line\":110,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"isdigit 对 Unicode 数字返回 True 但 int 可能失败或语义偏差\",\"explanation\":\"`expr.isdigit()` 对全角数字等 Unicode 数字字符返回 True，随后 `int(expr)` 对部分 Unicode 数字（如 '²'）会抛 ValueError。JS 源码通常为 ASCII，但解释器接受任意字符串输入，边界输入会导致未捕获异常而非受控错误。\",\"trigger\":\"interpret_expression('²', {}, 100) 或包含上标数字的表达式。\",\"evidence\":\"第 109 行 `expr.isdigit()` 对 '²' 返回 True，第 110 行 `int('²')` 抛 ValueError，未被捕获。\",\"suggestion\":\"改用 `expr.isascii() and expr.isdigit()` 或 try/except 包裹 int 转换。\"},{\"path\":\"youtube_dl/jsinterp.py\",\"line\":94,\"end_line\":102,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"带索引赋值未校验左值存在及索引类型，KeyError/TypeError 直接抛出\",\"explanation\":\"索引赋值分支直接 `lvar = local_vars[m.group('out')]`，若变量未定义会抛 KeyError；`assert isinstance(idx, int)` 在 -O 下被移除，非整数索引会传入列表索引导致 TypeError。这些异常未被转换为 ExtractorError，解释器对畸形 JS 输入会以原始异常崩溃。\",\"trigger\":\"表达式 `a[0] = 1` 且 local_vars 中无 a；或 `a['x'] = 1` 使 idx 为字符串。\",\"evidence\":\"第 95 行 `local_vars[m.group('out')]` 无 get 保护；第 98 行 assert 在优化模式下失效，第 99 行 `lvar[idx]` 对字符串索引抛 TypeError。\",\"suggestion\":\"使用 local_vars.get 并在缺失时抛 ExtractorError；将索引类型检查改为显式 if 判断并抛 ExtractorError。\"},{\"path\":\"youtube_dl/jsinterp.py\",\"line\":200,\"end_line\":209,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"函数调用参数解析对空参数和未定义变量处理不当\",\"explanation\":\"正则 `(?P<args>[a-zA-Z0-9_$,]+)` 要求至少一个字符，因此 `f()` 无参调用不会匹配此分支（会落到最后的 Unsupported 错误），而 JS 中无参函数调用合法。另外参数解析 `local_vars[v]` 对未定义变量抛 KeyError 而非受控错误。\",\"trigger\":\"表达式 `f()`，其中 f 为已定义的无参函数。\",\"evidence\":\"第 201 行 args 组为 `+` 量词，空参数不匹配；第 205 行 `local_vars[v]` 无保护。\",\"suggestion\":\"将 args 改为 `*` 并处理空串为 ()；对变量查找使用 get 并在缺失时抛 ExtractorError。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 11780,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1028,
+      "prompt_tokens": 3634,
+      "total_tokens": 4662,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 640
+      },
+      "prompt_cache_hit_tokens": 640,
+      "prompt_cache_miss_tokens": 2994
+    },
+    "elapsed_seconds": 5.353
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "case": "tornado-1",
+  "side": "buggy",
+  "repetition": 1,
+  "strategy": "hypothesis",
+  "path": "tornado/websocket.py",
+  "start": 1300,
+  "end": 1395,
+  "name": "rep1-tornado-1-buggy-3-hypothesis",
+  "status": "completed",
+  "error": null,
+  "api_calls": 1,
+  "calls": [
+    {
+      "stage": "review_hypothesis",
+      "status": "completed",
+      "input_chars": 9352,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1087,
+        "prompt_tokens": 3012,
+        "total_tokens": 4099,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 896
+        },
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 2116
+      },
+      "elapsed_seconds": 5.198
+    }
+  ],
+  "findings": [
+    {
+      "path": "tornado/websocket.py",
+      "line": 1304,
+      "end_line": 1309,
+      "severity": "medium",
+      "category": "bug",
+      "title": "ping_timeout 在 ping_interval 为 None 时断言失败",
+      "explanation": "ping_timeout 属性在 params.ping_timeout 为 None 时执行 assert self.ping_interval is not None。若用户未配置 ping_interval（默认 None）却读取 ping_timeout，会触发 AssertionError 而非返回默认值。该属性是公开可读的，且 _WebSocketParams 默认 ping_interval=None，因此存在可达的断言失败路径。",
+      "trigger": "创建连接时 ping_interval=None（默认），随后访问 conn.ping_timeout",
+      "evidence": "1305-1309: timeout = self.params.ping_timeout; if timeout is not None: return timeout; assert self.ping_interval is not None; return max(3*self.ping_interval,30)。_WebSocketParams 默认 ping_interval=None（130）。",
+      "suggestion": "在 ping_interval 为 None 时返回 None 或合理默认值，或将断言改为显式分支处理。",
+      "id": "f2b583b2b05d",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1302: \n1303:     @property\n1304:     def ping_timeout(self) -> Optional[float]:\n1305:         timeout = self.params.ping_timeout\n1306:         if timeout is not None:\n1307:             return timeout\n1308:         assert self.ping_interval is not None\n1309:         return max(3 * self.ping_interval, 30)\n1310: \n1311:     def start_pinging(self) -> None:",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 1381,
+      "end_line": 1383,
+      "severity": "low",
+      "category": "bug",
+      "title": "非 ws/wss scheme 触发 KeyError 而非明确错误",
+      "explanation": "__init__ 用字典 {'ws':'http','wss':'https'}[scheme] 映射 scheme。若传入 http/https 或其他 scheme，会抛 KeyError，错误信息不明确，且未在文档中说明仅接受 ws/wss。",
+      "trigger": "websocket_connect('http://example.com/') 或非法 scheme",
+      "evidence": "1381-1383: scheme, sep, rest = request.url.partition(':'); scheme = {'ws':'http','wss':'https'}[scheme]",
+      "suggestion": "对不支持的 scheme 抛出带说明的 ValueError，或在文档中明确前置条件。",
+      "id": "35e1a4473005",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1379:         )\n1380: \n1381:         scheme, sep, rest = request.url.partition(\":\")\n1382:         scheme = {\"ws\": \"http\", \"wss\": \"https\"}[scheme]\n1383:         request.url = scheme + sep + rest\n1384:         request.headers.update(\n1385:             {",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "tornado/websocket.py",
+      "start": 1300,
+      "end": 1395,
+      "strategy": "legacy",
+      "payload_sha256": "6fca42201c655e7143df4b731f8c6fe218358a77fba55206ae4979a7744d6390",
+      "supplemental_chars": 2011,
+      "sources": [
+        {
+          "path": "tornado/websocket.py",
+          "name": "_WebSocketParams",
+          "line": 122,
+          "end": 133
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "close",
+          "line": 471,
+          "end": 489
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "close",
+          "line": 673,
+          "end": 674
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "is_closing",
+          "line": 677,
+          "end": 678
+        }
+      ]
+    },
+    {
+      "stage": "hypothesis_review",
+      "path": "tornado/websocket.py",
+      "start": 1300,
+      "end": 1395,
+      "checked": [
+        "读取主片段 tornado/websocket.py:1300-1395，确认 ping_timeout 属性、start_pinging、periodic_ping 与 WebSocketClientConnection.__init__ 的契约",
+        "读取上下文 _WebSocketParams.__init__（122-133），确认 ping_interval/ping_timeout 默认均为 None",
+        "读取上下文 WebSocketProtocol.close（471-489）与基类 close/is_closing（673-678），确认 close 会置空 ws_connection、is_closing 为抽象方法",
+        "核对 periodic_ping 中 since_last_ping/since_last_pong 与 last_ping/last_pong 的初始化来源（start_pinging 中赋值）"
+      ],
+      "hypotheses": [
+        {
+          "claim": "ping_timeout 属性在 ping_interval 为 None 时断言失败",
+          "expected_behavior": "当 ping_interval 未配置（None）时，ping_timeout 应返回合理默认值或 None，而不是触发 AssertionError",
+          "counterexample": "_WebSocketParams(ping_interval=None, ping_timeout=None) 后访问 conn.ping_timeout，assert self.ping_interval is not None 失败",
+          "contract": "ping_timeout 属性应可安全读取，即使未启用 ping"
+        },
+        {
+          "claim": "periodic_ping 在 ping_interval 为 0 时仍可能被调用并除零/异常",
+          "expected_behavior": "ping_interval<=0 时不应启动 ping 回调，periodic_ping 不应被触发",
+          "counterexample": "start_pinging 中 ping_interval=0 不启动回调，故 periodic_ping 不会被调用；此假设不成立",
+          "contract": "start_pinging 仅在 ping_interval>0 时启动 PeriodicCallback"
+        },
+        {
+          "claim": "periodic_ping 中 since_last_ping < 2*ping_interval 条件在机器挂起后可能误判超时",
+          "expected_behavior": "挂起恢复后应重新发送 ping 而非直接关闭连接",
+          "counterexample": "机器挂起超过 ping_timeout，恢复后 since_last_ping 很大，条件 since_last_ping < 2*ping_interval 为假，跳过关闭并发送 ping，行为符合注释意图",
+          "contract": "注释说明需确保最近确实发送过 ping 才判定超时"
+        },
+        {
+          "claim": "WebSocketClientConnection.__init__ 中 subprotocols 默认可变列表 [] 被共享",
+          "expected_behavior": "默认参数不应为可变对象，避免跨实例共享状态",
+          "counterexample": "subprotocols 默认 [] 仅被读取用于 join，未被修改，故无实际缺陷",
+          "contract": "默认参数 [] 仅用于 join 生成头部"
+        },
+        {
+          "claim": "scheme 映射对非 ws/wss 的 URL 抛 KeyError",
+          "expected_behavior": "对 http/https 或非法 scheme 应给出明确错误",
+          "counterexample": "request.url='http://x' 时 scheme='http'，{'ws':'http','wss':'https'}['http'] 抛 KeyError",
+          "contract": "websocket_connect 应仅接受 ws/wss URL"
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "tornado/websocket.py",
+      "start": 1300,
+      "end": 1395,
+      "strategy": "hypothesis",
+      "findings": [
+        {
+          "path": "tornado/websocket.py",
+          "line": 1304,
+          "end_line": 1309,
+          "severity": "medium",
+          "category": "bug",
+          "title": "ping_timeout 在 ping_interval 为 None 时断言失败",
+          "explanation": "ping_timeout 属性在 params.ping_timeout 为 None 时执行 assert self.ping_interval is not None。若用户未配置 ping_interval（默认 None）却读取 ping_timeout，会触发 AssertionError 而非返回默认值。该属性是公开可读的，且 _WebSocketParams 默认 ping_interval=None，因此存在可达的断言失败路径。",
+          "trigger": "创建连接时 ping_interval=None（默认），随后访问 conn.ping_timeout",
+          "evidence": "1305-1309: timeout = self.params.ping_timeout; if timeout is not None: return timeout; assert self.ping_interval is not None; return max(3*self.ping_interval,30)。_WebSocketParams 默认 ping_interval=None（130）。",
+          "suggestion": "在 ping_interval 为 None 时返回 None 或合理默认值，或将断言改为显式分支处理。",
+          "id": "f2b583b2b05d",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1302: \n1303:     @property\n1304:     def ping_timeout(self) -> Optional[float]:\n1305:         timeout = self.params.ping_timeout\n1306:         if timeout is not None:\n1307:             return timeout\n1308:         assert self.ping_interval is not None\n1309:         return max(3 * self.ping_interval, 30)\n1310: \n1311:     def start_pinging(self) -> None:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "tornado/websocket.py",
+          "line": 1381,
+          "end_line": 1383,
+          "severity": "low",
+          "category": "bug",
+          "title": "非 ws/wss scheme 触发 KeyError 而非明确错误",
+          "explanation": "__init__ 用字典 {'ws':'http','wss':'https'}[scheme] 映射 scheme。若传入 http/https 或其他 scheme，会抛 KeyError，错误信息不明确，且未在文档中说明仅接受 ws/wss。",
+          "trigger": "websocket_connect('http://example.com/') 或非法 scheme",
+          "evidence": "1381-1383: scheme, sep, rest = request.url.partition(':'); scheme = {'ws':'http','wss':'https'}[scheme]",
+          "suggestion": "对不支持的 scheme 抛出带说明的 ValueError，或在文档中明确前置条件。",
+          "id": "35e1a4473005",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1379:         )\n1380: \n1381:         scheme, sep, rest = request.url.partition(\":\")\n1382:         scheme = {\"ws\": \"http\", \"wss\": \"https\"}[scheme]\n1383:         request.url = scheme + sep + rest\n1384:         request.headers.update(\n1385:             {",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ]
+    }
+  ],
+  "tool_reads": [],
+  "elapsed_seconds": 5.215,
+  "folder": "windows/rep1-tornado-1-buggy-3-hypothesis"
+}

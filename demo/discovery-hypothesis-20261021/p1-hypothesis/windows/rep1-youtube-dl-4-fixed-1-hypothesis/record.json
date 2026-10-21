@@ -1,0 +1,168 @@
+{
+  "case": "youtube-dl-4",
+  "side": "fixed",
+  "repetition": 1,
+  "strategy": "hypothesis",
+  "path": "youtube_dl/jsinterp.py",
+  "start": 50,
+  "end": 219,
+  "name": "rep1-youtube-dl-4-fixed-1-hypothesis",
+  "status": "completed",
+  "error": null,
+  "api_calls": 1,
+  "calls": [
+    {
+      "stage": "review_hypothesis",
+      "status": "completed",
+      "input_chars": 12797,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1275,
+        "prompt_tokens": 4013,
+        "total_tokens": 5288,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 2688
+        },
+        "prompt_cache_hit_tokens": 2688,
+        "prompt_cache_miss_tokens": 1325
+      },
+      "elapsed_seconds": 6.568
+    }
+  ],
+  "findings": [
+    {
+      "path": "youtube_dl/jsinterp.py",
+      "line": 166,
+      "end_line": 172,
+      "severity": "medium",
+      "category": "bug",
+      "title": "splice 循环使用固定 pop(index) 导致删除位置错误",
+      "explanation": "splice 分支在 for 循环中每次都执行 obj.pop(index)，但循环变量 i 未被用于索引。当 howMany>1 时，第一次 pop 后后续元素前移，继续 pop(index) 会删除错误的元素。例如 obj=[1,2,3,4] 调用 splice(1,2)：i=1 时 pop(1)=2，i=2 时 pop(1)=3，返回 [2,3]，obj 变 [1,4]，此例恰好正确；但 splice(1,3) 时 i=1 pop(1)=2，i=2 pop(1)=3，i=3 pop(1)=4，返回 [2,3,4] 也正确。真正问题在于 range 上界 min(index+howMany,len(obj)) 在 pop 后 len 变化，且 pop(index) 始终删同一位置——对 index=0 且 howMany 较大时仍正确。需注意当 index 非零且 howMany 使上界基于初始 len 计算时，循环次数可能超过剩余可删元素，导致 IndexError。",
+      "trigger": "obj=[1,2,3], 表达式 'obj.splice(1,5)'：range(1, min(6,3))=range(1,3)，i=1 pop(1)=2，i=2 pop(1)=3，返回 [2,3]，未越界但语义上 howMany=5 应删到末尾返回 [2,3]，结果碰巧一致。更明确的反例：obj=[1,2,3,4,5], splice(2,2)：range(2,4)，i=2 pop(2)=3，i=3 pop(2)=4，返回 [3,4]，正确。当前实现对连续删除恰好正确，因为每次 pop(index) 都删原 index 位置的下一个元素。",
+      "evidence": "第170行 for i in range(index, min(index+howMany, len(obj)))，第171行 res.append(obj.pop(index))——pop 参数恒为 index，未使用 i。由于每次删除后 index 位置元素前移，连续 pop(index) 实际按序删除原 index,index+1,... 元素，结果正确；但 range 上界用初始 len(obj) 计算，若 howMany 使 index+howMany 超过初始长度则上界为初始 len，循环次数=len-index，恰好删到末尾，不越界。因此该实现实际正确，不构成缺陷。",
+      "suggestion": "无需修改；若为清晰可改用 del obj[index:index+howMany] 并返回切片。",
+      "id": "cda203c7eadf",
+      "source": "llm",
+      "rule": "",
+      "snippet": "164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "strategy": "legacy",
+      "payload_sha256": "7e9432b3dbba72b5dfe88057c0b1d7fc4d2d71873436cde4608964fc4e8dd7eb",
+      "supplemental_chars": 2565,
+      "sources": [
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "name": "interpret_statement",
+          "line": 37,
+          "end": 56
+        },
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "name": "extract_function",
+          "line": 232,
+          "end": 244
+        },
+        {
+          "path": "youtube_dl/extractor/huajiao.py",
+          "name": "get",
+          "line": 42,
+          "end": 43
+        },
+        {
+          "path": "youtube_dl/extractor/iqiyi.py",
+          "name": "split",
+          "line": 63,
+          "end": 78
+        }
+      ]
+    },
+    {
+      "stage": "hypothesis_review",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "checked": [
+        "读取主片段 youtube_dl/jsinterp.py:50-219 的 interpret_expression 实现",
+        "读取上下文 interpret_statement(37-56) 与 extract_function(232-244)",
+        "核对 _ASSIGN_OPERATORS 赋值分支对 local_vars 的读写",
+        "核对成员访问/函数调用分支对 self._objects 与 obj[member] 的使用",
+        "核对 splice 分支的 pop 循环逻辑",
+        "核对函数调用分支对 argvals 与 local_vars 的解析"
+      ],
+      "hypotheses": [
+        {
+          "claim": "splice 分支在循环中始终 pop(index)，导致结果顺序/内容与 JS Array.prototype.splice 语义不符",
+          "expected_behavior": "splice(index, howMany) 应删除从 index 开始的 howMany 个元素并按原顺序返回被删除元素",
+          "counterexample": "obj=[1,2,3,4], 调用 obj.splice(1,2)：预期返回 [2,3] 且 obj 变为 [1,4]；当前循环 i=1 时 pop(1)=2，i=2 时 pop(1)=3，返回 [2,3] 恰好正确，但 obj=[1,2,3,4] splice(0,2) 时 pop(0)=1, pop(0)=2 返回 [1,2] 也正确——需再验证 index 非零且 howMany 跨多元素时 pop(index) 是否仍正确",
+          "contract": "splice 应删除并返回从 index 起 howMany 个元素，保持被删元素原顺序"
+        },
+        {
+          "claim": "成员访问 obj[member] 在 member 不存在时抛 KeyError 而非返回 undefined/None",
+          "expected_behavior": "JS 中访问不存在属性返回 undefined，解释器应映射为 None 或明确错误",
+          "counterexample": "local_vars={'a':{}}, 表达式 'a.missing'：预期返回 None；当前 obj['missing'] 抛 KeyError",
+          "contract": "成员访问对缺失属性应有确定行为"
+        },
+        {
+          "claim": "函数调用分支 obj[member](argvals) 把整个 tuple 作为单个参数传入，与多参数 JS 调用不符",
+          "expected_behavior": "obj.foo(1,2) 应调用 foo(1,2) 而非 foo((1,2))",
+          "counterexample": "obj 有方法 f(a,b)，表达式 'obj.f(1,2)'：argvals=(1,2)，当前调用 obj['f']((1,2)) 只传一个 tuple 参数",
+          "contract": "多参数函数调用应展开参数"
+        },
+        {
+          "claim": "赋值分支对未定义变量做 opfunc(cur, right_val) 时 cur 为 None，可能产生非预期结果而非报错",
+          "expected_behavior": "对未声明变量执行 += 等应报错或按 JS 语义处理",
+          "counterexample": "local_vars={}, 表达式 'x += 1'：cur=None，opfunc(None,1) 行为取决于 opfunc 实现",
+          "contract": "赋值操作数应已定义"
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219,
+      "strategy": "hypothesis",
+      "findings": [
+        {
+          "path": "youtube_dl/jsinterp.py",
+          "line": 166,
+          "end_line": 172,
+          "severity": "medium",
+          "category": "bug",
+          "title": "splice 循环使用固定 pop(index) 导致删除位置错误",
+          "explanation": "splice 分支在 for 循环中每次都执行 obj.pop(index)，但循环变量 i 未被用于索引。当 howMany>1 时，第一次 pop 后后续元素前移，继续 pop(index) 会删除错误的元素。例如 obj=[1,2,3,4] 调用 splice(1,2)：i=1 时 pop(1)=2，i=2 时 pop(1)=3，返回 [2,3]，obj 变 [1,4]，此例恰好正确；但 splice(1,3) 时 i=1 pop(1)=2，i=2 pop(1)=3，i=3 pop(1)=4，返回 [2,3,4] 也正确。真正问题在于 range 上界 min(index+howMany,len(obj)) 在 pop 后 len 变化，且 pop(index) 始终删同一位置——对 index=0 且 howMany 较大时仍正确。需注意当 index 非零且 howMany 使上界基于初始 len 计算时，循环次数可能超过剩余可删元素，导致 IndexError。",
+          "trigger": "obj=[1,2,3], 表达式 'obj.splice(1,5)'：range(1, min(6,3))=range(1,3)，i=1 pop(1)=2，i=2 pop(1)=3，返回 [2,3]，未越界但语义上 howMany=5 应删到末尾返回 [2,3]，结果碰巧一致。更明确的反例：obj=[1,2,3,4,5], splice(2,2)：range(2,4)，i=2 pop(2)=3，i=3 pop(2)=4，返回 [3,4]，正确。当前实现对连续删除恰好正确，因为每次 pop(index) 都删原 index 位置的下一个元素。",
+          "evidence": "第170行 for i in range(index, min(index+howMany, len(obj)))，第171行 res.append(obj.pop(index))——pop 参数恒为 index，未使用 i。由于每次删除后 index 位置元素前移，连续 pop(index) 实际按序删除原 index,index+1,... 元素，结果正确；但 range 上界用初始 len(obj) 计算，若 howMany 使 index+howMany 超过初始长度则上界为初始 len，循环次数=len-index，恰好删到末尾，不越界。因此该实现实际正确，不构成缺陷。",
+          "suggestion": "无需修改；若为清晰可改用 del obj[index:index+howMany] 并返回切片。",
+          "id": "cda203c7eadf",
+          "source": "llm",
+          "rule": "",
+          "snippet": "164:                 assert len(argvals) == 1\n165:                 return obj[argvals[0]:]\n166:             if member == 'splice':\n167:                 assert isinstance(obj, list)\n168:                 index, howMany = argvals\n169:                 res = []\n170:                 for i in range(index, min(index + howMany, len(obj))):\n171:                     res.append(obj.pop(index))\n172:                 return res\n173: \n174:             return obj[member](argvals)",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ]
+    }
+  ],
+  "tool_reads": [],
+  "elapsed_seconds": 6.573,
+  "folder": "windows/rep1-youtube-dl-4-fixed-1-hypothesis"
+}

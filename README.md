@@ -16,7 +16,7 @@
 
 **2026-10-21 漏检失败分类：** 对2026-10-14的26个有效参考对逐条归类：候选命中4个、有效证据1个；22个漏检中8个完全没有候选、14个有候选但偏题；另有3个候选命中但证据失败。结论是瓶颈在发现阶段，不在Docker/取证/准入门控。见[失败分类与P1依据](demo/evidence-failure-taxonomy-20261021/README.md)。
 
-**2026-10-21 P1 协议（未运行）：** 已实现“理解→枚举→反例→核对→候选”的假设—反例式发现提示和结构化输出，并冻结 6 个开发样本、18 个窗口、baseline/hypothesis 两臂、单次重复、80 次调用上限。只跑发现阶段，不启动证据引擎；尚未发出模型请求。见[P1 协议](demo/discovery-hypothesis-20261021/README.md)。
+**2026-10-21 P1 假设—反例实验（已运行，未采用）：** 6个开发样本、18窗口、baseline/hypothesis两臂、36窗口全部完成、39/80次调用。baseline候选命中1/6，hypothesis 0/6；hypothesis候选更多（33 vs 29）但**0次真实工具读取**，`checked`中的核对没有对应工具调用。未达到采用条件，默认仍为baseline。见[P1结果与机制分析](demo/discovery-hypothesis-20261021/README.md)。
 
 **2026-10-15 上下文检索实验：** 已接入`--context-strategy callgraph`，在evidence发现阶段补充静态调用方、被调用定义、相关导入与文档片段；默认仍为`legacy`。86项项目测试通过，6个历史样本两版本共18组初始输入核对通过，0次模型API调用。新增上下文尚未做模型效果对照，不能声称检出率提高；见[实现与离线检查](demo/context-callgraph-20261015/README.md)。
 
@@ -246,7 +246,7 @@ CLI 退出码：0 为 completed/static_only；2 表示已保存报告但分析�
 - [准入固定案例验证](demo/admission-validation-20261021/README.md)：4个已见候选、5次调用，正例保留、3个负例降级。
 - [新样本evidence对照](demo/evidence-holdout-compare-20261021/README.md)：4个holdout样本、16次运行、37次调用；两臂均1/4检出，admission无端到端增益。
 - [漏检失败分类](demo/evidence-failure-taxonomy-20261021/README.md)：26个有效对中4个候选命中；22个漏检=8个无候选+14个偏题。
-- [P1 假设—反例协议](demo/discovery-hypothesis-20261021/README.md)：6个开发样本、18个窗口、两臂、80次上限；尚未运行。
+- [P1 假设—反例结果](demo/discovery-hypothesis-20261021/README.md)：6个开发样本、36窗口、39次调用；baseline 1/6，hypothesis 0/6，且hypothesis 0次工具读取，未采用。
 
 `tests/` 覆盖真实扫描器、路径与行号校验、只读工具、复核ID对应、调用失败、预算耗尽、语法错误、空文件、HTML转义与报告格式，以及结构化预期准入、语言规则边界和执行位置判定。
 

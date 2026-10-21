@@ -1,0 +1,84 @@
+{
+  "case": "tornado-1",
+  "side": "buggy",
+  "repetition": 1,
+  "strategy": "baseline",
+  "path": "tornado/websocket.py",
+  "start": 513,
+  "end": 609,
+  "name": "rep1-tornado-1-buggy-1-baseline",
+  "status": "completed",
+  "error": null,
+  "api_calls": 1,
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 11532,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 3334,
+        "total_tokens": 3340,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 2694
+      },
+      "elapsed_seconds": 1.984
+    }
+  ],
+  "findings": [],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "tornado/websocket.py",
+      "start": 513,
+      "end": 609,
+      "strategy": "legacy",
+      "payload_sha256": "a0153599bbc111a124e7ad912ab76429580af4ef4f0504868aba35a943151bce",
+      "supplemental_chars": 4890,
+      "sources": [
+        {
+          "path": "tornado/websocket.py",
+          "name": "_WebSocketParams",
+          "line": 122,
+          "end": 133
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "get",
+          "line": 231,
+          "end": 281
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "get_compression_options",
+          "line": 378,
+          "end": 400
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "on_close",
+          "line": 458,
+          "end": 469
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "tornado/websocket.py",
+      "start": 513,
+      "end": 609,
+      "strategy": "baseline",
+      "findings": []
+    }
+  ],
+  "tool_reads": [],
+  "elapsed_seconds": 1.994,
+  "folder": "windows/rep1-tornado-1-buggy-1-baseline"
+}

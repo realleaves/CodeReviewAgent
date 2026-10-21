@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 30,
+    "phase": "p1-hypothesis",
+    "label": {
+      "case": "youtube-dl-4",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "hypothesis",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219
+    },
+    "reserved_at": "2026-10-21T13:37:07.606849+00:00"
+  },
+  "raw_response": "{\"checked\":[\"读取主片段 youtube_dl/jsinterp.py:50-219，确认 interpret_expression 的解析顺序与各分支契约\",\"读取上下文 interpret_statement(37-56)：var/return 前缀处理与 should_abort 语义\",\"读取 extract_function(232-244)：函数名查找与参数名解析\",\"核对 _ASSIGN_OPERATORS 分支中 index 赋值路径（94-102）与普通赋值路径（103-107）\",\"核对成员访问/函数调用分支（123-174）对 arg_str 为 None、'' 与逗号分隔参数的处理\",\"核对数组下标分支（176-182）与运算符分支（184-198）的递归深度传递\"],\"hypotheses\":[{\"claim\":\"对未定义变量做复合赋值（如 x += 1）时，cur 为 None，opfunc 可能抛 TypeError 而非给出明确错误\",\"expected_behavior\":\"对未定义变量赋值应报出可理解的 ExtractorError 或按 JS 语义处理\",\"counterexample\":\"interpret_expression('x += 1', {}, 100) → cur=None，opfunc(None,1) 抛 TypeError\",\"contract\":\"_ASSIGN_OPERATORS 分支假定 local_vars 中已有左值或 opfunc 能处理 None\"},{\"claim\":\"成员函数调用 obj[member](argvals) 把整个 tuple 作为单个参数传入，与 JS 多参数语义不符\",\"expected_behavior\":\"obj.f(a,b) 应等价于 obj.f(a,b) 两个参数\",\"counterexample\":\"expr='s.substring(1,2)' → argvals=(1,2)，调用 obj['substring']((1,2)) 而非 obj['substring'](1,2)\",\"contract\":\"第174行 return obj[member](argvals) 的调用约定\"},{\"claim\":\"splice 分支假定 argvals 恰为两个元素，否则解包 ValueError\",\"expected_behavior\":\"参数个数不符应报明确错误\",\"counterexample\":\"expr='a.splice(1)' → index, howMany = argvals 抛 ValueError\",\"contract\":\"第168行 index, howMany = argvals 未校验长度\"},{\"claim\":\"函数调用分支（200-209）参数只支持数字或 local_vars 中的变量，遇到未定义变量 KeyError\",\"expected_behavior\":\"未定义参数应报 ExtractorError\",\"counterexample\":\"expr='f(x)' 且 local_vars 无 x → local_vars['x'] KeyError\",\"contract\":\"第205行 local_vars[v] 直接索引\"},{\"claim\":\"数组下标分支（176-182）对非 local_vars 中的对象名直接 KeyError，而成员分支会回退到 extract_object\",\"expected_behavior\":\"两种访问方式对全局对象应一致处理\",\"counterexample\":\"expr='arr[0]' 且 arr 不在 local_vars 但在 self.code 中定义 → KeyError\",\"contract\":\"第179行 local_vars[m.group('in')] 无回退\"}],\"findings\":[{\"path\":\"youtube_dl/jsinterp.py\",\"line\":174,\"end_line\":174,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"成员函数调用把参数元组作为单个参数传入\",\"explanation\":\"第149-151行将参数解析为 tuple argvals，第174行 return obj[member](argvals) 把整个 tuple 当作一个位置参数传给被调用函数，而 JS 语义要求展开为多个参数。对接受多参数的成员函数（如 substring、substr、indexOf 等）会得到错误结果或 TypeError。\",\"trigger\":\"interpret_expression('s.substring(1,2)', {'s':'abcd'}, 100)\",\"evidence\":\"第149-151行 argvals = tuple([...])；第174行 return obj[member](argvals)，未使用 *argvals。\",\"suggestion\":\"改为 return obj[member](*argvals)，并对已知成员（split/join/slice 等）保持现有显式分支。\"},{\"path\":\"youtube_dl/jsinterp.py\",\"line\":168,\"end_line\":168,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"splice 参数个数未校验导致解包异常\",\"explanation\":\"第168行 index, howMany = argvals 假定恰好两个参数，参数个数不符时抛 ValueError 而非 ExtractorError，且错误信息不指向具体表达式。\",\"trigger\":\"interpret_expression('a.splice(1)', {'a':[1,2,3]}, 100)\",\"evidence\":\"第166-168行：assert isinstance(obj, list) 后直接 index, howMany = argvals。\",\"suggestion\":\"校验 len(argvals)==2，否则 raise ExtractorError('splice expects 2 args in %r' % expr)。\"},{\"path\":\"youtube_dl/jsinterp.py\",\"line\":205,\"end_line\":205,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"函数调用参数遇到未定义变量抛 KeyError\",\"explanation\":\"第204-206行对每个参数，若为数字则 int，否则直接 local_vars[v]，未定义变量会抛 KeyError 而非统一的 ExtractorError，破坏错误路径一致性。\",\"trigger\":\"interpret_expression('f(x)', {}, 100) 且 self._functions 中无 f 或 f 存在但 x 未定义\",\"evidence\":\"第205行 int(v) if v.isdigit() else local_vars[v]。\",\"suggestion\":\"使用 local_vars.get(v) 并在缺失时 raise ExtractorError('Undefined variable %r in %r' % (v, expr))。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review_hypothesis",
+    "status": "completed",
+    "input_chars": 12756,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1201,
+      "prompt_tokens": 4000,
+      "total_tokens": 5201,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 896
+      },
+      "prompt_cache_hit_tokens": 896,
+      "prompt_cache_miss_tokens": 3104
+    },
+    "elapsed_seconds": 6.364
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "primary_path": "youtube_dl/YoutubeDL.py",
+  "start": 926,
+  "end": 990,
+  "code": "926:         def _parse_filter(tokens):\n927:             filter_parts = []\n928:             for type, string, start, _, _ in tokens:\n929:                 if type == tokenize.OP and string == ']':\n930:                     return ''.join(filter_parts)\n931:                 else:\n932:                     filter_parts.append(string)\n933: \n934:         def _parse_format_selection(tokens, inside_merge=False, inside_choice=False, inside_group=False):\n935:             selectors = []\n936:             current_selector = None\n937:             for type, string, start, _, _ in tokens:\n938:                 # ENCODING is only defined in python 3.x\n939:                 if type == getattr(tokenize, 'ENCODING', None):\n940:                     continue\n941:                 elif type in [tokenize.NAME, tokenize.NUMBER]:\n942:                     current_selector = FormatSelector(SINGLE, string, [])\n943:                 elif type == tokenize.OP:\n944:                     if string == ')':\n945:                         if not inside_group:\n946:                             # ')' will be handled by the parentheses group\n947:                             tokens.restore_last_token()\n948:                         break\n949:                     elif inside_merge and string in ['/', ',']:\n950:                         tokens.restore_last_token()\n951:                         break\n952:                     elif inside_choice and string == ',':\n953:                         tokens.restore_last_token()\n954:                         break\n955:                     elif string == ',':\n956:                         selectors.append(current_selector)\n957:                         current_selector = None\n958:                     elif string == '/':\n959:                         first_choice = current_selector\n960:                         second_choice = _parse_format_selection(tokens, inside_choice=True)\n961:                         current_selector = FormatSelector(PICKFIRST, (first_choice, second_choice), [])\n962:                     elif string == '[':\n963:                         if not current_selector:\n964:                             current_selector = FormatSelector(SINGLE, 'best', [])\n965:                         format_filter = _parse_filter(tokens)\n966:                         current_selector.filters.append(format_filter)\n967:                     elif string == '(':\n968:                         if current_selector:\n969:                             raise syntax_error('Unexpected \"(\"', start)\n970:                         group = _parse_format_selection(tokens, inside_group=True)\n971:                         current_selector = FormatSelector(GROUP, group, [])\n972:                     elif string == '+':\n973:                         video_selector = current_selector\n974:                         audio_selector = _parse_format_selection(tokens, inside_merge=True)\n975:                         current_selector = FormatSelector(MERGE, (video_selector, audio_selector), [])\n976:                     else:\n977:                         raise syntax_error('Operator not recognized: \"{0}\"'.format(string), start)\n978:                 elif type == tokenize.ENDMARKER:\n979:                     break\n980:             if current_selector:\n981:                 selectors.append(current_selector)\n982:             return selectors\n983: \n984:         def _build_selector_function(selector):\n985:             if isinstance(selector, list):\n986:                 fs = [_build_selector_function(s) for s in selector]\n987: \n988:                 def selector_function(formats):\n989:                     for f in fs:\n990:                         for format in f(formats):",
+  "context": [
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "name": "syntax_error",
+      "line": 914,
+      "end": 918,
+      "code": "914:         def syntax_error(note, start):\n915:             message = (\n916:                 'Invalid format specification: '\n917:                 '{0}\\n\\t{1}\\n\\t{2}^'.format(note, format_spec, ' ' * start[1]))\n918:             return SyntaxError(message)"
+    },
+    {
+      "path": "youtube_dl/YoutubeDL.py",
+      "name": "restore_last_token",
+      "line": 1124,
+      "end": 1125,
+      "code": "1124:             def restore_last_token(self):\n1125:                 self.counter -= 1"
+    }
+  ],
+  "documents": []
+}

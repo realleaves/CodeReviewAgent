@@ -1,0 +1,208 @@
+{
+  "case": "tornado-7",
+  "side": "fixed",
+  "repetition": 1,
+  "strategy": "hypothesis",
+  "path": "tornado/ioloop.py",
+  "start": 610,
+  "end": 711,
+  "name": "rep1-tornado-7-fixed-2-hypothesis",
+  "status": "completed",
+  "error": null,
+  "api_calls": 1,
+  "calls": [
+    {
+      "stage": "review_hypothesis",
+      "status": "completed",
+      "input_chars": 10486,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1190,
+        "prompt_tokens": 3212,
+        "total_tokens": 4402,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 896
+        },
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 2316
+      },
+      "elapsed_seconds": 6.181
+    }
+  ],
+  "findings": [
+    {
+      "path": "tornado/ioloop.py",
+      "line": 665,
+      "end_line": 667,
+      "severity": "medium",
+      "category": "bug",
+      "title": "set_default_executor(None) 后 run_in_executor 使用 None 作为 executor 导致 AttributeError",
+      "explanation": "set_default_executor 直接赋值 self._executor = executor，未校验 None。run_in_executor 在 executor 参数为 None 时检查 hasattr(self, '_executor')，若已通过 set_default_executor(None) 设置过，则 hasattr 为 True，executor 被赋值为 None，随后 executor.submit(...) 抛 AttributeError。文档未说明 None 是非法值，且 run_in_executor 自身将 None 视为'使用默认 executor'，语义不一致。",
+      "trigger": "loop.set_default_executor(None); loop.run_in_executor(None, func)",
+      "evidence": "第 653-658 行：if executor is None: if not hasattr(self, '_executor'): ... executor = self._executor; c_future = executor.submit(func, *args)。set_default_executor 第 667 行 self._executor = executor 无校验。",
+      "suggestion": "在 set_default_executor 中拒绝 None（raise ValueError），或在 run_in_executor 中判断 self._executor is None 时重新创建默认 executor。",
+      "id": "d460873a36c0",
+      "source": "llm",
+      "rule": "",
+      "snippet": "663:         return t_future\n664: \n665:     def set_default_executor(self, executor):\n666:         \"\"\"Sets the default executor to use with :meth:`run_in_executor`.\"\"\"\n667:         self._executor = executor\n668: \n669:     def _run_callback(self, callback):",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    },
+    {
+      "path": "tornado/ioloop.py",
+      "line": 694,
+      "end_line": 696,
+      "severity": "low",
+      "category": "bug",
+      "title": "_discard_future_result 调用 future.result() 会重新抛出异常",
+      "explanation": "_discard_future_result 的文档称'Avoid unhandled-exception warnings from spawned coroutines'，但直接调用 future.result() 会在 Future 带异常时重新抛出。该回调由 add_future 调度，异常发生在 add_callback 执行的回调内，会被 _run_callback 的 try/except 捕获并记录，因此不会崩溃，但会以'Exception in callback'形式重复记录，且与'丢弃结果'的命名意图不符。",
+      "trigger": "_run_callback 中 callback 返回一个已 set_exception 的 Future，add_future 触发 _discard_future_result -> future.result() 抛异常",
+      "evidence": "第 690 行 self.add_future(ret, self._discard_future_result)；第 696 行 future.result()。",
+      "suggestion": "改为 try: future.result() except Exception: pass，或使用 future.exception() 消费异常而不抛出。",
+      "id": "cdee11c525f5",
+      "source": "llm",
+      "rule": "",
+      "snippet": "692:             self.handle_callback_exception(callback)\n693: \n694:     def _discard_future_result(self, future):\n695:         \"\"\"Avoid unhandled-exception warnings from spawned coroutines.\"\"\"\n696:         future.result()\n697: \n698:     def handle_callback_exception(self, callback):",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "tornado/ioloop.py",
+      "start": 610,
+      "end": 711,
+      "strategy": "legacy",
+      "payload_sha256": "7d4c45b52032818988afb4554f56fee729ff98ada4c2c1ae5b964c75ed5d6048",
+      "supplemental_chars": 2726,
+      "sources": [
+        {
+          "path": "tornado/ioloop.py",
+          "name": "add_callback",
+          "line": 590,
+          "end": 603
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "name": "add_callback",
+          "line": 1024,
+          "end": 1038
+        },
+        {
+          "path": "demos/benchmark/chunk_benchmark.py",
+          "name": "callback",
+          "line": 30,
+          "end": 34
+        },
+        {
+          "path": "tornado/process.py",
+          "name": "cpu_count",
+          "line": 60,
+          "end": 73
+        }
+      ]
+    },
+    {
+      "stage": "hypothesis_review",
+      "path": "tornado/ioloop.py",
+      "start": 610,
+      "end": 711,
+      "checked": [
+        "读取主片段 tornado/ioloop.py:610-711，确认 spawn_callback/add_future/run_in_executor/set_default_executor/_run_callback/_discard_future_result/handle_callback_exception 的实现",
+        "读取上下文 add_callback 抽象定义(590-603)与 IOLoop 实现(1024-1038)，确认 _closing 时静默丢弃回调、stack_context.wrap 包装",
+        "读取 tornado/process.py cpu_count(60-73)，确认返回 >=1 的整数",
+        "读取 demos/benchmark/chunk_benchmark.py callback(30-34)，确认 add_future 回调接收 Future 参数"
+      ],
+      "hypotheses": [
+        {
+          "claim": "_run_callback 中 ret 为 Future 且已完成但带异常时，add_future 会通过 _discard_future_result 调用 future.result() 重新抛出异常",
+          "expected_behavior": "异常应被记录到日志而非在 _run_callback 内再次抛出导致未捕获",
+          "counterexample": "callback 返回一个已 set_exception 的 Future；_run_callback 调用 add_future，done_callback 立即触发 _discard_future_result -> future.result() 抛异常",
+          "contract": "_run_callback 的契约是'Runs a callback with error handling'，异常应被 handle_callback_exception 处理"
+        },
+        {
+          "claim": "run_in_executor 在 executor.submit 抛异常（如已 shutdown 的 executor）时未捕获，直接向调用方传播",
+          "expected_behavior": "应返回一个带异常的 Future 或明确文档说明会同步抛出",
+          "counterexample": "executor.shutdown() 后调用 run_in_executor(executor, func)，submit 抛 RuntimeError",
+          "contract": "run_in_executor 返回 t_future，调用方预期通过 Future 处理错误"
+        },
+        {
+          "claim": "set_default_executor 设置后 run_in_executor 使用它，但若传入 None 则回退到默认 executor 而非报错",
+          "expected_behavior": "set_default_executor(None) 后 run_in_executor 应使用默认 executor",
+          "counterexample": "set_default_executor(None); run_in_executor(None, func) 会走 hasattr(self,'_executor') 分支，_executor 已存在为 None，executor=None 导致 executor.submit 抛 AttributeError",
+          "contract": "set_default_executor 文档说'Sets the default executor to use with run_in_executor'，None 应等价于未设置"
+        },
+        {
+          "claim": "add_future 中 lambda 捕获 callback，若 future 已完成则 add_done_callback 同步调用 lambda，此时 self.add_callback 在调用线程执行",
+          "expected_behavior": "回调应被调度到 IOLoop 线程",
+          "counterexample": "在非 IOLoop 线程对已完成 Future 调用 add_future，lambda 同步执行 self.add_callback，add_callback 线程安全所以 OK",
+          "contract": "add_future 应线程安全地调度回调"
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "tornado/ioloop.py",
+      "start": 610,
+      "end": 711,
+      "strategy": "hypothesis",
+      "findings": [
+        {
+          "path": "tornado/ioloop.py",
+          "line": 665,
+          "end_line": 667,
+          "severity": "medium",
+          "category": "bug",
+          "title": "set_default_executor(None) 后 run_in_executor 使用 None 作为 executor 导致 AttributeError",
+          "explanation": "set_default_executor 直接赋值 self._executor = executor，未校验 None。run_in_executor 在 executor 参数为 None 时检查 hasattr(self, '_executor')，若已通过 set_default_executor(None) 设置过，则 hasattr 为 True，executor 被赋值为 None，随后 executor.submit(...) 抛 AttributeError。文档未说明 None 是非法值，且 run_in_executor 自身将 None 视为'使用默认 executor'，语义不一致。",
+          "trigger": "loop.set_default_executor(None); loop.run_in_executor(None, func)",
+          "evidence": "第 653-658 行：if executor is None: if not hasattr(self, '_executor'): ... executor = self._executor; c_future = executor.submit(func, *args)。set_default_executor 第 667 行 self._executor = executor 无校验。",
+          "suggestion": "在 set_default_executor 中拒绝 None（raise ValueError），或在 run_in_executor 中判断 self._executor is None 时重新创建默认 executor。",
+          "id": "d460873a36c0",
+          "source": "llm",
+          "rule": "",
+          "snippet": "663:         return t_future\n664: \n665:     def set_default_executor(self, executor):\n666:         \"\"\"Sets the default executor to use with :meth:`run_in_executor`.\"\"\"\n667:         self._executor = executor\n668: \n669:     def _run_callback(self, callback):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "line": 694,
+          "end_line": 696,
+          "severity": "low",
+          "category": "bug",
+          "title": "_discard_future_result 调用 future.result() 会重新抛出异常",
+          "explanation": "_discard_future_result 的文档称'Avoid unhandled-exception warnings from spawned coroutines'，但直接调用 future.result() 会在 Future 带异常时重新抛出。该回调由 add_future 调度，异常发生在 add_callback 执行的回调内，会被 _run_callback 的 try/except 捕获并记录，因此不会崩溃，但会以'Exception in callback'形式重复记录，且与'丢弃结果'的命名意图不符。",
+          "trigger": "_run_callback 中 callback 返回一个已 set_exception 的 Future，add_future 触发 _discard_future_result -> future.result() 抛异常",
+          "evidence": "第 690 行 self.add_future(ret, self._discard_future_result)；第 696 行 future.result()。",
+          "suggestion": "改为 try: future.result() except Exception: pass，或使用 future.exception() 消费异常而不抛出。",
+          "id": "cdee11c525f5",
+          "source": "llm",
+          "rule": "",
+          "snippet": "692:             self.handle_callback_exception(callback)\n693: \n694:     def _discard_future_result(self, future):\n695:         \"\"\"Avoid unhandled-exception warnings from spawned coroutines.\"\"\"\n696:         future.result()\n697: \n698:     def handle_callback_exception(self, callback):",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ]
+    }
+  ],
+  "tool_reads": [],
+  "elapsed_seconds": 6.187,
+  "folder": "windows/rep1-tornado-7-fixed-2-hypothesis"
+}

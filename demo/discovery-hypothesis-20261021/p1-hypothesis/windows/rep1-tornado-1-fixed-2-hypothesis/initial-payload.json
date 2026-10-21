@@ -1,0 +1,37 @@
+{
+  "primary_path": "tornado/websocket.py",
+  "start": 669,
+  "end": 767,
+  "code": "669:             self.stream.close()  # forcibly tear down the connection\n670:         self.close()  # let the subclass cleanup\n671: \n672:     @abc.abstractmethod\n673:     def close(self, code: int = None, reason: str = None) -> None:\n674:         raise NotImplementedError()\n675: \n676:     @abc.abstractmethod\n677:     def is_closing(self) -> bool:\n678:         raise NotImplementedError()\n679: \n680:     @abc.abstractmethod\n681:     async def accept_connection(self, handler: WebSocketHandler) -> None:\n682:         raise NotImplementedError()\n683: \n684:     @abc.abstractmethod\n685:     def write_message(\n686:         self, message: Union[str, bytes], binary: bool = False\n687:     ) -> \"Future[None]\":\n688:         raise NotImplementedError()\n689: \n690:     @property\n691:     @abc.abstractmethod\n692:     def selected_subprotocol(self) -> Optional[str]:\n693:         raise NotImplementedError()\n694: \n695:     @abc.abstractmethod\n696:     def write_ping(self, data: bytes) -> None:\n697:         raise NotImplementedError()\n698: \n699:     # The entry points below are used by WebSocketClientConnection,\n700:     # which was introduced after we only supported a single version of\n701:     # WebSocketProtocol. The WebSocketProtocol/WebSocketProtocol13\n702:     # boundary is currently pretty ad-hoc.\n703:     @abc.abstractmethod\n704:     def _process_server_headers(\n705:         self, key: Union[str, bytes], headers: httputil.HTTPHeaders\n706:     ) -> None:\n707:         raise NotImplementedError()\n708: \n709:     @abc.abstractmethod\n710:     def start_pinging(self) -> None:\n711:         raise NotImplementedError()\n712: \n713:     @abc.abstractmethod\n714:     async def _receive_frame_loop(self) -> None:\n715:         raise NotImplementedError()\n716: \n717:     @abc.abstractmethod\n718:     def set_nodelay(self, x: bool) -> None:\n719:         raise NotImplementedError()\n720: \n721: \n722: class _PerMessageDeflateCompressor(object):\n723:     def __init__(\n724:         self,\n725:         persistent: bool,\n726:         max_wbits: Optional[int],\n727:         compression_options: Dict[str, Any] = None,\n728:     ) -> None:\n729:         if max_wbits is None:\n730:             max_wbits = zlib.MAX_WBITS\n731:         # There is no symbolic constant for the minimum wbits value.\n732:         if not (8 <= max_wbits <= zlib.MAX_WBITS):\n733:             raise ValueError(\n734:                 \"Invalid max_wbits value %r; allowed range 8-%d\",\n735:                 max_wbits,\n736:                 zlib.MAX_WBITS,\n737:             )\n738:         self._max_wbits = max_wbits\n739: \n740:         if (\n741:             compression_options is None\n742:             or \"compression_level\" not in compression_options\n743:         ):\n744:             self._compression_level = tornado.web.GZipContentEncoding.GZIP_LEVEL\n745:         else:\n746:             self._compression_level = compression_options[\"compression_level\"]\n747: \n748:         if compression_options is None or \"mem_level\" not in compression_options:\n749:             self._mem_level = 8\n750:         else:\n751:             self._mem_level = compression_options[\"mem_level\"]\n752: \n753:         if persistent:\n754:             self._compressor = self._create_compressor()  # type: Optional[_Compressor]\n755:         else:\n756:             self._compressor = None\n757: \n758:     def _create_compressor(self) -> \"_Compressor\":\n759:         return zlib.compressobj(\n760:             self._compression_level, zlib.DEFLATED, -self._max_wbits, self._mem_level\n761:         )\n762: \n763:     def compress(self, data: bytes) -> bytes:\n764:         compressor = self._compressor or self._create_compressor()\n765:         data = compressor.compress(data) + compressor.flush(zlib.Z_SYNC_FLUSH)\n766:         assert data.endswith(b\"\\x00\\x00\\xff\\xff\")\n767:         return data[:-4]",
+  "context": [
+    {
+      "path": "tornado/websocket.py",
+      "name": "compress",
+      "line": 63,
+      "end": 64,
+      "code": "63:         def compress(self, data: bytes) -> bytes:\n64:             pass"
+    },
+    {
+      "path": "tornado/websocket.py",
+      "name": "flush",
+      "line": 66,
+      "end": 67,
+      "code": "66:         def flush(self, mode: int) -> bytes:\n67:             pass"
+    },
+    {
+      "path": "tornado/websocket.py",
+      "name": "close",
+      "line": 471,
+      "end": 489,
+      "code": "471:     def close(self, code: int = None, reason: str = None) -> None:\n472:         \"\"\"Closes this Web Socket.\n473: \n474:         Once the close handshake is successful the socket will be closed.\n475: \n476:         ``code`` may be a numeric status code, taken from the values\n477:         defined in `RFC 6455 section 7.4.1\n478:         <https://tools.ietf.org/html/rfc6455#section-7.4.1>`_.\n479:         ``reason`` may be a textual message about why the connection is\n480:         closing.  These values are made available to the client, but are\n481:         not otherwise interpreted by the websocket protocol.\n482: \n483:         .. versionchanged:: 4.0\n484: \n485:            Added the ``code`` and ``reason`` arguments.\n486:         \"\"\"\n487:         if self.ws_connection:\n488:             self.ws_connection.close(code, reason)\n489:             self.ws_connection = None"
+    },
+    {
+      "path": "tornado/websocket.py",
+      "name": "close",
+      "line": 1262,
+      "end": 1289,
+      "code": "1262:     def close(self, code: int = None, reason: str = None) -> None:\n1263:         \"\"\"Closes the WebSocket connection.\"\"\"\n1264:         if not self.server_terminated:\n1265:             if not self.stream.closed():\n1266:                 if code is None and reason is not None:\n1267:                     code = 1000  # \"normal closure\" status code\n1268:                 if code is None:\n1269:                     close_data = b\"\"\n1270:                 else:\n1271:                     close_data = struct.pack(\">H\", code)\n1272:                 if reason is not None:\n1273:                     close_data += utf8(reason)\n1274:                 try:\n1275:                     self._write_frame(True, 0x8, close_data)\n1276:                 except StreamClosedError:\n1277:                     self._abort()\n1278:             self.server_terminated = True\n1279:         if self.client_terminated:\n1280:             if self._waiting is not None:\n1281:                 self.stream.io_loop.remove_timeout(self._waiting)\n1282:                 self._waiting = None\n1283:             self.stream.close()\n1284:         elif self._waiting is None:\n1285:             # Give the client a few seconds to complete a clean shutdown,\n1286:             # otherwise just close the connection.\n1287:             self._waiting = self.stream.io_loop.add_timeout(\n1288:                 self.stream.io_loop.time() + 5, self._abort\n1289:             )"
+    }
+  ],
+  "documents": []
+}

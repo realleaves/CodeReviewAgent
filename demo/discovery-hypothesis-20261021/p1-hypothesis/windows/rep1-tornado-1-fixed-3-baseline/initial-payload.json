@@ -1,0 +1,37 @@
+{
+  "primary_path": "tornado/websocket.py",
+  "start": 1304,
+  "end": 1402,
+  "code": "1304:             return interval\n1305:         return 0\n1306: \n1307:     @property\n1308:     def ping_timeout(self) -> Optional[float]:\n1309:         timeout = self.params.ping_timeout\n1310:         if timeout is not None:\n1311:             return timeout\n1312:         assert self.ping_interval is not None\n1313:         return max(3 * self.ping_interval, 30)\n1314: \n1315:     def start_pinging(self) -> None:\n1316:         \"\"\"Start sending periodic pings to keep the connection alive\"\"\"\n1317:         assert self.ping_interval is not None\n1318:         if self.ping_interval > 0:\n1319:             self.last_ping = self.last_pong = IOLoop.current().time()\n1320:             self.ping_callback = PeriodicCallback(\n1321:                 self.periodic_ping, self.ping_interval * 1000\n1322:             )\n1323:             self.ping_callback.start()\n1324: \n1325:     def periodic_ping(self) -> None:\n1326:         \"\"\"Send a ping to keep the websocket alive\n1327: \n1328:         Called periodically if the websocket_ping_interval is set and non-zero.\n1329:         \"\"\"\n1330:         if self.is_closing() and self.ping_callback is not None:\n1331:             self.ping_callback.stop()\n1332:             return\n1333: \n1334:         # Check for timeout on pong. Make sure that we really have\n1335:         # sent a recent ping in case the machine with both server and\n1336:         # client has been suspended since the last ping.\n1337:         now = IOLoop.current().time()\n1338:         since_last_pong = now - self.last_pong\n1339:         since_last_ping = now - self.last_ping\n1340:         assert self.ping_interval is not None\n1341:         assert self.ping_timeout is not None\n1342:         if (\n1343:             since_last_ping < 2 * self.ping_interval\n1344:             and since_last_pong > self.ping_timeout\n1345:         ):\n1346:             self.close()\n1347:             return\n1348: \n1349:         self.write_ping(b\"\")\n1350:         self.last_ping = now\n1351: \n1352:     def set_nodelay(self, x: bool) -> None:\n1353:         self.stream.set_nodelay(x)\n1354: \n1355: \n1356: class WebSocketClientConnection(simple_httpclient._HTTPConnection):\n1357:     \"\"\"WebSocket client connection.\n1358: \n1359:     This class should not be instantiated directly; use the\n1360:     `websocket_connect` function instead.\n1361:     \"\"\"\n1362: \n1363:     protocol = None  # type: WebSocketProtocol\n1364: \n1365:     def __init__(\n1366:         self,\n1367:         request: httpclient.HTTPRequest,\n1368:         on_message_callback: Callable[[Union[None, str, bytes]], None] = None,\n1369:         compression_options: Dict[str, Any] = None,\n1370:         ping_interval: float = None,\n1371:         ping_timeout: float = None,\n1372:         max_message_size: int = _default_max_message_size,\n1373:         subprotocols: Optional[List[str]] = [],\n1374:     ) -> None:\n1375:         self.connect_future = Future()  # type: Future[WebSocketClientConnection]\n1376:         self.read_queue = Queue(1)  # type: Queue[Union[None, str, bytes]]\n1377:         self.key = base64.b64encode(os.urandom(16))\n1378:         self._on_message_callback = on_message_callback\n1379:         self.close_code = None  # type: Optional[int]\n1380:         self.close_reason = None  # type: Optional[str]\n1381:         self.params = _WebSocketParams(\n1382:             ping_interval=ping_interval,\n1383:             ping_timeout=ping_timeout,\n1384:             max_message_size=max_message_size,\n1385:             compression_options=compression_options,\n1386:         )\n1387: \n1388:         scheme, sep, rest = request.url.partition(\":\")\n1389:         scheme = {\"ws\": \"http\", \"wss\": \"https\"}[scheme]\n1390:         request.url = scheme + sep + rest\n1391:         request.headers.update(\n1392:             {\n1393:                 \"Upgrade\": \"websocket\",\n1394:                 \"Connection\": \"Upgrade\",\n1395:                 \"Sec-WebSocket-Key\": self.key,\n1396:                 \"Sec-WebSocket-Version\": \"13\",\n1397:             }\n1398:         )\n1399:         if subprotocols is not None:\n1400:             request.headers[\"Sec-WebSocket-Protocol\"] = \",\".join(subprotocols)\n1401:         if compression_options is not None:\n1402:             # Always offer to let the server set our max_wbits (and even though",
+  "context": [
+    {
+      "path": "tornado/websocket.py",
+      "name": "_WebSocketParams",
+      "line": 122,
+      "end": 133,
+      "code": "122: class _WebSocketParams(object):\n123:     def __init__(\n124:         self,\n125:         ping_interval: float = None,\n126:         ping_timeout: float = None,\n127:         max_message_size: int = _default_max_message_size,\n128:         compression_options: Dict[str, Any] = None,\n129:     ) -> None:\n130:         self.ping_interval = ping_interval\n131:         self.ping_timeout = ping_timeout\n132:         self.max_message_size = max_message_size\n133:         self.compression_options = compression_options"
+    },
+    {
+      "path": "tornado/websocket.py",
+      "name": "close",
+      "line": 471,
+      "end": 489,
+      "code": "471:     def close(self, code: int = None, reason: str = None) -> None:\n472:         \"\"\"Closes this Web Socket.\n473: \n474:         Once the close handshake is successful the socket will be closed.\n475: \n476:         ``code`` may be a numeric status code, taken from the values\n477:         defined in `RFC 6455 section 7.4.1\n478:         <https://tools.ietf.org/html/rfc6455#section-7.4.1>`_.\n479:         ``reason`` may be a textual message about why the connection is\n480:         closing.  These values are made available to the client, but are\n481:         not otherwise interpreted by the websocket protocol.\n482: \n483:         .. versionchanged:: 4.0\n484: \n485:            Added the ``code`` and ``reason`` arguments.\n486:         \"\"\"\n487:         if self.ws_connection:\n488:             self.ws_connection.close(code, reason)\n489:             self.ws_connection = None"
+    },
+    {
+      "path": "tornado/websocket.py",
+      "name": "set_nodelay",
+      "line": 547,
+      "end": 562,
+      "code": "547:     def set_nodelay(self, value: bool) -> None:\n548:         \"\"\"Set the no-delay flag for this stream.\n549: \n550:         By default, small messages may be delayed and/or combined to minimize\n551:         the number of packets sent.  This can sometimes cause 200-500ms delays\n552:         due to the interaction between Nagle's algorithm and TCP delayed\n553:         ACKs.  To reduce this delay (at the expense of possibly increasing\n554:         bandwidth usage), call ``self.set_nodelay(True)`` once the websocket\n555:         connection is established.\n556: \n557:         See `.BaseIOStream.set_nodelay` for additional details.\n558: \n559:         .. versionadded:: 3.1\n560:         \"\"\"\n561:         assert self.ws_connection is not None\n562:         self.ws_connection.set_nodelay(value)"
+    },
+    {
+      "path": "tornado/websocket.py",
+      "name": "close",
+      "line": 673,
+      "end": 674,
+      "code": "673:     def close(self, code: int = None, reason: str = None) -> None:\n674:         raise NotImplementedError()"
+    }
+  ],
+  "documents": []
+}

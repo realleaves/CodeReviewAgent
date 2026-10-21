@@ -1,0 +1,173 @@
+{
+  "case": "tornado-1",
+  "side": "buggy",
+  "repetition": 1,
+  "strategy": "hypothesis",
+  "path": "tornado/websocket.py",
+  "start": 513,
+  "end": 609,
+  "name": "rep1-tornado-1-buggy-1-hypothesis",
+  "status": "completed",
+  "error": null,
+  "api_calls": 1,
+  "calls": [
+    {
+      "stage": "review_hypothesis",
+      "status": "completed",
+      "input_chars": 12508,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1026,
+        "prompt_tokens": 3700,
+        "total_tokens": 4726,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 3700
+      },
+      "elapsed_seconds": 5.319
+    }
+  ],
+  "findings": [
+    {
+      "path": "tornado/websocket.py",
+      "line": 538,
+      "end_line": 545,
+      "severity": "medium",
+      "category": "bug",
+      "title": "check_origin 未对 Host 头做小写归一化，导致大小写不同的同源请求被拒绝",
+      "explanation": "check_origin 将 origin 的 netloc 转为小写后与 self.request.headers.get('Host') 直接比较，但 Host 头未做 lower()。HTTP 主机名大小写不敏感，若客户端或代理发送含大写字母的 Host 头（如 'Example.COM'），而 Origin 为 'http://example.com'，比较结果为 False，get() 会返回 403 拒绝合法的同源 WebSocket 连接。",
+      "trigger": "请求头 Host: 'Example.COM'，Origin: 'http://example.com'，调用 check_origin('http://example.com')",
+      "evidence": "第 539-540 行 origin = parsed_origin.netloc; origin = origin.lower()；第 542 行 host = self.request.headers.get('Host')；第 545 行 return origin == host。host 未 lower。get() 第 269 行据此返回 403。",
+      "suggestion": "在比较前对 host 也执行 host.lower()（并处理 host 为 None 的情况），例如 host = (self.request.headers.get('Host') or '').lower()。",
+      "id": "556861ab4aec",
+      "source": "llm",
+      "rule": "",
+      "snippet": "536: \n537:         \"\"\"\n538:         parsed_origin = urlparse(origin)\n539:         origin = parsed_origin.netloc\n540:         origin = origin.lower()\n541: \n542:         host = self.request.headers.get(\"Host\")\n543: \n544:         # Check to see that origin matches host directly, including ports\n545:         return origin == host\n546: \n547:     def set_nodelay(self, value: bool) -> None:",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "tornado/websocket.py",
+      "start": 513,
+      "end": 609,
+      "strategy": "legacy",
+      "payload_sha256": "a0153599bbc111a124e7ad912ab76429580af4ef4f0504868aba35a943151bce",
+      "supplemental_chars": 4890,
+      "sources": [
+        {
+          "path": "tornado/websocket.py",
+          "name": "_WebSocketParams",
+          "line": 122,
+          "end": 133
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "get",
+          "line": 231,
+          "end": 281
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "get_compression_options",
+          "line": 378,
+          "end": 400
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "on_close",
+          "line": 458,
+          "end": 469
+        }
+      ]
+    },
+    {
+      "stage": "hypothesis_review",
+      "path": "tornado/websocket.py",
+      "start": 513,
+      "end": 609,
+      "checked": [
+        "读取主片段 tornado/websocket.py:513-609，确认 check_origin、set_nodelay、on_connection_close、on_ws_connection_close、_break_cycles、send_error、get_websocket_protocol 的实现",
+        "读取上下文 get() 231-281，确认 Origin/Sec-Websocket-Origin 取值与 check_origin 调用点",
+        "读取 _WebSocketParams 122-133，确认参数默认值",
+        "读取 get_compression_options 378-400，确认默认返回 None",
+        "读取 on_close 458-469，确认 close_code/close_reason 语义"
+      ],
+      "hypotheses": [
+        {
+          "claim": "check_origin 在 Host 头缺失时可能把 origin 与 None 比较，导致合法同源请求被拒或异常",
+          "expected_behavior": "当请求缺少 Host 头时，check_origin 应安全返回 False 或按文档语义处理，而不是与 None 比较产生意外结果",
+          "counterexample": "构造请求头无 Host、Origin 为 'http://example.com'，urlparse 得 netloc='example.com'，host=None，origin==host 为 False，返回 False（拒绝）。若 Origin 为 'null' 或空串，netloc 为空串，仍为 False。行为是拒绝而非异常，符合安全默认",
+          "contract": "check_origin 文档要求 origin 与 Host 直接匹配（含端口）才返回 True"
+        },
+        {
+          "claim": "check_origin 对 origin 大小写处理与 Host 头大小写不一致，可能导致同源被误拒",
+          "expected_behavior": "origin 被 lower()，但 host 未 lower()，若 Host 头含大写字母则比较失败",
+          "counterexample": "Host: 'Example.COM'，Origin: 'http://example.com'，origin='example.com'，host='Example.COM'，比较为 False，同源请求被 403 拒绝",
+          "contract": "check_origin 应判断 origin 与 host 是否匹配，HTTP 主机名大小写不敏感"
+        },
+        {
+          "claim": "on_ws_connection_close 默认参数 close_code=None 与类型注解 int 不符，但运行时无影响",
+          "expected_behavior": "close_code 可为 None 表示未提供",
+          "counterexample": "on_ws_connection_close() 调用后 close_code=None，on_close 中读取为 None，符合文档'若提供则可用'",
+          "contract": "on_close 文档说明 close_code/close_reason 仅在干净关闭且提供时可用"
+        },
+        {
+          "claim": "_break_cycles 在状态非 101 时立即调用父类，可能提前断开引用环",
+          "expected_behavior": "仅当状态为 101 且已关闭时才断开引用环",
+          "counterexample": "握手失败状态 400，_break_cycles 立即调用 super，符合注释意图",
+          "contract": "注释说明仅在连接真正关闭（状态 101）后才断开引用环"
+        },
+        {
+          "claim": "get_websocket_protocol 对 Sec-WebSocket-Version 大小写敏感，可能拒绝合法版本头",
+          "expected_behavior": "HTTP 头名大小写不敏感，但值 '13' 等为数字字符串，大小写无关",
+          "counterexample": "Sec-WebSocket-Version: '13' 正常；若客户端发送 ' 13' 带空格则不在元组中返回 None，但协议规定值无空格",
+          "contract": "仅接受版本 7/8/13"
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "tornado/websocket.py",
+      "start": 513,
+      "end": 609,
+      "strategy": "hypothesis",
+      "findings": [
+        {
+          "path": "tornado/websocket.py",
+          "line": 538,
+          "end_line": 545,
+          "severity": "medium",
+          "category": "bug",
+          "title": "check_origin 未对 Host 头做小写归一化，导致大小写不同的同源请求被拒绝",
+          "explanation": "check_origin 将 origin 的 netloc 转为小写后与 self.request.headers.get('Host') 直接比较，但 Host 头未做 lower()。HTTP 主机名大小写不敏感，若客户端或代理发送含大写字母的 Host 头（如 'Example.COM'），而 Origin 为 'http://example.com'，比较结果为 False，get() 会返回 403 拒绝合法的同源 WebSocket 连接。",
+          "trigger": "请求头 Host: 'Example.COM'，Origin: 'http://example.com'，调用 check_origin('http://example.com')",
+          "evidence": "第 539-540 行 origin = parsed_origin.netloc; origin = origin.lower()；第 542 行 host = self.request.headers.get('Host')；第 545 行 return origin == host。host 未 lower。get() 第 269 行据此返回 403。",
+          "suggestion": "在比较前对 host 也执行 host.lower()（并处理 host 为 None 的情况），例如 host = (self.request.headers.get('Host') or '').lower()。",
+          "id": "556861ab4aec",
+          "source": "llm",
+          "rule": "",
+          "snippet": "536: \n537:         \"\"\"\n538:         parsed_origin = urlparse(origin)\n539:         origin = parsed_origin.netloc\n540:         origin = origin.lower()\n541: \n542:         host = self.request.headers.get(\"Host\")\n543: \n544:         # Check to see that origin matches host directly, including ports\n545:         return origin == host\n546: \n547:     def set_nodelay(self, value: bool) -> None:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ]
+    }
+  ],
+  "tool_reads": [],
+  "elapsed_seconds": 5.33,
+  "folder": "windows/rep1-tornado-1-buggy-1-hypothesis"
+}

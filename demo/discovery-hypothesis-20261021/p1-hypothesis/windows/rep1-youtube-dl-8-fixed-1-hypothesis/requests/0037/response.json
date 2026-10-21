@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 37,
+    "phase": "p1-hypothesis",
+    "label": {
+      "case": "youtube-dl-8",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "hypothesis",
+      "path": "youtube_dl/YoutubeDL.py",
+      "start": 926,
+      "end": 990
+    },
+    "reserved_at": "2026-10-21T13:37:40.683470+00:00"
+  },
+  "raw_response": "{\"checked\":[\"主片段 youtube_dl/YoutubeDL.py:926-990 的 _parse_filter 与 _parse_format_selection 递归解析逻辑\",\"上下文 syntax_error(914-918) 与 restore_last_token(1124-1125) 定义\",\"tokenize 迭代器 tokens 的 restore_last_token 语义（counter 回退）\"],\"hypotheses\":[{\"claim\":\"_parse_filter 在遇到 ENDMARKER 或 token 耗尽时没有返回语句，会隐式返回 None\",\"expected_behavior\":\"未闭合的 '[' 过滤器应抛出 syntax_error 或返回空字符串，而不是 None\",\"counterexample\":\"format_spec='best[' 时 _parse_filter 遍历到 ENDMARKER 不匹配 ']'，循环结束返回 None，随后 current_selector.filters.append(None)\",\"contract\":\"_parse_filter 的调用方期望返回字符串过滤器表达式\"},{\"claim\":\"'/' 分支中 first_choice 可能为 None（如 'best/' 或 '/best'），构造 PICKFIRST 时未校验\",\"expected_behavior\":\"缺少左/右操作数的 '/' 应报语法错误\",\"counterexample\":\"format_spec='/' 时 current_selector 为 None，first_choice=None，second_choice 递归返回空列表，构造 FormatSelector(PICKFIRST,(None,[]),[])\",\"contract\":\"PICKFIRST 的两个操作数应为有效 selector\"},{\"claim\":\"'+' 分支中 video_selector 可能为 None（如 '+best'），MERGE 构造未校验\",\"expected_behavior\":\"缺少左操作数的 '+' 应报语法错误\",\"counterexample\":\"format_spec='+best' 时 video_selector=None，构造 FormatSelector(MERGE,(None,...),[])\",\"contract\":\"MERGE 的两个操作数应为有效 selector\"},{\"claim\":\"',' 分支无条件 append(current_selector)，可能追加 None（如 'best,,worst' 或前导逗号）\",\"expected_behavior\":\"空选择器应被忽略或报错\",\"counterexample\":\"format_spec=',best' 时首个 token 为 ','，selectors.append(None)\",\"contract\":\"selectors 列表元素应为 FormatSelector 实例\"},{\"claim\":\"_parse_filter 忽略嵌套 '[' 与 ']' 的配对，遇到第一个 ']' 即返回\",\"expected_behavior\":\"过滤器内若含 ']' 字符（如正则）应正确处理\",\"counterexample\":\"format_spec='best[height<100]' 正常；但 'best[a[b]]' 会在内层 ']' 提前返回 'a[b'\",\"contract\":\"过滤器表达式应完整读取到匹配的 ']'\"}],\"findings\":[{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":926,\"end_line\":932,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"_parse_filter 在未闭合 '[' 时隐式返回 None\",\"explanation\":\"_parse_filter 仅在遇到 ']' 时 return ''.join(filter_parts)；若 tokens 耗尽或遇到 ENDMARKER 而未出现 ']'，函数走到末尾无 return，隐式返回 None。调用方在 966 行直接 current_selector.filters.append(format_filter)，将 None 加入 filters。后续构建 selector 函数时对过滤器求值会因 None 而非字符串导致异常或错误行为，而非给出清晰的语法错误。\",\"trigger\":\"format_spec = 'best['（缺少闭合 ']'）\",\"evidence\":\"926-932 行循环内只有 ']' 分支 return；循环结束后无 return 语句。966 行 append(format_filter) 未做 None 检查。\",\"suggestion\":\"在循环结束后 raise syntax_error('Missing ]', ...) 或返回空字符串，并在 append 前校验非 None。\"},{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":955,\"end_line\":957,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"逗号分支无条件追加可能为 None 的 current_selector\",\"explanation\":\"',' 分支执行 selectors.append(current_selector) 后重置为 None，但未检查 current_selector 是否有效。前导逗号、连续逗号或尾随逗号会把 None 放入 selectors 列表。_build_selector_function 对列表元素递归处理时，None 不是 list 也不是 FormatSelector，会在后续访问 .filters 等属性时出错，而不是报告语法错误。\",\"trigger\":\"format_spec = ',best' 或 'best,,worst'\",\"evidence\":\"955-957 行：elif string == ',': selectors.append(current_selector); current_selector = None，无 None 校验。\",\"suggestion\":\"追加前检查 current_selector 非 None，否则 raise syntax_error('Unexpected \\\",\\\"', start)。\"},{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":958,\"end_line\":961,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"'/' 分支未校验左操作数存在\",\"explanation\":\"'/' 分支取 first_choice = current_selector，此时可能为 None（表达式以 '/' 开头或前一个 token 已消费）。随后构造 FormatSelector(PICKFIRST, (first_choice, second_choice), [])，把 None 作为操作数传入。构建 selector 函数时对 None 操作数处理会失败或产生非预期选择，而非清晰语法错误。\",\"trigger\":\"format_spec = '/best'\",\"evidence\":\"958-961 行：first_choice = current_selector 未判空，直接用于构造 PICKFIRST。\",\"suggestion\":\"若 current_selector 为 None，raise syntax_error('Unexpected \\\"/\\\"', start)。\"},{\"path\":\"youtube_dl/YoutubeDL.py\",\"line\":972,\"end_line\":975,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"'+' 分支未校验左操作数存在\",\"explanation\":\"'+' 分支取 video_selector = current_selector，可能为 None（表达式以 '+' 开头）。随后构造 FormatSelector(MERGE, (video_selector, audio_selector), [])，将 None 作为合并的视频操作数。后续 selector 函数构建/求值会因 None 操作数出错或产生非预期结果，而非报告语法错误。\",\"trigger\":\"format_spec = '+bestaudio'\",\"evidence\":\"972-975 行：video_selector = current_selector 未判空，直接用于构造 MERGE。\",\"suggestion\":\"若 current_selector 为 None，raise syntax_error('Unexpected \\\"+\\\"', start)。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review_hypothesis",
+    "status": "completed",
+    "input_chars": 7345,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1407,
+      "prompt_tokens": 2153,
+      "total_tokens": 3560,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 896
+      },
+      "prompt_cache_hit_tokens": 896,
+      "prompt_cache_miss_tokens": 1257
+    },
+    "elapsed_seconds": 6.669
+  }
+}

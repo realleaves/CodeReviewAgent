@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 20,
+    "phase": "p1-hypothesis",
+    "label": {
+      "case": "tornado-7",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "tornado/ioloop.py",
+      "start": 610,
+      "end": 707
+    },
+    "reserved_at": "2026-10-21T13:36:26.680577+00:00"
+  },
+  "raw_response": "{\"findings\":[]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 9205,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 6,
+      "prompt_tokens": 2765,
+      "total_tokens": 2771,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 640
+      },
+      "prompt_cache_hit_tokens": 640,
+      "prompt_cache_miss_tokens": 2125
+    },
+    "elapsed_seconds": 0.703
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 19,
+    "phase": "p1-hypothesis",
+    "label": {
+      "case": "tornado-7",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "hypothesis",
+      "path": "tornado/ioloop.py",
+      "start": 610,
+      "end": 707
+    },
+    "reserved_at": "2026-10-21T13:36:19.987542+00:00"
+  },
+  "raw_response": "{\"checked\":[\"读取主片段 tornado/ioloop.py 610-707，确认 spawn_callback/add_future/run_in_executor/set_default_executor/_run_callback/_discard_future_result/handle_callback_exception 的定义\",\"读取上下文 add_callback 抽象定义 590-603 与实现 1020-1034，确认 _closing 时静默丢弃回调、stack_context.wrap 包装\",\"读取 tornado/process.py cpu_count 60-73，确认返回至少 1 的整数\",\"读取 demos/benchmark/chunk_benchmark.py callback 30-34，确认 add_future 回调接收 future 参数\"],\"hypotheses\":[{\"claim\":\"_run_callback 中 ret 为 Future 且已完成并带异常时，add_future 会通过 _discard_future_result 调用 future.result() 重新抛出异常，但该调用发生在 add_done_callback 的调度路径中，可能未被 handle_callback_exception 捕获\",\"expected_behavior\":\"回调返回的 Future 的异常应被记录到日志，而不是产生未处理异常警告或逃逸出 _run_callback\",\"counterexample\":\"callback 返回一个已 set_exception 的 Future；_run_callback 调用 gen.convert_yielded 成功，add_future 注册 _discard_future_result；future 已完成，add_done_callback 立即调度 lambda -> self.add_callback(callback, future)，随后 _discard_future_result 调用 future.result() 抛出原异常\",\"contract\":\"_run_callback 的注释承诺：若 Future 逃逸到 IOLoop，其异常（若有）也要被记录\"},{\"claim\":\"run_in_executor 在 executor 为 None 时惰性创建 self._executor，但 set_default_executor 可设置任意对象；若传入非 Executor 对象，submit 调用失败\",\"expected_behavior\":\"set_default_executor 应接受 Executor 实例；run_in_executor 应使用它\",\"counterexample\":\"set_default_executor(None) 后再 run_in_executor(None, f)：executor 为 None 时 hasattr(self,'_executor') 为 True，executor=self._executor 为 None，随后 None.submit 抛 AttributeError\",\"contract\":\"set_default_executor 文档称设置 run_in_executor 使用的默认 executor\"},{\"claim\":\"add_future 对已完成的 future 会同步触发 add_done_callback，从而在调用者线程立即 add_callback；若在 IOLoop 关闭后调用，回调被静默丢弃\",\"expected_behavior\":\"add_future 应在 future 完成时调度回调；关闭后行为应与 add_callback 一致（静默丢弃）\",\"counterexample\":\"IOLoop 已 close，future 已完成，add_future(future, cb) 注册后立即 add_callback，因 _closing 为 True 直接 return，cb 永不执行且无提示\",\"contract\":\"add_future 文档称 future 完成时在 IOLoop 上调度回调\"},{\"claim\":\"_run_callback 捕获 Exception 但 callback 返回的 Future 若在 convert_yielded 中抛出非 BadYieldError 异常，会被外层 except 捕获并调用 handle_callback_exception，行为正确；但若 callback 返回非 None 非 yieldable 且 convert_yielded 抛 BadYieldError 被吞掉，属预期\",\"expected_behavior\":\"非 yieldable 返回值应被忽略\",\"counterexample\":\"callback 返回整数 42：convert_yielded 抛 BadYieldError，被 pass 吞掉，无异常，符合注释\",\"contract\":\"注释称返回非 None 非 yieldable 结果应被忽略\"}],\"findings\":[{\"path\":\"tornado/ioloop.py\",\"line\":690,\"end_line\":692,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"_discard_future_result 在 future 已完成时同步抛出异常，可能逃逸 _run_callback 的错误处理\",\"explanation\":\"_run_callback 对 callback 返回的 Future 调用 add_future(ret, self._discard_future_result)。add_future 使用 future.add_done_callback(lambda future: self.add_callback(callback, future))。当 ret 在注册时已经完成（例如 callback 返回一个已 set_exception 的 Future），add_done_callback 会立即调用 lambda，进而 self.add_callback 把 _discard_future_result 排入队列；随后 _discard_future_result 调用 future.result() 重新抛出原异常。该异常发生在回调执行路径中，若未被 handle_callback_exception 包裹，会以未处理异常形式出现，与注释承诺的“确保异常被记录”不一致。\",\"trigger\":\"callback 返回一个已经 set_exception 的 Future，且该 Future 在 add_future 注册时已完成。\",\"evidence\":\"主片段 678-686：convert_yielded 成功后调用 self.add_future(ret, self._discard_future_result)；690-692：_discard_future_result 直接 future.result() 无 try/except。add_future 639-640 使用 add_done_callback 包装为 add_callback。\",\"suggestion\":\"在 _discard_future_result 中捕获异常并记录，或确保其通过 handle_callback_exception 路径处理，避免异常逃逸。\"},{\"path\":\"tornado/ioloop.py\",\"line\":653,\"end_line\":659,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"set_default_executor(None) 后 run_in_executor 使用 None 作为 executor 导致 AttributeError\",\"explanation\":\"run_in_executor 仅在 not hasattr(self, '_executor') 时惰性创建默认 executor。若调用方先 set_default_executor(None)，则 _executor 属性存在但值为 None，run_in_executor(None, f) 会走 executor = self._executor 分支得到 None，随后 None.submit 抛 AttributeError，而非回退到默认线程池或给出明确错误。\",\"trigger\":\"set_default_executor(None) 后调用 run_in_executor(None, func)。\",\"evidence\":\"653-657：if executor is None: if not hasattr(self,'_executor'): 创建；executor = self._executor。661-663：set_default_executor 直接赋值 self._executor = executor，无校验。\",\"suggestion\":\"在 run_in_executor 中判断 self._executor 是否为 None 再惰性创建，或在 set_default_executor 拒绝 None。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review_hypothesis",
+    "status": "completed",
+    "input_chars": 10181,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1419,
+      "prompt_tokens": 3131,
+      "total_tokens": 4550,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 896
+      },
+      "prompt_cache_hit_tokens": 896,
+      "prompt_cache_miss_tokens": 2235
+    },
+    "elapsed_seconds": 6.551
+  }
+}

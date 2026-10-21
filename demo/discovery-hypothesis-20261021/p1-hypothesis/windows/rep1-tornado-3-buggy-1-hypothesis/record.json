@@ -1,0 +1,214 @@
+{
+  "case": "tornado-3",
+  "side": "buggy",
+  "repetition": 1,
+  "strategy": "hypothesis",
+  "path": "tornado/httpclient.py",
+  "start": 188,
+  "end": 286,
+  "name": "rep1-tornado-3-buggy-1-hypothesis",
+  "status": "completed",
+  "error": null,
+  "api_calls": 1,
+  "calls": [
+    {
+      "stage": "review_hypothesis",
+      "status": "completed",
+      "input_chars": 12757,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1118,
+        "prompt_tokens": 3826,
+        "total_tokens": 4944,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 896
+        },
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 2930
+      },
+      "elapsed_seconds": 6.101
+    }
+  ],
+  "findings": [
+    {
+      "path": "tornado/httpclient.py",
+      "line": 209,
+      "end_line": 209,
+      "severity": "high",
+      "category": "bug",
+      "title": "__new__ 在 initialize 之前访问 instance.io_loop 导致首次构造失败",
+      "explanation": "__new__ 第209行使用 instance.io_loop 作为缓存键，但 io_loop 属性仅在 initialize() 中设置（第213行），而 initialize 由 __init__ 在 __new__ 返回之后调用。首次创建非 force_instance 客户端时，instance.io_loop 尚不存在，触发 AttributeError，使默认客户端无法构造。",
+      "trigger": "AsyncHTTPClient()（force_instance=False，缓存为空）首次调用",
+      "evidence": "第207行设置 _instance_cache；第209行 instance_cache[instance.io_loop]=instance；第213行 initialize 才 self.io_loop = IOLoop.current()。__new__ 早于 __init__/initialize 执行。",
+      "suggestion": "在 __new__ 中使用已取得的局部变量 io_loop 作为缓存键：instance_cache[io_loop] = instance，或在 __new__ 中提前设置 instance.io_loop。",
+      "id": "7d27922faad9",
+      "source": "llm",
+      "rule": "",
+      "snippet": "207:         instance._instance_cache = instance_cache\n208:         if instance_cache is not None:\n209:             instance_cache[instance.io_loop] = instance\n210:         return instance\n211: ",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    },
+    {
+      "path": "tornado/httpclient.py",
+      "line": 286,
+      "end_line": 286,
+      "severity": "medium",
+      "category": "bug",
+      "title": "fetch 修改调用方传入的 HTTPRequest.headers，违背注释承诺",
+      "explanation": "第283-285行注释声明“make sure we don't modify the caller's object”，但第286行直接把 request.headers 重新赋值为新的 HTTPHeaders 实例。当 request 是调用方传入的 HTTPRequest 对象时，该对象的 headers 属性被就地替换，调用方后续读取会看到类型/内容变化，违背不修改调用方对象的契约。",
+      "trigger": "r=HTTPRequest('http://x', headers={'a':'b'}); client.fetch(r); 之后检查 r.headers",
+      "evidence": "第276-282行仅在 request 非 HTTPRequest 时新建对象；第286行 request.headers = httputil.HTTPHeaders(request.headers) 对传入对象生效。",
+      "suggestion": "对传入的 HTTPRequest 先做浅拷贝（如 copy.copy(request)）再修改 headers，或仅在内部副本上设置 headers。",
+      "id": "5545a9c6ae93",
+      "source": "llm",
+      "rule": "",
+      "snippet": "284:         # so make sure we don't modify the caller's object.  This is also\n285:         # where normal dicts get converted to HTTPHeaders objects.\n286:         request.headers = httputil.HTTPHeaders(request.headers)\n287:         request_proxy = _RequestProxy(request, self.defaults)\n288:         future = Future()  # type: Future[HTTPResponse]",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286,
+      "strategy": "legacy",
+      "payload_sha256": "43e81c23e616bc390d332b673a979c0ff1cd5dde88af7a5ce8cf69d1c15e5ddc",
+      "supplemental_chars": 4776,
+      "sources": [
+        {
+          "path": "tornado/httpclient.py",
+          "name": "HTTPRequest",
+          "line": 330,
+          "end": 558
+        },
+        {
+          "path": "maint/benchmark/chunk_benchmark.py",
+          "name": "get",
+          "line": 23,
+          "end": 27
+        },
+        {
+          "path": "demos/helloworld/helloworld.py",
+          "name": "get",
+          "line": 28,
+          "end": 29
+        },
+        {
+          "path": "demos/websocket/chatdemo.py",
+          "name": "get",
+          "line": 48,
+          "end": 49
+        }
+      ]
+    },
+    {
+      "stage": "hypothesis_review",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286,
+      "checked": [
+        "读取主片段 tornado/httpclient.py:188-286，确认 __new__/initialize/close/fetch 的契约",
+        "读取上下文 HTTPRequest.__init__ 与 _DEFAULTS（330-409），确认 fetch 中 HTTPRequest(url=request, **kwargs) 的合法参数与默认值",
+        "核对 close() 文档字符串声明“close 后不得调用任何其他方法”，与 fetch 的 _closed 检查",
+        "核对 __new__ 中 instance_cache 与 instance.io_loop 的写入时机（initialize 在 __new__ 之后由 __init__ 调用）"
+      ],
+      "hypotheses": [
+        {
+          "claim": "__new__ 在 initialize 之前访问 instance.io_loop，可能触发 AttributeError",
+          "expected_behavior": "缓存键应使用 __new__ 中已取得的 io_loop，或保证 io_loop 在写入缓存前已初始化",
+          "counterexample": "AsyncHTTPClient() 首次调用：__new__ 第209行 instance_cache[instance.io_loop] 在 initialize 设置 self.io_loop 之前执行",
+          "contract": "__new__ 返回前实例应可安全访问 io_loop 属性"
+        },
+        {
+          "claim": "force_instance=True 时 _instance_cache 为 None，close() 不清理，但 fetch 仍检查 _closed，行为一致",
+          "expected_behavior": "force_instance 实例 close 后 fetch 抛 RuntimeError",
+          "counterexample": "c=AsyncHTTPClient(force_instance=True); c.close(); c.fetch('http://x') 预期 RuntimeError",
+          "contract": "close 后不得调用其他方法"
+        },
+        {
+          "claim": "fetch 传入 HTTPRequest 且 kwargs 非空时抛 ValueError，但字符串 URL 时 kwargs 被透传给 HTTPRequest，非法 kwarg 抛 TypeError",
+          "expected_behavior": "两种错误路径应可区分且文档化",
+          "counterexample": "fetch(HTTPRequest('http://x'), foo=1) 抛 ValueError；fetch('http://x', foo=1) 抛 TypeError",
+          "contract": "fetch 的 kwargs 语义在两种输入下应一致"
+        },
+        {
+          "claim": "close() 中缓存一致性检查在缓存已被替换时抛 RuntimeError，可能影响正常关闭",
+          "expected_behavior": "若缓存条目已被新实例覆盖，close 应安全移除自身或忽略",
+          "counterexample": "c1=AsyncHTTPClient(); 缓存被清空后 c1.close() 触发 'inconsistent AsyncHTTPClient cache'",
+          "contract": "close 应幂等且不因缓存状态抛错"
+        },
+        {
+          "claim": "fetch 中 request.headers 被复制为 HTTPHeaders，但若 request 是字符串构造的新对象则无副作用；对传入 HTTPRequest 会修改调用方对象",
+          "expected_behavior": "注释称不修改调用方对象，但第286行直接赋值 request.headers 修改了传入的 HTTPRequest 实例",
+          "counterexample": "r=HTTPRequest('http://x', headers={'a':'b'}); c.fetch(r); r.headers 变为 HTTPHeaders 实例",
+          "contract": "注释声明不修改调用方对象"
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286,
+      "strategy": "hypothesis",
+      "findings": [
+        {
+          "path": "tornado/httpclient.py",
+          "line": 209,
+          "end_line": 209,
+          "severity": "high",
+          "category": "bug",
+          "title": "__new__ 在 initialize 之前访问 instance.io_loop 导致首次构造失败",
+          "explanation": "__new__ 第209行使用 instance.io_loop 作为缓存键，但 io_loop 属性仅在 initialize() 中设置（第213行），而 initialize 由 __init__ 在 __new__ 返回之后调用。首次创建非 force_instance 客户端时，instance.io_loop 尚不存在，触发 AttributeError，使默认客户端无法构造。",
+          "trigger": "AsyncHTTPClient()（force_instance=False，缓存为空）首次调用",
+          "evidence": "第207行设置 _instance_cache；第209行 instance_cache[instance.io_loop]=instance；第213行 initialize 才 self.io_loop = IOLoop.current()。__new__ 早于 __init__/initialize 执行。",
+          "suggestion": "在 __new__ 中使用已取得的局部变量 io_loop 作为缓存键：instance_cache[io_loop] = instance，或在 __new__ 中提前设置 instance.io_loop。",
+          "id": "7d27922faad9",
+          "source": "llm",
+          "rule": "",
+          "snippet": "207:         instance._instance_cache = instance_cache\n208:         if instance_cache is not None:\n209:             instance_cache[instance.io_loop] = instance\n210:         return instance\n211: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "tornado/httpclient.py",
+          "line": 286,
+          "end_line": 286,
+          "severity": "medium",
+          "category": "bug",
+          "title": "fetch 修改调用方传入的 HTTPRequest.headers，违背注释承诺",
+          "explanation": "第283-285行注释声明“make sure we don't modify the caller's object”，但第286行直接把 request.headers 重新赋值为新的 HTTPHeaders 实例。当 request 是调用方传入的 HTTPRequest 对象时，该对象的 headers 属性被就地替换，调用方后续读取会看到类型/内容变化，违背不修改调用方对象的契约。",
+          "trigger": "r=HTTPRequest('http://x', headers={'a':'b'}); client.fetch(r); 之后检查 r.headers",
+          "evidence": "第276-282行仅在 request 非 HTTPRequest 时新建对象；第286行 request.headers = httputil.HTTPHeaders(request.headers) 对传入对象生效。",
+          "suggestion": "对传入的 HTTPRequest 先做浅拷贝（如 copy.copy(request)）再修改 headers，或仅在内部副本上设置 headers。",
+          "id": "5545a9c6ae93",
+          "source": "llm",
+          "rule": "",
+          "snippet": "284:         # so make sure we don't modify the caller's object.  This is also\n285:         # where normal dicts get converted to HTTPHeaders objects.\n286:         request.headers = httputil.HTTPHeaders(request.headers)\n287:         request_proxy = _RequestProxy(request, self.defaults)\n288:         future = Future()  # type: Future[HTTPResponse]",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ]
+    }
+  ],
+  "tool_reads": [],
+  "elapsed_seconds": 6.113,
+  "folder": "windows/rep1-tornado-3-buggy-1-hypothesis"
+}

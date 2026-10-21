@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 3,
+    "phase": "p1-hypothesis",
+    "label": {
+      "case": "tornado-1",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "hypothesis",
+      "path": "tornado/websocket.py",
+      "start": 669,
+      "end": 763
+    },
+    "reserved_at": "2026-10-21T13:35:20.572402+00:00"
+  },
+  "raw_response": "{\"checked\":[\"读取主片段 tornado/websocket.py:669-763，确认抽象接口与 _PerMessageDeflateCompressor 实现\",\"读取上下文 compress/flush 桩定义 63-67 行\",\"读取 WebSocketHandler.close 471-489 行，确认委托 ws_connection.close\",\"读取 WebSocketProtocol13.close 1258-1285 行，确认 code/reason 处理与 _waiting 生命周期\"],\"hypotheses\":[{\"claim\":\"max_wbits 校验使用 not (8 <= max_wbits <= zlib.MAX_WBITS)，当 max_wbits 为非整数（如字符串）时比较会抛 TypeError 而非 ValueError\",\"expected_behavior\":\"非法 max_wbits 应统一抛出 ValueError 并给出允许范围\",\"counterexample\":\"_PerMessageDeflateCompressor(True, '9') 触发 TypeError: '<=' not supported between 'int' and 'str'\",\"contract\":\"构造函数文档/错误信息声明非法 max_wbits 抛 ValueError\"},{\"claim\":\"compression_options 中 compression_level 或 mem_level 为 None/非法值时未校验，直接传给 zlib.compressobj\",\"expected_behavior\":\"非法压缩参数应在构造时以明确错误拒绝\",\"counterexample\":\"compression_options={'compression_level': None} 时 zlib.compressobj(None,...) 抛 TypeError\",\"contract\":\"构造函数应对 compression_options 做有效性校验\"},{\"claim\":\"compress 在非持久模式下每次新建 compressor，flush 后断言尾部标记；若输入为空 bytes 仍应返回空\",\"expected_behavior\":\"compress(b'') 返回 b''\",\"counterexample\":\"compress(b'') 时 compressor.compress(b'')+flush 得到 b'\\\\x00\\\\x00\\\\xff\\\\xff'，切片后为 b''，符合预期，不构成缺陷\",\"contract\":\"compress 返回去掉尾部 4 字节的压缩数据\"},{\"claim\":\"close(code, reason) 中 code 为 None 且 reason 非 None 时补 1000，但 code 非 None 且 reason 为 None 时正常；若 code 超出 0-65535，struct.pack('>H') 抛 struct.error 未捕获\",\"expected_behavior\":\"非法 code 应被拒绝或转为协议错误而非未捕获异常\",\"counterexample\":\"ws.close(code=70000) 触发 struct.error: 'H' format requires 0 <= number <= 65535\",\"contract\":\"close 接受 RFC6455 状态码\"}],\"findings\":[{\"path\":\"tornado/websocket.py\",\"line\":728,\"end_line\":733,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"max_wbits 非整数时抛 TypeError 而非声明的 ValueError\",\"explanation\":\"构造函数用链式比较 8 <= max_wbits <= zlib.MAX_WBITS 校验，但未先确认 max_wbits 为整数。若调用方传入字符串或其他不可比较类型，比较表达式抛 TypeError，与错误信息声明的 ValueError 契约不一致，调用方按 ValueError 捕获会漏掉。\",\"trigger\":\"_PerMessageDeflateCompressor(persistent=True, max_wbits='9')\",\"evidence\":\"728-733 行：if not (8 <= max_wbits <= zlib.MAX_WBITS): raise ValueError(...)。对 str 与 int 做 <= 比较在 Python3 抛 TypeError。\",\"suggestion\":\"在比较前用 isinstance(max_wbits, int) 校验，非整数时同样抛 ValueError。\"},{\"path\":\"tornado/websocket.py\",\"line\":736,\"end_line\":747,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"compression_options 的 compression_level/mem_level 未做类型与范围校验\",\"explanation\":\"代码仅检查键是否存在，存在即直接赋值，随后在 _create_compressor 中传给 zlib.compressobj。若值为 None 或超出 zlib 允许范围，错误延迟到首次压缩时才以 TypeError/zlib.error 暴露，且非持久模式下每次 compress 都会重建并再次失败。\",\"trigger\":\"_PerMessageDeflateCompressor(True, None, {'compression_level': None}) 后调用 compress(b'x')\",\"evidence\":\"736-747 行只做 'compression_level' not in compression_options 判断；754-757 行直接 zlib.compressobj(self._compression_level, ...)。\",\"suggestion\":\"在构造时校验 compression_level 为 -1..9 的整数、mem_level 为 1..9 的整数，否则抛 ValueError。\"},{\"path\":\"tornado/websocket.py\",\"line\":1264,\"end_line\":1271,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"close 中非法 code 触发未捕获 struct.error\",\"explanation\":\"close 用 struct.pack('>H', code) 编码状态码，但未校验 code 范围。传入超出 0-65535 的整数时抛 struct.error，该异常不在 try 捕获的 StreamClosedError 内，会向上传播而非走 _abort 清理路径，可能使连接状态不一致。\",\"trigger\":\"WebSocketProtocol13.close(code=70000)\",\"evidence\":\"1267 行 struct.pack('>H', code)；1270-1273 行仅捕获 StreamClosedError。\",\"suggestion\":\"在 pack 前校验 0 <= code <= 65535，非法时抛 ValueError 或回退到 1002 协议错误码。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review_hypothesis",
+    "status": "completed",
+    "input_chars": 9728,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1160,
+      "prompt_tokens": 3040,
+      "total_tokens": 4200,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 896
+      },
+      "prompt_cache_hit_tokens": 896,
+      "prompt_cache_miss_tokens": 2144
+    },
+    "elapsed_seconds": 5.692
+  }
+}

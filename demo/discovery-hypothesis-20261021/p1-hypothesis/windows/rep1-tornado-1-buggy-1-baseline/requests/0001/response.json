@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 1,
+    "phase": "p1-hypothesis",
+    "label": {
+      "case": "tornado-1",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "tornado/websocket.py",
+      "start": 513,
+      "end": 609
+    },
+    "reserved_at": "2026-10-21T13:35:12.930010+00:00"
+  },
+  "raw_response": "{\"findings\":[]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 11532,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 6,
+      "prompt_tokens": 3334,
+      "total_tokens": 3340,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 640
+      },
+      "prompt_cache_hit_tokens": 640,
+      "prompt_cache_miss_tokens": 2694
+    },
+    "elapsed_seconds": 1.984
+  }
+}

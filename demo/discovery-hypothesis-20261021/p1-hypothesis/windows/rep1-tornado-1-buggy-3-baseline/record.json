@@ -1,0 +1,212 @@
+{
+  "case": "tornado-1",
+  "side": "buggy",
+  "repetition": 1,
+  "strategy": "baseline",
+  "path": "tornado/websocket.py",
+  "start": 1300,
+  "end": 1395,
+  "name": "rep1-tornado-1-buggy-3-baseline",
+  "status": "completed",
+  "error": null,
+  "api_calls": 1,
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 8376,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 826,
+        "prompt_tokens": 2646,
+        "total_tokens": 3472,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 2006
+      },
+      "elapsed_seconds": 4.646
+    }
+  ],
+  "findings": [
+    {
+      "path": "tornado/websocket.py",
+      "line": 1366,
+      "end_line": 1366,
+      "severity": "medium",
+      "category": "bug",
+      "title": "可变默认参数 subprotocols=[] 在实例间共享",
+      "explanation": "WebSocketClientConnection.__init__ 的 subprotocols 参数默认值为可变列表 []。虽然当前片段内只读取该参数（第1392-1393行 join），但默认列表对象在函数定义时创建一次，所有未传该参数的实例共享同一列表对象。若任何调用方或子类修改该列表（例如 append 子协议），会污染后续实例的默认值，导致意外的 Sec-WebSocket-Protocol 头。这是 Python 可变默认参数的经典缺陷。",
+      "trigger": "创建两个 WebSocketClientConnection 实例均不传 subprotocols，对第一个实例的 subprotocols 参数所引用的列表执行 append('x')（例如通过反射或子类），第二个实例构造时第1393行会发送 'x' 作为协议头。",
+      "evidence": "第1366行：subprotocols: Optional[List[str]] = []；第1392-1393行直接使用该列表 join，未复制。",
+      "suggestion": "将默认值改为 None，并在函数体内 subprotocols = [] if subprotocols is None else subprotocols，或使用不可变默认值。",
+      "id": "7d53e45885a2",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1364:         ping_timeout: float = None,\n1365:         max_message_size: int = _default_max_message_size,\n1366:         subprotocols: Optional[List[str]] = [],\n1367:     ) -> None:\n1368:         self.connect_future = Future()  # type: Future[WebSocketClientConnection]",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 1382,
+      "end_line": 1382,
+      "severity": "medium",
+      "category": "bug",
+      "title": "非 ws/wss 协议 URL 触发 KeyError 而非明确错误",
+      "explanation": "第1381-1382行用 request.url.partition(':') 取 scheme，然后直接以 scheme 为键查字典 {\"ws\":\"http\",\"wss\":\"https\"}。若调用方传入 http:// 或 https:// 或缺少冒号的 URL，会抛出 KeyError，而不是给出清晰的参数错误。websocket_connect 的契约要求 ws/wss URL，但错误类型不友好且难以诊断。",
+      "trigger": "websocket_connect('http://example.com/ws') 或 URL 无冒号时，第1382行字典查找抛 KeyError: 'http'。",
+      "evidence": "第1381行 scheme, sep, rest = request.url.partition(\":\")；第1382行 scheme = {\"ws\": \"http\", \"wss\": \"https\"}[scheme]。",
+      "suggestion": "使用 dict.get 并在缺失时抛出 ValueError 或 tornado 的 HTTPInputError，说明仅支持 ws/wss。",
+      "id": "047892d7d00d",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1380: \n1381:         scheme, sep, rest = request.url.partition(\":\")\n1382:         scheme = {\"ws\": \"http\", \"wss\": \"https\"}[scheme]\n1383:         request.url = scheme + sep + rest\n1384:         request.headers.update(",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    },
+    {
+      "path": "tornado/websocket.py",
+      "line": 1308,
+      "end_line": 1309,
+      "severity": "low",
+      "category": "bug",
+      "title": "ping_timeout 在 ping_interval 为 None 时断言失败",
+      "explanation": "ping_timeout 属性在 params.ping_timeout 为 None 时断言 self.ping_interval is not None，然后返回 max(3*ping_interval,30)。若用户只设置 ping_timeout 而未设置 ping_interval，ping_interval 为 None，访问 ping_timeout 会触发 AssertionError。虽然 start_pinging 只在 ping_interval>0 时启动，但 ping_timeout 是公开属性，外部读取时可能崩溃；且 -O 下断言移除后会对 None 做乘法抛 TypeError。",
+      "trigger": "构造 _WebSocketParams(ping_interval=None, ping_timeout=None) 后访问 ping_timeout 属性。",
+      "evidence": "第1305-1309行：timeout 为 None 时 assert self.ping_interval is not None，随后 3 * self.ping_interval。",
+      "suggestion": "在 ping_interval 为 None 时返回 None 或默认值，而不是断言；或明确文档化该属性仅在 ping_interval 设置后可用。",
+      "id": "cd258142af9f",
+      "source": "llm",
+      "rule": "",
+      "snippet": "1306:         if timeout is not None:\n1307:             return timeout\n1308:         assert self.ping_interval is not None\n1309:         return max(3 * self.ping_interval, 30)\n1310: \n1311:     def start_pinging(self) -> None:",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "tornado/websocket.py",
+      "start": 1300,
+      "end": 1395,
+      "strategy": "legacy",
+      "payload_sha256": "6fca42201c655e7143df4b731f8c6fe218358a77fba55206ae4979a7744d6390",
+      "supplemental_chars": 2011,
+      "sources": [
+        {
+          "path": "tornado/websocket.py",
+          "name": "_WebSocketParams",
+          "line": 122,
+          "end": 133
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "close",
+          "line": 471,
+          "end": 489
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "close",
+          "line": 673,
+          "end": 674
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "is_closing",
+          "line": 677,
+          "end": 678
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "tornado/websocket.py",
+      "start": 1300,
+      "end": 1395,
+      "strategy": "baseline",
+      "findings": [
+        {
+          "path": "tornado/websocket.py",
+          "line": 1366,
+          "end_line": 1366,
+          "severity": "medium",
+          "category": "bug",
+          "title": "可变默认参数 subprotocols=[] 在实例间共享",
+          "explanation": "WebSocketClientConnection.__init__ 的 subprotocols 参数默认值为可变列表 []。虽然当前片段内只读取该参数（第1392-1393行 join），但默认列表对象在函数定义时创建一次，所有未传该参数的实例共享同一列表对象。若任何调用方或子类修改该列表（例如 append 子协议），会污染后续实例的默认值，导致意外的 Sec-WebSocket-Protocol 头。这是 Python 可变默认参数的经典缺陷。",
+          "trigger": "创建两个 WebSocketClientConnection 实例均不传 subprotocols，对第一个实例的 subprotocols 参数所引用的列表执行 append('x')（例如通过反射或子类），第二个实例构造时第1393行会发送 'x' 作为协议头。",
+          "evidence": "第1366行：subprotocols: Optional[List[str]] = []；第1392-1393行直接使用该列表 join，未复制。",
+          "suggestion": "将默认值改为 None，并在函数体内 subprotocols = [] if subprotocols is None else subprotocols，或使用不可变默认值。",
+          "id": "7d53e45885a2",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1364:         ping_timeout: float = None,\n1365:         max_message_size: int = _default_max_message_size,\n1366:         subprotocols: Optional[List[str]] = [],\n1367:     ) -> None:\n1368:         self.connect_future = Future()  # type: Future[WebSocketClientConnection]",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "tornado/websocket.py",
+          "line": 1382,
+          "end_line": 1382,
+          "severity": "medium",
+          "category": "bug",
+          "title": "非 ws/wss 协议 URL 触发 KeyError 而非明确错误",
+          "explanation": "第1381-1382行用 request.url.partition(':') 取 scheme，然后直接以 scheme 为键查字典 {\"ws\":\"http\",\"wss\":\"https\"}。若调用方传入 http:// 或 https:// 或缺少冒号的 URL，会抛出 KeyError，而不是给出清晰的参数错误。websocket_connect 的契约要求 ws/wss URL，但错误类型不友好且难以诊断。",
+          "trigger": "websocket_connect('http://example.com/ws') 或 URL 无冒号时，第1382行字典查找抛 KeyError: 'http'。",
+          "evidence": "第1381行 scheme, sep, rest = request.url.partition(\":\")；第1382行 scheme = {\"ws\": \"http\", \"wss\": \"https\"}[scheme]。",
+          "suggestion": "使用 dict.get 并在缺失时抛出 ValueError 或 tornado 的 HTTPInputError，说明仅支持 ws/wss。",
+          "id": "047892d7d00d",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1380: \n1381:         scheme, sep, rest = request.url.partition(\":\")\n1382:         scheme = {\"ws\": \"http\", \"wss\": \"https\"}[scheme]\n1383:         request.url = scheme + sep + rest\n1384:         request.headers.update(",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "tornado/websocket.py",
+          "line": 1308,
+          "end_line": 1309,
+          "severity": "low",
+          "category": "bug",
+          "title": "ping_timeout 在 ping_interval 为 None 时断言失败",
+          "explanation": "ping_timeout 属性在 params.ping_timeout 为 None 时断言 self.ping_interval is not None，然后返回 max(3*ping_interval,30)。若用户只设置 ping_timeout 而未设置 ping_interval，ping_interval 为 None，访问 ping_timeout 会触发 AssertionError。虽然 start_pinging 只在 ping_interval>0 时启动，但 ping_timeout 是公开属性，外部读取时可能崩溃；且 -O 下断言移除后会对 None 做乘法抛 TypeError。",
+          "trigger": "构造 _WebSocketParams(ping_interval=None, ping_timeout=None) 后访问 ping_timeout 属性。",
+          "evidence": "第1305-1309行：timeout 为 None 时 assert self.ping_interval is not None，随后 3 * self.ping_interval。",
+          "suggestion": "在 ping_interval 为 None 时返回 None 或默认值，而不是断言；或明确文档化该属性仅在 ping_interval 设置后可用。",
+          "id": "cd258142af9f",
+          "source": "llm",
+          "rule": "",
+          "snippet": "1306:         if timeout is not None:\n1307:             return timeout\n1308:         assert self.ping_interval is not None\n1309:         return max(3 * self.ping_interval, 30)\n1310: \n1311:     def start_pinging(self) -> None:",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ]
+    }
+  ],
+  "tool_reads": [],
+  "elapsed_seconds": 4.657,
+  "folder": "windows/rep1-tornado-1-buggy-3-baseline"
+}

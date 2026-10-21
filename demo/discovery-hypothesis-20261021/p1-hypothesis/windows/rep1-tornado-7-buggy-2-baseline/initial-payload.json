@@ -1,0 +1,37 @@
+{
+  "primary_path": "tornado/ioloop.py",
+  "start": 610,
+  "end": 707,
+  "code": "610: \n611:         Callbacks added with this method will be run without any\n612:         `.stack_context`, to avoid picking up the context of the function\n613:         that was interrupted by the signal.\n614:         \"\"\"\n615:         raise NotImplementedError()\n616: \n617:     def spawn_callback(self, callback, *args, **kwargs):\n618:         \"\"\"Calls the given callback on the next IOLoop iteration.\n619: \n620:         Unlike all other callback-related methods on IOLoop,\n621:         ``spawn_callback`` does not associate the callback with its caller's\n622:         ``stack_context``, so it is suitable for fire-and-forget callbacks\n623:         that should not interfere with the caller.\n624: \n625:         .. versionadded:: 4.0\n626:         \"\"\"\n627:         with stack_context.NullContext():\n628:             self.add_callback(callback, *args, **kwargs)\n629: \n630:     def add_future(self, future, callback):\n631:         \"\"\"Schedules a callback on the ``IOLoop`` when the given\n632:         `.Future` is finished.\n633: \n634:         The callback is invoked with one argument, the\n635:         `.Future`.\n636:         \"\"\"\n637:         assert is_future(future)\n638:         callback = stack_context.wrap(callback)\n639:         future.add_done_callback(\n640:             lambda future: self.add_callback(callback, future))\n641: \n642:     def run_in_executor(self, executor, func, *args):\n643:         \"\"\"Runs a function in a ``concurrent.futures.Executor``. If\n644:         ``executor`` is ``None``, the IO loop's default executor will be used.\n645: \n646:         Use `functools.partial` to pass keyword arguments to `func`.\n647: \n648:         \"\"\"\n649:         if ThreadPoolExecutor is None:\n650:             raise RuntimeError(\n651:                 \"concurrent.futures is required to use IOLoop.run_in_executor\")\n652: \n653:         if executor is None:\n654:             if not hasattr(self, '_executor'):\n655:                 from tornado.process import cpu_count\n656:                 self._executor = ThreadPoolExecutor(max_workers=(cpu_count() * 5))\n657:             executor = self._executor\n658: \n659:         return executor.submit(func, *args)\n660: \n661:     def set_default_executor(self, executor):\n662:         \"\"\"Sets the default executor to use with :meth:`run_in_executor`.\"\"\"\n663:         self._executor = executor\n664: \n665:     def _run_callback(self, callback):\n666:         \"\"\"Runs a callback with error handling.\n667: \n668:         For use in subclasses.\n669:         \"\"\"\n670:         try:\n671:             ret = callback()\n672:             if ret is not None:\n673:                 from tornado import gen\n674:                 # Functions that return Futures typically swallow all\n675:                 # exceptions and store them in the Future.  If a Future\n676:                 # makes it out to the IOLoop, ensure its exception (if any)\n677:                 # gets logged too.\n678:                 try:\n679:                     ret = gen.convert_yielded(ret)\n680:                 except gen.BadYieldError:\n681:                     # It's not unusual for add_callback to be used with\n682:                     # methods returning a non-None and non-yieldable\n683:                     # result, which should just be ignored.\n684:                     pass\n685:                 else:\n686:                     self.add_future(ret, self._discard_future_result)\n687:         except Exception:\n688:             self.handle_callback_exception(callback)\n689: \n690:     def _discard_future_result(self, future):\n691:         \"\"\"Avoid unhandled-exception warnings from spawned coroutines.\"\"\"\n692:         future.result()\n693: \n694:     def handle_callback_exception(self, callback):\n695:         \"\"\"This method is called whenever a callback run by the `IOLoop`\n696:         throws an exception.\n697: \n698:         By default simply logs the exception as an error.  Subclasses\n699:         may override this method to customize reporting of exceptions.\n700: \n701:         The exception itself is not passed explicitly, but is available\n702:         in `sys.exc_info`.\n703:         \"\"\"\n704:         app_log.error(\"Exception in callback %r\", callback, exc_info=True)\n705: \n706:     def split_fd(self, fd):\n707:         \"\"\"Returns an (fd, obj) pair from an ``fd`` parameter.",
+  "context": [
+    {
+      "path": "tornado/ioloop.py",
+      "name": "add_callback",
+      "line": 590,
+      "end": 603,
+      "code": "590:     def add_callback(self, callback, *args, **kwargs):\n591:         \"\"\"Calls the given callback on the next I/O loop iteration.\n592: \n593:         It is safe to call this method from any thread at any time,\n594:         except from a signal handler.  Note that this is the **only**\n595:         method in `IOLoop` that makes this thread-safety guarantee; all\n596:         other interaction with the `IOLoop` must be done from that\n597:         `IOLoop`'s thread.  `add_callback()` may be used to transfer\n598:         control from other threads to the `IOLoop`'s thread.\n599: \n600:         To add a callback from a signal handler, see\n601:         `add_callback_from_signal`.\n602:         \"\"\"\n603:         raise NotImplementedError()"
+    },
+    {
+      "path": "tornado/ioloop.py",
+      "name": "add_callback",
+      "line": 1020,
+      "end": 1034,
+      "code": "1020:     def add_callback(self, callback, *args, **kwargs):\n1021:         if self._closing:\n1022:             return\n1023:         # Blindly insert into self._callbacks. This is safe even\n1024:         # from signal handlers because deque.append is atomic.\n1025:         self._callbacks.append(functools.partial(\n1026:             stack_context.wrap(callback), *args, **kwargs))\n1027:         if thread.get_ident() != self._thread_ident:\n1028:             # This will write one byte but Waker.consume() reads many\n1029:             # at once, so it's ok to write even when not strictly\n1030:             # necessary.\n1031:             self._waker.wake()\n1032:         else:\n1033:             # If we're on the IOLoop's thread, we don't need to wake anyone.\n1034:             pass"
+    },
+    {
+      "path": "demos/benchmark/chunk_benchmark.py",
+      "name": "callback",
+      "line": 30,
+      "end": 34,
+      "code": "30:     def callback(response):\n31:         response.rethrow()\n32:         assert len(response.body) == (options.num_chunks * options.chunk_size)\n33:         logging.warning(\"fetch completed in %s seconds\", response.request_time)\n34:         IOLoop.current().stop()"
+    },
+    {
+      "path": "tornado/process.py",
+      "name": "cpu_count",
+      "line": 60,
+      "end": 73,
+      "code": "60: def cpu_count():\n61:     \"\"\"Returns the number of processors on this machine.\"\"\"\n62:     if multiprocessing is None:\n63:         return 1\n64:     try:\n65:         return multiprocessing.cpu_count()\n66:     except NotImplementedError:\n67:         pass\n68:     try:\n69:         return os.sysconf(\"SC_NPROCESSORS_CONF\")\n70:     except (AttributeError, ValueError):\n71:         pass\n72:     gen_log.error(\"Could not detect number of processors; assuming 1\")\n73:     return 1"
+    }
+  ],
+  "documents": []
+}

@@ -1,0 +1,84 @@
+{
+  "case": "tornado-7",
+  "side": "fixed",
+  "repetition": 1,
+  "strategy": "baseline",
+  "path": "tornado/ioloop.py",
+  "start": 610,
+  "end": 711,
+  "name": "rep1-tornado-7-fixed-2-baseline",
+  "status": "completed",
+  "error": null,
+  "api_calls": 1,
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 9510,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 2846,
+        "total_tokens": 2852,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 2206
+      },
+      "elapsed_seconds": 0.88
+    }
+  ],
+  "findings": [],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "tornado/ioloop.py",
+      "start": 610,
+      "end": 711,
+      "strategy": "legacy",
+      "payload_sha256": "7d4c45b52032818988afb4554f56fee729ff98ada4c2c1ae5b964c75ed5d6048",
+      "supplemental_chars": 2726,
+      "sources": [
+        {
+          "path": "tornado/ioloop.py",
+          "name": "add_callback",
+          "line": 590,
+          "end": 603
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "name": "add_callback",
+          "line": 1024,
+          "end": 1038
+        },
+        {
+          "path": "demos/benchmark/chunk_benchmark.py",
+          "name": "callback",
+          "line": 30,
+          "end": 34
+        },
+        {
+          "path": "tornado/process.py",
+          "name": "cpu_count",
+          "line": 60,
+          "end": 73
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "tornado/ioloop.py",
+      "start": 610,
+      "end": 711,
+      "strategy": "baseline",
+      "findings": []
+    }
+  ],
+  "tool_reads": [],
+  "elapsed_seconds": 0.893,
+  "folder": "windows/rep1-tornado-7-fixed-2-baseline"
+}

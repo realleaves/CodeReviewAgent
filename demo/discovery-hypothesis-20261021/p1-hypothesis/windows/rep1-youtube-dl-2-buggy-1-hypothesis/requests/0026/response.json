@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 26,
+    "phase": "p1-hypothesis",
+    "label": {
+      "case": "youtube-dl-2",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "hypothesis",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2067
+    },
+    "reserved_at": "2026-10-21T13:36:44.048846+00:00"
+  },
+  "raw_response": "{\"checked\":[\"读取主片段 youtube_dl/extractor/common.py:1962-2067，确认 DASH 片段构造与 ISM 解析逻辑\",\"读取上下文 _download_webpage_handle(531-542)，确认返回 False 或 (content, urlh)\",\"读取 location_key(1909-1910)，确认按 http(s) 前缀区分 url/path\",\"读取 report_warning(696-699)，确认警告不抛异常\",\"读取 huajiao.py get(42-43) 作为无关上下文，未发现与主片段契约关联\"],\"hypotheses\":[{\"claim\":\"当 segment_urls 数量少于 SegmentTimeline 中 s 的 r 展开总数时，segment_index 越界访问会抛 IndexError\",\"expected_behavior\":\"对不一致的 MPD 应跳过或警告，而不是让整个格式解析崩溃\",\"counterexample\":\"representation_ms_info={'segment_urls':['u0'],'s':[{'d':1,'r':1}],'timescale':1}：循环 r=0,1 时第二次访问 segment_urls[1] 抛 IndexError\",\"contract\":\"segment_urls 与 SegmentTimeline 展开的片段数应一致；解析器应对畸形清单容错\"},{\"claim\":\"当 segment_duration 为 0 或缺失时，fragment 不带 duration，但后续逻辑可能依赖 duration 计算总时长\",\"expected_behavior\":\"duration 为 0 时应显式设置 0 或按无时长处理，不应因 falsy 判断而省略\",\"counterexample\":\"segment_duration=0.0：if segment_duration 为假，fragment 无 'duration' 键，与显式 0 语义不同\",\"contract\":\"片段 duration 应反映清单给出的值，包括 0\"},{\"claim\":\"ISM 清单 Duration 属性缺失时 int(ism_doc.attrib['Duration']) 抛 KeyError\",\"expected_behavior\":\"对缺少必需属性的清单应返回空列表或警告，而非未捕获异常\",\"counterexample\":\"ism_doc 无 Duration 属性：int(ism_doc.attrib['Duration']) 抛 KeyError\",\"contract\":\"_parse_ism_formats 应对不完整清单容错\"},{\"claim\":\"existing_format.update(f) 在重复 representation_id 时可能覆盖已有 fragments 而非合并\",\"expected_behavior\":\"同一 format_id 的重复表示应合并片段或明确覆盖语义\",\"counterexample\":\"两个 representation 同 id 且都含 fragments：第二次 update 用新 fragments 覆盖第一次，丢失片段\",\"contract\":\"formats 中同一 format_id 应保留完整片段集合\"},{\"claim\":\"location_key 对协议相对 URL（//host/path）返回 'path' 而非 'url'\",\"expected_behavior\":\"协议相对 URL 应视为 URL 而非本地路径\",\"counterexample\":\"segment_url='//example.com/a.mp4'：re.match(r'^https?://') 不匹配，返回 'path'\",\"contract\":\"location_key 应正确区分 URL 与路径\"}],\"findings\":[{\"path\":\"youtube_dl/extractor/common.py\",\"line\":1970,\"end_line\":1978,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"SegmentTimeline 展开数超过 segment_urls 时索引越界\",\"explanation\":\"在 'segment_urls' 与 's' 同时存在的分支中，代码按每个 s 的 r+1 展开片段，并用递增的 segment_index 直接索引 representation_ms_info['segment_urls']，未校验长度。若清单中 SegmentTimeline 声明的片段数多于实际 segment_urls 数量（畸形或部分清单），会抛出未捕获的 IndexError，导致整个 DASH 格式解析失败，而不是跳过该表示或给出警告。\",\"trigger\":\"构造 representation_ms_info={'segment_urls':['u0'],'s':[{'d':1,'r':1}],'timescale':1} 并调用包含该分支的 DASH 解析逻辑。\",\"evidence\":\"1972-1973 行：for r in range(s.get('r', 0) + 1): segment_uri = representation_ms_info['segment_urls'][segment_index]；segment_index 仅递增，无边界检查。\",\"suggestion\":\"在索引前检查 segment_index < len(segment_urls)，越界时 report_warning 并 break/跳过该表示，避免未捕获异常。\"},{\"path\":\"youtube_dl/extractor/common.py\",\"line\":2047,\"end_line\":2047,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"ISM 清单缺少 Duration 属性时抛 KeyError\",\"explanation\":\"_parse_ism_formats 直接使用 ism_doc.attrib['Duration'] 并 int() 转换，未处理属性缺失或非数字的情况。对于不完整或非标准 ISM 清单，会抛出未捕获的 KeyError/ValueError，使格式提取整体失败，而不是返回空列表或警告。\",\"trigger\":\"传入不含 Duration 属性的 ism_doc（例如仅含 StreamIndex 的最小文档）调用 _parse_ism_formats。\",\"evidence\":\"2047 行：duration = int(ism_doc.attrib['Duration'])，无 get 或异常处理；同函数 2044 行对 IsLive/Protection 已有容错返回 []。\",\"suggestion\":\"改用 int_or_none(ism_doc.get('Duration'))，缺失或非法时 report_warning 并 return []，与函数其他容错路径一致。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review_hypothesis",
+    "status": "completed",
+    "input_chars": 11532,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1181,
+      "prompt_tokens": 3264,
+      "total_tokens": 4445,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 896
+      },
+      "prompt_cache_hit_tokens": 896,
+      "prompt_cache_miss_tokens": 2368
+    },
+    "elapsed_seconds": 6.001
+  }
+}

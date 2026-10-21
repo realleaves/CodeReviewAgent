@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 4,
+    "phase": "p1-hypothesis",
+    "label": {
+      "case": "tornado-1",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "tornado/websocket.py",
+      "start": 669,
+      "end": 763
+    },
+    "reserved_at": "2026-10-21T13:35:26.416220+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"tornado/websocket.py\",\"line\":729,\"end_line\":733,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"ValueError 构造参数错误导致异常消息格式异常\",\"explanation\":\"raise ValueError(\\\"Invalid max_wbits value %r; allowed range 8-%d\\\", max_wbits, zlib.MAX_WBITS) 将格式字符串和参数作为多个位置参数传给 ValueError，而不是用 % 运算符格式化。结果 ValueError.args 是三元组，str(e) 会显示为元组字面量 \\\"('Invalid max_wbits value %r; allowed range 8-%d', 7, 15)\\\"，而不是预期的格式化消息。\",\"trigger\":\"构造 _PerMessageDeflateCompressor(persistent=False, max_wbits=7)，触发 728 行条件，捕获异常并 str(e)。\",\"evidence\":\"729-733 行：raise ValueError(\\n    \\\"Invalid max_wbits value %r; allowed range 8-%d\\\",\\n    max_wbits,\\n    zlib.MAX_WBITS,\\n) 缺少 % (max_wbits, zlib.MAX_WBITS)。\",\"suggestion\":\"改为 raise ValueError(\\\"Invalid max_wbits value %r; allowed range 8-%d\\\" % (max_wbits, zlib.MAX_WBITS))。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 8752,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 287,
+      "prompt_tokens": 2674,
+      "total_tokens": 2961,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 640
+      },
+      "prompt_cache_hit_tokens": 640,
+      "prompt_cache_miss_tokens": 2034
+    },
+    "elapsed_seconds": 1.678
+  }
+}

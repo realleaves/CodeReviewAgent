@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 7,
+    "phase": "p1-hypothesis",
+    "label": {
+      "case": "tornado-1",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "hypothesis",
+      "path": "tornado/websocket.py",
+      "start": 513,
+      "end": 609
+    },
+    "reserved_at": "2026-10-21T13:35:38.463942+00:00"
+  },
+  "raw_response": "{\"checked\":[\"读取主片段 tornado/websocket.py:513-609，确认 check_origin、set_nodelay、on_connection_close、on_ws_connection_close、_break_cycles、send_error、get_websocket_protocol 的实现\",\"读取上下文 get() 231-281，确认 Origin/Sec-Websocket-Origin 的取值与 check_origin 调用点\",\"读取 _WebSocketParams 122-133，确认参数默认值\",\"读取 get_compression_options 378-400 与 on_close 458-469 的契约说明\"],\"hypotheses\":[{\"claim\":\"check_origin 将 origin 的 netloc 小写后与 Host 头直接比较，但 Host 头未小写，大小写不同的 Host 会被误判为跨域\",\"expected_behavior\":\"按 RFC，主机名比较应大小写不敏感；Origin 与 Host 指向同一主机时应通过校验\",\"counterexample\":\"请求头 Host: Example.COM，Origin: http://example.com，则 origin='example.com'，host='Example.COM'，返回 False，get() 返回 403\",\"contract\":\"check_origin 文档称检查 origin 是否与 host 匹配（包括端口），隐含同一主机应通过\"},{\"claim\":\"check_origin 未处理 Host 头缺失（None）或 origin 无 netloc 的情况，比较结果可能不符合预期\",\"expected_behavior\":\"Host 缺失时应拒绝或明确处理，而不是与空 netloc 比较\",\"counterexample\":\"Origin: 'null'（浏览器沙箱/本地文件常见），urlparse('null').netloc 为空字符串，Host 存在时返回 False 属预期；但 Host 缺失且 Origin 为 'file://' 时 origin='' 与 host=None 比较为 False，行为可接受——此假设未找到明确违反契约的反例\",\"contract\":\"get() 在 origin 非 None 时调用 check_origin，需对任意 origin 字符串给出确定结果\"},{\"claim\":\"on_connection_close 中先调用 ws_connection.on_connection_close() 再置 None，若 on_close 回调中访问 ws_connection 会得到 None，可能破坏依赖该属性的清理逻辑\",\"expected_behavior\":\"on_close 期间 ws_connection 状态应一致，或文档说明此时已为 None\",\"counterexample\":\"子类 on_close 中读取 self.ws_connection.close_code，得到 AttributeError（None）\",\"contract\":\"on_close 文档未说明 ws_connection 在回调时已置空\"},{\"claim\":\"send_error 在 stream 非 None 时直接 stream.close() 而不调用 super().send_error，握手阶段异常可能不发送 HTTP 错误响应\",\"expected_behavior\":\"握手阶段未完成时，客户端应收到 500 响应而非连接被静默关闭\",\"counterexample\":\"get() 中 accept_connection 抛出未捕获异常，stream 已存在，send_error 仅关闭流，客户端收不到 HTTP 状态码\",\"contract\":\"注释称握手期间异常只能突然关闭连接，属有意行为，故不作为缺陷\"},{\"claim\":\"get_websocket_protocol 仅接受 Sec-WebSocket-Version 为 '7'/'8'/'13' 的精确字符串，带空白或逗号列表的版本头会被拒绝\",\"expected_behavior\":\"HTTP 头值通常应 strip 后比较；'13 ' 这类值应被接受\",\"counterexample\":\"Sec-WebSocket-Version: '13 '（尾部空格），in 判断失败，返回 None，get() 返回 426\",\"contract\":\"get() 对不支持的版本返回 426 并列出支持版本，隐含合法版本应被识别\"}],\"findings\":[{\"path\":\"tornado/websocket.py\",\"line\":538,\"end_line\":545,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"check_origin 对 Host 头未做大小写归一化导致同源被误判为跨域\",\"explanation\":\"check_origin 将 Origin 的 netloc 转为小写后与 self.request.headers.get('Host') 直接比较，但 Host 头未做 lower()。HTTP 主机名大小写不敏感，当客户端或代理发送的 Host 含大写字母（如 Example.COM）而 Origin 为小写时，两者语义相同却比较不相等，get() 会返回 403 拒绝合法的同源 WebSocket 连接。\",\"trigger\":\"请求头 Host: Example.COM 与 Origin: http://example.com 同时出现，调用 check_origin('http://example.com')\",\"evidence\":\"第 539-540 行 origin = parsed_origin.netloc; origin = origin.lower()；第 542 行 host = self.request.headers.get('Host') 未 lower；第 545 行 return origin == host。get() 第 269 行据此返回 403。\",\"suggestion\":\"对 host 同样调用 .lower() 后再比较，例如 host = (self.request.headers.get('Host') or '').lower()，并考虑端口规范化。\"},{\"path\":\"tornado/websocket.py\",\"line\":600,\"end_line\":601,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"Sec-WebSocket-Version 未 strip 导致带空白的合法版本被拒绝\",\"explanation\":\"get_websocket_protocol 用精确成员判断 websocket_version in ('7','8','13')，未对头值做 strip。HTTP 头值允许前后空白，'13 ' 这类值语义上合法却返回 None，get() 随后返回 426，拒绝本应支持的连接。\",\"trigger\":\"请求头 Sec-WebSocket-Version: '13 '（尾部空格）\",\"evidence\":\"第 600 行 websocket_version = self.request.headers.get('Sec-WebSocket-Version')；第 601 行 if websocket_version in ('7','8','13')；get() 第 279-281 行在返回 None 时设置 426。\",\"suggestion\":\"比较前对值做 strip，例如 websocket_version = (self.request.headers.get('Sec-WebSocket-Version') or '').strip()。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review_hypothesis",
+    "status": "completed",
+    "input_chars": 12522,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1311,
+      "prompt_tokens": 3706,
+      "total_tokens": 5017,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 1536
+      },
+      "prompt_cache_hit_tokens": 1536,
+      "prompt_cache_miss_tokens": 2170
+    },
+    "elapsed_seconds": 6.47
+  }
+}

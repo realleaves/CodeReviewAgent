@@ -1,0 +1,57 @@
+{
+  "metrics": [
+    {
+      "arm": "baseline",
+      "eligible_cases": 6,
+      "candidate_hits": 1,
+      "candidate_hit_cases": [
+        "youtube-dl-4"
+      ],
+      "fixed_side_alarms": 0,
+      "correctly_discriminated_cases": 1,
+      "candidate_findings": 29,
+      "completed_windows": 18,
+      "planned_windows": 18,
+      "calls": 21,
+      "usage": {
+        "prompt_tokens": 64137,
+        "completion_tokens": 8187,
+        "total_tokens": 72324
+      },
+      "tool_reads": 6,
+      "hypothesis_traces": 0
+    },
+    {
+      "arm": "hypothesis",
+      "eligible_cases": 6,
+      "candidate_hits": 0,
+      "candidate_hit_cases": [],
+      "fixed_side_alarms": 0,
+      "correctly_discriminated_cases": 0,
+      "candidate_findings": 33,
+      "completed_windows": 18,
+      "planned_windows": 18,
+      "calls": 18,
+      "usage": {
+        "prompt_tokens": 57841,
+        "completion_tokens": 19165,
+        "total_tokens": 77006
+      },
+      "tool_reads": 0,
+      "hypothesis_traces": 18
+    }
+  ],
+  "delta_hypothesis_minus_baseline": {
+    "candidate_hits": -1,
+    "fixed_side_alarms": 0,
+    "candidate_findings": 4,
+    "calls": -3,
+    "completion_tokens": 10978,
+    "tool_reads": -6
+  },
+  "adoption": "Not met: hypothesis does not add reference candidates; it misses the one baseline hit and performs no tool reads despite reporting checked items.",
+  "scope": "Discovery only on the 6 r0 development cases, 18 windows per arm, one repetition; known-location windows; not a new-sample or full-repo score.",
+  "adjudicators": [
+    "DeepSeek frozen-reference review; human review pending"
+  ]
+}

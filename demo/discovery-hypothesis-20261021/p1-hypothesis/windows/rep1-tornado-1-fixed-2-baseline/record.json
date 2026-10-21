@@ -1,0 +1,128 @@
+{
+  "case": "tornado-1",
+  "side": "fixed",
+  "repetition": 1,
+  "strategy": "baseline",
+  "path": "tornado/websocket.py",
+  "start": 669,
+  "end": 767,
+  "name": "rep1-tornado-1-fixed-2-baseline",
+  "status": "completed",
+  "error": null,
+  "api_calls": 1,
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 8881,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 280,
+        "prompt_tokens": 2714,
+        "total_tokens": 2994,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 2074
+      },
+      "elapsed_seconds": 1.611
+    }
+  ],
+  "findings": [
+    {
+      "path": "tornado/websocket.py",
+      "line": 733,
+      "end_line": 737,
+      "severity": "low",
+      "category": "bug",
+      "title": "ValueError 构造参数错误导致异常消息格式异常",
+      "explanation": "raise ValueError(\"Invalid max_wbits value %r; allowed range 8-%d\", max_wbits, zlib.MAX_WBITS) 将三个参数传给 ValueError，而不是用 % 格式化。ValueError 的 args 会变成三元组，str(e) 输出为元组字符串 \"('Invalid max_wbits value %r; allowed range 8-%d', 7, 15)\"，占位符未被替换，错误信息对调用者不可读。",
+      "trigger": "构造 _PerMessageDeflateCompressor(persistent=False, max_wbits=7)，触发 8 <= max_wbits 检查失败。",
+      "evidence": "第 733-737 行：raise ValueError(\n    \"Invalid max_wbits value %r; allowed range 8-%d\",\n    max_wbits,\n    zlib.MAX_WBITS,\n) 缺少 % 运算符。",
+      "suggestion": "改为 raise ValueError(\"Invalid max_wbits value %r; allowed range 8-%d\" % (max_wbits, zlib.MAX_WBITS))。",
+      "id": "d0a1f297012d",
+      "source": "llm",
+      "rule": "",
+      "snippet": "731:         # There is no symbolic constant for the minimum wbits value.\n732:         if not (8 <= max_wbits <= zlib.MAX_WBITS):\n733:             raise ValueError(\n734:                 \"Invalid max_wbits value %r; allowed range 8-%d\",\n735:                 max_wbits,\n736:                 zlib.MAX_WBITS,\n737:             )\n738:         self._max_wbits = max_wbits\n739: ",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "tornado/websocket.py",
+      "start": 669,
+      "end": 767,
+      "strategy": "legacy",
+      "payload_sha256": "dbd7e6fae80cbcdaaa3c6b8c232f599eac8bfcc86a5c657c1ba19dfb0bc8c068",
+      "supplemental_chars": 2890,
+      "sources": [
+        {
+          "path": "tornado/websocket.py",
+          "name": "compress",
+          "line": 63,
+          "end": 64
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "flush",
+          "line": 66,
+          "end": 67
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "close",
+          "line": 471,
+          "end": 489
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "close",
+          "line": 1262,
+          "end": 1289
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "tornado/websocket.py",
+      "start": 669,
+      "end": 767,
+      "strategy": "baseline",
+      "findings": [
+        {
+          "path": "tornado/websocket.py",
+          "line": 733,
+          "end_line": 737,
+          "severity": "low",
+          "category": "bug",
+          "title": "ValueError 构造参数错误导致异常消息格式异常",
+          "explanation": "raise ValueError(\"Invalid max_wbits value %r; allowed range 8-%d\", max_wbits, zlib.MAX_WBITS) 将三个参数传给 ValueError，而不是用 % 格式化。ValueError 的 args 会变成三元组，str(e) 输出为元组字符串 \"('Invalid max_wbits value %r; allowed range 8-%d', 7, 15)\"，占位符未被替换，错误信息对调用者不可读。",
+          "trigger": "构造 _PerMessageDeflateCompressor(persistent=False, max_wbits=7)，触发 8 <= max_wbits 检查失败。",
+          "evidence": "第 733-737 行：raise ValueError(\n    \"Invalid max_wbits value %r; allowed range 8-%d\",\n    max_wbits,\n    zlib.MAX_WBITS,\n) 缺少 % 运算符。",
+          "suggestion": "改为 raise ValueError(\"Invalid max_wbits value %r; allowed range 8-%d\" % (max_wbits, zlib.MAX_WBITS))。",
+          "id": "d0a1f297012d",
+          "source": "llm",
+          "rule": "",
+          "snippet": "731:         # There is no symbolic constant for the minimum wbits value.\n732:         if not (8 <= max_wbits <= zlib.MAX_WBITS):\n733:             raise ValueError(\n734:                 \"Invalid max_wbits value %r; allowed range 8-%d\",\n735:                 max_wbits,\n736:                 zlib.MAX_WBITS,\n737:             )\n738:         self._max_wbits = max_wbits\n739: ",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ]
+    }
+  ],
+  "tool_reads": [],
+  "elapsed_seconds": 1.622,
+  "folder": "windows/rep1-tornado-1-fixed-2-baseline"
+}

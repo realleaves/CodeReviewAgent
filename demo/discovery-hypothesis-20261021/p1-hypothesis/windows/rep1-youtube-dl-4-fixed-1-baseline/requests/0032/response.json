@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 32,
+    "phase": "p1-hypothesis",
+    "label": {
+      "case": "youtube-dl-4",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/jsinterp.py",
+      "start": 50,
+      "end": 219
+    },
+    "reserved_at": "2026-10-21T13:37:21.564305+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"youtube_dl/jsinterp.py\",\"line\":166,\"end_line\":172,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"splice 实现使用 pop(index) 导致结果顺序错误且删除元素不正确\",\"explanation\":\"JS 的 Array.prototype.splice(index, howMany) 应删除从 index 开始的 howMany 个连续元素，并返回被删除的元素（按原顺序）。当前实现循环 range(index, min(index+howMany, len(obj)))，每次执行 obj.pop(index)，即反复删除同一位置。第一次删除后，后续元素前移，因此实际删除的是原 index、index+1... 的元素，但 res 中收集的是每次 pop 返回的值，顺序恰好是原顺序，看似正确；然而循环次数基于初始 len(obj)，当 howMany 超过剩余长度时 min 已处理。真正问题：pop(index) 每次删除 index 位置，等价于连续删除，结果 res 顺序正确。但若 index 为负数或 howMany 为负数，range 为空返回 []，与 JS 行为（负数 index 从末尾计）不符。此外 argvals 解包要求恰好两个参数，否则 ValueError 崩溃而非 ExtractorError。\",\"trigger\":\"表达式如 'a.splice(0)'（只传一个参数）或 'a.splice(0,1,2)'（三个参数），argvals 解包为 index, howMany 时抛 ValueError；或 'a.splice(-1,1)' 期望删除末尾元素，实际返回 []。\",\"evidence\":\"第168行 `index, howMany = argvals` 无长度校验；第170行 `range(index, min(index + howMany, len(obj)))` 对负 index 不处理。\",\"suggestion\":\"校验 len(argvals)==2，并对负 index 按 JS 语义转换为 len(obj)+index；howMany 为负时按 0 处理。\"},{\"path\":\"youtube_dl/jsinterp.py\",\"line\":153,\"end_line\":158,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"split/join 的 assert 在 -O 下失效且参数不匹配时崩溃\",\"explanation\":\"member=='split' 时断言 argvals==('',)，但 JS 中 'a,b'.split(',') 是常见用法，传入分隔符时断言失败抛 AssertionError（非 ExtractorError），在 python -O 下断言被移除后则忽略分隔符直接 list(obj)，返回错误结果。join 同理，argvals 长度不为1时断言失败。这些是输入驱动的崩溃/错误结果。\",\"trigger\":\"JS 表达式 'x.split(\\\",\\\")' 或 'x.join()'（无参数）被解释时。\",\"evidence\":\"第154行 `assert argvals == ('',)`；第157行 `assert len(argvals) == 1`。\",\"suggestion\":\"对不支持的参数形式抛出 ExtractorError 并说明，而非依赖 assert；或实现带分隔符的 split。\"},{\"path\":\"youtube_dl/jsinterp.py\",\"line\":98,\"end_line\":99,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"赋值下标访问使用 assert isinstance(idx,int) 且 lvar 可能非容器\",\"explanation\":\"形如 a[i] = v 的赋值，idx 由 interpret_expression 求得，若结果为字符串数字或非 int（如 '0' 或 None），assert 失败抛 AssertionError；-O 下移除后 lvar[idx] 可能 TypeError。此外若 local_vars 中不存在 out，第95行 KeyError 而非 ExtractorError。\",\"trigger\":\"JS 代码 'a[\\\"0\\\"] = 1' 或对未声明变量 'b[0]=1' 解释时。\",\"evidence\":\"第95行 `lvar = local_vars[m.group('out')]`；第98行 `assert isinstance(idx, int)`。\",\"suggestion\":\"检查 out 是否在 local_vars，非 int 下标时抛 ExtractorError。\"},{\"path\":\"youtube_dl/jsinterp.py\",\"line\":200,\"end_line\":209,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"函数调用参数解析对空参数与数字/变量混合处理不一致\",\"explanation\":\"正则 args 允许 [a-zA-Z0-9_$,]*，当调用 f() 时 m.group('args')==''，len>0 为假返回空 tuple，正确；但 f(,) 或 f(a,) 会 split 出空字符串，v.isdigit() 为假，local_vars[''] KeyError。另外参数只支持纯数字或变量名，不支持表达式，属已知限制。空字符串参数导致 KeyError 崩溃而非 ExtractorError。\",\"trigger\":\"JS 表达式 'f(a,)' 或 'f(,)' 被解释时。\",\"evidence\":\"第204-206行列表推导对每个 v 执行 `int(v) if v.isdigit() else local_vars[v]`，空串进入 local_vars['']。\",\"suggestion\":\"过滤或校验空参数，遇到无法解析的参数抛 ExtractorError。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 11821,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1106,
+      "prompt_tokens": 3647,
+      "total_tokens": 4753,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 2304
+      },
+      "prompt_cache_hit_tokens": 2304,
+      "prompt_cache_miss_tokens": 1343
+    },
+    "elapsed_seconds": 5.93
+  }
+}

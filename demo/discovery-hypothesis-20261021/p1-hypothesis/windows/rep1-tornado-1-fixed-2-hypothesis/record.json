@@ -1,0 +1,122 @@
+{
+  "case": "tornado-1",
+  "side": "fixed",
+  "repetition": 1,
+  "strategy": "hypothesis",
+  "path": "tornado/websocket.py",
+  "start": 669,
+  "end": 767,
+  "name": "rep1-tornado-1-fixed-2-hypothesis",
+  "status": "completed",
+  "error": null,
+  "api_calls": 1,
+  "calls": [
+    {
+      "stage": "review_hypothesis",
+      "status": "completed",
+      "input_chars": 9857,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 497,
+        "prompt_tokens": 3080,
+        "total_tokens": 3577,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 896
+        },
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 2184
+      },
+      "elapsed_seconds": 3.258
+    }
+  ],
+  "findings": [],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "tornado/websocket.py",
+      "start": 669,
+      "end": 767,
+      "strategy": "legacy",
+      "payload_sha256": "dbd7e6fae80cbcdaaa3c6b8c232f599eac8bfcc86a5c657c1ba19dfb0bc8c068",
+      "supplemental_chars": 2890,
+      "sources": [
+        {
+          "path": "tornado/websocket.py",
+          "name": "compress",
+          "line": 63,
+          "end": 64
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "flush",
+          "line": 66,
+          "end": 67
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "close",
+          "line": 471,
+          "end": 489
+        },
+        {
+          "path": "tornado/websocket.py",
+          "name": "close",
+          "line": 1262,
+          "end": 1289
+        }
+      ]
+    },
+    {
+      "stage": "hypothesis_review",
+      "path": "tornado/websocket.py",
+      "start": 669,
+      "end": 767,
+      "checked": [
+        "读取主片段 tornado/websocket.py:669-767，确认 _PerMessageDeflateCompressor 的构造与 compress 契约",
+        "读取上下文 compress/flush 桩定义（63-67）确认 _Compressor 协议",
+        "读取 WebSocketProtocol.close 471-489 与 WebSocketProtocol13.close 1262-1289 确认 close 语义",
+        "未读取 _PerMessageDeflateDecompressor 及调用方 _write_frame 的压缩路径"
+      ],
+      "hypotheses": [
+        {
+          "claim": "persistent=False 时每次 compress 都新建 compressor，但 flush 后丢弃，可能产生跨消息压缩状态不一致",
+          "expected_behavior": "非持久模式下每条消息独立压缩，输出可被对端独立解压",
+          "counterexample": "persistent=False 连续 compress(b'a') 与 compress(b'b')，各自新建 compressor 应独立；当前实现确实每次新建，行为符合预期",
+          "contract": "非持久模式每条消息独立压缩"
+        },
+        {
+          "claim": "max_wbits 边界值 8 与 zlib.MAX_WBITS 应被接受，越界抛 ValueError",
+          "expected_behavior": "8<=max_wbits<=15 接受，否则 ValueError",
+          "counterexample": "max_wbits=7 应抛 ValueError；当前 732 行条件正确抛出，符合预期",
+          "contract": "max_wbits 范围校验"
+        },
+        {
+          "claim": "compress 返回值去掉尾部 4 字节 \\x00\\x00\\xff\\xff，若 zlib 输出不以该序列结尾则 assert 失败",
+          "expected_behavior": "Z_SYNC_FLUSH 后输出总以 00 00 ff ff 结尾，去掉后返回有效负载",
+          "counterexample": "对空 bytes 调用 compress(b'')：compressor.compress(b'') 为空，flush(Z_SYNC_FLUSH) 返回 b'\\x00\\x00\\xff\\xff'，assert 通过，返回 b''，符合预期",
+          "contract": "compress 输出以 sync flush 标记结尾"
+        },
+        {
+          "claim": "compression_options 传入非 dict 或缺少键时回退默认值",
+          "expected_behavior": "None 或缺键使用默认 GZIP_LEVEL/8",
+          "counterexample": "compression_options={} 时 740-751 行回退默认，符合预期",
+          "contract": "compression_options 可选字典"
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "tornado/websocket.py",
+      "start": 669,
+      "end": 767,
+      "strategy": "hypothesis",
+      "findings": []
+    }
+  ],
+  "tool_reads": [],
+  "elapsed_seconds": 3.273,
+  "folder": "windows/rep1-tornado-1-fixed-2-hypothesis"
+}
