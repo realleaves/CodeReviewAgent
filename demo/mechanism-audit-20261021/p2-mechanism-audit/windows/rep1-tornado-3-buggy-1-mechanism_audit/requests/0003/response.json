@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 3,
+    "phase": "p2-mechanism-audit",
+    "label": {
+      "case": "tornado-3",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "mechanism_audit",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 286
+    },
+    "reserved_at": "2026-10-21T14:11:51.976493+00:00"
+  },
+  "raw_response": "{\"checked\":[\"读取主片段 tornado/httpclient.py:188-286，确认 __new__/initialize/close/fetch 的契约\",\"读取上下文 HTTPRequest.__init__ 签名（330-409），确认 headers/body 类型与 _DEFAULTS\",\"核对 __new__ 中 instance_cache 与 instance.io_loop 的写入时机（207-209）\",\"核对 close() 中 _instance_cache 删除逻辑（232-238）\",\"核对 fetch() 对已关闭实例与 kwargs 的处理（274-282）\"],\"hypotheses\":[{\"claim\":\"__new__ 在 initialize 之前访问 instance.io_loop 写入缓存，可能写入错误键或 AttributeError\",\"expected_behavior\":\"缓存键应为 IOLoop.current()，且实例已初始化\",\"counterexample\":\"调用 AsyncHTTPClient() 时，__new__ 第209行 instance.io_loop 尚未由 initialize 设置\",\"contract\":\"__new__ 返回前实例应可被缓存且键与 io_loop 一致\"},{\"claim\":\"force_instance=True 时 _instance_cache 为 None，close() 不应访问缓存\",\"expected_behavior\":\"force_instance 实例 close 时跳过缓存删除\",\"counterexample\":\"AsyncHTTPClient(force_instance=True).close() 应正常返回\",\"contract\":\"close() 对无缓存实例幂等且不抛错\"},{\"claim\":\"fetch 传入 HTTPRequest 且带 kwargs 应报 ValueError\",\"expected_behavior\":\"抛出 ValueError\",\"counterexample\":\"fetch(HTTPRequest(url), foo=1)\",\"contract\":\"kwargs 仅用于字符串 URL 构造\"},{\"claim\":\"close 后调用 fetch 应抛 RuntimeError\",\"expected_behavior\":\"抛出 RuntimeError\",\"counterexample\":\"c=AsyncHTTPClient(); c.close(); c.fetch('http://x')\",\"contract\":\"close 后不得调用其他方法\"},{\"claim\":\"headers 为 None 时 HTTPHeaders(None) 行为\",\"expected_behavior\":\"应得到空 HTTPHeaders\",\"counterexample\":\"HTTPRequest(url) 后 fetch，request.headers 为 None 传入 HTTPHeaders\",\"contract\":\"fetch 应能处理无 headers 的请求\"}],\"findings\":[]}",
+  "error_type": null,
+  "call": {
+    "stage": "review_mechanism_audit",
+    "status": "completed",
+    "input_chars": 14147,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 456,
+      "prompt_tokens": 4217,
+      "total_tokens": 4673,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 4217
+    },
+    "elapsed_seconds": 2.16
+  }
+}

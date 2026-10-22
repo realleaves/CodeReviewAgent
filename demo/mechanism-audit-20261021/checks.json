@@ -1,0 +1,66 @@
+{
+  "checked_at": "2026-10-22T03:29:36.239731+00:00",
+  "pytest": {
+    "command": "PYTHONPATH= .venv/bin/python -m pytest -q tests",
+    "exit_code": 0,
+    "passed": 142,
+    "warnings": 1,
+    "warning": "Existing HelloAgents Pydantic class-based config deprecation"
+  },
+  "ruff": {
+    "command": "PYTHONPATH= .venv/bin/python -m ruff check --isolated --select F,E9 main.py src tests evaluation demo/mechanism-audit-20261021/verify-p2.py",
+    "exit_code": 0
+  },
+  "offline_verifiers": [
+    {
+      "path": "demo/discovery-hypothesis-20261021/verify.py",
+      "status": "PASS",
+      "model_calls": 0
+    },
+    {
+      "path": "demo/discovery-hypothesis-20261021/verify-p1b.py",
+      "status": "PASS",
+      "model_calls": 0
+    },
+    {
+      "path": "demo/discovery-hypothesis-20261021/verify-p1c.py",
+      "status": "PASS",
+      "model_calls": 0
+    },
+    {
+      "path": "demo/discovery-hypothesis-20261021/verify-p1d.py",
+      "status": "PASS",
+      "model_calls": 0
+    },
+    {
+      "path": "demo/discovery-hypothesis-20261021/verify-p1e.py",
+      "status": "PASS",
+      "model_calls": 0
+    },
+    {
+      "path": "demo/discovery-trace-analysis-20261021/verify.py",
+      "status": "PASS",
+      "model_calls": 0
+    },
+    {
+      "path": "demo/mechanism-audit-20261021/verify-protocol.py",
+      "status": "PASS",
+      "model_calls": 0
+    },
+    {
+      "path": "demo/mechanism-audit-20261021/verify-p2.py",
+      "status": "PASS",
+      "model_calls": 0
+    }
+  ],
+  "live_source_matches_sampling_freeze": true,
+  "default_review_strategy": "baseline",
+  "p1_budget": {
+    "reserved": 80,
+    "limit": 80
+  },
+  "p2_budget": {
+    "reserved": 12,
+    "limit": 20
+  }
+}

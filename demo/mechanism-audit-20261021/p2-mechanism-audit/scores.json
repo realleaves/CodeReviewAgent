@@ -1,0 +1,109 @@
+{
+  "metrics": [
+    {
+      "arm": "baseline",
+      "planned_cases": 2,
+      "eligible_pairs": 2,
+      "eligible_cases": [
+        "tornado-3",
+        "youtube-dl-2"
+      ],
+      "candidate_hits": 0,
+      "candidate_hit_cases": [],
+      "observed_buggy_hits": 0,
+      "fixed_side_alarms": 0,
+      "fixed_side_alarm_cases": [],
+      "correctly_discriminated_cases": 0,
+      "candidate_findings": 6,
+      "planned_windows": 4,
+      "completed_windows": 4,
+      "failed_windows": 0,
+      "calls": 4,
+      "failed_provider_calls": 0,
+      "usage": {
+        "prompt_tokens": 13775,
+        "completion_tokens": 1730
+      },
+      "tool_reads": 0,
+      "audit_windows": 0,
+      "audit_removed": 0,
+      "audit_added": 0,
+      "fallback_initial": 0,
+      "initial_reference_hypothesis_windows": 0
+    },
+    {
+      "arm": "mechanism_audit",
+      "planned_cases": 2,
+      "eligible_pairs": 2,
+      "eligible_cases": [
+        "tornado-3",
+        "youtube-dl-2"
+      ],
+      "candidate_hits": 0,
+      "candidate_hit_cases": [],
+      "observed_buggy_hits": 0,
+      "fixed_side_alarms": 0,
+      "fixed_side_alarm_cases": [],
+      "correctly_discriminated_cases": 0,
+      "candidate_findings": 7,
+      "planned_windows": 4,
+      "completed_windows": 4,
+      "failed_windows": 0,
+      "calls": 8,
+      "failed_provider_calls": 0,
+      "usage": {
+        "prompt_tokens": 34441,
+        "completion_tokens": 8198
+      },
+      "tool_reads": 0,
+      "audit_windows": 4,
+      "audit_removed": 0,
+      "audit_added": 0,
+      "fallback_initial": 1,
+      "initial_reference_hypothesis_windows": 0
+    }
+  ],
+  "delta_mechanism_audit_minus_baseline": {
+    "planned_cases": 0,
+    "eligible_pairs": 0,
+    "candidate_hits": 0,
+    "observed_buggy_hits": 0,
+    "fixed_side_alarms": 0,
+    "correctly_discriminated_cases": 0,
+    "candidate_findings": 1,
+    "planned_windows": 0,
+    "completed_windows": 0,
+    "failed_windows": 0,
+    "calls": 4,
+    "failed_provider_calls": 0,
+    "tool_reads": 0,
+    "audit_windows": 4,
+    "audit_removed": 0,
+    "audit_added": 0,
+    "fallback_initial": 1,
+    "initial_reference_hypothesis_windows": 0,
+    "usage": {
+      "prompt_tokens": 20666,
+      "completion_tokens": 6468
+    }
+  },
+  "smoke_gate_met": false,
+  "decision": "do not expand or change the baseline default",
+  "rule": "At least one strict reference candidate hit in mechanism_audit and no increase in fixed-side same-reference alarms; both arms must have complete pairs.",
+  "scoring": "Reference root cause/symptom plus a valid trigger. Hits use complete pairs; all observed fixed-side alarms, failures and costs remain reported. Extra findings are not automatic false positives.",
+  "adjudicators": [
+    "Codex frozen-reference semantic review; independent human review pending"
+  ],
+  "scope": {
+    "development_cases": 2,
+    "repetitions": 1,
+    "evidence_stage_run": false,
+    "holdout_run": false
+  },
+  "limitations": [
+    "A single smoke repetition cannot establish reproducibility or generalization.",
+    "Candidate hits do not measure valid evidence conversion; no evidence engine was run.",
+    "Removed/added counts compare path, line, category and title, not semantic mechanisms.",
+    "Semantic adjudication is by Codex against the frozen rubric; independent human review is pending."
+  ]
+}

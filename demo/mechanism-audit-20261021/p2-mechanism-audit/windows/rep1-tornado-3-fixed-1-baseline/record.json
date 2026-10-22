@@ -1,0 +1,84 @@
+{
+  "case": "tornado-3",
+  "side": "fixed",
+  "repetition": 1,
+  "strategy": "baseline",
+  "path": "tornado/httpclient.py",
+  "start": 188,
+  "end": 291,
+  "name": "rep1-tornado-3-fixed-1-baseline",
+  "status": "completed",
+  "error": null,
+  "api_calls": 1,
+  "calls": [
+    {
+      "stage": "review",
+      "status": "completed",
+      "input_chars": 15031,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 6,
+        "prompt_tokens": 4471,
+        "total_tokens": 4477,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 4224
+        },
+        "prompt_cache_hit_tokens": 4224,
+        "prompt_cache_miss_tokens": 247
+      },
+      "elapsed_seconds": 0.898
+    }
+  ],
+  "findings": [],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 291,
+      "strategy": "legacy",
+      "payload_sha256": "470f945578ab5ad5c80fd0cec5a622f8cbb9cd3b7ed21c013e72d505fe29663d",
+      "supplemental_chars": 7648,
+      "sources": [
+        {
+          "path": "tornado/httpclient.py",
+          "name": "HTTPRequest",
+          "line": 335,
+          "end": 563
+        },
+        {
+          "path": "tornado/httputil.py",
+          "name": "HTTPHeaders",
+          "line": 103,
+          "end": 267
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "name": "current",
+          "line": 238,
+          "end": 239
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "name": "current",
+          "line": 243,
+          "end": 244
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 291,
+      "strategy": "baseline",
+      "findings": []
+    }
+  ],
+  "tool_reads": [],
+  "elapsed_seconds": 0.909,
+  "folder": "windows/rep1-tornado-3-fixed-1-baseline"
+}

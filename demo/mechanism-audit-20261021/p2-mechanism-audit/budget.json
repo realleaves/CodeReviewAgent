@@ -1,0 +1,7 @@
+{
+  "limit": 20,
+  "reserved": 12,
+  "phases": {
+    "p2-mechanism-audit": 12
+  }
+}

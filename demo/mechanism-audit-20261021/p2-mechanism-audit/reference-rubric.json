@@ -1,0 +1,25 @@
+{
+  "protocol": "Reference-issue semantic rubric derived from official patches and test selectors. Never sent to the reviewer. At least one concrete listed failure mode is needed; proximity, generic assert advice and unrelated defects do not count. Model-assisted adjudication requires human review.",
+  "issues": {
+    "PySnooper-1": "Non-ASCII traced output/source fails under non-UTF-8 default encoding: FileWriter.write lacks explicit UTF-8 and/or byte source defaults to ASCII. The paired test reproduces a UnicodeEncodeError under an ASCII locale.",
+    "PySnooper-2": "The documented/requested custom_repr option is not accepted by Tracer.__init__ and not propagated into local/return value rendering. custom_repr invocation fails or its representation is not applied. Other encoding defects in the same broad patch are not this target.",
+    "PySnooper-3": "get_write_function's path writer references undefined output_path instead of the supplied output, raising NameError when tracing to a file.",
+    "tornado-1": "WebSocketHandler.set_nodelay uses self.stream although the upgraded connection is held by ws_connection; valid calls from open fail the assertion or use the wrong stream. Generic assert-removal advice is not a match.",
+    "tornado-2": "An existing Transfer-Encoding: chunked header disables _chunking_output, so write_headers/body handling can emit an invalid unchunked body or fail a redirected PUT without a body.",
+    "tornado-3": "AsyncHTTPClient.close assumes a weak instance-cache entry still exists during HTTPClient destruction; an already-cleared entry causes inconsistent-cache RuntimeError/KeyError. Do not count intentional errors for another live client.",
+    "tornado-4": "StaticFileHandler mishandles HTTP byte ranges: oversized suffix ranges leave a negative start rather than clamping to zero, or reversed end/start ranges are not rejected with 416. Either concrete failing condition counts as a case-level hit; report which was found.",
+    "tornado-5": "PeriodicCallback._update_next fails to advance _next_timeout when the clock moves backwards/current_time is less than _next_timeout, causing repeated scheduling or callback delays.",
+    "tornado-6": "IOLoop's asyncio-to-IOLoop registry retains closed loops: weak keys do not help when values keep the loop alive, and close/external close lacks appropriate deletion/cleanup, leaking loops.",
+    "tornado-7": "run_in_executor directly returns concurrent.futures.Future, which cannot be awaited by native async coroutines; it must bridge into a Tornado/asyncio-compatible Future.",
+    "tornado-8": "accept_connection calls _handle_websocket_headers outside its ValueError handler, so missing/invalid WebSocket headers escape instead of returning a controlled HTTP 400.",
+    "youtube-dl-1": "Unary match filters treat a present boolean False as true because they only test None; positive/negated boolean filters must distinguish True from False.",
+    "youtube-dl-2": "DASH Representation format_id is not necessarily unique: merging/replacing entries solely by representation_id discards distinct formats or their media fragments.",
+    "youtube-dl-3": "unescapeHTML's entity regex allows an ampersand inside the entity body and consumes adjacent/nested entity starts, preventing the intended HTML entity from being decoded.",
+    "youtube-dl-4": "JSInterpreter's function-call regex requires nonempty arguments and/or splits an empty argument string, so a valid zero-argument JavaScript call fails.",
+    "youtube-dl-5": "unified_timestamp fallback receives a tuple from email.utils.parsedate_tz but calls its nonexistent timetuple(), raising AttributeError; or it fails to apply the PM offset in that fallback. Generic PM/12-hour concerns outside this fallback do not count.",
+    "youtube-dl-6": "parse_dfxp_time_expr returns numeric zero for absent time rather than None, or dfxp2srt accesses missing begin/dur attributes without skipping invalid entries, leading to incorrect subtitle timing or KeyError. Either reference-patch failure mode counts, with trigger evidence.",
+    "youtube-dl-7": "js_to_json returns double-quoted JavaScript strings unchanged, preserving escaped single quotes (\\') that are invalid JSON escapes; these strings must be normalized and re-encoded.",
+    "youtube-dl-8": "Format selection '/' appends a PICKFIRST selector immediately and clears current_selector, so following filters cannot attach to the fallback choice and parsing/selection becomes wrong.",
+    "youtube-dl-9": "Format selection fails to respect precedence and grouping across '+', '/', ',' and parentheses; immediate append/clearing and endwith handling attach subsequent tokens to the wrong selector. Mere mutable default endwith=[] advice is not a match."
+  }
+}

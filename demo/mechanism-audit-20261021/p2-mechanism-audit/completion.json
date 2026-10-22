@@ -1,0 +1,16 @@
+{
+  "status": "complete_negative_smoke",
+  "protocol_commit": "39001978e52d6b2f523c72e22677d58e7d887c4f",
+  "provider_attempts": 12,
+  "budget_limit": 20,
+  "unused_attempts": 8,
+  "ledger_reset_or_refund": false,
+  "further_model_calls_authorized_by_this_result": false,
+  "default_review_strategy": "baseline",
+  "expanded_development_or_holdout": false,
+  "evidence_stage_run": false,
+  "docker_executions": 0,
+  "premise": "Neither buggy-side initial pass formed a reference-mechanism hypothesis. Audit-specific effectiveness is inconclusive; the end-to-end smoke showed no gain.",
+  "next_dimension": "Model capability comparison, requiring an explicit model name and a new agreed protocol/budget before any call.",
+  "raw_manifest_note": "The shared runner manifest contains generic adoption prose. p2-goal.json is the authoritative smoke protocol; the actual global ledger and manifest limit are both 20."
+}

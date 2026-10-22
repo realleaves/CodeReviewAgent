@@ -20,7 +20,7 @@
 
 **2026-10-21 轨迹分析（离线，0次模型调用）：** 对P1/P1b/P1c/P1d/P1e的冻结轨迹按“参考概念是否进入reasoning/findings”分类：6个开发样本中1个hit、1个promotion gap（youtube-dl-2假设已正确但未输出）、3个precision gap（tornado-3/7、youtube-dl-8选错机制）、1个discovery gap（tornado-1）。主要瓶颈是候选机制选择/晋升，不是工具或外部读取。见[轨迹分析](demo/discovery-trace-analysis-20261021/README.md)。
 
-**2026-10-21 P2协议（已准备，未运行）：** 针对轨迹分析中的1个promotion gap和3个precision gap，实现`mechanism_audit`（候选机制/排序审计，可替换邻近候选，不追加工具/外部读取/参考标签）；冻结youtube-dl-2+tornado-3、4窗口/臂、20次新预算、1次重复。协议和预算已落盘，**0次模型调用**，用户已授权在协议提交后执行。见[P2协议](demo/mechanism-audit-20261021/README.md)。
+**2026-10-21 P2结果（已运行，未采用）：** youtube-dl-2+tornado-3、4窗口/臂、1次重复，8/8完成，12/20次真实DeepSeek调用。baseline与`mechanism_audit`均0/2参考候选命中、修复侧同问题告警0；审计4次，removed/added均0、空结果fallback 1次。审计臂调用4→8、completion tokens 1,730→8,198，没有收益；两个缺陷侧均未形成参考假设，对审计机制本身仍属前提未复现/不确定。默认保持baseline，不扩样本；没有运行证据引擎或holdout。全部请求、判读、评分、冻结源码和离线校验见[P2结果](demo/mechanism-audit-20261021/README.md)。下一维度为模型能力对照，须先确认模型名与新预算。
 
 **2026-10-15 上下文检索实验：** 已接入`--context-strategy callgraph`，在evidence发现阶段补充静态调用方、被调用定义、相关导入与文档片段；默认仍为`legacy`。86项项目测试通过，6个历史样本两版本共18组初始输入核对通过，0次模型API调用。新增上下文尚未做模型效果对照，不能声称检出率提高；见[实现与离线检查](demo/context-callgraph-20261015/README.md)。
 

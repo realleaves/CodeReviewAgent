@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 11,
+    "phase": "p2-mechanism-audit",
+    "label": {
+      "case": "youtube-dl-2",
+      "side": "fixed",
+      "repetition": 1,
+      "strategy": "mechanism_audit",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2065
+    },
+    "reserved_at": "2026-10-21T14:12:29.142703+00:00"
+  },
+  "raw_response": "{\"checked\":[\"读取主片段 youtube_dl/extractor/common.py:1962-2065，确认 DASH 片段构造与 ISM 解析逻辑\",\"读取 _download_webpage_handle 定义（common.py:531-542），确认 fatal=False 时返回 False，fatal=True 时抛异常\",\"读取 report_warning 定义（common.py:696-699），确认仅记录警告不中断\",\"读取 location_key 定义（common.py:1909-1910），确认按 http(s) 前缀区分 url/path\",\"读取 huajiao.py:42-43 的 get 辅助函数，确认与主片段无直接调用关系\"],\"hypotheses\":[{\"claim\":\"当 SegmentTimeline 的 s 条目总重复次数与 segment_urls 数量不一致时，segment_index 可能越界或遗漏片段\",\"expected_behavior\":\"应安全处理数量不匹配，或给出警告并跳过\",\"counterexample\":\"representation_ms_info['s'] 有 2 条 r=0，但 segment_urls 只有 1 个元素：第二次循环访问 segment_urls[1] 抛 IndexError\",\"contract\":\"segment_urls 数量应等于 sum(r+1)，否则不应崩溃\"},{\"claim\":\"当 segment_urls 多于 s 条目覆盖的数量时，多余 URL 被静默丢弃\",\"expected_behavior\":\"应使用全部 segment_urls 或警告数量不一致\",\"counterexample\":\"s 只有 1 条 r=0，segment_urls 有 3 个：仅生成 1 个 fragment，后 2 个 URL 丢失\",\"contract\":\"所有提供的 segment_urls 应被纳入 fragments\"},{\"claim\":\"ISM 解析中 ism_doc.attrib['Duration'] 缺失时抛 KeyError 而非返回空\",\"expected_behavior\":\"对缺失必需属性应给出可诊断错误或返回空列表\",\"counterexample\":\"ism_doc 无 Duration 属性：int(ism_doc.attrib['Duration']) 抛 KeyError\",\"contract\":\"解析函数对不完整清单应稳健处理\"},{\"claim\":\"ISM 中 track.attrib['Bitrate'] 缺失时抛 KeyError\",\"expected_behavior\":\"应跳过该 track 或使用默认值\",\"counterexample\":\"QualityLevel 无 Bitrate 属性：int(track.attrib['Bitrate']) 抛 KeyError\",\"contract\":\"对可选/缺失属性应容错\"},{\"claim\":\"segment_duration 为 0 时因 if segment_duration 判断为假而不写入 duration\",\"expected_behavior\":\"duration 为 0 应被记录或明确忽略\",\"counterexample\":\"segment_duration=0.0：fragment 不含 'duration' 键，与显式 0 语义不同\",\"contract\":\"duration 字段应反映实际值\"}],\"findings\":[{\"path\":\"youtube_dl/extractor/common.py\",\"line\":1970,\"end_line\":1978,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"SegmentTimeline 重复次数与 segment_urls 数量不匹配时索引越界\",\"explanation\":\"在 'segment_urls' 与 's' 同时存在的分支中，代码按 s 条目的 r+1 次重复遍历，并用递增的 segment_index 直接索引 representation_ms_info['segment_urls']。若清单中 s 声明的片段总数大于实际 segment_urls 数量（畸形或部分清单），segment_urls[segment_index] 会抛 IndexError，导致整个 DASH 格式解析失败，而不是跳过或警告。\",\"trigger\":\"构造 MPD：SegmentTimeline 含 <S d=\\\"1000\\\" r=\\\"1\\\"/>（共 2 段），但 SegmentURL 列表只有 1 个条目。\",\"evidence\":\"1972-1973 行：for r in range(s.get('r', 0) + 1): segment_uri = representation_ms_info['segment_urls'][segment_index]，无长度检查。\",\"suggestion\":\"在索引前检查 segment_index < len(segment_urls)，越界时 report_warning 并 break/continue，或先校验总数一致。\"},{\"path\":\"youtube_dl/extractor/common.py\",\"line\":1970,\"end_line\":1979,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"segment_urls 多于 SegmentTimeline 覆盖数量时多余 URL 被静默丢弃\",\"explanation\":\"片段生成完全由 s 条目的重复次数驱动，segment_urls 中超出 sum(r+1) 的条目不会被加入 fragments，也不会产生警告。这会导致部分媒体片段缺失且难以诊断。\",\"trigger\":\"SegmentTimeline 只有 <S d=\\\"1000\\\"/>（1 段），但 SegmentURL 列表含 3 个 URL。\",\"evidence\":\"1967-1979 行仅遍历 s 并递增 segment_index，未在循环后检查 segment_index 是否等于 len(segment_urls)。\",\"suggestion\":\"循环后比较 segment_index 与 len(segment_urls)，不一致时 report_warning，或按 segment_urls 长度补齐片段。\"},{\"path\":\"youtube_dl/extractor/common.py\",\"line\":2045,\"end_line\":2062,\"severity\":\"low\",\"category\":\"bug\",\"title\":\"ISM 解析对缺失 Duration/Bitrate 属性直接抛 KeyError\",\"explanation\":\"_parse_ism_formats 使用 ism_doc.attrib['Duration'] 和 track.attrib['Bitrate'] 直接下标访问，缺失时抛 KeyError 而非返回空列表或跳过。对不完整或非标准 ISM 清单，调用方会收到未预期异常而非可诊断的解析失败。\",\"trigger\":\"ISM 清单根节点缺少 Duration 属性，或某 QualityLevel 缺少 Bitrate 属性。\",\"evidence\":\"2045 行 int(ism_doc.attrib['Duration'])；2062 行 int(track.attrib['Bitrate']) // 1000，均无 get 或存在性检查。\",\"suggestion\":\"使用 attrib.get 并在缺失时 report_warning 后跳过或返回 []，与函数开头对 IsLive/Protection 的容错风格保持一致。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review_mechanism_audit",
+    "status": "completed",
+    "input_chars": 15082,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 1312,
+      "prompt_tokens": 4621,
+      "total_tokens": 5933,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 896
+      },
+      "prompt_cache_hit_tokens": 896,
+      "prompt_cache_miss_tokens": 3725
+    },
+    "elapsed_seconds": 4.377
+  }
+}

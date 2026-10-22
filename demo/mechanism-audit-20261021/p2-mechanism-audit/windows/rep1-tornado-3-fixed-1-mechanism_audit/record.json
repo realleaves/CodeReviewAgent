@@ -1,0 +1,251 @@
+{
+  "case": "tornado-3",
+  "side": "fixed",
+  "repetition": 1,
+  "strategy": "mechanism_audit",
+  "path": "tornado/httpclient.py",
+  "start": 188,
+  "end": 291,
+  "name": "rep1-tornado-3-fixed-1-mechanism_audit",
+  "status": "completed",
+  "error": null,
+  "api_calls": 2,
+  "calls": [
+    {
+      "stage": "review_hypothesis",
+      "status": "completed",
+      "input_chars": 16006,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1229,
+        "prompt_tokens": 4837,
+        "total_tokens": 6066,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 896
+        },
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 3941
+      },
+      "elapsed_seconds": 6.83
+    },
+    {
+      "stage": "review_mechanism_audit",
+      "status": "completed",
+      "input_chars": 19597,
+      "max_output_tokens": 6000,
+      "thinking_mode": "disabled",
+      "usage": {
+        "completion_tokens": 1229,
+        "prompt_tokens": 6032,
+        "total_tokens": 7261,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 896
+        },
+        "prompt_cache_hit_tokens": 896,
+        "prompt_cache_miss_tokens": 5136
+      },
+      "elapsed_seconds": 4.396
+    }
+  ],
+  "findings": [
+    {
+      "path": "tornado/httpclient.py",
+      "line": 194,
+      "end_line": 210,
+      "severity": "medium",
+      "category": "bug",
+      "title": "__new__ 与 initialize 各自调用 IOLoop.current()，缓存键可能与实例 io_loop 不一致",
+      "explanation": "__new__ 用局部 io_loop = IOLoop.current() 判断缓存命中，并以 instance_cache[instance.io_loop] = instance 写入；而 instance.io_loop 是在 initialize 中再次调用 IOLoop.current() 得到的。若两次调用之间当前 IOLoop 发生变化（例如跨线程或上下文切换），写入缓存的键与 __new__ 检查的键不同，导致同一 loop 上重复创建实例，且 close() 时 pop(self.io_loop) 可能取不到自身或取到不一致值，触发 RuntimeError('inconsistent AsyncHTTPClient cache')。",
+      "trigger": "在 IOLoop.current() 两次调用之间切换当前 IOLoop（如不同线程各自 current 不同），随后创建 AsyncHTTPClient 并 close()。",
+      "evidence": "第195行 io_loop = IOLoop.current() 用于第200行缓存命中判断；第209行 instance_cache[instance.io_loop] = instance 使用 initialize 第213行 self.io_loop = IOLoop.current() 的结果；close() 第236行 self._instance_cache.pop(self.io_loop, None) 依赖二者一致。",
+      "suggestion": "在 __new__ 中把已取得的 io_loop 传给 initialize（或让 initialize 复用 __new__ 的 io_loop），确保缓存键与 instance.io_loop 来自同一次 IOLoop.current() 调用。",
+      "id": "fa2bac6bc4be",
+      "source": "llm",
+      "rule": "",
+      "snippet": "192:         return getattr(cls, attr_name)\n193: \n194:     def __new__(cls, force_instance: bool = False, **kwargs: Any) -> \"AsyncHTTPClient\":\n195:         io_loop = IOLoop.current()\n196:         if force_instance:\n197:             instance_cache = None\n198:         else:\n199:             instance_cache = cls._async_clients()\n200:         if instance_cache is not None and io_loop in instance_cache:\n201:             return instance_cache[io_loop]\n202:         instance = super(AsyncHTTPClient, cls).__new__(cls, **kwargs)  # type: ignore\n203:         # Make sure the instance knows which cache to remove itself from.\n204:         # It can't simply call _async_clients() because we may be in\n205:         # __new__(AsyncHTTPClient) but instance.__class__ may be\n206:         # SimpleAsyncHTTPClient.\n207:         instance._instance_cache = instance_cache\n208:         if instance_cache is not None:\n209:             instance_cache[instance.io_loop] = instance",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    },
+    {
+      "path": "tornado/httpclient.py",
+      "line": 281,
+      "end_line": 287,
+      "severity": "low",
+      "category": "bug",
+      "title": "字符串 URL 分支对未知 kwargs 抛 TypeError 而非明确参数错误",
+      "explanation": "当 request 为字符串时，fetch 把全部 kwargs 传给 HTTPRequest(url=request, **kwargs)。若调用方传入拼写错误或不受支持的参数，HTTPRequest.__init__ 会抛 TypeError，而 HTTPRequest 对象分支对多余 kwargs 抛的是 ValueError。两条路径错误类型不一致，且字符串分支的 TypeError 信息来自内部构造函数，不利于定位调用方错误。",
+      "trigger": "client.fetch('http://example.com', bogus_option=1)",
+      "evidence": "第281-282行 request = HTTPRequest(url=request, **kwargs)；第284-287行 HTTPRequest 分支对 kwargs 抛 ValueError('kwargs can\\'t be used if request is an HTTPRequest object')。",
+      "suggestion": "在字符串分支捕获 TypeError 并转换为带参数名的 ValueError，或统一两条路径的参数校验错误类型。",
+      "id": "922bf22659ae",
+      "source": "llm",
+      "rule": "",
+      "snippet": "279:         if self._closed:\n280:             raise RuntimeError(\"fetch() called on closed AsyncHTTPClient\")\n281:         if not isinstance(request, HTTPRequest):\n282:             request = HTTPRequest(url=request, **kwargs)\n283:         else:\n284:             if kwargs:\n285:                 raise ValueError(\n286:                     \"kwargs can't be used if request is an HTTPRequest object\"\n287:                 )\n288:         # We may modify this (to add Host, Accept-Encoding, etc),\n289:         # so make sure we don't modify the caller's object.  This is also",
+      "status": "unverified",
+      "verification": "尚未复核；未运行待审代码。",
+      "validation": "静态诊断或代码推断；未执行复现测试。",
+      "related_diagnostics": [],
+      "reproduction": null
+    }
+  ],
+  "trace": [
+    {
+      "stage": "review_context",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 291,
+      "strategy": "legacy",
+      "payload_sha256": "470f945578ab5ad5c80fd0cec5a622f8cbb9cd3b7ed21c013e72d505fe29663d",
+      "supplemental_chars": 7648,
+      "sources": [
+        {
+          "path": "tornado/httpclient.py",
+          "name": "HTTPRequest",
+          "line": 335,
+          "end": 563
+        },
+        {
+          "path": "tornado/httputil.py",
+          "name": "HTTPHeaders",
+          "line": 103,
+          "end": 267
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "name": "current",
+          "line": 238,
+          "end": 239
+        },
+        {
+          "path": "tornado/ioloop.py",
+          "name": "current",
+          "line": 243,
+          "end": 244
+        }
+      ]
+    },
+    {
+      "stage": "mechanism_audit",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 291,
+      "initial_findings": [
+        {
+          "line": 194,
+          "title": "__new__ 与 initialize 各自调用 IOLoop.current()，缓存键可能与实例 io_loop 不一致"
+        },
+        {
+          "line": 281,
+          "title": "字符串 URL 分支对未知 kwargs 抛 TypeError 而非明确参数错误"
+        }
+      ],
+      "audit_findings": [
+        {
+          "line": 194,
+          "title": "__new__ 与 initialize 各自调用 IOLoop.current()，缓存键可能与实例 io_loop 不一致"
+        },
+        {
+          "line": 281,
+          "title": "字符串 URL 分支对未知 kwargs 抛 TypeError 而非明确参数错误"
+        }
+      ],
+      "removed": [],
+      "added": [],
+      "fallback_initial": false,
+      "checked": [
+        "读取主片段 tornado/httpclient.py:188-291，确认 __new__/initialize/close/fetch 的契约",
+        "读取 HTTPRequest.__init__ 与 _DEFAULTS（httpclient.py:335-414），确认 fetch 中 kwargs 与 HTTPRequest 构造的关系",
+        "读取 HTTPHeaders 定义（httputil.py:103-182），确认 request.headers 被转换为 HTTPHeaders 的行为",
+        "读取 IOLoop.current 签名（ioloop.py:238-244），确认 __new__ 与 initialize 中 io_loop 来源"
+      ],
+      "hypotheses": [
+        {
+          "claim": "__new__ 用 IOLoop.current() 查缓存，但 initialize 又调用一次 IOLoop.current() 设置 instance.io_loop，若两次返回不同 loop，缓存键与实例 io_loop 不一致",
+          "expected_behavior": "缓存键与 instance.io_loop 应为同一 IOLoop，close() 时能正确 pop 自身",
+          "counterexample": "在 IOLoop.current() 两次调用间切换当前 loop（如跨线程/上下文），instance_cache[instance.io_loop] 写入的键与 __new__ 检查的 io_loop 不同，close() 时 pop 可能取到 None 或错误对象",
+          "contract": "__new__ 注释称实例需知道从哪个缓存移除自身，close() 依赖 self.io_loop 与缓存键一致"
+        },
+        {
+          "claim": "fetch 在 request 为 HTTPRequest 且传入 kwargs 时抛 ValueError，但字符串 URL 分支把 kwargs 全部传给 HTTPRequest，未知 kwarg 会抛 TypeError 而非明确错误",
+          "expected_behavior": "非法参数应给出可理解的错误",
+          "counterexample": "client.fetch('http://x', bogus=1) 触发 HTTPRequest.__init__ 的 TypeError，而非 ValueError",
+          "contract": "fetch 文档称字符串时构造 HTTPRequest(request, **kwargs)"
+        },
+        {
+          "claim": "close() 后 fetch 抛 RuntimeError，但 close() 未取消已在进行中的请求，也未阻止其他方法（如后续内部回调）访问已关闭状态",
+          "expected_behavior": "close 文档称 close 后不得调用任何方法，且应释放 fd",
+          "counterexample": "先 fetch 得到 Future，再 close()，进行中的请求仍可能完成并回调，与“No other methods may be called”语义存在张力",
+          "contract": "close 文档：Destroys this HTTP client, freeing any file descriptors used；No other methods may be called after close()"
+        },
+        {
+          "claim": "fetch 中 request.headers = httputil.HTTPHeaders(request.headers) 对已是 HTTPHeaders 的对象做拷贝，但若 headers 为 None 则 HTTPHeaders(None) 行为需确认",
+          "expected_behavior": "headers 为 None 时应得到空 HTTPHeaders",
+          "counterexample": "HTTPRequest(url='http://x') 默认 headers=None，fetch 中 HTTPHeaders(None) 走 update(None) 路径可能抛 TypeError",
+          "contract": "HTTPRequest headers 参数默认 None，fetch 应能处理默认请求"
+        }
+      ]
+    },
+    {
+      "stage": "review",
+      "path": "tornado/httpclient.py",
+      "start": 188,
+      "end": 291,
+      "strategy": "mechanism_audit",
+      "findings": [
+        {
+          "path": "tornado/httpclient.py",
+          "line": 194,
+          "end_line": 210,
+          "severity": "medium",
+          "category": "bug",
+          "title": "__new__ 与 initialize 各自调用 IOLoop.current()，缓存键可能与实例 io_loop 不一致",
+          "explanation": "__new__ 用局部 io_loop = IOLoop.current() 判断缓存命中，并以 instance_cache[instance.io_loop] = instance 写入；而 instance.io_loop 是在 initialize 中再次调用 IOLoop.current() 得到的。若两次调用之间当前 IOLoop 发生变化（例如跨线程或上下文切换），写入缓存的键与 __new__ 检查的键不同，导致同一 loop 上重复创建实例，且 close() 时 pop(self.io_loop) 可能取不到自身或取到不一致值，触发 RuntimeError('inconsistent AsyncHTTPClient cache')。",
+          "trigger": "在 IOLoop.current() 两次调用之间切换当前 IOLoop（如不同线程各自 current 不同），随后创建 AsyncHTTPClient 并 close()。",
+          "evidence": "第195行 io_loop = IOLoop.current() 用于第200行缓存命中判断；第209行 instance_cache[instance.io_loop] = instance 使用 initialize 第213行 self.io_loop = IOLoop.current() 的结果；close() 第236行 self._instance_cache.pop(self.io_loop, None) 依赖二者一致。",
+          "suggestion": "在 __new__ 中把已取得的 io_loop 传给 initialize（或让 initialize 复用 __new__ 的 io_loop），确保缓存键与 instance.io_loop 来自同一次 IOLoop.current() 调用。",
+          "id": "fa2bac6bc4be",
+          "source": "llm",
+          "rule": "",
+          "snippet": "192:         return getattr(cls, attr_name)\n193: \n194:     def __new__(cls, force_instance: bool = False, **kwargs: Any) -> \"AsyncHTTPClient\":\n195:         io_loop = IOLoop.current()\n196:         if force_instance:\n197:             instance_cache = None\n198:         else:\n199:             instance_cache = cls._async_clients()\n200:         if instance_cache is not None and io_loop in instance_cache:\n201:             return instance_cache[io_loop]\n202:         instance = super(AsyncHTTPClient, cls).__new__(cls, **kwargs)  # type: ignore\n203:         # Make sure the instance knows which cache to remove itself from.\n204:         # It can't simply call _async_clients() because we may be in\n205:         # __new__(AsyncHTTPClient) but instance.__class__ may be\n206:         # SimpleAsyncHTTPClient.\n207:         instance._instance_cache = instance_cache\n208:         if instance_cache is not None:\n209:             instance_cache[instance.io_loop] = instance",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        },
+        {
+          "path": "tornado/httpclient.py",
+          "line": 281,
+          "end_line": 287,
+          "severity": "low",
+          "category": "bug",
+          "title": "字符串 URL 分支对未知 kwargs 抛 TypeError 而非明确参数错误",
+          "explanation": "当 request 为字符串时，fetch 把全部 kwargs 传给 HTTPRequest(url=request, **kwargs)。若调用方传入拼写错误或不受支持的参数，HTTPRequest.__init__ 会抛 TypeError，而 HTTPRequest 对象分支对多余 kwargs 抛的是 ValueError。两条路径错误类型不一致，且字符串分支的 TypeError 信息来自内部构造函数，不利于定位调用方错误。",
+          "trigger": "client.fetch('http://example.com', bogus_option=1)",
+          "evidence": "第281-282行 request = HTTPRequest(url=request, **kwargs)；第284-287行 HTTPRequest 分支对 kwargs 抛 ValueError('kwargs can\\'t be used if request is an HTTPRequest object')。",
+          "suggestion": "在字符串分支捕获 TypeError 并转换为带参数名的 ValueError，或统一两条路径的参数校验错误类型。",
+          "id": "922bf22659ae",
+          "source": "llm",
+          "rule": "",
+          "snippet": "279:         if self._closed:\n280:             raise RuntimeError(\"fetch() called on closed AsyncHTTPClient\")\n281:         if not isinstance(request, HTTPRequest):\n282:             request = HTTPRequest(url=request, **kwargs)\n283:         else:\n284:             if kwargs:\n285:                 raise ValueError(\n286:                     \"kwargs can't be used if request is an HTTPRequest object\"\n287:                 )\n288:         # We may modify this (to add Host, Accept-Encoding, etc),\n289:         # so make sure we don't modify the caller's object.  This is also",
+          "status": "unverified",
+          "verification": "尚未复核；未运行待审代码。",
+          "validation": "静态诊断或代码推断；未执行复现测试。",
+          "related_diagnostics": [],
+          "reproduction": null
+        }
+      ]
+    }
+  ],
+  "tool_reads": [],
+  "elapsed_seconds": 11.241,
+  "folder": "windows/rep1-tornado-3-fixed-1-mechanism_audit"
+}

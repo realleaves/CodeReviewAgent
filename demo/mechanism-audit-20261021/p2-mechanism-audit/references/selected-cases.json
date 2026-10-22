@@ -1,0 +1,79 @@
+[
+  {
+    "id": "youtube-dl-2",
+    "project": "youtube-dl",
+    "bug_id": 2,
+    "repository": "https://github.com/ytdl-org/youtube-dl",
+    "python_version": "3.7.0",
+    "buggy_commit": "84f085d4bdb66ee025fb337bcd571eab7469da97",
+    "fixed_commit": "9d6ac71c27b1dfb662c795ef598dbfd0286682da",
+    "test_files": [
+      "test/test_InfoExtractor.py"
+    ],
+    "test_command": "python -m unittest -q test.test_InfoExtractor.TestInfoExtractor.test_parse_mpd_formats",
+    "patch_sha256": "7a83a140ebbdb954f74eec2c5c04894a769fc78d13262a9173fe0f181e332f62",
+    "production_hunks": {
+      "youtube_dl/extractor/common.py": {
+        "buggy": [
+          [
+            2007,
+            2022
+          ]
+        ],
+        "fixed": [
+          [
+            2007,
+            2020
+          ]
+        ]
+      }
+    },
+    "snapshot_paths": {
+      "buggy": "snapshots/0006/B",
+      "fixed": "snapshots/0006/A"
+    },
+    "changed_fixed_files": [
+      "test/test_InfoExtractor.py",
+      "youtube_dl/extractor/common.py"
+    ]
+  },
+  {
+    "id": "tornado-3",
+    "project": "tornado",
+    "bug_id": 3,
+    "repository": "https://github.com/tornadoweb/tornado",
+    "python_version": "3.7.0",
+    "buggy_commit": "940fd87fe9145d1154c8457221f86d56ea063c65",
+    "fixed_commit": "aa622e724f80e0f7fcee369f75d69d1db13d72f2",
+    "test_files": [
+      "tornado/test/httpclient_test.py"
+    ],
+    "test_command": "python -m unittest -q tornado.test.httpclient_test.SyncHTTPClientSubprocessTest",
+    "patch_sha256": "00205003c93bfcd59fc2ac9f7e9fa410835f788c6a85ab61543720349035d5bb",
+    "production_hunks": {
+      "tornado/httpclient.py": {
+        "buggy": [
+          [
+            233,
+            241
+          ]
+        ],
+        "fixed": [
+          [
+            233,
+            246
+          ]
+        ]
+      }
+    },
+    "snapshot_paths": {
+      "buggy": "snapshots/0008/B",
+      "fixed": "snapshots/0008/A"
+    },
+    "changed_fixed_files": [
+      ".travis.yml",
+      "tornado/httpclient.py",
+      "tornado/test/httpclient_test.py"
+    ]
+  }
+]

@@ -1,5 +1,15 @@
 # 验证记录
 
+## P2 机制/排序审计结果（2026-10-21，未采用）
+
+协议提交3900197在调用前推送。冻结youtube-dl-2、tornado-3两侧各一个r0窗口，baseline/mechanism_audit两臂，唯一变量review_strategy，deepseek-flash/disabled/0.1/6000/legacy，每窗口最多3次，新账本上限20。实际8/8完成、12次调用、0失败；P1账本保持80/80。没有执行证据引擎或Docker。
+
+两臂均0/2严格参考候选命中、修复侧同参考问题告警0，eligible_pairs各2；baseline候选6、调用4、prompt/completion tokens 13,775/1,730；审计臂候选7、调用8、tokens 34,441/8,198。审计4次，removed=0、added=0、fallback_initial=1（空回退到空）；四次原始审计响应与各自初始响应完全相同。13条候选逐条判读，不把额外问题自动算误报。
+
+两个buggy侧均未形成参考机制假设：tornado-3未提出析构时weak entry已清理的触发，youtube-dl-2未提出重复Representation ID被合并覆盖。因此本次流程无收益，不扩样本、不改baseline；对审计自身有效性是前提未复现/不确定。单次、两个已见开发样本，无holdout，不能声称可复现、新样本收益或有效证据提升。判读由Codex对照冻结rubric和生产代码差异完成，独立人工复查待完成。
+
+8条记录、12份请求/响应、8条判读、评分器及调用时实现、1,726个生产Python文件的输入快照全部落盘。离线入口为`python demo/mechanism-audit-20261021/verify-p2.py`，核对预留顺序、全文件摘要、输入一致性、判读、评分重算和冻结源码；准备快照0/20与最终账本12/20分别保留，不退款/重置。142项pytest、Ruff F/E9、P2协议/结果与全部P1及轨迹离线校验通过，只有原有上游弃用警告。详见[P2结果与局限](demo/mechanism-audit-20261021/README.md)。下一步仅留模型对照草案，模型名/新预算未确认，不调用。
+
 ## 预期依据准入与发现阶段汇总（2026-10-18）
 
 证据模式新增结构化预期准入。`ContractReference`增加`expected_outcome`、`expected_exception`、`precondition`、`assumptions`；新计划必须通过`validate_requirement`。两次执行触达目标后先运行确定性`requirement_gate`：语言规则只能解释实际异常，不能据此要求另一种异常，也不能单独证明返回值/状态/输出；`error_message`不计行为缺陷。模型审计新增`input_supported`、`requirement_supported`、`failure_matches_candidate`、`requirement_class`、`unresolved_assumptions`，`audit_gate`逐项复核，失败或缺失时保持`pending_evidence`。所有检查写入`reproduction.admission`。

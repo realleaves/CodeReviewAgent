@@ -1,0 +1,38 @@
+{
+  "reservation": {
+    "id": 7,
+    "phase": "p2-mechanism-audit",
+    "label": {
+      "case": "youtube-dl-2",
+      "side": "buggy",
+      "repetition": 1,
+      "strategy": "baseline",
+      "path": "youtube_dl/extractor/common.py",
+      "start": 1962,
+      "end": 2067
+    },
+    "reserved_at": "2026-10-21T14:12:07.121078+00:00"
+  },
+  "raw_response": "{\"findings\":[{\"path\":\"youtube_dl/extractor/common.py\",\"line\":1973,\"end_line\":1978,\"severity\":\"high\",\"category\":\"bug\",\"title\":\"SegmentTimeline 的 r 重复次数与 segment_urls 数量不匹配时越界崩溃\",\"explanation\":\"在 'segment_urls' 与 's' 分支中，代码按每个 S 元素的 r+1 次重复去索引 representation_ms_info['segment_urls'][segment_index]，但没有校验 segment_index 是否小于列表长度。DASH 的 SegmentTimeline 中 r 表示重复次数，而 segment_urls 由 SegmentTemplate 的 $Number$ 或 $Time$ 展开得到；当清单中 r 声明的总片段数大于实际生成的 URL 数（例如 r 过大、或 URL 模板只生成部分片段）时，segment_index 会超出列表范围，抛出 IndexError，导致整个 _extract_mpd_formats 失败，而不是跳过或告警。\",\"trigger\":\"构造 MPD：SegmentTemplate 的 media 模板只生成 1 个 segment_url，但 SegmentTimeline 中 <S d=\\\"1000\\\" r=\\\"5\\\"/>，即需要 6 个片段。\",\"evidence\":\"1972: for r in range(s.get('r', 0) + 1):\\n1973:     segment_uri = representation_ms_info['segment_urls'][segment_index]\\n1978:     segment_index += 1\\n没有对 segment_index 与 len(segment_urls) 做边界检查。\",\"suggestion\":\"在索引前检查 segment_index < len(representation_ms_info['segment_urls'])，越界时 report_warning 并 break/continue，或按实际 URL 数量截断重复次数。\"},{\"path\":\"youtube_dl/extractor/common.py\",\"line\":2047,\"end_line\":2047,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"ISM 清单缺少 Duration 属性时 KeyError 崩溃\",\"explanation\":\"_parse_ism_formats 直接使用 ism_doc.attrib['Duration']，没有像 TimeScale 那样用 int_or_none 或 get 做容错。MS-SSTR 中 Duration 是必需属性，但实际清单可能缺失或为空；此时会抛 KeyError，使 _extract_ism_formats 整体失败，而不是返回空列表或告警。\",\"trigger\":\"传入一个 <SmoothStreamingMedia TimeScale=\\\"10000000\\\"> 但没有 Duration 属性的 ISM 文档。\",\"evidence\":\"2047: duration = int(ism_doc.attrib['Duration'])\\n2048: timescale = int_or_none(ism_doc.get('TimeScale')) or 10000000\\nDuration 使用直接下标，TimeScale 使用 get 容错。\",\"suggestion\":\"改为 int_or_none(ism_doc.get('Duration'))，为 None 时 report_warning 并 return []，或使用默认值。\"},{\"path\":\"youtube_dl/extractor/common.py\",\"line\":2064,\"end_line\":2064,\"severity\":\"medium\",\"category\":\"bug\",\"title\":\"QualityLevel 缺少 Bitrate 属性时 KeyError 崩溃\",\"explanation\":\"对每个 QualityLevel 直接读取 track.attrib['Bitrate'] 并整除 1000。Bitrate 在 MS-SSTR 中是必需属性，但清单可能缺失；缺失时抛 KeyError，导致整个 ISM 解析失败。此外若 Bitrate 为非数字字符串，int() 会抛 ValueError。\",\"trigger\":\"ISM 文档中 <QualityLevel FourCC=\\\"H264\\\" MaxWidth=\\\"640\\\" MaxHeight=\\\"360\\\"/> 没有 Bitrate 属性。\",\"evidence\":\"2064: tbr = int(track.attrib['Bitrate']) // 1000\\n没有使用 get 或 int_or_none 容错。\",\"suggestion\":\"使用 int_or_none(track.get('Bitrate'))，为 None 时跳过该 track 或告警。\"}]}",
+  "error_type": null,
+  "call": {
+    "stage": "review",
+    "status": "completed",
+    "input_chars": 10556,
+    "max_output_tokens": 6000,
+    "thinking_mode": "disabled",
+    "usage": {
+      "completion_tokens": 861,
+      "prompt_tokens": 2898,
+      "total_tokens": 3759,
+      "completion_tokens_details": null,
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 2688
+      },
+      "prompt_cache_hit_tokens": 2688,
+      "prompt_cache_miss_tokens": 210
+    },
+    "elapsed_seconds": 4.689
+  }
+}

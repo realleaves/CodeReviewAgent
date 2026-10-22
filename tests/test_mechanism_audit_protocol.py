@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PROTOCOL = ROOT / "demo/mechanism-audit-20261021"
 
 
-def test_mechanism_audit_protocol_is_prepared_but_not_run():
+def test_mechanism_audit_protocol_preserves_the_pre_run_snapshot():
     goal = json.loads((PROTOCOL / "p2-goal.json").read_text())
     setup = json.loads((PROTOCOL / "setup-p2.json").read_text())
     budget = json.loads((PROTOCOL / "budget.json").read_text())

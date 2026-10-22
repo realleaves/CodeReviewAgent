@@ -1,0 +1,35 @@
+{
+  "status": "DRAFT ONLY; not runnable; model and budget require user confirmation",
+  "hypothesis": "With identical baseline review instructions, production-only windows and per-window call/token cap, changing the model may improve reference-mechanism discovery. P2 did not reproduce the prerequisite hypotheses, so this tests model capability rather than adding another promotion/read protocol.",
+  "variable": "model",
+  "baseline_model": "deepseek-flash",
+  "candidate_model": null,
+  "candidate_provider": null,
+  "selection": [
+    "youtube-dl-2",
+    "tornado-3"
+  ],
+  "windows": "same frozen P2 r0 production-only window on each side",
+  "review_strategy": "baseline",
+  "context_strategy": "legacy",
+  "temperature": 0.1,
+  "thinking_mode": "disabled",
+  "max_output_tokens": 6000,
+  "repetitions_proposed": 2,
+  "window_call_limit": 3,
+  "planned_windows_if_approved": 16,
+  "proposed_attempt_limit": 48,
+  "authorized_attempt_limit": null,
+  "ledger_created": false,
+  "calls_made": 0,
+  "scoring": "Reuse the frozen reference rubric and root-cause/symptom plus valid-trigger criterion; count all failures/retries, keep fixed-side same-reference alarms and costs, and require complete pairs. No evidence engine.",
+  "decision_proposed": "A positive paired reference-candidate delta in each repetition, without more fixed-side same-reference alarms or lower completeness, is grounds for a separate full-development/holdout protocol; never automatic default adoption.",
+  "requirements_before_run": [
+    "Confirm an available candidate model/provider and authorization for its credentials and use.",
+    "Agree a fresh attempt/cost budget (48 attempts is a proposal, not authorization).",
+    "Resolve model parameter compatibility before freezing; do not silently change prompts/context/budgets.",
+    "Write and commit the final protocol, source hashes, arm order, scoring rules and new ledger before any model call."
+  ],
+  "p1_budget_reuse": false,
+  "p2_budget_reuse": false
+}
